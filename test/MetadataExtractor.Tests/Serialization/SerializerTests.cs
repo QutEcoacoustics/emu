@@ -6,26 +6,41 @@ namespace MetadataExtractor.Tests.Serialization
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Text;
     using MetadataExtractor.Models;
     using MetadataExtractor.Serialization;
+    using MetadataExtractor.Tests.TestHelpers.Fakes;
+    using NodaTime;
     using Xunit;
 
+    [Collection(nameof(Fakes))]
     public class SerializerTests
     {
+        private readonly Fakes fakesFixture;
+
+        public SerializerTests(Fakes fakesFixture)
+        {
+            this.fakesFixture = fakesFixture;
+        }
+
         [Fact]
         public void SerializerShouldWorkWithCsv()
         {
-            var recording = new Recording();
-            recording.CalculatedChecksum = new Checksum()
-            {
-                Type = "SHA-2-256",
-                Value = "abc",
-            };
+            Recording recording = this.fakesFixture.GetRecording();
 
-            var actual = Serializer.Serialize(new[] { recording });
+            var actual = new CsvSerializer().Serialize(new[] { recording });
 
-            Assert.Contains(nameof(Recording.CalculatedChecksum) + "." + nameof(Checksum.Value), actual);
+            // actual property names should exist
+            Assert.Contains($",{nameof(Recording.RecommendedName)},", actual);
+
+            // sub-properties should be flattened and prefixed with parent
+            Assert.Contains($"{nameof(Recording.CalculatedChecksum)}.{nameof(Checksum.Value)}", actual);
+
+            // noda time type should be registered with csv helper
+            Assert.DoesNotContain(nameof(OffsetDateTime.YearOfEra), actual);
+
+            Debug.WriteLine(actual);
         }
     }
 }
