@@ -29,7 +29,7 @@ namespace MetadataExtractor.Tests.Serialization
         {
             Recording recording = this.fakesFixture.GetRecording();
 
-            var actual = new CsvSerializer().Serialize(new[] { recording });
+            var actual = new MetadataExtractor.Serialization.CsvSerializer().Serialize(new[] { recording });
 
             // actual property names should exist
             Assert.Contains($",{nameof(Recording.RecommendedName)},", actual);
@@ -39,6 +39,7 @@ namespace MetadataExtractor.Tests.Serialization
 
             // noda time type should be registered with csv helper
             Assert.DoesNotContain(nameof(OffsetDateTime.YearOfEra), actual);
+            Assert.DoesNotContain(nameof(Duration.BclCompatibleTicks), actual);
 
             Debug.WriteLine(actual);
         }

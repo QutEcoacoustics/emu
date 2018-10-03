@@ -8,7 +8,9 @@ namespace MetadataExtractor.Serialization
     using System.IO;
     using CsvHelper;
     using CsvHelper.Configuration;
+    using CsvHelper.TypeConversion;
     using MetadataExtractor.Models;
+    using NodaTime;
 
     /// <summary>
     /// Controls outputting of <see cref="Recording"/> data to other formats.
@@ -17,20 +19,26 @@ namespace MetadataExtractor.Serialization
     {
         private readonly Configuration configuration;
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CsvSerializer"/> class.
+        /// </summary>
         public CsvSerializer()
         {
             this.configuration = new Configuration()
             {
                 ReferenceHeaderPrefix = (type, name) => $"{name}.",
             };
-            this.configuration.RegisterClassMap<RecordingClassMap>();
-            
-            this.configuration.TypeConverterCache.AddConverter<>();
+
+            this.configuration.TypeConverterCache.AddConverter<OffsetDateTime>(
+                NodatimeConverters.OffsetDateTimeConverter);
+            this.configuration.TypeConverterCache.AddConverter<Duration>(
+                NodatimeConverters.DurationConverter);
+
+            //this.configuration.RegisterClassMap<RecordingClassMap>();
         }
 
         /// <inheritdoc/>
-        public string Serialize(IEnumerable<Recording> recordings)
+        public string Serialize<T>(IEnumerable<T> recordings)
         {
             using (var stringWriter = new StringWriter())
             {
@@ -41,7 +49,7 @@ namespace MetadataExtractor.Serialization
         }
 
         /// <inheritdoc/>
-        public void Serialize(TextWriter writer, IEnumerable<Recording> recording)
+        public void Serialize<T>(TextWriter writer, IEnumerable<T> recording)
         {
             var serializer = this.GetCsvWriter(writer);
 

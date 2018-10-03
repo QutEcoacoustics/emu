@@ -42,7 +42,7 @@ namespace MetadataExtractor.Models
         /// This is extracted either from the filename or from the metadata
         /// included in the recording.
         /// </summary>
-        public OffsetDateTime StartDate { get; set; }
+        public OffsetDateTime? StartDate { get; set; }
 
         /// <summary>
         /// Gets or sets a Checksum calculated for the file.
@@ -112,7 +112,7 @@ namespace MetadataExtractor.Models
         /// This field is useful for calculating drift in the sensor
         /// clock during recording.
         /// </remarks>
-        public OffsetDateTime EndDate { get; set; }
+        public OffsetDateTime? EndDate { get; set; }
 
         /// <summary>
         /// Gets or sets a unique identifier for the memory card

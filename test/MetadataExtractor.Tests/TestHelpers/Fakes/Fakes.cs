@@ -26,7 +26,7 @@ namespace MetadataExtractor.Tests.TestHelpers.Fakes
             return new Faker<Checksum>()
                 .StrictMode(true)
                 .RuleFor(x => x.Type, f => f.PickRandom(KnownHashes))
-                .RuleFor(x => x.Value, f => f.Random.AlphaNumeric(256));
+                .RuleFor(x => x.Value, f => f.Random.AlphaNumeric(256 / 16));
         }
 
         public void Dispose()
@@ -40,6 +40,5 @@ namespace MetadataExtractor.Tests.TestHelpers.Fakes
             // to be the place to apply [CollectionDefinition] and all the
             // ICollectionFixture<> interfaces.
         }
-
     }
 }

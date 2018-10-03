@@ -9,24 +9,22 @@ namespace MetadataExtractor.Serialization
     using MetadataExtractor.Models;
 
     /// <summary>
-    /// Serialization for EMU <see cref="Recording"/> instances.
+    /// Serialization for EMU types.
     /// </summary>
     public interface ISerializer
     {
-
         /// <summary>
-        /// Convert the given <see cref="Recording"/> to a string.
+        /// Convert the given objects to a string.
         /// </summary>
-        /// <param name="recordings">The recording to convert.</param>
+        /// <param name="objects">The objects to convert.</param>
         /// <returns>A string representation of the recording.</returns>
-        string Serialize(IEnumerable<Recording> recordings);
-
+        string Serialize<T>(IEnumerable<T> objects);
 
         /// <summary>
-        /// Convert the given <see cref="Recording"/> to a string.
+        /// Convert the given objects to a string.
         /// </summary>
         /// <param name="writer">The text stream to write the result to.</param>
-        /// <param name="recording">The recording to convert.</param>
-        void Serialize(TextWriter writer, IEnumerable<Recording> recording);
+        /// <param name="objects">The objects to convert.</param>
+        void Serialize<T>(TextWriter writer, IEnumerable<T> objects);
     }
 }
