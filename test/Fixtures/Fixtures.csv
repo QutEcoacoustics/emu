@@ -1,1 +1,10 @@
-Name	Location	Notes
+Name,Location,Notes,Path,Extension,Stem,RecommendedName,StartDate,CalculatedChecksum.Type,CalculatedChecksum.Value,DurationSeconds,Channels,SampleRateHertz,BitsPerSecond,MediaType,FileLengthBytes,Sensor.Name,Sensor.Firmware,Sensor.SensorSerialNumber,Sensor.PowerSource,Sensor.Voltage,Sensor.Gain,EmbeddedChecksum.Type,EmbeddedChecksum.Value,EndDate,StorageCardIdentifier,ExpectedDurationSeconds
+,,,,,,,,SHA-2-256,grxftajz7fo6my31,0,0,0,0,,,,,,,0,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,, ,,,,,,,,,,,,,,,
