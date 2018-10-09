@@ -2,13 +2,13 @@
 // All code in this file and all associated files are the copyright and property of the QUT Ecoacoustics Research Group.
 // </copyright>
 
-namespace MetadataExtractor.Tests.TestHelpers.Fakes
+namespace MetadataUtility.Tests.TestHelpers.Fakes
 {
     using System;
     using System.Collections.Generic;
     using System.Text;
     using Bogus;
-    using MetadataExtractor.Models;
+    using MetadataUtility.Models;
     using Xunit;
 
     public class Fakes : IDisposable

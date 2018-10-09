@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MetadataExtractor.Tests.Parsing
+namespace MetadataUtility.Tests.Parsing
 {
     class DateParser
     {

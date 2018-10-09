@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\MetadataExtractor\MetadataExtractor.csproj" />
+    <ProjectReference Include="..\..\src\MetadataUtility\MetadataUtility.csproj" />
     <AdditionalFiles Include="../../stylecop.json" />
   </ItemGroup>
 

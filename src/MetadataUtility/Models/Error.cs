@@ -2,7 +2,7 @@
 // All code in this file and all associated files are the copyright and property of the QUT Ecoacoustics Research Group.
 // </copyright>
 
-namespace MetadataExtractor.Models
+namespace MetadataUtility.Models
 {
     /// <inheritdoc />
     public class Error : INotice

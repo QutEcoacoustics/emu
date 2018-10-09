@@ -2,15 +2,15 @@
 // All code in this file and all associated files are the copyright and property of the QUT Ecoacoustics Research Group.
 // </copyright>
 
-namespace MetadataExtractor.Tests.Serialization
+namespace MetadataUtility.Tests.Serialization
 {
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Text;
-    using MetadataExtractor.Models;
-    using MetadataExtractor.Serialization;
-    using MetadataExtractor.Tests.TestHelpers.Fakes;
+    using MetadataUtility.Models;
+    using MetadataUtility.Serialization;
+    using MetadataUtility.Tests.TestHelpers.Fakes;
     using NodaTime;
     using Xunit;
 
@@ -29,7 +29,7 @@ namespace MetadataExtractor.Tests.Serialization
         {
             Recording recording = this.fakesFixture.GetRecording();
 
-            var actual = new MetadataExtractor.Serialization.CsvSerializer().Serialize(new[] { recording });
+            var actual = new MetadataUtility.Serialization.CsvSerializer().Serialize(new[] { recording });
 
             // actual property names should exist
             Assert.Contains($",{nameof(Recording.RecommendedName)},", actual);

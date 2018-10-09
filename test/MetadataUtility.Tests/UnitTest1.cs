@@ -2,7 +2,7 @@
 // All code in this file and all associated files are the copyright and property of the QUT Ecoacoustics Research Group.
 // </copyright>
 
-namespace MetadataExtractor.Tests
+namespace MetadataUtility.Tests
 {
     using System;
     using Xunit;
@@ -13,7 +13,7 @@ namespace MetadataExtractor.Tests
         public void Test1()
         {
             var expected = 35;
-            MetadataExtractor.EmuEntry.Main(new[] { "test" });
+            MetadataUtility.EmuEntry.Main(new[] { "test" });
             Assert.Equal(expected, 35 * 20);
         }
     }

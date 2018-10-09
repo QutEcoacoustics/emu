@@ -2,14 +2,14 @@
 // All code in this file and all associated files are the copyright and property of the QUT Ecoacoustics Research Group.
 // </copyright>
 
-namespace MetadataExtractor.Tests.Serialization
+namespace MetadataUtility.Tests.Serialization
 {
     using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Text;
     using CsvHelper.TypeConversion;
-    using MetadataExtractor.Serialization;
+    using MetadataUtility.Serialization;
     using NodaTime;
     using Xunit;
 

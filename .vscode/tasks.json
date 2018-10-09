@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/src/MetadataExtractor/MetadataExtractor.csproj"
+                "${workspaceFolder}/src/MetadataUtility/MetadataUtility.csproj"
             ],
             "problemMatcher": "$msCompile"
         }
