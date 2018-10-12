@@ -5,7 +5,10 @@
 namespace MetadataUtility.Tests.FilenameParsing
 {
     using MetadataUtility.FilenameParsing;
+    using MetadataUtility.Filenames;
+    using MetadataUtility.Models;
     using MetadataUtility.Tests.TestHelpers;
+    using NodaTime;
     using Xunit;
 
     public class FilenameParserTests
@@ -25,12 +28,46 @@ namespace MetadataUtility.Tests.FilenameParsing
 
             var actual = this.parser.Parse(testFilename);
 
-            Assert.Equal(test.);
-            if (!test.DateParseable)
+            Assert.Equal(test.DateParseable, actual.LocalDateTime.HasValue);
+
+            if (test.DateParseable)
             {
-                Assert.False(actual.HasDate);
+                Assert.Equal(test.ExpectedDateTime.Value, actual.LocalDateTime);
+
+                Assert.Equal(test.ExpectedTzOffset.HasValue, actual.OffsetDateTime.HasValue);
+
+                OffsetDateTime date;
+                if (test.ExpectedTzOffset.HasValue)
+                {
+                    date = test.ExpectedDateTime.Value.WithOffset(test.ExpectedTzOffset.Value);
+                    Assert.Equal(date, actual.OffsetDateTime);
+                }
             }
 
+            // construct a "location" from our test data
+            if (test.ExpectedLongitude.HasValue)
+            {
+                var location = new Location()
+                {
+                    Latitude = test.ExpectedLatitude.Value,
+                    Longitude = test.ExpectedLongitude.Value,
+                };
+                Assert.Equal(location, actual.Location);
+            }
+            else
+            {
+                Assert.Null(actual.Location);
+            }
+
+            Assert.Equal(test.Prefix, actual.Prefix);
+            Assert.Equal(test.Suffix, actual.Suffix);
+            Assert.Equal(test.Extension, actual.Extension);
+
+            var actualSuggestedFilename = FilenameSuggester.SuggestName(actual);
+            Assert.Equal(test.SuggestedFilename, actualSuggestedFilename);
+
+            Assert.Equal(test.SensorType, actual.SensorType);
+            Assert.Equal(test.SensorTypeEstimate, actual.SensorTypeEstimate);
 
         }
     }

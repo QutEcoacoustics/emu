@@ -4,6 +4,8 @@
 
 namespace MetadataUtility.Models
 {
+    using NodaTime;
+
     /// <summary>
     /// Defines a GPS location in the WGS84 Ellipsoid.
     /// </summary>
@@ -43,5 +45,10 @@ namespace MetadataUtility.Models
         /// Gets or sets the heading in degrees, relative to true north.
         /// </summary>
         public double? Course { get; set; }
+
+        /// <summary>
+        /// Gets or sets when this GPS sample was recorded.
+        /// </summary>
+        public Instant SampleDateTime { get; set; }
     }
 }

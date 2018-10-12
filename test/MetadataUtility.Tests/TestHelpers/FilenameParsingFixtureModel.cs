@@ -30,6 +30,8 @@ namespace MetadataUtility.Tests.TestHelpers
 
         public string Extension { get; set; }
 
+        public string SuggestedFilename { get; set; }
+
         public string SensorType { get; set; }
 
         public double? SensorTypeEstimate { get; set; }

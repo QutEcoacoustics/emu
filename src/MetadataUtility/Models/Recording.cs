@@ -87,14 +87,26 @@ namespace MetadataUtility.Models
         public Sensor Sensor { get; set; }
 
         /// <summary>
-        /// Gets or sets a list of errors found in this audio file.
+        /// Gets or sets the location of the sensor
+        /// when this recording was started.
         /// </summary>
-        public Error[] Errors { get; set; }
+        public Location Location { get; set; }
+
+        /// <summary>
+        /// Gets or sets a list of locations captured while this
+        /// recording was running.
+        /// </summary>
+        public IList<Location> AllLocations { get; set; }
 
         /// <summary>
         /// Gets or sets a list of errors found in this audio file.
         /// </summary>
-        public Warning[] Warnings { get; set; }
+        public IList<Error> Errors { get; set; }
+
+        /// <summary>
+        /// Gets or sets a list of errors found in this audio file.
+        /// </summary>
+        public IList<Warning> Warnings { get; set; }
 
         /// <summary>
         /// Gets or sets a Checksum calculated for the file.
