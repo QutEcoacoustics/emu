@@ -1,4 +1,4 @@
-// <copyright file="OffsetDateTimeConverter.cs" company="QutEcoacoustics">
+// <copyright file="LocalDateTimeConverter.cs" company="QutEcoacoustics">
 // All code in this file and all associated files are the copyright and property of the QUT Ecoacoustics Research Group.
 // </copyright>
 
@@ -12,9 +12,9 @@ namespace MetadataUtility.Serialization
     using NodaTime.Text;
 
     /// <summary>
-    /// A CsvHelper converter for Nodatime <see cref="OffsetDateTime"/> values.
+    /// A CsvHelper converter for Nodatime <see cref="LocalDateTime"/> values.
     /// </summary>
-    public class OffsetDateTimeConverter : DefaultTypeConverter
+    public class LocalDateTimeConverter : DefaultTypeConverter
     {
         /// <inheritdoc />
         public override string ConvertToString(object value, IWriterRow row, MemberMapData memberMapData)
@@ -24,15 +24,15 @@ namespace MetadataUtility.Serialization
                 return string.Empty;
             }
 
-            var date = (OffsetDateTime)value;
+            var date = (LocalDateTime)value;
 
             if (date.Calendar != CalendarSystem.Iso)
             {
                 throw new ArgumentException(
-                    $"Values of type {nameof(OffsetDateTime)} must (currently) use the ISO calendar in order to be serialized.");
+                    $"Values of type {nameof(LocalDateTime)} must (currently) use the ISO calendar in order to be serialized.");
             }
 
-            return OffsetDateTimePattern.Rfc3339.Format(date);
+            return LocalDateTimePattern.ExtendedIso.Format(date);
         }
 
         /// <inheritdoc />
@@ -40,7 +40,7 @@ namespace MetadataUtility.Serialization
         {
             return text == null
                 ? base.ConvertFromString(text, row, memberMapData)
-                : OffsetDateTimePattern.Rfc3339.Parse(text).Value;
+                : LocalDateTimePattern.ExtendedIso.Parse(text).Value;
         }
     }
 }

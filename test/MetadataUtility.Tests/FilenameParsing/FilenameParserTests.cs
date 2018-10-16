@@ -13,11 +13,11 @@ namespace MetadataUtility.Tests.FilenameParsing
 
     public class FilenameParserTests
     {
-        private FilenameParser parser;
+        private readonly FilenameParser parser;
 
         public FilenameParserTests()
         {
-            parser = new FilenameParser();
+            this.parser = new FilenameParser();
         }
 
         [Theory]
@@ -36,10 +36,9 @@ namespace MetadataUtility.Tests.FilenameParsing
 
                 Assert.Equal(test.ExpectedTzOffset.HasValue, actual.OffsetDateTime.HasValue);
 
-                OffsetDateTime date;
                 if (test.ExpectedTzOffset.HasValue)
                 {
-                    date = test.ExpectedDateTime.Value.WithOffset(test.ExpectedTzOffset.Value);
+                    var date = test.ExpectedDateTime.Value.WithOffset(test.ExpectedTzOffset.Value);
                     Assert.Equal(date, actual.OffsetDateTime);
                 }
             }

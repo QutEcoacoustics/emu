@@ -15,8 +15,18 @@ namespace MetadataUtility.Serialization
         public static OffsetDateTimeConverter OffsetDateTimeConverter { get; } = new OffsetDateTimeConverter();
 
         /// <summary>
-        /// Gets a singleton <see cref="OffsetDateTimeConverter"/>.
+        /// Gets a singleton <see cref="LocalDateTimeConverter"/>.
+        /// </summary>
+        public static LocalDateTimeConverter LocalDateTimeConverter { get; } = new LocalDateTimeConverter();
+
+        /// <summary>
+        /// Gets a singleton <see cref="NodatimeConverters.DurationConverter"/>.
         /// </summary>
         public static DurationConverter DurationConverter { get; } = new DurationConverter();
+
+        /// <summary>
+        /// Gets a singleton <see cref="OffsetConverter"/>.
+        /// </summary>
+        public static OffsetConverter OffsetConverter { get; } = new OffsetConverter();
     }
 }

@@ -12,28 +12,28 @@ namespace MetadataUtility.Tests.TestHelpers
 
     public class FilenameParsingFixtureModel
     {
-        public string Filename { get; set; }
+        public string Filename { get; private set; }
 
-        public bool DateParseable { get; set; }
+        public bool DateParseable { get; private set; }
 
-        public LocalDateTime? ExpectedDateTime { get; set; }
+        public LocalDateTime? ExpectedDateTime { get; private set; }
 
-        public Offset? ExpectedTzOffset { get; set; }
+        public Offset? ExpectedTzOffset { get; private set; }
 
-        public double? ExpectedLatitude { get; set; }
+        public double? ExpectedLatitude { get; private set; }
 
-        public double? ExpectedLongitude { get; set; }
+        public double? ExpectedLongitude { get; private set; }
 
-        public string Prefix { get; set; }
+        public string Prefix { get; private set; }
 
-        public string Suffix { get; set; }
+        public string Suffix { get; private set; }
 
-        public string Extension { get; set; }
+        public string Extension { get; private set; }
 
-        public string SuggestedFilename { get; set; }
+        public string SuggestedFilename { get; private set; }
 
-        public string SensorType { get; set; }
+        public string SensorType { get; private set; }
 
-        public double? SensorTypeEstimate { get; set; }
+        public double? SensorTypeEstimate { get; private set; }
     }
 }

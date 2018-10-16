@@ -15,6 +15,16 @@ namespace MetadataUtility.Tests.Serialization
 
     public class NodatimeSerializersTests
     {
+        //[Theory]
+        //[InlineData(5, 30 )]
+        [Fact]
+        public void OffsetConverter()
+        {
+            var value = Offset.FromHoursAndMinutes(5, 30);
+            string json = "+05:30";
+            this.AssertCsvSerialization(value, json, NodatimeConverters.OffsetConverter);
+        }
+
         [Fact]
         public void OffsetDateTimeConverter()
         {
@@ -31,6 +41,22 @@ namespace MetadataUtility.Tests.Serialization
             var value = new LocalDateTime(2012, 1, 2, 3, 4, 5).PlusNanoseconds(123456789).WithOffset(Offset.FromHours(5));
             string text = "2012-01-02T03:04:05.123456789+05:00";
             this.AssertCsvSerialization(value, text, NodatimeConverters.OffsetDateTimeConverter);
+        }
+
+        [Fact]
+        public void LocalDateTimeConverter()
+        {
+            var value = new LocalDateTime(2012, 1, 2, 3, 4, 5, CalendarSystem.Iso).PlusNanoseconds(123456789);
+            var text = "2012-01-02T03:04:05.123456789";
+            this.AssertCsvSerialization(value, text, NodatimeConverters.LocalDateTimeConverter);
+        }
+
+        [Fact]
+        public void LocalDateTimeConverter_SerializeNonIso_Throws()
+        {
+            var localDateTime = new LocalDateTime(2012, 1, 2, 3, 4, 5, CalendarSystem.Coptic);
+
+            Assert.Throws<ArgumentException>(() => this.AssertCsvSerialization(localDateTime, null, NodatimeConverters.LocalDateTimeConverter));
         }
 
         [Fact]

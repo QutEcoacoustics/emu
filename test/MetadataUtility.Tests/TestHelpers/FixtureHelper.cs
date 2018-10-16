@@ -10,12 +10,17 @@ namespace MetadataUtility.Tests.TestHelpers
     using System.IO;
     using System.Linq;
     using System.Text;
+    using MetadataUtility.Serialization;
+    using Xunit;
 
     public static class FixtureHelper
     {
+        public const string SolutionRoot = "../../../../..";
+        public const string FixturesRoot = "test/Fixtures";
+
         public static string ResolveFixture(string name)
         {
-            return name;
+            return Path.Combine(SolutionRoot, FixturesRoot, name);
         }
 
         public class FilenameParsingFixtureData : IEnumerable<object[]>
@@ -24,11 +29,15 @@ namespace MetadataUtility.Tests.TestHelpers
 
             public IEnumerator<object[]> GetEnumerator()
             {
+                IEnumerable<FilenameParsingFixtureModel> models;
                 using (var file = File.OpenText(ResolveFixture(FixtureFile)))
-                using (var deserailizer = new CsvHelper.CsvReader(file))
                 {
-                    return deserailizer.GetRecords<FilenameParsingFixtureModel>().Select(x => new object[] { x }).GetEnumerator();
+                    var deserailizer = new CsvSerializer();
+
+                    models = deserailizer.Deserialize<FilenameParsingFixtureModel>(file).ToArray();
                 }
+
+                return models.Select(x => new object[] { x }).GetEnumerator();
             }
 
             IEnumerator IEnumerable.GetEnumerator()

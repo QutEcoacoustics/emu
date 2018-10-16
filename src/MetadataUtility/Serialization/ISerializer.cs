@@ -26,5 +26,10 @@ namespace MetadataUtility.Serialization
         /// <param name="writer">The text stream to write the result to.</param>
         /// <param name="objects">The objects to convert.</param>
         void Serialize<T>(TextWriter writer, IEnumerable<T> objects);
+
+        /// <summary>
+        /// Convert the text to objects.
+        /// </summary>
+        IEnumerable<T> Deserialize<T>(TextReader reader);
     }
 }

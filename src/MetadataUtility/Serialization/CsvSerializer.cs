@@ -31,6 +31,10 @@ namespace MetadataUtility.Serialization
 
             this.configuration.TypeConverterCache.AddConverter<OffsetDateTime>(
                 NodatimeConverters.OffsetDateTimeConverter);
+            this.configuration.TypeConverterCache.AddConverter<LocalDateTime>(
+                NodatimeConverters.LocalDateTimeConverter);
+            this.configuration.TypeConverterCache.AddConverter<Offset>(
+                NodatimeConverters.OffsetConverter);
             this.configuration.TypeConverterCache.AddConverter<Duration>(
                 NodatimeConverters.DurationConverter);
 
@@ -38,22 +42,33 @@ namespace MetadataUtility.Serialization
         }
 
         /// <inheritdoc/>
-        public string Serialize<T>(IEnumerable<T> recordings)
+        public string Serialize<T>(IEnumerable<T> objects)
         {
             using (var stringWriter = new StringWriter())
             {
-                this.Serialize(stringWriter, recordings);
+                this.Serialize(stringWriter, objects);
 
                 return stringWriter.ToString();
             }
         }
 
         /// <inheritdoc/>
-        public void Serialize<T>(TextWriter writer, IEnumerable<T> recording)
+        public void Serialize<T>(TextWriter writer, IEnumerable<T> objects)
         {
             var serializer = this.GetCsvWriter(writer);
 
-            serializer.WriteRecords(recording);
+            serializer.WriteRecords(objects);
+        }
+
+        /// <inheritdoc />
+        public IEnumerable<T> Deserialize<T>(TextReader reader)
+        {
+            var deserializer = new CsvReader(reader, this.configuration);
+
+            // adds support for writing to immuattable records
+            deserializer.Configuration.IncludePrivateMembers = true;
+
+            return deserializer.GetRecords<T>();
         }
 
         private CsvWriter GetCsvWriter(TextWriter writer)
