@@ -35,5 +35,10 @@ namespace MetadataUtility.Tests.TestHelpers
         public string SensorType { get; private set; }
 
         public double? SensorTypeEstimate { get; private set; }
+
+        public override string ToString()
+        {
+            return this.Filename;
+        }
     }
 }

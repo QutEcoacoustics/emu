@@ -15,8 +15,6 @@ namespace MetadataUtility.Tests.Serialization
 
     public class NodatimeSerializersTests
     {
-        //[Theory]
-        //[InlineData(5, 30 )]
         [Fact]
         public void OffsetConverter()
         {

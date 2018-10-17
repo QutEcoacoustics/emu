@@ -10,7 +10,7 @@ namespace MetadataUtility.Filenames
 
     public static class FilenameSuggester
     {
-        public static string SuggestName(FilenameParsing.FilenameParser.ParsedFilename parsedFilename)
+        public static string SuggestName(FilenameParser.ParsedFilename parsedFilename)
         {
             return null;
         }
