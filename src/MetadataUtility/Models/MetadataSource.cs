@@ -54,6 +54,11 @@ namespace MetadataUtility.Models
             /// This metadata was extracted from the header of the file.
             /// </summary>
             FileHeader,
+
+            /// <summary>
+            /// This value was calculated from other metadata values.
+            /// </summary>
+            Calculated,
         }
 
         /// <summary>

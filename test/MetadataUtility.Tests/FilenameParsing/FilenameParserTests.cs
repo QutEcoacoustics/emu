@@ -25,10 +25,7 @@ namespace MetadataUtility.Tests.FilenameParsing
         public void Background()
         {
             $"Given a {nameof(FilenameParser)} using the default formats"
-                .x(
-                    () => this.parser = new FilenameParser(
-                        FilenameParser.PossibleLocalFormats,
-                        FilenameParser.PossibleOffsetFormats));
+                .x(() => this.parser = FilenameParser.Default);
         }
 
         [Scenario]

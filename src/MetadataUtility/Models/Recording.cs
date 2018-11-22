@@ -38,7 +38,7 @@ namespace MetadataUtility.Models
         public string RecommendedName { get; set; }
 
         /// <summary>
-        /// Gets or sets the starte date of the recording.
+        /// Gets or sets the start date of the recording.
         /// This is extracted either from the filename or from the metadata
         /// included in the recording.
         /// </summary>
