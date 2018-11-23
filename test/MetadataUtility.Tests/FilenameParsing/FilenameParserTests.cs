@@ -34,10 +34,10 @@ namespace MetadataUtility.Tests.FilenameParsing
         {
             $"Given {test}".x(Nop);
 
-            FilenameParser.ParsedFilename actual = null;
+            ParsedFilename actual = null;
             "When I parse the filename".x(() => actual = this.parser.Parse(test.Filename));
 
-            if (test.DateParseable)
+            if (test.ExpectedDateTime.HasValue)
             {
                 $"Then local date should have the value {test.ExpectedDateTime}"
                     .x(() => actual.LocalDateTime.ShouldBe(test.ExpectedDateTime, () => $"{test.ExpectedDateTime:o} ≠ {actual.LocalDateTime:o}"));
@@ -63,20 +63,20 @@ namespace MetadataUtility.Tests.FilenameParsing
                     .x(() => Assert.Null(actual.LocalDateTime));
             }
 
-//            // construct a "location" from our test data
-//            if (test.ExpectedLongitude.HasValue)
-//            {
-//                var location = new Location()
-//                {
-//                    Latitude = test.ExpectedLatitude.Value,
-//                    Longitude = test.ExpectedLongitude.Value,
-//                };
-//                Assert.Equal(location, actual.Location);
-//            }
-//            else
-//            {
-//                Assert.Null(actual.Location);
-//            }
+            if (test.ExpectedLongitude.HasValue)
+            {
+                $"And then the latitude parsed in this filename should be {test.ExpectedLatitude}"
+                    .x(() => Assert.Equal(test.ExpectedLatitude, actual.Location.Latitude));
+
+                $"and the longitude should be {test.ExpectedLongitude}"
+                    .x(() => Assert.Equal(test.ExpectedLongitude, actual.Location.Longitude));
+            }
+            else
+            {
+                "And in this case we do not find a location"
+                    .x(() => Assert.Null(actual.Location));
+            }
+
 //
 //            Assert.Equal(test.Prefix, actual.Prefix);
 //            Assert.Equal(test.Suffix, actual.Suffix);

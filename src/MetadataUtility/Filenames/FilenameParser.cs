@@ -8,7 +8,6 @@ namespace MetadataUtility.Filenames
     using System.IO;
     using System.Text.RegularExpressions;
     using MetadataUtility.Dates;
-    using MetadataUtility.Models;
     using NodaTime;
     using NodaTime.Text;
 
@@ -135,7 +134,7 @@ namespace MetadataUtility.Filenames
                 }
             }
 
-            // finally, if no date can be found find at least
+            // finally, if no date can be found return minimal information
             return new ParsedFilename()
             {
                 Extension = Path.GetExtension(filename),
@@ -181,40 +180,40 @@ namespace MetadataUtility.Filenames
             return false;
         }
 
-        public class ParsedFilename
-        {
-            public OffsetDateTime? OffsetDateTime { get; set; }
-
-            public LocalDateTime? LocalDateTime { get; set; }
-
-            public Location Location { get; set; }
-
-            public string Prefix { get; set; }
-
-            public string Suffix { get; set; }
-
-            public string Extension { get; set; }
-
-            public string SensorType { get; set; }
-
-            public double SensorTypeEstimate { get; set; }
-        }
-
+        /// <summary>
+        /// Represents a regex match and nodatime parsing combination for date stamps
+        /// embedded in other strings.
+        /// </summary>
+        /// <typeparam name="T">The date type to deserialize.</typeparam>
         public class DateVariant<T>
         {
+            /// <summary>
+            /// Initializes a new instance of the <see cref="DateVariant{T}"/> class.
+            /// </summary>
+            /// <param name="regex">The regex to use.</param>
+            /// <param name="parseFormat">The date parser to use.</param>
             public DateVariant(string regex, IPattern<T> parseFormat, string[] helpHints = null)
             {
                 this.Regex = new Regex(regex, RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.CultureInvariant);
 
                 this.ParseFormat = parseFormat;
-                this.HelpHints = helpHints;
+
+                //this.HelpHints = helpHints;
             }
 
+            /// <summary>
+            /// Gets the regex that will be used to match a string pattern.
+            /// Must have named groups "Date", "Time", and optionally "Offset".
+            /// </summary>
             public Regex Regex { get; }
 
+            /// <summary>
+            /// Gets the NodaTime <see cref="IPattern{T}"/> used to parse a date from the
+            /// string extracted by the <see cref="Regex"/>.
+            /// </summary>
             public IPattern<T> ParseFormat { get; }
 
-            public string[] HelpHints { get; }
+            //public string[] HelpHints { get; }
         }
     }
 }
