@@ -29,15 +29,17 @@ namespace MetadataUtility.Tests.TestHelpers
 
             public IEnumerator<object[]> GetEnumerator()
             {
-                IEnumerable<FilenameParsingFixtureModel> models;
-                using (var file = File.OpenText(ResolveFixture(FixtureFile)))
+                IEnumerable<object[]> models;
+                using (var streamReader = File.OpenText(ResolveFixture(FixtureFile)))
                 {
-                    var deserailizer = new CsvSerializer();
-
-                    models = deserailizer.Deserialize<FilenameParsingFixtureModel>(file).ToArray();
+                    var serializer = new CsvSerializer();
+                    models = serializer
+                        .Deserialize<FilenameParsingFixtureModel>(streamReader)
+                        .Select(x => new object[] { x })
+                        .ToArray();
                 }
 
-                return models.Select(x => new object[] { x }).GetEnumerator();
+                return models.GetEnumerator();
             }
 
             IEnumerator IEnumerable.GetEnumerator()

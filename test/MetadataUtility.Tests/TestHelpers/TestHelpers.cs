@@ -11,10 +11,10 @@ namespace MetadataUtility.Tests.TestHelpers
     public static class TestHelpers
     {
         /// <summary>
-        /// About 11mm.
+        /// About 111.32mm at the equator
         /// https://en.wikipedia.org/wiki/Decimal_degrees.
         /// </summary>
-        public const double Wgs84Epsilon = 0.0000001;
+        public const int Wgs84Epsilon = 6;
 
         public static readonly Action Nop = () => { };
     }

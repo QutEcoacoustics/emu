@@ -6,8 +6,10 @@ namespace MetadataUtility.Filenames
 {
     using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
     using System.Text.RegularExpressions;
     using MetadataUtility.Dates;
+    using MetadataUtility.Models;
     using NodaTime;
     using NodaTime.Text;
 
@@ -24,7 +26,7 @@ namespace MetadataUtility.Filenames
             // high precision variant
             // valid: 20091219T070006.789123_00600.wav
             new DateVariant<LocalDateTime>(
-                Prefix + Date + InvariantDateTimeSeparator + TimeFractional + End,
+                Prefix + Date + IsoSeparator + TimeFractional + End,
                 LocalDateTimePattern.CreateWithInvariantCulture("uuuuMMddTHHmmss.FFFFFF")),
 
             // valid: Prefix_YYYYMMDD_hhmmss.wav,
@@ -41,12 +43,12 @@ namespace MetadataUtility.Filenames
 
             // valid: short_time_180801_1630_test.wav
             new DateVariant<LocalDateTime>(
-                Prefix + @"(?<Date>\d{6})" + "_" + @"(?<Time>\d{4})" + End,
+                Prefix + @"(?<Date>\d{6})" + "(?<Separator>_)" + @"(?<Time>\d{4})" + End,
                 LocalDateTimePattern.CreateWithInvariantCulture("yyMMddTHHmm")),
 
             // valid: prefix_2359-01012015.mp3, a_2359-01012015.a, a_2359-01012015.dnsb48364JSFDSD
             new DateVariant<LocalDateTime>(
-                Prefix + @"(?<Time>\d{4})" + "-" + @"(?<Date>\d{8})" + End,
+                Prefix + @"(?<Time>\d{4})" + "(?<Separator>-)" + @"(?<Date>\d{8})" + End,
                 LocalDateTimePattern.CreateWithInvariantCulture("ddMMuuuuTHHmm")),
         };
 
@@ -58,7 +60,7 @@ namespace MetadataUtility.Filenames
             // high precision variant
             // valid: 20091219T070006.789123+1130_00600.wav
             new DateVariant<OffsetDateTime>(
-                Prefix + Date + InvariantDateTimeSeparator + TimeFractional + Offset + End,
+                Prefix + Date + IsoSeparator + TimeFractional + Offset + End,
                 OffsetDateTimePattern.CreateWithInvariantCulture("uuuuMMddTHHmmss.FFFFFFo<I>")),
 
             // valid:Prefix_YYYYMMDD_hhmmssZ.wav
@@ -77,10 +79,32 @@ namespace MetadataUtility.Filenames
                 new AudioMothDateParser()),
         };
 
+        /// <summary>
+        /// A collection of well known location variants
+        /// </summary>
+        public static readonly Regex[] LocationVariants = new[]
+        {
+            // The FL format
+            // valid: ...[27.2819 90.1361]..., ...[-27.2819 -90.1361]...
+            @".*\[(?<Latitude>-?\d{1,2}(?:\.\d+)) (?<Longitude>-?\d{1,3}(?:\.\d+))].*",
+
+            // A char-safe variant of the FL labs format
+            // valid: ..._27.2819 90.1361_..., ..._-27.2819 -90.1361_...
+            @".*_(?<Latitude>-?\d{1,2}(?:\.\d+)) (?<Longitude>-?\d{1,3}(?:\.\d+))_.*",
+
+            // A ISO6709:H format (decimal degrees only)
+            // We indicate the trailing slash (the solidus in the spec) is optional because it
+            // cannot legally exist in windows filenames
+            // valid: +40.20361-075.00417CRSWGS_84, -40.20361-075.00417, N40.20361E075.00417
+            // valid: S40.20361W075.00417, +40.1213-075.0015+2.79CRSWGS_84, +40.20361-075.00417CRSWGS_84
+            $@".*{Latitude}{Longitude}(?<Altitude>[-+][\.\d]+)?(?:CRS(?<Crs>[\w_]+))?\/?.*",
+        }.Select(x => new Regex(x, RegexOptions.Compiled)).ToArray();
+
         private const string Prefix = @"^(?<Prefix>.*)";
         private const string Suffix = @"(?<Suffix>.*)";
-        private const string Extension = @"\.([a-zA-Z0-9]+)$";
+        private const string Extension = @"(?<Extension>\.([a-zA-Z0-9]+))$";
         private const string Separator = @"(?<Separator>T|-|_|\$)";
+        private const string IsoSeparator = "(?<Separator>T)";
         private const string InvariantDateTimeSeparator = "T";
         private const string End = NoOffset + Suffix + Extension;
         private const string Date = @"(?<Date>\d{8})";
@@ -88,6 +112,8 @@ namespace MetadataUtility.Filenames
         private const string TimeFractional = @"(?<Time>\d{6}\.\d{1,6})";
         private const string Offset = @"(?<Offset>[-+][\d:]{2,5}|Z)";
         private const string NoOffset = @"(?![-+\d:]{1,6}|Z)";
+        private const string Latitude = @"(?<Latitude>[-+NS]\d{2}(?:\.\d+))";
+        private const string Longitude = @"(?<Longitude>[-+NS]\d{3}(?:\.\d+))";
 
         private readonly IEnumerable<DateVariant<LocalDateTime>> localDateVariants;
         private readonly IEnumerable<DateVariant<OffsetDateTime>> offsetDateVariant;
@@ -117,33 +143,33 @@ namespace MetadataUtility.Filenames
         {
             foreach (var dateVariant in this.offsetDateVariant)
             {
-                if (this.TryParse(filename, dateVariant, out var value, out var parsedFilename1))
+                if (this.TryParse(filename, dateVariant, out var value, out var parsedFilename))
                 {
-                    parsedFilename1.LocalDateTime = value.LocalDateTime;
-                    parsedFilename1.OffsetDateTime = value;
-                    return parsedFilename1;
+                    parsedFilename.LocalDateTime = value.LocalDateTime;
+                    parsedFilename.OffsetDateTime = value;
+                    return parsedFilename;
                 }
             }
 
             foreach (var dateVariant in this.localDateVariants)
             {
-                if (this.TryParse(filename, dateVariant, out var value, out var parsedFilename1))
+                if (this.TryParse(filename, dateVariant, out var value, out var parsedFilename))
                 {
-                    parsedFilename1.LocalDateTime = value;
-                    return parsedFilename1;
+                    parsedFilename.LocalDateTime = value;
+                    return parsedFilename;
                 }
             }
 
             // finally, if no date can be found return minimal information
+            var stem = Path.GetFileNameWithoutExtension(filename);
             return new ParsedFilename()
             {
                 Extension = Path.GetExtension(filename),
                 LocalDateTime = null,
-                Location = null /* TODO */,
+                Location = this.ParseLocation(stem),
                 OffsetDateTime = null,
-                Prefix = Path.GetFileNameWithoutExtension(filename),
-                SensorType = null /* TODO */,
-                SensorTypeEstimate = 1.0,
+                Prefix = stem,
+                DatePart = string.Empty,
                 Suffix = string.Empty,
             };
         }
@@ -163,11 +189,10 @@ namespace MetadataUtility.Filenames
                 {
                     result = new ParsedFilename()
                     {
-                        Extension = "." + match.Groups[nameof(Extension)],
-                        Location = null /* TODO */,
+                        Extension = match.Groups[nameof(Extension)].Value,
+                        Location = this.ParseLocation(match.Groups[nameof(Suffix)].Value),
                         Prefix = match.Groups[nameof(Prefix)].Value,
-                        SensorType = null /* TODO */,
-                        SensorTypeEstimate = double.NaN,
+                        DatePart = ReconstructDatePart(),
                         Suffix = match.Groups[nameof(Suffix)].Value,
                     };
                     value = parseResult.Value;
@@ -178,6 +203,33 @@ namespace MetadataUtility.Filenames
             value = default;
             result = null;
             return false;
+
+            string ReconstructDatePart()
+            {
+                return new[] { nameof(Date), nameof(Separator), nameof(Time), nameof(Offset) }
+                    .Select(s => match.Groups[s])
+                    .OrderBy(g => g.Index)
+                    .Aggregate(string.Empty, (seed, group) => seed + group.Value);
+            }
+        }
+
+        private Location ParseLocation(string target)
+        {
+            foreach (var locationVariant in LocationVariants)
+            {
+                var match = locationVariant.Match(target);
+                if (match.Success)
+                {
+                    var latitude = match.Groups[nameof(Latitude)];
+                    var longitude = match.Groups[nameof(Longitude)];
+                    var altitude = match.Groups["Altitude"];
+                    var crs = match.Groups["CRS"];
+
+                    return new Location(latitude.Value, longitude.Value, altitude.Value, crs.Value);
+                }
+            }
+
+            return null;
         }
 
         /// <summary>

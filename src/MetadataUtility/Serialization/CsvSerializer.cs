@@ -65,7 +65,7 @@ namespace MetadataUtility.Serialization
         {
             var deserializer = new CsvReader(reader, this.configuration);
 
-            // adds support for writing to immuattable records
+            // adds support for writing to immutable records
             deserializer.Configuration.IncludePrivateMembers = true;
 
             return deserializer.GetRecords<T>();

@@ -12,6 +12,7 @@ namespace MetadataUtility.Filenames
     /// </summary>
     public class ParsedFilename
     {
+
         /// <summary>
         /// Gets or sets the unambiguous datetime parsed from the given filename.
         /// </summary>
@@ -34,6 +35,12 @@ namespace MetadataUtility.Filenames
         public string Prefix { get; set; }
 
         /// <summary>
+        /// Gets or sets the portion of the name that was parsed as a date into
+        /// <see cref="OffsetDateTime"/> or <see cref="LocalDateTime"/>.
+        /// </summary>
+        public string DatePart { get; set; }
+
+        /// <summary>
         /// Gets or sets any suffix found after the date stamp from the given filename.
         /// </summary>
         public string Suffix { get; set; }
@@ -42,15 +49,5 @@ namespace MetadataUtility.Filenames
         /// Gets or sets the extension (including a leading period) found for the given filename.
         /// </summary>
         public string Extension { get; set; }
-
-        /// <summary>
-        /// Gets or sets a predicted sensor type.
-        /// </summary>
-        public string SensorType { get; set; }
-
-        /// <summary>
-        /// Gets or sets the prediction estimate for the <see cref="SensorType"/>.
-        /// </summary>
-        public double SensorTypeEstimate { get; set; }
     }
 }

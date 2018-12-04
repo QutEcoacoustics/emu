@@ -4,11 +4,12 @@
 
 namespace MetadataUtility.Tests.FilenameParsing
 {
-    using Shouldly;
+    using System;
     using MetadataUtility.Filenames;
     using MetadataUtility.Models;
     using MetadataUtility.Tests.TestHelpers;
     using NodaTime;
+    using Shouldly;
     using Xbehave;
     using Xunit;
     using static MetadataUtility.Tests.TestHelpers.TestHelpers;
@@ -66,10 +67,10 @@ namespace MetadataUtility.Tests.FilenameParsing
             if (test.ExpectedLongitude.HasValue)
             {
                 $"And then the latitude parsed in this filename should be {test.ExpectedLatitude}"
-                    .x(() => Assert.Equal(test.ExpectedLatitude, actual.Location.Latitude));
+                    .x(() => Assert.Equal(test.ExpectedLatitude.Value, actual.Location.Latitude, Wgs84Epsilon));
 
                 $"and the longitude should be {test.ExpectedLongitude}"
-                    .x(() => Assert.Equal(test.ExpectedLongitude, actual.Location.Longitude));
+                    .x(() => Assert.Equal(test.ExpectedLongitude.Value, actual.Location.Longitude, Wgs84Epsilon));
             }
             else
             {
@@ -77,17 +78,28 @@ namespace MetadataUtility.Tests.FilenameParsing
                     .x(() => Assert.Null(actual.Location));
             }
 
-//
-//            Assert.Equal(test.Prefix, actual.Prefix);
-//            Assert.Equal(test.Suffix, actual.Suffix);
-//            Assert.Equal(test.Extension, actual.Extension);
-//
-//            var actualSuggestedFilename = FilenameSuggester.SuggestName(actual);
-//            Assert.Equal(test.SuggestedFilename, actualSuggestedFilename);
-//
-//            Assert.Equal(test.SensorType, actual.SensorType);
-//            Assert.Equal(test.SensorTypeEstimate, actual.SensorTypeEstimate);
+            "And the prefix should be set"
+                .x(() => Assert.Equal(test.Prefix, actual.Prefix));
 
+            "Along with the suffix"
+                .x(() => Assert.Equal(test.Suffix, actual.Suffix));
+
+            "And the extension field should be set"
+                .x(() => Assert.Equal(test.Extension, actual.Extension));
+
+            string datePart = string.Empty;
+            "Now given what we expect the date part to be"
+                .x(() => datePart = !test.ExpectedDateTime.HasValue ?
+                    string.Empty :
+                    test.Filename
+                        .AsSpan(test.Prefix.Length)
+                        .Slice(
+                            0,
+                            test.Filename.Length - test.Prefix.Length - test.Suffix.Length - test.Extension.Length)
+                        .ToString());
+
+            "then the DatePart should have the remainder of the string"
+                .x(() => Assert.Equal(datePart, actual.DatePart));
         }
     }
 }
