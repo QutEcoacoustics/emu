@@ -12,7 +12,6 @@ namespace MetadataUtility.Filenames
     /// </summary>
     public class ParsedFilename
     {
-
         /// <summary>
         /// Gets or sets the unambiguous datetime parsed from the given filename.
         /// </summary>

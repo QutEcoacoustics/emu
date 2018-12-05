@@ -80,7 +80,7 @@ namespace MetadataUtility.Filenames
         };
 
         /// <summary>
-        /// A collection of well known location variants
+        /// A collection of well known location variants.
         /// </summary>
         public static readonly Regex[] LocationVariants = new[]
         {
@@ -244,7 +244,7 @@ namespace MetadataUtility.Filenames
             /// </summary>
             /// <param name="regex">The regex to use.</param>
             /// <param name="parseFormat">The date parser to use.</param>
-            public DateVariant(string regex, IPattern<T> parseFormat, string[] helpHints = null)
+            public DateVariant(string regex, IPattern<T> parseFormat /*,string[] helpHints = null*/)
             {
                 this.Regex = new Regex(regex, RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.CultureInvariant);
 

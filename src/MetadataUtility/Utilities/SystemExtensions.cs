@@ -5,6 +5,8 @@
 // ReSharper disable once CheckNamespace
 namespace System
 {
+    using System.Collections.Generic;
+
     /// <summary>
     /// Extension methods for the <see cref="System"/> namespace.
     /// </summary>
@@ -22,6 +24,28 @@ namespace System
         public static string Template(this string target, params object[] arguments)
         {
             return string.Format(target, arguments);
+        }
+
+        /// <summary>
+        /// Wraps the <paramref name="item"/> in an array.
+        /// </summary>
+        /// <typeparam name="T">The type of the <paramref name="item"/>.</typeparam>
+        /// <param name="item">The item to wrap.</param>
+        /// <returns>An array with one item.</returns>
+        public static T[] AsArray<T>(this T item)
+        {
+            return new[] { item };
+        }
+
+        /// <summary>
+        /// Wraps the <paramref name="item"/> in an enumerable sequence.
+        /// </summary>
+        /// <typeparam name="T">The type of the <paramref name="item"/>.</typeparam>
+        /// <param name="item">The item to wrap.</param>
+        /// <returns>An enumerable with one item.</returns>
+        public static IEnumerable<T> AsSequence<T>(this T item)
+        {
+            yield return item;
         }
     }
 }

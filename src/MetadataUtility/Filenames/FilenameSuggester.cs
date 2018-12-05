@@ -8,9 +8,16 @@ namespace MetadataUtility.Filenames
     using System.Collections.Generic;
     using System.Text;
 
+    /// <summary>
+    /// Suggests new stable filenames for audio files.
+    /// </summary>
     public static class FilenameSuggester
     {
-        public static string SuggestName(ParsedFilename parsedFilename)
+        /// <summary>
+        /// Suggests a filename for a a recording.
+        /// </summary>
+        /// <returns>The suggested filename.</returns>
+        public static string SuggestName()
         {
             return null;
         }

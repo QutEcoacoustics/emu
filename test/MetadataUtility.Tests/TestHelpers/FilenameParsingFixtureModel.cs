@@ -30,11 +30,11 @@ namespace MetadataUtility.Tests.TestHelpers
 
         public string Extension { get; private set; }
 
-        public string SuggestedFilename { get; private set; }
+        //public string SuggestedFilename { get; private set; }
 
-        public string SensorType { get; private set; }
+        //public string SensorType { get; private set; }
 
-        public double? SensorTypeEstimate { get; private set; }
+        //public double? SensorTypeEstimate { get; private set; }
 
         public override string ToString()
         {

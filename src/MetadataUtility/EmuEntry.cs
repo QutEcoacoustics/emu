@@ -13,33 +13,49 @@ namespace MetadataUtility
     using McMaster.Extensions.CommandLineUtils;
     using MetadataUtility.Filenames;
     using MetadataUtility.Serialization;
+    using MetadataUtility.Utilities;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Logging;
 
     /// <summary>
     /// The main entry point for running EMU.
     /// </summary>
     public class EmuEntry
     {
+        private static IServiceProvider serviceProvider;
+
         /// <summary>
         /// Run EMU with commandline arguments.
         /// </summary>
         /// <param name="args">The args array received by the executable.</param>
         public static async Task<int> Main(string[] args)
         {
-            BuildDependencies();
-
-            Console.WriteLine($"Hello World!");
+            serviceProvider = BuildDependencies();
 
             return await ProcessArguments(args);
         }
 
-        private static IServiceCollection BuildDependencies()
+        private static IServiceProvider BuildDependencies()
         {
             var serviceProvider = new ServiceCollection()
                 .AddSingleton<ISerializer, CsvSerializer>()
-                .AddSingleton(typeof(FilenameParser), provider => FilenameParser.Default);
+                .AddSingleton(typeof(FilenameParser), provider => FilenameParser.Default)
+                .AddSingleton<FileMatcher>();
 
-            return serviceProvider;
+            serviceProvider = ConfigureLogging(serviceProvider);
+
+            return serviceProvider.BuildServiceProvider();
+        }
+
+        private static IServiceCollection ConfigureLogging(IServiceCollection services)
+        {
+            return services.AddLogging(
+                (configure) =>
+                {
+                    configure.SetMinimumLevel(LogLevel.Trace);
+                    configure.AddConsole(
+                        options => { });
+                });
         }
 
         public static async Task<int> ProcessArguments(string[] args)
@@ -48,38 +64,40 @@ namespace MetadataUtility
 
             app.HelpOption();
 
-            app.Argument<string>(
+            var targets = app.Argument<string>(
                 "Recordings",
                 "The recordings to process",
-                true);
+                multipleValues: true);
 
-            app.OnExecute(
-                async () => { return 1; });
-
-            return app.Execute(args);
-        }
-
-        public static IEnumerable<string> ExpandGlobs(string baseDir, string[] patterns)
-        {
-            var globs = patterns.Select(Glob.Parse).ToArray();
-
-            foreach (var dir in Directory.EnumerateFileSystemEntries(baseDir))
+            app.OnExecute(async () =>
             {
-                foreach (var glob in globs)
-                {
-                    if (glob.IsMatch(dir))
-                    {
-                        yield return dir;
-                        break;
-                    }
-                }
-            }
+                var logger = serviceProvider.GetRequiredService<ILogger<EmuEntry>>();
+
+                logger.LogCritical("Critical message");
+                logger.LogError("Error message");
+                logger.LogWarning("Warning message");
+                logger.LogInformation("Informational message");
+                logger.LogDebug("Debug message");
+                logger.LogTrace("Trace message");
+
+                logger.LogInformation("Input arguments: {0}", targets.ParsedValues);
+
+                var fileMatcher = serviceProvider.GetRequiredService<FileMatcher>();
+
+                fileMatcher.ExpandMatches(Directory.GetCurrentDirectory(), targets.ParsedValues);
+
+                return await Task.FromResult(1);
+            });
+
+            var processArguments = app.Execute(args);
+
+            //Prompt.GetString("Press enter to quit");
+
+            return processArguments;
         }
 
         public static async void ProcessFile(string path)
         {
-
         }
-
     }
 }

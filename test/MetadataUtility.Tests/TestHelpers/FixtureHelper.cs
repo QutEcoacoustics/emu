@@ -10,6 +10,7 @@ namespace MetadataUtility.Tests.TestHelpers
     using System.IO;
     using System.Linq;
     using System.Text;
+    using DotNet.Globbing;
     using MetadataUtility.Serialization;
     using Xunit;
 
@@ -45,6 +46,25 @@ namespace MetadataUtility.Tests.TestHelpers
             IEnumerator IEnumerable.GetEnumerator()
             {
                 return this.GetEnumerator();
+            }
+        }
+
+        public class TempDirFixture : IDisposable
+        {
+            public TempDirFixture()
+            {
+                var basename = Path.GetRandomFileName();
+
+                this.TempDir = Path.Join(Directory.GetCurrentDirectory(), basename);
+
+                Directory.CreateDirectory(this.TempDir);
+            }
+
+            public string TempDir { get; }
+
+            public void Dispose()
+            {
+                Directory.Delete(this.TempDir, recursive: true);
             }
         }
     }
