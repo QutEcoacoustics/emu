@@ -7,6 +7,8 @@ namespace MetadataUtility.Tests.TestHelpers
     using System;
     using System.Collections.Generic;
     using System.Text;
+    using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.Logging.Abstractions;
 
     public static class TestHelpers
     {
@@ -17,5 +19,12 @@ namespace MetadataUtility.Tests.TestHelpers
         public const int Wgs84Epsilon = 6;
 
         public static readonly Action Nop = () => { };
+
+        private static readonly NullLoggerFactory NullLoggerFactory = new NullLoggerFactory();
+
+        public static ILogger<T> NullLogger<T>()
+        {
+            return new Logger<T>(NullLoggerFactory);
+        }
     }
 }

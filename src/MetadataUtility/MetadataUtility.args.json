@@ -1,0 +1,10 @@
+{
+  "FileVersion": 2,
+  "Id": "8a1f15d6-7e5d-4eed-a944-aaad37807351",
+  "Items": [
+    {
+      "Id": "4e673f26-ca68-415d-ba79-f768a3e705ba",
+      "Command": "C:\\Work\\GitHub\\metadata-utility\\**\\*.wav"
+    }
+  ]
+}

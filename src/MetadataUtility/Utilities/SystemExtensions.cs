@@ -6,6 +6,7 @@
 namespace System
 {
     using System.Collections.Generic;
+    using System.IO;
 
     /// <summary>
     /// Extension methods for the <see cref="System"/> namespace.
@@ -46,6 +47,19 @@ namespace System
         public static IEnumerable<T> AsSequence<T>(this T item)
         {
             yield return item;
+        }
+
+        /// <summary>
+        /// Creates an empty file, and any intermediate directories.
+        /// </summary>
+        /// <param name="path">The file to create.</param>
+        public static string Touch(this string path)
+        {
+            var directory = Path.GetDirectoryName(path);
+            Directory.CreateDirectory(directory);
+            File.Create(path).Close();
+
+            return path;
         }
     }
 }

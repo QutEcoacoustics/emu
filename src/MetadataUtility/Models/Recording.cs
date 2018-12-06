@@ -56,6 +56,11 @@ namespace MetadataUtility.Models
         public Duration DurationSeconds { get; set; }
 
         /// <summary>
+        /// Gets or sets the size of the recording in bytes.
+        /// </summary>
+        public long SizeBytes { get; set; }
+
+        /// <summary>
         /// Gets or sets the number of channels in the recording.
         /// </summary>
         public int Channels { get; set; }

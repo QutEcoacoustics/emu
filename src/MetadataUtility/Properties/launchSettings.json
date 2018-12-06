@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "MetadataUtility": {
+      "commandName": "Project",
+      "commandLineArgs": "C:\\Work\\GitHub\\metadata-utility\\**\\*.wav"
+    }
+  }
+}

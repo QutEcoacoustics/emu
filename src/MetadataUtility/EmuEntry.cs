@@ -8,6 +8,7 @@ namespace MetadataUtility
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Threading;
     using System.Threading.Tasks;
     using DotNet.Globbing;
     using McMaster.Extensions.CommandLineUtils;
@@ -16,13 +17,19 @@ namespace MetadataUtility
     using MetadataUtility.Utilities;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
+    using NodaTime;
+    using NodaTime.Text;
+    using Serilog;
+    using Serilog.Events;
+    using Serilog.Formatting.Json;
+    using Serilog.Sinks.SystemConsole.Themes;
 
     /// <summary>
     /// The main entry point for running EMU.
     /// </summary>
     public class EmuEntry
     {
-        private static IServiceProvider serviceProvider;
+        private static ServiceProvider serviceProvider;
 
         /// <summary>
         /// Run EMU with commandline arguments.
@@ -30,17 +37,26 @@ namespace MetadataUtility
         /// <param name="args">The args array received by the executable.</param>
         public static async Task<int> Main(string[] args)
         {
-            serviceProvider = BuildDependencies();
+            int processArguments;
 
-            return await ProcessArguments(args);
+            // It's really important to dispose all the services we build.
+            // Things like the logger run in  a background thread and won't flush the rest of their messages
+            // if a program quits... unless the service is disposed of.
+            using (serviceProvider = BuildDependencies())
+            {
+                processArguments = await ProcessArguments(args);
+            }
+
+            return processArguments;
         }
 
-        private static IServiceProvider BuildDependencies()
+        private static ServiceProvider BuildDependencies()
         {
             var serviceProvider = new ServiceCollection()
                 .AddSingleton<ISerializer, CsvSerializer>()
                 .AddSingleton(typeof(FilenameParser), provider => FilenameParser.Default)
-                .AddSingleton<FileMatcher>();
+                .AddSingleton<FileMatcher>()
+                .AddTransient<Processor>();
 
             serviceProvider = ConfigureLogging(serviceProvider);
 
@@ -49,12 +65,20 @@ namespace MetadataUtility
 
         private static IServiceCollection ConfigureLogging(IServiceCollection services)
         {
+            Log.Logger = new LoggerConfiguration()
+                .Enrich.WithThreadId()
+                .Destructure.ByTransforming<OffsetDateTime>((value) => OffsetDateTimePattern.Rfc3339.Format(value))
+                .Destructure.ByTransforming<LocalDateTime>((value) => LocalDateTimePattern.ExtendedIso.Format(value))
+                .MinimumLevel.Is(LogEventLevel.Verbose)
+                .WriteTo.Console(
+                    theme: AnsiConsoleTheme.Literate,
+                    outputTemplate: "{Timestamp:o} [{Level:w5}] <{ThreadId}> {SourceContext} {Message:lj}{NewLine}{Exception}")
+                .CreateLogger();
+
             return services.AddLogging(
                 (configure) =>
                 {
-                    configure.SetMinimumLevel(LogLevel.Trace);
-                    configure.AddConsole(
-                        options => { });
+                    configure.AddSerilog(Log.Logger, true);
                 });
         }
 
@@ -84,20 +108,39 @@ namespace MetadataUtility
 
                 var fileMatcher = serviceProvider.GetRequiredService<FileMatcher>();
 
-                fileMatcher.ExpandMatches(Directory.GetCurrentDirectory(), targets.ParsedValues);
+                int count = 0;
+                var allPaths = fileMatcher.ExpandMatches(Directory.GetCurrentDirectory(), targets.ParsedValues);
+                var tasks = new List<Task<bool>>();
 
-                return await Task.FromResult(1);
+                // queue work
+                foreach (var path in allPaths)
+                {
+                    var processor = serviceProvider.GetRequiredService<Processor>();
+                    tasks.Add(processor.ProcessFile(path));
+                }
+
+                // wait for work
+                var results = await Task.WhenAll(tasks.ToArray());
+
+                // summarize work
+                foreach (var task in results)
+                {
+                    if (task)
+                    {
+                        count++;
+                    }
+                }
+
+                return count;
             });
 
-            var processArguments = app.Execute(args);
+            //var processArguments = app.Execute(args);
 
             //Prompt.GetString("Press enter to quit");
 
-            return processArguments;
+            return app.Execute(args);
         }
 
-        public static async void ProcessFile(string path)
-        {
-        }
+
     }
 }
