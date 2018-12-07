@@ -71,6 +71,9 @@ namespace MetadataUtility.Tests.FilenameParsing
 
                 $"and the longitude should be {test.ExpectedLongitude}"
                     .x(() => Assert.Equal(test.ExpectedLongitude.Value, actual.Location.Longitude, Wgs84Epsilon));
+
+                "and the location sample date should be set"
+                    .x(() => Assert.Equal(actual.OffsetDateTime?.ToInstant(), actual.Location.SampleDateTime));
             }
             else
             {

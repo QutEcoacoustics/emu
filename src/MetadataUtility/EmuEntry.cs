@@ -13,6 +13,7 @@ namespace MetadataUtility
     using DotNet.Globbing;
     using McMaster.Extensions.CommandLineUtils;
     using MetadataUtility.Filenames;
+    using MetadataUtility.Models;
     using MetadataUtility.Serialization;
     using MetadataUtility.Utilities;
     using Microsoft.Extensions.DependencyInjection;
@@ -30,6 +31,7 @@ namespace MetadataUtility
     public class EmuEntry
     {
         private static ServiceProvider serviceProvider;
+        private static ILogger<EmuEntry> logger;
 
         /// <summary>
         /// Run EMU with commandline arguments.
@@ -44,31 +46,34 @@ namespace MetadataUtility
             // if a program quits... unless the service is disposed of.
             using (serviceProvider = BuildDependencies())
             {
+                logger = serviceProvider.GetRequiredService<ILogger<EmuEntry>>();
                 processArguments = await ProcessArguments(args);
             }
 
-            return processArguments;
+            return 0;
         }
 
         private static ServiceProvider BuildDependencies()
         {
-            var serviceProvider = new ServiceCollection()
+            var services = new ServiceCollection()
                 .AddSingleton<ISerializer, CsvSerializer>()
+                .AddSingleton<ISerializer, JsonSerializer>()
                 .AddSingleton(typeof(FilenameParser), provider => FilenameParser.Default)
                 .AddSingleton<FileMatcher>()
                 .AddTransient<Processor>();
 
-            serviceProvider = ConfigureLogging(serviceProvider);
+            services = ConfigureLogging(services);
 
-            return serviceProvider.BuildServiceProvider();
+            return services.BuildServiceProvider();
         }
 
         private static IServiceCollection ConfigureLogging(IServiceCollection services)
         {
             Log.Logger = new LoggerConfiguration()
                 .Enrich.WithThreadId()
-                .Destructure.ByTransforming<OffsetDateTime>((value) => OffsetDateTimePattern.Rfc3339.Format(value))
-                .Destructure.ByTransforming<LocalDateTime>((value) => LocalDateTimePattern.ExtendedIso.Format(value))
+                .Destructure.ByTransforming<OffsetDateTime>(OffsetDateTimePattern.Rfc3339.Format)
+                .Destructure.ByTransforming<LocalDateTime>(LocalDateTimePattern.ExtendedIso.Format)
+                .Destructure.ByTransforming<Instant>(InstantPattern.ExtendedIso.Format)
                 .MinimumLevel.Is(LogEventLevel.Verbose)
                 .WriteTo.Console(
                     theme: AnsiConsoleTheme.Literate,
@@ -93,54 +98,48 @@ namespace MetadataUtility
                 "The recordings to process",
                 multipleValues: true);
 
-            app.OnExecute(async () =>
-            {
-                var logger = serviceProvider.GetRequiredService<ILogger<EmuEntry>>();
-
-                logger.LogCritical("Critical message");
-                logger.LogError("Error message");
-                logger.LogWarning("Warning message");
-                logger.LogInformation("Informational message");
-                logger.LogDebug("Debug message");
-                logger.LogTrace("Trace message");
-
-                logger.LogInformation("Input arguments: {0}", targets.ParsedValues);
-
-                var fileMatcher = serviceProvider.GetRequiredService<FileMatcher>();
-
-                int count = 0;
-                var allPaths = fileMatcher.ExpandMatches(Directory.GetCurrentDirectory(), targets.ParsedValues);
-                var tasks = new List<Task<bool>>();
-
-                // queue work
-                foreach (var path in allPaths)
-                {
-                    var processor = serviceProvider.GetRequiredService<Processor>();
-                    tasks.Add(processor.ProcessFile(path));
-                }
-
-                // wait for work
-                var results = await Task.WhenAll(tasks.ToArray());
-
-                // summarize work
-                foreach (var task in results)
-                {
-                    if (task)
-                    {
-                        count++;
-                    }
-                }
-
-                return count;
-            });
-
-            //var processArguments = app.Execute(args);
-
-            //Prompt.GetString("Press enter to quit");
+            app.OnExecute(async () => { return await Execute(targets.ParsedValues); });
 
             return app.Execute(args);
         }
 
+        private static async Task<int> Execute(IReadOnlyList<string> targets)
+        {
+//            logger.LogCritical("Critical message");
+//            logger.LogError("Error message");
+//            logger.LogWarning("Warning message");
+//            logger.LogInformation("Informational message");
+//            logger.LogDebug("Debug message");
+//            logger.LogTrace("Trace message");
 
+            logger.LogInformation("Input arguments: {0}", targets);
+
+            var fileMatcher = serviceProvider.GetRequiredService<FileMatcher>();
+
+            int count = 0;
+            var allPaths = fileMatcher.ExpandMatches(Directory.GetCurrentDirectory(), targets);
+            var tasks = new List<Task<Recording>>();
+
+            // queue work
+            foreach (var path in allPaths)
+            {
+                var processor = serviceProvider.GetRequiredService<Processor>();
+                tasks.Add(processor.ProcessFile(path));
+            }
+
+            // wait for work
+            var results = await Task.WhenAll(tasks.ToArray());
+
+            // summarize work
+            foreach (var task in results)
+            {
+                if (task != null)
+                {
+                    count++;
+                }
+            }
+
+            return count;
+        }
     }
 }

@@ -87,7 +87,7 @@ namespace MetadataUtility.Models
         /// <summary>
         /// Gets or sets when this GPS sample was recorded.
         /// </summary>
-        public Instant SampleDateTime { get; set; }
+        public Instant? SampleDateTime { get; set; }
 
         /// <summary>
         /// Gets or sets the Coordinate Reference System (e.g. WGS84) that this location is using.

@@ -52,7 +52,7 @@ namespace MetadataUtility.Tests.Utilities
             Assert.Equal(expectedPaths, actualPaths);
         }
 
-        public class FileMatcherFixture : FixtureHelper.TempDirFixture
+        public class FileMatcherFixture : FixtureHelper.TestTempDir
         {
             public FileMatcherFixture()
             {

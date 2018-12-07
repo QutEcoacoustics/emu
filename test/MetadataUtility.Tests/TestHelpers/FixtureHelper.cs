@@ -19,26 +19,38 @@ namespace MetadataUtility.Tests.TestHelpers
         public const string SolutionRoot = "../../../../..";
         public const string FixturesRoot = "test/Fixtures";
 
-        public static string ResolveFixture(string name)
+        public static string ResolvePath(string name)
         {
-            return Path.Combine(SolutionRoot, FixturesRoot, name);
+            var path = Path.GetFullPath(Path.Combine(SolutionRoot, FixturesRoot, name));
+
+            if (!File.Exists(path))
+            {
+                throw new FileNotFoundException($"Could not find name {name} at path {path}");
+            }
+
+            return path;
         }
 
         public class FilenameParsingFixtureData : IEnumerable<object[]>
         {
             private const string FixtureFile = "FilenameParsingFixtures.csv";
+            private readonly IEnumerable<FilenameParsingFixtureModel> filenameParsingFixtureModels;
+
+            public FilenameParsingFixtureData()
+            {
+                using (var streamReader = File.OpenText(ResolvePath(FixtureFile)))
+                {
+                    var serializer = new CsvSerializer();
+                    this.filenameParsingFixtureModels = serializer
+                        .Deserialize<FilenameParsingFixtureModel>(streamReader);
+                }
+            }
 
             public IEnumerator<object[]> GetEnumerator()
             {
-                IEnumerable<object[]> models;
-                using (var streamReader = File.OpenText(ResolveFixture(FixtureFile)))
-                {
-                    var serializer = new CsvSerializer();
-                    models = serializer
-                        .Deserialize<FilenameParsingFixtureModel>(streamReader)
-                        .Select(x => new object[] { x })
-                        .ToArray();
-                }
+                IEnumerable<object[]> models = this.filenameParsingFixtureModels
+                    .Select(x => new object[] { x })
+                    .ToArray();
 
                 return models.GetEnumerator();
             }
@@ -49,15 +61,54 @@ namespace MetadataUtility.Tests.TestHelpers
             }
         }
 
-        public class TempDirFixture : IDisposable
+        public class FixtureData : IEnumerable<object[]>
         {
-            public TempDirFixture()
+            private const string FixtureFile = "Fixtures.csv";
+            private readonly Dictionary<string, FixtureModel> fixtureModels;
+
+            public FixtureData()
+            {
+                using (var streamReader = File.OpenText(ResolvePath(FixtureFile)))
+                {
+                    var serializer = new CsvSerializer();
+
+                    this.fixtureModels = serializer
+                        .Deserialize<FixtureModel>(streamReader)
+                        .ToDictionary(f => f.Name);
+                }
+            }
+
+            public FixtureModel this[string key] => this.fixtureModels[key];
+
+            public IEnumerator<object[]> GetEnumerator()
+            {
+                IEnumerable<object[]> models = this.fixtureModels
+                    .Select(x => new object[] { x })
+                    .ToArray();
+
+                return models.GetEnumerator();
+            }
+
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return this.GetEnumerator();
+            }
+        }
+
+        public class TestTempDir : IDisposable
+        {
+            public TestTempDir()
             {
                 var basename = Path.GetRandomFileName();
 
                 this.TempDir = Path.Join(Directory.GetCurrentDirectory(), basename);
 
                 Directory.CreateDirectory(this.TempDir);
+            }
+
+            ~TestTempDir()
+            {
+                this.Dispose();
             }
 
             public string TempDir { get; }

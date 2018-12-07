@@ -12,9 +12,7 @@ namespace MetadataUtility.Serialization
     using MetadataUtility.Models;
     using NodaTime;
 
-    /// <summary>
-    /// Controls outputting of <see cref="Recording"/> data to other formats.
-    /// </summary>
+    /// <inheritdoc cref="CsvHelper.ISerializer"/>
     public class CsvSerializer : ISerializer
     {
         private readonly Configuration configuration;
@@ -55,7 +53,7 @@ namespace MetadataUtility.Serialization
         /// <inheritdoc/>
         public void Serialize<T>(TextWriter writer, IEnumerable<T> objects)
         {
-            var serializer = this.GetCsvWriter(writer);
+            var serializer = new CsvWriter(writer, this.configuration);
 
             serializer.WriteRecords(objects);
         }
@@ -69,11 +67,6 @@ namespace MetadataUtility.Serialization
             deserializer.Configuration.IncludePrivateMembers = true;
 
             return deserializer.GetRecords<T>();
-        }
-
-        private CsvWriter GetCsvWriter(TextWriter writer)
-        {
-            return new CsvWriter(writer, this.configuration);
         }
     }
 }

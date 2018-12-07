@@ -29,7 +29,7 @@ namespace MetadataUtility.Tests.Serialization
         {
             Recording recording = this.fakesFixture.GetRecording();
 
-            var actual = new MetadataUtility.Serialization.CsvSerializer().Serialize(new[] { recording });
+            string actual = new CsvSerializer().Serialize(new[] { recording });
 
             // actual property names should exist
             Assert.Contains($",{nameof(Recording.RecommendedName)},", actual);
@@ -40,8 +40,25 @@ namespace MetadataUtility.Tests.Serialization
             // noda time type should be registered with csv helper
             Assert.DoesNotContain(nameof(OffsetDateTime.YearOfEra), actual);
             Assert.DoesNotContain(nameof(Duration.BclCompatibleTicks), actual);
+        }
 
-            Debug.WriteLine(actual);
+        [Fact]
+        public void SerializerShouldWorkWithJson()
+        {
+            Recording recording = this.fakesFixture.GetRecording();
+
+            string actual = new JsonSerializer().Serialize(new[] { recording });
+
+            // actual property names should exist
+            Assert.Contains($"\"{nameof(Recording.RecommendedName)}\":", actual);
+
+            // sub-properties should not be flattened
+            Assert.Contains($"\"{nameof(Recording.CalculatedChecksum)}\":", actual);
+            Assert.Contains($"\"{nameof(Checksum.Value)}\":", actual);
+
+            // noda time type should be registered with csv helper
+            Assert.DoesNotContain(nameof(OffsetDateTime.YearOfEra), actual);
+            Assert.DoesNotContain(nameof(Duration.BclCompatibleTicks), actual);
         }
     }
 }

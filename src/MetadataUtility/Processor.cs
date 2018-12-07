@@ -10,8 +10,14 @@ namespace MetadataUtility
     using System.Text;
     using System.Threading.Tasks;
     using MetadataUtility.Filenames;
+    using MetadataUtility.Models;
     using Microsoft.Extensions.Logging;
+    using NodaTime;
 
+    /// <summary>
+    /// Processes each audio recording.
+    /// Has metadata extraction methods, as well as transforms, and deep data quality checks.
+    /// </summary>
     public class Processor
     {
         private readonly ILogger<Processor> logger;
@@ -28,11 +34,18 @@ namespace MetadataUtility
             this.filenameParser = filenameParser;
         }
 
-        public async Task<bool> ProcessFile(string path)
+        /// <summary>
+        /// Processes a single recording.
+        /// </summary>
+        /// <param name="path">The path to the file to process.</param>
+        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
+        public async Task<Recording> ProcessFile(string path)
         {
             this.logger.LogInformation("Processing file {0}", path);
 
             await Task.Yield();
+
+            var recording = new Recording();
 
             // step 0. validate
             var file = new FileInfo(path);
@@ -43,10 +56,21 @@ namespace MetadataUtility
 
             // step 1. parse filename
             var parsedName = this.filenameParser.Parse(file.Name);
+            //recording.StartDate = MetadataSource<OffsetDateTime>.Provenance.Calculated.Wrap<OffsetDateTime>(parsedName.OffsetDateTime.Value);
             this.logger.LogDebug("Parsed filename: {@0}", parsedName);
 
             this.logger.LogDebug("Completed file {0}", path);
-            return await Task.FromResult(true);
+            return await Task.FromResult(recording);
+        }
+
+        public async Task<Recording> RenameFile(Recording recording)
+        {
+            return recording;
+        }
+
+        public async Task<Recording> DeepCheck(Recording recording)
+        {
+            return recording;
         }
     }
 }

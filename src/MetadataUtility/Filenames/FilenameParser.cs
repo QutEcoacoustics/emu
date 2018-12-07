@@ -147,6 +147,12 @@ namespace MetadataUtility.Filenames
                 {
                     parsedFilename.LocalDateTime = value.LocalDateTime;
                     parsedFilename.OffsetDateTime = value;
+
+                    if (parsedFilename.Location != null)
+                    {
+                        parsedFilename.Location.SampleDateTime = value.ToInstant();
+                    }
+
                     return parsedFilename;
                 }
             }
@@ -187,10 +193,11 @@ namespace MetadataUtility.Filenames
 
                 if (parseResult.Success)
                 {
+                    var location = this.ParseLocation(match.Groups[nameof(Suffix)].Value);
                     result = new ParsedFilename()
                     {
                         Extension = match.Groups[nameof(Extension)].Value,
-                        Location = this.ParseLocation(match.Groups[nameof(Suffix)].Value),
+                        Location = location,
                         Prefix = match.Groups[nameof(Prefix)].Value,
                         DatePart = ReconstructDatePart(),
                         Suffix = match.Groups[nameof(Suffix)].Value,

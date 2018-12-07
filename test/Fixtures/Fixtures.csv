@@ -1,10 +1,2 @@
-Name,Location,Notes,Path,Extension,Stem,RecommendedName,StartDate,CalculatedChecksum.Type,CalculatedChecksum.Value,DurationSeconds,Channels,SampleRateHertz,BitsPerSecond,MediaType,FileLengthBytes,Sensor.Name,Sensor.Firmware,Sensor.SensorSerialNumber,Sensor.PowerSource,Sensor.Voltage,Sensor.Gain,EmbeddedChecksum.Type,EmbeddedChecksum.Value,EndDate,StorageCardIdentifier,ExpectedDurationSeconds
-,,,,,,,,SHA-2-256,grxftajz7fo6my31,0,0,0,0,,,,,,,0,,,,,,
-,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,, ,,,,,,,,,,,,,,,
+Name,FixturePath,Notes,Path,Extension,Stem,RecommendedName,StartDate,CalculatedChecksum.Type,CalculatedChecksum.Value,DurationSeconds,Channels,SampleRateHertz,BitsPerSecond,MediaType,FileLengthBytes,Sensor.Name,Sensor.Firmware,Sensor.SensorSerialNumber,Sensor.PowerSource,Sensor.Voltage,Sensor.Gain,EmbeddedChecksum.Type,EmbeddedChecksum.Value,EndDate,StorageCardIdentifier,ExpectedDurationSeconds
+Short error file,FL_BAR_v2/3.03_PowerFail/20181101_AAO [-27.3866 152.8761]/20181101_060000_REC [-27.3866 152.8761].flac,,,,,,,SHA-2-256,grxftajz7fo6my31,0,0,0,0,,,,V3.03 (Oct  8 2018 07:46:59),53373100-31334832-34303132-30353031,Ext-power,0,,,,,,

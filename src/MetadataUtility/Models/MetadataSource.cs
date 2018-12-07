@@ -80,4 +80,12 @@ namespace MetadataUtility.Models
             return metadataSource.Value;
         }
     }
+
+    public static class MetadataSourceExtensions
+    {
+        public static MetadataSource<T> Wrap<T>(this MetadataSource<T>.Provenance provenance, T value)
+        {
+            return new MetadataSource<T>(value, provenance);
+        }
+    }
 }
