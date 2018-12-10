@@ -2,15 +2,15 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
     <CodeAnalysisRuleSet>../../stylecop.ruleset</CodeAnalysisRuleSet>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CsvHelper" Version="11.0.1" />
-    <PackageReference Include="DotNet.Glob" Version="2.1.1" />
+    <PackageReference Include="CsvHelper" Version="12.0.1" />
+    <PackageReference Include="DotNet.Glob" Version="3.0.0-alpha0041" />
     <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="2.3.0-beta" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.0.0-preview.18572.1" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="3.0.0-preview.18572.1" />
@@ -25,6 +25,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="Xabe.FFmpeg" Version="3.1.4" />
   </ItemGroup>
 
   <ItemGroup>
@@ -44,5 +45,9 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Audio\" />
   </ItemGroup>
 </Project>

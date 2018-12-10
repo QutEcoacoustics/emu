@@ -66,7 +66,7 @@ namespace MetadataUtility.Utilities
                 // build up longest possible literal path and then check if it is a directory
                 var globRoot = glob
                     .Tokens
-                    .TakeWhile(token => token is LiteralToken || token is PathSeperatorToken)
+                    .TakeWhile(token => token is LiteralToken || token is PathSeparatorToken)
                     .Aggregate(
                         string.Empty,
                         (path, token) =>

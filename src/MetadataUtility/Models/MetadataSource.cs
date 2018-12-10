@@ -26,42 +26,6 @@ namespace MetadataUtility.Models
         }
 
         /// <summary>
-        /// The enum representing the provenance of a metadata value.
-        /// </summary>
-        public enum Provenance
-        {
-            /// <summary>
-            /// We don't know where this metadata came from.
-            /// </summary>
-            Unknown,
-
-            /// <summary>
-            /// This metadata was extracted from the filename.
-            /// </summary>
-            Filename,
-
-            /// <summary>
-            /// This metadata was extracted from the log file found near the file.
-            /// </summary>
-            LogFile,
-
-            /// <summary>
-            /// This metadata was extracted from some file found near the file.
-            /// </summary>
-            OtherFile,
-
-            /// <summary>
-            /// This metadata was extracted from the header of the file.
-            /// </summary>
-            FileHeader,
-
-            /// <summary>
-            /// This value was calculated from other metadata values.
-            /// </summary>
-            Calculated,
-        }
-
-        /// <summary>
         /// Gets the metadata value we are wrapping.
         /// </summary>
         public T Value { get; }
@@ -81,9 +45,19 @@ namespace MetadataUtility.Models
         }
     }
 
+    /// <summary>
+    /// Extensions to <see cref="MetadataSource{T}"/>.
+    /// </summary>
     public static class MetadataSourceExtensions
     {
-        public static MetadataSource<T> Wrap<T>(this MetadataSource<T>.Provenance provenance, T value)
+        /// <summary>
+        /// Wrap a given value in provenance information.
+        /// </summary>
+        /// <typeparam name="T">The type of metadata.</typeparam>
+        /// <param name="provenance">Which provenance tag to attach.</param>
+        /// <param name="value">The value to wrap.</param>
+        /// <returns>A value tagged with provenance information.</returns>
+        public static MetadataSource<T> Wrap<T>(this Provenance provenance, T value)
         {
             return new MetadataSource<T>(value, provenance);
         }

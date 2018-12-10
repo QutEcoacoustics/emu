@@ -34,7 +34,7 @@ namespace MetadataUtility.Tests.TestHelpers
         public class FilenameParsingFixtureData : IEnumerable<object[]>
         {
             private const string FixtureFile = "FilenameParsingFixtures.csv";
-            private readonly IEnumerable<FilenameParsingFixtureModel> filenameParsingFixtureModels;
+            private readonly FilenameParsingFixtureModel[] filenameParsingFixtureModels;
 
             public FilenameParsingFixtureData()
             {
@@ -42,15 +42,15 @@ namespace MetadataUtility.Tests.TestHelpers
                 {
                     var serializer = new CsvSerializer();
                     this.filenameParsingFixtureModels = serializer
-                        .Deserialize<FilenameParsingFixtureModel>(streamReader);
+                        .Deserialize<FilenameParsingFixtureModel>(streamReader)
+                        .ToArray();
                 }
             }
 
             public IEnumerator<object[]> GetEnumerator()
             {
                 IEnumerable<object[]> models = this.filenameParsingFixtureModels
-                    .Select(x => new object[] { x })
-                    .ToArray();
+                    .Select(x => new object[] { x });
 
                 return models.GetEnumerator();
             }

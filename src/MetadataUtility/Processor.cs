@@ -56,6 +56,7 @@ namespace MetadataUtility
 
             // step 1. parse filename
             var parsedName = this.filenameParser.Parse(file.Name);
+
             //recording.StartDate = MetadataSource<OffsetDateTime>.Provenance.Calculated.Wrap<OffsetDateTime>(parsedName.OffsetDateTime.Value);
             this.logger.LogDebug("Parsed filename: {@0}", parsedName);
 
@@ -63,13 +64,30 @@ namespace MetadataUtility
             return await Task.FromResult(recording);
         }
 
+        /// <summary>
+        /// Renames a file according to an archiveable standard.
+        /// </summary>
+        /// <param name="recording">The metadata required to rename the file.</param>
+        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         public async Task<Recording> RenameFile(Recording recording)
         {
+            await Task.Yield();
+
             return recording;
         }
 
+        /// <summary>
+        /// Performs deep checks of the target recording.
+        /// </summary>
+        /// <remarks>
+        /// Deep checks are checks that analyze all the frames or bytes of a given file.
+        /// </remarks>
+        /// <param name="recording">The recording to analyze.</param>
+        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         public async Task<Recording> DeepCheck(Recording recording)
         {
+            await Task.Yield();
+
             return recording;
         }
     }

@@ -53,6 +53,27 @@ namespace MetadataUtility
             return 0;
         }
 
+        /// <summary>
+        /// Processes the command line arguments for EMU.
+        /// </summary>
+        /// <param name="args">The command line arguments.</param>
+        /// <returns>The status code for the program.</returns>
+        public static async Task<int> ProcessArguments(string[] args)
+        {
+            var app = new CommandLineApplication();
+
+            app.HelpOption();
+
+            var targets = app.Argument<string>(
+                "Recordings",
+                "The recordings to process",
+                multipleValues: true);
+
+            app.OnExecute(async () => { return await Execute(targets.ParsedValues); });
+
+            return await Task.FromResult(app.Execute(args));
+        }
+
         private static ServiceProvider BuildDependencies()
         {
             var services = new ServiceCollection()
@@ -85,22 +106,6 @@ namespace MetadataUtility
                 {
                     configure.AddSerilog(Log.Logger, true);
                 });
-        }
-
-        public static async Task<int> ProcessArguments(string[] args)
-        {
-            var app = new CommandLineApplication();
-
-            app.HelpOption();
-
-            var targets = app.Argument<string>(
-                "Recordings",
-                "The recordings to process",
-                multipleValues: true);
-
-            app.OnExecute(async () => { return await Execute(targets.ParsedValues); });
-
-            return app.Execute(args);
         }
 
         private static async Task<int> Execute(IReadOnlyList<string> targets)

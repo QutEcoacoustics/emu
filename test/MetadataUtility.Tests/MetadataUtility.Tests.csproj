@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
 
     <IsPackable>false</IsPackable>
     <CodeAnalysisRuleSet>../../stylecop.ruleset</CodeAnalysisRuleSet>
@@ -17,6 +17,7 @@
     <PackageReference Include="Bogus" Version="24.3.0" />
     <PackageReference Include="FluentAssertions" Version="5.5.3" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" />
+    <PackageReference Include="NodaTime.Bogus" Version="1.0.0" />
     <PackageReference Include="Shouldly" Version="3.0.2" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.1-beta.61">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>

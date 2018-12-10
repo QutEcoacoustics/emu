@@ -56,24 +56,24 @@ namespace MetadataUtility.Models
         public Duration DurationSeconds { get; set; }
 
         /// <summary>
-        /// Gets or sets the size of the recording in bytes.
-        /// </summary>
-        public long SizeBytes { get; set; }
-
-        /// <summary>
         /// Gets or sets the number of channels in the recording.
         /// </summary>
-        public int Channels { get; set; }
+        public byte Channels { get; set; }
 
         /// <summary>
         /// Gets or sets the sample rate of the recording.
         /// </summary>
-        public int SampleRateHertz { get; set; }
+        public uint SampleRateHertz { get; set; }
 
         /// <summary>
         /// Gets or sets the bit rate.
         /// </summary>
-        public int BitsPerSecond { get; set; }
+        public uint BitsPerSecond { get; set; }
+
+        /// <summary>
+        /// Gets or sets the numbers of bits used to quantize each sample.
+        /// </summary>
+        public byte BitDepth { get; set; }
 
         /// <summary>
         /// Gets or sets an IANA Media Type.
@@ -83,7 +83,7 @@ namespace MetadataUtility.Models
         /// <summary>
         /// Gets or sets the number of bytes in this file.
         /// </summary>
-        public string FileLengthBytes { get; set; }
+        public ulong FileLengthBytes { get; set; }
 
         /// <summary>
         /// Gets or sets a <see cref="Sensor"/> object
