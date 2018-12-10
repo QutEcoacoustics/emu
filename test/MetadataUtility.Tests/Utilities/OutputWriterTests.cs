@@ -6,8 +6,10 @@ namespace MetadataUtility.Tests.Utilities
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Text;
     using MetadataUtility.Tests.TestHelpers.Fakes;
+    using MetadataUtility.Utilities;
     using Xunit;
 
     public class OutputWriterTests : IClassFixture<Fakes>
@@ -20,7 +22,19 @@ namespace MetadataUtility.Tests.Utilities
         }
 
         [Fact]
-        public void OutputWriterCanBeConfigured()
+        public void OutputWriterWriteJson()
+        {
+            var fake = this.fakes.GetRecording();
+            using (var stringWriter = new StringWriter())
+            {
+                var output = new OutputWriter(new MetadataUtility.Serialization.JsonSerializer(), stringWriter);
+
+
+            }
+        }
+
+        [Fact]
+        public void OutputWriterWriteCsv()
         {
             var fake = this.fakes.GetRecording();
 

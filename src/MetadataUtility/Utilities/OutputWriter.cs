@@ -8,6 +8,7 @@ namespace MetadataUtility.Utilities
     using System.Collections.Generic;
     using System.IO;
     using System.Text;
+    using System.Threading.Tasks;
     using McMaster.Extensions.CommandLineUtils;
     using MetadataUtility.Serialization;
 
@@ -23,6 +24,11 @@ namespace MetadataUtility.Utilities
         {
             this.serializer = serializer;
             this.sink = sink;
+        }
+
+        public async Task<bool> Write(Recording recording)
+        {
+            this.serializer.Serialize(this.sink, )
         }
     }
 }
