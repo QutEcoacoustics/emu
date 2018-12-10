@@ -4,8 +4,10 @@
 
 namespace MetadataUtility.Serialization
 {
+    using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Threading.Tasks;
     using CsvHelper;
     using CsvHelper.Configuration;
     using CsvHelper.TypeConversion;
@@ -56,6 +58,33 @@ namespace MetadataUtility.Serialization
             var serializer = new CsvWriter(writer, this.configuration);
 
             serializer.WriteRecords(objects);
+        }
+
+        /// <inheritdoc/>
+        public IDisposable WriteHeader<T>(TextWriter writer)
+        {
+            var csv = new CsvWriter(writer, this.configuration);
+
+            csv.WriteHeader<T>();
+
+            return csv;
+        }
+
+        /// <inheritdoc/>
+        public IDisposable WriteRecord<T>(IDisposable context, TextWriter writer, T record)
+        {
+            var csv = (CsvWriter)context;
+
+            csv.WriteRecord(record);
+
+            return csv;
+        }
+
+        /// <inheritdoc/>
+        public IDisposable WriteFooter<T>(IDisposable context, TextWriter writer)
+        {
+            // csv does not have a footer
+            return context;
         }
 
         /// <inheritdoc />

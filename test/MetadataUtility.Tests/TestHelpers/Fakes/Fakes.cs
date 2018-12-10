@@ -21,7 +21,7 @@ namespace MetadataUtility.Tests.TestHelpers.Fakes
         public Faker<Recording> GetRecording()
         {
             return new Faker<Recording>()
-                .RuleForType(typeof(Checksum), f => this.GetChecksum())
+                .RuleForType(typeof(Checksum), f => this.GetChecksum().Generate())
                 .RuleFor(x => x.Extension, f => f.PickRandom(".wav", ".flac"))
                 .RuleFor(x => x.Stem, (f, x) => f.System.FileName())
                 .RuleFor(x => x.Path, (f, x) => f.System.DirectoryPath() + '/' + x.Stem + x.Extension)
@@ -29,10 +29,10 @@ namespace MetadataUtility.Tests.TestHelpers.Fakes
                     x => x.StartDate,
                     f => Provenance.FileHeader.Wrap(f.Noda().ZonedDateTime.Recent(7).ToOffsetDateTime()))
                 .RuleFor(x => x.DurationSeconds, f => f.Noda().Duration(Duration.FromHours(24)))
-                .RuleFor(x => x.Channels, f => f.Random.UInt(1, 4))
+                .RuleFor(x => x.Channels, f => f.Random.Byte(1, 4))
                 .RuleFor(x => x.SampleRateHertz, f => f.PickRandom(KnownSampleRates))
                 .RuleFor(x => x.BitsPerSecond, f => f.Random.UInt(22050 * 16, 96000 * 16))
-                .RuleFor(x => x.BitDepth, f => f.PickRandom(8, 16, 24))
+                .RuleFor(x => x.BitDepth, f => f.PickRandom((byte)8, 16, 24))
                 .RuleFor(x => x.MediaType, f => f.PickRandom("audio/wave", "audio/flac"))
                 .RuleFor(x => x.FileLengthBytes, f => (ulong)f.Random.Long(2_000_000_000L))
                 .RuleFor(x => x.EndDate, (f, x) => Provenance.Calculated.Wrap(x.StartDate?.Value + x.DurationSeconds))

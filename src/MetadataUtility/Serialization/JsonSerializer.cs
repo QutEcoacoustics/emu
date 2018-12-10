@@ -48,6 +48,36 @@ namespace MetadataUtility.Serialization
         }
 
         /// <inheritdoc />
+        public IDisposable WriteHeader<T>(TextWriter writer)
+        {
+            var json = new JsonTextWriter(writer);
+
+            json.WriteStartArray();
+            json.WriteWhitespace(Environment.NewLine);
+
+            return json;
+        }
+
+        /// <inheritdoc />
+        public IDisposable WriteRecord<T>(IDisposable context, TextWriter writer, T record)
+        {
+            var json = (JsonTextWriter)context;
+            this.serializer.Serialize(json, record);
+
+            return json;
+        }
+
+        /// <inheritdoc />
+        public IDisposable WriteFooter<T>(IDisposable context, TextWriter writer)
+        {
+            var json = (JsonTextWriter)context;
+
+            json.WriteEndArray();
+
+            return json;
+        }
+
+        /// <inheritdoc />
         public IEnumerable<T> Deserialize<T>(TextReader reader)
         {
             using (var jsonReader = new JsonTextReader(reader))
