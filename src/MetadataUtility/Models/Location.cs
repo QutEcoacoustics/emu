@@ -16,6 +16,13 @@ namespace MetadataUtility.Models
     public class Location
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="Location"/> class.
+        /// </summary>
+        public Location()
+        {
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Location"/> class from string values found in an ISO6709:H string.
         /// </summary>
         /// <param name="latitude">The latitude string to parse.</param>

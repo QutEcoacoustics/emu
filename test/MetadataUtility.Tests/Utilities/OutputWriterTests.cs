@@ -36,7 +36,7 @@ namespace MetadataUtility.Tests.Utilities
                 var output = new OutputWriter(jsonSerializer, stringWriter);
 
                 // generate a fake and write it to the stream
-                var a = this.fakes.GetRecording();
+                var a = this.fakes.Recording.Generate();
                 output.Write(a);
 
                 // check the header was written
@@ -45,7 +45,7 @@ namespace MetadataUtility.Tests.Utilities
                 Assert.EndsWith("}", actual);
 
                 // generate and write another fake
-                var b = this.fakes.GetRecording();
+                var b = this.fakes.Recording.Generate();
                 output.Write(b);
 
                 // finish writing
@@ -57,8 +57,8 @@ namespace MetadataUtility.Tests.Utilities
 
                 var records = jsonSerializer.Deserialize<Recording>(new StringReader(actual)).ToArray();
 
-                Assert.Equal(records[0], a);
-                Assert.Equal(records[1], b);
+                Assert.Equal(records[0].Path, a.Path);
+                Assert.Equal(records[1].Path, b.Path);
             }
         }
 
@@ -73,16 +73,16 @@ namespace MetadataUtility.Tests.Utilities
                 var output = new OutputWriter(csvSerializer, stringWriter);
 
                 // generate a fake and write it to the stream
-                var a = this.fakes.GetRecording();
+                var a = this.fakes.Recording.Generate();
                 output.Write(a);
 
                 // check the header was written
                 var actual = stringBuilder.ToString();
                 Assert.StartsWith($"{nameof(Recording.Path)},", actual);
-                Assert.EndsWith(",", actual);
+                Assert.EndsWith(a.ExpectedDurationSeconds?.TotalSeconds + "\r\n", actual);
 
                 // generate and write another fake
-                var b = this.fakes.GetRecording();
+                var b = this.fakes.Recording.Generate();
                 output.Write(b);
 
                 // finish writing
@@ -91,12 +91,12 @@ namespace MetadataUtility.Tests.Utilities
                 actual = stringBuilder.ToString();
                 Assert.StartsWith($"{nameof(Recording.Path)},", actual);
                 Assert.Single(Regex.Matches(actual, $"{nameof(Recording.Path)},"));
-                Assert.EndsWith(",", actual);
+                Assert.EndsWith(b.ExpectedDurationSeconds?.TotalSeconds + "\r\n", actual);
 
                 var records = csvSerializer.Deserialize<Recording>(new StringReader(actual)).ToArray();
 
-                Assert.Equal(records[0], a);
-                Assert.Equal(records[1], b);
+                Assert.Equal(records[0].Path, a.Path);
+                Assert.Equal(records[1].Path, b.Path);
             }
         }
     }

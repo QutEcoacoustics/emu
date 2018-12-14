@@ -39,15 +39,13 @@ namespace MetadataUtility
         /// <param name="args">The args array received by the executable.</param>
         public static async Task<int> Main(string[] args)
         {
-            int processArguments;
-
             // It's really important to dispose all the services we build.
             // Things like the logger run in  a background thread and won't flush the rest of their messages
             // if a program quits... unless the service is disposed of.
             using (serviceProvider = BuildDependencies())
             {
                 logger = serviceProvider.GetRequiredService<ILogger<EmuEntry>>();
-                processArguments = await ProcessArguments(args);
+                var processArguments = await ProcessArguments(args);
             }
 
             return 0;
@@ -69,7 +67,7 @@ namespace MetadataUtility
                 "The recordings to process",
                 multipleValues: true);
 
-            app.OnExecute(async () => { return await Execute(targets.ParsedValues); });
+            app.OnExecute(async () => await Execute(targets.ParsedValues));
 
             return await Task.FromResult(app.Execute(args));
         }
@@ -79,6 +77,7 @@ namespace MetadataUtility
             var services = new ServiceCollection()
                 .AddSingleton<ISerializer, CsvSerializer>()
                 .AddSingleton<ISerializer, JsonSerializer>()
+                .AddSingleton<OutputWriter>(collection => new OutputWriter(collection.GetRequiredService<ISerializer>(), Console.Out))
                 .AddSingleton(typeof(FilenameParser), provider => FilenameParser.Default)
                 .AddSingleton<FileMatcher>()
                 .AddTransient<Processor>();
@@ -98,13 +97,14 @@ namespace MetadataUtility
                 .MinimumLevel.Is(LogEventLevel.Verbose)
                 .WriteTo.Console(
                     theme: AnsiConsoleTheme.Literate,
-                    outputTemplate: "{Timestamp:o} [{Level:w5}] <{ThreadId}> {SourceContext} {Message:lj}{NewLine}{Exception}")
+                    outputTemplate: "{Timestamp:o} [{Level:w5}] <{ThreadId}> {SourceContext} {Message:lj}{NewLine}{Exception}",
+                    standardErrorFromLevel: LogEventLevel.Verbose)
                 .CreateLogger();
 
             return services.AddLogging(
                 (configure) =>
                 {
-                    configure.AddSerilog(Log.Logger, true);
+                    configure.AddSerilog(Log.Logger, dispose: true);
                 });
         }
 
@@ -129,7 +129,8 @@ namespace MetadataUtility
             foreach (var path in allPaths)
             {
                 var processor = serviceProvider.GetRequiredService<Processor>();
-                tasks.Add(processor.ProcessFile(path));
+                var task = processor.All(path);
+                tasks.Add(task);
             }
 
             // wait for work

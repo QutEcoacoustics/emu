@@ -11,6 +11,7 @@ namespace MetadataUtility
     using System.Threading.Tasks;
     using MetadataUtility.Filenames;
     using MetadataUtility.Models;
+    using MetadataUtility.Utilities;
     using Microsoft.Extensions.Logging;
     using NodaTime;
 
@@ -22,16 +23,19 @@ namespace MetadataUtility
     {
         private readonly ILogger<Processor> logger;
         private readonly FilenameParser filenameParser;
+        private readonly OutputWriter writer;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Processor"/> class.
         /// </summary>
         /// <param name="logger">A logger.</param>
         /// <param name="filenameParser">A filename parser.</param>
-        public Processor(ILogger<Processor> logger, FilenameParser filenameParser)
+        /// <param name="writer">The sink to send the output.</param>
+        public Processor(ILogger<Processor> logger, FilenameParser filenameParser, OutputWriter writer)
         {
             this.logger = logger;
             this.filenameParser = filenameParser;
+            this.writer = writer;
         }
 
         /// <summary>
@@ -46,6 +50,8 @@ namespace MetadataUtility
             await Task.Yield();
 
             var recording = new Recording();
+            recording.Path = path;
+            recording.Stem = Path.GetFileNameWithoutExtension(path);
 
             // step 0. validate
             var file = new FileInfo(path);
@@ -56,6 +62,18 @@ namespace MetadataUtility
 
             // step 1. parse filename
             var parsedName = this.filenameParser.Parse(file.Name);
+            recording.Extension = parsedName.Extension;
+
+            if (parsedName.OffsetDateTime.HasValue)
+            {
+                recording.StartDate = parsedName.OffsetDateTime.Value;
+            }
+            else
+            {
+                this.logger.LogWarning("Could not unambiguously parse date for {0}", path);
+            }
+
+            recording.Location = parsedName.Location;
 
             //recording.StartDate = MetadataSource<OffsetDateTime>.Provenance.Calculated.Wrap<OffsetDateTime>(parsedName.OffsetDateTime.Value);
             this.logger.LogDebug("Parsed filename: {@0}", parsedName);
@@ -65,7 +83,7 @@ namespace MetadataUtility
         }
 
         /// <summary>
-        /// Renames a file according to an archiveable standard.
+        /// Renames a file according to an archival standard.
         /// </summary>
         /// <param name="recording">The metadata required to rename the file.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
@@ -87,6 +105,38 @@ namespace MetadataUtility
         public async Task<Recording> DeepCheck(Recording recording)
         {
             await Task.Yield();
+
+            return recording;
+        }
+
+        /// <summary>
+        /// Writes the recording out to a sink.
+        /// </summary>
+        /// <param name="recording">The recording to write.</param>
+        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
+        public async Task<Recording> Write(Recording recording)
+        {
+            await Task.Run(
+                () =>
+                {
+                    lock (this.writer)
+                    {
+                        this.writer.Write(recording);
+                    }
+                });
+
+            return recording;
+        }
+
+        /// <summary>
+        /// Runs through all the process steps.
+        /// </summary>
+        /// <param name="path">The path to the recording to process.</param>
+        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
+        public async Task<Recording> All(string path)
+        {
+            var recording = await this.ProcessFile(path);
+            recording = await this.Write(recording);
 
             return recording;
         }

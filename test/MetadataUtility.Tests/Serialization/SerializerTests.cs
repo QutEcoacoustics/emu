@@ -27,7 +27,7 @@ namespace MetadataUtility.Tests.Serialization
         [Fact]
         public void SerializerShouldWorkWithCsv()
         {
-            Recording recording = this.fakesFixture.GetRecording();
+            Recording recording = this.fakesFixture.Recording.Generate();
 
             string actual = new CsvSerializer().Serialize(new[] { recording });
 
@@ -45,7 +45,7 @@ namespace MetadataUtility.Tests.Serialization
         [Fact]
         public void SerializerShouldWorkWithJson()
         {
-            Recording recording = this.fakesFixture.GetRecording();
+            Recording recording = this.fakesFixture.Recording.Generate();
 
             string actual = new JsonSerializer().Serialize(new[] { recording });
 

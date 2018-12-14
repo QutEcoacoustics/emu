@@ -66,6 +66,7 @@ namespace MetadataUtility.Serialization
             var csv = new CsvWriter(writer, this.configuration);
 
             csv.WriteHeader<T>();
+            csv.NextRecord();
 
             return csv;
         }
@@ -76,6 +77,8 @@ namespace MetadataUtility.Serialization
             var csv = (CsvWriter)context;
 
             csv.WriteRecord(record);
+            csv.NextRecord();
+            csv.Flush();
 
             return csv;
         }

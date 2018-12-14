@@ -48,7 +48,6 @@ namespace MetadataUtility.Utilities
             }
 
             this.serializerContext = this.serializer.WriteRecord(this.serializerContext, this.sink, recording);
-
         }
 
         /// <inheritdoc />

@@ -18,10 +18,10 @@ namespace MetadataUtility.Tests.TestHelpers.Fakes
         private static readonly string[] KnownHashes = new[] { "SHA-2-256", "SHA-2-512" };
         private static readonly uint[] KnownSampleRates = new uint[] { 16_000, 22_050, 44_100, 48_000 };
 
-        public Faker<Recording> GetRecording()
+        public Fakes()
         {
-            return new Faker<Recording>()
-                .RuleForType(typeof(Checksum), f => this.GetChecksum().Generate())
+            this.Recording = new Faker<Recording>()
+                .RuleForType(typeof(Checksum), f => this.Checksum.Generate())
                 .RuleFor(x => x.Extension, f => f.PickRandom(".wav", ".flac"))
                 .RuleFor(x => x.Stem, (f, x) => f.System.FileName())
                 .RuleFor(x => x.Path, (f, x) => f.System.DirectoryPath() + '/' + x.Stem + x.Extension)
@@ -32,21 +32,27 @@ namespace MetadataUtility.Tests.TestHelpers.Fakes
                 .RuleFor(x => x.Channels, f => f.Random.Byte(1, 4))
                 .RuleFor(x => x.SampleRateHertz, f => f.PickRandom(KnownSampleRates))
                 .RuleFor(x => x.BitsPerSecond, f => f.Random.UInt(22050 * 16, 96000 * 16))
-                .RuleFor(x => x.BitDepth, f => f.PickRandom((byte)8, 16, 24))
+                .RuleFor(x => x.BitDepth, f => f.PickRandom<byte>(8, 16, 24))
                 .RuleFor(x => x.MediaType, f => f.PickRandom("audio/wave", "audio/flac"))
                 .RuleFor(x => x.FileLengthBytes, f => (ulong)f.Random.Long(2_000_000_000L))
-                .RuleFor(x => x.EndDate, (f, x) => Provenance.Calculated.Wrap(x.StartDate?.Value + x.DurationSeconds))
+                .RuleFor(
+                    x => x.EndDate,
+                    (f, x) => x.StartDate + x.DurationSeconds)
+
+                //(f, x) => Provenance.Calculated.Wrap(x.StartDate?.Value + x.DurationSeconds))
+
                 .RuleFor(x => x.StorageCardIdentifier, f => f.Random.AlphaNumeric(16))
                 .RuleFor(x => x.ExpectedDurationSeconds, f => Duration.FromHours(24));
-        }
 
-        public Faker<Checksum> GetChecksum()
-        {
-            return new Faker<Checksum>()
+            this.Checksum = new Faker<Checksum>()
                 .StrictMode(true)
                 .RuleFor(x => x.Type, f => f.PickRandom(KnownHashes))
                 .RuleFor(x => x.Value, f => f.Random.AlphaNumeric(256 / 16));
         }
+
+        public Faker<Recording> Recording { get; }
+
+        public Faker<Checksum> Checksum { get; }
 
         public void Dispose()
         {

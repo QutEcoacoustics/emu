@@ -25,6 +25,7 @@ namespace MetadataUtility.Serialization
         {
             this.settings = new JsonSerializerSettings()
             {
+                Formatting = Formatting.Indented,
             }.ConfigureForNodaTime(DateTimeZoneProviders.Tzdb);
 
             this.serializer = Newtonsoft.Json.JsonSerializer.Create(this.settings);
@@ -72,6 +73,7 @@ namespace MetadataUtility.Serialization
         {
             var json = (JsonTextWriter)context;
 
+            json.WriteWhitespace(Environment.NewLine);
             json.WriteEndArray();
 
             return json;
