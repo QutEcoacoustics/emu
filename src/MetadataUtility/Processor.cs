@@ -9,6 +9,7 @@ namespace MetadataUtility
     using System.IO;
     using System.Text;
     using System.Threading.Tasks;
+    using McMaster.Extensions.CommandLineUtils;
     using MetadataUtility.Filenames;
     using MetadataUtility.Models;
     using MetadataUtility.Utilities;
@@ -24,6 +25,7 @@ namespace MetadataUtility
         private readonly ILogger<Processor> logger;
         private readonly FilenameParser filenameParser;
         private readonly OutputWriter writer;
+        private readonly EmuEntry.MainArgs arguments;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Processor"/> class.
@@ -31,11 +33,13 @@ namespace MetadataUtility
         /// <param name="logger">A logger.</param>
         /// <param name="filenameParser">A filename parser.</param>
         /// <param name="writer">The sink to send the output.</param>
-        public Processor(ILogger<Processor> logger, FilenameParser filenameParser, OutputWriter writer)
+        /// <param name="arguments">The arguments supplied to Emu</param>
+        public Processor(ILogger<Processor> logger, FilenameParser filenameParser, OutputWriter writer, EmuEntry.MainArgs arguments)
         {
             this.logger = logger;
             this.filenameParser = filenameParser;
             this.writer = writer;
+            this.arguments = arguments;
         }
 
         /// <summary>
@@ -64,14 +68,7 @@ namespace MetadataUtility
             var parsedName = this.filenameParser.Parse(file.Name);
             recording.Extension = parsedName.Extension;
 
-            if (parsedName.OffsetDateTime.HasValue)
-            {
-                recording.StartDate = parsedName.OffsetDateTime.Value;
-            }
-            else
-            {
-                this.logger.LogWarning("Could not unambiguously parse date for {0}", path);
-            }
+            this.ResolveDateTime(recording, parsedName);
 
             recording.Location = parsedName.Location;
 
@@ -80,6 +77,36 @@ namespace MetadataUtility
 
             this.logger.LogDebug("Completed file {0}", path);
             return await Task.FromResult(recording);
+        }
+
+        private void ResolveDateTime(Recording recording, ParsedFilename filename)
+        {
+            if (filename.OffsetDateTime.HasValue)
+            {
+                recording.StartDate = filename.OffsetDateTime.Value.SourcedFrom(Provenance.Filename);
+                this.logger.LogTrace("Full date parsed from filename {0}", recording.Path);
+            }
+
+            if (filename.LocalDateTime.HasValue)
+            {
+                if (this.arguments.UtcOffsetHint.HasValue)
+                {
+                    recording.StartDate = filename
+                        .LocalDateTime
+                        .Value
+                        .WithOffset(this.arguments.UtcOffsetHint.Value)
+                        .SourcedFrom(Provenance.Filename | Provenance.UserSupplied);
+
+                    this.logger.LogTrace("Full date parsed from filename {0} and UTC offset hint used", recording.Path);
+                }
+                else
+                {
+                    this.logger.LogWarning("Could not unambiguously parse date for {0}", recording.Path);
+                    recording.Errors.Add(WellKnownProblems.AmbiguousDate());
+                }
+            }
+
+            recording.Errors.Add(WellKnownProblems.NoDateFound());
         }
 
         /// <summary>

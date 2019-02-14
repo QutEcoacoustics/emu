@@ -46,6 +46,11 @@ namespace MetadataUtility.Filenames
                 Prefix + @"(?<Date>\d{6})" + "(?<Separator>_)" + @"(?<Time>\d{4})" + End,
                 LocalDateTimePattern.CreateWithInvariantCulture("yyMMddTHHmm")),
 
+            // valid: 671629352.181204100002.wav
+            new DateVariant<LocalDateTime>(
+                Prefix + @"(?<Date>\d{6})" + Time + End,
+                LocalDateTimePattern.CreateWithInvariantCulture("yyMMddTHHmmss")),
+
             // valid: prefix_2359-01012015.mp3, a_2359-01012015.a, a_2359-01012015.dnsb48364JSFDSD
             new DateVariant<LocalDateTime>(
                 Prefix + @"(?<Time>\d{4})" + "(?<Separator>-)" + @"(?<Date>\d{8})" + End,

@@ -43,7 +43,7 @@ namespace MetadataUtility.Models
         /// included in the recording.
         /// </summary>
         //public MetadataSource<OffsetDateTime>? StartDate { get; set; }
-        public OffsetDateTime StartDate { get; set; }
+        public OffsetDateTime? StartDate { get; set; }
 
         /// <summary>
         /// Gets or sets a Checksum calculated for the file.

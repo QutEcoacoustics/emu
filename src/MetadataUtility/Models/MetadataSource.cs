@@ -12,7 +12,7 @@ namespace MetadataUtility.Models
     /// Allows us to track the provenance of metadata.
     /// </summary>
     /// <typeparam name="T">The type of value we are storing.</typeparam>
-    public struct MetadataSource<T>
+    public readonly struct MetadataSource<T>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MetadataSource{T}"/> struct.
@@ -58,6 +58,18 @@ namespace MetadataUtility.Models
         /// <param name="value">The value to wrap.</param>
         /// <returns>A value tagged with provenance information.</returns>
         public static MetadataSource<T> Wrap<T>(this Provenance provenance, T value)
+        {
+            return new MetadataSource<T>(value, provenance);
+        }
+
+        /// <summary>
+        /// Wrap a given value in provenance information.
+        /// </summary>
+        /// <typeparam name="T">The type of metadata.</typeparam>
+        /// <param name="value">The value to attach provenance information too.</param>
+        /// <param name="provenance">Which provenance tag to attach.</param>
+        /// <returns>A value tagged with provenance information.</returns>
+        public static MetadataSource<T> SourcedFrom<T>(this T value, Provenance provenance)
         {
             return new MetadataSource<T>(value, provenance);
         }

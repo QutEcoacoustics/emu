@@ -6,12 +6,15 @@ namespace MetadataUtility
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     using System.IO;
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
     using DotNet.Globbing;
     using McMaster.Extensions.CommandLineUtils;
+    using McMaster.Extensions.CommandLineUtils.Validation;
+    using MetadataUtility.Dates;
     using MetadataUtility.Filenames;
     using MetadataUtility.Models;
     using MetadataUtility.Serialization;
@@ -39,13 +42,17 @@ namespace MetadataUtility
         /// <param name="args">The args array received by the executable.</param>
         public static async Task<int> Main(string[] args)
         {
+            var (app, main) = ProcessArguments(args);
+
             // It's really important to dispose all the services we build.
             // Things like the logger run in  a background thread and won't flush the rest of their messages
             // if a program quits... unless the service is disposed of.
-            using (serviceProvider = BuildDependencies())
+            using (serviceProvider = BuildDependencies(main))
             {
                 logger = serviceProvider.GetRequiredService<ILogger<EmuEntry>>();
-                var processArguments = await ProcessArguments(args);
+                
+
+                return await Task.FromResult(app.Execute(args));
             }
 
             return 0;
@@ -55,8 +62,8 @@ namespace MetadataUtility
         /// Processes the command line arguments for EMU.
         /// </summary>
         /// <param name="args">The command line arguments.</param>
-        /// <returns>The status code for the program.</returns>
-        public static async Task<int> ProcessArguments(string[] args)
+        /// <returns>The CommandLineApplication object and a binding model of arguments</returns>
+        public static (CommandLineApplication app, MainArgs mainArgs) ProcessArguments(string[] args)
         {
             var app = new CommandLineApplication();
 
@@ -67,14 +74,67 @@ namespace MetadataUtility
                 "The recordings to process",
                 multipleValues: true);
 
-            app.OnExecute(async () => await Execute(targets.ParsedValues));
+            var utcOffsetHint = app.Option<string>(
+                "--utcOffsetHint",
+                "The number of hours from UTC the sensor's clock was configured to",
+                CommandOptionType.SingleValue);
+            utcOffsetHint.Validators.Add(new OffsetValidator());
 
-            return await Task.FromResult(app.Execute(args));
+            var mainArgs = new MainArgs(targets, utcOffsetHint);
+
+            app.OnExecute(async () => await Execute(mainArgs));
+
+            return (app, mainArgs);
         }
 
-        private static ServiceProvider BuildDependencies()
+        public class MainArgs
+        {
+            private readonly Lazy<IReadOnlyCollection<string>> targets;
+            private readonly Lazy<Offset?> utcOffsetHint;
+
+            public MainArgs(CommandArgument<string> targets, CommandOption<string> utcOffsetHint)
+            {
+                this.targets = new Lazy<IReadOnlyCollection<string>>(() => targets.ParsedValues);
+                this.utcOffsetHint = new Lazy<Offset?>(
+                    () =>
+                    {
+                        if (!utcOffsetHint.HasValue())
+                        {
+                            return null;
+                        }
+
+                        return OffsetPattern.GeneralInvariantWithZ.Parse(utcOffsetHint.ParsedValue).Value;
+                    });
+            }
+
+            public IReadOnlyCollection<string> Targets => this.targets.Value;
+
+            public Offset? UtcOffsetHint => this.utcOffsetHint.Value;
+        }
+
+        public class OffsetValidator : IOptionValidator
+        {
+            public ValidationResult GetValidationResult(CommandOption option, ValidationContext context)
+            {
+                if (!option.HasValue())
+                {
+                    return ValidationResult.Success;
+                }
+
+                var success = DurationParsing.TryParseOffset(option.Value(), out var offset);
+                if (success)
+                {
+                    return ValidationResult.Success;
+                }
+
+                return new ValidationResult("Could not parse UTC offset");
+            }
+        }
+
+        private static ServiceProvider BuildDependencies(MainArgs main)
         {
             var services = new ServiceCollection()
+                .AddSingleton<MainArgs>(_ => main)
                 .AddSingleton<ISerializer, CsvSerializer>()
                 .AddSingleton<ISerializer, JsonSerializer>()
                 .AddSingleton<OutputWriter>(collection => new OutputWriter(collection.GetRequiredService<ISerializer>(), Console.Out))
@@ -108,7 +168,7 @@ namespace MetadataUtility
                 });
         }
 
-        private static async Task<int> Execute(IReadOnlyList<string> targets)
+        private static async Task<int> Execute(MainArgs mainArgs)
         {
 //            logger.LogCritical("Critical message");
 //            logger.LogError("Error message");
@@ -116,8 +176,9 @@ namespace MetadataUtility
 //            logger.LogInformation("Informational message");
 //            logger.LogDebug("Debug message");
 //            logger.LogTrace("Trace message");
+            var targets = mainArgs.Targets;
 
-            logger.LogInformation("Input arguments: {0}", targets);
+            logger.LogInformation("Input targets: {0}", targets);
 
             var fileMatcher = serviceProvider.GetRequiredService<FileMatcher>();
 
