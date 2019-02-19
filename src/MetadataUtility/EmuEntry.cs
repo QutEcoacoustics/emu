@@ -75,12 +75,22 @@ namespace MetadataUtility
                 multipleValues: true);
 
             var utcOffsetHint = app.Option<string>(
-                "--utcOffsetHint",
+                "-z|--utc-offset-hint",
                 "The number of hours from UTC the sensor's clock was configured to",
                 CommandOptionType.SingleValue);
             utcOffsetHint.Validators.Add(new OffsetValidator());
 
-            var mainArgs = new MainArgs(targets, utcOffsetHint);
+            var rename = app.Option(
+                "--rename",
+                "Rename files using the recommended name (use --dry-run to test)",
+                CommandOptionType.NoValue);
+
+            var dryRun = app.Option(
+                "-n|--dry-run",
+                "Do not make any changes (good for testing)",
+                CommandOptionType.NoValue);
+
+            var mainArgs = new MainArgs(targets, utcOffsetHint, rename, dryRun);
 
             app.OnExecute(async () => await Execute(mainArgs));
 
@@ -91,8 +101,14 @@ namespace MetadataUtility
         {
             private readonly Lazy<IReadOnlyCollection<string>> targets;
             private readonly Lazy<Offset?> utcOffsetHint;
+            private CommandOption dryRun;
+            private CommandOption rename;
 
-            public MainArgs(CommandArgument<string> targets, CommandOption<string> utcOffsetHint)
+            public MainArgs(
+                CommandArgument<string> targets,
+                CommandOption<string> utcOffsetHint,
+                CommandOption rename,
+                CommandOption dryRun)
             {
                 this.targets = new Lazy<IReadOnlyCollection<string>>(() => targets.ParsedValues);
                 this.utcOffsetHint = new Lazy<Offset?>(
@@ -105,11 +121,17 @@ namespace MetadataUtility
 
                         return OffsetPattern.GeneralInvariantWithZ.Parse(utcOffsetHint.ParsedValue).Value;
                     });
+                this.rename = rename;
+                this.dryRun = dryRun;
             }
 
             public IReadOnlyCollection<string> Targets => this.targets.Value;
 
             public Offset? UtcOffsetHint => this.utcOffsetHint.Value;
+
+            public bool Rename => this.rename.HasValue();
+
+            public bool DryRun => this.dryRun.HasValue();
         }
 
         public class OffsetValidator : IOptionValidator
@@ -140,6 +162,8 @@ namespace MetadataUtility
                 .AddSingleton<OutputWriter>(collection => new OutputWriter(collection.GetRequiredService<ISerializer>(), Console.Out))
                 .AddSingleton(typeof(FilenameParser), provider => FilenameParser.Default)
                 .AddSingleton<FileMatcher>()
+                .AddSingleton<Renamer>()
+                .AddSingleton<FilenameSuggester>()
                 .AddTransient<Processor>();
 
             services = ConfigureLogging(services);
@@ -181,6 +205,8 @@ namespace MetadataUtility
             logger.LogInformation("Input targets: {0}", targets);
 
             var fileMatcher = serviceProvider.GetRequiredService<FileMatcher>();
+            var renamer = serviceProvider.GetRequiredService<Renamer>();
+            var writer = serviceProvider.GetRequiredService<OutputWriter>();
 
             int count = 0;
             var allPaths = fileMatcher.ExpandMatches(Directory.GetCurrentDirectory(), targets);
@@ -190,19 +216,25 @@ namespace MetadataUtility
             foreach (var path in allPaths)
             {
                 var processor = serviceProvider.GetRequiredService<Processor>();
-                var task = processor.All(path);
+                var task = processor.ProcessFile(path);
                 tasks.Add(task);
             }
 
             // wait for work
             var results = await Task.WhenAll(tasks.ToArray());
 
-            // summarize work
-            foreach (var task in results)
+            if (mainArgs.Rename)
             {
-                if (task != null)
+                results = await renamer.RenameAll(results);
+            }
+
+            // summarize work
+            foreach (var recording in results)
+            {
+                if (recording != null)
                 {
                     count++;
+                    writer.Write(recording);
                 }
             }
 

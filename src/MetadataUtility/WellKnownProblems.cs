@@ -26,7 +26,7 @@ namespace MetadataUtility
             return new Error()
             {
                 Code = "0000002",
-                Message = "An unambiguous date could not be determined for this file",
+                Message = "A date was found for this file but we don't know how far way it is from UTC - it could be a dozen different times",
                 Title = "Ambiguous Date",
             };
         }

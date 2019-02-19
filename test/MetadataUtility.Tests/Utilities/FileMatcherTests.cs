@@ -12,7 +12,7 @@ namespace MetadataUtility.Tests.Utilities
     using MetadataUtility.Tests.TestHelpers;
     using MetadataUtility.Utilities;
     using Xunit;
-    using static MetadataUtility.Tests.TestHelpers.TestHelpers;
+    using static MetadataUtility.Tests.TestHelpers.Helpers;
 
     public class FileMatcherTests : IClassFixture<FileMatcherTests.FileMatcherFixture>
     {

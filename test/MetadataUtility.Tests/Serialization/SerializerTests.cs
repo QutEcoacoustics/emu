@@ -13,6 +13,7 @@ namespace MetadataUtility.Tests.Serialization
     using MetadataUtility.Tests.TestHelpers.Fakes;
     using NodaTime;
     using Xunit;
+    using static MetadataUtility.Tests.TestHelpers.Helpers;
 
     [Collection(nameof(Fakes))]
     public class SerializerTests
@@ -47,7 +48,7 @@ namespace MetadataUtility.Tests.Serialization
         {
             Recording recording = this.fakesFixture.Recording.Generate();
 
-            string actual = new JsonSerializer().Serialize(new[] { recording });
+            string actual = new JsonSerializer(NullLogger<JsonSerializer>()).Serialize(new[] { recording });
 
             // actual property names should exist
             Assert.Contains($"\"{nameof(Recording.RecommendedName)}\":", actual);

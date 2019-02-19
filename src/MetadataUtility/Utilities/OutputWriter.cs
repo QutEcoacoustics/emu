@@ -53,9 +53,12 @@ namespace MetadataUtility.Utilities
         /// <inheritdoc />
         public void Dispose()
         {
-            var context = this.serializer.WriteFooter<Recording>(this.serializerContext, this.sink);
-
-            context.Dispose();
+            // don't write a footer if a header was never written
+            if (this.serializerContext != null)
+            {
+                var context = this.serializer.WriteFooter<Recording>(this.serializerContext, this.sink);
+                context.Dispose();
+            }
 
             this.sink?.Dispose();
         }

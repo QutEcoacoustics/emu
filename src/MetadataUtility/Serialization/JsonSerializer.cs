@@ -8,6 +8,7 @@ namespace MetadataUtility.Serialization
     using System.Collections.Generic;
     using System.IO;
     using System.Text;
+    using Microsoft.Extensions.Logging;
     using Newtonsoft.Json;
     using NodaTime;
     using NodaTime.Serialization.JsonNet;
@@ -15,14 +16,16 @@ namespace MetadataUtility.Serialization
     /// <inheritdoc cref="CsvHelper.ISerializer"/>
     public class JsonSerializer : ISerializer
     {
+        private readonly ILogger<JsonSerializer> logger;
         private readonly JsonSerializerSettings settings;
         private readonly Newtonsoft.Json.JsonSerializer serializer;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="JsonSerializer"/> class.
         /// </summary>
-        public JsonSerializer()
+        public JsonSerializer(ILogger<JsonSerializer> logger)
         {
+            this.logger = logger;
             this.settings = new JsonSerializerSettings()
             {
                 Formatting = Formatting.Indented,
@@ -71,7 +74,12 @@ namespace MetadataUtility.Serialization
         /// <inheritdoc />
         public IDisposable WriteFooter<T>(IDisposable context, TextWriter writer)
         {
-            var json = (JsonTextWriter)context;
+            var json = context as JsonTextWriter;
+
+            if (json == null)
+            {
+                this.logger.LogCritical("JSON logger disposed before footer written");
+            }
 
             json.WriteWhitespace(Environment.NewLine);
             json.WriteEndArray();

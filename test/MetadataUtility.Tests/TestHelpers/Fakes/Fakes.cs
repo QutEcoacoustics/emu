@@ -24,7 +24,7 @@ namespace MetadataUtility.Tests.TestHelpers.Fakes
                 .RuleForType(typeof(Checksum), f => this.Checksum.Generate())
                 .RuleFor(x => x.Extension, f => f.PickRandom(".wav", ".flac"))
                 .RuleFor(x => x.Stem, (f, x) => f.System.FileName())
-                .RuleFor(x => x.Path, (f, x) => f.System.DirectoryPath() + '/' + x.Stem + x.Extension)
+                .RuleFor(x => x.SourcePath, (f, x) => f.System.DirectoryPath() + '/' + x.Stem + x.Extension)
                 .RuleFor(
                     x => x.StartDate,
                     f => Provenance.FileHeader.Wrap(f.Noda().ZonedDateTime.Recent(7).ToOffsetDateTime()))

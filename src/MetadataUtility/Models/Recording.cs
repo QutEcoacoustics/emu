@@ -5,6 +5,8 @@
 namespace MetadataUtility.Models
 {
     using System.Collections.Generic;
+    using System.IO;
+    using Newtonsoft.Json;
     using NodaTime;
 
     /// <summary>
@@ -12,10 +14,23 @@ namespace MetadataUtility.Models
     /// </summary>
     public class Recording
     {
+        private string sourcePath;
+
         /// <summary>
         /// Gets or sets the path to the filename as read by the program.
         /// </summary>
-        public string Path { get; set; }
+        public string SourcePath
+        {
+            get => this.sourcePath;
+            set
+            {
+                this.sourcePath = value;
+                this.Directory = Path.GetDirectoryName(this.sourcePath);
+            }
+        }
+
+        [JsonIgnore]
+        public string Directory { get; private set; }
 
         /// <summary>
         /// Gets or sets the file extension as read by the program.
@@ -36,6 +51,11 @@ namespace MetadataUtility.Models
         /// This is a suggested name for the file that is better suited to archiving purposes.
         /// </remarks>
         public string RecommendedName { get; set; }
+
+        /// <summary>
+        /// Gets the original filename of the recording.
+        /// </summary>
+        public string Name => this.Stem + this.Extension;
 
         /// <summary>
         /// Gets or sets the start date of the recording.
@@ -107,12 +127,12 @@ namespace MetadataUtility.Models
         /// <summary>
         /// Gets or sets a list of errors found in this audio file.
         /// </summary>
-        public IList<Error> Errors { get; set; }
+        public IList<Error> Errors { get; set; } = new List<Error>();
 
         /// <summary>
         /// Gets or sets a list of errors found in this audio file.
         /// </summary>
-        public IList<Warning> Warnings { get; set; }
+        public IList<Warning> Warnings { get; set; } = new List<Warning>();
 
         /// <summary>
         /// Gets or sets a Checksum calculated for the file.
@@ -150,5 +170,10 @@ namespace MetadataUtility.Models
         /// Gets or sets a key-value store of other information not yet codified by the standard.
         /// </summary>
         public Dictionary<string, string> OtherFields { get; set; }
+
+        /// <summary>
+        /// Gets or sets the path to the filename is it was renamed by Emu.
+        /// </summary>
+        public string RenamedPath { get; set; }
     }
 }

@@ -26,6 +26,7 @@ namespace MetadataUtility
         private readonly FilenameParser filenameParser;
         private readonly OutputWriter writer;
         private readonly EmuEntry.MainArgs arguments;
+        private readonly FilenameSuggester filenameSuggester;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Processor"/> class.
@@ -33,13 +34,14 @@ namespace MetadataUtility
         /// <param name="logger">A logger.</param>
         /// <param name="filenameParser">A filename parser.</param>
         /// <param name="writer">The sink to send the output.</param>
-        /// <param name="arguments">The arguments supplied to Emu</param>
-        public Processor(ILogger<Processor> logger, FilenameParser filenameParser, OutputWriter writer, EmuEntry.MainArgs arguments)
+        /// <param name="arguments">The arguments supplied to Emu.</param>
+        public Processor(ILogger<Processor> logger, FilenameParser filenameParser, OutputWriter writer, EmuEntry.MainArgs arguments, FilenameSuggester filenameSuggester)
         {
             this.logger = logger;
             this.filenameParser = filenameParser;
             this.writer = writer;
             this.arguments = arguments;
+            this.filenameSuggester = filenameSuggester;
         }
 
         /// <summary>
@@ -54,7 +56,7 @@ namespace MetadataUtility
             await Task.Yield();
 
             var recording = new Recording();
-            recording.Path = path;
+            recording.SourcePath = path;
             recording.Stem = Path.GetFileNameWithoutExtension(path);
 
             // step 0. validate
@@ -72,6 +74,8 @@ namespace MetadataUtility
 
             recording.Location = parsedName.Location;
 
+            recording.RecommendedName = this.filenameSuggester.SuggestName(recording, parsedName, null);
+
             //recording.StartDate = MetadataSource<OffsetDateTime>.Provenance.Calculated.Wrap<OffsetDateTime>(parsedName.OffsetDateTime.Value);
             this.logger.LogDebug("Parsed filename: {@0}", parsedName);
 
@@ -84,10 +88,9 @@ namespace MetadataUtility
             if (filename.OffsetDateTime.HasValue)
             {
                 recording.StartDate = filename.OffsetDateTime.Value.SourcedFrom(Provenance.Filename);
-                this.logger.LogTrace("Full date parsed from filename {0}", recording.Path);
+                this.logger.LogTrace("Full date parsed from filename {0}", recording.SourcePath);
             }
-
-            if (filename.LocalDateTime.HasValue)
+            else if (filename.LocalDateTime.HasValue)
             {
                 if (this.arguments.UtcOffsetHint.HasValue)
                 {
@@ -97,28 +100,18 @@ namespace MetadataUtility
                         .WithOffset(this.arguments.UtcOffsetHint.Value)
                         .SourcedFrom(Provenance.Filename | Provenance.UserSupplied);
 
-                    this.logger.LogTrace("Full date parsed from filename {0} and UTC offset hint used", recording.Path);
+                    this.logger.LogTrace("Full date parsed from filename {0} and UTC offset hint used", recording.SourcePath);
                 }
                 else
                 {
-                    this.logger.LogWarning("Could not unambiguously parse date for {0}", recording.Path);
+                    this.logger.LogWarning("Could not unambiguously parse date for {0}", recording.SourcePath);
                     recording.Errors.Add(WellKnownProblems.AmbiguousDate());
                 }
             }
-
-            recording.Errors.Add(WellKnownProblems.NoDateFound());
-        }
-
-        /// <summary>
-        /// Renames a file according to an archival standard.
-        /// </summary>
-        /// <param name="recording">The metadata required to rename the file.</param>
-        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
-        public async Task<Recording> RenameFile(Recording recording)
-        {
-            await Task.Yield();
-
-            return recording;
+            else
+            {
+                recording.Errors.Add(WellKnownProblems.NoDateFound());
+            }
         }
 
         /// <summary>
@@ -136,36 +129,38 @@ namespace MetadataUtility
             return recording;
         }
 
-        /// <summary>
-        /// Writes the recording out to a sink.
-        /// </summary>
-        /// <param name="recording">The recording to write.</param>
-        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
-        public async Task<Recording> Write(Recording recording)
-        {
-            await Task.Run(
-                () =>
-                {
-                    lock (this.writer)
-                    {
-                        this.writer.Write(recording);
-                    }
-                });
+//        /// <summary>
+//        /// Writes the recording metadata out to a sink.
+//        /// </summary>
+//        /// <param name="recording">The recording to write.</param>
+//        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
+//        public async Task<Recording> Write(Recording recording)
+//        {
+//            void Write()
+//            {
+//                lock (this.writer)
+//                {
+//                    this.writer.Write(recording);
+//                }
+//            }
+//
+//            await Task.Run(Write);
+//            return recording;
+//        }
 
-            return recording;
-        }
-
-        /// <summary>
-        /// Runs through all the process steps.
-        /// </summary>
-        /// <param name="path">The path to the recording to process.</param>
-        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
-        public async Task<Recording> All(string path)
-        {
-            var recording = await this.ProcessFile(path);
-            recording = await this.Write(recording);
-
-            return recording;
-        }
+//        /// <summary>
+//        /// Runs through all the process steps.
+//        /// </summary>
+//        /// <param name="path">The path to the recording to process.</param>
+//        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
+//        public async Task<Recording> All(string path)
+//        {
+//            var recording = await this.ProcessFile(path);
+//            recording = await this.Write(recording);
+//
+//            return recording;
+//
+//
+//        }
     }
 }

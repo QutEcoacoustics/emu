@@ -12,6 +12,8 @@ namespace MetadataUtility.Tests.Utilities
     using System.Text.RegularExpressions;
     using FluentAssertions.Primitives;
     using MetadataUtility.Models;
+    using MetadataUtility.Serialization;
+    using MetadataUtility.Tests.TestHelpers;
     using MetadataUtility.Tests.TestHelpers.Fakes;
     using MetadataUtility.Utilities;
     using Xunit;
@@ -31,7 +33,7 @@ namespace MetadataUtility.Tests.Utilities
             var stringBuilder = new StringBuilder(4);
             using (var stringWriter = new StringWriter(stringBuilder))
             {
-                var jsonSerializer = new MetadataUtility.Serialization.JsonSerializer();
+                var jsonSerializer = new JsonSerializer(Helpers.NullLogger<JsonSerializer>());
 
                 var output = new OutputWriter(jsonSerializer, stringWriter);
 
@@ -57,8 +59,8 @@ namespace MetadataUtility.Tests.Utilities
 
                 var records = jsonSerializer.Deserialize<Recording>(new StringReader(actual)).ToArray();
 
-                Assert.Equal(records[0].Path, a.Path);
-                Assert.Equal(records[1].Path, b.Path);
+                Assert.Equal(records[0].SourcePath, a.SourcePath);
+                Assert.Equal(records[1].SourcePath, b.SourcePath);
             }
         }
 
@@ -78,7 +80,7 @@ namespace MetadataUtility.Tests.Utilities
 
                 // check the header was written
                 var actual = stringBuilder.ToString();
-                Assert.StartsWith($"{nameof(Recording.Path)},", actual);
+                Assert.StartsWith($"{nameof(Recording.SourcePath)},", actual);
                 Assert.EndsWith(a.ExpectedDurationSeconds?.TotalSeconds + "\r\n", actual);
 
                 // generate and write another fake
@@ -89,14 +91,14 @@ namespace MetadataUtility.Tests.Utilities
                 output.Dispose();
 
                 actual = stringBuilder.ToString();
-                Assert.StartsWith($"{nameof(Recording.Path)},", actual);
-                Assert.Single(Regex.Matches(actual, $"{nameof(Recording.Path)},"));
+                Assert.StartsWith($"{nameof(Recording.SourcePath)},", actual);
+                Assert.Single(Regex.Matches(actual, $"{nameof(Recording.SourcePath)},"));
                 Assert.EndsWith(b.ExpectedDurationSeconds?.TotalSeconds + "\r\n", actual);
 
                 var records = csvSerializer.Deserialize<Recording>(new StringReader(actual)).ToArray();
 
-                Assert.Equal(records[0].Path, a.Path);
-                Assert.Equal(records[1].Path, b.Path);
+                Assert.Equal(records[0].SourcePath, a.SourcePath);
+                Assert.Equal(records[1].SourcePath, b.SourcePath);
             }
         }
     }

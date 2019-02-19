@@ -12,7 +12,7 @@ namespace MetadataUtility.Tests.FilenameParsing
     using Shouldly;
     using Xbehave;
     using Xunit;
-    using static MetadataUtility.Tests.TestHelpers.TestHelpers;
+    using static MetadataUtility.Tests.TestHelpers.Helpers;
 
     public class FilenameParserTests
     {

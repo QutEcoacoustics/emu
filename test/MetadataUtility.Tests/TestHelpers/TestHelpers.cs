@@ -10,7 +10,7 @@ namespace MetadataUtility.Tests.TestHelpers
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Logging.Abstractions;
 
-    public static class TestHelpers
+    public static class Helpers
     {
         /// <summary>
         /// About 111.32mm at the equator
