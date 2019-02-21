@@ -50,7 +50,6 @@ namespace MetadataUtility
             using (serviceProvider = BuildDependencies(main))
             {
                 logger = serviceProvider.GetRequiredService<ILogger<EmuEntry>>();
-                
 
                 return await Task.FromResult(app.Execute(args));
             }
@@ -90,8 +89,18 @@ namespace MetadataUtility
                 "Do not make any changes (good for testing)",
                 CommandOptionType.NoValue);
 
-            var mainArgs = new MainArgs(targets, utcOffsetHint, rename, dryRun);
+            var verbosity = app.Option<bool>(
+                "-v|--verbose",
+                "Specify logging verbosity, -v for verbose, -vv for very verbose",
+                CommandOptionType.NoValue);
 
+            var loglevel = app.Option<LogLevel>(
+                "-l|--log-level <LOG_LEVEL>",
+                "Specify logging verbosity",
+                CommandOptionType.SingleValue);
+
+            var mainArgs = new MainArgs(targets, utcOffsetHint, rename, dryRun, verbosity, loglevel);
+            app.Parse(args);
             app.OnExecute(async () => await Execute(mainArgs));
 
             return (app, mainArgs);
@@ -102,13 +111,17 @@ namespace MetadataUtility
             private readonly Lazy<IReadOnlyCollection<string>> targets;
             private readonly Lazy<Offset?> utcOffsetHint;
             private CommandOption dryRun;
+            private readonly CommandOption<bool> verbosity;
+            private readonly CommandOption<LogLevel> logLevel;
             private CommandOption rename;
 
             public MainArgs(
                 CommandArgument<string> targets,
                 CommandOption<string> utcOffsetHint,
                 CommandOption rename,
-                CommandOption dryRun)
+                CommandOption dryRun,
+                CommandOption<bool> verbosity,
+                CommandOption<LogLevel> logLevel)
             {
                 this.targets = new Lazy<IReadOnlyCollection<string>>(() => targets.ParsedValues);
                 this.utcOffsetHint = new Lazy<Offset?>(
@@ -123,6 +136,8 @@ namespace MetadataUtility
                     });
                 this.rename = rename;
                 this.dryRun = dryRun;
+                this.verbosity = verbosity;
+                this.logLevel = logLevel;
             }
 
             public IReadOnlyCollection<string> Targets => this.targets.Value;
@@ -132,6 +147,29 @@ namespace MetadataUtility
             public bool Rename => this.rename.HasValue();
 
             public bool DryRun => this.dryRun.HasValue();
+
+            public LogLevel Verbosity
+            {
+                get
+                {
+                    if (this.logLevel.HasValue())
+                    {
+                        return this.logLevel.ParsedValue;
+                    }
+                    else
+                    {
+                        switch (this.verbosity.Values.Count)
+                        {
+                            case 0:
+                                return LogLevel.Information;
+                            case 1:
+                                return LogLevel.Debug;
+                            default:
+                                return LogLevel.Trace;
+                        }
+                    }
+                }
+            }
         }
 
         public class OffsetValidator : IOptionValidator
@@ -166,19 +204,19 @@ namespace MetadataUtility
                 .AddSingleton<FilenameSuggester>()
                 .AddTransient<Processor>();
 
-            services = ConfigureLogging(services);
+            services = ConfigureLogging(services, main.Verbosity);
 
             return services.BuildServiceProvider();
         }
 
-        private static IServiceCollection ConfigureLogging(IServiceCollection services)
+        private static IServiceCollection ConfigureLogging(IServiceCollection services, LogLevel logLevel)
         {
             Log.Logger = new LoggerConfiguration()
                 .Enrich.WithThreadId()
                 .Destructure.ByTransforming<OffsetDateTime>(OffsetDateTimePattern.Rfc3339.Format)
                 .Destructure.ByTransforming<LocalDateTime>(LocalDateTimePattern.ExtendedIso.Format)
                 .Destructure.ByTransforming<Instant>(InstantPattern.ExtendedIso.Format)
-                .MinimumLevel.Is(LogEventLevel.Verbose)
+                //.MinimumLevel.Is(logLevel.)
                 .WriteTo.Console(
                     theme: AnsiConsoleTheme.Literate,
                     outputTemplate: "{Timestamp:o} [{Level:w5}] <{ThreadId}> {SourceContext} {Message:lj}{NewLine}{Exception}",
@@ -188,6 +226,7 @@ namespace MetadataUtility
             return services.AddLogging(
                 (configure) =>
                 {
+                    configure.SetMinimumLevel(logLevel);
                     configure.AddSerilog(Log.Logger, dispose: true);
                 });
         }
