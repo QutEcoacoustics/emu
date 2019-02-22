@@ -16,7 +16,7 @@ namespace MetadataUtility.Filenames
     /// Suggests new stable filenames for audio files.
     /// </summary>
     /// <remarks>
-    /// The "one true" naming standard
+    /// The "one true" naming standard.
     /// </remarks>
     public class FilenameSuggester
     {
@@ -39,15 +39,19 @@ namespace MetadataUtility.Filenames
         /// <summary>
         /// Suggests a filename for a a recording.
         /// </summary>
+        /// <remarks>
+        /// The general format: <code>date_component1_component2_location.extension</code>.
+        /// </remarks>
         /// <returns>The suggested filename.</returns>
-        public MetadataSource<string> SuggestName(Recording recording, ParsedFilename filename, RenamerOptions options)
+        public MetadataSource<string> SuggestName(Recording recording, ParsedFilename filename, SuggestedNameOptions options)
         {
             if (recording.StartDate == null)
             {
                 return default;
             }
 
-            // general format: date_component1_component2_location.extension
+            // Why 64? Just because most filenames will be smaller than that and we avoid the expensive
+            // array size operation.
             var result = new StringBuilder(64);
 
             DatePattern.AppendFormat(recording.StartDate.Value, result);
@@ -111,9 +115,11 @@ namespace MetadataUtility.Filenames
             }
         }
 
-        public class RenamerOptions
+        /// <summary>
+        /// Options that affect how the renamer works.
+        /// </summary>
+        public class SuggestedNameOptions
         {
-            
         }
     }
 }

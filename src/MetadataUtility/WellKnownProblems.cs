@@ -9,8 +9,15 @@ namespace MetadataUtility
     using System.Text;
     using MetadataUtility.Models;
 
+    /// <summary>
+    /// A collection of well-known problems that we can encounter with sensors.
+    /// </summary>
     public static class WellKnownProblems
     {
+        /// <summary>
+        /// Happens when no date can be found.
+        /// </summary>
+        /// <returns>An pre-filled <see cref="Error"/> instance.</returns>
         public static Error NoDateFound()
         {
             return new Error()
@@ -21,6 +28,10 @@ namespace MetadataUtility
             };
         }
 
+        /// <summary>
+        /// Happens when a date does not include any offset information.
+        /// </summary>
+        /// <returns>An pre-filled <see cref="Error"/> instance.</returns>
         public static Error AmbiguousDate()
         {
             return new Error()

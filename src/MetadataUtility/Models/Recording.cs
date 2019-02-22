@@ -29,6 +29,9 @@ namespace MetadataUtility.Models
             }
         }
 
+        /// <summary>
+        /// Gets the directory of the recording. Used internally.
+        /// </summary>
         [JsonIgnore]
         public string Directory { get; private set; }
 

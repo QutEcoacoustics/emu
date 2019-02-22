@@ -6,6 +6,7 @@ namespace MetadataUtility.Tests
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Text;
     using MetadataUtility.Tests.TestHelpers;
     using Microsoft.Extensions.Logging;
@@ -52,6 +53,32 @@ namespace MetadataUtility.Tests
             var (app, mainArgs) = EmuEntry.ProcessArguments(arg.Split(' '));
 
             Assert.Equal(expectedValue, mainArgs.Verbosity);
+        }
+
+        [Theory]
+        [InlineData("+10:00", 10 * 3600)]
+        [InlineData("10:00", 10 * 3600)]
+        [InlineData("-10:00", -10 * 3600)]
+        [InlineData("00:00", 0)]
+        [InlineData("+00:00", 0)]
+        [InlineData("-00:00", 0)]
+        [InlineData("Z", 0)]
+        [InlineData("+09:30", 9.5 * 3600)]
+        [InlineData("+10", 10 * 3600)]
+        [InlineData("-10", -10 * 3600)]
+        [InlineData("1030", 10.5 * 3600)]
+        [InlineData("-1030", -10.5 * 3600)]
+        public void ProcessArgumentsUtcOffset(string test, int expectedSeconds)
+        {
+            var (app, mainArgs) = EmuEntry.ProcessArguments(
+                new[]
+                {
+                    "blah",
+                    "--utc-offset-hint",
+                    test,
+                });
+
+            Assert.Equal(expectedSeconds, mainArgs.UtcOffsetHint.Value.Seconds);
         }
     }
 }

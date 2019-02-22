@@ -10,6 +10,7 @@ namespace MetadataUtility
     using System.Text;
     using System.Threading.Tasks;
     using McMaster.Extensions.CommandLineUtils;
+    using MetadataUtility.Cli;
     using MetadataUtility.Filenames;
     using MetadataUtility.Models;
     using MetadataUtility.Utilities;
@@ -25,7 +26,7 @@ namespace MetadataUtility
         private readonly ILogger<Processor> logger;
         private readonly FilenameParser filenameParser;
         private readonly OutputWriter writer;
-        private readonly EmuEntry.MainArgs arguments;
+        private readonly MainArgs arguments;
         private readonly FilenameSuggester filenameSuggester;
 
         /// <summary>
@@ -35,7 +36,8 @@ namespace MetadataUtility
         /// <param name="filenameParser">A filename parser.</param>
         /// <param name="writer">The sink to send the output.</param>
         /// <param name="arguments">The arguments supplied to Emu.</param>
-        public Processor(ILogger<Processor> logger, FilenameParser filenameParser, OutputWriter writer, EmuEntry.MainArgs arguments, FilenameSuggester filenameSuggester)
+        /// <param name="filenameSuggester">An instance of a filename suggester.</param>
+        public Processor(ILogger<Processor> logger, FilenameParser filenameParser, OutputWriter writer, MainArgs arguments, FilenameSuggester filenameSuggester)
         {
             this.logger = logger;
             this.filenameParser = filenameParser;
@@ -83,6 +85,55 @@ namespace MetadataUtility
             return await Task.FromResult(recording);
         }
 
+        /// <summary>
+        /// Performs deep checks of the target recording.
+        /// </summary>
+        /// <remarks>
+        /// Deep checks are checks that analyze all the frames or bytes of a given file.
+        /// </remarks>
+        /// <param name="recording">The recording to analyze.</param>
+        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
+        public async Task<Recording> DeepCheck(Recording recording)
+        {
+            await Task.Yield();
+
+            return recording;
+        }
+
+        //        /// <summary>
+        //        /// Writes the recording metadata out to a sink.
+        //        /// </summary>
+        //        /// <param name="recording">The recording to write.</param>
+        //        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
+        //        public async Task<Recording> Write(Recording recording)
+        //        {
+        //            void Write()
+        //            {
+        //                lock (this.writer)
+        //                {
+        //                    this.writer.Write(recording);
+        //                }
+        //            }
+        //
+        //            await Task.Run(Write);
+        //            return recording;
+        //        }
+
+        //        /// <summary>
+        //        /// Runs through all the process steps.
+        //        /// </summary>
+        //        /// <param name="path">The path to the recording to process.</param>
+        //        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
+        //        public async Task<Recording> All(string path)
+        //        {
+        //            var recording = await this.ProcessFile(path);
+        //            recording = await this.Write(recording);
+        //
+        //            return recording;
+        //
+        //
+        //        }
+
         private void ResolveDateTime(Recording recording, ParsedFilename filename)
         {
             if (filename.OffsetDateTime.HasValue)
@@ -113,54 +164,5 @@ namespace MetadataUtility
                 recording.Errors.Add(WellKnownProblems.NoDateFound());
             }
         }
-
-        /// <summary>
-        /// Performs deep checks of the target recording.
-        /// </summary>
-        /// <remarks>
-        /// Deep checks are checks that analyze all the frames or bytes of a given file.
-        /// </remarks>
-        /// <param name="recording">The recording to analyze.</param>
-        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
-        public async Task<Recording> DeepCheck(Recording recording)
-        {
-            await Task.Yield();
-
-            return recording;
-        }
-
-//        /// <summary>
-//        /// Writes the recording metadata out to a sink.
-//        /// </summary>
-//        /// <param name="recording">The recording to write.</param>
-//        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
-//        public async Task<Recording> Write(Recording recording)
-//        {
-//            void Write()
-//            {
-//                lock (this.writer)
-//                {
-//                    this.writer.Write(recording);
-//                }
-//            }
-//
-//            await Task.Run(Write);
-//            return recording;
-//        }
-
-//        /// <summary>
-//        /// Runs through all the process steps.
-//        /// </summary>
-//        /// <param name="path">The path to the recording to process.</param>
-//        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
-//        public async Task<Recording> All(string path)
-//        {
-//            var recording = await this.ProcessFile(path);
-//            recording = await this.Write(recording);
-//
-//            return recording;
-//
-//
-//        }
     }
 }

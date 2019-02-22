@@ -14,7 +14,7 @@ namespace MetadataUtility
     using DotNet.Globbing;
     using McMaster.Extensions.CommandLineUtils;
     using McMaster.Extensions.CommandLineUtils.Validation;
-    using MetadataUtility.Dates;
+    using MetadataUtility.Cli;
     using MetadataUtility.Filenames;
     using MetadataUtility.Models;
     using MetadataUtility.Serialization;
@@ -51,7 +51,7 @@ namespace MetadataUtility
             {
                 logger = serviceProvider.GetRequiredService<ILogger<EmuEntry>>();
 
-                return await Task.FromResult(app.Execute(args));
+                await Task.FromResult(app.Execute(args));
             }
 
             return 0;
@@ -61,7 +61,7 @@ namespace MetadataUtility
         /// Processes the command line arguments for EMU.
         /// </summary>
         /// <param name="args">The command line arguments.</param>
-        /// <returns>The CommandLineApplication object and a binding model of arguments</returns>
+        /// <returns>The CommandLineApplication object and a binding model of arguments.</returns>
         public static (CommandLineApplication app, MainArgs mainArgs) ProcessArguments(string[] args)
         {
             var app = new CommandLineApplication();
@@ -94,101 +94,16 @@ namespace MetadataUtility
                 "Specify logging verbosity, -v for verbose, -vv for very verbose",
                 CommandOptionType.NoValue);
 
-            var loglevel = app.Option<LogLevel>(
+            var logLevel = app.Option<LogLevel>(
                 "-l|--log-level <LOG_LEVEL>",
                 "Specify logging verbosity",
                 CommandOptionType.SingleValue);
 
-            var mainArgs = new MainArgs(targets, utcOffsetHint, rename, dryRun, verbosity, loglevel);
+            var mainArgs = new MainArgs(targets, utcOffsetHint, rename, dryRun, verbosity, logLevel);
             app.Parse(args);
             app.OnExecute(async () => await Execute(mainArgs));
 
             return (app, mainArgs);
-        }
-
-        public class MainArgs
-        {
-            private readonly Lazy<IReadOnlyCollection<string>> targets;
-            private readonly Lazy<Offset?> utcOffsetHint;
-            private CommandOption dryRun;
-            private readonly CommandOption<bool> verbosity;
-            private readonly CommandOption<LogLevel> logLevel;
-            private CommandOption rename;
-
-            public MainArgs(
-                CommandArgument<string> targets,
-                CommandOption<string> utcOffsetHint,
-                CommandOption rename,
-                CommandOption dryRun,
-                CommandOption<bool> verbosity,
-                CommandOption<LogLevel> logLevel)
-            {
-                this.targets = new Lazy<IReadOnlyCollection<string>>(() => targets.ParsedValues);
-                this.utcOffsetHint = new Lazy<Offset?>(
-                    () =>
-                    {
-                        if (!utcOffsetHint.HasValue())
-                        {
-                            return null;
-                        }
-
-                        return OffsetPattern.GeneralInvariantWithZ.Parse(utcOffsetHint.ParsedValue).Value;
-                    });
-                this.rename = rename;
-                this.dryRun = dryRun;
-                this.verbosity = verbosity;
-                this.logLevel = logLevel;
-            }
-
-            public IReadOnlyCollection<string> Targets => this.targets.Value;
-
-            public Offset? UtcOffsetHint => this.utcOffsetHint.Value;
-
-            public bool Rename => this.rename.HasValue();
-
-            public bool DryRun => this.dryRun.HasValue();
-
-            public LogLevel Verbosity
-            {
-                get
-                {
-                    if (this.logLevel.HasValue())
-                    {
-                        return this.logLevel.ParsedValue;
-                    }
-                    else
-                    {
-                        switch (this.verbosity.Values.Count)
-                        {
-                            case 0:
-                                return LogLevel.Information;
-                            case 1:
-                                return LogLevel.Debug;
-                            default:
-                                return LogLevel.Trace;
-                        }
-                    }
-                }
-            }
-        }
-
-        public class OffsetValidator : IOptionValidator
-        {
-            public ValidationResult GetValidationResult(CommandOption option, ValidationContext context)
-            {
-                if (!option.HasValue())
-                {
-                    return ValidationResult.Success;
-                }
-
-                var success = DurationParsing.TryParseOffset(option.Value(), out var offset);
-                if (success)
-                {
-                    return ValidationResult.Success;
-                }
-
-                return new ValidationResult("Could not parse UTC offset");
-            }
         }
 
         private static ServiceProvider BuildDependencies(MainArgs main)
@@ -216,7 +131,7 @@ namespace MetadataUtility
                 .Destructure.ByTransforming<OffsetDateTime>(OffsetDateTimePattern.Rfc3339.Format)
                 .Destructure.ByTransforming<LocalDateTime>(LocalDateTimePattern.ExtendedIso.Format)
                 .Destructure.ByTransforming<Instant>(InstantPattern.ExtendedIso.Format)
-                //.MinimumLevel.Is(logLevel.)
+                ////.MinimumLevel.Is(logLevel.)
                 .WriteTo.Console(
                     theme: AnsiConsoleTheme.Literate,
                     outputTemplate: "{Timestamp:o} [{Level:w5}] <{ThreadId}> {SourceContext} {Message:lj}{NewLine}{Exception}",

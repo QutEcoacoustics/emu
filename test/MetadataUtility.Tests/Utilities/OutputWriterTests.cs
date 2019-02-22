@@ -70,7 +70,7 @@ namespace MetadataUtility.Tests.Utilities
             var stringBuilder = new StringBuilder(4);
             using (var stringWriter = new StringWriter(stringBuilder))
             {
-                var csvSerializer = new MetadataUtility.Serialization.CsvSerializer();
+                var csvSerializer = new CsvSerializer();
 
                 var output = new OutputWriter(csvSerializer, stringWriter);
 
@@ -81,7 +81,7 @@ namespace MetadataUtility.Tests.Utilities
                 // check the header was written
                 var actual = stringBuilder.ToString();
                 Assert.StartsWith($"{nameof(Recording.SourcePath)},", actual);
-                Assert.EndsWith(a.ExpectedDurationSeconds?.TotalSeconds + "\r\n", actual);
+                Assert.Contains(a.ExpectedDurationSeconds?.TotalSeconds + ",", actual);
 
                 // generate and write another fake
                 var b = this.fakes.Recording.Generate();
@@ -93,7 +93,7 @@ namespace MetadataUtility.Tests.Utilities
                 actual = stringBuilder.ToString();
                 Assert.StartsWith($"{nameof(Recording.SourcePath)},", actual);
                 Assert.Single(Regex.Matches(actual, $"{nameof(Recording.SourcePath)},"));
-                Assert.EndsWith(b.ExpectedDurationSeconds?.TotalSeconds + "\r\n", actual);
+                Assert.Contains(a.ExpectedDurationSeconds?.TotalSeconds + ",", actual);
 
                 var records = csvSerializer.Deserialize<Recording>(new StringReader(actual)).ToArray();
 
