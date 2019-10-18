@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CsvHelper" Version="12.0.1" />
+    <PackageReference Include="CsvHelper" Version="12.1.2" />
     <PackageReference Include="DotNet.Glob" Version="3.0.5" />
     <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="2.3.0-beta" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.0.0-preview.18572.1" />
