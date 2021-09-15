@@ -7,36 +7,24 @@ namespace MetadataUtility.Serialization
     using System;
     using System.Collections.Generic;
     using System.IO;
-    using System.Threading.Tasks;
     using CsvHelper;
     using CsvHelper.Configuration;
-    using CsvHelper.TypeConversion;
-    using MetadataUtility.Models;
     using NodaTime;
 
-    /// <inheritdoc cref="CsvHelper.ISerializer"/>
-    public class CsvSerializer : ISerializer
+    /// <inheritdoc cref="ISerializer"/>
+    public class CsvSerializer : ISerializer, IRecordFormatter
     {
-        private readonly Configuration configuration;
+        private readonly CsvConfiguration configuration;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CsvSerializer"/> class.
         /// </summary>
         public CsvSerializer()
         {
-            this.configuration = new Configuration()
+            this.configuration = new CsvConfiguration(System.Globalization.CultureInfo.InvariantCulture)
             {
-                ReferenceHeaderPrefix = (type, name) => $"{name}.",
+                ReferenceHeaderPrefix = (args) => $"{args.MemberName}.",
             };
-
-            this.configuration.TypeConverterCache.AddConverter<OffsetDateTime>(
-                NodatimeConverters.OffsetDateTimeConverter);
-            this.configuration.TypeConverterCache.AddConverter<LocalDateTime>(
-                NodatimeConverters.LocalDateTimeConverter);
-            this.configuration.TypeConverterCache.AddConverter<Offset>(
-                NodatimeConverters.OffsetConverter);
-            this.configuration.TypeConverterCache.AddConverter<Duration>(
-                NodatimeConverters.DurationConverter);
 
             //this.configuration.RegisterClassMap<RecordingClassMap>();
         }
@@ -44,26 +32,26 @@ namespace MetadataUtility.Serialization
         /// <inheritdoc/>
         public string Serialize<T>(IEnumerable<T> objects)
         {
-            using (var stringWriter = new StringWriter())
-            {
-                this.Serialize(stringWriter, objects);
+            using var stringWriter = new StringWriter();
+            this.Serialize(stringWriter, objects);
 
-                return stringWriter.ToString();
-            }
+            return stringWriter.ToString();
         }
 
         /// <inheritdoc/>
         public void Serialize<T>(TextWriter writer, IEnumerable<T> objects)
         {
             var serializer = new CsvWriter(writer, this.configuration);
+            ApplyConverters(serializer.Context);
 
             serializer.WriteRecords(objects);
         }
 
         /// <inheritdoc/>
-        public IDisposable WriteHeader<T>(TextWriter writer)
+        public IDisposable WriteHeader<T>(IDisposable context, TextWriter writer, T? record)
         {
             var csv = new CsvWriter(writer, this.configuration);
+            ApplyConverters(csv.Context);
 
             csv.WriteHeader<T>();
             csv.NextRecord();
@@ -84,21 +72,41 @@ namespace MetadataUtility.Serialization
         }
 
         /// <inheritdoc/>
-        public IDisposable WriteFooter<T>(IDisposable context, TextWriter writer)
+        public IDisposable WriteFooter<T>(IDisposable context, TextWriter writer, T? record)
         {
             // csv does not have a footer
             return context;
+        }
+
+        /// <inheritdoc/>
+        public void Dispose(IDisposable context, TextWriter writer)
+        {
+            // csv does not have a footer
+            return;
         }
 
         /// <inheritdoc />
         public IEnumerable<T> Deserialize<T>(TextReader reader)
         {
             var deserializer = new CsvReader(reader, this.configuration);
+            ApplyConverters(deserializer.Context);
 
             // adds support for writing to immutable records
-            deserializer.Configuration.IncludePrivateMembers = true;
+            deserializer.Context.Configuration.IncludePrivateMembers = true;
 
             return deserializer.GetRecords<T>();
+        }
+
+        private static void ApplyConverters(CsvContext context)
+        {
+            context.TypeConverterCache.AddConverter<OffsetDateTime>(
+                NodatimeConverters.OffsetDateTimeConverter);
+            context.TypeConverterCache.AddConverter<LocalDateTime>(
+                NodatimeConverters.LocalDateTimeConverter);
+            context.TypeConverterCache.AddConverter<Offset>(
+                NodatimeConverters.OffsetConverter);
+            context.TypeConverterCache.AddConverter<Duration>(
+                NodatimeConverters.DurationConverter);
         }
     }
 }

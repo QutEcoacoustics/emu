@@ -7,16 +7,16 @@ namespace MetadataUtility.Models
     /// <summary>
     /// Represents a checksum, a unique signature for some data.
     /// </summary>
-    public class Checksum
+    public record Checksum
     {
         /// <summary>
-        /// Gets or sets the algorithm name used to calculate this checksum.
+        /// Gets the algorithm name used to calculate this checksum.
         /// </summary>
-        public string Type { get; set; }
+        public string Type { get; init; }
 
         /// <summary>
-        /// Gets or sets the value of checksum.
+        /// Gets the value of checksum.
         /// </summary>
-        public string Value { get; set; }
+        public string Value { get; init; }
     }
 }

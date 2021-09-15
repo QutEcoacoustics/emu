@@ -6,6 +6,7 @@ namespace MetadataUtility.Tests.Serialization
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.IO;
     using System.Text;
     using CsvHelper.TypeConversion;
@@ -96,8 +97,8 @@ namespace MetadataUtility.Tests.Serialization
             string actual;
             using (var writer = new StringWriter())
             {
-                var serializer = new CsvHelper.CsvWriter(writer);
-                serializer.Configuration.TypeConverterCache.AddConverter<T>(converter);
+                var serializer = new CsvHelper.CsvWriter(writer, CultureInfo.InvariantCulture);
+                serializer.Context.TypeConverterCache.AddConverter<T>(converter);
                 serializer.WriteField(value);
                 serializer.Flush();
 
@@ -105,8 +106,8 @@ namespace MetadataUtility.Tests.Serialization
                 Assert.Equal(expected, actual);
             }
 
-            var reader = new CsvHelper.CsvReader(new StringReader(actual));
-            reader.Configuration.TypeConverterCache.AddConverter<T>(converter);
+            var reader = new CsvHelper.CsvReader(new StringReader(actual), CultureInfo.InvariantCulture);
+            reader.Context.TypeConverterCache.AddConverter<T>(converter);
             reader.Read();
             var deserializedValue = reader.GetField<T>(0);
             Assert.Equal(value, deserializedValue);

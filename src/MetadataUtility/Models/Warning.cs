@@ -5,15 +5,5 @@
 namespace MetadataUtility.Models
 {
     /// <inheritdoc />
-    public class Warning : INotice
-    {
-        /// <inheritdoc/>
-        public string Title { get; set; }
-
-        /// <inheritdoc/>
-        public string Message { get; set; }
-
-        /// <inheritdoc/>
-        public string Code { get; set; }
-    }
+    public record Warning(WellKnownProblem Problem) : Notice(Problem);
 }

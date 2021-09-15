@@ -4,11 +4,9 @@
 
 namespace MetadataUtility
 {
-    using System.Collections;
     using System.Collections.Generic;
     using System.IO;
     using System.Threading.Tasks;
-    using MetadataUtility.Cli;
     using MetadataUtility.Models;
     using Microsoft.Extensions.Logging;
 
@@ -18,17 +16,15 @@ namespace MetadataUtility
     public class Renamer
     {
         private readonly ILogger<Renamer> logger;
-        private readonly MainArgs arguments;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Renamer"/> class.
         /// </summary>
         /// <param name="logger">A logger.</param>
         /// <param name="arguments">The arguments supplied to Emu.</param>
-        public Renamer(ILogger<Renamer> logger,  MainArgs arguments)
+        public Renamer(ILogger<Renamer> logger)
         {
             this.logger = logger;
-            this.arguments = arguments;
         }
 
         /// <summary>
@@ -72,15 +68,16 @@ namespace MetadataUtility
         /// <param name="recording">The metadata required to rename the file.</param>
         public void RenameFile(Recording recording)
         {
-            if (this.arguments.DryRun)
-            {
-                this.logger.LogWarning($"{recording.SourcePath} would be renamed to {recording.RenamedPath}");
-            }
-            else
-            {
-                this.logger.LogDebug($"{recording.SourcePath} renamed to {recording.RenamedPath}");
-                File.Move(recording.SourcePath, recording.RenamedPath);
-            }
+            throw new NotImplementedException();
+            //if (this.arguments.DryRun)
+            //{
+            //    this.logger.LogWarning($"{recording.SourcePath} would be renamed to {recording.RenamedPath}");
+            //}
+            //else
+            //{
+            //    this.logger.LogDebug($"{recording.SourcePath} renamed to {recording.RenamedPath}");
+            //    File.Move(recording.SourcePath, recording.RenamedPath);
+            //}
         }
 
         /// <summary>

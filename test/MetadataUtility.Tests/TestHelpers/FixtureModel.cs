@@ -4,28 +4,24 @@
 
 namespace MetadataUtility.Tests.TestHelpers
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Text;
     using CsvHelper.Configuration.Attributes;
-    using NodaTime;
 
-    [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local", Justification = "These fields are set by reflection when deserialized")]
     public class FixtureModel
     {
         public const string ShortFile = "Short error file";
+        public const string MetadataDurationBug = "Metadata duration bug";
+        public const string ZeroDbSamples = "Zero dB Samples";
+        public const string NormalFile = "Normal file";
 
         private string fixturePath;
 
-        public string Name { get; private set; }
+        public string Name { get; set; }
 
         public string FixturePath
         {
             get => this.fixturePath;
 
-            private set
+            set
             {
                 this.fixturePath = value;
                 this.AbsoluteFixturePath = FixtureHelper.ResolvePath(value);
@@ -33,9 +29,9 @@ namespace MetadataUtility.Tests.TestHelpers
         }
 
         [Ignore]
-        public string AbsoluteFixturePath { get; private set; }
+        public string AbsoluteFixturePath { get; set; }
 
-        public string Notes { get; private set; }
+        public string Notes { get; set; }
 
         public override string ToString()
         {

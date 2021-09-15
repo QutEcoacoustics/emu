@@ -4,11 +4,8 @@
 
 namespace MetadataUtility.Serialization
 {
-    using System;
     using System.Collections.Generic;
     using System.IO;
-    using System.Threading.Tasks;
-    using MetadataUtility.Models;
 
     /// <summary>
     /// Serialization for EMU types.
@@ -35,7 +32,7 @@ namespace MetadataUtility.Serialization
         /// <typeparam name="T">The type that will be serialized.</typeparam>
         /// <param name="writer">The text writer to write to.</param>
         /// <returns>Shared context.</returns>
-        IDisposable WriteHeader<T>(TextWriter writer);
+        //IDisposable WriteHeader<T>(TextWriter writer);
 
         /// <summary>
         /// For streaming operations, write a single record.
@@ -45,7 +42,7 @@ namespace MetadataUtility.Serialization
         /// <param name="writer">The text writer to write to.</param>
         /// <param name="record">The object to serialize.</param>
         /// <returns>Shared context.</returns>
-        IDisposable WriteRecord<T>(IDisposable context, TextWriter writer, T record);
+        //IDisposable WriteRecord<T>(IDisposable context, TextWriter writer, T record);
 
         /// <summary>
         /// For streaming operations, write a postlude or footer if necessary.
@@ -54,7 +51,7 @@ namespace MetadataUtility.Serialization
         /// <param name="context">The shared context.</param>
         /// <param name="writer">The text writer to write to.</param>
         /// <returns>Shared context.</returns>
-        IDisposable WriteFooter<T>(IDisposable context, TextWriter writer);
+        //IDisposable WriteFooter<T>(IDisposable context, TextWriter writer);
 
         /// <summary>
         /// Convert the text to objects.

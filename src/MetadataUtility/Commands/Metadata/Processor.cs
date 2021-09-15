@@ -4,18 +4,12 @@
 
 namespace MetadataUtility
 {
-    using System;
-    using System.Collections.Generic;
     using System.IO;
-    using System.Text;
     using System.Threading.Tasks;
-    using McMaster.Extensions.CommandLineUtils;
-    using MetadataUtility.Cli;
     using MetadataUtility.Filenames;
     using MetadataUtility.Models;
     using MetadataUtility.Utilities;
     using Microsoft.Extensions.Logging;
-    using NodaTime;
 
     /// <summary>
     /// Processes each audio recording.
@@ -25,8 +19,8 @@ namespace MetadataUtility
     {
         private readonly ILogger<Processor> logger;
         private readonly FilenameParser filenameParser;
-        private readonly OutputWriter writer;
-        private readonly MainArgs arguments;
+        private readonly OutputRecordWriter writer;
+
         private readonly FilenameSuggester filenameSuggester;
 
         /// <summary>
@@ -37,12 +31,11 @@ namespace MetadataUtility
         /// <param name="writer">The sink to send the output.</param>
         /// <param name="arguments">The arguments supplied to Emu.</param>
         /// <param name="filenameSuggester">An instance of a filename suggester.</param>
-        public Processor(ILogger<Processor> logger, FilenameParser filenameParser, OutputWriter writer, MainArgs arguments, FilenameSuggester filenameSuggester)
+        public Processor(ILogger<Processor> logger, FilenameParser filenameParser, OutputRecordWriter writer, FilenameSuggester filenameSuggester)
         {
             this.logger = logger;
             this.filenameParser = filenameParser;
             this.writer = writer;
-            this.arguments = arguments;
             this.filenameSuggester = filenameSuggester;
         }
 
@@ -143,25 +136,26 @@ namespace MetadataUtility
             }
             else if (filename.LocalDateTime.HasValue)
             {
-                if (this.arguments.UtcOffsetHint.HasValue)
-                {
-                    recording.StartDate = filename
-                        .LocalDateTime
-                        .Value
-                        .WithOffset(this.arguments.UtcOffsetHint.Value)
-                        .SourcedFrom(Provenance.Filename | Provenance.UserSupplied);
+                throw new NotImplementedException();
+                //if (this.arguments.UtcOffsetHint.HasValue)
+                //{
+                //    recording.StartDate = filename
+                //        .LocalDateTime
+                //        .Value
+                //        .WithOffset(this.arguments.UtcOffsetHint.Value)
+                //        .SourcedFrom(Provenance.Filename | Provenance.UserSupplied);
 
-                    this.logger.LogTrace("Full date parsed from filename {0} and UTC offset hint used", recording.SourcePath);
-                }
-                else
-                {
-                    this.logger.LogWarning("Could not unambiguously parse date for {0}", recording.SourcePath);
-                    recording.Errors.Add(WellKnownProblems.AmbiguousDate());
-                }
+                //    this.logger.LogTrace("Full date parsed from filename {0} and UTC offset hint used", recording.SourcePath);
+                //}
+                //else
+                //{
+                //    this.logger.LogWarning("Could not unambiguously parse date for {0}", recording.SourcePath);
+                //    recording.Errors.Add(new Error(WellKnownProblems.AmbiguousDate));
+                //}
             }
             else
             {
-                recording.Errors.Add(WellKnownProblems.NoDateFound());
+                recording.Errors.Add(new Error(WellKnownProblems.NoDateFound));
             }
         }
     }

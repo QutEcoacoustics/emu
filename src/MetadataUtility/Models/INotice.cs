@@ -10,22 +10,8 @@ namespace MetadataUtility.Models
     public interface INotice
     {
         /// <summary>
-        /// Gets or sets a short title for the notice.
+        /// The problem that generated this notice.
         /// </summary>
-        string Title { get; set; }
-
-        /// <summary>
-        /// Gets or sets a detailed message for the notice.
-        /// </summary>
-        string Message { get; set; }
-
-        /// <summary>
-        /// Gets or sets a unique idnetifying code for the notice.
-        /// </summary>
-        /// <remarks>
-        /// The code is used for well known problems and allows linking to
-        /// an associated problem.
-        /// </remarks>
-        string Code { get; set; }
+        WellKnownProblem Problem { get; }
     }
 }

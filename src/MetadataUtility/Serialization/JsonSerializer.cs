@@ -7,14 +7,14 @@ namespace MetadataUtility.Serialization
     using System;
     using System.Collections.Generic;
     using System.IO;
-    using System.Text;
     using Microsoft.Extensions.Logging;
     using Newtonsoft.Json;
+    using Newtonsoft.Json.Converters;
     using NodaTime;
     using NodaTime.Serialization.JsonNet;
 
-    /// <inheritdoc cref="CsvHelper.ISerializer"/>
-    public class JsonSerializer : ISerializer
+    /// <inheritdoc cref="ISerializer"/>
+    public class JsonSerializer : ISerializer, IRecordFormatter
     {
         private readonly ILogger<JsonSerializer> logger;
         private readonly JsonSerializerSettings settings;
@@ -29,6 +29,12 @@ namespace MetadataUtility.Serialization
             this.settings = new JsonSerializerSettings()
             {
                 Formatting = Formatting.Indented,
+                Converters = new List<JsonConverter>
+                {
+                    new StringEnumConverter(),
+                    new WellKnownProblemJsonConverter(),
+
+                },
             }.ConfigureForNodaTime(DateTimeZoneProviders.Tzdb);
 
             this.serializer = Newtonsoft.Json.JsonSerializer.Create(this.settings);
@@ -52,12 +58,12 @@ namespace MetadataUtility.Serialization
         }
 
         /// <inheritdoc />
-        public IDisposable WriteHeader<T>(TextWriter writer)
+        public IDisposable WriteHeader<T>(IDisposable context, TextWriter writer, T? record)
         {
             var json = new JsonTextWriter(writer);
 
             json.WriteStartArray();
-            json.WriteWhitespace(Environment.NewLine);
+            //json.WriteWhitespace(Environment.NewLine);
 
             return json;
         }
@@ -72,19 +78,32 @@ namespace MetadataUtility.Serialization
         }
 
         /// <inheritdoc />
-        public IDisposable WriteFooter<T>(IDisposable context, TextWriter writer)
+        public IDisposable WriteFooter(IDisposable context, TextWriter writer)
+        {
+            return context;
+        }
+
+        /// <inheritdoc/>
+        public IDisposable WriteFooter<T>(IDisposable context, TextWriter writer, T? record)
+        {
+            // noop
+            return context;
+        }
+
+        /// <inheritdoc/>
+        public void Dispose(IDisposable context, TextWriter writer)
         {
             var json = context as JsonTextWriter;
 
             if (json == null)
             {
-                this.logger.LogCritical("JSON logger disposed before footer written");
+                throw new InvalidOperationException("JSON logger disposed before footer written");
             }
 
             json.WriteWhitespace(Environment.NewLine);
             json.WriteEndArray();
 
-            return json;
+            return;
         }
 
         /// <inheritdoc />

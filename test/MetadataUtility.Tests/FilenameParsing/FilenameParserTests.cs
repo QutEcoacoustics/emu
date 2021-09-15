@@ -41,7 +41,7 @@ namespace MetadataUtility.Tests.FilenameParsing
             if (test.ExpectedDateTime.HasValue)
             {
                 $"Then local date should have the value {test.ExpectedDateTime}"
-                    .x(() => actual.LocalDateTime.ShouldBe(test.ExpectedDateTime, () => $"{test.ExpectedDateTime:o} ≠ {actual.LocalDateTime:o}"));
+                    .x(() => actual.LocalDateTime.ShouldBe(test.ExpectedDateTime, $"{test.ExpectedDateTime:o} ≠ {actual.LocalDateTime:o}"));
 
                 if (test.ExpectedTzOffset.HasValue)
                 {
@@ -50,7 +50,7 @@ namespace MetadataUtility.Tests.FilenameParsing
                         .x(() => date = test.ExpectedDateTime?.WithOffset(test.ExpectedTzOffset.Value));
 
                     $"Then the offset date should have the expected value {test.ExpectedDateTime}{test.ExpectedTzOffset}"
-                        .x(() => actual.OffsetDateTime.ShouldBe(date, () => $"{date:o} ≠ {actual.OffsetDateTime:o}"));
+                        .x(() => actual.OffsetDateTime.ShouldBe(date, $"{date:o} ≠ {actual.OffsetDateTime:o}"));
                 }
                 else
                 {

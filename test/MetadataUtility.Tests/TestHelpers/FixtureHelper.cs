@@ -9,19 +9,13 @@ namespace MetadataUtility.Tests.TestHelpers
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using System.Text;
-    using DotNet.Globbing;
     using MetadataUtility.Serialization;
-    using Xunit;
 
     public static class FixtureHelper
     {
-        public const string SolutionRoot = "../../../../..";
-        public const string FixturesRoot = "test/Fixtures";
-
         public static string ResolvePath(string name)
         {
-            var path = Path.GetFullPath(Path.Combine(SolutionRoot, FixturesRoot, name));
+            var path = Path.Combine(Helpers.FixturesRoot, name);
 
             if (!File.Exists(path))
             {
@@ -33,7 +27,7 @@ namespace MetadataUtility.Tests.TestHelpers
 
         public class FilenameParsingFixtureData : IEnumerable<object[]>
         {
-            private const string FixtureFile = "FilenameParsingFixtures.csv";
+            private const string FixtureFile = "FilenameParsigFixtures.csv";
             private readonly FilenameParsingFixtureModel[] filenameParsingFixtureModels;
 
             public FilenameParsingFixtureData()

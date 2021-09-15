@@ -5,12 +5,10 @@
 namespace MetadataUtility.Tests.Utilities
 {
     using System;
-    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Text;
     using System.Text.RegularExpressions;
-    using FluentAssertions.Primitives;
     using MetadataUtility.Models;
     using MetadataUtility.Serialization;
     using MetadataUtility.Tests.TestHelpers;
@@ -35,7 +33,7 @@ namespace MetadataUtility.Tests.Utilities
             {
                 var jsonSerializer = new JsonSerializer(Helpers.NullLogger<JsonSerializer>());
 
-                var output = new OutputWriter(jsonSerializer, stringWriter);
+                var output = new OutputRecordWriter(stringWriter, jsonSerializer);
 
                 // generate a fake and write it to the stream
                 var a = this.fakes.Recording.Generate();
@@ -72,7 +70,7 @@ namespace MetadataUtility.Tests.Utilities
             {
                 var csvSerializer = new CsvSerializer();
 
-                var output = new OutputWriter(csvSerializer, stringWriter);
+                var output = new OutputRecordWriter(stringWriter, csvSerializer);
 
                 // generate a fake and write it to the stream
                 var a = this.fakes.Recording.Generate();

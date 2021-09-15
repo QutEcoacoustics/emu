@@ -4,14 +4,9 @@
 
 namespace MetadataUtility.Utilities
 {
-    using System;
     using System.Collections.Generic;
     using System.IO;
-    using System.IO.Enumeration;
-    using System.Linq;
-    using System.Text;
-    using DotNet.Globbing;
-    using DotNet.Globbing.Token;
+    using GlobExpressions;
     using Microsoft.Extensions.Logging;
 
     /// <summary>
@@ -19,6 +14,8 @@ namespace MetadataUtility.Utilities
     /// </summary>
     public class FileMatcher
     {
+        public static readonly Glob DefaultPattern = new Glob("**/*.{flac,wavmp3}");
+
         private static readonly string DirectorySeparator = Path.DirectorySeparatorChar.ToString();
 
         private readonly ILogger<FileMatcher> logger;
@@ -49,39 +46,68 @@ namespace MetadataUtility.Utilities
         {
             foreach (var pattern in patterns)
             {
+                Glob glob;
+                string currentBase = baseDir;
                 // first check if any of the given patterns are valid paths themselves
                 var checkPath = Path.GetFullPath(pattern, baseDir);
                 if (File.Exists(checkPath))
                 {
-                    this.logger.LogTrace("Path {0} exists and returned as {1}", pattern, checkPath);
+                    this.logger.LogTrace("File {0} exists was returned without expanding", pattern);
                     yield return checkPath;
                     continue;
                 }
+                else if (Directory.Exists(checkPath))
+                {
+                    this.logger.LogTrace("Directory {0} exists was converted to the glob {1}", pattern, DefaultPattern);
 
-                // now assume it is a glob
-                this.logger.LogTrace("Glob {0} parsed as {1}", pattern, checkPath);
-                var glob = Glob.Parse(checkPath);
+                    glob = DefaultPattern;
+                    baseDir = checkPath;
+                }
+                else
+                {
+                    // now assume it is a glob
 
-                // check if the glob is rooted
-                // build up longest possible literal path and then check if it is a directory
-                var globRoot = glob
-                    .Tokens
-                    .TakeWhile(token => token is LiteralToken || token is PathSeparatorToken)
-                    .Aggregate(
-                        string.Empty,
-                        (path, token) =>
-                            path + (token is LiteralToken literalToken ? literalToken.Value : DirectorySeparator));
+                    // check if the glob is rooted
+                    // build up longest possible literal path and then check if it is a directory
+                    var fragments = new Queue<string>(pattern.Split(Path.DirectorySeparatorChar));
+                    string lastValid = null;
+                    do
+                    {
+                        var next = fragments.Peek();
 
-                var currentBase = Directory.Exists(globRoot) ? globRoot : baseDir;
+                        // cheap shortcut - other glob patterns could be detected but I figure this is the common case
+                        // and regardless, they'll fail the exists check below
+                        if (next.StartsWith("*") || next == "**")
+                        {
+                            break;
+                        }
+
+                        string lastChecked = lastValid == null ? next : Path.Join(lastValid, next);
+                        this.logger.LogTrace("Does {0} exist?", lastChecked);
+                        if (!Directory.Exists(lastChecked))
+                        {
+                            break;
+                        }
+
+                        fragments.Dequeue();
+                        lastValid = lastChecked;
+                    }
+                    while (fragments.Count > 0);
+
+                    var remaining = string.Join(Path.DirectorySeparatorChar, fragments);
+                    this.logger.LogTrace("Remaining: {0}", remaining);
+                    glob = new Glob(remaining);
+                    currentBase = lastValid?.Length > 0 ? lastValid : baseDir;
+                }
+
+                this.logger.LogTrace("Glob {0} parsed as {1} in {2}", pattern, glob.Pattern, currentBase);
 
                 // finally start enumerating the directory
-                this.logger.LogTrace("Begin recursive scan of {0}", currentBase);
-
                 foreach (var path in Directory.EnumerateFiles(currentBase, "*", this.enumerationOptions))
                 {
                     if (glob.IsMatch(path))
                     {
-                        this.logger.LogTrace("Path matched via glob {0}", path, checkPath);
+                        this.logger.LogTrace("Path matched via glob {0}", path);
                         yield return path;
                     }
                     else

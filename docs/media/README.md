@@ -1,0 +1,1 @@
+emu.jpg: https://pxhere.com/en/photo/1530925

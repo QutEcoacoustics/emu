@@ -4,16 +4,7 @@
 
 namespace MetadataUtility.Models
 {
+
     /// <inheritdoc />
-    public class Error : INotice
-    {
-        /// <inheritdoc />
-        public string Title { get; set; }
-
-        /// <inheritdoc/>
-        public string Message { get; set; }
-
-        /// <inheritdoc/>
-        public string Code { get; set; }
-    }
+    public record Error(WellKnownProblem Problem) : Notice(Problem);
 }

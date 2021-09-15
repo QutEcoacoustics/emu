@@ -5,9 +5,6 @@
 namespace MetadataUtility.Tests
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
     using MetadataUtility.Tests.TestHelpers;
     using Microsoft.Extensions.Logging;
     using Xunit;
@@ -35,6 +32,16 @@ namespace MetadataUtility.Tests
             Assert.Equal(0, result);
         }
 
+        [Fact]
+        public async void EmuFixCheckWorks()
+        {
+
+            var result = await EmuEntry.Main(
+              @"fix check C:\Work\Github\metadata-utility\test\Fixtures\FL_BAR_LT\3.17_Duration\*.flac -f FL010".Split(' '));
+
+            Assert.Equal(0, result);
+        }
+
         [Theory]
         [InlineData("", LogLevel.Information)]
         [InlineData("-v", LogLevel.Debug)]
@@ -50,9 +57,10 @@ namespace MetadataUtility.Tests
         [InlineData("-l 6", LogLevel.None)]
         public void ProcessArgumentsVerbosity(string arg, LogLevel expectedValue)
         {
-            var (app, mainArgs) = EmuEntry.ProcessArguments(arg.Split(' '));
+            //var (app, mainArgs) = EmuEntry.ProcessArguments(arg.Split(' '));
 
-            Assert.Equal(expectedValue, mainArgs.Verbosity);
+            //Assert.Equal(expectedValue, mainArgs.Verbosity);
+            throw new NotImplementedException();
         }
 
         [Theory]
@@ -70,15 +78,16 @@ namespace MetadataUtility.Tests
         [InlineData("-1030", -10.5 * 3600)]
         public void ProcessArgumentsUtcOffset(string test, int expectedSeconds)
         {
-            var (app, mainArgs) = EmuEntry.ProcessArguments(
-                new[]
-                {
-                    "blah",
-                    "--utc-offset-hint",
-                    test,
-                });
+            //var (app, mainArgs) = EmuEntry.ProcessArguments(
+            //    new[]
+            //    {
+            //        "blah",
+            //        "--utc-offset-hint",
+            //        test,
+            //    });
 
-            Assert.Equal(expectedSeconds, mainArgs.UtcOffsetHint.Value.Seconds);
+            //Assert.Equal(expectedSeconds, mainArgs.UtcOffsetHint.Value.Seconds);
+            throw new NotImplementedException();
         }
     }
 }

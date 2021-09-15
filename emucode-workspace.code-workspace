@@ -1,0 +1,20 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+        "cSpell.words": [
+            "Ecoacoustics",
+            "Noda",
+            "Nodatime",
+            "Shouldly",
+            "Wamd",
+            "Xbehave",
+            "Xunit",
+            "ecoacoustic"
+        ],
+        "nugetpackagemanagergui.nuget.searchPackage.preRelease": true
+    }
+}
