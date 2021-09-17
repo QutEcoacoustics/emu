@@ -59,6 +59,13 @@ However, _EMU_ is being actively used in large-scale automated ecoacoustics pipe
     dotnet publish -r linux-arm --self-contained -o ./publish/linux-arm ./src/MetadataUtility/MetadataUtility.csproj
     dotnet publish -r linux-arm64 --self-contained -o ./publish/linux-arm64 ./src/MetadataUtility/MetadataUtility.csproj
     ```
+- Release a new version with:
+  ```
+  dotnet test
+  git tag -a -m "Version x.x" x.x
+  ./docker_build_and_push.ps1
+  ```
+
 
 ## Docker
 
