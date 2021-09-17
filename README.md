@@ -94,4 +94,4 @@ The environment variables are recommended as well.
 
 This project is funded through QUT Ecoacoustics and the [Open Ecoacoustics](https://openecoacoustics.org/) projects
 
-[![open ecoacoustics logo](./docs/media/OpenEcoAcoustics_horizontal_rgb.png)](https://openecoacoustics.org/)
+[![open ecoacoustics logo](./docs/media/OpenEcoAcoustics_horizontal_rgb_white_bg.png)](https://openecoacoustics.org/)
