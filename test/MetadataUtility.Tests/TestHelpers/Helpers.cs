@@ -5,6 +5,7 @@
 namespace MetadataUtility.Tests.TestHelpers
 {
     using System;
+    using System.IO;
     using System.Reflection;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Logging.Abstractions;

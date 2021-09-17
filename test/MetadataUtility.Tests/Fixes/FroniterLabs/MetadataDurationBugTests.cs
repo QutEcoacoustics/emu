@@ -4,7 +4,10 @@
 
 namespace MetadataUtility.Tests.Fixes.FroniterLabs
 {
+    using System;
+    using System.IO;
     using System.Security.Cryptography;
+    using System.Threading.Tasks;
     using FluentAssertions;
     using MetadataUtility.Audio;
     using MetadataUtility.Fixes;

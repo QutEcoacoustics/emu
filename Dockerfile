@@ -7,7 +7,7 @@ RUN dotnet restore ./src/MetadataUtility/MetadataUtility.csproj
 
 # Copy everything else and build
 COPY ./ ./
-RUN dotnet publish -r linux-x64 -o out ./src/MetadataUtility/MetadataUtility.csproj
+RUN dotnet publish -r linux-x64 --self-contained -o publish ./src/MetadataUtility/MetadataUtility.csproj
 
 
 FROM debian:buster-slim
@@ -15,7 +15,7 @@ FROM debian:buster-slim
 RUN mkdir /emu
 
 WORKDIR /emu
-COPY --from=build-env /app/out .
+COPY --from=build-env /app/publish .
 
 # Enable detection of running in a container
 ENV DOTNET_RUNNING_IN_CONTAINER=true 

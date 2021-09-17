@@ -26,13 +26,13 @@ $long =  exec { git describe --long }
 
 Write-Output "Building docker file"
 exec {
-  docker build --build-arg version=$short --build-arg trimmed=true `
+  docker build `
    --label version=$long `
-   --tag qutecoacoustics/emu:latest --tag qutecoacoustics/emu:$long `
+   --tag qutecoacoustics/emu:latest --tag qutecoacoustics/emu:$short `
    .
 }
 
 Write-Output "Pushing dockerfile"
 exec {
-  docker push -a qutecoacoustics/emu
+  docker push qutecoacoustics/emu:latest
 }

@@ -4,6 +4,9 @@
 
 namespace MetadataUtility
 {
+    using System;
+    using System.IO;
+
     public interface IRecordFormatter
     {
         /// <summary>

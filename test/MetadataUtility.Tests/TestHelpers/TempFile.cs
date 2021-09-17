@@ -5,6 +5,8 @@
 namespace MetadataUtility.Tests.TestHelpers
 {
     using System;
+    using System.IO;
+    using System.Linq;
     using static System.IO.Path;
 
     public class TempFile : IDisposable

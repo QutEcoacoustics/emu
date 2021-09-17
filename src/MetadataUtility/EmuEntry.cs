@@ -2,13 +2,21 @@
 // All code in this file and all associated files are the copyright and property of the QUT Ecoacoustics Research Group.
 // </copyright>
 
+#pragma warning disable SA1200 // Using directives should be placed correctly
+global using System;
+global using System.Collections.Generic;
+global using System.IO;
+global using System.Linq;
+global using System.Threading.Tasks;
+global using static LanguageExt.Prelude;
+#pragma warning restore SA1200 // Using directives should be placed correctly
+
 namespace MetadataUtility
 {
     using System.CommandLine;
     using System.CommandLine.Builder;
     using System.CommandLine.Hosting;
     using System.CommandLine.Parsing;
-    using System.IO;
     using System.Threading.Tasks;
     using MetadataUtility.Cli;
     using MetadataUtility.Extensions.System.CommandLine;

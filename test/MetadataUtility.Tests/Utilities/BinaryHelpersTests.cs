@@ -4,6 +4,7 @@
 
 namespace MetadataUtility.Tests.Utilities
 {
+    using System;
     using MetadataUtility.Utilities;
     using Xunit;
 
