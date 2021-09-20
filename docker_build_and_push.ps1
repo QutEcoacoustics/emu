@@ -34,5 +34,5 @@ exec {
 
 Write-Output "Pushing dockerfile"
 exec {
-  docker push qutecoacoustics/emu:latest
+  docker push -a qutecoacoustics/emu
 }
