@@ -38,7 +38,7 @@ Emu can output results from must of its commands in a format that best suits you
 - [JSON Lines](https://jsonlines.org/) (easier to parse line by line records)
 - CSV (a great choice for R's data frames)
 
-![example format output](docs\media\formats.png)
+![example format output](docs/media/formats.png)
 
 ## Status
 
@@ -47,7 +47,7 @@ However, _EMU_ is being actively used in large-scale automated ecoacoustics pipe
 
 - EMU runs on Windows, Linux, and Mac*
 - A docker container is provided (see [Docker](#docker))
-- The metadata extraction and date recognition featues are currently a work in progress
+- The metadata extraction and date recognition features are currently a work in progress
 - There is one Fix that works well: `FL010` - the Frontier Labs metadata duration bug can be repaired automatically
 
 <small>*EMU needs to be compiled from source on Macs</small>
@@ -57,7 +57,7 @@ However, _EMU_ is being actively used in large-scale automated ecoacoustics pipe
 - You'll need a .NET 6 SDK installed
 - You can build for development with `dotnet build`
 - You can test in development with `dotnet test`
-- You can run EMU dev builds from the `src/MetadataUtility` folder with `dotnet run  -- ` 
+- You can run EMU dev builds from the `src/MetadataUtility` folder with `dotnet run  -- `
   - Arguments after the `--` are passed to EMU as if you had run EMU directly
 - You can build all releases for all platforms with the command:
 
