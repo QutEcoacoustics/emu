@@ -2,9 +2,10 @@
 
 A generic tool for metadata manipulation of ecoacoustic audio recordings
 
+![main help screenshot](docs\media\main_help.png)
 
 ## But why though?
-
+ <img align="right"  height="163" alt="A surprised Emu." src="docs/media/but-why.gif"/>
 Currently every environmental sensor captures audio recordings and recording metadata in a differant way.
 
 There are efforts underway to standardize this process, but even in a perfect world, there are still plenty of problems to  deal with:
@@ -13,15 +14,29 @@ There are efforts underway to standardize this process, but even in a perfect wo
 - there a millions of recording made using older sensors
 - there a many problems and quirks with existing sensors
 
+## Features
+
 _EMU_ aims to be a babelfish—an adapter—between these formats. _EMU_ can:
 
 - extract metadata from audio recordings
-- recognise and parse different datestamp formats
+- recognize and parse different date stamp formats
 - rename files so that they have a consistent format
 - fix problems in recordings so you can recover and use the data (idempotently)
 - do this in various formats (human friendly, compact, json, json-lines, and csv)
 
+## Output
 
+Emu is designed to be used as part of an automated process - that is why it is a command line tool.
+
+Emu can output results from must of its commands in a format that best suits you:
+
+- default - a format meant to be easy to read. Will include extra comments, headers, and footers.
+- compact
+- JSON
+- [JSON Lines](https://jsonlines.org/) (easier to parse line by line records)
+- CSV (a great choice for R's data frames)
+
+![example format output](docs\media\formats.png)
 ## Status
 
 It's still early days. _EMU_ is an _alpha-level_ product and we have a lot more fixes and utilities we want to add to it.
