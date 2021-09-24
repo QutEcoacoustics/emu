@@ -2,10 +2,12 @@
 
 A generic tool for metadata manipulation of ecoacoustic audio recordings
 
-![main help screenshot](docs\media\main_help.png)
+![main help screenshot](docs/media/main_help.png)
 
 ## But why though?
+
  <img align="right"  height="163" alt="A surprised Emu." src="docs/media/but-why.gif"/>
+
 Currently every environmental sensor captures audio recordings and recording metadata in a differant way.
 
 There are efforts underway to standardize this process, but even in a perfect world, there are still plenty of problems to  deal with:
@@ -37,6 +39,7 @@ Emu can output results from must of its commands in a format that best suits you
 - CSV (a great choice for R's data frames)
 
 ![example format output](docs\media\formats.png)
+
 ## Status
 
 It's still early days. _EMU_ is an _alpha-level_ product and we have a lot more fixes and utilities we want to add to it.
@@ -47,8 +50,7 @@ However, _EMU_ is being actively used in large-scale automated ecoacoustics pipe
 - The metadata extraction and date recognition featues are currently a work in progress
 - There is one Fix that works well: `FL010` - the Frontier Labs metadata duration bug can be repaired automatically
 
-
-*EMU needs to be compiled from source on Macs
+<small>*EMU needs to be compiled from source on Macs</small>
 
 ## Build notes
 
@@ -56,7 +58,7 @@ However, _EMU_ is being actively used in large-scale automated ecoacoustics pipe
 - You can build for development with `dotnet build`
 - You can test in development with `dotnet test`
 - You can run EMU dev builds from the `src/MetadataUtility` folder with `dotnet run  -- ` 
-    - Arguments after the `--` are passed to EMU as if you had run EMU directly
+  - Arguments after the `--` are passed to EMU as if you had run EMU directly
 - You can build all releases for all platforms with the command:
 
     ```powershell
@@ -74,13 +76,14 @@ However, _EMU_ is being actively used in large-scale automated ecoacoustics pipe
     dotnet publish -r linux-arm --self-contained -o ./publish/linux-arm ./src/MetadataUtility/MetadataUtility.csproj
     dotnet publish -r linux-arm64 --self-contained -o ./publish/linux-arm64 ./src/MetadataUtility/MetadataUtility.csproj
     ```
+
 - Release a new version with:
-  ```
+
+  ```shell
   dotnet test
   git tag -a -m "Version x.x" x.x
   ./docker_build_and_push.ps1
   ```
-
 
 ## Docker
 
