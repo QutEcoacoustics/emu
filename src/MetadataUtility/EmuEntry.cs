@@ -19,6 +19,7 @@ namespace MetadataUtility
     using System.CommandLine.Parsing;
     using System.Threading.Tasks;
     using MetadataUtility.Cli;
+    using MetadataUtility.Commands.Version;
     using MetadataUtility.Extensions.System.CommandLine;
     using MetadataUtility.Filenames;
     using MetadataUtility.Fixes;
@@ -26,7 +27,6 @@ namespace MetadataUtility
     using MetadataUtility.Utilities;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
-    using Microsoft.Extensions.Logging;
     using NodaTime;
     using NodaTime.Text;
     using Serilog;
@@ -39,9 +39,6 @@ namespace MetadataUtility
     /// </summary>
     public partial class EmuEntry
     {
-        private static ServiceProvider serviceProvider;
-        private static ILogger<EmuEntry> logger;
-
         /// <summary>
         /// Run EMU with commandline arguments.
         /// </summary>
@@ -69,7 +66,7 @@ namespace MetadataUtility
         /// </summary>
         /// <param name="args">The command line arguments.</param>
         /// <returns>The CommandLineApplication object and a binding model of arguments.</returns>
-        public static CommandLineBuilder BuildCommandLine() => new CommandLineBuilder(RootCommand);
+        public static CommandLineBuilder BuildCommandLine() => new(RootCommand);
 
         private static void BuildDependencies(IHostBuilder host)
         {
@@ -107,6 +104,7 @@ namespace MetadataUtility
             host.UseEmuCommand<FixListCommand, FixList>();
             host.UseEmuCommand<FixCheckCommand, FixCheck>();
             host.UseEmuCommand<FixApplyCommand, FixApply>();
+            host.UseEmuCommand<VersionCommand, Version>();
 
             host.UseSerilog(ConfigureLogging);
         }
@@ -156,7 +154,7 @@ namespace MetadataUtility
             //            logger.LogInformation("Informational message");
             //            logger.LogDebug("Debug message");
             //            logger.LogTrace("Trace message");
-            var targets = mainArgs.Targets;
+            //var targets = mainArgs.Targets;
             throw new NotImplementedException();
             //this.logger.LogInformation("Input targets: {0}", targets);
 

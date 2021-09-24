@@ -104,7 +104,7 @@ namespace MetadataUtility
                 return null;
             }
 
-            return this.ThrowUnsupported(record);
+            return ThrowUnsupported(record);
         }
 
         protected override object FormatDefault<T>(T record)
@@ -129,7 +129,7 @@ namespace MetadataUtility
                 return s;
             }
 
-            return this.ThrowUnsupported(record);
+            return ThrowUnsupported(record);
         }
 
         private string Status(CheckResult result) => result.Status switch

@@ -29,7 +29,6 @@ namespace MetadataUtility
         /// <param name="logger">A logger.</param>
         /// <param name="filenameParser">A filename parser.</param>
         /// <param name="writer">The sink to send the output.</param>
-        /// <param name="arguments">The arguments supplied to Emu.</param>
         /// <param name="filenameSuggester">An instance of a filename suggester.</param>
         public Processor(ILogger<Processor> logger, FilenameParser filenameParser, OutputRecordWriter writer, FilenameSuggester filenameSuggester)
         {
@@ -46,13 +45,15 @@ namespace MetadataUtility
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         public async Task<Recording> ProcessFile(string path)
         {
-            this.logger.LogInformation("Processing file {0}", path);
+            this.logger.LogInformation("Processing file {path}", path);
 
             await Task.Yield();
 
-            var recording = new Recording();
-            recording.SourcePath = path;
-            recording.Stem = Path.GetFileNameWithoutExtension(path);
+            var recording = new Recording
+            {
+                SourcePath = path,
+                Stem = Path.GetFileNameWithoutExtension(path),
+            };
 
             // step 0. validate
             var file = new FileInfo(path);
@@ -72,9 +73,9 @@ namespace MetadataUtility
             recording.RecommendedName = this.filenameSuggester.SuggestName(recording, parsedName, null);
 
             //recording.StartDate = MetadataSource<OffsetDateTime>.Provenance.Calculated.Wrap<OffsetDateTime>(parsedName.OffsetDateTime.Value);
-            this.logger.LogDebug("Parsed filename: {@0}", parsedName);
+            this.logger.LogDebug("Parsed filename: {@name}", parsedName);
 
-            this.logger.LogDebug("Completed file {0}", path);
+            this.logger.LogDebug("Completed file {path}", path);
             return await Task.FromResult(recording);
         }
 
@@ -132,7 +133,7 @@ namespace MetadataUtility
             if (filename.OffsetDateTime.HasValue)
             {
                 recording.StartDate = filename.OffsetDateTime.Value.SourcedFrom(Provenance.Filename);
-                this.logger.LogTrace("Full date parsed from filename {0}", recording.SourcePath);
+                this.logger.LogTrace("Full date parsed from filename {path}", recording.SourcePath);
             }
             else if (filename.LocalDateTime.HasValue)
             {

@@ -4,25 +4,19 @@
 
 namespace MetadataUtility
 {
-    using System.CommandLine;
     using System.CommandLine.Invocation;
     using System.Threading.Tasks;
     using MetadataUtility.Fixes;
     using MetadataUtility.Utilities;
-    using Microsoft.Extensions.Logging;
 
     public class FixList : EmuCommandHandler
     {
-
-        private readonly ILogger<FixList> logger;
-
-        public FixList(IConsole console, ILogger<FixList> logger, OutputRecordWriter writer)
+        public FixList(OutputRecordWriter writer)
         {
-            this.logger = logger;
             this.Writer = writer;
         }
 
-        public override async Task<int> InvokeAsync(InvocationContext context)
+        public override Task<int> InvokeAsync(InvocationContext context)
         {
             this.WriteHeader<OperationInfo>();
             this.Write("Problems that can be fixed:");
@@ -41,7 +35,7 @@ Or use `--fix-all` to apply all known fixes:
 
     emu fix apply --fix-all XX001 *.wav
 ");
-            return 0;
+            return Task.FromResult(0);
         }
 
         protected override object FormatCompact<T>(T record)
@@ -59,7 +53,7 @@ Or use `--fix-all` to apply all known fixes:
                 return null;
             }
 
-            return this.ThrowUnsupported(record);
+            return ThrowUnsupported(record);
         }
 
         protected override object FormatDefault<T>(T record)
@@ -75,7 +69,7 @@ Or use `--fix-all` to apply all known fixes:
                 return s;
             }
 
-            return this.ThrowUnsupported(record);
+            return ThrowUnsupported(record);
         }
     }
 }

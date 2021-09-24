@@ -26,7 +26,7 @@ namespace MetadataUtility.Filenames
 
         // ReSharper restore StringLiteralTypo
 
-        private static readonly HashSet<char> InvalidChars = new HashSet<char>(Path.GetInvalidFileNameChars())
+        private static readonly HashSet<char> InvalidChars = new(Path.GetInvalidFileNameChars())
         {
             '\\', '/', ':', '[', ']', '{', '}', ';',
         };

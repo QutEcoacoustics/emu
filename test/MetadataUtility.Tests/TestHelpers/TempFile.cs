@@ -43,9 +43,9 @@ namespace MetadataUtility.Tests.TestHelpers
             this.Directory.Create();
         }
 
-        public DirectoryInfo Directory => new DirectoryInfo(this.directory);
+        public DirectoryInfo Directory => new(this.directory);
 
-        public FileInfo File => new FileInfo(this.Path);
+        public FileInfo File => new(this.Path);
 
         public string Path { get; private set; }
 

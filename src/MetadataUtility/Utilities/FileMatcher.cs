@@ -14,13 +14,11 @@ namespace MetadataUtility.Utilities
     /// </summary>
     public class FileMatcher
     {
-        public static readonly Glob DefaultPattern = new Glob("**/*.{flac,wavmp3}");
-
-        private static readonly string DirectorySeparator = Path.DirectorySeparatorChar.ToString();
+        public static readonly Glob DefaultPattern = new("**/*.{flac,wavmp3}");
 
         private readonly ILogger<FileMatcher> logger;
 
-        private readonly EnumerationOptions enumerationOptions = new EnumerationOptions()
+        private readonly EnumerationOptions enumerationOptions = new()
         {
             IgnoreInaccessible = true,
             RecurseSubdirectories = true,
@@ -52,13 +50,13 @@ namespace MetadataUtility.Utilities
                 var checkPath = Path.GetFullPath(pattern, baseDir);
                 if (File.Exists(checkPath))
                 {
-                    this.logger.LogTrace("File {0} exists was returned without expanding", pattern);
+                    this.logger.LogTrace("File {pattern} exists was returned without expanding", pattern);
                     yield return checkPath;
                     continue;
                 }
                 else if (Directory.Exists(checkPath))
                 {
-                    this.logger.LogTrace("Directory {0} exists was converted to the glob {1}", pattern, DefaultPattern);
+                    this.logger.LogTrace("Directory {pattern} exists was converted to the glob {defaultPattern}", pattern, DefaultPattern);
 
                     glob = DefaultPattern;
                     baseDir = checkPath;
@@ -83,7 +81,7 @@ namespace MetadataUtility.Utilities
                         }
 
                         string lastChecked = lastValid == null ? next : Path.Join(lastValid, next);
-                        this.logger.LogTrace("Does {0} exist?", lastChecked);
+                        this.logger.LogTrace("Does {lastChecked} exist?", lastChecked);
                         if (!Directory.Exists(lastChecked))
                         {
                             break;
@@ -95,24 +93,24 @@ namespace MetadataUtility.Utilities
                     while (fragments.Count > 0);
 
                     var remaining = string.Join(Path.DirectorySeparatorChar, fragments);
-                    this.logger.LogTrace("Remaining: {0}", remaining);
+                    this.logger.LogTrace("Remaining: {remaining}", remaining);
                     glob = new Glob(remaining);
                     currentBase = lastValid?.Length > 0 ? lastValid : baseDir;
                 }
 
-                this.logger.LogTrace("Glob {0} parsed as {1} in {2}", pattern, glob.Pattern, currentBase);
+                this.logger.LogTrace("Glob {pattern} parsed as {glob} in {base}", pattern, glob.Pattern, currentBase);
 
                 // finally start enumerating the directory
                 foreach (var path in Directory.EnumerateFiles(currentBase, "*", this.enumerationOptions))
                 {
                     if (glob.IsMatch(path))
                     {
-                        this.logger.LogTrace("Path matched via glob {0}", path);
+                        this.logger.LogTrace("Path matched via glob {path}", path);
                         yield return path;
                     }
                     else
                     {
-                        this.logger.LogTrace("Path NOT matched by glob {0}", path);
+                        this.logger.LogTrace("Path NOT matched by glob {path}", path);
                     }
                 }
             }

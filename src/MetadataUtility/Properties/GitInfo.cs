@@ -4,13 +4,15 @@
 
 using System.Reflection;
 
-[assembly: AssemblyVersion(ThisAssembly.Git.BaseVersion.Major + "." + ThisAssembly.Git.BaseVersion.Minor + "." + ThisAssembly.Git.BaseVersion.Patch)]
+[assembly: AssemblyVersion(ThisAssembly.AssemblyVersion)]
 
-[assembly: AssemblyFileVersion(ThisAssembly.Git.SemVer.Major + "." + ThisAssembly.Git.SemVer.Minor + "." + ThisAssembly.Git.SemVer.Patch)]
+[assembly: AssemblyFileVersion(ThisAssembly.AssemblyVersion)]
 
-[assembly: AssemblyInformationalVersion(
-    ThisAssembly.Git.SemVer.Major + "." +
-    ThisAssembly.Git.SemVer.Minor + "." +
-    ThisAssembly.Git.Commits + "-" +
-    ThisAssembly.Git.Branch + "+" +
-    ThisAssembly.Git.Commit)]
+[assembly: AssemblyInformationalVersion(ThisAssembly.InformationalVersion)]
+
+internal partial class ThisAssembly
+{
+    public const string InformationalVersion = $"{Git.SemVer.Major}.{Git.SemVer.Minor}.{Git.Commits}-{Git.Branch}+{Git.Commit}";
+
+    public const string AssemblyVersion = $"{Git.SemVer.Major}.{Git.SemVer.Minor}.{Git.SemVer.Patch}";
+}

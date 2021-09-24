@@ -21,7 +21,7 @@ namespace MetadataUtility.Tests.TestHelpers
         /// </summary>
         public const int Wgs84Epsilon = 6;
 
-        private static readonly NullLoggerFactory NullLoggerFactory = new NullLoggerFactory();
+        private static readonly NullLoggerFactory NullLoggerFactory = new();
 
         public static readonly Action Nop = () => { };
 

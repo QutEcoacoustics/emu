@@ -43,7 +43,7 @@ namespace MetadataUtility.Tests.Fixes.FroniterLabs
             this.data = data;
         }
 
-        public void Dispose()
+        void IDisposable.Dispose()
         {
             this.target.Dispose();
         }
@@ -177,15 +177,13 @@ namespace MetadataUtility.Tests.Fixes.FroniterLabs
 
         private async Task AssertMetadata(ulong samples, decimal firmwareVersion, params string[] tags)
         {
-            using (var stream = File.OpenRead(this.target.Path))
-            {
-                var actualSamples = (ulong)Flac.ReadTotalSamples(stream);
-                var actualFirmware = (FirmwareRecord)await ReadFirmwareAsync(stream);
-                Assert.Equal(samples, actualSamples);
-                Assert.Equal(firmwareVersion, actualFirmware.Version);
+            using var stream = File.OpenRead(this.target.Path);
+            var actualSamples = (ulong)Flac.ReadTotalSamples(stream);
+            var actualFirmware = (FirmwareRecord)await ReadFirmwareAsync(stream);
+            Assert.Equal(samples, actualSamples);
+            Assert.Equal(firmwareVersion, actualFirmware.Version);
 
-                actualFirmware.Tags.Should().BeEquivalentTo(tags);
-            }
+            actualFirmware.Tags.Should().BeEquivalentTo(tags);
         }
     }
 }

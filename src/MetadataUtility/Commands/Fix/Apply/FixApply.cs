@@ -4,7 +4,6 @@
 
 namespace MetadataUtility
 {
-    using System.CommandLine;
     using System.CommandLine.Invocation;
     using System.Linq;
     using System.Text;
@@ -17,15 +16,13 @@ namespace MetadataUtility
 
     public class FixApply : EmuCommandHandler
     {
-        private readonly IConsole console;
         private readonly ILogger<FixApply> logger;
         private readonly ILogger<DryRun> dryRunLogger;
         private readonly FileMatcher fileMatcher;
         private readonly FixRegister register;
 
-        public FixApply(IConsole console, ILogger<FixApply> logger, ILogger<DryRun> dryRunLogger, FileMatcher fileMatcher, FixRegister register, OutputRecordWriter writer)
+        public FixApply(ILogger<FixApply> logger, ILogger<DryRun> dryRunLogger, FileMatcher fileMatcher, FixRegister register, OutputRecordWriter writer)
         {
-            this.console = console;
             this.logger = logger;
             this.dryRunLogger = dryRunLogger;
             this.fileMatcher = fileMatcher;
@@ -52,7 +49,7 @@ namespace MetadataUtility
 
             fixes = this.Fix.Select(x => this.register.Resolve(x)).ToArray();
 
-            this.logger.LogDebug("Input targets: {0}", this.Targets);
+            this.logger.LogDebug("Input targets: {targets}", this.Targets);
 
             var files = this.fileMatcher.ExpandMatches(Directory.GetCurrentDirectory(), this.Targets);
 
@@ -100,7 +97,7 @@ namespace MetadataUtility
             {
                 var summary = string.Join(
                     ' ',
-                    f.Problems.Select(kvp => kvp.Key.Id + "=" + this.Status(kvp.Value)));
+                    f.Problems.Select(kvp => kvp.Key.Id + "=" + Status(kvp.Value)));
                 return $"{f.File}\t{summary}";
             }
             else if (record is null)
@@ -113,7 +110,7 @@ namespace MetadataUtility
                 return null;
             }
 
-            return this.ThrowUnsupported(record);
+            return ThrowUnsupported(record);
         }
 
         protected override object FormatDefault<T>(T record)
@@ -138,10 +135,10 @@ namespace MetadataUtility
                 return s;
             }
 
-            return this.ThrowUnsupported(record);
+            return ThrowUnsupported(record);
         }
 
-        private string Status(FixResult result) => result.Status switch
+        private static string Status(FixResult result) => result.Status switch
         {
             FixStatus.NotFixed => "ERR",
             FixStatus.Fixed => "FIXED",

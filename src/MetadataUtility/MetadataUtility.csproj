@@ -7,8 +7,9 @@
     <LangVersion>preview</LangVersion>
     <Nullable>warnings</Nullable>
     <PublishSingleFile>true</PublishSingleFile>
-    <SelfContained>true</SelfContained>
-    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <!-- The following should be used for publish builds -->
+    <!--<SelfContained>true</SelfContained>-->
+    <!--<RuntimeIdentifier>win-x64</RuntimeIdentifier>-->
     <!--<PublishTrimmed>true</PublishTrimmed>-->
     <!-- in.NET 6.0 RC1 there is some kind of infinite memory usage problem, disable crossgen2 for now -->
     <!--<PublishReadyToRun>true</PublishReadyToRun>-->

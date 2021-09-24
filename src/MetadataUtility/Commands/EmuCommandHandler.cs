@@ -78,7 +78,7 @@ namespace MetadataUtility
             }
         }
 
-        protected object ThrowUnsupported(object errorValue)
+        protected static object ThrowUnsupported(object errorValue)
         {
             throw new InvalidOperationException($"Formatting not supported for type of {errorValue?.GetType()?.Name}");
         }
