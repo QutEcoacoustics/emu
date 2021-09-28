@@ -10,5 +10,15 @@ namespace MetadataUtility.Extensions.System
         {
             return range.GetOffsetAndLength(int.MaxValue).Length;
         }
+
+        public static string FormatInterval(this Range range, Func<int, string> valueConverter)
+        {
+            return $"[{FormatIndex(range.Start)}, {FormatIndex(range.End)})";
+
+            string FormatIndex(Index i)
+            {
+                return (i.IsFromEnd ? "-" : string.Empty) + valueConverter(i.Value);
+            }
+        }
     }
 }

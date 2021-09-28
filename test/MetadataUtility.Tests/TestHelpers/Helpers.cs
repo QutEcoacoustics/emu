@@ -21,9 +21,9 @@ namespace MetadataUtility.Tests.TestHelpers
         /// </summary>
         public const int Wgs84Epsilon = 6;
 
-        private static readonly NullLoggerFactory NullLoggerFactory = new();
-
         public static readonly Action Nop = () => { };
+
+        private static readonly NullLoggerFactory NullLoggerFactory = new();
 
         public static string SolutionRoot => Path.GetFullPath(Path.Combine(Assembly.GetExecutingAssembly().Location, SolutionFragment));
 

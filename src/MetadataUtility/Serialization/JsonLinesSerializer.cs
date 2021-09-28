@@ -7,7 +7,7 @@ namespace MetadataUtility.Serialization
     using System;
     using System.Collections.Generic;
     using System.IO;
-    using Microsoft.Extensions.Logging;
+    using MetadataUtility.Serialization.Converters;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
     using NodaTime;
@@ -16,16 +16,14 @@ namespace MetadataUtility.Serialization
     /// <inheritdoc cref="ISerializer"/>
     public class JsonLinesSerializer : ISerializer, IRecordFormatter
     {
-        private readonly ILogger<JsonLinesSerializer> logger;
         private readonly JsonSerializerSettings settings;
         private readonly Newtonsoft.Json.JsonSerializer serializer;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="JsonLinesSerializer"/> class.
         /// </summary>
-        public JsonLinesSerializer(ILogger<JsonLinesSerializer> logger)
+        public JsonLinesSerializer()
         {
-            this.logger = logger;
             this.settings = new JsonSerializerSettings()
             {
                 Formatting = Formatting.None,
@@ -33,7 +31,7 @@ namespace MetadataUtility.Serialization
                 {
                     new StringEnumConverter(),
                     new WellKnownProblemJsonConverter(),
-
+                    new JsonRangeConverter(),
                 },
             }.ConfigureForNodaTime(DateTimeZoneProviders.Tzdb);
 
@@ -43,12 +41,10 @@ namespace MetadataUtility.Serialization
         /// <inheritdoc />
         public string Serialize<T>(IEnumerable<T> objects)
         {
-            using (var stringWriter = new StringWriter())
-            {
-                this.Serialize(stringWriter, objects);
+            using var stringWriter = new StringWriter();
+            this.Serialize(stringWriter, objects);
 
-                return stringWriter.ToString();
-            }
+            return stringWriter.ToString();
         }
 
         /// <inheritdoc />
@@ -101,10 +97,8 @@ namespace MetadataUtility.Serialization
             string line;
             while ((line = reader.ReadLine()) is not null)
             {
-                using (var jsonReader = new JsonTextReader(new StringReader(line)))
-                {
-                    yield return this.serializer.Deserialize<T>(jsonReader);
-                }
+                using var jsonReader = new JsonTextReader(new StringReader(line));
+                yield return this.serializer.Deserialize<T>(jsonReader);
             }
         }
     }

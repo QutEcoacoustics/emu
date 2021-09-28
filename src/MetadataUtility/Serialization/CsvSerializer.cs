@@ -9,6 +9,7 @@ namespace MetadataUtility.Serialization
     using System.IO;
     using CsvHelper;
     using CsvHelper.Configuration;
+    using MetadataUtility.Serialization.Converters;
     using NodaTime;
 
     /// <inheritdoc cref="ISerializer"/>
@@ -107,6 +108,7 @@ namespace MetadataUtility.Serialization
                 NodatimeConverters.OffsetConverter);
             context.TypeConverterCache.AddConverter<Duration>(
                 NodatimeConverters.DurationConverter);
+            context.TypeConverterCache.AddConverter<Range>(new CsvRangeConverter());
         }
     }
 }

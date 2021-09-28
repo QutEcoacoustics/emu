@@ -1,13 +1,13 @@
-// <copyright file="WellKnownProblems.cs" company="QutEcoacoustics">
+// <copyright file="WellKnownProblemJsonConverter.cs" company="QutEcoacoustics">
 // All code in this file and all associated files are the copyright and property of the QUT Ecoacoustics Research Group.
 // </copyright>
 
-using System.ComponentModel;
-using System.Globalization;
-using Newtonsoft.Json;
-
 namespace MetadataUtility
 {
+    using System.ComponentModel;
+    using System.Globalization;
+    using Newtonsoft.Json;
+
     public class WellKnownProblemJsonConverter : JsonConverter<WellKnownProblem>
     {
         public override void WriteJson(JsonWriter writer, WellKnownProblem value, JsonSerializer serializer)

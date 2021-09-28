@@ -7,6 +7,7 @@ namespace MetadataUtility.Serialization
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using MetadataUtility.Serialization.Converters;
     using Microsoft.Extensions.Logging;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
@@ -33,7 +34,7 @@ namespace MetadataUtility.Serialization
                 {
                     new StringEnumConverter(),
                     new WellKnownProblemJsonConverter(),
-
+                    new JsonRangeConverter(),
                 },
             }.ConfigureForNodaTime(DateTimeZoneProviders.Tzdb);
 
