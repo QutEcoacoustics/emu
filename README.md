@@ -54,7 +54,30 @@ However, _EMU_ is being actively used in large-scale automated ecoacoustics pipe
 
 ## Build notes
 
-- You'll need a .NET 6 SDK installed
+If you want to run a copy of `emu`, you'll need to build it yourself (we'll have an installer soon but it is not yet ready).
+
+1. You'll need a .NET 6 SDK installed
+    - From <https://dotnet.microsoft.com/download/dotnet/6.0> choose a download from the SDK section, for your OS, and CPU architecture
+2. Next clone this repo to your computer
+3. Open a Terminal prompt (in `pwsh` (Windows/MacOs/Linux) or `bash` (Linux/MacOS)) and navigate to the repo folder
+4. Then choose **one** of publish commands from below that matches your OS and CPU architecture:
+
+    ```shell
+    dotnet publish -r linux-x64 --self-contained -o ./publish/linux-x64 ./src/MetadataUtility/MetadataUtility.csproj
+    dotnet publish -r win-x64 --self-contained -o ./publish/win-x64 ./src/MetadataUtility/MetadataUtility.csproj
+    dotnet publish -r osx-x64 --self-contained -o ./publish/osx-x64 ./src/MetadataUtility/MetadataUtility.csproj
+    dotnet publish -r osx-arm64 --self-contained -o ./publish/osx-arm64 ./src/MetadataUtility/MetadataUtility.csproj
+    dotnet publish -r linux-arm --self-contained -o ./publish/linux-arm ./src/MetadataUtility/MetadataUtility.csproj
+    dotnet publish -r linux-arm64 --self-contained -o ./publish/linux-arm64 ./src/MetadataUtility/MetadataUtility.csproj
+    ```
+
+5. Copy the resulting folder from the `publish` directory to somewhere on your computer
+6. You can then use `emu` by referring to the full path of the `emu` binary.
+    - It will be `emu.exe` on Windows
+    - `emu` (with no extension)  on Linux and MaxOS
+
+Other notes:
+
 - You can build for development with `dotnet build`
 - You can test in development with `dotnet test`
 - You can run EMU dev builds from the `src/MetadataUtility` folder with `dotnet run  -- `
@@ -64,17 +87,6 @@ However, _EMU_ is being actively used in large-scale automated ecoacoustics pipe
     ```powershell
     $rids = ("win-x64", "linux-x64", "osx-x64", "osx-arm64", "linux-arm", "linux-arm64")
     $rids | ForEach-Object { dotnet publish .\src\MetadataUtility\ -c Release -o ./publish/$_ --self-contained -r $_ }
-    ```
-
-    or any single one:
-
-    ``` bash
-    dotnet publish -r linux-x64 --self-contained -o ./publish/linux-x64 ./src/MetadataUtility/MetadataUtility.csproj
-    dotnet publish -r win-x64 --self-contained -o ./publish/win-x64 ./src/MetadataUtility/MetadataUtility.csproj
-    dotnet publish -r osx-x64 --self-contained -o ./publish/osx-x64 ./src/MetadataUtility/MetadataUtility.csproj
-    dotnet publish -r osx-arm64 --self-contained -o ./publish/osx-arm64 ./src/MetadataUtility/MetadataUtility.csproj
-    dotnet publish -r linux-arm --self-contained -o ./publish/linux-arm ./src/MetadataUtility/MetadataUtility.csproj
-    dotnet publish -r linux-arm64 --self-contained -o ./publish/linux-arm64 ./src/MetadataUtility/MetadataUtility.csproj
     ```
 
 - Release a new version with:
@@ -88,6 +100,8 @@ However, _EMU_ is being actively used in large-scale automated ecoacoustics pipe
 ## Docker
 
 [![Docker Image Version (latest semver)](https://img.shields.io/docker/v/qutecoacoustics/emu)](https://hub.docker.com/repository/docker/qutecoacoustics/emu)
+
+Using Docker is considered an advanced workflow - most users should not try to use docker if they want to use `emu`.
 
 EMU uses a multistage build dockerfile. In your dockerfile you should be able to:
 
