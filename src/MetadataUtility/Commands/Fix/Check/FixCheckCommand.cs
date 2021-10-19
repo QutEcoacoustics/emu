@@ -5,17 +5,15 @@
 namespace MetadataUtility
 {
     using System.CommandLine;
+    using MetadataUtility.Commands;
 
     public class FixCheckCommand : Command
     {
         public FixCheckCommand()
             : base("check", "check if a file needs a fix")
         {
-            this.AddArgument(new Argument<string[]>("targets") { Arity = ArgumentArity.OneOrMore });
-            this.AddOption(new Option<string>(new string[] { "-f", "--fix" }, "The ID of a well known problem to check for. See `emu fix list`")
-            {
-                Arity = ArgumentArity.OneOrMore,
-            });
+            this.AddArgument(CommonArguments.Targets);
+            this.AddOption(CommonArguments.Fixes);
             this.AddOption(new Option<bool>(new string[] { "--all" }, "Check for all well known problems"));
         }
     }

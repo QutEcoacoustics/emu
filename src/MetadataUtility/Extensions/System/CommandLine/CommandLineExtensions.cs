@@ -9,27 +9,39 @@ namespace MetadataUtility.Extensions.System.CommandLine
     using global::Microsoft.Extensions.Logging;
     using global::System.CommandLine;
     using global::System.CommandLine.Binding;
+    using global::System.CommandLine.Builder;
     using global::System.CommandLine.Invocation;
+    using global::System.CommandLine.Parsing;
     using MetadataUtility.Extensions.Microsoft.Extensions;
 
+    /// <summary>
+    /// Extensions to System.CommandLine.
+    /// </summary>
     public static class CommandLineExtensions
     {
-
-        // adapted from: https://github.com/dotnet/command-line-api/blob/43be76901630aae866657dd5ec1978a5d48d5b09/src/System.CommandLine.Hosting/HostingExtensions.cs#L85
+        /// <summary>
+        /// Adapts System.CommandLine to our command class and hosting conventions.
+        /// </summary>
+        /// <param name="builder">The command builder instance</param>
+        /// <typeparam name="TCommand">The command to bind to.</typeparam>
+        /// <typeparam name="THandler">The handler to invoke.</typeparam>
+        /// <returns>The command builder instance.</returns>
         public static IHostBuilder UseEmuCommand<TCommand, THandler>(this IHostBuilder builder)
             where TCommand : Command
             where THandler : EmuCommandHandler
         {
+            // adapted from: https://github.com/dotnet/command-line-api/blob/43be76901630aae866657dd5ec1978a5d48d5b09/src/System.CommandLine.Hosting/HostingExtensions.cs#L85
+
             var commandType = typeof(TCommand);
             var handlerType = typeof(THandler);
             if (!typeof(Command).IsAssignableFrom(commandType))
             {
-                throw new ArgumentException($"{nameof(commandType)} must be a type of {nameof(Command)}", nameof(handlerType));
+                throw new ArgumentException($"{nameof(commandType)} must be a type of {nameof(Command)}", nameof(THandler));
             }
 
             if (!typeof(ICommandHandler).IsAssignableFrom(handlerType))
             {
-                throw new ArgumentException($"{nameof(handlerType)} must implement {nameof(ICommandHandler)}", nameof(handlerType));
+                throw new ArgumentException($"{nameof(handlerType)} must implement {nameof(ICommandHandler)}", nameof(THandler));
             }
 
             // only register services for the current command!
@@ -94,5 +106,26 @@ namespace MetadataUtility.Extensions.System.CommandLine
                 return options;
             });
         }
+
+        /// <summary>
+        /// Add an alias to an option.
+        /// </summary>
+        /// <param name="option">The option to mutate.</param>
+        /// <param name="alias">The alias to add.</param>
+        /// <typeparam name="T">The option's value type.</typeparam>
+        /// <returns>The mutated option.</returns>
+        public static Option<T> WithAlias<T>(this Option<T> option, string alias)
+        {
+            option.AddAlias(alias);
+            return option;
+        }
+
+        public static ParseArgument<TValue[]> SplitOnComma<TValue>() =>
+            (result) =>
+            {
+                var items = result.Tokens.Count == 1 ? result.Tokens.Single().Value.Split(',') : result.Tokens.Select(t => t.Value);
+
+                return items.Select(item => (TValue)Convert.ChangeType(item, typeof(TValue))).ToArray();
+            };
     }
 }

@@ -40,41 +40,47 @@ namespace MetadataUtility
     public partial class EmuEntry
     {
         /// <summary>
+        /// Gets the RootCommand for the application.
+        /// </summary>
+        /// <returns>A RootCommand instance.</returns>
+        public static RootCommand RootCommand { get; } = new EmuCommand();
+
+        /// <summary>
         /// Run EMU with commandline arguments.
         /// </summary>
         /// <param name="args">The args array received by the executable.</param>
         public static async Task<int> Main(string[] args)
         {
-            return await
-                BuildCommandLine()
-                 .UseHost(CreateHost, BuildDependencies)
-                 .UseDefaults()
-                 .UseHelpBuilder((context) => new EmuHelpBuilder(context.Console))
-                 .Build()
-                 .InvokeAsync(args);
+            return await BuildCommandLine().InvokeAsync(args);
         }
+
+        /// <summary>
+        /// Creates (but does not build/finalize) a CommandLineApplication object for EMU.
+        /// </summary>
+        /// <returns>A CommandLineBuilder.</returns>
+        public static CommandLineBuilder CreateCommandLine() =>
+            new CommandLineBuilder(RootCommand)
+            .UseHost(CreateHost, BuildDependencies)
+            .UseDefaults()
+            .UseHelpBuilder((context) => new EmuHelpBuilder(context.Console));
+
+        /// <summary>
+        /// Builds a parser the command line arguments for EMU.
+        /// </summary>
+        /// <param name="args">The command line arguments.</param>
+        /// <returns>The CommandLineApplication object and a binding model of arguments.</returns>
+        public static Parser BuildCommandLine() => CreateCommandLine().Build();
 
         private static IHostBuilder CreateHost(string[] args)
         {
             return Host.CreateDefaultBuilder(args);
         }
 
-        public static RootCommand RootCommand { get; } = new EmuCommand();
-
-        /// <summary>
-        /// Processes the command line arguments for EMU.
-        /// </summary>
-        /// <param name="args">The command line arguments.</param>
-        /// <returns>The CommandLineApplication object and a binding model of arguments.</returns>
-        public static CommandLineBuilder BuildCommandLine() => new(RootCommand);
-
         private static void BuildDependencies(IHostBuilder host)
         {
             host.ConfigureServices((services) =>
             {
-
                 services
-                //.AddSingleton<MainArgs>(_ => main)
                 .AddSingleton<TextWriter>(OutputSink.Factory)
                 .AddSingleton<CsvSerializer>()
                 .AddSingleton<JsonSerializer>()
