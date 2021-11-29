@@ -2,10 +2,11 @@
 // All code in this file and all associated files are the copyright and property of the QUT Ecoacoustics Research Group.
 // </copyright>
 
-using MetadataUtility.Utilities;
-
 namespace MetadataUtility.Fixes
 {
+    using System.Threading.Tasks;
+    using MetadataUtility.Utilities;
+
     public interface ICheckOperation
     {
         static abstract OperationInfo Metadata { get; }

@@ -8,7 +8,7 @@ global using System.Collections.Generic;
 global using System.IO;
 global using System.Linq;
 global using System.Threading.Tasks;
-global using static LanguageExt.Prelude;
+
 #pragma warning restore SA1200 // Using directives should be placed correctly
 
 namespace MetadataUtility
@@ -18,7 +18,6 @@ namespace MetadataUtility
     using System.CommandLine.Hosting;
     using System.CommandLine.Parsing;
     using System.IO.Abstractions;
-    using System.Threading.Tasks;
     using MetadataUtility.Cli;
     using MetadataUtility.Commands.Rename;
     using MetadataUtility.Commands.Version;
@@ -69,7 +68,6 @@ namespace MetadataUtility
         /// <summary>
         /// Builds a parser the command line arguments for EMU.
         /// </summary>
-        /// <param name="args">The command line arguments.</param>
         /// <returns>The CommandLineApplication object and a binding model of arguments.</returns>
         public static Parser BuildCommandLine() => CreateCommandLine().Build();
 

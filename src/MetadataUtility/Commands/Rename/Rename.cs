@@ -7,6 +7,7 @@ namespace MetadataUtility.Commands.Rename
     using System;
     using System.Collections.Generic;
     using System.CommandLine.Invocation;
+    using System.IO;
     using System.IO.Abstractions;
     using System.Linq;
     using System.Threading.Tasks;

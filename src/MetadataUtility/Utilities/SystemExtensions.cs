@@ -55,6 +55,8 @@ namespace System
         /// <param name="path">The file to create.</param>
         public static string Touch(this string path)
         {
+            ArgumentNullException.ThrowIfNull(path, nameof(path));
+
             var directory = Path.GetDirectoryName(path);
             Directory.CreateDirectory(directory);
             File.Create(path).Close();

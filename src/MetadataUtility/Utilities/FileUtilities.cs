@@ -4,6 +4,7 @@
 
 namespace MetadataUtility.Utilities
 {
+    using System.Diagnostics.CodeAnalysis;
     using System.Security.Cryptography;
     using MetadataUtility.Extensions.Microsoft.Extensions;
     using MetadataUtility.Models;
@@ -46,6 +47,7 @@ namespace MetadataUtility.Utilities
             return dest;
         }
 
+        [RequiresUnreferencedCode("HashAlgorithm")]
         public static async ValueTask<Checksum> CalculateChecksum(string path, HashAlgorithmName hashName)
         {
             var algorithm = HashAlgorithm.Create(hashName.Name);

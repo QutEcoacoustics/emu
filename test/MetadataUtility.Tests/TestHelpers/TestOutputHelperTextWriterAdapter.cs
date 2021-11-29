@@ -1,3 +1,7 @@
+// <copyright file="TestOutputHelperTextWriterAdapter.cs" company="QutEcoacoustics">
+// All code in this file and all associated files are the copyright and property of the QUT Ecoacoustics Research Group.
+// </copyright>
+
 namespace MetadataUtility.Tests.TestHelpers
 {
     using System.IO;
@@ -21,7 +25,11 @@ namespace MetadataUtility.Tests.TestHelpers
 
         public override void Write(char value)
         {
-            if (!this.Enabled) { return; }
+            if (!this.Enabled)
+            {
+                return;
+            }
+
             if (value == '\n')
             {
                 this.WriteCurrentLine();

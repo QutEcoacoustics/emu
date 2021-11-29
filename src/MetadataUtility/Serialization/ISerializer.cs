@@ -27,33 +27,6 @@ namespace MetadataUtility.Serialization
         void Serialize<T>(TextWriter writer, IEnumerable<T> objects);
 
         /// <summary>
-        /// For streaming operations, write a prelude or header if necessary.
-        /// </summary>
-        /// <typeparam name="T">The type that will be serialized.</typeparam>
-        /// <param name="writer">The text writer to write to.</param>
-        /// <returns>Shared context.</returns>
-        //IDisposable WriteHeader<T>(TextWriter writer);
-
-        /// <summary>
-        /// For streaming operations, write a single record.
-        /// </summary>
-        /// <typeparam name="T">The type that will be serialized.</typeparam>
-        /// <param name="context">The shared context.</param>
-        /// <param name="writer">The text writer to write to.</param>
-        /// <param name="record">The object to serialize.</param>
-        /// <returns>Shared context.</returns>
-        //IDisposable WriteRecord<T>(IDisposable context, TextWriter writer, T record);
-
-        /// <summary>
-        /// For streaming operations, write a postlude or footer if necessary.
-        /// </summary>
-        /// <typeparam name="T">The type that will be serialized.</typeparam>
-        /// <param name="context">The shared context.</param>
-        /// <param name="writer">The text writer to write to.</param>
-        /// <returns>Shared context.</returns>
-        //IDisposable WriteFooter<T>(IDisposable context, TextWriter writer);
-
-        /// <summary>
         /// Convert the text to objects.
         /// </summary>
         IEnumerable<T> Deserialize<T>(TextReader reader);

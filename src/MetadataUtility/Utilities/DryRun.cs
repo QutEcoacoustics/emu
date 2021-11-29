@@ -4,6 +4,8 @@
 
 namespace MetadataUtility.Utilities
 {
+    using System;
+    using System.IO;
     using Microsoft.Extensions.Logging;
 
     public class DryRun : IDisposable

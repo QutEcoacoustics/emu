@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net6.0</TargetFramework>
@@ -6,12 +6,14 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <LangVersion>preview</LangVersion>
     <Nullable>warnings</Nullable>
-    <PublishSingleFile>true</PublishSingleFile>
     <!-- The following should be used for publish builds -->
-    <!--<SelfContained>true</SelfContained>-->
-    <!--<RuntimeIdentifier>win-x64</RuntimeIdentifier>-->
-    <!--<PublishTrimmed>true</PublishTrimmed>-->
-    <!-- in.NET 6.0 RC1 there is some kind of infinite memory usage problem, disable crossgen2 for now -->
+    <PublishSingleFile>true</PublishSingleFile>
+    <SelfContained>true</SelfContained>
+    <PublishTrimmed>true</PublishTrimmed>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <PublishTrimmed>true</PublishTrimmed>
+    <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
+    <!-- in.NET 6.0 there is some kind of infinite memory usage problem, disable crossgen2 for now -->
     <!--<PublishReadyToRun>true</PublishReadyToRun>-->
     <AssemblyName>emu</AssemblyName>
     <!-- For static interfaces -->

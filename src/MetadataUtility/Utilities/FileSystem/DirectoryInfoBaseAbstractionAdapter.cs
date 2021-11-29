@@ -88,7 +88,8 @@ namespace MetadataUtility.Utilities.FileSystem
                 {
                     // This shouldn't happen. The parameter path isn't supposed to contain wild card.
                     throw new InvalidOperationException(
-                        string.Format("More than one sub directories are found under {0} with path {1}.",
+                        string.Format(
+                            "More than one sub directories are found under {0} with path {1}.",
                             this.directory.FullName, path));
                 }
             }

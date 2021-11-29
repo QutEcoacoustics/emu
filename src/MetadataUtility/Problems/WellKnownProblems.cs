@@ -4,6 +4,8 @@
 
 namespace MetadataUtility
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Reflection;
     using LanguageExt;
     using MetadataUtility.Models;

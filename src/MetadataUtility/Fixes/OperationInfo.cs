@@ -2,10 +2,10 @@
 // All code in this file and all associated files are the copyright and property of the QUT Ecoacoustics Research Group.
 // </copyright>
 
-using Newtonsoft.Json;
-
 namespace MetadataUtility.Fixes
 {
+    using Newtonsoft.Json;
+
     public partial record OperationInfo(
         WellKnownProblem Problem,
         bool Fixable,

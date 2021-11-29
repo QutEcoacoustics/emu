@@ -4,6 +4,7 @@
 
 namespace MetadataUtility
 {
+    using System;
     using System.CommandLine.Invocation;
     using System.Threading.Tasks;
     using MetadataUtility.Utilities;
