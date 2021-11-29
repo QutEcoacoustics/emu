@@ -191,7 +191,7 @@ Looking for targets...
 -   Renamed WAV\PILLIGA_20121204T224600+1000.wav
          to PILLIGA_20121204T224600+1000.wav
 4 files, 2 renamed, 2 unchanged, 0 failed
-...
+```
 
 
 
@@ -237,6 +237,7 @@ Other notes:
   ```shell
   dotnet test
   git tag -a -m "Version x.x" x.x
+  git push --tags
   ./docker_build_and_push.ps1
   ```
 
