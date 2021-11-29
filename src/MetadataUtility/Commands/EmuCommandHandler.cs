@@ -11,13 +11,48 @@ namespace MetadataUtility
 
     public abstract class EmuCommandHandler : EmuGlobalOptions, ICommandHandler
     {
+        // Note to future self:
+        //  Formatters massage output into the desired shape
+        //  Serializers transform said shape to desired data format
+        //
+        // Typically our text formatters do heavy manipulation of the shape, and need no serilization.
+        // Whereas our formal data types (csv, JSON, JSON-L) need no formatting, and need serialization.
+
         private static readonly Func<object, object> DefaultFormatter = (x) => x switch
         {
             string s => null, //discard
             _ => x,
         };
 
-        private static readonly Func<object, object> TextFormatter = (x) => x;
+        private static readonly Func<object, object> TextFormatter = (x) =>
+        {
+            if (x is null)
+            {
+                return x;
+            }
+            else if (x is string s)
+            {
+                return s;
+            }
+
+            return ThrowUnsupported(x);
+        };
+
+        private static readonly Func<object, object> SupressMessagesTextFormatter = (x) =>
+        {
+            if (x is null)
+            {
+                return x;
+            }
+            else if (x is string s)
+            {
+                // suppress output
+                return null;
+            }
+
+            return ThrowUnsupported(x);
+        };
+
         private Func<object, object> formatter;
 
         public EmuCommandHandler()
@@ -35,9 +70,9 @@ namespace MetadataUtility
             _ => throw new NotImplementedException(),
         };
 
-        public abstract Task<int> InvokeAsync(InvocationContext context);
-
         public OutputRecordWriter Writer { get; init; }
+
+        public abstract Task<int> InvokeAsync(InvocationContext context);
 
         public void WriteHeader<T>()
         {
@@ -85,7 +120,7 @@ namespace MetadataUtility
 
         protected virtual object FormatDefault<T>(T record) => TextFormatter(record);
 
-        protected virtual object FormatCompact<T>(T record) => TextFormatter(record);
+        protected virtual object FormatCompact<T>(T record) => SupressMessagesTextFormatter(record);
 
         protected virtual object FormatJson<T>(T record) => DefaultFormatter(record);
 
@@ -93,5 +128,4 @@ namespace MetadataUtility
 
         protected virtual object FormatCsv<T>(T record) => DefaultFormatter(record);
     }
-
 }

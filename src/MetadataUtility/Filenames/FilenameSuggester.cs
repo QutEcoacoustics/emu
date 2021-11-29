@@ -9,6 +9,7 @@ namespace MetadataUtility.Filenames
     using System.IO;
     using System.Linq;
     using System.Text;
+    using MetadataUtility.Dates;
     using MetadataUtility.Models;
     using NodaTime.Text;
 
@@ -20,12 +21,6 @@ namespace MetadataUtility.Filenames
     /// </remarks>
     public class FilenameSuggester
     {
-        // ReSharper disable StringLiteralTypo
-
-        private static readonly OffsetDateTimePattern DatePattern = OffsetDateTimePattern.CreateWithInvariantCulture("uuuuMMdd'T'HHmmss;FFFFFFo<Z+HHmm>");
-
-        // ReSharper restore StringLiteralTypo
-
         private static readonly HashSet<char> InvalidChars = new(Path.GetInvalidFileNameChars())
         {
             '\\', '/', ':', '[', ']', '{', '}', ';',
@@ -54,7 +49,7 @@ namespace MetadataUtility.Filenames
             // array size operation.
             var result = new StringBuilder(64);
 
-            DatePattern.AppendFormat(recording.StartDate.Value, result);
+            DateFormatting.OffsetDatePattern.AppendFormat(recording.StartDate.Value, result);
 
             foreach (var segment in new[] { filename.Prefix, filename.Suffix })
             {

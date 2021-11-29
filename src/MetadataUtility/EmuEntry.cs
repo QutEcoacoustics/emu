@@ -17,8 +17,10 @@ namespace MetadataUtility
     using System.CommandLine.Builder;
     using System.CommandLine.Hosting;
     using System.CommandLine.Parsing;
+    using System.IO.Abstractions;
     using System.Threading.Tasks;
     using MetadataUtility.Cli;
+    using MetadataUtility.Commands.Rename;
     using MetadataUtility.Commands.Version;
     using MetadataUtility.Extensions.System.CommandLine;
     using MetadataUtility.Filenames;
@@ -90,12 +92,13 @@ namespace MetadataUtility
                 .AddSingleton<Lazy<OutputFormat>>(
                     (provider) => new Lazy<OutputFormat>(() => provider.GetRequiredService<EmuGlobalOptions>().Format))
                 .AddTransient<OutputRecordWriter>()
+
                 //.AddTransient<DefaultFormatters>()
-                .AddSingleton(typeof(FilenameParser), _ => FilenameParser.Default)
+                .AddSingleton<IFileSystem>(_ => new FileSystem())
                 .AddSingleton<FileMatcher>()
                 .AddSingleton<FileUtilities>()
-                .AddSingleton<Renamer>()
                 .AddSingleton<FilenameSuggester>()
+                .AddSingleton<FilenameParser>()
                 .AddTransient<Processor>();
 
                 services.BindOptions<EmuGlobalOptions>();
@@ -110,6 +113,7 @@ namespace MetadataUtility
             host.UseEmuCommand<FixListCommand, FixList>();
             host.UseEmuCommand<FixCheckCommand, FixCheck>();
             host.UseEmuCommand<FixApplyCommand, FixApply>();
+            host.UseEmuCommand<RenameCommand, Rename>();
             host.UseEmuCommand<VersionCommand, Version>();
 
             host.UseSerilog(ConfigureLogging);
@@ -117,88 +121,26 @@ namespace MetadataUtility
 
         private static void ConfigureLogging(HostBuilderContext context, LoggerConfiguration configuration)
         {
-
             // TODO: use model binding
             var parseResult = context.GetInvocationContext().ParseResult;
 
-            var verbose = parseResult.FindResultFor(EmuCommand.VerboseOption)?.GetValueOrDefault<bool>() switch
-            {
-                true => EmuCommand.LogLevel.Debug,
-                _ => EmuCommand.LogLevel.None,
-            };
-            var veryVerbose = parseResult.FindResultFor(EmuCommand.VeryVerboseOption)?.GetValueOrDefault<bool>() switch
-            {
-                true => EmuCommand.LogLevel.Trace,
-                _ => EmuCommand.LogLevel.None,
-            };
-            var logLevel = parseResult.FindResultFor(EmuCommand.LogLevelOption)!.GetValueOrDefault<EmuCommand.LogLevel>();
-
             var max = LogEventLevel.Fatal + 1;
-            var level = max - new[] { (int)logLevel, (int)verbose, (int)veryVerbose }.Max();
+            var level = max - (int)GetLogLevel(parseResult);
 
-            Log.Error("command result {0}, verbosity {1} / {2}", level, verbose, veryVerbose);
+            //Log.Error("command result {0}, verbosity {1} / {2}", level, verbose, veryVerbose);
 
             configuration
                  .Enrich.WithThreadId()
                  .Destructure.ByTransforming<OffsetDateTime>(OffsetDateTimePattern.Rfc3339.Format)
                  .Destructure.ByTransforming<LocalDateTime>(LocalDateTimePattern.ExtendedIso.Format)
                  .Destructure.ByTransforming<Instant>(InstantPattern.ExtendedIso.Format)
+
                  .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
                  .MinimumLevel.Is(level)
                  .WriteTo.Console(
                      theme: AnsiConsoleTheme.Literate,
                      outputTemplate: "{Timestamp:o} [{Level:u4}] <{ThreadId}> {SourceContext} {Scope} {Message:lj}{NewLine}{Exception}",
                      standardErrorFromLevel: LogEventLevel.Verbose);
-        }
-
-        // BROKEN!
-        private static async Task<int> Execute(dynamic mainArgs)
-        {
-            //            logger.LogCritical("Critical message");
-            //            logger.LogError("Error message");
-            //            logger.LogWarning("Warning message");
-            //            logger.LogInformation("Informational message");
-            //            logger.LogDebug("Debug message");
-            //            logger.LogTrace("Trace message");
-            //var targets = mainArgs.Targets;
-            throw new NotImplementedException();
-            //this.logger.LogInformation("Input targets: {0}", targets);
-
-            //var fileMatcher = serviceProvider.GetRequiredService<FileMatcher>();
-            //var renamer = serviceProvider.GetRequiredService<Renamer>();
-            //var writer = serviceProvider.GetRequiredService<OutputWriter>();
-
-            //int count = 0;
-            //var allPaths = fileMatcher.ExpandMatches(Directory.GetCurrentDirectory(), targets);
-            //var tasks = new List<Task<Recording>>();
-
-            //// queue work
-            //foreach (var path in allPaths)
-            //{
-            //    var processor = serviceProvider.GetRequiredService<Processor>();
-            //    var task = processor.ProcessFile(path);
-            //    tasks.Add(task);
-            //}
-
-            //// wait for work
-            //var results = await Task.WhenAll(tasks.ToArray());
-
-            //if (mainArgs.Rename)
-            //{
-            //    results = await renamer.RenameAll(results);
-            //}
-
-            //// summarize work
-            //foreach (var recording in results)
-            //{
-            //    if (recording != null)
-            //    {
-            //        count++;
-            //        writer.Write(recording);
-            //    }
-            //}
-
-            //return count;
         }
     }
 }

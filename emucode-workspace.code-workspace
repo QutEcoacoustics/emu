@@ -5,6 +5,7 @@
 		}
 	],
 	"settings": {
+        "editor.formatOnSave": true,
         "cSpell.words": [
             "Ecoacoustics",
             "Noda",

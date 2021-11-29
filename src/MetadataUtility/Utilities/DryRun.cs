@@ -19,6 +19,8 @@ namespace MetadataUtility.Utilities
 
         public bool IsDryRun => this.isDryRun;
 
+        public FileAccess FileAccess => this.isDryRun ? FileAccess.Read : FileAccess.ReadWrite;
+
         public T WouldDo<T>(string message, Func<T> callback, Func<T> dryCallback = default)
         {
             if (this.IsDryRun)
@@ -33,6 +35,23 @@ namespace MetadataUtility.Utilities
             }
         }
 
+        public void WouldDo(string message, Action callback, Action dryCallback = default)
+        {
+            if (this.IsDryRun)
+            {
+                using var _ = this.logger.BeginScope("dry run would");
+                this.logger.LogInformation(message);
+                if (dryCallback is not null)
+                {
+                    dryCallback();
+                }
+            }
+            else
+            {
+                callback();
+            }
+        }
+
         public void Dispose()
         {
             if (this.isDryRun)
@@ -40,7 +59,5 @@ namespace MetadataUtility.Utilities
                 this.logger.LogInformation("This was a dry run, no changes were made");
             }
         }
-
-        public FileAccess FileAccess => this.isDryRun ? FileAccess.Read : FileAccess.ReadWrite;
     }
 }

@@ -13,6 +13,20 @@ namespace MetadataUtility.Tests.TestHelpers
     {
         private readonly string directory;
 
+        public TempFile(string basename = null, string extension = null)
+        {
+            extension ??= ".tmp";
+            basename ??= GetTempFileName();
+
+            // minus extension
+            var subDirectory = DateTime.Now.ToString("yyyyMMddTHHmmss");
+
+            this.directory = Join(Helpers.TestTempRoot, subDirectory);
+            this.Path = Join(this.directory, basename + extension);
+
+            this.Directory.Create();
+        }
+
         public static TempFile FromExisting(string path)
         {
             if (System.IO.File.Exists(path))
@@ -27,20 +41,6 @@ namespace MetadataUtility.Tests.TestHelpers
             }
 
             throw new ArgumentException("path must exist", nameof(path));
-        }
-
-        public TempFile(string basename = null, string extension = null)
-        {
-            extension ??= ".tmp";
-            basename ??= GetTempFileName();
-
-            // minus extension
-            var subDirectory = DateTime.Now.ToString("yyyyMMddTHHmmss");
-
-            this.directory = Join(Helpers.TestTempRoot, subDirectory);
-            this.Path = Join(this.directory, basename + extension);
-
-            this.Directory.Create();
         }
 
         public DirectoryInfo Directory => new(this.directory);

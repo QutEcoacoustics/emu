@@ -8,7 +8,6 @@ namespace MetadataUtility.Serialization
     using System.Collections.Generic;
     using System.IO;
     using MetadataUtility.Serialization.Converters;
-    using Microsoft.Extensions.Logging;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
     using NodaTime;
@@ -17,16 +16,14 @@ namespace MetadataUtility.Serialization
     /// <inheritdoc cref="ISerializer"/>
     public class JsonSerializer : ISerializer, IRecordFormatter
     {
-        private readonly ILogger<JsonSerializer> logger;
         private readonly JsonSerializerSettings settings;
         private readonly Newtonsoft.Json.JsonSerializer serializer;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="JsonSerializer"/> class.
         /// </summary>
-        public JsonSerializer(ILogger<JsonSerializer> logger)
+        public JsonSerializer()
         {
-            this.logger = logger;
             this.settings = new JsonSerializerSettings()
             {
                 Formatting = Formatting.Indented,
@@ -44,12 +41,10 @@ namespace MetadataUtility.Serialization
         /// <inheritdoc />
         public string Serialize<T>(IEnumerable<T> objects)
         {
-            using (var stringWriter = new StringWriter())
-            {
-                this.Serialize(stringWriter, objects);
+            using var stringWriter = new StringWriter();
+            this.Serialize(stringWriter, objects);
 
-                return stringWriter.ToString();
-            }
+            return stringWriter.ToString();
         }
 
         /// <inheritdoc />
@@ -64,6 +59,7 @@ namespace MetadataUtility.Serialization
             var json = new JsonTextWriter(writer);
 
             json.WriteStartArray();
+
             //json.WriteWhitespace(Environment.NewLine);
 
             return json;
@@ -76,12 +72,6 @@ namespace MetadataUtility.Serialization
             this.serializer.Serialize(json, record);
 
             return json;
-        }
-
-        /// <inheritdoc />
-        public IDisposable WriteFooter(IDisposable context, TextWriter writer)
-        {
-            return context;
         }
 
         /// <inheritdoc/>
@@ -110,10 +100,8 @@ namespace MetadataUtility.Serialization
         /// <inheritdoc />
         public IEnumerable<T> Deserialize<T>(TextReader reader)
         {
-            using (var jsonReader = new JsonTextReader(reader))
-            {
-                return this.serializer.Deserialize<IEnumerable<T>>(jsonReader);
-            }
+            using var jsonReader = new JsonTextReader(reader);
+            return this.serializer.Deserialize<IEnumerable<T>>(jsonReader);
         }
     }
 }

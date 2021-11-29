@@ -32,7 +32,6 @@ namespace MetadataUtility.Commands.Version
             this.WriteHeader<VersionRecord>();
             this.Write<VersionRecord>(record);
 
-
             return Task.FromResult(0);
         }
 

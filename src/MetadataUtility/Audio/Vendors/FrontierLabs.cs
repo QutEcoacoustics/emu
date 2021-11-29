@@ -1,4 +1,4 @@
-// <copyright file="FroniterLabs.cs" company="QutEcoacoustics">
+﻿// <copyright file="FroniterLabs.cs" company="QutEcoacoustics">
 // All code in this file and all associated files are the copyright and property of the QUT Ecoacoustics Research Group.
 // </copyright>
 
@@ -40,47 +40,6 @@ namespace MetadataUtility.Audio.Vendors
 
             // find the frontier labs vorbis vendor comment
             return FindInBufferFirmware(buffer);
-        }
-
-        private static Fin<FirmwareRecord> FindInBufferFirmware(ReadOnlySpan<byte> buffer)
-        {
-            // beginning of file
-            int offset = 0;
-            var index = buffer.IndexOf(VendorString);
-            if (index < 0)
-            {
-                return VendorStringNotFound;
-            }
-
-            // next read the number of comments
-            offset += index + VendorString.Length;
-
-            var commentCount = BinaryPrimitives.ReadUInt32LittleEndian(buffer[offset..]);
-            offset += 4;
-
-            // read each comment
-            for (int i = 0; i < commentCount; i++)
-            {
-                var commentLength = BinaryPrimitives.ReadUInt32LittleEndian(buffer[offset..]);
-                offset += 4;
-
-                int commentStart = offset;
-
-                // dangerous cast: but we're reading a 4096 size buffer, we'll never hit the overflow.
-                int commentEnd = (int)(offset + commentLength);
-                Range range = commentStart..commentEnd;
-
-                var comment = Encoding.UTF8.GetString(buffer[range]);
-
-                if (comment.Contains(FirmwareCommentKey))
-                {
-                    return ParseFirmwareComment(comment, range);
-                }
-
-                offset += (int)commentLength;
-            }
-
-            return FirmwareNotFound;
         }
 
         public static Fin<FirmwareRecord> ParseFirmwareComment(string comment, Range offset)
@@ -157,7 +116,47 @@ namespace MetadataUtility.Audio.Vendors
 
                 return false;
             }
+        }
 
+        private static Fin<FirmwareRecord> FindInBufferFirmware(ReadOnlySpan<byte> buffer)
+        {
+            // beginning of file
+            int offset = 0;
+            var index = buffer.IndexOf(VendorString);
+            if (index < 0)
+            {
+                return VendorStringNotFound;
+            }
+
+            // next read the number of comments
+            offset += index + VendorString.Length;
+
+            var commentCount = BinaryPrimitives.ReadUInt32LittleEndian(buffer[offset..]);
+            offset += 4;
+
+            // read each comment
+            for (int i = 0; i < commentCount; i++)
+            {
+                var commentLength = BinaryPrimitives.ReadUInt32LittleEndian(buffer[offset..]);
+                offset += 4;
+
+                int commentStart = offset;
+
+                // dangerous cast: but we're reading a 4096 size buffer, we'll never hit the overflow.
+                int commentEnd = (int)(offset + commentLength);
+                Range range = commentStart..commentEnd;
+
+                var comment = Encoding.UTF8.GetString(buffer[range]);
+
+                if (comment.Contains(FirmwareCommentKey))
+                {
+                    return ParseFirmwareComment(comment, range);
+                }
+
+                offset += (int)commentLength;
+            }
+
+            return FirmwareNotFound;
         }
     }
 }

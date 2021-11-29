@@ -9,7 +9,12 @@ namespace MetadataUtility.Commands
 
     public static class CommonArguments
     {
-        public static Argument<string[]> Targets { get; } = new("targets") { Arity = ArgumentArity.OneOrMore };
+        public static Argument<string[]> Targets { get; } = new(
+            "targets",
+            "One more glob patterns for files to process. E.g. '**/*.mp3'")
+        { Arity = ArgumentArity.OneOrMore };
+
+        public static Option<bool> DryRun = new(new string[] { "-n", "--dry-run" }, "Do a \"dry run\" by simulating any change that writes data");
 
         public static Option<string[]> Fixes { get; } = new Option<string[]>(
             "--fix",

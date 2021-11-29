@@ -48,7 +48,7 @@ namespace MetadataUtility.Models
         Calculated = 0b00100000,
 
         /// <summary>
-        /// This value was supplied by the user when running Emu
+        /// This value was supplied by the user when running Emu.
         /// </summary>
         UserSupplied = 0b01000000,
 

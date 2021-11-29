@@ -15,20 +15,6 @@ namespace MetadataUtility.Utilities
     /// </summary>
     public class OutputRecordWriter : IDisposable
     {
-        public static Func<IServiceProvider, IRecordFormatter> FormatterResolver = (provider) =>
-        {
-            var options = provider.GetRequiredService<Lazy<OutputFormat>>();
-            return options.Value switch
-            {
-                OutputFormat.Compact => provider.GetRequiredService<ToStringFormatter>(),
-                OutputFormat.Default => provider.GetRequiredService<ToStringFormatter>(),
-                OutputFormat.JSON => provider.GetRequiredService<JsonSerializer>(),
-                OutputFormat.JSONL => provider.GetRequiredService<JsonLinesSerializer>(),
-                OutputFormat.CSV => provider.GetRequiredService<CsvSerializer>(),
-                _ => throw new InvalidOperationException(),
-            };
-        };
-
         private readonly TextWriter sink;
         private readonly IRecordFormatter formatter;
         private IDisposable formatterContext;
@@ -39,6 +25,21 @@ namespace MetadataUtility.Utilities
             this.sink = sink;
             this.formatter = formatter;
         }
+
+        public static Func<IServiceProvider, IRecordFormatter> FormatterResolver { get; set; } =
+            (provider) =>
+            {
+                var options = provider.GetRequiredService<Lazy<OutputFormat>>();
+                return options.Value switch
+                {
+                    OutputFormat.Compact => provider.GetRequiredService<ToStringFormatter>(),
+                    OutputFormat.Default => provider.GetRequiredService<ToStringFormatter>(),
+                    OutputFormat.JSON => provider.GetRequiredService<JsonSerializer>(),
+                    OutputFormat.JSONL => provider.GetRequiredService<JsonLinesSerializer>(),
+                    OutputFormat.CSV => provider.GetRequiredService<CsvSerializer>(),
+                    _ => throw new InvalidOperationException(),
+                };
+            };
 
         public void WriteHeader<T>(T? header)
         {

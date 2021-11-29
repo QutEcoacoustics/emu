@@ -15,7 +15,7 @@ namespace MetadataUtility.Tests.TestHelpers
     {
         public static string ResolvePath(string name)
         {
-            var path = Path.Combine(Helpers.FixturesRoot, name);
+            var path = Path.GetFullPath(Path.Combine(Helpers.FixturesRoot, name));
 
             if (!File.Exists(path))
             {
@@ -27,18 +27,17 @@ namespace MetadataUtility.Tests.TestHelpers
 
         public class FilenameParsingFixtureData : IEnumerable<object[]>
         {
-            private const string FixtureFile = "FilenameParsigFixtures.csv";
+            private const string FixtureFile = "FilenameParsingFixtures.csv";
             private readonly FilenameParsingFixtureModel[] filenameParsingFixtureModels;
 
             public FilenameParsingFixtureData()
             {
-                using (var streamReader = File.OpenText(ResolvePath(FixtureFile)))
-                {
-                    var serializer = new CsvSerializer();
-                    this.filenameParsingFixtureModels = serializer
-                        .Deserialize<FilenameParsingFixtureModel>(streamReader)
-                        .ToArray();
-                }
+                using var streamReader = File.OpenText(ResolvePath(FixtureFile));
+                var serializer = new CsvSerializer();
+
+                this.filenameParsingFixtureModels = serializer
+                    .Deserialize<FilenameParsingFixtureModel>(streamReader)
+                    .ToArray();
             }
 
             public IEnumerator<object[]> GetEnumerator()
@@ -62,14 +61,12 @@ namespace MetadataUtility.Tests.TestHelpers
 
             public FixtureData()
             {
-                using (var streamReader = File.OpenText(ResolvePath(FixtureFile)))
-                {
-                    var serializer = new CsvSerializer();
+                using var streamReader = File.OpenText(ResolvePath(FixtureFile));
+                var serializer = new CsvSerializer();
 
-                    this.fixtureModels = serializer
-                        .Deserialize<FixtureModel>(streamReader)
-                        .ToDictionary(f => f.Name);
-                }
+                this.fixtureModels = serializer
+                    .Deserialize<FixtureModel>(streamReader)
+                    .ToDictionary(f => f.Name);
             }
 
             public FixtureModel this[string key] => this.fixtureModels[key];

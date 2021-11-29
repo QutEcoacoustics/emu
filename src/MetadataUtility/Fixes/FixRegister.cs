@@ -11,17 +11,17 @@ namespace MetadataUtility.Fixes
     {
         private readonly IServiceProvider provider;
 
+        public FixRegister(IServiceProvider provider)
+        {
+            this.provider = provider;
+        }
+
         public static OperationInfo[] All { get; } = new[]
         {
             FileNameDateStampInvalid.Metadata,
             MetadataDurationBug.Metadata,
             PowerFailure.Metadata,
         };
-
-        public FixRegister(IServiceProvider provider)
-        {
-            this.provider = provider;
-        }
 
         public IFixOperation Resolve(WellKnownProblem problem)
         {

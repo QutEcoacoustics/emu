@@ -138,6 +138,7 @@ namespace MetadataUtility
             else if (filename.LocalDateTime.HasValue)
             {
                 throw new NotImplementedException();
+
                 //if (this.arguments.UtcOffsetHint.HasValue)
                 //{
                 //    recording.StartDate = filename

@@ -8,7 +8,6 @@ namespace MetadataUtility.Tests.Serialization
     using System.IO;
     using System.Text;
     using MetadataUtility.Serialization;
-    using MetadataUtility.Tests.TestHelpers;
     using Xunit;
 
     public class RangeSerializationTests
@@ -19,7 +18,7 @@ namespace MetadataUtility.Tests.Serialization
         [Fact]
         public void JsonRangeIsSerializedAsAnInterval()
         {
-            var serializer = new JsonSerializer(Helpers.NullLogger<JsonSerializer>());
+            var serializer = new JsonSerializer();
             var wrapper = new Wrapper(Range);
 
             var builder = WriteRecord(serializer, wrapper);
@@ -36,7 +35,7 @@ namespace MetadataUtility.Tests.Serialization
         [Fact]
         public void JsonRangeFromEndIsSerializedAsAnInterval()
         {
-            var serializer = new JsonSerializer(Helpers.NullLogger<JsonSerializer>());
+            var serializer = new JsonSerializer();
             var wrapper = new Wrapper(RangeFromEnd);
 
             var builder = WriteRecord(serializer, wrapper);

@@ -69,6 +69,5 @@ namespace MetadataUtility.Audio
 
             return buffer.StartsWith(FlacMagicNumber);
         }
-
     }
 }

@@ -11,7 +11,6 @@ namespace MetadataUtility.Tests.Audio.Vendors
 
     public class FrontierLabsTests
     {
-
         [Theory]
         [InlineData("SensorFirmwareVersion=3.17", 3.17, null)]
         [InlineData("SensorFirmwareVersion=3.2", 3.2, null)]

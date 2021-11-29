@@ -59,7 +59,7 @@ namespace MetadataUtility
             using var dryRun = new DryRun(this.DryRun, this.dryRunLogger);
 
             bool any = false;
-            foreach (var file in files)
+            foreach (var (_, file) in files)
             {
                 any = true;
                 await this.ProcessFile(file, dryRun, fixes);
@@ -75,7 +75,6 @@ namespace MetadataUtility
 
         public async ValueTask ProcessFile(string file, DryRun dryRun, IFixOperation[] fixes)
         {
-
             var results = new Dictionary<WellKnownProblem, FixResult>(fixes.Length);
             foreach (var fix in fixes)
             {

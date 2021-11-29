@@ -5,17 +5,34 @@
 namespace MetadataUtility
 {
     using System.CommandLine;
+    using System.CommandLine.Parsing;
     using MetadataUtility.Commands.Version;
 
     public class EmuCommand : RootCommand
     {
+        public EmuCommand()
+        : base("EMU - Ecoacoustic Metadata Utility")
+        {
+            this.AddGlobalOption(VerboseOption);
+            this.AddGlobalOption(VeryVerboseOption);
+
+            this.AddGlobalOption(LogLevelOption);
+
+            this.AddGlobalOption(FormatOption);
+
+            this.Add(new Command("metadata", "extract metadata"));
+            this.Add(new RenameCommand());
+            this.Add(new FixCommand());
+            this.Add(new VersionCommand());
+        }
+
         public enum LogLevel : short
         {
             None = 0,
-            Critical = 1,
+            Crit = 1,
             Error = 2,
-            Warning = 3,
-            Information = 4,
+            Warn = 3,
+            Info = 4,
             Debug = 5,
             Trace = 6,
         }
@@ -31,15 +48,15 @@ namespace MetadataUtility
 
         public static Option<bool> VerboseOption { get; } = new Option<bool>(
             new[] { "-v", "--verbose" },
-            "Logging verbosity, specify multiple times to up verbosity");
+            "Log verbosely - equivalent to log level debug");
 
         public static Option<bool> VeryVerboseOption { get; } = new Option<bool>(
-            new[] { "-vv", "---very-verbose" },
-            "Logging verbosity, specify multiple times to up verbosity");
+            new[] { "-vv", "--very-verbose" },
+            "Log very verbosely - equivalent to log level trace");
 
         public static Option<LogLevel> LogLevelOption { get; } = new Option<LogLevel>(
             new string[] { "-l", "--log-level" },
-            () => LogLevel.Information,
+            () => LogLevel.Info,
             "Set the log level");
 
         public static Option<OutputFormat> FormatOption { get; } = new Option<OutputFormat>(
@@ -53,21 +70,23 @@ namespace MetadataUtility
             "Where to output data. Defaults to stdout if not supplied")
             .LegalFilePathsOnly();
 
-        public EmuCommand()
-            : base("EMU - Ecoacoustic Metadata Utility")
+        public static LogLevel GetLogLevel(ParseResult parseResult)
         {
-            this.AddGlobalOption(VerboseOption);
-            this.AddGlobalOption(VeryVerboseOption);
+            var verbose = parseResult.FindResultFor(VerboseOption)?.GetValueOrDefault<bool>() switch
+            {
+                true => LogLevel.Debug,
+                _ => LogLevel.None,
+            };
+            var veryVerbose = parseResult.FindResultFor(VeryVerboseOption)?.GetValueOrDefault<bool>() switch
+            {
+                true => LogLevel.Trace,
+                _ => LogLevel.None,
+            };
+            var logLevel = parseResult.FindResultFor(LogLevelOption)!.GetValueOrDefault<LogLevel>();
 
-            this.AddGlobalOption(LogLevelOption);
+            var level = new[] { (int)logLevel, (int)verbose, (int)veryVerbose }.Max();
 
-            this.AddGlobalOption(FormatOption);
-
-            this.Add(new Command("metadata", "extract metadata"));
-            this.Add(new Command("rename", "rename files to a consistent format"));
-            this.Add(new FixCommand());
-            this.Add(new VersionCommand());
-
+            return (LogLevel)level;
         }
     }
 }

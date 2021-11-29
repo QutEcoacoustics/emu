@@ -4,7 +4,6 @@
 
 namespace MetadataUtility.Models
 {
-
     /// <inheritdoc />
     public record Error(WellKnownProblem Problem) : Notice(Problem);
 }

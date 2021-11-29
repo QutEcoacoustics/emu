@@ -11,7 +11,6 @@ namespace MetadataUtility.Commands.Version
         public VersionCommand()
             : base("version", "Show EMU's version. Same as --version but honours output format selection.")
         {
-
         }
     }
 }

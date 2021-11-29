@@ -11,12 +11,10 @@ namespace MetadataUtility.Fixes.FrontierLabs
     using Microsoft.Extensions.Logging;
     using static MetadataUtility.Audio.Vendors.FrontierLabs;
 
-
     //public record DurationBugRecord(FirmwareRecord Firmware, DurationBugStatus Status);
 
     public class MetadataDurationBug : IFixOperation
     {
-
         public static readonly string EmuPatched = WellKnownProblems.PatchString(Metadata.Problem);
         public static readonly (decimal Min, decimal Max) AffectedFirmwares = (3.17m, 3.28m);
 

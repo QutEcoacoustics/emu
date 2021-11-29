@@ -5,28 +5,31 @@
 namespace MetadataUtility.Tests.FilenameParsing
 {
     using System;
+    using FluentAssertions;
+    using MetadataUtility.Dates;
     using MetadataUtility.Filenames;
-    using MetadataUtility.Models;
     using MetadataUtility.Tests.TestHelpers;
     using NodaTime;
     using Shouldly;
     using Xbehave;
     using Xunit;
+    using Xunit.Abstractions;
     using static MetadataUtility.Tests.TestHelpers.Helpers;
 
-    public class FilenameParserTests
+    public class FilenameParserTests : TestBase
     {
         private FilenameParser parser;
 
-        public FilenameParserTests()
+        public FilenameParserTests(ITestOutputHelper output)
+            : base(output)
         {
         }
 
         [Background]
         public void Background()
         {
-            $"Given a {nameof(FilenameParser)} using the default formats"
-                .x(() => this.parser = FilenameParser.Default);
+            $"Given a {nameof(Filenames.FilenameParser)} using the default formats"
+                .x(() => this.parser = this.FilenameParser);
         }
 
         [Scenario]
@@ -103,6 +106,26 @@ namespace MetadataUtility.Tests.FilenameParsing
 
             "then the DatePart should have the remainder of the string"
                 .x(() => Assert.Equal(datePart, actual.DatePart));
+        }
+
+        [Theory]
+        [ClassData(typeof(FixtureHelper.FilenameParsingFixtureData))]
+        public void CanReconstructTheFileName(FilenameParsingFixtureModel test)
+        {
+            this.parser = this.FilenameParser;
+            var parsed = this.parser.Parse(test.Filename);
+
+            var actual = parsed.Reconstruct();
+
+            var expectedDate = (test.ExpectedTzOffset, test.ExpectedDateTime) switch
+            {
+                (null, not null) => DateFormatting.FormatFileName(test.ExpectedDateTime.Value),
+                (not null, not null) => DateFormatting.FormatFileName(
+                    test.ExpectedDateTime.Value.WithOffset(test.ExpectedTzOffset.Value)),
+                (null, null) => string.Empty,
+            };
+
+            actual.Should().Be($"{test.Prefix}{expectedDate}{test.Suffix}{test.Extension}");
         }
     }
 }

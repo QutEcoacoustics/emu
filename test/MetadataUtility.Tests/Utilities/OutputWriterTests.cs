@@ -11,7 +11,6 @@ namespace MetadataUtility.Tests.Utilities
     using System.Text.RegularExpressions;
     using MetadataUtility.Models;
     using MetadataUtility.Serialization;
-    using MetadataUtility.Tests.TestHelpers;
     using MetadataUtility.Tests.TestHelpers.Fakes;
     using MetadataUtility.Utilities;
     using Xunit;
@@ -29,75 +28,71 @@ namespace MetadataUtility.Tests.Utilities
         public void OutputWriterWriteJson()
         {
             var stringBuilder = new StringBuilder(4);
-            using (var stringWriter = new StringWriter(stringBuilder))
-            {
-                var jsonSerializer = new JsonSerializer(Helpers.NullLogger<JsonSerializer>());
+            using var stringWriter = new StringWriter(stringBuilder);
+            var jsonSerializer = new JsonSerializer();
 
-                var output = new OutputRecordWriter(stringWriter, jsonSerializer);
+            var output = new OutputRecordWriter(stringWriter, jsonSerializer);
 
-                // generate a fake and write it to the stream
-                var a = this.fakes.Recording.Generate();
-                output.Write(a);
+            // generate a fake and write it to the stream
+            var a = this.fakes.Recording.Generate();
+            output.Write(a);
 
-                // check the header was written
-                var actual = stringBuilder.ToString();
-                Assert.StartsWith($"[{Environment.NewLine}", actual);
-                Assert.EndsWith("}", actual);
+            // check the header was written
+            var actual = stringBuilder.ToString();
+            Assert.StartsWith($"[{Environment.NewLine}", actual);
+            Assert.EndsWith("}", actual);
 
-                // generate and write another fake
-                var b = this.fakes.Recording.Generate();
-                output.Write(b);
+            // generate and write another fake
+            var b = this.fakes.Recording.Generate();
+            output.Write(b);
 
-                // finish writing
-                output.Dispose();
+            // finish writing
+            output.Dispose();
 
-                actual = stringBuilder.ToString();
-                Assert.StartsWith($"[{Environment.NewLine}", actual);
-                Assert.EndsWith("]", actual);
+            actual = stringBuilder.ToString();
+            Assert.StartsWith($"[{Environment.NewLine}", actual);
+            Assert.EndsWith("]", actual);
 
-                var records = jsonSerializer.Deserialize<Recording>(new StringReader(actual)).ToArray();
+            var records = jsonSerializer.Deserialize<Recording>(new StringReader(actual)).ToArray();
 
-                Assert.Equal(records[0].SourcePath, a.SourcePath);
-                Assert.Equal(records[1].SourcePath, b.SourcePath);
-            }
+            Assert.Equal(records[0].SourcePath, a.SourcePath);
+            Assert.Equal(records[1].SourcePath, b.SourcePath);
         }
 
         [Fact]
         public void OutputWriterWriteCsv()
         {
             var stringBuilder = new StringBuilder(4);
-            using (var stringWriter = new StringWriter(stringBuilder))
-            {
-                var csvSerializer = new CsvSerializer();
+            using var stringWriter = new StringWriter(stringBuilder);
+            var csvSerializer = new CsvSerializer();
 
-                var output = new OutputRecordWriter(stringWriter, csvSerializer);
+            var output = new OutputRecordWriter(stringWriter, csvSerializer);
 
-                // generate a fake and write it to the stream
-                var a = this.fakes.Recording.Generate();
-                output.Write(a);
+            // generate a fake and write it to the stream
+            var a = this.fakes.Recording.Generate();
+            output.Write(a);
 
-                // check the header was written
-                var actual = stringBuilder.ToString();
-                Assert.StartsWith($"{nameof(Recording.SourcePath)},", actual);
-                Assert.Contains(a.ExpectedDurationSeconds?.TotalSeconds + ",", actual);
+            // check the header was written
+            var actual = stringBuilder.ToString();
+            Assert.StartsWith($"{nameof(Recording.SourcePath)},", actual);
+            Assert.Contains(a.ExpectedDurationSeconds?.TotalSeconds + ",", actual);
 
-                // generate and write another fake
-                var b = this.fakes.Recording.Generate();
-                output.Write(b);
+            // generate and write another fake
+            var b = this.fakes.Recording.Generate();
+            output.Write(b);
 
-                // finish writing
-                output.Dispose();
+            // finish writing
+            output.Dispose();
 
-                actual = stringBuilder.ToString();
-                Assert.StartsWith($"{nameof(Recording.SourcePath)},", actual);
-                Assert.Single(Regex.Matches(actual, $"{nameof(Recording.SourcePath)},"));
-                Assert.Contains(a.ExpectedDurationSeconds?.TotalSeconds + ",", actual);
+            actual = stringBuilder.ToString();
+            Assert.StartsWith($"{nameof(Recording.SourcePath)},", actual);
+            Assert.Single(Regex.Matches(actual, $"{nameof(Recording.SourcePath)},"));
+            Assert.Contains(a.ExpectedDurationSeconds?.TotalSeconds + ",", actual);
 
-                var records = csvSerializer.Deserialize<Recording>(new StringReader(actual)).ToArray();
+            var records = csvSerializer.Deserialize<Recording>(new StringReader(actual)).ToArray();
 
-                Assert.Equal(records[0].SourcePath, a.SourcePath);
-                Assert.Equal(records[1].SourcePath, b.SourcePath);
-            }
+            Assert.Equal(records[0].SourcePath, a.SourcePath);
+            Assert.Equal(records[1].SourcePath, b.SourcePath);
         }
     }
 }

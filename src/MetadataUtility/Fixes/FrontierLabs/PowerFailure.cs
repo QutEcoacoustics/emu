@@ -13,8 +13,7 @@ namespace MetadataUtility.Fixes.FrontierLabs
             Fixable: false,
             Safe: true,
             Automatic: true,
-            typeof(PowerFailure)
-        );
+            typeof(PowerFailure));
 
         public async Task<CheckResult> CheckAffectedAsync(string file)
         {

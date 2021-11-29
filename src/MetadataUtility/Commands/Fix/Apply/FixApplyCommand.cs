@@ -6,12 +6,11 @@ namespace MetadataUtility
 {
     using System.CommandLine;
     using MetadataUtility.Commands;
-    using MetadataUtility.Extensions.System.CommandLine;
 
     public class FixApplyCommand : Command
     {
         public FixApplyCommand()
-            : base("apply", "apply one or more fixes to a file. Currently only supports automatic fixes.")
+            : base("apply", "apply one or more fixes to a file.\nCurrently only supports automatic fixes.")
         {
             this.AddArgument(CommonArguments.Targets);
 

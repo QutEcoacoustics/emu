@@ -11,7 +11,5 @@ namespace MetadataUtility.Audio
     /// </summary>
     public class WamdRIffChunk
     {
-
-
     }
 }

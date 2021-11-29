@@ -4,49 +4,68 @@
 
 namespace MetadataUtility.Filenames
 {
+    using System.IO;
+    using MetadataUtility.Dates;
     using MetadataUtility.Models;
     using NodaTime;
 
     /// <summary>
     /// Represents the information extracted from a filename.
     /// </summary>
-    public class ParsedFilename
+    public record ParsedFilename
     {
         /// <summary>
-        /// Gets or sets the unambiguous datetime parsed from the given filename.
+        /// Gets the unambiguous datetime parsed from the given filename.
         /// </summary>
-        public OffsetDateTime? OffsetDateTime { get; set; }
+        public OffsetDateTime? OffsetDateTime { get; init; }
 
         /// <summary>
-        /// Gets or sets a local date time (ambiguous because there is no information
+        /// Gets a local date time (ambiguous because there is no information
         /// on how this date is related to UTC) parsed from the given filename.
         /// </summary>
-        public LocalDateTime? LocalDateTime { get; set; }
+        public LocalDateTime? LocalDateTime { get; init; }
 
         /// <summary>
-        /// Gets or sets the location parsed from the given filename.
+        /// Gets the location parsed from the given filename.
         /// </summary>
-        public Location Location { get; set; }
+        public Location Location { get; init; }
 
         /// <summary>
-        /// Gets or sets any prefix found before the date stamp from the given filename.
+        /// Gets any prefix found before the date stamp from the given filename.
         /// </summary>
-        public string Prefix { get; set; }
+        public string Prefix { get; init; }
 
         /// <summary>
-        /// Gets or sets the portion of the name that was parsed as a date into
+        /// Gets the portion of the name that was parsed as a date into
         /// <see cref="OffsetDateTime"/> or <see cref="LocalDateTime"/>.
         /// </summary>
-        public string DatePart { get; set; }
+        public string DatePart { get; init; }
 
         /// <summary>
-        /// Gets or sets any suffix found after the date stamp from the given filename.
+        /// Gets any suffix found after the date stamp from the given filename.
         /// </summary>
-        public string Suffix { get; set; }
+        public string Suffix { get; init; }
 
         /// <summary>
-        /// Gets or sets the extension (including a leading period) found for the given filename.
+        /// Gets the extension (including a leading period) found for the given filename.
         /// </summary>
-        public string Extension { get; set; }
+        public string Extension { get; init; }
+
+        /// <summary>
+        /// Gets the directory the file was found in.
+        /// </summary>
+        public string Directory { get; internal set; }
+
+        public string Reconstruct()
+        {
+            var datePart = this switch
+            {
+                { OffsetDateTime: not null } => DateFormatting.FormatFileName(this.OffsetDateTime.Value),
+                { LocalDateTime: not null } => DateFormatting.FormatFileName(this.LocalDateTime.Value),
+                _ => this.DatePart,
+            };
+
+            return Path.Combine(this.Directory, $"{this.Prefix}{datePart}{this.Suffix}{this.Extension}");
+        }
     }
 }

@@ -17,7 +17,6 @@ namespace MetadataUtility.Fixes
 
     public interface IFixOperation : ICheckOperation
     {
-
         Task<FixResult> ProcessFileAsync(string file, DryRun dryRun, bool backup);
     }
 

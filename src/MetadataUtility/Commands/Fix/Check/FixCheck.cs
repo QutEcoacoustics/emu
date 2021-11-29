@@ -62,7 +62,7 @@ namespace MetadataUtility
             var files = this.fileMatcher.ExpandMatches(Directory.GetCurrentDirectory(), this.Targets);
 
             bool any = false;
-            foreach (var file in files)
+            foreach (var (_, file) in files)
             {
                 any = true;
                 var results = new Dictionary<WellKnownProblem, CheckResult>(fixes.Length);

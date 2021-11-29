@@ -6,10 +6,8 @@ namespace MetadataUtility.Audio
 {
     using LanguageExt.Common;
 
-    class Errors
+    public class Errors
     {
-
         public static readonly Error FileTooShort = Error.New("Error reading file: file is not long enough to have a duration header");
-
     }
 }

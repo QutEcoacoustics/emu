@@ -5,7 +5,7 @@
 namespace MetadataUtility.Filenames
 {
     using System.Collections.Generic;
-    using System.IO;
+    using System.IO.Abstractions;
     using System.Linq;
     using System.Text.RegularExpressions;
     using MetadataUtility.Dates;
@@ -119,46 +119,56 @@ namespace MetadataUtility.Filenames
         private const string NoOffset = @"(?![-+\d:]{1,6}|Z)";
         private const string Latitude = @"(?<Latitude>[-+NS]\d{2}(?:\.\d+))";
         private const string Longitude = @"(?<Longitude>[-+NS]\d{3}(?:\.\d+))";
-
+        private readonly IFileSystem fileSystem;
         private readonly IEnumerable<DateVariant<LocalDateTime>> localDateVariants;
         private readonly IEnumerable<DateVariant<OffsetDateTime>> offsetDateVariant;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FilenameParser"/> class.
         /// </summary>
+        public FilenameParser(IFileSystem fileSystem)
+            : this(fileSystem, PossibleLocalVariants, PossibleOffsetVariants)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FilenameParser"/> class.
+        /// </summary>
+        /// <param name="fileSystem">The filesystem to use.</param>
         /// <param name="localDateVariants">The possible local date strings to parse.</param>
         /// <param name="offsetDateVariant">The possible date with timezone strings to parse.</param>
-        public FilenameParser(IEnumerable<DateVariant<LocalDateTime>> localDateVariants, IEnumerable<DateVariant<OffsetDateTime>> offsetDateVariant)
+        public FilenameParser(IFileSystem fileSystem, IEnumerable<DateVariant<LocalDateTime>> localDateVariants, IEnumerable<DateVariant<OffsetDateTime>> offsetDateVariant)
         {
+            this.fileSystem = fileSystem;
             this.localDateVariants = localDateVariants;
             this.offsetDateVariant = offsetDateVariant;
         }
 
         /// <summary>
-        /// Gets a default <see cref="FilenameParser"/> with prebuilt formats already supplied.
-        /// </summary>
-        public static FilenameParser Default { get; } = new FilenameParser(PossibleLocalVariants, PossibleOffsetVariants);
-
-        /// <summary>
         /// Attempts to parse information from a filename.
         /// </summary>
-        /// <param name="filename">The name of the file to process.</param>
+        /// <param name="path">The path of the file to process.</param>
         /// <returns>The parsed information.</returns>
-        public ParsedFilename Parse(string filename)
+        public ParsedFilename Parse(string path)
         {
+            var directory = this.fileSystem.Path.GetDirectoryName(path);
+            var filename = this.fileSystem.Path.GetFileName(path);
+
             foreach (var dateVariant in this.offsetDateVariant)
             {
                 if (this.TryParse(filename, dateVariant, out var value, out var parsedFilename))
                 {
-                    parsedFilename.LocalDateTime = value.LocalDateTime;
-                    parsedFilename.OffsetDateTime = value;
-
                     if (parsedFilename.Location != null)
                     {
                         parsedFilename.Location.SampleDateTime = value.ToInstant();
                     }
 
-                    return parsedFilename;
+                    return parsedFilename with
+                    {
+                        LocalDateTime = value.LocalDateTime,
+                        OffsetDateTime = value,
+                        Directory = directory,
+                    };
                 }
             }
 
@@ -166,22 +176,22 @@ namespace MetadataUtility.Filenames
             {
                 if (this.TryParse(filename, dateVariant, out var value, out var parsedFilename))
                 {
-                    parsedFilename.LocalDateTime = value;
-                    return parsedFilename;
+                    return parsedFilename with { LocalDateTime = value, Directory = directory };
                 }
             }
 
             // finally, if no date can be found return minimal information
-            var stem = Path.GetFileNameWithoutExtension(filename);
+            var stem = this.fileSystem.Path.GetFileNameWithoutExtension(filename);
             return new ParsedFilename()
             {
-                Extension = Path.GetExtension(filename),
+                Extension = this.fileSystem.Path.GetExtension(filename),
                 LocalDateTime = null,
                 Location = this.ParseLocation(stem),
                 OffsetDateTime = null,
                 Prefix = stem,
                 DatePart = string.Empty,
                 Suffix = string.Empty,
+                Directory = directory,
             };
         }
 

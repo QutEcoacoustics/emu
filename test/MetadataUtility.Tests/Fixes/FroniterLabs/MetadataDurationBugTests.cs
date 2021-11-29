@@ -93,7 +93,6 @@ namespace MetadataUtility.Tests.Fixes.FroniterLabs
             await this.AssertMetadata(AfterFixSamples, FirmwareVersion, PatchedTag);
         }
 
-
         [Fact]
         public async void WillDoNothingInADryRun()
         {

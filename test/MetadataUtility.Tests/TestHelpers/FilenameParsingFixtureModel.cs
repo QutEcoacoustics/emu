@@ -4,37 +4,31 @@
 
 namespace MetadataUtility.Tests.TestHelpers
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Text;
     using NodaTime;
 
-    [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local", Justification = "These fields are set by reflection when deserialized")]
     public class FilenameParsingFixtureModel
     {
-        public string Filename { get; private set; }
+        public string Filename { get; set; }
 
-        public LocalDateTime? ExpectedDateTime { get; private set; }
+        public LocalDateTime? ExpectedDateTime { get; set; }
 
-        public Offset? ExpectedTzOffset { get; private set; }
+        public Offset? ExpectedTzOffset { get; set; }
 
-        public double? ExpectedLatitude { get; private set; }
+        public double? ExpectedLatitude { get; set; }
 
-        public double? ExpectedLongitude { get; private set; }
+        public double? ExpectedLongitude { get; set; }
 
-        public string Prefix { get; private set; }
+        public string Prefix { get; set; }
 
-        public string Suffix { get; private set; }
+        public string Suffix { get; set; }
 
-        public string Extension { get; private set; }
+        public string Extension { get; set; }
 
-        //public string SuggestedFilename { get; private set; }
+        //public string SuggestedFilename { get; set; }
 
-        //public string SensorType { get; private set; }
+        //public string SensorType { get; set; }
 
-        //public double? SensorTypeEstimate { get; private set; }
+        //public double? SensorTypeEstimate { get; set; }
 
         public override string ToString()
         {

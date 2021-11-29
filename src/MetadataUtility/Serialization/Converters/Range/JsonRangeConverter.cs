@@ -16,7 +16,6 @@ namespace MetadataUtility.Serialization.Converters
 
         public override void WriteJson(JsonWriter writer, Range value, JsonSerializer serializer)
         {
-
             writer.WriteValue(value.FormatInterval((i) => i.ToString(serializer.Culture)));
         }
     }

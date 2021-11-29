@@ -22,7 +22,7 @@ namespace MetadataUtility.Extensions.System.CommandLine
         /// <summary>
         /// Adapts System.CommandLine to our command class and hosting conventions.
         /// </summary>
-        /// <param name="builder">The command builder instance</param>
+        /// <param name="builder">The command builder instance.</param>
         /// <typeparam name="TCommand">The command to bind to.</typeparam>
         /// <typeparam name="THandler">The handler to invoke.</typeparam>
         /// <returns>The command builder instance.</returns>

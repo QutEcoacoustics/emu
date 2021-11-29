@@ -16,6 +16,8 @@ namespace MetadataUtility
     {
         private static readonly IReadOnlyDictionary<string, WellKnownProblem> Problems;
 
+        public const string Group = "OE";
+
         static WellKnownProblems()
         {
             Problems = typeof(WellKnownProblems)
@@ -34,8 +36,6 @@ namespace MetadataUtility
         }
 
         public static string PatchString(WellKnownProblem problem) => "EMU+" + problem.Id;
-
-        const string Group = "OE";
 
         /// <summary>
         /// Happens when no date can be found.
@@ -70,7 +70,7 @@ namespace MetadataUtility
 
         public class FrontierLabsProblems
         {
-            const string Group = "FL";
+            public const string Group = "FL";
 
             public WellKnownProblem MetadataDurationBug => new(
                 "Metadata Duration Bug",
