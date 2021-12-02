@@ -4,7 +4,7 @@
 
 namespace MetadataUtility.Filenames
 {
-    using System.IO;
+    using System.IO.Abstractions;
     using MetadataUtility.Dates;
     using MetadataUtility.Models;
     using NodaTime;
@@ -56,7 +56,7 @@ namespace MetadataUtility.Filenames
         /// </summary>
         public string Directory { get; internal set; }
 
-        public string Reconstruct()
+        public string Reconstruct(IFileSystem fileSystem)
         {
             var datePart = this switch
             {
@@ -65,7 +65,7 @@ namespace MetadataUtility.Filenames
                 _ => this.DatePart,
             };
 
-            return Path.Combine(this.Directory, $"{this.Prefix}{datePart}{this.Suffix}{this.Extension}");
+            return fileSystem.Path.Combine(this.Directory, $"{this.Prefix}{datePart}{this.Suffix}{this.Extension}");
         }
     }
 }

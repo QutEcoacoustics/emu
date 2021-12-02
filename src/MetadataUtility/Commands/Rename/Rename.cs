@@ -199,7 +199,7 @@ namespace MetadataUtility.Commands.Rename
             return transform.New.Case switch
             {
                 Error error => new RenameResult(old, default, error.ToString()),
-                ParsedFilename newFragments => new RenameResult(old, newFragments.Reconstruct(), default),
+                ParsedFilename newFragments => new RenameResult(old, newFragments.Reconstruct(this.fileSystem), default),
                 _ => throw new NotImplementedException(),
             };
         }

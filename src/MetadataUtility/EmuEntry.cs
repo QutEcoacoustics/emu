@@ -96,7 +96,7 @@ namespace MetadataUtility
                 .AddSingleton<FileMatcher>()
                 .AddSingleton<FileUtilities>()
                 .AddSingleton<FilenameSuggester>()
-                .AddSingleton<FilenameParser>()
+                .AddSingleton<FilenameParser>(provider => new FilenameParser(provider.GetRequiredService<IFileSystem>()))
                 .AddTransient<Processor>();
 
                 services.BindOptions<EmuGlobalOptions>();

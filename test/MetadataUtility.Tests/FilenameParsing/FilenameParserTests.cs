@@ -14,6 +14,7 @@ namespace MetadataUtility.Tests.FilenameParsing
     using Xbehave;
     using Xunit;
     using Xunit.Abstractions;
+    using static MetadataUtility.Filenames.FilenameParser;
     using static MetadataUtility.Tests.TestHelpers.Helpers;
 
     public class FilenameParserTests : TestBase
@@ -115,7 +116,7 @@ namespace MetadataUtility.Tests.FilenameParsing
             this.parser = this.FilenameParser;
             var parsed = this.parser.Parse(test.Filename);
 
-            var actual = parsed.Reconstruct();
+            var actual = parsed.Reconstruct(this.TestFiles);
 
             var expectedDate = (test.ExpectedTzOffset, test.ExpectedDateTime) switch
             {
@@ -126,6 +127,27 @@ namespace MetadataUtility.Tests.FilenameParsing
             };
 
             actual.Should().Be($"{test.Prefix}{expectedDate}{test.Suffix}{test.Extension}");
+        }
+
+        [Fact]
+        public void WillThrowIfConstructedWithNulls()
+        {
+            var exception = Assert.Throws<ArgumentException>(
+                () => new FilenameParser(this.TestFiles, null, null));
+
+            Assert.Equal("No date variants were given to filename parser", exception.Message);
+        }
+
+        [Fact]
+        public void WillThrowIfConstructedWithEmpty()
+        {
+            var exception = Assert.Throws<ArgumentException>(
+                () => new FilenameParser(
+                    this.TestFiles,
+                    Array.Empty<DateVariant<LocalDateTime>>(),
+                    Array.Empty<DateVariant<OffsetDateTime>>()));
+
+            Assert.Equal("No date variants were given to filename parser", exception.Message);
         }
     }
 }

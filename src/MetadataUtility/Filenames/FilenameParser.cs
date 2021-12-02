@@ -142,6 +142,10 @@ namespace MetadataUtility.Filenames
             this.fileSystem = fileSystem;
             this.localDateVariants = localDateVariants;
             this.offsetDateVariant = offsetDateVariant;
+            if (((localDateVariants?.Count() ?? 0) + (offsetDateVariant?.Count() ?? 0)) == 0)
+            {
+                throw new ArgumentException("No date variants were given to filename parser");
+            }
         }
 
         /// <summary>
