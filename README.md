@@ -1,6 +1,8 @@
 # **EMU**: <small>**E**coacoustics **M**etadata **U**tility</small> <img align="right" width="100" height="100" alt="A surprised Emu." src="docs/media/emu-small.png"/>
 
-A generic tool for metadata manipulation of ecoacoustic audio recordings
+A generic tool for metadata manipulation of ecoacoustics audio recordings
+
+[![DOI](https://zenodo.org/badge/150051600.svg)](https://zenodo.org/badge/latestdoi/150051600)
 
 ![main help screenshot](docs/media/main_help.png)
 
@@ -234,9 +236,12 @@ Other notes:
 
 - Release a new version with:
 
-  ```shell
+  ```powershell
   dotnet test
-  git tag -a -m "Version x.x" x.x
+  git tag -a -m "Version x.x.x" x.x.x
+  $rids = ("win-x64", "linux-x64", "osx-x64", "osx-arm64", "linux-arm", "linux-arm64")
+  $rids | ForEach-Object { dotnet publish .\src\MetadataUtility\ -c Release -o ./publish/$_ --self-contained -r $_  }
+  Get-ChildItem ./publish/ -Directory | % { Compress-Archive -Path $_ -DestinationPath ('./publish/' + $_.Name + ".zip") }
   git push --tags
   ./docker_build_and_push.ps1
   ```
