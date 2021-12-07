@@ -107,7 +107,7 @@ File 20211004T200000+0000_Rec2_-18.1883+144.5414.flac:
         - FL010: Fixed. Old total samples was 317292544, new total samples is: 158646272
 ```
 
-### Rename your files (AudioMoth)
+### Rename your files: AudioMoth
 
 Emu will change dates in files to a common and recommended date format where possible.
 
@@ -121,11 +121,11 @@ Looking for targets...
 1 files, 1 renamed, 0 unchanged, 0 failed
 ```
 
-### Rename: add an offset to a local datestamp
+### Rename your files: add an offset to a local datestamp
 
 Most acoustic monitors record only a local datestamp - this means the date stamp has no timezone information.
 For example a classic SM4 datestamp looks like this: `PILLIGA_20121204_234600.wav`. We can see it was 
-recorded at 11:46 PM... but is that 11:46 PM UTC time? Eastern Australian Standard Time? Eastern Australian Daylight Savings Time? Soemthing else!?
+recorded at 11:46 PM... but is that 11:46 PM UTC time? Eastern Australian Standard Time? Eastern Australian Daylight Savings Time? Something else!?
 
 For small projects adding timezone information won't help a lot. But for any project which spans multiple timezones (
 including daylight savings time) we recommend you add this information if your files after you pull them off of your
@@ -139,7 +139,7 @@ Looking for targets...
 1 files, 1 renamed, 0 unchanged, 0 failed
 ```
 
-### Rename: Changing the offset
+### Rename your files: Changing the offset
 
 The two dates <date>2021-10-04T20:00:00+00:00</date> and <date>2021-10-05T06:00:00+10:00</date> represent the exact
 same instant in time! They're the same... just interpreted differently.
@@ -165,7 +165,7 @@ Looking for targets...
 4 files, 4 renamed, 0 unchanged, 0 failed
 ```
 
-### Rename: safety
+### Rename your files: safety
 
 If you're worried about a rename you can instead create a copy of your files:
 
@@ -181,7 +181,7 @@ Remember to do a dry-run before operations that modify data!
 ...
 ```
 
-### Rename: flatten
+### Rename your files: flatten
 
 Got too many folders? Flattern the folder hierarchy with:
 
