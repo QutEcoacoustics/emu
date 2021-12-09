@@ -40,7 +40,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Serilog" Version="2.11.0-dev-01371" />
+    <PackageReference Include="Serilog" Version="2.11.0-dev-01377" />
     <PackageReference Include="Serilog.Enrichers.Thread" Version="3.2.0-dev-00752" />
     <PackageReference Include="Serilog.Extensions.Hosting" Version="4.2.0" />
     <PackageReference Include="Serilog.Extensions.Logging" Version="3.1.0" />
