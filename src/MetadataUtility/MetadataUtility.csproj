@@ -52,7 +52,7 @@
     <PackageReference Include="System.CommandLine" Version="2.0.0-beta1.21308.1" />
     <PackageReference Include="System.CommandLine.Hosting" Version="0.3.0-alpha.21216.1" />
     <PackageReference Include="System.CommandLine.Rendering" Version="0.3.0-alpha.21216.1" />
-    <PackageReference Include="System.IO.Abstractions" Version="14.0.3" />
+    <PackageReference Include="System.IO.Abstractions" Version="14.0.13" />
     <PackageReference Include="System.IO.Pipelines" Version="6.0.0" />
     <PackageReference Include="Xabe.FFmpeg" Version="5.0.2" />
   </ItemGroup>
