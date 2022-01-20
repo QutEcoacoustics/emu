@@ -22,6 +22,9 @@ namespace MetadataUtility
 
             this.AddOption(new Option<bool>(new string[] { "--flatten" }, "Flattens files so all files in folders are moved up to the target directory"));
 
+            //--group-by is copied from --copy-to for now. Shows up when emu.exe is run. 
+            this.AddOption(new Option<DirectoryInfo?>(new string[] { "--group-by" }, "Organizes files into sub directories"));
+
             this.AddOption(
                 new Option<Offset?>(
                     "--new-offset",
