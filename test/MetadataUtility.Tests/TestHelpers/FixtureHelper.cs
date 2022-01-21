@@ -106,7 +106,15 @@ namespace MetadataUtility.Tests.TestHelpers
 
             public void Dispose()
             {
-                Directory.Delete(this.TempDir, recursive: true);
+                try
+                {
+                    Directory.Delete(this.TempDir, recursive: true);
+                }
+                catch (System.IO.DirectoryNotFoundException dnf)
+                {
+                    Console.Error.WriteLine(dnf.ToString());
+                }
+
             }
         }
     }
