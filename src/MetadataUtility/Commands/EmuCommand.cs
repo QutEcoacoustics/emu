@@ -7,6 +7,7 @@ namespace MetadataUtility
     using System.CommandLine;
     using System.CommandLine.Parsing;
     using MetadataUtility.Commands.Version;
+    using MetadataUtility.Commands.Metadata;
 
     public class EmuCommand : RootCommand
     {
@@ -20,7 +21,7 @@ namespace MetadataUtility
 
             this.AddGlobalOption(FormatOption);
 
-            this.Add(new Command("metadata", "extract metadata"));
+            this.Add(new MetadataCommand());
             this.Add(new RenameCommand());
             this.Add(new FixCommand());
             this.Add(new VersionCommand());
