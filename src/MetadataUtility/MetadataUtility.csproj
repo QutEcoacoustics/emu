@@ -5,6 +5,7 @@
     <CodeAnalysisRuleSet>../../stylecop.ruleset</CodeAnalysisRuleSet>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <LangVersion>preview</LangVersion>
+    <EnablePreviewFeatures>True</EnablePreviewFeatures>
     <Nullable>warnings</Nullable>
     <!-- The following should be used for publish builds -->
     <PublishSingleFile>true</PublishSingleFile>
