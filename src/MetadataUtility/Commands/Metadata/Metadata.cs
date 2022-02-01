@@ -13,19 +13,22 @@ namespace MetadataUtility.Commands.Metadata
     using System.Threading.Tasks;
     using LanguageExt;
     using LanguageExt.Common;
+    using Microsoft.Extensions.Logging;
     using MetadataUtility.Extensions.System;
     using MetadataUtility.Filenames;
+    using MetadataUtility.Models;
     using MetadataUtility.Utilities;
-    using Microsoft.Extensions.Logging;
     using NodaTime;
 
-    public class Metadata : EmuCommandHandler {
+    public class Metadata : EmuCommandHandler
+    {
         private readonly ILogger<Metadata> logger;
         private readonly IFileSystem fileSystem;
         private readonly FileMatcher fileMatcher;
         private readonly OutputRecordWriter writer;
 
-        public Metadata(ILogger<Metadata> logger, IFileSystem fileSystem, FileMatcher fileMatcher, OutputRecordWriter writer) {
+        public Metadata(ILogger<Metadata> logger, IFileSystem fileSystem, FileMatcher fileMatcher, OutputRecordWriter writer)
+        {
             this.logger = logger;
             this.fileSystem = fileSystem;
             this.fileMatcher = fileMatcher;
@@ -38,10 +41,16 @@ namespace MetadataUtility.Commands.Metadata
 
         public override async Task<int> InvokeAsync(InvocationContext context)
         {
-            Console.WriteLine("Hello");
+            var files = this.fileMatcher.ExpandMatches(Directory.GetCurrentDirectory(), this.Targets);
 
-            this.logger.LogWarning("Warn");
-            this.logger.LogDebug("Hello");
+            foreach ((string, string) file in files)
+            {
+                Recording recording = new Recording();
+
+                recording.SourcePath = file.Item2;
+
+                this.writer.Write(recording);
+            }
 
             return 0;
         }
