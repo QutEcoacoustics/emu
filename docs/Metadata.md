@@ -1,99 +1,89 @@
 # Metadata Files
 
 This document outlines all of the files from which we hope to extract metadata.
-"PREFIX" indicates a user genertated prefix to the file.
-"X" indicates which SD card a file was saved to.
 
 ## Frontier Labs
 
 ### BAR-LT
 
-* GPS_log.csv
-
-* logfile.txt
+| Name | Supported | Location(s) | Notes |
+|------|-----------|-------------|-------|
+| Date Time | :x: | File name | |
+| UTC Offset | :x: | File name | |
+| Serial Number | :x: | File name | | 
+| Longitude | :x: | File name | Also in GPS_log.csv |
+| Latitude | :x: | File name | Also in GPS_log.csv |
+| Sample Rate | :x: | File header | |
+| File Size | :x: | File header | |
+| Bit Size | :x: | File header | |
+| Bits per Sample | :x: | Support File | Log file |
+| Channel Count | :x: | Support File | Log file |
+| Gain | :x: | Support File | Log file |
+| Battery Voltage | :x: | Support File | Log file |
+| SD Card Serial | :x: | Support File | Log file |
+| Card Slot Number | :x: | Support File | Log file |
+| Battery Percentage | :x: | Support File | Log file |
+| SD Capacity | :x: | Support File | Log file |
+| SD Free Space | :x: | Support File | Log file |
+| ARU Firmware | :x: | Support File | Log File |
+| SD Card Manufacture Date | :x: | Support File | Log file |
+| SD Card Product Name | :x: | Support File | Log file |
+| SD Format Type | :x: | Support File | Log file |
+| SD Write Current Vmin | :x: | Support File | Log file |
+| SD Write Current Vmax | :x: | Support File | Log file |
+| SD Write B1 Size | :x: | Support File | Log file |
+| SD Write B2 Size | :x: | Support File | Log file |
 
 ## Open Acoustic Devices
 
 ### AudioMoth
 
-* CONFIG.txt
+| Name | Supported | Location(s) | Notes |
+|------|-----------|-------------|-------|
+| Date Time | :x: | File name | |
+| UTC Offset | :x: | Support File | Config file |
+| Serial Number | :x: | Support File | Config file |
+| Sample Rate | :x: | File header | |
+| File Size | :x: | File header | |
+| Bit Size | :x: | File header | |
+| Gain | :x: | File Header | |
+| Battery Voltage | :x: | File Header | |
+| ARU Firmware | :x: | Support File | Config File |
 
 ## Wildlife Acoustics
 
 ### Song Meter SM4BAT
 
-* "PREFIX"_"X"_Summary.txt
-  * Date
-  * Time 
-  * Latitude
-  * Longitude
-  * Power(V)
-  * Temperature(C)
-  * Number of files written since the previous line
-  * Number of scrubbed .wav files since the previous line
-  * Microphone type
-
-* "PREFIX"_YYYYMMDD_hhmmss.sm4dump
-  * Diagnostic data if something fails
+| Name | Supported | Location(s) | Notes |
+|------|-----------|-------------|-------|
+| Date Time | :x: | File name | |
+| Serial Number | :x: | File Header | |
+| Longitude | :x: | File Header | |
+| Latitude | :x: | File Header | |
+| Sample Rate | :x: | File header | |
+| File Size | :x: | File header | |
+| Bit Size | :x: | File header | |
+| Battery Voltage | :x: | Support File | Summary file |
 
 ### Song Meter SM4
 
-* Summary.txt (Uses .csv format)
-  * Date
-  * Time 
-  * Latitude
-  * Longitude
-  * Power(V)
-  * Temperature(C)
-  * Number of files written since the previous line
-  * Microphone type attached to channel 0
-  * Microphone type attached to channel 1
-
-* Schedule file (in .SM4S format)
-
-* Firmware file (in .SM4 format)
-
-* Config file (in .SM4S format)
-
-* "PREFIX"_YYYYMMDD_hhmmss.sm4dump
+| Name | Supported | Location(s) | Notes |
+|------|-----------|-------------|-------|
+| Date Time | :x: | File Header | |
+| Serial Number | :x: | File Header | |
+| Longitude | :x: | File Header | |
+| Latitude | :x: | File Header | |
+| Sample Rate | :x: | File header | |
+| File Size | :x: | File header | |
+| Bit Size | :x: | File header | |
+| Battery Voltage | :x: | Support File | Summary file |
 
 
 ### Song Meter Mini
 
-* .wav file metadata
-  * Firmware version
-  * Length
-  * Loc position
-  * Make
-  * Model
-  * Original filename
-  * Sample rate
-  * Serial
-  * Temperature int
-  * Timestamp
-  * Audio settings
-  * Prefix
-
-* .zc file metadata
-  * Firmware version
-  * Length
-  * Loc position
-  * Make
-  * Model
-  * Original filename
-  * Sample rate
-  * Serial
-  * Temperature int
-  * Timestamp
-  * Audio settings
-  * Prefix
-
-* Summary.txt
-
-* Firmware file (in .smm format)
-
-* Config file (in .config format)
-
-* Noise files 
-
-* Dump file
+| Name | Supported | Location(s) | Notes |
+|------|-----------|-------------|-------|
+| Serial Number | :x: | File Header | |
+| Sample Rate | :x: | File header | |
+| File Size | :x: | File header | |
+| Bit Size | :x: | File header | |
