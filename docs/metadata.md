@@ -11,10 +11,13 @@ This document outlines all of the files from which we hope to extract metadata.
 | Date Time                | :x:       | File name    |                     |
 | UTC Offset               | :x:       | File name    |                     |
 | Serial Number            | :x:       | File name    |                     |
+| Microphone Serial Number | :x:       | File name    |                     |
 | Longitude                | :x:       | File name    | Also in GPS_log.csv |
 | Latitude                 | :x:       | File name    | Also in GPS_log.csv |
 | Sample Rate              | :x:       | File header  |                     |
 | File Size                | :x:       | File header  |                     |
+| Duration                 | :x:       | File name    |                     |
+| Format                   | :x:       | File header  |                     |
 | Bit Size                 | :x:       | File header  |                     |
 | Bits per Sample          | :x:       | Support File | Log file            |
 | Channel Count            | :x:       | Support File | Log file            |
@@ -23,12 +26,19 @@ This document outlines all of the files from which we hope to extract metadata.
 | SD Card Serial           | :x:       | Support File | Log file            |
 | Card Slot Number         | :x:       | Support File | Log file            |
 | Battery Percentage       | :x:       | Support File | Log file            |
-| SD Capacity              | :x:       | Support File | Log file            |
-| SD Free Space            | :x:       | Support File | Log file            |
-| ARU Firmware             | :x:       | Support File | Log File            |
+| SD Capacity (GB)         | :x:       | Support File | Log file            |
+| SD Free Space (GB)       | :x:       | Support File | Log file            |
+| ARU Firmware             | :x:       | Support File | Log file            |
+| Device Type              | :x:       | Support File | Log file            |
+| Power Type               | :x:       | Support File | Log file            |
 | SD Card Manufacture Date | :x:       | Support File | Log file            |
+| ARU Manufacture Date     | :x:       | Support File | Log file            |
+| SD Card Speed            | :x:       | Support File | Log file            |
 | SD Card Product Name     | :x:       | Support File | Log file            |
 | SD Format Type           | :x:       | Support File | Log file            |
+| SD Card Manufacture ID   | :x:       | Support File | Log file            |
+| SD Card OemID            | :x:       | Support File | Log file            |
+| SD Card Product Revision | :x:       | Support File | Log file            |
 | SD Write Current Vmin    | :x:       | Support File | Log file            |
 | SD Write Current Vmax    | :x:       | Support File | Log file            |
 | SD Write B1 Size         | :x:       | Support File | Log file            |
@@ -45,6 +55,8 @@ This document outlines all of the files from which we hope to extract metadata.
 | Serial Number   | :x:       | Support File | Config file |
 | Sample Rate     | :x:       | File header  |             |
 | File Size       | :x:       | File header  |             |
+| Duration        | :x:       | Support File | Config file |
+| Format          | :x:       | File header  |             |
 | Bit Size        | :x:       | File header  |             |
 | Gain            | :x:       | File Header  |             |
 | Battery Voltage | :x:       | File Header  |             |
