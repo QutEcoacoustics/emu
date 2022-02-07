@@ -105,3 +105,9 @@ This document outlines all of the files from which we hope to extract metadata.
 ### Song Meter SM3
 
 ### Song Meter SM2
+
+## Cornell Lab
+
+### Swift
+
+### SwiftOne
