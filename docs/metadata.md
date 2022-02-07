@@ -44,6 +44,8 @@ This document outlines all of the files from which we hope to extract metadata.
 | SD Write B1 Size         | :x:       | Support File | Log file            |
 | SD Write B2 Size         | :x:       | Support File | Log file            |
 
+### BAR
+
 ## Open Acoustic Devices
 
 ### AudioMoth
@@ -99,3 +101,7 @@ This document outlines all of the files from which we hope to extract metadata.
 | Sample Rate   | :x:       | File header |       |
 | File Size     | :x:       | File header |       |
 | Bit Size      | :x:       | File header |       |
+
+### Song Meter SM3
+
+### Song Meter SM2
