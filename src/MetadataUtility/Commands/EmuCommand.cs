@@ -21,6 +21,10 @@ namespace MetadataUtility
 
             this.AddGlobalOption(FormatOption);
 
+            this.AddGlobalOption(OutOption);
+
+            this.AddGlobalOption(ClobberOption);
+
             this.Add(new MetadataCommand());
             this.Add(new RenameCommand());
             this.Add(new FixCommand());
@@ -70,6 +74,10 @@ namespace MetadataUtility
             () => null,
             "Where to output data. Defaults to stdout if not supplied")
             .LegalFilePathsOnly();
+
+        public static Option<bool> ClobberOption { get; } = new Option<bool>(
+            new string[] { "--clobber", "-C" },
+            "Overwrites output file, used in junction with --output. No effect for stdout");
 
         public static LogLevel GetLogLevel(ParseResult parseResult)
         {

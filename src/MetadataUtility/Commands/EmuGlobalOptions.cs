@@ -12,6 +12,8 @@ namespace MetadataUtility
 
         public bool VeryVerbose { get; set; }
 
+        public bool Clobber { get; set; }
+
         public LogLevel LogLevel { get; set; }
 
         public OutputFormat Format { get; set; }

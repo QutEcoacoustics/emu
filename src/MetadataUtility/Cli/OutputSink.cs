@@ -19,6 +19,18 @@ namespace MetadataUtility.Cli
             }
             else
             {
+                if (File.Exists(handler.Output))
+                {
+                    if (handler.Clobber is true)
+                    {
+                        File.Delete(handler.Output);
+                    }
+                    else
+                    {
+                        throw new Exception("Will overwrite existing file, use --clobber option or select a different name");
+                    }
+                }
+
                 return new StreamWriter(File.OpenWrite(handler.Output));
             }
         };
