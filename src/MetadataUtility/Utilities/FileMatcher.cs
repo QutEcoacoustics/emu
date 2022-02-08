@@ -42,7 +42,7 @@ namespace MetadataUtility.Utilities
         /// </summary>
         /// <param name="baseDir">The directory to scan if the path/glob is not fully qualified.</param>
         /// <param name="patterns">The paths/globs to process.</param>
-        /// <returns>A series of paths.</returns>
+        /// <returns>A series of paths along with the base directory where the search started.</returns>
         public IEnumerable<(string Base, string File)> ExpandMatches(string baseDir, IEnumerable<string> patterns)
         {
             foreach (var pattern in patterns)

@@ -6,6 +6,7 @@ namespace MetadataUtility
 {
     using System.CommandLine.Invocation;
     using System.Threading.Tasks;
+    using MetadataUtility.Cli;
     using MetadataUtility.Fixes;
     using MetadataUtility.Utilities;
 
@@ -35,7 +36,7 @@ Or use `--fix-all` to apply all known fixes:
 
     emu fix apply --fix-all XX001 *.wav
 ");
-            return Task.FromResult(0);
+            return Task.FromResult(ExitCodes.Success);
         }
 
         protected override object FormatCompact<T>(T record)

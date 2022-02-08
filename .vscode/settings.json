@@ -1,12 +1,4 @@
 {
-    "cSpell.words": [
-        "Arity",
-        "flac",
-        "NodaTime",
-        "Serilog",
-        "Succ",
-        "Xunit"
-    ],
     "markdownlint.config": {
         "MD028": false,
         "MD025": {

@@ -6,6 +6,7 @@ namespace MetadataUtility.Tests.Fixes.FroniterLabs
 {
     using System;
     using System.IO;
+    using System.IO.Abstractions;
     using System.Security.Cryptography;
     using System.Threading.Tasks;
     using FluentAssertions;
@@ -26,6 +27,7 @@ namespace MetadataUtility.Tests.Fixes.FroniterLabs
         private const string PatchedTag = "EMU+FL010";
         private readonly FixtureModel fixture;
         private readonly TempFile target;
+        private readonly FileUtilities fileUtilities;
         private readonly MetadataDurationBug fixer;
         private readonly ILogger<DryRun> dryRunLogger;
         private readonly FixtureHelper.FixtureData data;
@@ -35,9 +37,8 @@ namespace MetadataUtility.Tests.Fixes.FroniterLabs
             this.fixture = data[FixtureModel.MetadataDurationBug];
             this.target = TempFile.FromExisting(this.fixture.AbsoluteFixturePath);
 
-            this.fixer = new MetadataDurationBug(
-                Helpers.NullLogger<MetadataDurationBug>(),
-                new FileUtilities(Helpers.NullLogger<FileUtilities>()));
+            this.fileUtilities = new FileUtilities(Helpers.NullLogger<FileUtilities>(), new FileSystem());
+            this.fixer = new MetadataDurationBug(Helpers.NullLogger<MetadataDurationBug>(), this.fileUtilities);
 
             this.dryRunLogger = Helpers.NullLogger<DryRun>();
             this.data = data;
@@ -98,7 +99,7 @@ namespace MetadataUtility.Tests.Fixes.FroniterLabs
         {
             var dryRun = new DryRun(true, this.dryRunLogger);
 
-            var before = await FileUtilities.CalculateChecksum(this.target.Path, HashAlgorithmName.SHA256);
+            var before = await this.fileUtilities.CalculateChecksum(this.target.Path, HashAlgorithmName.SHA256);
             await this.AssertMetadata(BeforeFixSamples, FirmwareVersion);
 
             var actual = await this.fixer.ProcessFileAsync(this.target.Path, dryRun, false);
@@ -107,7 +108,7 @@ namespace MetadataUtility.Tests.Fixes.FroniterLabs
             Assert.Contains($"Old total samples was", actual.Message);
 
             await this.AssertMetadata(BeforeFixSamples, FirmwareVersion);
-            var after = await FileUtilities.CalculateChecksum(this.target.Path, HashAlgorithmName.SHA256);
+            var after = await this.fileUtilities.CalculateChecksum(this.target.Path, HashAlgorithmName.SHA256);
 
             Assert.Equal(before, after);
         }
@@ -118,7 +119,7 @@ namespace MetadataUtility.Tests.Fixes.FroniterLabs
             var backupPath = this.target.Path + ".bak";
             var dryRun = new DryRun(false, this.dryRunLogger);
 
-            var before = await FileUtilities.CalculateChecksum(this.target.Path, HashAlgorithmName.SHA256);
+            var before = await this.fileUtilities.CalculateChecksum(this.target.Path, HashAlgorithmName.SHA256);
             await this.AssertMetadata(BeforeFixSamples, FirmwareVersion);
 
             var actual = await this.fixer.ProcessFileAsync(this.target.Path, dryRun, true);
@@ -140,7 +141,7 @@ namespace MetadataUtility.Tests.Fixes.FroniterLabs
                 actualFirmware.Tags.Should().BeEquivalentTo(Array.Empty<string>());
             }
 
-            var after = await FileUtilities.CalculateChecksum(backupPath, HashAlgorithmName.SHA256);
+            var after = await this.fileUtilities.CalculateChecksum(backupPath, HashAlgorithmName.SHA256);
 
             // the backup file has the same hash as the original
             Assert.Equal(before, after);
@@ -159,7 +160,7 @@ namespace MetadataUtility.Tests.Fixes.FroniterLabs
             Assert.Contains($"Old total samples was", actual.Message);
 
             await this.AssertMetadata(AfterFixSamples, FirmwareVersion, PatchedTag);
-            var first = await FileUtilities.CalculateChecksum(this.target.Path, HashAlgorithmName.SHA256);
+            var first = await this.fileUtilities.CalculateChecksum(this.target.Path, HashAlgorithmName.SHA256);
 
             // now again!
             var secondActual = await this.fixer.ProcessFileAsync(this.target.Path, dryRun, false);
@@ -167,7 +168,7 @@ namespace MetadataUtility.Tests.Fixes.FroniterLabs
             Assert.Equal(FixStatus.NoOperation, secondActual.Status);
             Assert.Contains($"File has already had it's duration repaired", secondActual.Message);
             Assert.Equal(CheckStatus.Repaired, secondActual.CheckResult.Status);
-            var second = await FileUtilities.CalculateChecksum(this.target.Path, HashAlgorithmName.SHA256);
+            var second = await this.fileUtilities.CalculateChecksum(this.target.Path, HashAlgorithmName.SHA256);
 
             Assert.Equal(first, second);
 

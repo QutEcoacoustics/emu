@@ -9,6 +9,7 @@ namespace MetadataUtility
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+    using MetadataUtility.Cli;
     using MetadataUtility.Extensions.System;
     using MetadataUtility.Fixes;
     using MetadataUtility.Utilities;
@@ -82,7 +83,7 @@ namespace MetadataUtility
                 this.Write($"No files matched targets: {this.Targets.FormatInlineList()}");
             }
 
-            return 0;
+            return ExitCodes.Success;
         }
 
         public partial record FixCheckResult(string File, Dictionary<WellKnownProblem, CheckResult> Problems);

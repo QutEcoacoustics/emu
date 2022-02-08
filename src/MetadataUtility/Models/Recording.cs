@@ -12,17 +12,17 @@ namespace MetadataUtility.Models
     /// <summary>
     /// A audio recording captured by a sensor or monitor.
     /// </summary>
-    public class Recording
+    public record Recording
     {
         private string sourcePath;
 
         /// <summary>
-        /// Gets or sets the path to the filename as read by the program.
+        /// Gets the path to the filename as read by the program.
         /// </summary>
         public string SourcePath
         {
             get => this.sourcePath;
-            set
+            init
             {
                 this.sourcePath = value;
                 this.Directory = Path.GetDirectoryName(this.sourcePath);
@@ -33,27 +33,27 @@ namespace MetadataUtility.Models
         /// Gets the directory of the recording. Used internally.
         /// </summary>
         [JsonIgnore]
-        public string Directory { get; private set; }
+        public string Directory { get; private init; }
 
         /// <summary>
-        /// Gets or sets the file extension as read by the program.
+        /// Gets the file extension as read by the program.
         /// It includes the period.
         /// </summary>
-        public string Extension { get; set; }
+        public string Extension { get; init; }
 
         /// <summary>
-        /// Gets or sets the name of the file as read by the program
+        /// Gets the name of the file as read by the program
         /// without the extension.
         /// </summary>
-        public string Stem { get; set; }
+        public string Stem { get; init; }
 
         /// <summary>
-        /// Gets or sets a recommended name.
+        /// Gets a recommended name.
         /// </summary>
         /// <remarks>
         /// This is a suggested name for the file that is better suited to archiving purposes.
         /// </remarks>
-        public string RecommendedName { get; set; }
+        public string RecommendedName { get; init; }
 
         /// <summary>
         /// Gets the original filename of the recording.
@@ -61,122 +61,117 @@ namespace MetadataUtility.Models
         public string Name => this.Stem + this.Extension;
 
         /// <summary>
-        /// Gets or sets the start date of the recording.
+        /// Gets the start date of the recording.
         /// This is extracted either from the filename or from the metadata
         /// included in the recording.
         /// </summary>
-        //public MetadataSource<OffsetDateTime>? StartDate { get; set; }
-        public OffsetDateTime? StartDate { get; set; }
+        //public MetadataSource<OffsetDateTime>? StartDate { get; init; }
+        public OffsetDateTime? StartDate { get; init; }
 
         /// <summary>
-        /// Gets or sets a Checksum calculated for the file.
+        /// Gets a Checksum calculated for the file.
         /// This checksum is calculated by EMU.
         /// </summary>
-        public Checksum CalculatedChecksum { get; set; }
+        public Checksum CalculatedChecksum { get; init; }
 
         /// <summary>
-        /// Gets or sets the duration of the recording.
+        /// Gets the duration of the recording.
         /// </summary>
-        public Duration DurationSeconds { get; set; }
+        public Duration DurationSeconds { get; init; }
 
         /// <summary>
-        /// Gets or sets the number of channels in the recording.
+        /// Gets the number of channels in the recording.
         /// </summary>
-        public byte Channels { get; set; }
+        public byte Channels { get; init; }
 
         /// <summary>
-        /// Gets or sets the sample rate of the recording.
+        /// Gets the sample rate of the recording.
         /// </summary>
-        public uint SampleRateHertz { get; set; }
+        public uint SampleRateHertz { get; init; }
 
         /// <summary>
-        /// Gets or sets the bit rate.
+        /// Gets the bit rate.
         /// </summary>
-        public uint BitsPerSecond { get; set; }
+        public uint BitsPerSecond { get; init; }
 
         /// <summary>
-        /// Gets or sets the numbers of bits used to quantize each sample.
+        /// Gets the numbers of bits used to quantize each sample.
         /// </summary>
-        public byte BitDepth { get; set; }
+        public byte BitDepth { get; init; }
 
         /// <summary>
-        /// Gets or sets an IANA Media Type.
+        /// Gets an IANA Media Type.
         /// </summary>
-        public string MediaType { get; set; }
+        public string MediaType { get; init; }
 
         /// <summary>
-        /// Gets or sets the number of bytes in this file.
+        /// Gets the number of bytes in this file.
         /// </summary>
-        public ulong FileLengthBytes { get; set; }
+        public ulong FileLengthBytes { get; init; }
 
         /// <summary>
-        /// Gets or sets a <see cref="Sensor"/> object
+        /// Gets a <see cref="Sensor"/> object
         /// that describes the sensor that produced this recording.
         /// </summary>
-        public Sensor Sensor { get; set; }
+        public Sensor Sensor { get; init; }
 
         /// <summary>
-        /// Gets or sets the location of the sensor
+        /// Gets the location of the sensor
         /// when this recording was started.
         /// </summary>
-        public Location Location { get; set; }
+        public Location Location { get; init; }
 
         /// <summary>
-        /// Gets or sets a list of locations captured while this
+        /// Gets a list of locations captured while this
         /// recording was running.
         /// </summary>
-        public IList<Location> AllLocations { get; set; }
+        public IList<Location> AllLocations { get; init; }
 
         /// <summary>
-        /// Gets or sets a list of errors found in this audio file.
+        /// Gets a list of errors found in this audio file.
         /// </summary>
-        public IList<Error> Errors { get; set; } = new List<Error>();
+        public IList<Error> Errors { get; init; } = new List<Error>();
 
         /// <summary>
-        /// Gets or sets a list of errors found in this audio file.
+        /// Gets a list of errors found in this audio file.
         /// </summary>
-        public IList<Warning> Warnings { get; set; } = new List<Warning>();
+        public IList<Warning> Warnings { get; init; } = new List<Warning>();
 
         /// <summary>
-        /// Gets or sets a Checksum calculated for the file.
+        /// Gets a Checksum calculated for the file.
         /// </summary>
         /// <remarks>
         /// This is a checksum produced by the sensor.
         /// </remarks>
-        public Checksum EmbeddedChecksum { get; set; }
+        public Checksum EmbeddedChecksum { get; init; }
 
         /// <summary>
-        /// Gets or sets the date on the sensor for which this
+        /// Gets the date on the sensor for which this
         /// recording ended.
         /// </summary>
         /// <remarks>
         /// This field is useful for calculating drift in the sensor
         /// clock during recording.
         /// </remarks>
-        public OffsetDateTime? EndDate { get; set; }
+        public OffsetDateTime? EndDate { get; init; }
 
         /// <summary>
-        /// Gets or sets a unique identifier for the memory card
+        /// Gets a unique identifier for the memory card
         /// that this recording was stored on.
         /// </summary>
         /// <remarks>
         /// Such as https://www.cameramemoryspeed.com/sd-memory-card-faq/reading-sd-card-cid-serial-psn-internal-numbers/.
         /// </remarks>
-        public string StorageCardIdentifier { get; set; }
+        public string StorageCardIdentifier { get; init; }
 
         /// <summary>
-        /// Gets or sets the Expected duration of the recording.
+        /// Gets the Expected duration of the recording.
         /// </summary>
-        public Duration? ExpectedDurationSeconds { get; set; }
+        public Duration? ExpectedDurationSeconds { get; init; }
 
         /// <summary>
-        /// Gets or sets a key-value store of other information not yet codified by the standard.
+        /// Gets a key-value store of other information not yet codified by the standard.
         /// </summary>
-        public Dictionary<string, string> OtherFields { get; set; }
-
-        /// <summary>
-        /// Gets or sets the path to the filename is it was renamed by Emu.
-        /// </summary>
-        public string RenamedPath { get; set; }
+        public Dictionary<string, string> OtherFields { get; init; }
     }
 }

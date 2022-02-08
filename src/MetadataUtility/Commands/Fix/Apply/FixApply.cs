@@ -9,6 +9,7 @@ namespace MetadataUtility
     using System.Text;
     using System.Threading.Tasks;
     using LanguageExt;
+    using MetadataUtility.Cli;
     using MetadataUtility.Extensions.System;
     using MetadataUtility.Fixes;
     using MetadataUtility.Utilities;
@@ -70,7 +71,7 @@ namespace MetadataUtility
                 this.Write($"No files matched targets: {this.Targets.FormatInlineList()}");
             }
 
-            return 0;
+            return ExitCodes.Success;
         }
 
         public async ValueTask ProcessFile(string file, DryRun dryRun, IFixOperation[] fixes)

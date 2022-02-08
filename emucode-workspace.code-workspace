@@ -7,6 +7,7 @@
     "settings": {
         "editor.formatOnSave": true,
         "cSpell.words": [
+            "cref",
             "ecoacoustic",
             "Ecoacoustics",
             "Noda",
@@ -15,9 +16,35 @@
             "Shouldly",
             "Wamd",
             "Xbehave",
+            "Xunit",
+            "Arity",
+            "flac",
+            "NodaTime",
+            "Serilog",
+            "Succ",
             "Xunit"
         ],
-        "nugetpackagemanagergui.nuget.searchPackage.preRelease": true
+        "nugetpackagemanagergui.nuget.searchPackage.preRelease": true,
+        "workbench.colorCustomizations": {
+            "activityBar.activeBackground": "#836d62",
+            "activityBar.activeBorder": "#40bf6a",
+            "activityBar.background": "#836d62",
+            "activityBar.foreground": "#e7e7e7",
+            "activityBar.inactiveForeground": "#e7e7e799",
+            "activityBarBadge.background": "#40bf6a",
+            "activityBarBadge.foreground": "#15202b",
+            "sash.hoverBorder": "#836d62",
+            "statusBar.background": "#66554c",
+            "statusBar.foreground": "#e7e7e7",
+            "statusBarItem.hoverBackground": "#836d62",
+            "statusBarItem.remoteBackground": "#66554c",
+            "statusBarItem.remoteForeground": "#e7e7e7",
+            "titleBar.activeBackground": "#66554c",
+            "titleBar.activeForeground": "#e7e7e7",
+            "titleBar.inactiveBackground": "#66554c99",
+            "titleBar.inactiveForeground": "#e7e7e799"
+        },
+        "peacock.color": "#66554C"
     },
     "launch": {
         "version": "0.2.0",
