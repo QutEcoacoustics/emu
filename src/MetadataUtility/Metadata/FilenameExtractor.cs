@@ -20,7 +20,7 @@ namespace MetadataUtility.Metadata
             this.parser = parser;
         }
 
-        public ValueTask<bool> CanProcessAsync(ITargetInformation information)
+        public ValueTask<bool> CanProcessAsync(TargetInformation information)
         {
             var hasName = !string.IsNullOrWhiteSpace(this.fileSystem.Path.GetFileName(information.Path));
 
@@ -28,7 +28,7 @@ namespace MetadataUtility.Metadata
             return ValueTask.FromResult(hasName);
         }
 
-        public ValueTask<Recording> ProcessFileAsync(ITargetInformation information, Recording recording)
+        public ValueTask<Recording> ProcessFileAsync(TargetInformation information, Recording recording)
         {
             var result = this.parser.Parse(information.Path);
 

@@ -19,8 +19,8 @@ namespace MetadataUtility
     using System.CommandLine.Parsing;
     using System.IO.Abstractions;
     using MetadataUtility.Cli;
-    using MetadataUtility.Commands.Rename;
     using MetadataUtility.Commands.Metadata;
+    using MetadataUtility.Commands.Rename;
     using MetadataUtility.Commands.Version;
     using MetadataUtility.Extensions.System.CommandLine;
     using MetadataUtility.Filenames;
@@ -125,7 +125,7 @@ namespace MetadataUtility
             host.UseEmuCommand<FixCheckCommand, FixCheck>();
             host.UseEmuCommand<FixApplyCommand, FixApply>();
             host.UseEmuCommand<RenameCommand, Rename>();
-            host.UseEmuCommand<MetadataCommand, Metadata>();
+            host.UseEmuCommand<MetadataCommand, Commands.Metadata.Metadata>();
             host.UseEmuCommand<VersionCommand, Version>();
 
             host.UseSerilog(ConfigureLogging);
