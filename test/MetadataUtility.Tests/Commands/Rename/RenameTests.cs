@@ -152,7 +152,7 @@ namespace MetadataUtility.Tests.Commands.Rename
         }
 
         [Fact]
-        public async Task CopyToPreservesDirectoryStucture()
+        public async Task CopyToPreservesDirectoryStructure()
         {
             this.TestFiles.AddEmptyFile("/PILLIGA_20121204_234600.wav");
             this.TestFiles.AddEmptyFile("/a/PILLIGA_20121205_234600.wav");

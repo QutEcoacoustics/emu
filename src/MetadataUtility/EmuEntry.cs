@@ -41,6 +41,8 @@ namespace MetadataUtility
     /// </summary>
     public partial class EmuEntry
     {
+        private static Parser builtCommandLine;
+
         /// <summary>
         /// Gets the RootCommand for the application.
         /// </summary>
@@ -70,7 +72,10 @@ namespace MetadataUtility
         /// Builds a parser the command line arguments for EMU.
         /// </summary>
         /// <returns>The CommandLineApplication object and a binding model of arguments.</returns>
-        public static Parser BuildCommandLine() => CreateCommandLine().Build();
+        public static Parser BuildCommandLine()
+        {
+            return builtCommandLine ??= CreateCommandLine().Build();
+        }
 
         private static IHostBuilder CreateHost(string[] args)
         {

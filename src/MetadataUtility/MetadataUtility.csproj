@@ -6,19 +6,15 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <LangVersion>preview</LangVersion>
     <EnablePreviewFeatures>True</EnablePreviewFeatures>
+    <EnablePreviewFeatures>True</EnablePreviewFeatures>
     <Nullable>warnings</Nullable>
-    <!-- The following should be used for publish builds -->
     <PublishSingleFile>true</PublishSingleFile>
     <SelfContained>true</SelfContained>
     <PublishTrimmed>true</PublishTrimmed>
-    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
     <PublishTrimmed>true</PublishTrimmed>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
     <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
-    <!-- in.NET 6.0 there is some kind of infinite memory usage problem, disable crossgen2 for now -->
-    <!--<PublishReadyToRun>true</PublishReadyToRun>-->
     <AssemblyName>emu</AssemblyName>
-    <!-- For static interfaces -->
-    <EnablePreviewFeatures>True</EnablePreviewFeatures>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\..</DockerfileContext>
     <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
@@ -26,40 +22,39 @@
     <GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="CsvHelper" Version="27.2.1" />
-    <PackageReference Include="GitInfo" Version="2.2.0" />
-
-    <PackageReference Include="LanguageExt.Core" Version="4.0.3" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0" />
-    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.14.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="NodaTime" Version="3.0.9" />
-    <PackageReference Include="NodaTime.Serialization.JsonNet" Version="3.0.0" />
+    <PackageReference Include="CsvHelper" Version="27.2.1"/>
+    <PackageReference Include="GitInfo" Version="2.2.0"/>
+    <PackageReference Include="LanguageExt.Core" Version="4.0.3"/>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0"/>
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0"/>
+    <PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0"/>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.14.0"/>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1"/>
+    <PackageReference Include="NodaTime" Version="3.0.9"/>
+    <PackageReference Include="NodaTime.Serialization.JsonNet" Version="3.0.0"/>
     <PackageReference Include="Roslyn.System.IO.Abstractions.Analyzers" Version="12.2.19">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Serilog" Version="2.11.0-dev-01371" />
-    <PackageReference Include="Serilog.Enrichers.Thread" Version="3.2.0-dev-00752" />
-    <PackageReference Include="Serilog.Extensions.Hosting" Version="4.2.0" />
-    <PackageReference Include="Serilog.Extensions.Logging" Version="3.1.0" />
-    <PackageReference Include="Serilog.Sinks.Console" Version="4.0.1" />
+    <PackageReference Include="Serilog" Version="2.11.0-dev-01371"/>
+    <PackageReference Include="Serilog.Enrichers.Thread" Version="3.2.0-dev-00752"/>
+    <PackageReference Include="Serilog.Extensions.Hosting" Version="4.2.0"/>
+    <PackageReference Include="Serilog.Extensions.Logging" Version="3.1.0"/>
+    <PackageReference Include="Serilog.Sinks.Console" Version="4.0.1"/>
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.354">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="System.CommandLine" Version="2.0.0-beta1.21308.1" />
-    <PackageReference Include="System.CommandLine.Hosting" Version="0.3.0-alpha.21216.1" />
-    <PackageReference Include="System.CommandLine.Rendering" Version="0.3.0-alpha.21216.1" />
-    <PackageReference Include="System.IO.Abstractions" Version="14.0.3" />
-    <PackageReference Include="System.IO.Pipelines" Version="6.0.0" />
-    <PackageReference Include="Xabe.FFmpeg" Version="5.0.2" />
+    <PackageReference Include="System.CommandLine" Version="2.0.0-beta1.21308.1"/>
+    <PackageReference Include="System.CommandLine.Hosting" Version="0.3.0-alpha.21216.1"/>
+    <PackageReference Include="System.CommandLine.Rendering" Version="0.3.0-alpha.21216.1"/>
+    <PackageReference Include="System.IO.Abstractions" Version="14.0.3"/>
+    <PackageReference Include="System.IO.Pipelines" Version="6.0.0"/>
+    <PackageReference Include="Xabe.FFmpeg" Version="5.0.2"/>
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.0"/>
   </ItemGroup>
-
   <ItemGroup>
-    <AdditionalFiles Include="../../stylecop.json" />
+    <AdditionalFiles Include="../../stylecop.json"/>
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Globalization\Strings.Designer.cs">
@@ -75,7 +70,11 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Audio\Vendors\" />
+    <Folder Include="Audio\Vendors\"/>
   </ItemGroup>
-  <ProjectExtensions><VisualStudio><UserProperties runtimeconfig_1template_1json__JsonSchema="https://gist.githubusercontent.com/natemcmaster/0bdee16450f8ec1823f2c11af880ceeb/raw/runtimeconfig.template.schema.json" /></VisualStudio></ProjectExtensions>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties runtimeconfig_1template_1json__JsonSchema="https://gist.githubusercontent.com/natemcmaster/0bdee16450f8ec1823f2c11af880ceeb/raw/runtimeconfig.template.schema.json"/>
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>

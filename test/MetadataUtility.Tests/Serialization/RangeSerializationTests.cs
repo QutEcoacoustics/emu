@@ -8,6 +8,7 @@ namespace MetadataUtility.Tests.Serialization
     using System.IO;
     using System.Text;
     using MetadataUtility.Serialization;
+    using MetadataUtility.Tests.TestHelpers;
     using Xunit;
 
     public class RangeSerializationTests
@@ -28,7 +29,7 @@ namespace MetadataUtility.Tests.Serialization
   {
     ""Range"": ""[1, 2)""
   }
-]",
+]".NormalizeLineEndings(),
                 builder.ToString());
         }
 
@@ -45,7 +46,7 @@ namespace MetadataUtility.Tests.Serialization
   {
     ""Range"": ""[-4, -2)""
   }
-]",
+]".NormalizeLineEndings(),
                 builder.ToString());
         }
 
@@ -59,7 +60,7 @@ namespace MetadataUtility.Tests.Serialization
 
             Assert.Equal(
                 @"{""Range"":""[1, 2)""}
-",
+".NormalizeLineEndings(),
                 builder.ToString());
         }
 
@@ -73,7 +74,7 @@ namespace MetadataUtility.Tests.Serialization
 
             Assert.Equal(
                 @"{""Range"":""[-4, -2)""}
-",
+".NormalizeLineEndings(),
                 builder.ToString());
         }
 
@@ -85,10 +86,11 @@ namespace MetadataUtility.Tests.Serialization
 
             var builder = WriteRecord(serializer, wrapper);
 
+            // CSV always outputs \r\n
             Assert.Equal(
-                TestHelpers.Extensions.ToCrLf(@"Range
+                @"Range
 ""[1, 2)""
-"),
+".NormalizeLineEndings("\r\n"),
                 builder.ToString());
         }
 
@@ -100,10 +102,11 @@ namespace MetadataUtility.Tests.Serialization
 
             var builder = WriteRecord(serializer, wrapper);
 
+            // CSV always outputs \r\n
             Assert.Equal(
-                TestHelpers.Extensions.ToCrLf(@"Range
+                @"Range
 ""[-4, -2)""
-"),
+".NormalizeLineEndings("\r\n"),
                 builder.ToString());
         }
 
@@ -119,15 +122,15 @@ namespace MetadataUtility.Tests.Serialization
 
             return builder;
         }
-    }
 
-    public class Wrapper
-    {
-        public Wrapper(Range range)
+        public class Wrapper
         {
-            this.Range = range;
-        }
+            public Wrapper(Range range)
+            {
+                this.Range = range;
+            }
 
-        public Range Range { get; }
+            public Range Range { get; }
+        }
     }
 }
