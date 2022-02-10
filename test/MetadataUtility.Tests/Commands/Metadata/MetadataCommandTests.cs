@@ -19,27 +19,29 @@ namespace MetadataUtility.Tests.Commands.Metadata
     public class MetadataCommandTests : TestBase
     {
         private readonly Metadata command;
-        private StringWriter sw;
+        private StringWriter writer;
 
         public MetadataCommandTests(ITestOutputHelper output)
             : base(output)
         {
-            this.sw = new StringWriter();
+
+            this.writer = new StringWriter();
 
             this.command = new Metadata(
                 this.BuildLogger<Metadata>(),
                 this.TestFiles,
                 new FileMatcher(this.BuildLogger<FileMatcher>(), this.TestFiles),
-                new OutputRecordWriter(sw, new JsonLinesSerializer()));
+                new OutputRecordWriter(this.writer, new JsonLinesSerializer()));
 
             this.command.Targets = "/".AsArray();
         }
+
         [Fact]
         public void HasAMetadataCommandThatComplainsIfNoArgumentsAreGiven()
         {
             var command = "metadata";
 
-            var parser = EmuEntry.BuildCommandLine();
+            var parser = this.CliParser;
             var result = parser.Parse(command);
 
             Assert.Equal(1, result.Errors.Count);
@@ -55,7 +57,6 @@ namespace MetadataUtility.Tests.Commands.Metadata
         [Fact]
         public async void MetadataCommandOutputsOneRecordPerFile()
         {
-
             this.TestFiles.AddEmptyFile("/a.WAV");
             this.TestFiles.AddEmptyFile("/b.WAV");
             this.TestFiles.AddEmptyFile("/c.WAV");
@@ -64,12 +65,12 @@ namespace MetadataUtility.Tests.Commands.Metadata
 
             result.Should().Be(0);
 
-            string[] lines = sw.ToString().Split("\n").Where(s => (s.Length() > 0 && s[0] == '{')).ToArray();
+            string[] lines = this.writer.ToString().Split("\n").Where(s => (s.Length() > 0 && s[0] == '{')).ToArray();
 
-            Assert.Equal(lines.Length(), 3);
-            Assert.True(lines[0].Contains("a.WAV"));
-            Assert.True(lines[1].Contains("b.WAV"));
-            Assert.True(lines[2].Contains("c.WAV"));
+            Assert.Equal(3, lines.Length());
+            Assert.Contains("a.WAV", lines[0]);
+            Assert.Contains("b.WAV", lines[1]);
+            Assert.Contains("c.WAV", lines[2]);
         }
     }
 }

@@ -35,13 +35,15 @@ namespace MetadataUtility
     using Serilog.Events;
     using Serilog.Sinks.SystemConsole.Themes;
     using static MetadataUtility.EmuCommand;
+    using System.Runtime.CompilerServices;
+    using System.Diagnostics;
 
     /// <summary>
     /// The main entry point for running EMU.
     /// </summary>
     public partial class EmuEntry
     {
-        private static Parser builtCommandLine;
+        private static Parser builtCommandLine = null;
 
         /// <summary>
         /// Gets the RootCommand for the application.
@@ -62,7 +64,7 @@ namespace MetadataUtility
         /// Creates (but does not build/finalize) a CommandLineApplication object for EMU.
         /// </summary>
         /// <returns>A CommandLineBuilder.</returns>
-        public static CommandLineBuilder CreateCommandLine() =>
+        private static CommandLineBuilder CreateCommandLine() =>
             new CommandLineBuilder(RootCommand)
             .UseHost(CreateHost, BuildDependencies)
             .UseDefaults()
@@ -72,8 +74,13 @@ namespace MetadataUtility
         /// Builds a parser the command line arguments for EMU.
         /// </summary>
         /// <returns>The CommandLineApplication object and a binding model of arguments.</returns>
-        public static Parser BuildCommandLine()
+        public static Parser BuildCommandLine([CallerMemberName] string memberName = "",
+        [CallerFilePath] string sourceFilePath = "",
+        [CallerLineNumber] int sourceLineNumber = 0)
         {
+            // using var file = File.AppendText("F:\\Work\\GitHub\\emu\\log.txt");
+            Console.WriteLine($"{DateTime.Now} Building command line {sourceFilePath}:{sourceLineNumber} {memberName}");
+            Trace.WriteLine($"{DateTime.Now} Building command line {sourceFilePath}:{sourceLineNumber} {memberName}");
             return builtCommandLine ??= CreateCommandLine().Build();
         }
 

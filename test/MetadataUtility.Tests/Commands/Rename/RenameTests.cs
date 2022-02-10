@@ -113,7 +113,7 @@ namespace MetadataUtility.Tests.Commands.Rename
             this.TestFiles.AddEmptyFile("/PILLIGA_20121204_234600.wav");
 
             this.command.Offset = Offset.FromHours(11);
-            this.command.CopyTo = new System.IO.DirectoryInfo("/copy-dest");
+            this.command.CopyTo = this.ResolvePath("/copy-dest").ToDirectory();
 
             var result = await this.command.InvokeAsync(null);
 
@@ -135,7 +135,7 @@ namespace MetadataUtility.Tests.Commands.Rename
             this.TestFiles.AddEmptyFile("/PILLIGA_20121204_234600.wav");
 
             this.command.Offset = Offset.FromHours(11);
-            this.command.CopyTo = new System.IO.DirectoryInfo("/copy-dest");
+            this.command.CopyTo = this.ResolvePath("/copy-dest").ToDirectory();
             this.command.DryRun = true;
 
             var result = await this.command.InvokeAsync(null);
@@ -160,7 +160,7 @@ namespace MetadataUtility.Tests.Commands.Rename
             this.TestFiles.AddEmptyFile("/z/PILLIGA_20121207_234600.wav");
 
             this.command.Offset = Offset.FromHours(11);
-            this.command.CopyTo = new System.IO.DirectoryInfo("/copy-dest");
+            this.command.CopyTo = this.ResolvePath("/copy-dest").ToDirectory();
 
             var result = await this.command.InvokeAsync(null);
 

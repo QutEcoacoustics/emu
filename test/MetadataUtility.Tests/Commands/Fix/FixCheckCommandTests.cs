@@ -6,17 +6,23 @@ namespace MetadataUtility.Tests.Commands.Fix
 {
     using System.CommandLine.Parsing;
     using MetadataUtility.Commands;
+    using MetadataUtility.Tests.TestHelpers;
     using Xunit;
+    using Xunit.Abstractions;
 
-    public class FixCheckCommandTests
+    public class FixCheckCommandTests : TestBase
     {
+        public FixCheckCommandTests(ITestOutputHelper output) : base(output)
+        {
+        }
+
         [Fact]
         public void FixOptionDoesNotBundleArgument()
         {
             var optionFirst = "fix check B:\\Marina\\**\\*.flac -f FL010";
             var optionSecond = "fix check -f FL010 B:\\Marina\\**\\*.flac";
 
-            var parser = EmuEntry.BuildCommandLine();
+            var parser = this.CliParser;
             var result1 = parser.Parse(optionFirst);
             var result2 = parser.Parse(optionSecond);
 
@@ -46,7 +52,7 @@ namespace MetadataUtility.Tests.Commands.Fix
         [InlineData("fix check  --fix=FL010,FL020 B:\\Marina\\**\\*.flac")]
         public void FixOptionSupportsCommaDelimitter(string command)
         {
-            var parser = EmuEntry.BuildCommandLine();
+            var parser = this.CliParser;
             var result = parser.Parse(command);
 
             Assert.True(result.Errors.Count == 0);
