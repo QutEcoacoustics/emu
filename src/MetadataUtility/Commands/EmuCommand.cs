@@ -70,14 +70,14 @@ namespace MetadataUtility
             "Which format to ouput results in.");
 
         public static Option<string> OutOption { get; } = new Option<string>(
-            new string[] { "--out" },
+            new string[] { "--output", "-O" },
             () => null,
             "Where to output data. Defaults to stdout if not supplied")
             .LegalFilePathsOnly();
 
         public static Option<bool> ClobberOption { get; } = new Option<bool>(
             new string[] { "--clobber", "-C" },
-            "Overwrites output file, used in junction with --output. No effect for stdout");
+            "Overwrites output file, used in junction with --output. No effect for standard out");
 
         public static LogLevel GetLogLevel(ParseResult parseResult)
         {

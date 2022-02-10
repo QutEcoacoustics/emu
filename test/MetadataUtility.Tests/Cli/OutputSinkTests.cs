@@ -4,11 +4,10 @@
 
 namespace MetadataUtility.Tests.Cli
 {
+    using MetadataUtility.Commands.Version;
     using MetadataUtility.Utilities;
     using MetadataUtility.Serialization;
-    using System;
     using System.IO;
-    using System.Text;
     using TestHelpers;
     using Xunit;
     using Xunit.Abstractions;
@@ -16,24 +15,24 @@ namespace MetadataUtility.Tests.Cli
     public class OutputSinkTests : TestBase
     {
 
-        private readonly MetadataUtility.Commands.Version.Version command;
-        private StringWriter sw;
+        private readonly Version command;
+        private readonly StringWriter writer;
 
         public OutputSinkTests(ITestOutputHelper output)
             : base(output)
         {
-            sw = new StringWriter();
+            writer = new StringWriter();
 
-            this.command = new MetadataUtility.Commands.Version.Version(
-                new OutputRecordWriter(sw, new ToStringFormatter(this.BuildLogger<ToStringFormatter>())));
+            this.command = new Version(
+                new OutputRecordWriter(writer, new ToStringFormatter(this.BuildLogger<ToStringFormatter>())));
 
         }
 
         [Fact]
-        public async void testOutput()
+        public async void TestOutput()
         {
 
-            FixtureHelper.TestTempDir tempDir = new FixtureHelper.TestTempDir();
+            using var tempDir = new FixtureHelper.TestTempDir();
             string path = Path.Join(tempDir.TempDir, "out.txt");
 
             var result = await EmuEntry.Main(new string[] { "version", "-O", path });
@@ -42,19 +41,17 @@ namespace MetadataUtility.Tests.Cli
 
             await this.command.InvokeAsync(null);
 
-            Assert.Equal(sw.ToString(), File.ReadAllText(path));
-
-            tempDir.Dispose();
+            Assert.Equal(writer.ToString(), File.ReadAllText(path));
         }
 
         [Fact]
-        public async void testOutputOverwriting()
+        public async void TestOutputOverwriting()
         {
 
-            FixtureHelper.TestTempDir tempDir = new FixtureHelper.TestTempDir();
+            using var tempDir = new FixtureHelper.TestTempDir();
             string path = Path.Join(tempDir.TempDir, "out.txt");
 
-            File.WriteAllLines(path, new string[] { "test" });
+            File.WriteAllText(path, "test");
 
             var result = await EmuEntry.Main(new string[] { "version", "-O", path });
 
@@ -63,8 +60,6 @@ namespace MetadataUtility.Tests.Cli
             result = await EmuEntry.Main(new string[] { "version", "-O", path, "-C" });
 
             Assert.Equal(result, 0);
-
-            tempDir.Dispose();
         }
 
     }

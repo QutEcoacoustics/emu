@@ -5,11 +5,15 @@
 namespace MetadataUtility.Cli
 {
     using Microsoft.Extensions.DependencyInjection;
-
-    public static class OutputSink
+    using Microsoft.Extensions.Logging;
+    public class OutputSink
     {
         public static Func<IServiceProvider, TextWriter> Factory => (collection) =>
         {
+            // ILogger<OutputSink> logger = new ILogger<OutputSink>();
+
+            var logger = collection.GetRequiredService<ILogger<OutputSink>>();
+
             var handler = collection.GetRequiredService<EmuGlobalOptions>();
 
             if (handler.Output is null)
@@ -23,11 +27,12 @@ namespace MetadataUtility.Cli
                 {
                     if (handler.Clobber is true)
                     {
+                        logger.LogInformation($"Deleting {handler.Output} for overwrite");
                         File.Delete(handler.Output);
                     }
                     else
                     {
-                        throw new Exception("Will overwrite existing file, use --clobber option or select a different name");
+                        throw new Exception($"Will not overwrite existing output file {handler.Output}, use --clobber option or select a different name");
                     }
                 }
 
