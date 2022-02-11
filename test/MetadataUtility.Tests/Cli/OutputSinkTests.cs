@@ -37,8 +37,9 @@ namespace MetadataUtility.Tests.Cli
 
             var result = await EmuEntry.Main(new string[] { "version", "-O", path });
 
-            Assert.Equal(result, 0);
+            Assert.Equal(0, result);
 
+            // Run version command in isolation, testing that the outputs match
             await this.command.InvokeAsync(null);
 
             Assert.Equal(writer.ToString(), File.ReadAllText(path));
@@ -55,11 +56,11 @@ namespace MetadataUtility.Tests.Cli
 
             var result = await EmuEntry.Main(new string[] { "version", "-O", path });
 
-            Assert.Equal(result, 1);
+            Assert.Equal(1, result);
 
             result = await EmuEntry.Main(new string[] { "version", "-O", path, "-C" });
 
-            Assert.Equal(result, 0);
+            Assert.Equal(0, result);
         }
 
     }

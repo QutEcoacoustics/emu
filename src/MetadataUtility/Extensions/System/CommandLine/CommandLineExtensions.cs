@@ -63,7 +63,7 @@ namespace MetadataUtility.Extensions.System.CommandLine
                     using var _ = logger.Measure(command.Name, LogLevel.Debug);
                     logger.LogDebug("Handler: {@args}", handler);
 
-                    if (File.Exists(handler.Output) && handler.Clobber is false)
+                    if (new FileInfo(handler.Output).Length > 0 && handler.Clobber is false)
                     {
                         logger.LogError($"Will not overwrite existing output file {handler.Output}, use --clobber option or select a different name");
                         return 1;
