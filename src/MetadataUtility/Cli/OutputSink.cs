@@ -10,8 +10,6 @@ namespace MetadataUtility.Cli
     {
         public static Func<IServiceProvider, TextWriter> Factory => (collection) =>
         {
-            // ILogger<OutputSink> logger = new ILogger<OutputSink>();
-
             var logger = collection.GetRequiredService<ILogger<OutputSink>>();
 
             var handler = collection.GetRequiredService<EmuGlobalOptions>();
@@ -23,17 +21,10 @@ namespace MetadataUtility.Cli
             }
             else
             {
-                if (File.Exists(handler.Output))
+                if (File.Exists(handler.Output) && handler.Clobber is true)
                 {
-                    if (handler.Clobber is true)
-                    {
-                        logger.LogInformation($"Deleting {handler.Output} for overwrite");
-                        File.Delete(handler.Output);
-                    }
-                    else
-                    {
-                        throw new Exception($"Will not overwrite existing output file {handler.Output}, use --clobber option or select a different name");
-                    }
+                    logger.LogInformation($"Deleting {handler.Output} for overwrite");
+                    File.Delete(handler.Output);
                 }
 
                 return new StreamWriter(File.OpenWrite(handler.Output));
