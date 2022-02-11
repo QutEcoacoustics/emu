@@ -77,7 +77,7 @@ namespace MetadataUtility.Models
         /// <summary>
         /// Gets the duration of the recording.
         /// </summary>
-        public Duration DurationSeconds { get; init; }
+        public Duration? DurationSeconds { get; init; }
 
         /// <summary>
         /// Gets the number of channels in the recording.

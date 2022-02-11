@@ -28,7 +28,7 @@ namespace MetadataUtility.Commands.Metadata
         private readonly IFileSystem fileSystem;
         private readonly FileMatcher fileMatcher;
         private readonly OutputRecordWriter writer;
-        private readonly MetadataRegister register;
+        private readonly MetadataRegister extractorRegister;
 
         public Metadata(
             ILogger<Metadata> logger,
@@ -41,7 +41,7 @@ namespace MetadataUtility.Commands.Metadata
             this.fileSystem = fileSystem;
             this.fileMatcher = fileMatcher;
             this.writer = writer;
-            this.register = register;
+            this.extractorRegister = register;
         }
 
         public string[] Targets { get; set; }
@@ -61,11 +61,11 @@ namespace MetadataUtility.Commands.Metadata
                     SourcePath = context.Path,
                 };
 
-                foreach (var operation in this.register.All)
+                foreach (var extractor in this.extractorRegister.All)
                 {
-                    if (await operation.CanProcessAsync(context))
+                    if (await extractor.CanProcessAsync(context))
                     {
-                        recording = await operation.ProcessFileAsync(context, recording);
+                        recording = await extractor.ProcessFileAsync(context, recording);
                     }
                 }
 

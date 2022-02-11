@@ -15,6 +15,7 @@ namespace MetadataUtility.Tests.Commands.Metadata
     using MetadataUtility.Utilities;
     using Xunit;
     using Xunit.Abstractions;
+    using MetadataUtility.Metadata;
 
     public class MetadataCommandTests : TestBase
     {
@@ -31,7 +32,9 @@ namespace MetadataUtility.Tests.Commands.Metadata
                 this.BuildLogger<Metadata>(),
                 this.TestFiles,
                 new FileMatcher(this.BuildLogger<FileMatcher>(), this.TestFiles),
-                new OutputRecordWriter(this.writer, new JsonLinesSerializer()));
+                new OutputRecordWriter(sw, new JsonLinesSerializer()),
+                // TODO: BROKEN!
+                null);
 
             this.command.Targets = "/".AsArray();
         }

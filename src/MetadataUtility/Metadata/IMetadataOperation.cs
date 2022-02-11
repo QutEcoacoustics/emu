@@ -11,8 +11,9 @@ namespace MetadataUtility.Metadata
     {
         private readonly IServiceProvider provider;
 
-        private readonly Type[] knownOperations = new[]
+        public static readonly Type[] KnownOperations = new[]
         {
+            // each time we make a new extractor we'll add it here
             typeof(FilenameExtractor),
         };
 
@@ -27,7 +28,7 @@ namespace MetadataUtility.Metadata
         {
             get
             {
-                this.resolved ??= this.knownOperations.Select(x => (IMetadataOperation)this.provider.GetService(x));
+                this.resolved ??= KnownOperations.Select(x => (IMetadataOperation)this.provider.GetService(x));
                 return this.resolved;
             }
         }
@@ -51,6 +52,24 @@ namespace MetadataUtility.Metadata
         ValueTask<Recording> ProcessFileAsync(TargetInformation information, Recording recording);
         // todo: encode success/failure of the operation?
     }
+
+    // a.wav
+    // b.flac
+    // extractor for FL FLAC files
+    //   is this a flac file?
+    //   FL file?
+    //   more than 0 bytes?
+    //   does it have a header?
+    //   does it have a flac header?
+    //     if yes return true
+    // extractor for FL WAVE files
+    //   is this a WAVE file?
+    //   FL file?
+    //   more than 0 bytes?
+    //   does it have a header?
+    //     if yes return true?
+    //   does it have a flac header?
+    //     if yes return false
 
     public record TargetInformation : IDisposable
     {

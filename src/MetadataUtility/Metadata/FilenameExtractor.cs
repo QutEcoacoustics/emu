@@ -8,14 +8,17 @@ namespace MetadataUtility.Metadata
     using System.Threading.Tasks;
     using MetadataUtility.Filenames;
     using MetadataUtility.Models;
+    using Microsoft.Extensions.Logging;
 
     public class FilenameExtractor : IMetadataOperation
     {
         private readonly IFileSystem fileSystem;
         private readonly FilenameParser parser;
+        private readonly ILogger<FilenameExtractor> logger;
 
-        public FilenameExtractor(IFileSystem fileSystem, FilenameParser parser)
+        public FilenameExtractor(ILogger<FilenameExtractor> logger, IFileSystem fileSystem, FilenameParser parser)
         {
+            this.logger = logger;
             this.fileSystem = fileSystem;
             this.parser = parser;
         }
@@ -35,6 +38,7 @@ namespace MetadataUtility.Metadata
             var updated = recording with
             {
                 Extension = result.Extension,
+                //StartDate = result.OffsetDateTime ?? result.LocalDateTime,
                 // etc...
             };
 

@@ -25,6 +25,7 @@ namespace MetadataUtility
     using MetadataUtility.Extensions.System.CommandLine;
     using MetadataUtility.Filenames;
     using MetadataUtility.Fixes;
+    using MetadataUtility.Metadata;
     using MetadataUtility.Serialization;
     using MetadataUtility.Utilities;
     using Microsoft.Extensions.DependencyInjection;
@@ -118,6 +119,12 @@ namespace MetadataUtility
                 foreach (var fix in FixRegister.All)
                 {
                     services.AddTransient(fix.FixClass);
+                }
+
+                services.AddSingleton<MetadataRegister>();
+                foreach (var extractor in MetadataRegister.KnownOperations)
+                {
+                    services.AddTransient(extractor);
                 }
             });
 
