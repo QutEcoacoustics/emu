@@ -6,9 +6,11 @@ namespace MetadataUtility
 {
     using System.CommandLine;
     using System.CommandLine.Invocation;
+    using System.IO.Abstractions;
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+    using MetadataUtility.Cli;
     using MetadataUtility.Extensions.System;
     using MetadataUtility.Fixes;
     using MetadataUtility.Utilities;
@@ -20,13 +22,15 @@ namespace MetadataUtility
         private readonly ILogger<FixCheck> logger;
         private readonly FileMatcher fileMatcher;
         private readonly FixRegister register;
+        private readonly IFileSystem fileSystem;
 
-        public FixCheck(IConsole console, ILogger<FixCheck> logger, FileMatcher fileMatcher, FixRegister register, OutputRecordWriter writer)
+        public FixCheck(IConsole console, ILogger<FixCheck> logger, FileMatcher fileMatcher, FixRegister register, OutputRecordWriter writer, IFileSystem fileSystem)
         {
             this.console = console;
             this.logger = logger;
             this.fileMatcher = fileMatcher;
             this.register = register;
+            this.fileSystem = fileSystem;
             this.Writer = writer;
         }
 
@@ -59,7 +63,9 @@ namespace MetadataUtility
             this.WriteHeader<FixCheckResult>();
             this.Write("Looking for targets...");
 
-            var files = this.fileMatcher.ExpandMatches(Directory.GetCurrentDirectory(), this.Targets);
+            var files = this.fileMatcher.ExpandMatches(
+                this.fileSystem.Directory.GetCurrentDirectory(),
+                this.Targets);
 
             bool any = false;
             foreach (var (_, file) in files)
@@ -82,10 +88,8 @@ namespace MetadataUtility
                 this.Write($"No files matched targets: {this.Targets.FormatInlineList()}");
             }
 
-            return 0;
+            return ExitCodes.Success;
         }
-
-        public partial record FixCheckResult(string File, Dictionary<WellKnownProblem, CheckResult> Problems);
 
         protected override object FormatCompact<T>(T record)
         {
@@ -140,5 +144,7 @@ namespace MetadataUtility
             CheckStatus.Unaffected => "GOOD",
             _ => "?",
         };
+
+        public partial record FixCheckResult(string File, Dictionary<WellKnownProblem, CheckResult> Problems);
     }
 }

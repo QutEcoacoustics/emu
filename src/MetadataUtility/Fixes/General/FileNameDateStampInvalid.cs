@@ -18,7 +18,7 @@ namespace MetadataUtility.Fixes.General
 
         public OperationInfo GetOperationInfo() => Metadata;
 
-        public async Task<CheckResult> CheckAffectedAsync(string file)
+        public Task<CheckResult> CheckAffectedAsync(string file)
         {
             throw new NotImplementedException();
         }

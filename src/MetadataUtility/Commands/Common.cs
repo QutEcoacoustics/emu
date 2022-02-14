@@ -7,14 +7,16 @@ namespace MetadataUtility.Commands
     using System.CommandLine;
     using MetadataUtility.Extensions.System.CommandLine;
 
-    public static class CommonArguments
+    public static class Common
     {
         public static Argument<string[]> Targets { get; } = new(
             "targets",
             "One more glob patterns for files to process. E.g. '**/*.mp3'")
         { Arity = ArgumentArity.OneOrMore };
 
-        public static Option<bool> DryRun = new(new string[] { "-n", "--dry-run" }, "Do a \"dry run\" by simulating any change that writes data");
+        public static Option<bool> DryRun { get; } = new(
+            new string[] { "-n", "--dry-run" },
+            "Do a \"dry run\" by simulating any change that writes data");
 
         public static Option<string[]> Fixes { get; } = new Option<string[]>(
             "--fix",

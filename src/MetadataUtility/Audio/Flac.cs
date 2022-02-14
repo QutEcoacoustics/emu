@@ -10,6 +10,7 @@ namespace MetadataUtility.Audio
 
     public static class Flac
     {
+        public const string Mime = "audio/flac";
         public const int FlacDurationOffset = 21;
         public static readonly byte[] FlacMagicNumber = new byte[] { (byte)'f', (byte)'L', (byte)'a', (byte)'C' };
 

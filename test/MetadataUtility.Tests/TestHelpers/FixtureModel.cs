@@ -4,7 +4,18 @@
 
 namespace MetadataUtility.Tests.TestHelpers
 {
+    using System;
+    using System.IO.Abstractions;
     using CsvHelper.Configuration.Attributes;
+    using MetadataUtility.Audio;
+    using MetadataUtility.Metadata;
+
+    public enum ValidMetadata
+    {
+        No,
+        Partial,
+        Yes,
+    }
 
     public class FixtureModel
     {
@@ -16,6 +27,20 @@ namespace MetadataUtility.Tests.TestHelpers
         private string fixturePath;
 
         public string Name { get; set; }
+
+        public string Extension { get; set; }
+
+        public string Vendor { get; set; }
+
+        public ValidMetadata ValidMetadata { get; set; }
+
+        public string MimeType { get; set; }
+
+        public double DurationSeconds { get; set; }
+
+        // TODO: add other columns from the CSV here!
+
+        public bool IsFlac => this.MimeType == Flac.Mime;
 
         public string FixturePath
         {
@@ -32,6 +57,21 @@ namespace MetadataUtility.Tests.TestHelpers
         public string AbsoluteFixturePath { get; set; }
 
         public string Notes { get; set; }
+
+        public bool IsVendor(Vendor vendor) => Enum
+                .GetName<Vendor>(vendor)
+                .Equals(
+                    this.Vendor.Replace(" ", string.Empty),
+                    StringComparison.InvariantCultureIgnoreCase);
+
+        public TargetInformation ToTargetInformation(IFileSystem fileSystem)
+        {
+            return new TargetInformation(fileSystem)
+            {
+                Path = this.AbsoluteFixturePath,
+                Base = FixtureHelper.ResolveFirstDirectory(this.FixturePath),
+            };
+        }
 
         public override string ToString()
         {

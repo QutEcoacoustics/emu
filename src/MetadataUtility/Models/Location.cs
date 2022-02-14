@@ -13,7 +13,7 @@ namespace MetadataUtility.Models
     /// <summary>
     /// Defines a GPS location in the WGS84 Ellipsoid.
     /// </summary>
-    public class Location
+    public record Location
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Location"/> class.
@@ -57,49 +57,49 @@ namespace MetadataUtility.Models
         }
 
         /// <summary>
-        /// Gets or sets longitude in decimal degrees.
+        /// Gets longitude in decimal degrees.
         /// </summary>
-        public double Latitude { get; set; }
+        public double Latitude { get; init; }
 
         /// <summary>
-        /// Gets or sets longitude in decimal degrees.
+        /// Gets longitude in decimal degrees.
         /// </summary>
-        public double Longitude { get; set; }
+        public double Longitude { get; init; }
 
         /// <summary>
-        /// Gets or sets altitude in meters above the WGS84 reference ellipsoid in meters.
+        /// Gets altitude in meters above the WGS84 reference ellipsoid in meters.
         /// </summary>
-        public double? Altitude { get; set; }
+        public double? Altitude { get; init; }
 
         /// <summary>
-        /// Gets or sets horizontal accuracy in meters above the WGS84 reference ellipsoid in meters.
+        /// Gets horizontal accuracy in meters above the WGS84 reference ellipsoid in meters.
         /// </summary>
-        public double? HorizontalAccuracy { get; set; }
+        public double? HorizontalAccuracy { get; init; }
 
         /// <summary>
-        /// Gets or sets vertical accuracy in meters above the WGS84 reference ellipsoid in meters.
+        /// Gets vertical accuracy in meters above the WGS84 reference ellipsoid in meters.
         /// </summary>
-        public double? VerticalAccuracy { get; set; }
+        public double? VerticalAccuracy { get; init; }
 
         /// <summary>
-        /// Gets or sets the speed in meters per second.
+        /// Gets the speed in meters per second.
         /// </summary>
-        public double? Speed { get; set; }
+        public double? Speed { get; init; }
 
         /// <summary>
-        /// Gets or sets the heading in degrees, relative to true north.
+        /// Gets the heading in degrees, relative to true north.
         /// </summary>
-        public double? Course { get; set; }
+        public double? Course { get; init; }
 
         /// <summary>
-        /// Gets or sets when this GPS sample was recorded.
+        /// Gets when this GPS sample was recorded.
         /// </summary>
-        public Instant? SampleDateTime { get; set; }
+        public Instant? SampleDateTime { get; init; }
 
         /// <summary>
-        /// Gets or sets the Coordinate Reference System (e.g. WGS84) that this location is using.
+        /// Gets the Coordinate Reference System (e.g. WGS84) that this location is using.
         /// </summary>
-        public string CoordinateReferenceSystem { get; set; }
+        public string CoordinateReferenceSystem { get; init; }
 
         /// <summary>
         /// Attempts to parse a ISO6709:H Latitude value from a string.

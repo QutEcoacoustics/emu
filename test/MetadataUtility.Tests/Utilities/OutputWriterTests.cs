@@ -75,7 +75,7 @@ namespace MetadataUtility.Tests.Utilities
             // check the header was written
             var actual = stringBuilder.ToString();
             Assert.StartsWith($"{nameof(Recording.SourcePath)},", actual);
-            Assert.Contains(a.ExpectedDurationSeconds?.TotalSeconds + ",", actual);
+            Assert.Contains(a.ExpectedDurationSeconds?.TotalSeconds.ToString(), actual);
 
             // generate and write another fake
             var b = this.fakes.Recording.Generate();
@@ -87,7 +87,7 @@ namespace MetadataUtility.Tests.Utilities
             actual = stringBuilder.ToString();
             Assert.StartsWith($"{nameof(Recording.SourcePath)},", actual);
             Assert.Single(Regex.Matches(actual, $"{nameof(Recording.SourcePath)},"));
-            Assert.Contains(a.ExpectedDurationSeconds?.TotalSeconds + ",", actual);
+            Assert.Contains(a.ExpectedDurationSeconds?.TotalSeconds.ToString(), actual);
 
             var records = csvSerializer.Deserialize<Recording>(new StringReader(actual)).ToArray();
 

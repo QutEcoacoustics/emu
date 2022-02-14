@@ -32,7 +32,7 @@ namespace MetadataUtility.Tests.Commands
 
             var command = $"version -O {temp.Path}";
 
-            var parser = EmuEntry.BuildCommandLine();
+            var parser = this.CliParser;
 
             var result = parser.Parse(command);
 

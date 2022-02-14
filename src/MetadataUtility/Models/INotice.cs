@@ -10,7 +10,7 @@ namespace MetadataUtility.Models
     public interface INotice
     {
         /// <summary>
-        /// The problem that generated this notice.
+        /// Gets the problem that generated this notice.
         /// </summary>
         WellKnownProblem Problem { get; }
     }

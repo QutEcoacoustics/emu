@@ -5,6 +5,7 @@
 namespace MetadataUtility
 {
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Reflection;
     using LanguageExt;
@@ -14,11 +15,15 @@ namespace MetadataUtility
     /// <summary>
     /// A collection of well-known problems that we can encounter with sensors.
     /// </summary>
+    [SuppressMessage(
+        "StyleCop.CSharp.DocumentationRules",
+        "SA1623:Property summary documentation should match accessors",
+        Justification = "These are not ordinary properties")]
     public static class WellKnownProblems
     {
-        private static readonly IReadOnlyDictionary<string, WellKnownProblem> Problems;
-
         public const string Group = "OE";
+
+        private static readonly IReadOnlyDictionary<string, WellKnownProblem> Problems;
 
         static WellKnownProblems()
         {
@@ -31,13 +36,6 @@ namespace MetadataUtility
                             .Cast<WellKnownProblem>()
                             .ToDictionary(wkp => wkp.Id, wkp => wkp);
         }
-
-        public static bool TryLookup(string id, out WellKnownProblem problem)
-        {
-            return Problems.TryGetValue(id, out problem);
-        }
-
-        public static string PatchString(WellKnownProblem problem) => "EMU+" + problem.Id;
 
         /// <summary>
         /// Happens when no date can be found.
@@ -69,6 +67,13 @@ namespace MetadataUtility
             null);
 
         public static FrontierLabsProblems FrontierLabs { get; } = new();
+
+        public static bool TryLookup(string id, out WellKnownProblem problem)
+        {
+            return Problems.TryGetValue(id, out problem);
+        }
+
+        public static string PatchString(WellKnownProblem problem) => "EMU+" + problem.Id;
 
         public class FrontierLabsProblems
         {

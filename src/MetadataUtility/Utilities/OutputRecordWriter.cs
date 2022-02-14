@@ -41,7 +41,7 @@ namespace MetadataUtility.Utilities
                 };
             };
 
-        public void WriteHeader<T>(T? header)
+        public void WriteHeader<T>(T header)
         {
             this.formatterContext = this.formatter.WriteHeader<T>(this.formatterContext, this.sink, header);
         }

@@ -164,7 +164,13 @@ namespace MetadataUtility.Filenames
                 {
                     if (parsedFilename.Location != null)
                     {
-                        parsedFilename.Location.SampleDateTime = value.ToInstant();
+                        parsedFilename = parsedFilename with
+                        {
+                            Location = parsedFilename.Location with
+                            {
+                                SampleDateTime = value.ToInstant(),
+                            },
+                        };
                     }
 
                     return parsedFilename with

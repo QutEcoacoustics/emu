@@ -12,8 +12,8 @@ namespace MetadataUtility
         public FixCheckCommand()
             : base("check", "check if a file needs a fix")
         {
-            this.AddArgument(CommonArguments.Targets);
-            this.AddOption(CommonArguments.Fixes);
+            this.AddArgument(Common.Targets);
+            this.AddOption(Common.Fixes);
             this.AddOption(new Option<bool>(new string[] { "--all" }, "Check for all well known problems"));
         }
     }

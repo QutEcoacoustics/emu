@@ -27,9 +27,11 @@ namespace MetadataUtility.Utilities
         {
             if (this.IsDryRun)
             {
-                using var _ = this.logger.BeginScope("dry run would");
-                this.logger.LogInformation(message);
-                return dryCallback is null ? default : dryCallback();
+                using (this.logger.BeginScope("dry run would"))
+                {
+                    this.logger.LogInformation(message);
+                    return dryCallback is null ? default : dryCallback();
+                }
             }
             else
             {
@@ -41,11 +43,13 @@ namespace MetadataUtility.Utilities
         {
             if (this.IsDryRun)
             {
-                using var _ = this.logger.BeginScope("dry run would");
-                this.logger.LogInformation(message);
-                if (dryCallback is not null)
+                using (this.logger.BeginScope("dry run would"))
                 {
-                    dryCallback();
+                    this.logger.LogInformation(message);
+                    if (dryCallback is not null)
+                    {
+                        dryCallback();
+                    }
                 }
             }
             else

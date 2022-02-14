@@ -13,6 +13,7 @@ namespace MetadataUtility.Commands.Rename
     using System.Threading.Tasks;
     using LanguageExt;
     using LanguageExt.Common;
+    using MetadataUtility.Cli;
     using MetadataUtility.Extensions.System;
     using MetadataUtility.Filenames;
     using MetadataUtility.Utilities;
@@ -46,7 +47,7 @@ namespace MetadataUtility.Commands.Rename
 
         public string[] Targets { get; set; }
 
-        public DirectoryInfo? CopyTo { get; set; }
+        public DirectoryInfo CopyTo { get; set; }
 
         public bool Flatten { get; set; }
 
@@ -104,7 +105,7 @@ namespace MetadataUtility.Commands.Rename
 
             this.WriteFooter($"{renames.Length} files, {success} renamed, {unchanged} unchanged, {fail} failed");
 
-            return failed ? 1 : 0;
+            return ExitCodes.Get(!failed);
         }
 
         public async ValueTask<(RenameResult[] Results, bool Failed)> ProcessFiles(IEnumerable<(string Base, string File)> files, DryRun dryRun)

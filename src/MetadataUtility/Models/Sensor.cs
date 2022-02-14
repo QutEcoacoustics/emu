@@ -10,48 +10,48 @@ namespace MetadataUtility.Models
     /// Describes a passive acoustic monitor/sensor that
     /// was used to generate a recording.
     /// </summary>
-    public class Sensor
+    public record Sensor
     {
         /// <summary>
-        /// Gets or sets the common name used to refer to the sensor.
+        /// Gets the common name used to refer to the sensor.
         /// </summary>
-        public string Name { get; set; }
+        public string Name { get; init; }
 
         /// <summary>
-        /// Gets or sets the firmware version of this sensor.
+        /// Gets the firmware version of this sensor.
         /// </summary>
-        public string Firmware { get; set; }
+        public string Firmware { get; init; }
 
         /// <summary>
-        /// Gets or sets the serial number of the sensor.
+        /// Gets the serial number of the sensor.
         /// </summary>
-        public string SensorSerialNumber { get; set; }
+        public string SensorSerialNumber { get; init; }
 
         /// <summary>
-        /// Gets or sets a description of the powersource used by this sensor.
+        /// Gets a description of the powersource used by this sensor.
         /// </summary>
-        public string PowerSource { get; set; }
+        public string PowerSource { get; init; }
 
         /// <summary>
-        /// Gets or sets the voltage of the <see cref="PowerSource"/>
+        /// Gets the voltage of the <see cref="PowerSource"/>
         /// used by this sensor.
         /// </summary>
-        public double Voltage { get; set; }
+        public double Voltage { get; init; }
 
         /// <summary>
-        /// Gets or sets the gain setting used by the sensor.
+        /// Gets the gain setting used by the sensor.
         /// </summary>
-        public string Gain { get; set; }
+        public string Gain { get; init; }
 
         /// <summary>
-        /// Gets or sets a list of microphones attached to this sensor.
+        /// Gets a list of microphones attached to this sensor.
         /// </summary>
-        public Microphone[] Microphones { get; set; }
+        public Microphone[] Microphones { get; init; }
 
         /// <summary>
-        /// Gets or sets a base64 encoded representation of the sensor's
+        /// Gets a base64 encoded representation of the sensor's
         /// configuration file.
         /// </summary>
-        public string[] Configuration { get; set; }
+        public string[] Configuration { get; init; }
     }
 }

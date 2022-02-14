@@ -7,6 +7,7 @@ namespace System
 {
     using System.Collections.Generic;
     using System.IO;
+    using System.IO.Abstractions;
 
     /// <summary>
     /// Extension methods for the <see cref="System"/> namespace.
@@ -53,13 +54,14 @@ namespace System
         /// Creates an empty file, and any intermediate directories.
         /// </summary>
         /// <param name="path">The file to create.</param>
-        public static string Touch(this string path)
+        /// <param name="fileSystem">The file system to operate on.</param>
+        public static string Touch(this string path, IFileSystem fileSystem)
         {
             ArgumentNullException.ThrowIfNull(path, nameof(path));
 
-            var directory = Path.GetDirectoryName(path);
-            Directory.CreateDirectory(directory);
-            File.Create(path).Close();
+            var directory = fileSystem.Path.GetDirectoryName(path);
+            fileSystem.Directory.CreateDirectory(directory);
+            fileSystem.File.Create(path).Close();
 
             return path;
         }

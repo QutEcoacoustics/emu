@@ -10,6 +10,7 @@ namespace MetadataUtility.Tests.Commands.Metadata
     using System.Linq;
     using FluentAssertions;
     using MetadataUtility.Commands.Metadata;
+    using MetadataUtility.Metadata;
     using MetadataUtility.Serialization;
     using MetadataUtility.Tests.TestHelpers;
     using MetadataUtility.Utilities;
@@ -24,14 +25,14 @@ namespace MetadataUtility.Tests.Commands.Metadata
         public MetadataCommandTests(ITestOutputHelper output)
             : base(output)
         {
-
             this.writer = new StringWriter();
 
             this.command = new Metadata(
                 this.BuildLogger<Metadata>(),
                 this.TestFiles,
                 new FileMatcher(this.BuildLogger<FileMatcher>(), this.TestFiles),
-                new OutputRecordWriter(this.writer, new JsonLinesSerializer()));
+                new OutputRecordWriter(this.writer, new JsonLinesSerializer()),
+                new MetadataRegister(this.ServiceProvider));                 // TODO: BROKEN!
 
             this.command.Targets = "/".AsArray();
         }

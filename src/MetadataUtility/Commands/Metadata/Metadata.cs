@@ -1,4 +1,4 @@
-// <copyright file="Rename.cs" company="QutEcoacoustics">
+// <copyright file="Metadata.cs" company="QutEcoacoustics">
 // All code in this file and all associated files are the copyright and property of the QUT Ecoacoustics Research Group.
 // </copyright>
 
@@ -13,11 +13,13 @@ namespace MetadataUtility.Commands.Metadata
     using System.Threading.Tasks;
     using LanguageExt;
     using LanguageExt.Common;
-    using Microsoft.Extensions.Logging;
+    using MetadataUtility.Cli;
     using MetadataUtility.Extensions.System;
     using MetadataUtility.Filenames;
+    using MetadataUtility.Metadata;
     using MetadataUtility.Models;
     using MetadataUtility.Utilities;
+    using Microsoft.Extensions.Logging;
     using NodaTime;
 
     public class Metadata : EmuCommandHandler
@@ -26,33 +28,60 @@ namespace MetadataUtility.Commands.Metadata
         private readonly IFileSystem fileSystem;
         private readonly FileMatcher fileMatcher;
         private readonly OutputRecordWriter writer;
+        private readonly MetadataRegister extractorRegister;
 
-        public Metadata(ILogger<Metadata> logger, IFileSystem fileSystem, FileMatcher fileMatcher, OutputRecordWriter writer)
+        public Metadata(
+            ILogger<Metadata> logger,
+            IFileSystem fileSystem,
+            FileMatcher fileMatcher,
+            OutputRecordWriter writer,
+            MetadataRegister register)
         {
             this.logger = logger;
             this.fileSystem = fileSystem;
             this.fileMatcher = fileMatcher;
             this.writer = writer;
+            this.extractorRegister = register;
         }
 
         public string[] Targets { get; set; }
 
         // public bool Save {get; set;}
 
-        public override async Task<int> InvokeAsync(InvocationContext context)
+        public override async Task<int> InvokeAsync(InvocationContext invocationContext)
         {
-            var files = this.fileMatcher.ExpandMatches(this.fileSystem.Directory.GetCurrentDirectory(), this.Targets);
+            var paths = this.fileMatcher.ExpandMatches(this.fileSystem.Directory.GetCurrentDirectory(), this.Targets);
 
-            foreach ((string, string) file in files)
+            foreach (var path in paths)
             {
-                Recording recording = new Recording();
+                using var context = this.CreateContainer(path);
 
-                recording.SourcePath = file.Item2;
+                Recording recording = new Recording
+                {
+                    SourcePath = context.Path,
+                };
+
+                foreach (var extractor in this.extractorRegister.All)
+                {
+                    if (await extractor.CanProcessAsync(context))
+                    {
+                        recording = await extractor.ProcessFileAsync(context, recording);
+                    }
+                }
 
                 this.writer.Write(recording);
             }
 
-            return 0;
+            return ExitCodes.Success;
+        }
+
+        private TargetInformation CreateContainer((string Base, string File) target)
+        {
+            return new TargetInformation(this.fileSystem)
+            {
+                Base = target.Base,
+                Path = target.File,
+            };
         }
     }
 }

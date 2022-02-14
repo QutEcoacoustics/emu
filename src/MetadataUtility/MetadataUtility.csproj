@@ -75,4 +75,9 @@
       <UserProperties runtimeconfig_1template_1json__JsonSchema="https://gist.githubusercontent.com/natemcmaster/0bdee16450f8ec1823f2c11af880ceeb/raw/runtimeconfig.template.schema.json"/>
     </VisualStudio>
   </ProjectExtensions>
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>MetadataUtility.Tests</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
 </Project>
