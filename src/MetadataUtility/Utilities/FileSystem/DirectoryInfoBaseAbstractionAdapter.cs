@@ -90,7 +90,8 @@ namespace MetadataUtility.Utilities.FileSystem
                     throw new InvalidOperationException(
                         string.Format(
                             "More than one sub directories are found under {0} with path {1}.",
-                            this.directory.FullName, path));
+                            this.directory.FullName,
+                            path));
                 }
             }
         }

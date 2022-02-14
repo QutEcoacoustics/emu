@@ -22,7 +22,7 @@ namespace MetadataUtility.Tests.Utilities
         public FileMatcherTests(FileMatcherFixture fileMatcherFixture)
         {
             this.fileMatcherFixture = fileMatcherFixture;
-            this.matcher = new FileMatcher(NullLogger<FileMatcher>(), new FileSystem());
+            this.matcher = new FileMatcher(NullLogger<FileMatcher>(), this.fileMatcherFixture.FileSystem);
         }
 
         // I'm using the '@' character to denote an absolute path to the fixtures directory
@@ -64,7 +64,7 @@ namespace MetadataUtility.Tests.Utilities
             actual.Should().BeEmpty();
         }
 
-        public class FileMatcherFixture : FixtureHelper.TestTempDir
+        public class FileMatcherFixture : TestTempDir
         {
             public FileMatcherFixture()
             {
@@ -80,15 +80,17 @@ namespace MetadataUtility.Tests.Utilities
                     "k/l.flac",
                     "k/m.flac",
                 }
-                    .Select(file => Path.Join(this.TempDir, file).Touch())
+                    .Select(file => this.FileSystem.Path.Join(this.TempDir, file).Touch(this.FileSystem))
                     .ToArray();
             }
 
             public string[] MockFiles { get; }
 
+            public FileSystem FileSystem { get; } = new FileSystem();
+
             public string Resolve(string path)
             {
-                return path.Replace("@", this.TempDir).Replace('/', Path.DirectorySeparatorChar);
+                return path.Replace("@", this.TempDir).Replace('/', this.FileSystem.Path.DirectorySeparatorChar);
             }
         }
     }

@@ -37,7 +37,9 @@ public static class StringExtensions
 
     public static DirectoryInfo ToDirectory(this string directory)
     {
+#pragma warning disable IO0007 // Replace DirectoryInfo class with IFileSystem.DirectoryInfo for improved testability
         return new DirectoryInfo(directory);
+#pragma warning restore IO0007 // Replace DirectoryInfo class with IFileSystem.DirectoryInfo for improved testability
     }
 
     public static IDirectoryInfo ToDirectory(this string directory, IFileSystem fileSystem)

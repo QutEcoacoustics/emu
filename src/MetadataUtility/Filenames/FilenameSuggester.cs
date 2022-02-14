@@ -6,6 +6,7 @@ namespace MetadataUtility.Filenames
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.IO;
     using System.Linq;
     using System.Text;
@@ -21,6 +22,10 @@ namespace MetadataUtility.Filenames
     /// </remarks>
     public class FilenameSuggester
     {
+        [SuppressMessage(
+            "System.IO.Abstractions",
+            "IO0006:Replace Path class with IFileSystem.Path for improved testability",
+            Justification = "We're interested only in native chars here")]
         private static readonly HashSet<char> InvalidChars = new(Path.GetInvalidFileNameChars())
         {
             '\\', '/', ':', '[', ']', '{', '}', ';',

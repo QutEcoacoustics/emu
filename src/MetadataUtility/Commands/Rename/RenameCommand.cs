@@ -14,11 +14,11 @@ namespace MetadataUtility
         public RenameCommand()
             : base("rename", "rename one or more files.")
         {
-            this.AddArgument(CommonArguments.Targets);
+            this.AddArgument(Common.Targets);
 
-            this.AddOption(CommonArguments.DryRun);
+            this.AddOption(Common.DryRun);
 
-            this.AddOption(new Option<DirectoryInfo?>(new string[] { "--copy-to" }, "Create copies of the original files and move them to this directory"));
+            this.AddOption(new Option<DirectoryInfo>(new string[] { "--copy-to" }, "Create copies of the original files and move them to this directory"));
 
             this.AddOption(new Option<bool>(new string[] { "--flatten" }, "Flattens files so all files in folders are moved up to the target directory"));
 

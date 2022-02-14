@@ -17,7 +17,9 @@ namespace MetadataUtility
     using System.CommandLine.Builder;
     using System.CommandLine.Hosting;
     using System.CommandLine.Parsing;
+    using System.Diagnostics;
     using System.IO.Abstractions;
+    using System.Runtime.CompilerServices;
     using MetadataUtility.Cli;
     using MetadataUtility.Commands.Metadata;
     using MetadataUtility.Commands.Rename;
@@ -36,8 +38,6 @@ namespace MetadataUtility
     using Serilog.Events;
     using Serilog.Sinks.SystemConsole.Themes;
     using static MetadataUtility.EmuCommand;
-    using System.Runtime.CompilerServices;
-    using System.Diagnostics;
 
     /// <summary>
     /// The main entry point for running EMU.
@@ -62,6 +62,15 @@ namespace MetadataUtility
         }
 
         /// <summary>
+        /// Builds a parser the command line arguments for EMU.
+        /// </summary>
+        /// <returns>The CommandLineApplication object and a binding model of arguments.</returns>
+        public static Parser BuildCommandLine()
+        {
+            return builtCommandLine ??= CreateCommandLine().Build();
+        }
+
+        /// <summary>
         /// Creates (but does not build/finalize) a CommandLineApplication object for EMU.
         /// </summary>
         /// <returns>A CommandLineBuilder.</returns>
@@ -70,20 +79,6 @@ namespace MetadataUtility
             .UseHost(CreateHost, BuildDependencies)
             .UseDefaults()
             .UseHelpBuilder((context) => new EmuHelpBuilder(context.Console));
-
-        /// <summary>
-        /// Builds a parser the command line arguments for EMU.
-        /// </summary>
-        /// <returns>The CommandLineApplication object and a binding model of arguments.</returns>
-        public static Parser BuildCommandLine([CallerMemberName] string memberName = "",
-        [CallerFilePath] string sourceFilePath = "",
-        [CallerLineNumber] int sourceLineNumber = 0)
-        {
-            // using var file = File.AppendText("F:\\Work\\GitHub\\emu\\log.txt");
-            Console.WriteLine($"{DateTime.Now} Building command line {sourceFilePath}:{sourceLineNumber} {memberName}");
-            Trace.WriteLine($"{DateTime.Now} Building command line {sourceFilePath}:{sourceLineNumber} {memberName}");
-            return builtCommandLine ??= CreateCommandLine().Build();
-        }
 
         private static IHostBuilder CreateHost(string[] args)
         {

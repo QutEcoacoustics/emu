@@ -21,16 +21,16 @@ namespace MetadataUtility.Tests.TestHelpers
     public class TestBase : IDisposable
     {
         protected static readonly Func<string, string> NormalizePath = MockUnixSupport.Path;
+        private static readonly Parser CliParserValue;
 
         private readonly ITestOutputHelper output;
-        private static readonly Parser cliParser;
         private ILogger<DryRun> dryRunLogger;
         private OutputRecordWriter outputRecordWriter;
         private TestOutputHelperTextWriterAdapter consoleOut;
 
         static TestBase()
         {
-            cliParser = EmuEntry.BuildCommandLine();
+            CliParserValue = EmuEntry.BuildCommandLine();
         }
 
         public TestBase(ITestOutputHelper output)
@@ -50,7 +50,7 @@ namespace MetadataUtility.Tests.TestHelpers
 
         public FilenameParser FilenameParser => new(this.TestFiles);
 
-        public Parser CliParser => cliParser;
+        public Parser CliParser => CliParserValue;
 
         public void Dispose()
         {

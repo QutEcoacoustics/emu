@@ -10,5 +10,5 @@ namespace MetadataUtility.Filenames
     /// <param name="OldName">The old name.</param>
     /// <param name="NewName">The new name.</param>
     /// <param name="Reason">The reason new name is unchanged.</param>
-    public record RenameResult(string OldName, string NewName, string? Reason);
+    public record RenameResult(string OldName, string NewName, string Reason);
 }

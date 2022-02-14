@@ -1,4 +1,4 @@
-﻿// <copyright file="FroniterLabs.cs" company="QutEcoacoustics">
+// <copyright file="FrontierLabs.cs" company="QutEcoacoustics">
 // All code in this file and all associated files are the copyright and property of the QUT Ecoacoustics Research Group.
 // </copyright>
 
@@ -12,8 +12,6 @@ namespace MetadataUtility.Audio.Vendors
 
     public static class FrontierLabs
     {
-        public record FirmwareRecord(string Comment, decimal Version, Range FoundAt, string[] Tags);
-
         public const string FirmwareCommentKey = "SensorFirmwareVersion";
         public const int DefaultFileStubLength = 44;
 
@@ -158,5 +156,7 @@ namespace MetadataUtility.Audio.Vendors
 
             return FirmwareNotFound;
         }
+
+        public record FirmwareRecord(string Comment, decimal Version, Range FoundAt, string[] Tags);
     }
 }

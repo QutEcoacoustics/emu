@@ -13,14 +13,14 @@ namespace MetadataUtility.Commands.Metadata
     using System.Threading.Tasks;
     using LanguageExt;
     using LanguageExt.Common;
-    using Microsoft.Extensions.Logging;
+    using MetadataUtility.Cli;
     using MetadataUtility.Extensions.System;
     using MetadataUtility.Filenames;
+    using MetadataUtility.Metadata;
     using MetadataUtility.Models;
     using MetadataUtility.Utilities;
+    using Microsoft.Extensions.Logging;
     using NodaTime;
-    using MetadataUtility.Cli;
-    using MetadataUtility.Metadata;
 
     public class Metadata : EmuCommandHandler
     {
@@ -48,14 +48,14 @@ namespace MetadataUtility.Commands.Metadata
 
         // public bool Save {get; set;}
 
-        public override async Task<int> InvokeAsync(InvocationContext _)
+        public override async Task<int> InvokeAsync(InvocationContext invocationContext)
         {
             var paths = this.fileMatcher.ExpandMatches(this.fileSystem.Directory.GetCurrentDirectory(), this.Targets);
 
-            var contexts = paths.Select(this.CreateContainer);
-
-            foreach (var context in contexts)
+            foreach (var path in paths)
             {
+                using var context = this.CreateContainer(path);
+
                 Recording recording = new Recording
                 {
                     SourcePath = context.Path,
@@ -63,13 +63,11 @@ namespace MetadataUtility.Commands.Metadata
 
                 foreach (var extractor in this.extractorRegister.All)
                 {
-                    if (await extractor.CanProcessAsync(context))
+                    if (await extractor.CanProcess(context))
                     {
                         recording = await extractor.ProcessFileAsync(context, recording);
                     }
                 }
-
-                context.Dispose();
 
                 this.writer.Write(recording);
             }

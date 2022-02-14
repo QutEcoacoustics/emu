@@ -62,27 +62,29 @@ namespace MetadataUtility.Extensions.System.CommandLine
 
                     var logger = host.Services.GetRequiredService<ILogger<THandler>>();
 
-                    using var _ = logger.Measure(command.Name, LogLevel.Debug);
-                    logger.LogDebug("Handler: {@args}", handler);
-
-                    int result = 1;
-                    try
+                    using (logger.Measure(command.Name, LogLevel.Debug))
                     {
-                        result = await handler.InvokeAsync(context);
-                    }
-                    finally
-                    {
-                        // flush output footer
-                        handler?.Writer?.Dispose();
-                    }
+                        logger.LogDebug("Handler: {@args}", handler);
 
-                    if (logger.IsEnabled(LogLevel.Information))
-                    {
-                        // Hack: flush a new line so that any stdout that was just written is delmitted a little bit
-                        Console.Error.WriteLine();
-                    }
+                        int result = 1;
+                        try
+                        {
+                            result = await handler.InvokeAsync(context);
+                        }
+                        finally
+                        {
+                            // flush output footer
+                            handler?.Writer?.Dispose();
+                        }
 
-                    return result;
+                        if (logger.IsEnabled(LogLevel.Information))
+                        {
+                            // Hack: flush a new line so that any stdout that was just written is delmitted a little bit
+                            Console.Error.WriteLine();
+                        }
+
+                        return result;
+                    }
                 });
 
                 builder.ConfigureServices((collection) =>

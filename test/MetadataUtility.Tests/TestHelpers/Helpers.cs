@@ -6,6 +6,7 @@ namespace MetadataUtility.Tests.TestHelpers
 {
     using System;
     using System.IO;
+    using System.IO.Abstractions;
     using System.Reflection;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Logging.Abstractions;
@@ -25,11 +26,13 @@ namespace MetadataUtility.Tests.TestHelpers
 
         private static readonly NullLoggerFactory NullLoggerFactory = new();
 
-        public static string SolutionRoot => Path.GetFullPath(Path.Combine(Assembly.GetExecutingAssembly().Location, SolutionFragment));
+        public static IFileSystem RealFileSystem { get; } = new FileSystem();
 
-        public static string FixturesRoot => Path.GetFullPath(Path.Combine(SolutionRoot, FixturesFragment));
+        public static string SolutionRoot => RealFileSystem.Path.GetFullPath(RealFileSystem.Path.Combine(Assembly.GetExecutingAssembly().Location, SolutionFragment));
 
-        public static string TestTempRoot => Path.GetFullPath(Path.Combine(SolutionRoot, "temp"));
+        public static string FixturesRoot => RealFileSystem.Path.GetFullPath(RealFileSystem.Path.Combine(SolutionRoot, FixturesFragment));
+
+        public static string TestTempRoot => RealFileSystem.Path.GetFullPath(RealFileSystem.Path.Combine(SolutionRoot, "temp"));
 
         public static ILogger<T> NullLogger<T>()
         {

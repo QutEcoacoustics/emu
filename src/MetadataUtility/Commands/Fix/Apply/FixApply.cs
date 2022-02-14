@@ -5,6 +5,7 @@
 namespace MetadataUtility
 {
     using System.CommandLine.Invocation;
+    using System.IO.Abstractions;
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
@@ -21,13 +22,15 @@ namespace MetadataUtility
         private readonly ILogger<DryRun> dryRunLogger;
         private readonly FileMatcher fileMatcher;
         private readonly FixRegister register;
+        private readonly IFileSystem fileSystem;
 
-        public FixApply(ILogger<FixApply> logger, ILogger<DryRun> dryRunLogger, FileMatcher fileMatcher, FixRegister register, OutputRecordWriter writer)
+        public FixApply(ILogger<FixApply> logger, ILogger<DryRun> dryRunLogger, FileMatcher fileMatcher, FixRegister register, OutputRecordWriter writer, IFileSystem fileSystem)
         {
             this.logger = logger;
             this.dryRunLogger = dryRunLogger;
             this.fileMatcher = fileMatcher;
             this.register = register;
+            this.fileSystem = fileSystem;
             this.Writer = writer;
         }
 
@@ -52,7 +55,9 @@ namespace MetadataUtility
 
             this.logger.LogDebug("Input targets: {targets}", this.Targets);
 
-            var files = this.fileMatcher.ExpandMatches(Directory.GetCurrentDirectory(), this.Targets);
+            var files = this.fileMatcher.ExpandMatches(
+                this.fileSystem.Directory.GetCurrentDirectory(),
+                this.Targets);
 
             this.WriteHeader<FixResult>();
             this.Write("Looking for targets...");
@@ -88,8 +93,6 @@ namespace MetadataUtility
 
             this.Write(new FixApplyResult(file, results));
         }
-
-        public partial record FixApplyResult(string File, Dictionary<WellKnownProblem, FixResult> Problems);
 
         protected override object FormatCompact<T>(T record)
         {
@@ -145,5 +148,7 @@ namespace MetadataUtility
             FixStatus.NoOperation => "NOOP",
             _ => "?",
         };
+
+        public partial record FixApplyResult(string File, Dictionary<WellKnownProblem, FixResult> Problems);
     }
 }

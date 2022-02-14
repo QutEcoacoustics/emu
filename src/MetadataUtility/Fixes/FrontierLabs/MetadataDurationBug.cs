@@ -4,6 +4,7 @@
 
 namespace MetadataUtility.Fixes.FrontierLabs
 {
+    using System.IO.Abstractions;
     using LanguageExt;
     using LanguageExt.Common;
     using MetadataUtility.Audio;
@@ -20,11 +21,13 @@ namespace MetadataUtility.Fixes.FrontierLabs
 
         private readonly ILogger<MetadataDurationBug> logger;
         private readonly FileUtilities fileUtils;
+        private readonly IFileSystem fileSystem;
 
         public MetadataDurationBug(ILogger<MetadataDurationBug> logger, FileUtilities fileUtils)
         {
             this.logger = logger;
             this.fileUtils = fileUtils;
+            this.fileSystem = new FileSystem();
         }
 
         public static OperationInfo Metadata => new(
@@ -36,7 +39,7 @@ namespace MetadataUtility.Fixes.FrontierLabs
 
         public async Task<CheckResult> CheckAffectedAsync(string file)
         {
-            using var stream = File.OpenRead(file);
+            using var stream = (FileStream)this.fileSystem.File.OpenRead(file);
 
             return await this.IsAffected(stream);
         }
@@ -55,7 +58,7 @@ namespace MetadataUtility.Fixes.FrontierLabs
                     this.logger.LogDebug("File backed up to {destination}", dest);
                 }
 
-                using var stream = File.Open(file, FileMode.Open, dryRun.FileAccess);
+                using var stream = (FileStream)this.fileSystem.File.Open(file, FileMode.Open, dryRun.FileAccess);
                 return await this.FixDuration(stream, affected, dryRun);
             }
             else
@@ -64,7 +67,7 @@ namespace MetadataUtility.Fixes.FrontierLabs
             }
         }
 
-        public static Fin<(FirmwareRecord Firmware, CheckStatus Status)> IsAffectedFirmwareVersion(FirmwareRecord record)
+        private static Fin<(FirmwareRecord Firmware, CheckStatus Status)> IsAffectedFirmwareVersion(FirmwareRecord record)
         {
             var version = record.Version;
 

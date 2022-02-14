@@ -19,7 +19,7 @@ namespace MetadataUtility.Serialization
         }
 
         /// <inheritdoc />
-        public IDisposable WriteHeader<T>(IDisposable context, TextWriter writer, T? record)
+        public IDisposable WriteHeader<T>(IDisposable context, TextWriter writer, T record)
         {
             if (record is not null)
             {

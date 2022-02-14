@@ -12,7 +12,8 @@ namespace MetadataUtility.Tests.Commands.Fix
 
     public class FixApplyCommandTests : TestBase
     {
-        public FixApplyCommandTests(ITestOutputHelper output) : base(output)
+        public FixApplyCommandTests(ITestOutputHelper output)
+            : base(output)
         {
         }
 
@@ -29,14 +30,14 @@ namespace MetadataUtility.Tests.Commands.Fix
             Assert.True(result1.Errors.Count == 0);
             Assert.True(result2.Errors.Count == 0);
             Assert.Equal(
-                result1.CommandResult.FindResultFor(CommonArguments.Fixes).GetValueOrDefault<string[]>(),
-                result2.CommandResult.FindResultFor(CommonArguments.Fixes).GetValueOrDefault<string[]>());
+                result1.CommandResult.FindResultFor(Common.Fixes).GetValueOrDefault<string[]>(),
+                result2.CommandResult.FindResultFor(Common.Fixes).GetValueOrDefault<string[]>());
 
             Assert.All(
                 new string[][]
                 {
-                    result1.CommandResult.FindResultFor(CommonArguments.Targets).GetValueOrDefault<string[]>(),
-                    result2.CommandResult.FindResultFor(CommonArguments.Targets).GetValueOrDefault<string[]>(),
+                    result1.CommandResult.FindResultFor(Common.Targets).GetValueOrDefault<string[]>(),
+                    result2.CommandResult.FindResultFor(Common.Targets).GetValueOrDefault<string[]>(),
                 },
                 (value) => Assert.Equal(new string[] { "B:\\Marina\\**\\*.flac" }, value));
         }
@@ -59,7 +60,7 @@ namespace MetadataUtility.Tests.Commands.Fix
 
             Assert.Equal(
                 new string[] { "FL010", "FL020" },
-                result.CommandResult.FindResultFor(CommonArguments.Fixes).GetValueOrDefault<string[]>());
+                result.CommandResult.FindResultFor(Common.Fixes).GetValueOrDefault<string[]>());
         }
     }
 }

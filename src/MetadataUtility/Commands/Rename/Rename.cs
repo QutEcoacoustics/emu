@@ -47,7 +47,7 @@ namespace MetadataUtility.Commands.Rename
 
         public string[] Targets { get; set; }
 
-        public DirectoryInfo? CopyTo { get; set; }
+        public DirectoryInfo CopyTo { get; set; }
 
         public bool Flatten { get; set; }
 

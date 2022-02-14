@@ -23,9 +23,9 @@ namespace MetadataUtility.Metadata
             this.parser = parser;
         }
 
-        public ValueTask<bool> CanProcessAsync(TargetInformation information)
+        public ValueTask<bool> CanProcess(TargetInformation information)
         {
-            var hasName = !string.IsNullOrWhiteSpace(this.fileSystem.Path.GetFileName(information.Path));
+            var hasName = information.HasFileName();
 
             // true if the target has a filename
             return ValueTask.FromResult(hasName);
@@ -38,6 +38,7 @@ namespace MetadataUtility.Metadata
             var updated = recording with
             {
                 Extension = result.Extension,
+
                 //StartDate = result.OffsetDateTime ?? result.LocalDateTime,
                 // etc...
             };

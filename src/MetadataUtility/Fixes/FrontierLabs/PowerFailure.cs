@@ -4,10 +4,18 @@
 
 namespace MetadataUtility.Fixes.FrontierLabs
 {
+    using System.IO.Abstractions;
     using System.Threading.Tasks;
 
     public class PowerFailure : ICheckOperation
     {
+        private readonly IFileSystem fileSystem;
+
+        public PowerFailure(IFileSystem fileSystem)
+        {
+            this.fileSystem = fileSystem;
+        }
+
         public static OperationInfo Metadata => new(
             WellKnownProblems.FrontierLabs.StubFile,
             Fixable: false,
@@ -17,7 +25,7 @@ namespace MetadataUtility.Fixes.FrontierLabs
 
         public async Task<CheckResult> CheckAffectedAsync(string file)
         {
-            using var stream = File.OpenRead(file);
+            using var stream = (FileStream)this.fileSystem.File.OpenRead(file);
 
             // we'll use a couple metrics here
             // is it a stub recording?

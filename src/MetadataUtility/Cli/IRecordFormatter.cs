@@ -13,9 +13,11 @@ namespace MetadataUtility
         /// For streaming operations, write a prelude or header if necessary.
         /// </summary>
         /// <typeparam name="T">The type that will be serialized.</typeparam>
+        /// <param name="context">A generic object that is preserved between invocations.</param>
         /// <param name="writer">The text writer to write to.</param>
+        /// <param name="record">The object to serialize heasers for.</param>
         /// <returns>Shared context.</returns>
-        IDisposable WriteHeader<T>(IDisposable context, TextWriter writer, T? record);
+        IDisposable WriteHeader<T>(IDisposable context, TextWriter writer, T record);
 
         /// <summary>
         /// For streaming operations, write a single record.
@@ -34,7 +36,7 @@ namespace MetadataUtility
         /// <param name="writer">The text writer to write to.</param>
         /// <param name="record">The object to serialize.</param>
         /// <returns>Shared context.</returns>
-        IDisposable WriteFooter<T>(IDisposable context, TextWriter writer, T? record);
+        IDisposable WriteFooter<T>(IDisposable context, TextWriter writer, T record);
 
         /// <summary>
         /// For streaming operations, write a postlude or footer if necessary.

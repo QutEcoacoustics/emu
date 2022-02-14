@@ -4,20 +4,22 @@
 
 namespace MetadataUtility.Tests.TestHelpers
 {
-    using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.IO;
+    using System.IO.Abstractions;
     using System.Linq;
     using MetadataUtility.Serialization;
 
-    public static class FixtureHelper
+    public static partial class FixtureHelper
     {
+        public static IFileSystem RealFileSystem { get; } = new FileSystem();
+
         public static string ResolvePath(string name)
         {
-            var path = Path.GetFullPath(Path.Combine(Helpers.FixturesRoot, name));
+            var path = RealFileSystem.Path.GetFullPath(RealFileSystem.Path.Combine(Helpers.FixturesRoot, name));
 
-            if (!File.Exists(path))
+            if (!RealFileSystem.File.Exists(path))
             {
                 throw new FileNotFoundException($"Could not find name {name} at path {path}");
             }
@@ -32,7 +34,7 @@ namespace MetadataUtility.Tests.TestHelpers
 
             public FilenameParsingFixtureData()
             {
-                using var streamReader = File.OpenText(ResolvePath(FixtureFile));
+                using var streamReader = RealFileSystem.File.OpenText(ResolvePath(FixtureFile));
                 var serializer = new CsvSerializer();
 
                 this.filenameParsingFixtureModels = serializer
@@ -61,7 +63,7 @@ namespace MetadataUtility.Tests.TestHelpers
 
             public FixtureData()
             {
-                using var streamReader = File.OpenText(ResolvePath(FixtureFile));
+                using var streamReader = RealFileSystem.File.OpenText(ResolvePath(FixtureFile));
                 var serializer = new CsvSerializer();
 
                 this.fixtureModels = serializer
@@ -83,38 +85,6 @@ namespace MetadataUtility.Tests.TestHelpers
             IEnumerator IEnumerable.GetEnumerator()
             {
                 return this.GetEnumerator();
-            }
-        }
-
-        public class TestTempDir : IDisposable
-        {
-            public TestTempDir()
-            {
-                var basename = Path.GetRandomFileName();
-
-                this.TempDir = Path.Join(Directory.GetCurrentDirectory(), basename);
-
-                Directory.CreateDirectory(this.TempDir);
-            }
-
-            ~TestTempDir()
-            {
-                this.Dispose();
-            }
-
-            public string TempDir { get; }
-
-            public void Dispose()
-            {
-                try
-                {
-                    Directory.Delete(this.TempDir, recursive: true);
-                }
-                catch (System.IO.DirectoryNotFoundException dnf)
-                {
-                    Console.Error.WriteLine(dnf.ToString());
-                }
-
             }
         }
     }

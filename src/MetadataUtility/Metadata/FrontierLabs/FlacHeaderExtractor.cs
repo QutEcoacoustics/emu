@@ -1,5 +1,6 @@
-
-
+// <copyright file="FlacHeaderExtractor.cs" company="QutEcoacoustics">
+// All code in this file and all associated files are the copyright and property of the QUT Ecoacoustics Research Group.
+// </copyright>
 
 namespace MetadataUtility.Metadata.FrontierLabs
 {
@@ -10,18 +11,11 @@ namespace MetadataUtility.Metadata.FrontierLabs
 
     public class FlacHeaderExtractor : IMetadataOperation
     {
-        public async ValueTask<bool> CanProcessAsync(TargetInformation information)
+        public ValueTask<bool> CanProcess(TargetInformation information)
         {
-            if (information.Predicates.ContainsKey("isFlacFile"))
-            {
-                return information.Predicates["isFlacFile"];
-            }
+            var result = !information.IsFlacFile();
 
-            var result = Flac.IsFlacFile(information.FileStream);
-            information.Predicates["isFlacFile"] = (bool)result;
-
-            return (bool)result;
-
+            return ValueTask.FromResult(result);
         }
 
         public async ValueTask<Recording> ProcessFileAsync(TargetInformation information, Recording recording)
@@ -31,7 +25,6 @@ namespace MetadataUtility.Metadata.FrontierLabs
             var sampleRate = 22050;
             Duration? duration = samples.IsFail ? null : Duration.FromSeconds((double)samples / sampleRate);
 
-
             return recording with
             {
                 DurationSeconds = duration,
@@ -39,4 +32,3 @@ namespace MetadataUtility.Metadata.FrontierLabs
         }
     }
 }
-

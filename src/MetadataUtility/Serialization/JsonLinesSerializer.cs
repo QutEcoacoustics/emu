@@ -58,7 +58,7 @@ namespace MetadataUtility.Serialization
         }
 
         /// <inheritdoc />
-        public IDisposable WriteHeader<T>(IDisposable context, TextWriter writer, T? record)
+        public IDisposable WriteHeader<T>(IDisposable context, TextWriter writer, T record)
         {
             var json = new JsonTextWriter(writer);
 
@@ -78,7 +78,7 @@ namespace MetadataUtility.Serialization
         }
 
         /// <inheritdoc/>
-        public IDisposable WriteFooter<T>(IDisposable context, TextWriter writer, T? record)
+        public IDisposable WriteFooter<T>(IDisposable context, TextWriter writer, T record)
         {
             // json lines does not have a footer
             return context;

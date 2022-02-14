@@ -49,7 +49,7 @@ namespace MetadataUtility.Serialization
         }
 
         /// <inheritdoc/>
-        public IDisposable WriteHeader<T>(IDisposable context, TextWriter writer, T? record)
+        public IDisposable WriteHeader<T>(IDisposable context, TextWriter writer, T record)
         {
             var csv = new CsvWriter(writer, this.configuration);
             ApplyConverters(csv.Context);
@@ -73,7 +73,7 @@ namespace MetadataUtility.Serialization
         }
 
         /// <inheritdoc/>
-        public IDisposable WriteFooter<T>(IDisposable context, TextWriter writer, T? record)
+        public IDisposable WriteFooter<T>(IDisposable context, TextWriter writer, T record)
         {
             // csv does not have a footer
             return context;

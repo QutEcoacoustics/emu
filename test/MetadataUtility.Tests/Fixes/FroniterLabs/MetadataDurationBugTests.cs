@@ -31,6 +31,7 @@ namespace MetadataUtility.Tests.Fixes.FroniterLabs
         private readonly MetadataDurationBug fixer;
         private readonly ILogger<DryRun> dryRunLogger;
         private readonly FixtureHelper.FixtureData data;
+        private readonly FileSystem fileSystem;
 
         public MetadataDurationBugTests(FixtureHelper.FixtureData data)
         {
@@ -42,6 +43,7 @@ namespace MetadataUtility.Tests.Fixes.FroniterLabs
 
             this.dryRunLogger = Helpers.NullLogger<DryRun>();
             this.data = data;
+            this.fileSystem = new FileSystem();
         }
 
         void IDisposable.Dispose()
@@ -131,7 +133,7 @@ namespace MetadataUtility.Tests.Fixes.FroniterLabs
             await this.AssertMetadata(AfterFixSamples, FirmwareVersion, PatchedTag);
 
             // backup
-            using (var stream = File.OpenRead(backupPath))
+            using (var stream = (FileStream)this.fileSystem.File.OpenRead(backupPath))
             {
                 var actualSamples = (ulong)Flac.ReadTotalSamples(stream);
                 var actualFirmware = (FirmwareRecord)await ReadFirmwareAsync(stream);
@@ -177,7 +179,7 @@ namespace MetadataUtility.Tests.Fixes.FroniterLabs
 
         private async Task AssertMetadata(ulong samples, decimal firmwareVersion, params string[] tags)
         {
-            using var stream = File.OpenRead(this.target.Path);
+            using var stream = (FileStream)this.fileSystem.File.OpenRead(this.target.Path);
             var actualSamples = (ulong)Flac.ReadTotalSamples(stream);
             var actualFirmware = (FirmwareRecord)await ReadFirmwareAsync(stream);
             Assert.Equal(samples, actualSamples);

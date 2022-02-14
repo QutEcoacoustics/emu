@@ -34,18 +34,19 @@ namespace MetadataUtility.Utilities
             }
             while (this.fileSystem.File.Exists(dest));
 
-            using var _ = this.logger.Measure($"Copied file from {path} to {dest}");
+            using (this.logger.Measure($"Copied file from {path} to {dest}"))
+            {
+                await dryRun.WouldDo(
+                    $"back up file to {dest}",
+                    async () =>
+                    {
+                        using var sourceStream = this.fileSystem.File.Open(path, FileMode.Open);
+                        using var destinationStream = this.fileSystem.File.Create(dest);
 
-            await dryRun.WouldDo(
-                $"back up file to {dest}",
-                async () =>
-                {
-                    using var sourceStream = this.fileSystem.File.Open(path, FileMode.Open);
-                    using var destinationStream = this.fileSystem.File.Create(dest);
-
-                    await sourceStream.CopyToAsync(destinationStream);
-                },
-                () => Task.CompletedTask);
+                        await sourceStream.CopyToAsync(destinationStream);
+                    },
+                    () => Task.CompletedTask);
+            }
 
             return dest;
         }
@@ -56,7 +57,9 @@ namespace MetadataUtility.Utilities
             ArgumentNullException.ThrowIfNull(path, nameof(path));
             ArgumentNullException.ThrowIfNull(hashName, nameof(hashName));
 
+#pragma warning disable CS8604 // Possible null reference argument.
             var algorithm = HashAlgorithm.Create(hashName.Name);
+#pragma warning restore CS8604 // Possible null reference argument.
 
             if (algorithm is null)
             {

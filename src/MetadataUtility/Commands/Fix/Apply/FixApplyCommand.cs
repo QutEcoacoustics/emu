@@ -12,9 +12,9 @@ namespace MetadataUtility
         public FixApplyCommand()
             : base("apply", "apply one or more fixes to a file.\nCurrently only supports automatic fixes.")
         {
-            this.AddArgument(CommonArguments.Targets);
+            this.AddArgument(Common.Targets);
 
-            this.AddOption(CommonArguments.Fixes);
+            this.AddOption(Common.Fixes);
 
             this.AddOption(new Option<bool>(new string[] { "-n", "--dry-run" }, "Do a \"dry run\" by simulating any change that writes data"));
 

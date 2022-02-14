@@ -25,7 +25,9 @@ namespace MetadataUtility.Models
             init
             {
                 this.sourcePath = value;
+#pragma warning disable IO0006 // Replace Path class with IFileSystem.Path for improved testability
                 this.Directory = Path.GetDirectoryName(this.sourcePath);
+#pragma warning restore IO0006 // Replace Path class with IFileSystem.Path for improved testability
             }
         }
 
