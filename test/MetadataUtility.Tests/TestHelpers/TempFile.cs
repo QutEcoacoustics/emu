@@ -5,9 +5,9 @@
 namespace MetadataUtility.Tests.TestHelpers
 {
     using System;
-    using System.IO;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
-    using static System.IO.Path;
+    using IO = System.IO;
 
     public class TempFile : IDisposable
     {
@@ -16,26 +16,32 @@ namespace MetadataUtility.Tests.TestHelpers
         public TempFile(string basename = null, string extension = null)
         {
             extension ??= ".tmp";
-            basename ??= GetTempFileName();
+            basename ??= IO.Path.GetFileNameWithoutExtension(IO.Path.GetTempFileName());
 
             // minus extension
             var subDirectory = DateTime.Now.ToString("yyyyMMddTHHmmss");
 
-            this.directory = Join(Helpers.TestTempRoot, subDirectory);
-            this.Path = Join(this.directory, basename + extension);
+            this.directory = IO.Path.Join(Helpers.TestTempRoot, subDirectory);
+            this.Path = IO.Path.Join(this.directory, basename + extension);
 
             this.Directory.Create();
         }
 
+        public IO.DirectoryInfo Directory => new(this.directory);
+
+        public IO.FileInfo File => new(this.Path);
+
+        public string Path { get; private set; }
+
         public static TempFile FromExisting(string path)
         {
-            if (System.IO.File.Exists(path))
+            if (IO.File.Exists(path))
             {
-                var basename = GetFileNameWithoutExtension(path);
-                var extension = GetExtension(path);
+                var basename = IO.Path.GetFileNameWithoutExtension(path);
+                var extension = IO.Path.GetExtension(path);
                 var temp = new TempFile(basename, extension);
 
-                System.IO.File.Copy(path, temp.Path);
+                IO.File.Copy(path, temp.Path);
 
                 return temp;
             }
@@ -43,23 +49,17 @@ namespace MetadataUtility.Tests.TestHelpers
             throw new ArgumentException("path must exist", nameof(path));
         }
 
-        public DirectoryInfo Directory => new(this.directory);
-
-        public FileInfo File => new(this.Path);
-
-        public string Path { get; private set; }
-
         public void Dispose()
         {
             try
             {
-                System.IO.File.Delete(this.Path);
-                if (!System.IO.Directory.EnumerateFiles(this.Path).Any())
+                IO.File.Delete(this.Path);
+                if (!IO.Directory.EnumerateFiles(this.Path).Any())
                 {
-                    System.IO.Directory.Delete(this.directory);
+                    IO.Directory.Delete(this.directory);
                 }
             }
-            catch (DirectoryNotFoundException dnf)
+            catch (IO.DirectoryNotFoundException dnf)
             {
                 Console.Error.WriteLine(dnf.ToString());
             }

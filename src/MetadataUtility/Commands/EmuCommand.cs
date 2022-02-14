@@ -6,23 +6,22 @@ namespace MetadataUtility
 {
     using System.CommandLine;
     using System.CommandLine.Parsing;
-    using MetadataUtility.Commands.Version;
+    using System.Diagnostics.CodeAnalysis;
+    using System.IO.Abstractions;
     using MetadataUtility.Commands.Metadata;
+    using MetadataUtility.Commands.Version;
+    using MetadataUtility.Extensions.System.CommandLine;
 
     public class EmuCommand : RootCommand
     {
         public EmuCommand()
-        : base("EMU - Ecoacoustic Metadata Utility")
+            : base("EMU - Ecoacoustic Metadata Utility")
         {
             this.AddGlobalOption(VerboseOption);
             this.AddGlobalOption(VeryVerboseOption);
-
             this.AddGlobalOption(LogLevelOption);
-
             this.AddGlobalOption(FormatOption);
-
             this.AddGlobalOption(OutOption);
-
             this.AddGlobalOption(ClobberOption);
 
             this.Add(new MetadataCommand());
@@ -73,7 +72,8 @@ namespace MetadataUtility
             new string[] { "--output", "-O" },
             () => null,
             "Where to output data. Defaults to stdout if not supplied")
-            .LegalFilePathsOnly();
+            .LegalFilePathsOnly()
+            .WithValidator(OutputValidiator);
 
         public static Option<bool> ClobberOption { get; } = new Option<bool>(
             new string[] { "--clobber", "-C" },
@@ -96,6 +96,37 @@ namespace MetadataUtility
             var level = new[] { (int)logLevel, (int)verbose, (int)veryVerbose }.Max();
 
             return (LogLevel)level;
+        }
+
+        [SuppressMessage(
+            "System.IO.Abstractions",
+            "IO0002:Replace File class with IFileSystem.File for improved testability",
+            Justification = "We can't inject IFileSystem at this stage.")]
+        private static string OutputValidiator(OptionResult optionResult)
+        {
+            ArgumentNullException.ThrowIfNull(optionResult);
+
+            var outPath = optionResult?.GetValueOrDefault<string>();
+
+            if (outPath is null)
+            {
+                return default;
+            }
+
+            var commandResult = optionResult?.Parent as CommandResult;
+            var clobber = commandResult?.FindResultFor(ClobberOption)?.GetValueOrDefault<bool>() ?? false;
+
+            if (clobber)
+            {
+                return default;
+            }
+
+            if (File.Exists(outPath))
+            {
+                return $"Will not overwrite existing output file {outPath}, use --clobber option or select a different name";
+            }
+
+            return default;
         }
     }
 }

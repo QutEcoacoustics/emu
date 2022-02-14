@@ -9,6 +9,7 @@ namespace MetadataUtility.Tests.TestHelpers
     using System.IO;
     using System.IO.Abstractions.TestingHelpers;
     using System.Linq;
+    using Divergic.Logging.Xunit;
     using LanguageExt;
     using MetadataUtility.Filenames;
     using MetadataUtility.Serialization;
@@ -33,7 +34,7 @@ namespace MetadataUtility.Tests.TestHelpers
 
         public MockFileSystem TestFiles { get; }
 
-        public List<ILogger> Loggers { get; } = new();
+        public List<ICacheLogger> Loggers { get; } = new();
 
         public ILogger<DryRun> DryRunLogger =>
             this.dryRunLogger ??= this.BuildLogger<DryRun>();

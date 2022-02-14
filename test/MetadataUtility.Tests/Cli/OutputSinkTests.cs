@@ -4,64 +4,104 @@
 
 namespace MetadataUtility.Tests.Cli
 {
-    using MetadataUtility.Commands.Version;
-    using MetadataUtility.Utilities;
-    using MetadataUtility.Serialization;
-    using System.IO;
-    using TestHelpers;
+    using System;
+    using System.IO.Abstractions.TestingHelpers;
+    using System.Linq;
+    using FluentAssertions;
+    using MetadataUtility.Cli;
+    using MetadataUtility.Tests.TestHelpers;
     using Xunit;
     using Xunit.Abstractions;
 
     public class OutputSinkTests : TestBase
     {
-
-        private readonly Version command;
-        private readonly StringWriter writer;
-
         public OutputSinkTests(ITestOutputHelper output)
             : base(output)
         {
-            writer = new StringWriter();
-
-            this.command = new Version(
-                new OutputRecordWriter(writer, new ToStringFormatter(this.BuildLogger<ToStringFormatter>())));
-
         }
 
         [Fact]
-        public async void TestOutput()
+        public void TestOutput()
         {
+            this.TestFiles.AddDirectory("/abc");
+            this.TestFiles.Directory.SetCurrentDirectory(this.ResolvePath("/abc"));
 
-            using var tempDir = new FixtureHelper.TestTempDir();
-            string path = Path.Join(tempDir.TempDir, "out.txt");
+            var sink = new OutputSink(
+                this.BuildLogger<OutputSink>(),
+                new EmuGlobalOptions()
+                {
+                    Output = "output.txt",
+                },
+                this.TestFiles);
 
-            var result = await EmuEntry.Main(new string[] { "version", "-O", path });
+            sink.Create();
 
-            Assert.Equal(0, result);
-
-            // Run version command in isolation, testing that the outputs match
-            await this.command.InvokeAsync(null);
-
-            Assert.Equal(writer.ToString(), File.ReadAllText(path));
+            // relative paths should resolve to the current working directory
+            this.TestFiles.FileExists("/abc/output.txt").Should().BeTrue();
         }
 
         [Fact]
-        public async void TestOutputOverwriting()
+        public void TestOutputOverwriting()
         {
+            this.TestFiles.AddEmptyFile("output.txt");
 
-            using var tempDir = new FixtureHelper.TestTempDir();
-            string path = Path.Join(tempDir.TempDir, "out.txt");
+            var sink = new OutputSink(
+                this.BuildLogger<OutputSink>(),
+                new EmuGlobalOptions()
+                {
+                    Output = "output.txt",
+                    Clobber = true,
+                },
+                this.TestFiles);
 
-            File.WriteAllText(path, "test");
+            sink.Create();
 
-            var result = await EmuEntry.Main(new string[] { "version", "-O", path });
-
-            Assert.Equal(1, result);
-
-            result = await EmuEntry.Main(new string[] { "version", "-O", path, "-C" });
-
-            Assert.Equal(0, result);
+            this.TestFiles.FileExists("/output.txt").Should().BeTrue();
+            var expectedPath = this.ResolvePath("/output.txt");
+            this.Loggers.Single().Entries.Single().Message.Should().Be($"Overwriting {expectedPath} because --clobber was specified");
         }
 
+        [Fact]
+        public void TestOutputOverwritingWithoutClobber()
+        {
+            this.TestFiles.AddEmptyFile("output.txt");
+
+            var sink = new OutputSink(
+                this.BuildLogger<OutputSink>(),
+                new EmuGlobalOptions()
+                {
+                    Output = "output.txt",
+                },
+                this.TestFiles);
+
+            var action = () => sink.Create();
+
+            action.Should().Throw<InvalidOperationException>()
+                .WithMessage("File exists and clobber not specified");
+        }
+
+        [Fact]
+        public void TestOutputIntermediateDirectoryCreation()
+        {
+            var sink = new OutputSink(
+                this.BuildLogger<OutputSink>(),
+                new EmuGlobalOptions()
+                {
+                    Output = "/subdir/anotherdir/output.txt",
+                },
+                this.TestFiles);
+
+            var beforeDirs = this.TestFiles.AllDirectories;
+
+            sink.Create();
+
+            var afterDirs = beforeDirs.Concat(new[]
+            {
+                "/subdir",
+                "/subdir/anotherdir",
+            }).Select(this.ResolvePath);
+
+            this.TestFiles.AllDirectories.Should().Equal(afterDirs);
+        }
     }
 }

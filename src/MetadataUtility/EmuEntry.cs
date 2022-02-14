@@ -82,7 +82,8 @@ namespace MetadataUtility
             host.ConfigureServices((services) =>
             {
                 services
-                .AddSingleton<TextWriter>(OutputSink.Factory)
+                .AddSingleton<OutputSink>()
+                .AddSingleton<TextWriter>(OutputSink.Create)
                 .AddSingleton<CsvSerializer>()
                 .AddSingleton<JsonSerializer>()
                 .AddSingleton<JsonLinesSerializer>()

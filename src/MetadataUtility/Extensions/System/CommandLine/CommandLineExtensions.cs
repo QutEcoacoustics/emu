@@ -12,6 +12,7 @@ namespace MetadataUtility.Extensions.System.CommandLine
     using global::System.CommandLine.Builder;
     using global::System.CommandLine.Invocation;
     using global::System.CommandLine.Parsing;
+    using global::System.IO.Abstractions;
     using MetadataUtility.Extensions.Microsoft.Extensions;
 
     /// <summary>
@@ -25,7 +26,7 @@ namespace MetadataUtility.Extensions.System.CommandLine
         /// <param name="builder">The command builder instance.</param>
         /// <typeparam name="TCommand">The command to bind to.</typeparam>
         /// <typeparam name="THandler">The handler to invoke.</typeparam>
-        /// <returns>The command builder instance.</returns>
+        /// <returns>The same command builder instance.</returns>
         public static IHostBuilder UseEmuCommand<TCommand, THandler>(this IHostBuilder builder)
             where TCommand : Command
             where THandler : EmuCommandHandler
@@ -60,19 +61,20 @@ namespace MetadataUtility.Extensions.System.CommandLine
                     modelBinder.UpdateInstance(handler, invocation.BindingContext);
 
                     var logger = host.Services.GetRequiredService<ILogger<THandler>>();
+
                     using var _ = logger.Measure(command.Name, LogLevel.Debug);
                     logger.LogDebug("Handler: {@args}", handler);
 
-                    if (handler.Output != null && new FileInfo(handler.Output).Length > 0 && handler.Clobber is false)
+                    int result = 1;
+                    try
                     {
-                        logger.LogError($"Will not overwrite existing output file {handler.Output}, use --clobber option or select a different name");
-                        return 1;
+                        result = await handler.InvokeAsync(context);
                     }
-
-                    var result = await handler.InvokeAsync(context);
-
-                    // flush output footer
-                    handler?.Writer?.Dispose();
+                    finally
+                    {
+                        // flush output footer
+                        handler?.Writer?.Dispose();
+                    }
 
                     if (logger.IsEnabled(LogLevel.Information))
                     {
@@ -123,6 +125,12 @@ namespace MetadataUtility.Extensions.System.CommandLine
         public static Option<T> WithAlias<T>(this Option<T> option, string alias)
         {
             option.AddAlias(alias);
+            return option;
+        }
+
+        public static Option<T> WithValidator<T>(this Option<T> option, ValidateSymbol<OptionResult> validator)
+        {
+            option.AddValidator(validator);
             return option;
         }
 
