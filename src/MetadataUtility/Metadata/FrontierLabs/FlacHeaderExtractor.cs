@@ -11,7 +11,7 @@ namespace MetadataUtility.Metadata.FrontierLabs
 
     public class FlacHeaderExtractor : IMetadataOperation
     {
-        public ValueTask<bool> CanProcess(TargetInformation information)
+        public ValueTask<bool> CanProcessAsync(TargetInformation information)
         {
             var result = !information.IsFlacFile();
 

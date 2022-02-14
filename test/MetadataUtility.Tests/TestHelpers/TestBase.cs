@@ -8,6 +8,7 @@ namespace MetadataUtility.Tests.TestHelpers
     using System.Collections.Generic;
     using System.CommandLine.Parsing;
     using System.IO;
+    using System.IO.Abstractions;
     using System.IO.Abstractions.TestingHelpers;
     using System.Linq;
     using Divergic.Logging.Xunit;
@@ -15,6 +16,7 @@ namespace MetadataUtility.Tests.TestHelpers
     using MetadataUtility.Filenames;
     using MetadataUtility.Serialization;
     using MetadataUtility.Utilities;
+    using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
     using Xunit.Abstractions;
 
@@ -37,9 +39,22 @@ namespace MetadataUtility.Tests.TestHelpers
         {
             this.output = output ?? throw new ArgumentNullException(nameof(output));
             this.TestFiles = new MockFileSystem();
+
+            // mock up an entire service stack
+            var testServices = new ServiceCollection();
+            var standardServices = EmuEntry.ConfigureServices(this.TestFiles);
+            standardServices.Invoke(testServices);
+            testServices.AddLogging(builder =>
+            {
+                builder.AddXunit(this.output);
+            });
+
+            this.ServiceProvider = testServices.BuildServiceProvider();
         }
 
         public MockFileSystem TestFiles { get; }
+
+        public IFileSystem RealFileSystem => FixtureHelper.RealFileSystem;
 
         public List<ICacheLogger> Loggers { get; } = new();
 
@@ -51,6 +66,8 @@ namespace MetadataUtility.Tests.TestHelpers
         public FilenameParser FilenameParser => new(this.TestFiles);
 
         public Parser CliParser => CliParserValue;
+
+        public IServiceProvider ServiceProvider { get; }
 
         public void Dispose()
         {

@@ -70,24 +70,9 @@ namespace MetadataUtility
             return builtCommandLine ??= CreateCommandLine().Build();
         }
 
-        /// <summary>
-        /// Creates (but does not build/finalize) a CommandLineApplication object for EMU.
-        /// </summary>
-        /// <returns>A CommandLineBuilder.</returns>
-        private static CommandLineBuilder CreateCommandLine() =>
-            new CommandLineBuilder(RootCommand)
-            .UseHost(CreateHost, BuildDependencies)
-            .UseDefaults()
-            .UseHelpBuilder((context) => new EmuHelpBuilder(context.Console));
-
-        private static IHostBuilder CreateHost(string[] args)
+        internal static Action<IServiceCollection> ConfigureServices(IFileSystem fileSystem = default)
         {
-            return Host.CreateDefaultBuilder(args);
-        }
-
-        private static void BuildDependencies(IHostBuilder host)
-        {
-            host.ConfigureServices((services) =>
+            return (services) =>
             {
                 services
                 .AddSingleton<OutputSink>()
@@ -102,7 +87,7 @@ namespace MetadataUtility
                 .AddTransient<OutputRecordWriter>()
 
                 //.AddTransient<DefaultFormatters>()
-                .AddSingleton<IFileSystem>(_ => new FileSystem())
+                .AddSingleton<IFileSystem>(_ => fileSystem ?? new FileSystem())
                 .AddSingleton<FileMatcher>()
                 .AddSingleton<FileUtilities>()
                 .AddSingleton<FilenameSuggester>()
@@ -121,7 +106,27 @@ namespace MetadataUtility
                 {
                     services.AddTransient(extractor);
                 }
-            });
+            };
+        }
+
+        /// <summary>
+        /// Creates (but does not build/finalize) a CommandLineApplication object for EMU.
+        /// </summary>
+        /// <returns>A CommandLineBuilder.</returns>
+        private static CommandLineBuilder CreateCommandLine() =>
+            new CommandLineBuilder(RootCommand)
+            .UseHost(CreateHost, BuildDependencies)
+            .UseDefaults()
+            .UseHelpBuilder((context) => new EmuHelpBuilder(context.Console));
+
+        private static IHostBuilder CreateHost(string[] args)
+        {
+            return Host.CreateDefaultBuilder(args);
+        }
+
+        private static void BuildDependencies(IHostBuilder host)
+        {
+            host.ConfigureServices(ConfigureServices());
 
             host.UseEmuCommand<FixListCommand, FixList>();
             host.UseEmuCommand<FixCheckCommand, FixCheck>();

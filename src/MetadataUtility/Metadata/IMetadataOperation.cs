@@ -13,7 +13,7 @@ namespace MetadataUtility.Metadata
         /// </summary>
         /// <param name="information">Information about the current target.</param>
         /// <returns>True if this metadata extractor can operate on the current target.</returns>
-        ValueTask<bool> CanProcess(TargetInformation information);
+        ValueTask<bool> CanProcessAsync(TargetInformation information);
 
         /// <summary>
         /// Extracts the metadata from the given target.

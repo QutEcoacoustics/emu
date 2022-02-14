@@ -32,7 +32,7 @@ namespace MetadataUtility.Tests.Commands.Metadata
                 this.TestFiles,
                 new FileMatcher(this.BuildLogger<FileMatcher>(), this.TestFiles),
                 new OutputRecordWriter(this.writer, new JsonLinesSerializer()),
-                null);                 // TODO: BROKEN!
+                new MetadataRegister(this.ServiceProvider));                 // TODO: BROKEN!
 
             this.command.Targets = "/".AsArray();
         }

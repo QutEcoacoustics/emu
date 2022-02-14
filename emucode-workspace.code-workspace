@@ -52,7 +52,9 @@
     },
     "extensions": {
         "recommendations": [
-            "ms-dotnettools.csharp"
+            "ms-dotnettools.csharp",
+            "janisdd.vscode-edit-csv",
+            "mechatroner.rainbow-csv"
         ]
     }
 }

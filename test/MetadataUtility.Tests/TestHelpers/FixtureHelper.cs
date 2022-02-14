@@ -27,6 +27,20 @@ namespace MetadataUtility.Tests.TestHelpers
             return path;
         }
 
+        public static string ResolveFirstDirectory(string name)
+        {
+            // be convention all of the paths in our fixtures CSV uses `/`
+            var firstDirectory = name.Split('/').First();
+            var path = RealFileSystem.Path.GetFullPath(RealFileSystem.Path.Combine(Helpers.FixturesRoot, firstDirectory));
+
+            if (!RealFileSystem.Directory.Exists(path))
+            {
+                throw new FileNotFoundException($"Could not find directory {firstDirectory} at path {path}");
+            }
+
+            return path;
+        }
+
         public class FilenameParsingFixtureData : IEnumerable<object[]>
         {
             private const string FixtureFile = "FileNameParsingFixtures.csv";
@@ -76,7 +90,7 @@ namespace MetadataUtility.Tests.TestHelpers
             public IEnumerator<object[]> GetEnumerator()
             {
                 IEnumerable<object[]> models = this.fixtureModels
-                    .Select(x => new object[] { x })
+                    .Select(x => new object[] { x.Value })
                     .ToArray();
 
                 return models.GetEnumerator();

@@ -23,7 +23,7 @@ namespace MetadataUtility.Metadata
             this.parser = parser;
         }
 
-        public ValueTask<bool> CanProcess(TargetInformation information)
+        public ValueTask<bool> CanProcessAsync(TargetInformation information)
         {
             var hasName = information.HasFileName();
 

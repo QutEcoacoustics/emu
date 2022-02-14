@@ -63,7 +63,7 @@ namespace MetadataUtility.Commands.Metadata
 
                 foreach (var extractor in this.extractorRegister.All)
                 {
-                    if (await extractor.CanProcess(context))
+                    if (await extractor.CanProcessAsync(context))
                     {
                         recording = await extractor.ProcessFileAsync(context, recording);
                     }
