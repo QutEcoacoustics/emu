@@ -52,7 +52,7 @@ namespace MetadataUtility.Tests.Utilities
                 .ExpandMatches(this.fileMatcherFixture.TempDir, fullGlob.AsSequence())
                 .ToArray();
 
-            actualPaths.Select(x => x.File).Should().Equal(expectedPaths);
+            actualPaths.Select(x => x.File).Should().BeEquivalentTo(expectedPaths);
             actualPaths.Select(x => x.Base).Should().AllBe(expectedBase);
         }
 

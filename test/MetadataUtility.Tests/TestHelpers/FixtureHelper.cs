@@ -27,7 +27,7 @@ namespace MetadataUtility.Tests.TestHelpers
 
         public class FilenameParsingFixtureData : IEnumerable<object[]>
         {
-            private const string FixtureFile = "FilenameParsingFixtures.csv";
+            private const string FixtureFile = "FileNameParsingFixtures.csv";
             private readonly FilenameParsingFixtureModel[] filenameParsingFixtureModels;
 
             public FilenameParsingFixtureData()

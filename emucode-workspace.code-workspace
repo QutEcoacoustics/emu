@@ -1,21 +1,31 @@
 {
-	"folders": [
-		{
-			"path": "."
-		}
-	],
-	"settings": {
+    "folders": [
+        {
+            "path": "."
+        }
+    ],
+    "settings": {
         "editor.formatOnSave": true,
         "cSpell.words": [
+            "ecoacoustic",
             "Ecoacoustics",
             "Noda",
             "Nodatime",
+            "PILLIGA",
             "Shouldly",
             "Wamd",
             "Xbehave",
-            "Xunit",
-            "ecoacoustic"
+            "Xunit"
         ],
         "nugetpackagemanagergui.nuget.searchPackage.preRelease": true
+    },
+    "launch": {
+        "version": "0.2.0",
+        "configurations": []
+    },
+    "extensions": {
+        "recommendations": [
+            "ms-dotnettools.csharp"
+        ]
     }
 }

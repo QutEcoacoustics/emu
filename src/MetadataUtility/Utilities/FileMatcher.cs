@@ -7,6 +7,7 @@ namespace MetadataUtility.Utilities
     using System.Collections.Generic;
     using System.IO;
     using System.IO.Abstractions;
+    using System.Runtime.InteropServices;
     using MetadataUtility.Utilities.FileSystem;
     using Microsoft.Extensions.FileSystemGlobbing;
     using Microsoft.Extensions.Logging;
@@ -70,12 +71,22 @@ namespace MetadataUtility.Utilities
 
                     // check if the glob is rooted
                     // build up longest possible literal path and then check if it is a directory
-                    var fragments = new Queue<string>(pattern.Split(Path.DirectorySeparatorChar));
+                    var split = pattern.Split(this.fileSystem.Path.DirectorySeparatorChar);
+
+                    // and special case for unix platforms since the leading '/' is removed by the path.split
+                    if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && split.First() == string.Empty)
+                    {
+                        // restore root as the first path checked
+                        split[0] = this.fileSystem.Path.DirectorySeparatorChar.ToString();
+                    }
+
+                    var fragments = new Queue<string>(split);
 
                     // if the glob is rooted, treat it as the whole path
                     // otherwise assume the current base directory is the starting point
                     // and the glob is a relative expression
                     string lastValid = this.fileSystem.Path.IsPathRooted(pattern) ? null : currentBase;
+
                     do
                     {
                         var next = fragments.Peek();

@@ -4,6 +4,7 @@
 
 namespace MetadataUtility.Tests.TestHelpers
 {
+    using System;
     using System.IO.Abstractions.TestingHelpers;
     using System.Text.RegularExpressions;
 
@@ -14,9 +15,11 @@ namespace MetadataUtility.Tests.TestHelpers
             fileSystem.AddFile(path, string.Empty);
         }
 
-        public static string ToCrLf(string str)
+        public static string NormalizeLineEndings(this string str, string token = null)
         {
-            return Regex.Replace(str, @"\r\n|\n\r|\n|\r", "\r\n");
+            token ??= Environment.NewLine;
+
+            return Regex.Replace(str, @"\r\n|\n\r|\n|\r", token);
         }
     }
 }

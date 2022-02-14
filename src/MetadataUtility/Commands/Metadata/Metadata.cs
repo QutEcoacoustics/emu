@@ -41,7 +41,7 @@ namespace MetadataUtility.Commands.Metadata
 
         public override async Task<int> InvokeAsync(InvocationContext context)
         {
-            var files = this.fileMatcher.ExpandMatches(Directory.GetCurrentDirectory(), this.Targets);
+            var files = this.fileMatcher.ExpandMatches(this.fileSystem.Directory.GetCurrentDirectory(), this.Targets);
 
             foreach ((string, string) file in files)
             {
@@ -54,8 +54,5 @@ namespace MetadataUtility.Commands.Metadata
 
             return 0;
         }
-
     }
-
-
 }
