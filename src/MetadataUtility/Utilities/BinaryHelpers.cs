@@ -42,6 +42,70 @@ namespace MetadataUtility.Utilities
         }
 
         /// <summary>
+        /// Extracts a 20-bit integer from a 3-byte span.
+        /// With a 20 bit integer there are 4 bits that are ignored, either at the end or start of the byte block.
+        /// In this case we ingore the last octet, the last 4-bits.
+        /// </summary>
+        /// <param name="bytes">The source bytes.</param>
+        /// <returns>a unsigned 32-bit integer representing the decoded 20-bit integer.</returns>
+        public static uint Read20BitUnsignedBigEndianIgnoringLastOctet(ReadOnlySpan<byte> bytes)
+        {
+            if (bytes.Length < 3)
+            {
+                throw new ArgumentException("bytes span must at least be 3 long", nameof(bytes));
+            }
+
+            uint dest = (uint)bytes[0] << 16;
+            dest |= (uint)bytes[1] << 8;
+            dest |= (uint)bytes[2] << 0;
+
+            return dest >> 4;
+        }
+
+        /// <summary>
+        /// Extracts a 3-bit integer from a byte.
+        /// With a 3 bit integer, 5 bits are ignored.
+        /// In this case we ingore the first 4 bits and the last bit.
+        /// </summary>
+        /// <param name="bytes">The source bytes.</param>
+        /// <returns>a unsigned 8-bit integer representing the decoded 3-bit integer.</returns>
+        public static byte Read3BitUnsignedBigEndianIgnoringFirstFourAndLastBit(ReadOnlySpan<byte> bytes)
+        {
+            if (bytes.Length < 1)
+            {
+                throw new ArgumentException("bytes span must at least be 1 long", nameof(bytes));
+            }
+
+            const byte mask = 0b0000_1111;
+
+            byte dest = (byte)(bytes[0] & mask);
+
+            return (byte)(dest >> 1);
+        }
+
+        /// <summary>
+        /// Extracts a 5-bit integer from a 2-byte span.
+        /// With a 5 bit integer, 11 bits are ignored.
+        /// In this case we ingore the first 7 bits and the last 4 bits.
+        /// </summary>
+        /// <param name="bytes">The source bytes.</param>
+        /// <returns>a unsigned 8-bit integer representing the decoded 5-bit integer.</returns>
+        public static byte Read5BitUnsignedBigEndianIgnoringFirstSevenAndLastFourBits(ReadOnlySpan<byte> bytes)
+        {
+            if (bytes.Length < 2)
+            {
+                throw new ArgumentException("bytes span must at least be 2 long", nameof(bytes));
+            }
+
+            const byte mask = 0b0000_0001;
+
+            uint dest = (uint)((bytes[0] & mask) << 8);
+            dest |= bytes[1];
+
+            return (byte)(dest >> 4);
+        }
+
+        /// <summary>
         /// Writes a 36-bit integer to a 5 byte buffer.
         /// It ignore the first octet (4-bits) of the buffer and starts writing from the second octet onwards.
         /// </summary>

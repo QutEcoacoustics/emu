@@ -11,7 +11,7 @@ namespace MetadataUtility.Tests.Metadata
     using System.Threading.Tasks;
     using FluentAssertions;
     using MetadataUtility.Audio;
-    using MetadataUtility.Metadata;
+    using MetadataUtility.Metadata.FrontierLabs;
     using MetadataUtility.Models;
     using MetadataUtility.Tests.TestHelpers;
     using Xunit;
@@ -19,15 +19,13 @@ namespace MetadataUtility.Tests.Metadata
 
     public class FlacHeaderExtractorTests : TestBase
     {
-        private readonly FilenameExtractor subject;
+        private readonly FlacHeaderExtractor subject;
 
         public FlacHeaderExtractorTests(ITestOutputHelper output)
             : base(output)
         {
-            this.subject = new FilenameExtractor(
-                this.BuildLogger<FilenameExtractor>(),
-                this.TestFiles,
-                this.FilenameParser);
+            this.subject = new FlacHeaderExtractor(
+                this.BuildLogger<FlacHeaderExtractor>());
         }
 
         public Recording Recording => new();
@@ -48,13 +46,20 @@ namespace MetadataUtility.Tests.Metadata
         public async void ProcessFilesWorks(FixtureModel model)
         {
             // we can process all files that have a filename
-            var recording = await this.subject.ProcessFileAsync(
-                model.ToTargetInformation(this.RealFileSystem),
-                this.Recording);
+            var recording = new Recording();
+
+            if (await this.subject.CanProcessAsync(model.ToTargetInformation(this.RealFileSystem)))
+            {
+                recording = await this.subject.ProcessFileAsync(
+                    model.ToTargetInformation(this.RealFileSystem),
+                    this.Recording);
+            }
 
             recording.DurationSeconds?.TotalSeconds.Should().Be(model.DurationSeconds);
-
-            // TODO: Add other assertions here!
+            recording.SampleRateHertz?.Should().Be(model.SampleRateHertz);
+            recording.Channels?.Should().Be(model.Channels);
+            recording.BitDepth?.Should().Be(model.BitDepth);
+            recording.BitsPerSecond?.Should().Be(model.BitsPerSecond);
         }
     }
 }
