@@ -38,7 +38,6 @@ namespace MetadataUtility.Tests.Commands.Metadata
                 new MetadataRegister(this.ServiceProvider));                 // TODO: BROKEN!
 
             this.command.Targets = "../../../../Fixtures/FL_BAR_LT/3.03_OneHour/*.flac".AsArray();
-            //this.command.Targets = "/".AsArray();
         }
 
         [Fact]
@@ -69,9 +68,8 @@ namespace MetadataUtility.Tests.Commands.Metadata
             string[] lines = this.writer.ToString().Split("\n").Where(s => (s.Length() > 0 && s[0] == '{')).ToArray();
 
             Assert.Equal(2, lines.Length());
-            // Assert.Contains("a.WAV", lines[0]);
-            // Assert.Contains("b.WAV", lines[1]);
-            // Assert.Contains("c.WAV", lines[2]);
+            Assert.Contains("20181101_000006_REC [-27.3866 152.8761].flac", lines[0]);
+            Assert.Contains("20181101_050000_REC [-27.3866 152.8761].flac", lines[1]);
         }
     }
 }
