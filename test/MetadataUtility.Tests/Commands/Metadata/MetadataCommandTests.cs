@@ -68,8 +68,8 @@ namespace MetadataUtility.Tests.Commands.Metadata
             string[] lines = this.writer.ToString().Split("\n").Where(s => (s.Length() > 0 && s[0] == '{')).ToArray();
 
             Assert.Equal(2, lines.Length());
-            Assert.Contains("20181101_000006_REC [-27.3866 152.8761].flac", String.Concat(lines[0], lines[1]));
-            Assert.Contains("20181101_050000_REC [-27.3866 152.8761].flac", String.Concat(lines[0], lines[1]));
+            Assert.Contains("20181101_000006_REC [-27.3866 152.8761].flac", string.Concat(lines[0], lines[1]));
+            Assert.Contains("20181101_050000_REC [-27.3866 152.8761].flac", string.Concat(lines[0], lines[1]));
         }
     }
 }
