@@ -48,7 +48,7 @@ namespace MetadataUtility.Tests.Metadata
             // we can process all files that have a filename
             var recording = new Recording();
 
-            if (await this.subject.CanProcessAsync(model.ToTargetInformation(this.RealFileSystem)))
+            if (model.IsFlac)
             {
                 recording = await this.subject.ProcessFileAsync(
                     model.ToTargetInformation(this.RealFileSystem),
