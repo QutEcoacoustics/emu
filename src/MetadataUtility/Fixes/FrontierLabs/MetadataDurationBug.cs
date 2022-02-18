@@ -85,7 +85,7 @@ namespace MetadataUtility.Fixes.FrontierLabs
 
         private async Task<CheckResult> IsAffected(FileStream stream)
         {
-            switch (Flac.IsFlacFile(stream).Case)
+            switch (Flac.IsValidFlacFile(stream).Case)
             {
                 case Error error:
                     return new CheckResult(CheckStatus.Error, Severity.None, error.Message);

@@ -7,7 +7,6 @@ namespace MetadataUtility.Tests.Commands.Metadata
     using System;
     using System.CommandLine.Parsing;
     using System.IO;
-    using System.IO.Abstractions;
     using System.Linq;
     using FluentAssertions;
     using MetadataUtility.Commands.Metadata;
@@ -28,16 +27,14 @@ namespace MetadataUtility.Tests.Commands.Metadata
         {
             this.writer = new StringWriter();
 
-            FileSystem fs = new FileSystem();
-
             this.command = new Metadata(
                 this.BuildLogger<Metadata>(),
-                fs,
-                new FileMatcher(this.BuildLogger<FileMatcher>(), fs),
+                this.TestFiles,
+                new FileMatcher(this.BuildLogger<FileMatcher>(), this.TestFiles),
                 new OutputRecordWriter(this.writer, new JsonLinesSerializer()),
                 new MetadataRegister(this.ServiceProvider));                 // TODO: BROKEN!
 
-            this.command.Targets = "../../../../Fixtures/FL_BAR_LT/3.03_OneHour/*.flac".AsArray();
+            this.command.Targets = "/".AsArray();
         }
 
         [Fact]
@@ -61,15 +58,20 @@ namespace MetadataUtility.Tests.Commands.Metadata
         [Fact]
         public async void MetadataCommandOutputsOneRecordPerFile()
         {
+            this.TestFiles.AddEmptyFile("/a.WAV");
+            this.TestFiles.AddEmptyFile("/b.WAV");
+            this.TestFiles.AddEmptyFile("/c.WAV");
+
             var result = await this.command.InvokeAsync(null);
 
             result.Should().Be(0);
 
             string[] lines = this.writer.ToString().Split("\n").Where(s => (s.Length() > 0 && s[0] == '{')).ToArray();
 
-            Assert.Equal(2, lines.Length());
-            Assert.Contains("20181101_000006_REC [-27.3866 152.8761].flac", string.Concat(lines[0], lines[1]));
-            Assert.Contains("20181101_050000_REC [-27.3866 152.8761].flac", string.Concat(lines[0], lines[1]));
+            Assert.Equal(3, lines.Length());
+            Assert.Contains("a.WAV", lines[0]);
+            Assert.Contains("b.WAV", lines[1]);
+            Assert.Contains("c.WAV", lines[2]);
         }
     }
 }

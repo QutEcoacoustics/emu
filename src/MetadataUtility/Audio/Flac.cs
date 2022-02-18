@@ -28,7 +28,7 @@ namespace MetadataUtility.Audio
         /// </summary>
         /// <param name="stream">The flac file stream.</param>
         /// <returns>The total samples.</returns>
-        public static Fin<ulong> ReadTotalSamples(FileStream stream)
+        public static Fin<ulong> ReadTotalSamples(Stream stream)
         {
             long position = stream.Seek(FlacSamplesOffset, SeekOrigin.Begin);
             Debug.Assert(position == 21, $"Expected stream.Seek position to return 21, instead returned {position}");
@@ -51,7 +51,7 @@ namespace MetadataUtility.Audio
         /// </summary>
         /// <param name="stream">The flac file stream.</param>
         /// <returns>The sample rate.</returns>
-        public static Fin<uint> ReadSampleRate(FileStream stream)
+        public static Fin<uint> ReadSampleRate(Stream stream)
         {
             long position = stream.Seek(SampleRateOffset, SeekOrigin.Begin);
             Debug.Assert(position == 18, $"Expected stream.Seek position to return 18, instead returned {position}");
@@ -74,7 +74,7 @@ namespace MetadataUtility.Audio
         /// </summary>
         /// <param name="stream">The flac file stream.</param>
         /// <returns>The number of channels.</returns>
-        public static Fin<byte> ReadNumChannels(FileStream stream)
+        public static Fin<byte> ReadNumChannels(Stream stream)
         {
             long position = stream.Seek(ChannelOffset, SeekOrigin.Begin);
             Debug.Assert(position == 20, $"Expected stream.Seek position to return 20, instead returned {position}");
@@ -97,7 +97,7 @@ namespace MetadataUtility.Audio
         /// </summary>
         /// <param name="stream">The flac file stream.</param>
         /// <returns>The bit depth.</returns>
-        public static Fin<byte> ReadBitDepth(FileStream stream)
+        public static Fin<byte> ReadBitDepth(Stream stream)
         {
             long position = stream.Seek(ChannelOffset, SeekOrigin.Begin);
             Debug.Assert(position == 20, $"Expected stream.Seek position to return 20, instead returned {position}");
@@ -138,7 +138,7 @@ namespace MetadataUtility.Audio
             return Unit.Default;
         }
 
-        public static Fin<bool> IsFlacFile(FileStream stream)
+        public static Fin<bool> IsValidFlacFile(Stream stream)
         {
             Span<byte> buffer = stackalloc byte[4];
 
@@ -150,7 +150,7 @@ namespace MetadataUtility.Audio
                 return FileTooShortFlac;
             }
 
-            return buffer.StartsWith(FlacMagicNumber);
+            return buffer.StartsWith(FlacMagicNumber) && stream.Length > 42;
         }
     }
 }

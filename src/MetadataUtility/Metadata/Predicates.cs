@@ -13,7 +13,7 @@ public static class Predicates
         target => !string.IsNullOrWhiteSpace(target.FileSystem.Path.GetFileName(target.Path));
 
     public static readonly Func<TargetInformation, bool> IsFlacFile =
-        target => Flac.IsFlacFile(target.FileStream).IfFail(false);
+        target => Flac.IsValidFlacFile(target.FileStream).IfFail(false);
 
     // An example of an async predicate
     // public static readonly Func<TargetInformation, ValueTask<bool>> IsFlacFile2 =

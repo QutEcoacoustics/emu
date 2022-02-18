@@ -4,6 +4,7 @@
 
 namespace MetadataUtility.Metadata.FrontierLabs
 {
+    using System.Diagnostics;
     using System.Threading.Tasks;
     using MetadataUtility.Audio;
     using MetadataUtility.Models;
