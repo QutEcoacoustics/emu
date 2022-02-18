@@ -22,7 +22,7 @@ namespace MetadataUtility.Utilities
         /// In this case we ingore the first octet, the first 4-bits.
         /// </summary>
         /// <param name="bytes">The source bytes.</param>
-        /// <returns>a unsigned 64-bit integer representing the decoded 36-bit integer.</returns>
+        /// <returns>an unsigned 64-bit integer representing the decoded 36-bit integer.</returns>
         public static ulong Read36BitUnsignedBigEndianIgnoringFirstOctet(ReadOnlySpan<byte> bytes)
         {
             if (bytes.Length < 5)
@@ -47,7 +47,7 @@ namespace MetadataUtility.Utilities
         /// In this case we ingore the last octet, the last 4-bits.
         /// </summary>
         /// <param name="bytes">The source bytes.</param>
-        /// <returns>a unsigned 32-bit integer representing the decoded 20-bit integer.</returns>
+        /// <returns>an unsigned 32-bit integer representing the decoded 20-bit integer.</returns>
         public static uint Read20BitUnsignedBigEndianIgnoringLastOctet(ReadOnlySpan<byte> bytes)
         {
             if (bytes.Length < 3)
@@ -68,7 +68,7 @@ namespace MetadataUtility.Utilities
         /// In this case we ingore the first 4 bits and the last bit.
         /// </summary>
         /// <param name="bytes">The source bytes.</param>
-        /// <returns>a unsigned 8-bit integer representing the decoded 3-bit integer.</returns>
+        /// <returns>an unsigned 8-bit integer representing the decoded 3-bit integer.</returns>
         public static byte Read3BitUnsignedBigEndianIgnoringFirstFourAndLastBit(ReadOnlySpan<byte> bytes)
         {
             if (bytes.Length < 1)
@@ -89,7 +89,7 @@ namespace MetadataUtility.Utilities
         /// In this case we ingore the first 7 bits and the last 4 bits.
         /// </summary>
         /// <param name="bytes">The source bytes.</param>
-        /// <returns>a unsigned 8-bit integer representing the decoded 5-bit integer.</returns>
+        /// <returns>an unsigned 8-bit integer representing the decoded 5-bit integer.</returns>
         public static byte Read5BitUnsignedBigEndianIgnoringFirstSevenAndLastFourBits(ReadOnlySpan<byte> bytes)
         {
             if (bytes.Length < 2)

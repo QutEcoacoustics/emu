@@ -31,7 +31,7 @@ namespace MetadataUtility.Metadata.FrontierLabs
             var samples = Flac.ReadTotalSamples(information.FileStream);
             var sampleRate = Flac.ReadSampleRate(information.FileStream);
             var channels = Flac.ReadNumChannels(information.FileStream);
-            var bitDepth = Flac.ReadBitRate(information.FileStream);
+            var bitDepth = Flac.ReadBitDepth(information.FileStream);
 
             decimal? duration = samples.IsFail || sampleRate.IsFail || (uint)sampleRate == 0 ? null : (decimal)samples / (decimal)sampleRate;
             uint? bitRate = sampleRate.IsFail || bitDepth.IsFail || channels.IsFail ? null : (uint)sampleRate * (uint)bitDepth * (uint)channels;
@@ -40,6 +40,7 @@ namespace MetadataUtility.Metadata.FrontierLabs
             {
                 DurationSeconds = duration,
                 SampleRateHertz = sampleRate.IsFail ? null : (uint)sampleRate,
+                TotalSamples = samples.IsFail ? null : (ulong)samples,
                 Channels = channels.IsFail ? null : (byte)channels,
                 BitDepth = bitDepth.IsFail ? null : (byte)bitDepth,
                 BitsPerSecond = bitRate,

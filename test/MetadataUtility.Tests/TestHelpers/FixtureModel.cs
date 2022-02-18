@@ -46,6 +46,8 @@ namespace MetadataUtility.Tests.TestHelpers
 
         public byte BitDepth { get; set; }
 
+        public ulong TotalSamples { get; set; }
+
         // TODO: add other columns from the CSV here!
 
         public bool IsFlac => this.MimeType == Flac.Mime;

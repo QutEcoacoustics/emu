@@ -107,6 +107,11 @@ namespace MetadataUtility.Models
         public string MediaType { get; init; }
 
         /// <summary>
+        /// Gets the number of samples in this file.
+        /// </summary>
+        public ulong? TotalSamples { get; init; }
+
+        /// <summary>
         /// Gets the number of bytes in this file.
         /// </summary>
         public ulong FileLengthBytes { get; init; }

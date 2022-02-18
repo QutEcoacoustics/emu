@@ -4,6 +4,7 @@
 
 namespace MetadataUtility.Audio
 {
+    using System.Diagnostics;
     using LanguageExt;
     using LanguageExt.Common;
     using MetadataUtility.Utilities;
@@ -20,9 +21,17 @@ namespace MetadataUtility.Audio
 
         public static readonly Error FileTooShortFlac = Error.New("Error reading file: file is not long enough to have a fLaC header");
 
+        /// <summary>
+        /// The total samples in the stream are read from the flac header here.
+        /// This can be extracted from bits 173-208 of the stream.
+        /// More information: https://xiph.org/flac/format.html#metadata_block_streaminfo.
+        /// </summary>
+        /// <param name="stream">The flac file stream.</param>
+        /// <returns>The total samples.</returns>
         public static Fin<ulong> ReadTotalSamples(FileStream stream)
         {
-            stream.Seek(FlacSamplesOffset, SeekOrigin.Begin);
+            long position = stream.Seek(FlacSamplesOffset, SeekOrigin.Begin);
+            Debug.Assert(position == 21, $"Expected stream.Seek position to return 21, instead returned {position}");
 
             Span<byte> buffer = stackalloc byte[5];
             int bytesRead = stream.Read(buffer);
@@ -32,13 +41,20 @@ namespace MetadataUtility.Audio
                 return FileTooShort;
             }
 
-            // flac files have an unsigned 36-bit integer for total samples!
             return BinaryHelpers.Read36BitUnsignedBigEndianIgnoringFirstOctet(buffer);
         }
 
+        /// <summary>
+        /// The sample rate is read from the flac header here.
+        /// This can be extracted from bits 145-164 of the stream.
+        /// More information: https://xiph.org/flac/format.html#metadata_block_streaminfo.
+        /// </summary>
+        /// <param name="stream">The flac file stream.</param>
+        /// <returns>The sample rate.</returns>
         public static Fin<uint> ReadSampleRate(FileStream stream)
         {
-            stream.Seek(SampleRateOffset, SeekOrigin.Begin);
+            long position = stream.Seek(SampleRateOffset, SeekOrigin.Begin);
+            Debug.Assert(position == 18, $"Expected stream.Seek position to return 18, instead returned {position}");
 
             Span<byte> buffer = stackalloc byte[3];
             int bytesRead = stream.Read(buffer);
@@ -51,9 +67,17 @@ namespace MetadataUtility.Audio
             return BinaryHelpers.Read20BitUnsignedBigEndianIgnoringLastOctet(buffer);
         }
 
+        /// <summary>
+        /// The number of channels is read from the flac header here.
+        /// This can be extracted from bits 165-167 of the stream.
+        /// More information: https://xiph.org/flac/format.html#metadata_block_streaminfo.
+        /// </summary>
+        /// <param name="stream">The flac file stream.</param>
+        /// <returns>The number of channels.</returns>
         public static Fin<byte> ReadNumChannels(FileStream stream)
         {
-            stream.Seek(ChannelOffset, SeekOrigin.Begin);
+            long position = stream.Seek(ChannelOffset, SeekOrigin.Begin);
+            Debug.Assert(position == 20, $"Expected stream.Seek position to return 20, instead returned {position}");
 
             Span<byte> buffer = stackalloc byte[1];
             int bytesRead = stream.Read(buffer);
@@ -66,8 +90,18 @@ namespace MetadataUtility.Audio
             return (byte)(BinaryHelpers.Read3BitUnsignedBigEndianIgnoringFirstFourAndLastBit(buffer) + 1);
         }
 
-        public static Fin<byte> ReadBitRate(FileStream stream)
+        /// <summary>
+        /// The bit depth is read from the flac header here.
+        /// This can be extracted from bits 168-172 of the stream.
+        /// More information: https://xiph.org/flac/format.html#metadata_block_streaminfo.
+        /// </summary>
+        /// <param name="stream">The flac file stream.</param>
+        /// <returns>The bit depth.</returns>
+        public static Fin<byte> ReadBitDepth(FileStream stream)
         {
+            long position = stream.Seek(ChannelOffset, SeekOrigin.Begin);
+            Debug.Assert(position == 20, $"Expected stream.Seek position to return 20, instead returned {position}");
+
             stream.Seek(ChannelOffset, SeekOrigin.Begin);
 
             Span<byte> buffer = stackalloc byte[2];
@@ -78,7 +112,7 @@ namespace MetadataUtility.Audio
                 return FileTooShort;
             }
 
-            // flac files have an unsigned 36-bit integer for total sample duration!
+            // flac files have an unsigned 5-bit integer for bit rate
             return (byte)(BinaryHelpers.Read5BitUnsignedBigEndianIgnoringFirstSevenAndLastFourBits(buffer) + 1);
         }
 
