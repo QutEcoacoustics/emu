@@ -41,7 +41,7 @@ namespace MetadataUtility.Audio
                 return FileTooShort;
             }
 
-            return BinaryHelpers.Read36BitUnsignedBigEndianIgnoringFirstOctet(buffer);
+            return BinaryHelpers.Read36BitUnsignedBigEndianIgnoringFirstNibble(buffer);
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace MetadataUtility.Audio
                 return FileTooShort;
             }
 
-            return BinaryHelpers.Read20BitUnsignedBigEndianIgnoringLastOctet(buffer);
+            return BinaryHelpers.Read20BitUnsignedBigEndianIgnoringLastNibble(buffer);
         }
 
         /// <summary>
@@ -130,7 +130,7 @@ namespace MetadataUtility.Audio
             }
 
             // flac files have an unsigned 36-bit integer for total sample duration!
-            BinaryHelpers.Write36BitUnsignedBigEndianIgnoringFirstOctet(buffer, sampleCount);
+            BinaryHelpers.Write36BitUnsignedBigEndianIgnoringFirstNibble(buffer, sampleCount);
 
             stream.Seek(FlacSamplesOffset, SeekOrigin.Begin);
             stream.Write(buffer);

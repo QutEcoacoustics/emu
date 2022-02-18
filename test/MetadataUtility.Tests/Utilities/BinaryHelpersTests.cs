@@ -24,7 +24,7 @@ namespace MetadataUtility.Tests.Utilities
         [InlineData(new byte[] { 0b1111_1010, 0xAA, 0xAA, 0xAA, 0xAA }, 45_812_984_490u)]
         public void CanRead36BitIntegers(byte[] input, ulong expected)
         {
-            var actual = BinaryHelpers.Read36BitUnsignedBigEndianIgnoringFirstOctet(input);
+            var actual = BinaryHelpers.Read36BitUnsignedBigEndianIgnoringFirstNibble(input);
 
             Assert.Equal(expected, actual);
         }
@@ -43,7 +43,7 @@ namespace MetadataUtility.Tests.Utilities
         [InlineData(new byte[] { 0xAA, 0xAA, 0b1010_1111 }, 699_050u)]
         public void CanRead20BitIntegers(byte[] input, ulong expected)
         {
-            var actual = BinaryHelpers.Read20BitUnsignedBigEndianIgnoringLastOctet(input);
+            var actual = BinaryHelpers.Read20BitUnsignedBigEndianIgnoringLastNibble(input);
 
             Assert.Equal(expected, actual);
         }
@@ -100,7 +100,7 @@ namespace MetadataUtility.Tests.Utilities
             var actual = new byte[5];
             actual[0] = firstByte;
 
-            BinaryHelpers.Write36BitUnsignedBigEndianIgnoringFirstOctet(actual, input);
+            BinaryHelpers.Write36BitUnsignedBigEndianIgnoringFirstNibble(actual, input);
 
             Assert.Equal(expected, actual);
         }
@@ -112,7 +112,7 @@ namespace MetadataUtility.Tests.Utilities
 
             var error = Assert.Throws<ArgumentException>(
                 "value",
-                () => BinaryHelpers.Write36BitUnsignedBigEndianIgnoringFirstOctet(actual, 68_719_476_736u));
+                () => BinaryHelpers.Write36BitUnsignedBigEndianIgnoringFirstNibble(actual, 68_719_476_736u));
 
             Assert.Contains("is outside the representable range", error.Message);
         }
@@ -124,7 +124,7 @@ namespace MetadataUtility.Tests.Utilities
 
             var error = Assert.Throws<ArgumentException>(
                 "bytes",
-                () => BinaryHelpers.Write36BitUnsignedBigEndianIgnoringFirstOctet(actual, 68_719_476_735u));
+                () => BinaryHelpers.Write36BitUnsignedBigEndianIgnoringFirstNibble(actual, 68_719_476_735u));
 
             Assert.Contains("span must at least be 5 long", error.Message);
         }
@@ -136,7 +136,7 @@ namespace MetadataUtility.Tests.Utilities
 
             var error = Assert.Throws<ArgumentException>(
                 "bytes",
-                () => BinaryHelpers.Read36BitUnsignedBigEndianIgnoringFirstOctet(actual));
+                () => BinaryHelpers.Read36BitUnsignedBigEndianIgnoringFirstNibble(actual));
 
             Assert.Contains("span must at least be 5 long", error.Message);
         }
