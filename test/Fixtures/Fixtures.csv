@@ -3,3 +3,5 @@ Short error file,FL_BAR_LT/3.03_PreallocatedHeader/20181101_AAO [-27.3866 152.87
 Metadata duration bug,FL_BAR_LT/3.17_Duration/20200801T000000+1000_REC.flac,,,.flac,,Partial,audio/flac,Frontier Labs,,,,,14389.684535147392290249433107,317292544,1,22050,352800,16,,,,,,,,,,,,,
 Zero dB Samples,FL_BAR_LT/3.03_OneHour/20181101_000006_REC [-27.3866 152.8761].flac,,,.flac,,Yes,audio/flac,Frontier Labs,,,,,3587.7616326530612244897959184,79110144,1,22050,352800,16,,,,,,,,,,,,,
 Normal file,FL_BAR_LT/3.14_Normal/20191026T000000+1000_REC.flac,,,.flac,,Yes,audio/flac,Frontier Labs,,,,,7194.7493877551020408163265306,158644224,1,22050,352800,16,,,,,,,,,,,,,
+Glitchy Signal,FL_BAR_LT/3.14_GlitchySignal/20191125_AAO/20191125T235900+1000_REC.flac,,,.flac,,Partial,audio/flac,Frontier Labs,,,,,49.737142857142857142857142857,1096704,1,22050,352800,16,,,,,,,,,,,,,
+Short file,FL_BAR_LT/3.14_ShortFiles/20191104_AAO/20191104T020000+1000_REC.flac,,,.flac,,Partial,audio/flac,Frontier Labs,,,,,0.4179591836734693877551020408,9216,1,22050,352800,16,,,,,,,,,,,,,
