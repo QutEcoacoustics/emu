@@ -42,6 +42,8 @@ namespace MetadataUtility.Tests.TestHelpers
 
         public bool IsFlac => this.MimeType == Flac.Mime;
 
+        public bool IsWave => this.MimeType == Wave.Mime;
+
         public string FixturePath
         {
             get => this.fixturePath;

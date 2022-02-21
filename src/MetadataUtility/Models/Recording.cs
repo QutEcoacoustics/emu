@@ -89,7 +89,7 @@ namespace MetadataUtility.Models
         /// <summary>
         /// Gets the sample rate of the recording.
         /// </summary>
-        public uint SampleRateHertz { get; init; }
+        public ulong SampleRateHertz { get; init; }
 
         /// <summary>
         /// Gets the bit rate.

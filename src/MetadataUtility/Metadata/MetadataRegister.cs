@@ -4,12 +4,15 @@
 
 namespace MetadataUtility.Metadata
 {
+    using MetadataUtility.Metadata.FrontierLabs;
+
     public class MetadataRegister
     {
         public static readonly IReadOnlyCollection<Type> KnownOperations = new[]
         {
             // each time we make a new extractor we'll add it here
             typeof(FilenameExtractor),
+            typeof(WaveHeaderExtractor),
         };
 
         private readonly IServiceProvider provider;
