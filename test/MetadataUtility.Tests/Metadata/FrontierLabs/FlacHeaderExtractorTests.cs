@@ -5,15 +5,13 @@
 namespace MetadataUtility.Tests.Metadata
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
     using FluentAssertions;
     using MetadataUtility.Audio;
     using MetadataUtility.Metadata.FrontierLabs;
     using MetadataUtility.Models;
     using MetadataUtility.Tests.TestHelpers;
+    using NodaTime;
     using Xunit;
     using Xunit.Abstractions;
 
@@ -47,14 +45,14 @@ namespace MetadataUtility.Tests.Metadata
         {
             var recording = new Recording();
 
-            if (model.Process.Split(", ").Contains("FlacHeaderExtractor"))
+            if (model.Process.Contains("FlacHeaderExtractor"))
             {
                 recording = await this.subject.ProcessFileAsync(
                     model.ToTargetInformation(this.RealFileSystem),
                     this.Recording);
             }
 
-            recording.DurationSeconds?.TotalSeconds.Should().Be(model.DurationSeconds);
+            recording.DurationSeconds?.TotalSeconds.Should().Be(Duration.FromSeconds((double)model.DurationSeconds).TotalSeconds);
             recording.SampleRateHertz?.Should().Be(model.SampleRateHertz);
             recording.Channels?.Should().Be(model.Channels);
             recording.BitDepth?.Should().Be(model.BitDepth);
