@@ -36,7 +36,7 @@ namespace MetadataUtility.Tests.TestHelpers
 
         public string MimeType { get; set; }
 
-        public decimal DurationSeconds { get; set; }
+        public double DurationSeconds { get; set; }
 
         public byte Channels { get; set; }
 

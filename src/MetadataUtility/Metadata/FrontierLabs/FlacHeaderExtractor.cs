@@ -34,7 +34,7 @@ namespace MetadataUtility.Metadata.FrontierLabs
             var channels = Flac.ReadNumChannels(information.FileStream);
             var bitDepth = Flac.ReadBitDepth(information.FileStream);
 
-            decimal? duration = samples.IsFail || sampleRate.IsFail || (uint)sampleRate == 0 ? null : (decimal)samples / (decimal)sampleRate;
+            Duration? duration = samples.IsFail || sampleRate.IsFail || (uint)sampleRate == 0 ? null : Duration.FromSeconds((double)samples / (double)sampleRate);
             uint? bitRate = sampleRate.IsFail || bitDepth.IsFail || channels.IsFail ? null : (uint)sampleRate * (uint)bitDepth * (uint)channels;
 
             recording = recording with
