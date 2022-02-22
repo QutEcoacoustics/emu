@@ -59,7 +59,7 @@ namespace MetadataUtility.Metadata
         {
             get
             {
-                return this.stream ?? (Stream)this.FileSystem.File.Open(this.Path, FileMode.Open, FileAccess.Read, FileShare.Read);
+                return this.stream ?? this.FileSystem.File.Open(this.Path, FileMode.Open, FileAccess.Read, FileShare.Read);
             }
         }
 

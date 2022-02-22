@@ -45,10 +45,9 @@ namespace MetadataUtility.Tests.Metadata
         [ClassData(typeof(FixtureHelper.FixtureData))]
         public async void ProcessFilesWorks(FixtureModel model)
         {
-            // we can process all files that have a filename
             var recording = new Recording();
 
-            if (model.IsFlac)
+            if (model.Process.Split(", ").Contains("FlacHeaderExtractor"))
             {
                 recording = await this.subject.ProcessFileAsync(
                     model.ToTargetInformation(this.RealFileSystem),
