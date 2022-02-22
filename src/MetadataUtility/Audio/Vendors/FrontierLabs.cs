@@ -9,10 +9,12 @@ namespace MetadataUtility.Audio.Vendors
     using LanguageExt;
     using LanguageExt.Common;
     using MetadataUtility.Extensions.System;
+    using MetadataUtility.Metadata;
 
     public static class FrontierLabs
     {
         public const string FirmwareCommentKey = "SensorFirmwareVersion";
+        public const string FrontierLabsLogString = " FRONTIER LABS Bioacoustic Audio Recorder ";
         public const int DefaultFileStubLength = 44;
 
         public static readonly byte[] VendorString = Encoding.ASCII.GetBytes("Frontier Labs");
@@ -114,6 +116,30 @@ namespace MetadataUtility.Audio.Vendors
 
                 return false;
             }
+        }
+
+        public static Fin<bool> HasFrontierLabLogFile(TargetInformation information)
+        {
+            var files = information.FileSystem.Directory.GetFiles(information.Base, "*logfile*.txt", SearchOption.AllDirectories);
+
+            foreach (string file in files)
+            {
+                string[] lines = information.FileSystem.File.ReadAllLines(file);
+
+                if (lines[2].Equals(FrontierLabsLogString))
+                {
+                    foreach (string line in lines)
+                    {
+                        if (line.Contains(information.FileSystem.Path.GetFileName(information.Path)))
+                        {
+                            information.KnownSupportFiles.Add("Log file", file);
+                            return true;
+                        }
+                    }
+                }
+            }
+
+            return false;
         }
 
         private static Fin<FirmwareRecord> FindInBufferFirmware(ReadOnlySpan<byte> buffer)
