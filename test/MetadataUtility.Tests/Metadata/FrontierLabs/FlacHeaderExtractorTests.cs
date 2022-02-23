@@ -43,20 +43,18 @@ namespace MetadataUtility.Tests.Metadata
         [ClassData(typeof(FixtureHelper.FixtureData))]
         public async void ProcessFilesWorks(FixtureModel model)
         {
-            var recording = new Recording();
-
             if (model.Process.Contains("FlacHeaderExtractor"))
             {
-                recording = await this.subject.ProcessFileAsync(
+                var recording = await this.subject.ProcessFileAsync(
                     model.ToTargetInformation(this.RealFileSystem),
                     this.Recording);
-            }
 
-            recording.DurationSeconds?.TotalSeconds.Should().Be(Duration.FromSeconds((double)model.DurationSeconds).TotalSeconds);
-            recording.SampleRateHertz?.Should().Be(model.SampleRateHertz);
-            recording.Channels?.Should().Be(model.Channels);
-            recording.BitDepth?.Should().Be(model.BitDepth);
-            recording.BitsPerSecond?.Should().Be(model.BitsPerSecond);
+                recording.DurationSeconds.Should().Be(Duration.FromSeconds((double)model.DurationSeconds));
+                recording.SampleRateHertz.Should().Be(model.SampleRateHertz);
+                recording.Channels.Should().Be(model.Channels);
+                recording.BitDepth.Should().Be(model.BitDepth);
+                recording.BitsPerSecond.Should().Be(model.BitsPerSecond);
+            }
         }
     }
 }
