@@ -84,6 +84,21 @@ namespace MetadataUtility.Tests.Utilities
             Assert.Equal(expected, actual);
         }
 
+        // Verify first bit is correctly ignored in the two byte sequence
+        [Theory]
+        [InlineData(new byte[] { 0b1111_1111 }, 127u)]
+        [InlineData(new byte[] { 0b0111_1111 }, 127u)]
+        [InlineData(new byte[] { 0b1000_0000 }, 0)]
+        [InlineData(new byte[] { 0b0000_0000 }, 0)]
+        [InlineData(new byte[] { 0b1101_0101 }, 85u)]
+        [InlineData(new byte[] { 0b0101_0101 }, 85u)]
+        public void CanRead7BitIntegers(byte[] input, ulong expected)
+        {
+            var actual = BinaryHelpers.Read7BitUnsignedBigEndianIgnoringFirstBit(input);
+
+            Assert.Equal(expected, actual);
+        }
+
         [Theory]
         [InlineData(new byte[] { 0b1111_1111, 0xFF, 0xFF, 0xFF, 0xFF }, 68_719_476_735u, 0b1111_1111)]
         [InlineData(new byte[] { 0b0000_1111, 0xFF, 0xFF, 0xFF, 0xFF }, 68_719_476_735u, 0b0000_1111)]
