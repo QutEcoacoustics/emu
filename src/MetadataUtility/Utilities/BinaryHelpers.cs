@@ -67,7 +67,7 @@ namespace MetadataUtility.Utilities
         /// With a 3 bit integer, 5 bits are ignored.
         /// In this case we ingore the first 4 bits and the last bit.
         /// </summary>
-        /// <param name="bytes">The source bytes.</param>
+        /// <param name="bytes">The source byte.</param>
         /// <returns>an unsigned 8-bit integer representing the decoded 3-bit integer.</returns>
         public static byte Read3BitUnsignedBigEndianIgnoringFirstFourAndLastBit(ReadOnlySpan<byte> bytes)
         {
@@ -103,6 +103,27 @@ namespace MetadataUtility.Utilities
             dest |= bytes[1];
 
             return (byte)(dest >> 4);
+        }
+
+        /// <summary>
+        /// Extracts a 7-bit integer from a byte.
+        /// With a 7 bit integer, 1 bit is ignored.
+        /// In this case we ingore the last bit.
+        /// </summary>
+        /// <param name="bytes">The source byte.</param>
+        /// <returns>an unsigned 8-bit integer representing the decoded 7-bit integer.</returns>
+        public static byte Read7BitUnsignedBigEndianIgnoringFirstBit(ReadOnlySpan<byte> bytes)
+        {
+            if (bytes.Length < 1)
+            {
+                throw new ArgumentException("bytes span must at least be 1 long", nameof(bytes));
+            }
+
+            const byte mask = 0b0111_1111;
+
+            byte dest = (byte)(bytes[0] & mask);
+
+            return (byte)dest;
         }
 
         /// <summary>

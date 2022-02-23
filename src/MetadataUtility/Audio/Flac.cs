@@ -15,6 +15,8 @@ namespace MetadataUtility.Audio
         public const int FlacSamplesOffset = 21;
         public const int SampleRateOffset = 18;
         public const int ChannelOffset = 20;
+        public const int BlockTypeOffset = 4;
+        public const int MetadataBlockSize = 42;
         public static readonly byte[] FlacMagicNumber = new byte[] { (byte)'f', (byte)'L', (byte)'a', (byte)'C' };
 
         public static readonly Error FileTooShort = Error.New("Error reading file: file is not long enough to have a duration header");
@@ -138,7 +140,7 @@ namespace MetadataUtility.Audio
             return Unit.Default;
         }
 
-        public static Fin<bool> IsValidFlacFile(Stream stream)
+        public static Fin<bool> IsFlacFile(Stream stream)
         {
             Span<byte> buffer = stackalloc byte[4];
 
@@ -150,7 +152,18 @@ namespace MetadataUtility.Audio
                 return FileTooShortFlac;
             }
 
-            return buffer.StartsWith(FlacMagicNumber) && stream.Length > 42;
+            return buffer.StartsWith(FlacMagicNumber);
+        }
+
+        public static Fin<bool> HasMetadataBlock(Stream stream)
+        {
+            long position = stream.Seek(BlockTypeOffset, SeekOrigin.Begin);
+            Debug.Assert(position == 4, $"Expected stream.Seek position to return 21, instead returned {position}");
+
+            Span<byte> buffer = stackalloc byte[1];
+            var read = stream.Read(buffer);
+
+            return stream.Length > MetadataBlockSize && BinaryHelpers.Read7BitUnsignedBigEndianIgnoringFirstBit(buffer) == 0;
         }
     }
 }

@@ -22,7 +22,7 @@ namespace MetadataUtility.Metadata.FrontierLabs
 
         public ValueTask<bool> CanProcessAsync(TargetInformation information)
         {
-            var result = information.IsFlacFile();
+            var result = information.IsFlacFile() && information.HasMetadataBlock();
 
             return ValueTask.FromResult(result);
         }
