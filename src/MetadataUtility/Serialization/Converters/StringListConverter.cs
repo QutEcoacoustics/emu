@@ -14,7 +14,7 @@ namespace MetadataUtility.Serialization.Converters
         {
             if (text != null)
             {
-                return text.Split(", ");
+                return text.Split(";");
             }
 
             return null;
