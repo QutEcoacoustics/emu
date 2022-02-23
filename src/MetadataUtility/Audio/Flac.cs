@@ -114,7 +114,6 @@ namespace MetadataUtility.Audio
                 return FileTooShort;
             }
 
-            // flac files have an unsigned 5-bit integer for bit rate
             return (byte)(BinaryHelpers.Read5BitUnsignedBigEndianIgnoringFirstSevenAndLastFourBits(buffer) + 1);
         }
 
@@ -140,6 +139,12 @@ namespace MetadataUtility.Audio
             return Unit.Default;
         }
 
+        /// <summary>
+        /// Determines whether a file is a FLAC file.
+        /// Checks for indicator "fLaC" at the beginning of each FLAC file.
+        /// </summary>
+        /// <param name="stream">The flac file stream.</param>
+        /// <returns>Boolean indicating whether the file is a flac file.</returns>
         public static Fin<bool> IsFlacFile(Stream stream)
         {
             Span<byte> buffer = stackalloc byte[4];
@@ -155,10 +160,18 @@ namespace MetadataUtility.Audio
             return buffer.StartsWith(FlacMagicNumber);
         }
 
+        /// <summary>
+        /// Determines whether a file header has and is large enough to store a FLAC metadata block.
+        /// The block type is stored in bits 33-39 of the file stream, the first is of type "STREAMINFO".
+        /// This block type corresponds to a value of 0.
+        /// More information: https://xiph.org/flac/format.html#metadata_block_streaminfo.
+        /// </summary>
+        /// <param name="stream">The flac file stream.</param>
+        /// <returns>Boolean indicating whether the file has a valid metadata block.</returns>
         public static Fin<bool> HasMetadataBlock(Stream stream)
         {
             long position = stream.Seek(BlockTypeOffset, SeekOrigin.Begin);
-            Debug.Assert(position == 4, $"Expected stream.Seek position to return 21, instead returned {position}");
+            Debug.Assert(position == 4, $"Expected stream.Seek position to return 4, instead returned {position}");
 
             Span<byte> buffer = stackalloc byte[1];
             var read = stream.Read(buffer);
