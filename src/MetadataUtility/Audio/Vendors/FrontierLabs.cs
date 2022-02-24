@@ -120,7 +120,13 @@ namespace MetadataUtility.Audio.Vendors
 
         public static Fin<bool> HasFrontierLabLogFile(TargetInformation information)
         {
-            var files = information.FileSystem.Directory.GetFiles(information.Base, "*logfile*.txt", SearchOption.AllDirectories);
+            var files = information.FileSystem.Directory.GetFiles(information.FileSystem.Path.GetDirectoryName(information.Path), "*logfile*.txt", SearchOption.AllDirectories);
+
+            if (files.Length == 1)
+            {
+                information.KnownSupportFiles.Add("Log file", files[0]);
+                return true;
+            }
 
             foreach (string file in files)
             {
