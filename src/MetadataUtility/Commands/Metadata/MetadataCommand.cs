@@ -15,6 +15,7 @@ namespace MetadataUtility
             : base("metadata", "extracts metadata from one or more files.")
         {
             this.AddArgument(Common.Targets);
+            this.AddOption(Common.SupportDirs);
 
             // this.AddOption(new Option<bool>(
             //     new string[] { "--save" },

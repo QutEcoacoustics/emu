@@ -6,6 +6,7 @@ namespace MetadataUtility.Audio.Vendors
 {
     using System.Buffers.Binary;
     using System.Text;
+    using System.Text.RegularExpressions;
     using LanguageExt;
     using LanguageExt.Common;
     using MetadataUtility.Extensions.System;
@@ -120,17 +121,23 @@ namespace MetadataUtility.Audio.Vendors
 
         public static Fin<bool> HasFrontierLabLogFile(TargetInformation information)
         {
-            var files = information.FileSystem.Directory.GetFiles(information.FileSystem.Path.GetDirectoryName(information.Path), "*logfile*.txt", SearchOption.AllDirectories);
+            List<string> logFiles = new List<string>();
 
-            if (files.Length == 1)
+            if (information.SupportFileDirectories == null)
             {
-                information.KnownSupportFiles.Add("Log file", files[0]);
-                return true;
+                logFiles = information.FileSystem.Directory.GetFiles(information.FileSystem.Path.GetDirectoryName(information.Path), "*logfile*.txt", SearchOption.AllDirectories).ToList();
+            }
+            else
+            {
+                foreach (string dir in information.SupportFileDirectories)
+                {
+                    logFiles.AddRange(information.FileSystem.Directory.GetFiles(dir, "*logfile*.txt", SearchOption.AllDirectories));
+                }
             }
 
-            foreach (string file in files)
+            foreach (string logFile in logFiles)
             {
-                string[] lines = information.FileSystem.File.ReadAllLines(file);
+                string[] lines = information.FileSystem.File.ReadAllLines(logFile);
 
                 if (lines[2].Equals(FrontierLabsLogString))
                 {
@@ -138,9 +145,17 @@ namespace MetadataUtility.Audio.Vendors
                     {
                         if (line.Contains(information.FileSystem.Path.GetFileName(information.Path)))
                         {
-                            information.KnownSupportFiles.Add("Log file", file);
+                            information.KnownSupportFiles.Add("Log file", logFile);
                             return true;
                         }
+                    }
+
+                    List<string> files = information.FileSystem.Directory.GetFiles(information.FileSystem.Path.GetDirectoryName(logFile), "*", SearchOption.AllDirectories).ToList();
+
+                    if (files.Count(s => Regex.IsMatch(s, ".*logfile.*txt")) == 1 && files.Count(s => s.EndsWith(information.FileSystem.Path.GetFileName(information.Path))) == 1)
+                    {
+                        information.KnownSupportFiles.Add("Log file", logFile);
+                        return true;
                     }
                 }
             }

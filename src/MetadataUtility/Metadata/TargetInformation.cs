@@ -47,6 +47,8 @@ namespace MetadataUtility.Metadata
         /// </summary>
         public string Path { get; init; }
 
+        public string[] SupportFileDirectories { get; init; }
+
         /// <summary>
         /// Gets the path to the directory the target was found in.
         /// </summary>
