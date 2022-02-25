@@ -19,7 +19,7 @@ public static class Predicates
         target => Flac.HasMetadataBlock(target.FileStream).IfFail(false);
 
     public static readonly Func<TargetInformation, bool> HasBarltSupportFile =
-        target => Audio.Vendors.FrontierLabs.HasFrontierLabLogFile(target).IfFail(false);
+        target => SupportFiles.FLLogFile.FileExists(target).IfFail(false);
 
     // An example of an async predicate
     // public static readonly Func<TargetInformation, ValueTask<bool>> IsFlacFile2 =

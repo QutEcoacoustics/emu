@@ -119,50 +119,6 @@ namespace MetadataUtility.Audio.Vendors
             }
         }
 
-        public static Fin<bool> HasFrontierLabLogFile(TargetInformation information)
-        {
-            List<string> logFiles = new List<string>();
-
-            if (information.SupportFileDirectories == null)
-            {
-                logFiles = information.FileSystem.Directory.GetFiles(information.FileSystem.Path.GetDirectoryName(information.Path), "*logfile*.txt", SearchOption.AllDirectories).ToList();
-            }
-            else
-            {
-                foreach (string dir in information.SupportFileDirectories)
-                {
-                    logFiles.AddRange(information.FileSystem.Directory.GetFiles(dir, "*logfile*.txt", SearchOption.AllDirectories));
-                }
-            }
-
-            foreach (string logFile in logFiles)
-            {
-                string[] lines = information.FileSystem.File.ReadAllLines(logFile);
-
-                if (lines[2].Equals(FrontierLabsLogString))
-                {
-                    foreach (string line in lines)
-                    {
-                        if (line.Contains(information.FileSystem.Path.GetFileName(information.Path)))
-                        {
-                            information.KnownSupportFiles.Add("Log file", logFile);
-                            return true;
-                        }
-                    }
-
-                    List<string> files = information.FileSystem.Directory.GetFiles(information.FileSystem.Path.GetDirectoryName(logFile), "*", SearchOption.AllDirectories).ToList();
-
-                    if (files.Count(s => Regex.IsMatch(s, ".*logfile.*txt")) == 1 && files.Count(s => s.EndsWith(information.FileSystem.Path.GetFileName(information.Path))) == 1)
-                    {
-                        information.KnownSupportFiles.Add("Log file", logFile);
-                        return true;
-                    }
-                }
-            }
-
-            return false;
-        }
-
         private static Fin<FirmwareRecord> FindInBufferFirmware(ReadOnlySpan<byte> buffer)
         {
             // beginning of file

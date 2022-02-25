@@ -16,7 +16,7 @@ namespace MetadataUtility.Commands
 
         public static Option<string[]> SupportDirs { get; } = new(
             "--support-dirs",
-            "One more directories to search for . E.g. '**/*.mp3'")
+            "One more directories to search for support files. E.g. 'audio/supportfiles'")
         { Arity = ArgumentArity.OneOrMore };
 
         public static Option<bool> DryRun { get; } = new(

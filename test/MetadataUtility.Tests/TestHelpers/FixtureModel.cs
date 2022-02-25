@@ -49,7 +49,37 @@ namespace MetadataUtility.Tests.TestHelpers
 
         public ulong TotalSamples { get; set; }
 
+        public string SupportFileDirectory { get; set; }
+
+        public string FLLogFile { get; set; }
+
         public string[] Process { get; set; }
+
+        public string SDFormatType { get; set; }
+
+        public uint SDManufacturerID { get; set; }
+
+        public string SDOEMID { get; set; }
+
+        public string SDProductName { get; set; }
+
+        public float SDProductRevision { get; set; }
+
+        public uint SDSerialNumber { get; set; }
+
+        public string SDManufactureDate { get; set; }
+
+        public uint SDSpeed { get; set; }
+
+        public uint SDCapacity { get; set; }
+
+        public uint SDWrCurrentVmin { get; set; }
+
+        public uint SDWrCurrentVmax { get; set; }
+
+        public uint SDWriteB1Size { get; set; }
+
+        public uint SDEraseB1Size { get; set; }
 
         // TODO: add other columns from the CSV here!
 
@@ -83,6 +113,7 @@ namespace MetadataUtility.Tests.TestHelpers
             {
                 Path = this.AbsoluteFixturePath,
                 Base = FixtureHelper.ResolveFirstDirectory(this.FixturePath),
+                SupportFileDirectories = new string[] { FixtureHelper.ResolveDirectory(this.SupportFileDirectory) },
             };
         }
 
