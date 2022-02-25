@@ -13,7 +13,7 @@ This document outlines all of the files from which we hope to extract metadata.
 | Bit Depth                | ✔️        | File header  |                     |
 | Bits per Sample          | ✔️        | File header  |                     |
 
-## WAV Files
+## WAVE Files
 
 | Name                     | Supported | Location(s)  | Notes               |
 | ------------------------ | --------- | ------------ | ------------------- |
