@@ -6,16 +6,13 @@ namespace MetadataUtility.Audio.Vendors
 {
     using System.Buffers.Binary;
     using System.Text;
-    using System.Text.RegularExpressions;
     using LanguageExt;
     using LanguageExt.Common;
     using MetadataUtility.Extensions.System;
-    using MetadataUtility.Metadata;
 
     public static class FrontierLabs
     {
         public const string FirmwareCommentKey = "SensorFirmwareVersion";
-        public const string FrontierLabsLogString = " FRONTIER LABS Bioacoustic Audio Recorder ";
         public const int DefaultFileStubLength = 44;
 
         public static readonly byte[] VendorString = Encoding.ASCII.GetBytes("Frontier Labs");
