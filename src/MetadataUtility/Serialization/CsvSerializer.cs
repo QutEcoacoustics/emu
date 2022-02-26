@@ -11,6 +11,7 @@ namespace MetadataUtility.Serialization
     using CsvHelper.Configuration;
     using MetadataUtility.Serialization.Converters;
     using NodaTime;
+    using Rationals;
 
     /// <inheritdoc cref="ISerializer"/>
     public class CsvSerializer : ISerializer, IRecordFormatter
@@ -109,6 +110,8 @@ namespace MetadataUtility.Serialization
             context.TypeConverterCache.AddConverter<Duration>(
                 NodatimeConverters.DurationConverter);
             context.TypeConverterCache.AddConverter<Range>(new CsvRangeConverter());
+            context.TypeConverterCache.AddConverter<Rational>(new RationalsConverter());
+            context.TypeConverterCache.AddConverter<string[]>(new StringListConverter());
         }
     }
 }

@@ -2,6 +2,29 @@
 
 This document outlines all of the files from which we hope to extract metadata.
 
+## FLAC Files
+
+| Name                     | Supported | Location(s)  | Notes               |
+| ------------------------ | --------- | ------------ | ------------------- |
+| Sample Rate              | ✔️        | File header  |                     |
+| Duration                 | ✔️        | File header  |                     |
+| Total Samples            | ✔️        | File header  |                     |
+| Channel Count            | ✔️        | File header  |                     |
+| Bit Depth                | ✔️        | File header  |                     |
+| Bits per Sample          | ✔️        | File header  |                     |
+
+## WAVE Files
+
+| Name                     | Supported | Location(s)  | Notes               |
+| ------------------------ | --------- | ------------ | ------------------- |
+| Sample Rate              | :x:       | File header  |                     |
+| Duration                 | :x:       | File header  |                     |
+| Total Samples            | :x:       | File header  |                     |
+| Channel Count            | :x:       | File header  |                     |
+| Bit Depth                | :x:       | File header  |                     |
+| Bits per Sample          | :x:       | File header  |                     |
+| File Size                | :x:       | File header  |                     |
+
 ## Frontier Labs
 
 ### BAR-LT
@@ -14,13 +37,6 @@ This document outlines all of the files from which we hope to extract metadata.
 | Microphone Serial Number | :x:       | File name    |                     |
 | Longitude                | :x:       | File name    | Also in GPS_log.csv |
 | Latitude                 | :x:       | File name    | Also in GPS_log.csv |
-| Sample Rate              | :x:       | File header  |                     |
-| File Size                | :x:       | File header  |                     |
-| Duration                 | :x:       | File name    |                     |
-| Format                   | :x:       | File header  |                     |
-| Bit Size                 | :x:       | File header  |                     |
-| Bits per Sample          | :x:       | Support File | Log file            |
-| Channel Count            | :x:       | Support File | Log file            |
 | Gain                     | :x:       | Support File | Log file            |
 | Battery Voltage          | :x:       | Support File | Log file            |
 | SD Card Serial           | :x:       | Support File | Log file            |
@@ -55,11 +71,6 @@ This document outlines all of the files from which we hope to extract metadata.
 | Date Time       | :x:       | File name    |             |
 | UTC Offset      | :x:       | Support File | Config file |
 | Serial Number   | :x:       | Support File | Config file |
-| Sample Rate     | :x:       | File header  |             |
-| File Size       | :x:       | File header  |             |
-| Duration        | :x:       | Support File | Config file |
-| Format          | :x:       | File header  |             |
-| Bit Size        | :x:       | File header  |             |
 | Gain            | :x:       | File Header  |             |
 | Battery Voltage | :x:       | File Header  |             |
 | ARU Firmware    | :x:       | Support File | Config File |
@@ -74,9 +85,6 @@ This document outlines all of the files from which we hope to extract metadata.
 | Serial Number   | :x:       | File Header  |              |
 | Longitude       | :x:       | File Header  |              |
 | Latitude        | :x:       | File Header  |              |
-| Sample Rate     | :x:       | File header  |              |
-| File Size       | :x:       | File header  |              |
-| Bit Size        | :x:       | File header  |              |
 | Battery Voltage | :x:       | Support File | Summary file |
 
 ### Song Meter SM4
@@ -87,9 +95,6 @@ This document outlines all of the files from which we hope to extract metadata.
 | Serial Number   | :x:       | File Header  |              |
 | Longitude       | :x:       | File Header  |              |
 | Latitude        | :x:       | File Header  |              |
-| Sample Rate     | :x:       | File header  |              |
-| File Size       | :x:       | File header  |              |
-| Bit Size        | :x:       | File header  |              |
 | Battery Voltage | :x:       | Support File | Summary file |
 
 
@@ -98,9 +103,6 @@ This document outlines all of the files from which we hope to extract metadata.
 | Name          | Supported | Location(s) | Notes |
 | ------------- | --------- | ----------- | ----- |
 | Serial Number | :x:       | File Header |       |
-| Sample Rate   | :x:       | File header |       |
-| File Size     | :x:       | File header |       |
-| Bit Size      | :x:       | File header |       |
 
 ### Song Meter SM3
 

@@ -9,6 +9,7 @@ namespace MetadataUtility.Tests.TestHelpers
     using CsvHelper.Configuration.Attributes;
     using MetadataUtility.Audio;
     using MetadataUtility.Metadata;
+    using Rationals;
 
     public enum ValidMetadata
     {
@@ -36,7 +37,19 @@ namespace MetadataUtility.Tests.TestHelpers
 
         public string MimeType { get; set; }
 
-        public double DurationSeconds { get; set; }
+        public Rational DurationSeconds { get; set; }
+
+        public byte Channels { get; set; }
+
+        public uint SampleRateHertz { get; set; }
+
+        public uint BitsPerSecond { get; set; }
+
+        public byte BitDepth { get; set; }
+
+        public ulong TotalSamples { get; set; }
+
+        public string[] Process { get; set; }
 
         // TODO: add other columns from the CSV here!
 

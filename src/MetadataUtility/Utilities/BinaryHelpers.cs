@@ -19,11 +19,11 @@ namespace MetadataUtility.Utilities
         /// <summary>
         /// Extracts a 36-bit integer from a 5-byte span.
         /// With a 36 bit integer there are 4 bits that are ignored, either at the end or start of the byte block.
-        /// In this case we ingore the first octet, the first 4-bits.
+        /// In this case we ingore the first nibble, the first 4-bits.
         /// </summary>
         /// <param name="bytes">The source bytes.</param>
-        /// <returns>a unsigned 64-bit integer representing the decoded 36-bit integer.</returns>
-        public static ulong Read36BitUnsignedBigEndianIgnoringFirstOctet(ReadOnlySpan<byte> bytes)
+        /// <returns>an unsigned 64-bit integer representing the decoded 36-bit integer.</returns>
+        public static ulong Read36BitUnsignedBigEndianIgnoringFirstNibble(ReadOnlySpan<byte> bytes)
         {
             if (bytes.Length < 5)
             {
@@ -42,12 +42,97 @@ namespace MetadataUtility.Utilities
         }
 
         /// <summary>
+        /// Extracts a 20-bit integer from a 3-byte span.
+        /// With a 20 bit integer there are 4 bits that are ignored, either at the end or start of the byte block.
+        /// In this case we ingore the last nibble, the last 4-bits.
+        /// </summary>
+        /// <param name="bytes">The source bytes.</param>
+        /// <returns>an unsigned 32-bit integer representing the decoded 20-bit integer.</returns>
+        public static uint Read20BitUnsignedBigEndianIgnoringLastNibble(ReadOnlySpan<byte> bytes)
+        {
+            if (bytes.Length < 3)
+            {
+                throw new ArgumentException("bytes span must at least be 3 long", nameof(bytes));
+            }
+
+            uint dest = (uint)bytes[0] << 16;
+            dest |= (uint)bytes[1] << 8;
+            dest |= (uint)bytes[2] << 0;
+
+            return dest >> 4;
+        }
+
+        /// <summary>
+        /// Extracts a 3-bit integer from a byte.
+        /// With a 3 bit integer, 5 bits are ignored.
+        /// In this case we ingore the first 4 bits and the last bit.
+        /// </summary>
+        /// <param name="bytes">The source byte.</param>
+        /// <returns>an unsigned 8-bit integer representing the decoded 3-bit integer.</returns>
+        public static byte Read3BitUnsignedBigEndianIgnoringFirstFourAndLastBit(ReadOnlySpan<byte> bytes)
+        {
+            if (bytes.Length < 1)
+            {
+                throw new ArgumentException("bytes span must at least be 1 long", nameof(bytes));
+            }
+
+            const byte mask = 0b0000_1111;
+
+            byte dest = (byte)(bytes[0] & mask);
+
+            return (byte)(dest >> 1);
+        }
+
+        /// <summary>
+        /// Extracts a 5-bit integer from a 2-byte span.
+        /// With a 5 bit integer, 11 bits are ignored.
+        /// In this case we ingore the first 7 bits and the last 4 bits.
+        /// </summary>
+        /// <param name="bytes">The source bytes.</param>
+        /// <returns>an unsigned 8-bit integer representing the decoded 5-bit integer.</returns>
+        public static byte Read5BitUnsignedBigEndianIgnoringFirstSevenAndLastFourBits(ReadOnlySpan<byte> bytes)
+        {
+            if (bytes.Length < 2)
+            {
+                throw new ArgumentException("bytes span must at least be 2 long", nameof(bytes));
+            }
+
+            const byte mask = 0b0000_0001;
+
+            uint dest = (uint)((bytes[0] & mask) << 8);
+            dest |= bytes[1];
+
+            return (byte)(dest >> 4);
+        }
+
+        /// <summary>
+        /// Extracts a 7-bit integer from a byte.
+        /// With a 7 bit integer, 1 bit is ignored.
+        /// In this case we ingore the last bit.
+        /// </summary>
+        /// <param name="bytes">The source byte.</param>
+        /// <returns>an unsigned 8-bit integer representing the decoded 7-bit integer.</returns>
+        public static byte Read7BitUnsignedBigEndianIgnoringFirstBit(ReadOnlySpan<byte> bytes)
+        {
+            if (bytes.Length < 1)
+            {
+                throw new ArgumentException("bytes span must at least be 1 long", nameof(bytes));
+            }
+
+            const byte mask = 0b0111_1111;
+
+            byte dest = (byte)(bytes[0] & mask);
+
+            return (byte)dest;
+        }
+
+        /// <summary>
         /// Writes a 36-bit integer to a 5 byte buffer.
-        /// It ignore the first octet (4-bits) of the buffer and starts writing from the second octet onwards.
+        /// It ignore the first nibble (4-bits) of the buffer and starts writing from the second nibble onwards.
         /// </summary>
         /// <param name="bytes">The buffer to write to.</param>
         /// <param name="value">The value to write.</param>
-        public static void Write36BitUnsignedBigEndianIgnoringFirstOctet(Span<byte> bytes, ulong value)
+        public static void Write36BitUnsignedBigEndianIgnoringFirstNibble(Span<byte> bytes, ulong value)
         {
             if (bytes.Length < 5)
             {
@@ -63,7 +148,7 @@ namespace MetadataUtility.Utilities
             const byte intMask = 0b0000_1111;
             const byte currentMask = 0b1111_0000;
 
-            // we need to merge the first octet of the current byte span with this value
+            // we need to merge the first nibble of the current byte span with this value
             bytes[0] = (byte)((bytes[0] & currentMask) | (byte)((value >> 32) & intMask));
             bytes[1] = (byte)((value >> 24) & 0xFF);
             bytes[2] = (byte)((value >> 16) & 0xFF);

@@ -55,11 +55,11 @@ namespace MetadataUtility.Metadata
         /// <summary>
         /// Gets the file stream for the current target.
         /// </summary>
-        public FileStream FileStream
+        public Stream FileStream
         {
             get
             {
-                return this.stream ?? (FileStream)this.FileSystem.File.Open(this.Path, FileMode.Open, FileAccess.Read, FileShare.Read);
+                return this.stream ?? this.FileSystem.File.Open(this.Path, FileMode.Open, FileAccess.Read, FileShare.Read);
             }
         }
 
