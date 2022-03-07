@@ -1,4 +1,4 @@
-// <copyright file="FLLogFileTests.cs" company="QutEcoacoustics">
+// <copyright file="LogFileTests.cs" company="QutEcoacoustics">
 // All code in this file and all associated files are the copyright and property of the QUT Ecoacoustics Research Group.
 // </copyright>
 
@@ -7,14 +7,14 @@ namespace MetadataUtility.Tests.Metadata.SupportFiles
     using System.Linq;
     using FluentAssertions;
     using LanguageExt;
-    using MetadataUtility.Metadata.SupportFiles;
+    using MetadataUtility.Metadata.SupportFiles.FrontierLabs;
     using MetadataUtility.Tests.TestHelpers;
     using Xunit;
     using Xunit.Abstractions;
 
-    public class FLLogFileTests : TestBase
+    public class LogFileTests : TestBase
     {
-        public FLLogFileTests(ITestOutputHelper output)
+        public LogFileTests(ITestOutputHelper output)
             : base(output)
         {
         }
@@ -25,7 +25,7 @@ namespace MetadataUtility.Tests.Metadata.SupportFiles
         {
             if (model.Process.Contains("LogFileExtractor"))
             {
-                Fin<bool> hasLogFile = FLLogFile.FileExists(model.ToTargetInformation(this.RealFileSystem));
+                Fin<bool> hasLogFile = LogFile.FileExists(model.ToTargetInformation(this.RealFileSystem));
                 Assert.True(hasLogFile.IsSucc);
                 ((bool)hasLogFile).Should().Be(true);
             }

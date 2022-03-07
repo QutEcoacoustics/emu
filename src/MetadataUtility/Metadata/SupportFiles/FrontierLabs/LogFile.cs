@@ -1,12 +1,12 @@
-// <copyright file="FLLogFile.cs" company="QutEcoacoustics">
+// <copyright file="LogFile.cs" company="QutEcoacoustics">
 // All code in this file and all associated files are the copyright and property of the QUT Ecoacoustics Research Group.
 // </copyright>
 
-namespace MetadataUtility.Metadata.SupportFiles
+namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
 {
     using LanguageExt;
 
-    public static class FLLogFile
+    public static class LogFile
     {
         public const string FrontierLabsLogString = "FRONTIER LABS Bioacoustic Audio Recorder";
 
@@ -37,7 +37,7 @@ namespace MetadataUtility.Metadata.SupportFiles
                 // Otherwise we can't assume they are!
                 if ((searchDirectory!.Equals(fileDirectory) ||
                     information.FileSystem.Directory.GetFiles(logDirectory, "*", SearchOption.AllDirectories).ToList().Contains(information.Path)) &&
-                    IsFrontierLabsLogFile(logFiles[0]))
+                    IsLogFile(logFiles[0]))
                 {
                     information.KnownSupportFiles.Add("Log file", logFiles[0]);
                     return true;
@@ -46,7 +46,7 @@ namespace MetadataUtility.Metadata.SupportFiles
 
             foreach (string logFile in logFiles)
             {
-                if (IsFrontierLabsLogFile(logFile))
+                if (IsLogFile(logFile))
                 {
                     string[] lines = information.FileSystem.File.ReadAllLines(logFile);
 
@@ -65,7 +65,7 @@ namespace MetadataUtility.Metadata.SupportFiles
             return false;
         }
 
-        public static bool IsFrontierLabsLogFile(string logFile)
+        public static bool IsLogFile(string logFile)
         {
             using (StreamReader reader = new StreamReader(logFile))
             {
