@@ -51,19 +51,19 @@ namespace MetadataUtility.Tests.Metadata
                     ti,
                     this.Recording);
 
-                recording.SDFormatType.Should().Be(model.SDFormatType);
-                recording.SDManufacturerID.Should().Be(model.SDManufacturerID);
-                recording.SDOEMID.Should().Be(model.SDOEMID);
-                recording.SDProductName.Should().Be(model.SDProductName);
-                recording.SDProductRevision.Should().Be(model.SDProductRevision);
-                recording.SDSerialNumber.Should().Be(model.SDSerialNumber);
-                recording.SDManufactureDate.Should().Be(model.SDManufactureDate);
-                recording.SDSpeed.Should().Be(model.SDSpeed);
-                recording.SDCapacity.Should().Be(model.SDCapacity);
-                recording.SDWrCurrentVmin.Should().Be(model.SDWrCurrentVmin);
-                recording.SDWrCurrentVmax.Should().Be(model.SDWrCurrentVmax);
-                recording.SDWriteB1Size.Should().Be(model.SDWriteB1Size);
-                recording.SDEraseB1Size.Should().Be(model.SDEraseB1Size);
+                recording.MemoryCard.SDFormatType.Should().Be(model.SDFormatType);
+                recording.MemoryCard.SDManufacturerID.Should().Be(model.SDManufacturerID);
+                recording.MemoryCard.SDOEMID.Should().Be(model.SDOEMID);
+                recording.MemoryCard.SDProductName.Should().Be(model.SDProductName);
+                recording.MemoryCard.SDProductRevision.Should().Be(model.SDProductRevision);
+                recording.MemoryCard.SDSerialNumber.Should().Be(model.SDSerialNumber);
+                recording.MemoryCard.SDManufactureDate.Should().Be(model.SDManufactureDate);
+                recording.MemoryCard.SDSpeed.Should().Be(model.SDSpeed);
+                recording.MemoryCard.SDCapacity.Should().Be(model.SDCapacity);
+                recording.MemoryCard.SDWrCurrentVmin.Should().Be(model.SDWrCurrentVmin);
+                recording.MemoryCard.SDWrCurrentVmax.Should().Be(model.SDWrCurrentVmax);
+                recording.MemoryCard.SDWriteB1Size.Should().Be(model.SDWriteB1Size);
+                recording.MemoryCard.SDEraseB1Size.Should().Be(model.SDEraseB1Size);
             }
         }
     }

@@ -116,32 +116,11 @@ namespace MetadataUtility.Models
         /// </summary>
         public ulong FileLengthBytes { get; init; }
 
-        public string SDFormatType { get; init; }
-
-        public uint SDManufacturerID { get; init; }
-
-        public string SDOEMID { get; init; }
-
-        public string SDProductName { get; init; }
-
-        public float SDProductRevision { get; init; }
-
-        public uint SDSerialNumber { get; init; }
-
-        //DATE??
-        public string SDManufactureDate { get; init; }
-
-        public uint SDSpeed { get; init; }
-
-        public uint SDCapacity { get; init; }
-
-        public uint SDWrCurrentVmin { get; init; }
-
-        public uint SDWrCurrentVmax { get; init; }
-
-        public uint SDWriteB1Size { get; init; }
-
-        public uint SDEraseB1Size { get; init; }
+        /// <summary>
+        /// Gets a <see cref="MemoryCard"/> object
+        /// that describes the memory card this recording was stored on.
+        /// </summary>
+        public MemoryCard MemoryCard { get; init; }
 
         /// <summary>
         /// Gets a <see cref="Sensor"/> object
