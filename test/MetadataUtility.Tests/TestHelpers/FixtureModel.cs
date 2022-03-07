@@ -49,8 +49,6 @@ namespace MetadataUtility.Tests.TestHelpers
 
         public ulong TotalSamples { get; set; }
 
-        public string SupportFileDirectory { get; set; }
-
         public string FLLogFile { get; set; }
 
         public string[] Process { get; set; }
@@ -113,7 +111,6 @@ namespace MetadataUtility.Tests.TestHelpers
             {
                 Path = this.AbsoluteFixturePath,
                 Base = FixtureHelper.ResolveFirstDirectory(this.FixturePath),
-                SupportFileDirectories = new string[] { FixtureHelper.ResolveDirectory(this.SupportFileDirectory) },
             };
         }
 

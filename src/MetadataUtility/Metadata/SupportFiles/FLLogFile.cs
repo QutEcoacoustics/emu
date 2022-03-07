@@ -4,37 +4,53 @@
 
 namespace MetadataUtility.Metadata.SupportFiles
 {
-    using System.Text.RegularExpressions;
     using LanguageExt;
 
     public static class FLLogFile
     {
-        public const string FrontierLabsLogString = " FRONTIER LABS Bioacoustic Audio Recorder ";
+        public const string FrontierLabsLogString = "FRONTIER LABS Bioacoustic Audio Recorder";
 
         public static Fin<bool> FileExists(TargetInformation information)
         {
             List<string> logFiles = new List<string>();
+            string fileDirectory = information.FileSystem.Path.GetDirectoryName(information.Path);
+            string searchDirectory = information.FileSystem.Path.GetDirectoryName(information.Path);
 
-            // If support file directories were given, search there for log files, if not search the directory of the audio file
-            if (information.SupportFileDirectories == null)
+            int i = 0;
+
+            while (i++ < 3 && (logFiles = information.FileSystem.Directory.GetFiles(searchDirectory, "*logfile*.txt", SearchOption.AllDirectories).ToList()).Length() == 0)
             {
-                logFiles = information.FileSystem.Directory.GetFiles(information.FileSystem.Path.GetDirectoryName(information.Path), "*logfile*.txt", SearchOption.AllDirectories).ToList();
-            }
-            else
-            {
-                foreach (string dir in information.SupportFileDirectories)
+                searchDirectory = information.FileSystem.Directory.GetParent(searchDirectory)?.FullName;
+
+                //return false if root directory is reached before any log files are found
+                if (searchDirectory == null)
                 {
-                    logFiles.AddRange(information.FileSystem.Directory.GetFiles(dir, "*logfile*.txt", SearchOption.AllDirectories));
+                    return false;
+                }
+            }
+
+            if (logFiles.Length() == 1)
+            {
+                string logDirectory = information.FileSystem.Path.GetDirectoryName(logFiles[0]);
+
+                // If the log file is in a subdirectory of the audio file or vice versa, they are linked
+                // Otherwise we can't assume they are!
+                if ((searchDirectory!.Equals(fileDirectory) ||
+                    information.FileSystem.Directory.GetFiles(logDirectory, "*", SearchOption.AllDirectories).ToList().Contains(information.Path)) &&
+                    IsFrontierLabsLogFile(logFiles[0]))
+                {
+                    information.KnownSupportFiles.Add("Log file", logFiles[0]);
+                    return true;
                 }
             }
 
             foreach (string logFile in logFiles)
             {
-                string[] lines = information.FileSystem.File.ReadAllLines(logFile);
-
-                if (lines[2].Equals(FrontierLabsLogString))
+                if (IsFrontierLabsLogFile(logFile))
                 {
-                    // Newer firmware versions contain the file name in the log file, search for that first
+                    string[] lines = information.FileSystem.File.ReadAllLines(logFile);
+
+                    // Newer firmware versions contain the file name in the log file
                     foreach (string line in lines)
                     {
                         if (line.Contains(information.FileSystem.Path.GetFileName(information.Path)))
@@ -43,13 +59,20 @@ namespace MetadataUtility.Metadata.SupportFiles
                             return true;
                         }
                     }
+                }
+            }
 
-                    // Check if the log file is the only log file in its directory (and all subdirectories), and if the audio file is in its directory (or a subdirectory)
-                    List<string> files = information.FileSystem.Directory.GetFiles(information.FileSystem.Path.GetDirectoryName(logFile), "*", SearchOption.AllDirectories).ToList();
+            return false;
+        }
 
-                    if (files.Count(s => Regex.IsMatch(s, ".*logfile.*txt")) == 1 && files.Count(s => s.EndsWith(information.FileSystem.Path.GetFileName(information.Path))) == 1)
+        public static bool IsFrontierLabsLogFile(string logFile)
+        {
+            using (StreamReader reader = new StreamReader(logFile))
+            {
+                for (int i = 0; i < 5; i++)
+                {
+                    if ((reader.ReadLine() ?? string.Empty).Contains(FrontierLabsLogString))
                     {
-                        information.KnownSupportFiles.Add("Log file", logFile);
                         return true;
                     }
                 }

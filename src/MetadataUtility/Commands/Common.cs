@@ -14,11 +14,6 @@ namespace MetadataUtility.Commands
             "One more glob patterns for files to process. E.g. '**/*.mp3'")
         { Arity = ArgumentArity.OneOrMore };
 
-        public static Option<string[]> SupportDirs { get; } = new(
-            "--support-dirs",
-            "One more directories to search for support files. E.g. 'audio/supportfiles' Default: directory of audio file")
-        { Arity = ArgumentArity.OneOrMore };
-
         public static Option<bool> DryRun { get; } = new(
             new string[] { "-n", "--dry-run" },
             "Do a \"dry run\" by simulating any change that writes data");

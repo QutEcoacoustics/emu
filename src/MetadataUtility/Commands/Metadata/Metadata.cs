@@ -46,8 +46,6 @@ namespace MetadataUtility.Commands.Metadata
 
         public string[] Targets { get; set; }
 
-        public string[] SupportDirs { get; set; }
-
         // public bool Save {get; set;}
 
         public override async Task<int> InvokeAsync(InvocationContext invocationContext)
@@ -83,7 +81,6 @@ namespace MetadataUtility.Commands.Metadata
             {
                 Base = target.Base,
                 Path = target.File,
-                SupportFileDirectories = this.SupportDirs,
             };
         }
     }
