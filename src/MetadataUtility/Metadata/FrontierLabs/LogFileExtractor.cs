@@ -11,6 +11,7 @@ namespace MetadataUtility.Metadata.FrontierLabs
     public class LogFileExtractor : IMetadataOperation
     {
         public const int MetadataOffset = 39;
+        public const string LogFileKey = "Log file";
         private readonly ILogger<LogFileExtractor> logger;
 
         public LogFileExtractor(ILogger<LogFileExtractor> logger)
@@ -27,7 +28,7 @@ namespace MetadataUtility.Metadata.FrontierLabs
 
         public ValueTask<Recording> ProcessFileAsync(TargetInformation information, Recording recording)
         {
-            string[] lines = information.FileSystem.File.ReadAllLines(information.KnownSupportFiles["Log file"]);
+            string[] lines = information.FileSystem.File.ReadAllLines(information.KnownSupportFiles[LogFileKey]);
 
             int i = 0;
 

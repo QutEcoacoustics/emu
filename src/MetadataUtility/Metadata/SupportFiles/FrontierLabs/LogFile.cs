@@ -9,6 +9,7 @@ namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
     public static class LogFile
     {
         public const string FrontierLabsLogString = "FRONTIER LABS Bioacoustic Audio Recorder";
+        public const string LogFileKey = "Log file";
 
         public static Fin<bool> FileExists(TargetInformation information)
         {
@@ -39,7 +40,7 @@ namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
                     information.FileSystem.Directory.GetFiles(logDirectory, "*", SearchOption.AllDirectories).ToList().Contains(information.Path)) &&
                     IsLogFile(logFiles[0]))
                 {
-                    information.KnownSupportFiles.Add("Log file", logFiles[0]);
+                    information.KnownSupportFiles.Add(LogFileKey, logFiles[0]);
                     return true;
                 }
             }
@@ -55,7 +56,7 @@ namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
                     {
                         if (line.Contains(information.FileSystem.Path.GetFileName(information.Path)))
                         {
-                            information.KnownSupportFiles.Add("Log file", logFile);
+                            information.KnownSupportFiles.Add(LogFileKey, logFile);
                             return true;
                         }
                     }
