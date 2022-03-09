@@ -38,6 +38,18 @@ namespace MetadataUtility.Tests.TestHelpers
 
         public double DurationSeconds { get; set; }
 
+        public uint SampleRateHertz { get; set; }
+
+        public byte Channels { get; set; }
+
+        public uint BitsPerSecond { get; set; }
+
+        public ulong FileLengthBytes { get; set; }
+
+        public string[] Process { get; set; }
+
+        public ulong TotalSamples { get; set; }
+
         // TODO: add other columns from the CSV here!
 
         public bool IsFlac => this.MimeType == Flac.Mime;

@@ -1,4 +1,4 @@
-// <copyright file="FlacHeaderExtractorTests.cs" company="QutEcoacoustics">
+// <copyright file="WaveHeaderExtractorTests.cs" company="QutEcoacoustics">
 // All code in this file and all associated files are the copyright and property of the QUT Ecoacoustics Research Group.
 // </copyright>
 
@@ -38,7 +38,7 @@ namespace MetadataUtility.Tests.Metadata
         {
             var result = await this.subject.CanProcessAsync(model.ToTargetInformation(this.RealFileSystem));
 
-            // we can process any file that is Frontier Labs and FLAC
+            // we can process any file that is Wildlife Acoustics and WAVE
             var expected = model.IsVendor(Vendor.WildlifeAcoustics) && model.IsWave;
             Assert.Equal(expected, result);
         }
@@ -53,6 +53,14 @@ namespace MetadataUtility.Tests.Metadata
                 this.Recording);
 
             recording.DurationSeconds?.TotalSeconds.Should().Be(model.DurationSeconds);
+
+            recording.SampleRateHertz.Should().Be(model.SampleRateHertz);
+
+            recording.Channels.Should().Be(model.Channels);
+
+            recording.BitsPerSecond.Should().Be(model.BitsPerSecond);
+
+            recording.FileLengthBytes.Should().Be(model.FileLengthBytes);
 
             // TODO: Add other assertions here!
         }
