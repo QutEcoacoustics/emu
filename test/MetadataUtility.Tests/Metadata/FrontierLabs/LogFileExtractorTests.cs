@@ -9,6 +9,7 @@ namespace MetadataUtility.Tests.Metadata
     using FluentAssertions;
     using MetadataUtility.Metadata;
     using MetadataUtility.Metadata.FrontierLabs;
+    using MetadataUtility.Metadata.SupportFiles.FrontierLabs;
     using MetadataUtility.Models;
     using MetadataUtility.Tests.TestHelpers;
     using Xunit;
@@ -34,7 +35,7 @@ namespace MetadataUtility.Tests.Metadata
             var result = await this.subject.CanProcessAsync(model.ToTargetInformation(this.RealFileSystem));
 
             // we can process any file that has Frontier Lab log files
-            var expected = model.Process.Contains("LogFileExtractor");
+            var expected = model.Process.Contains("FrontierLabsLogFileExtractor");
             Assert.Equal(expected, result);
         }
 
@@ -42,10 +43,13 @@ namespace MetadataUtility.Tests.Metadata
         [ClassData(typeof(FixtureHelper.FixtureData))]
         public async void ProcessFilesWorks(FixtureModel model)
         {
-            if (model.Process.Contains("LogFileExtractor"))
+            if (model.Process.Contains("FrontierLabsLogFileExtractor"))
             {
                 TargetInformation ti = model.ToTargetInformation(this.RealFileSystem);
-                ti.KnownSupportFiles.Add("Log file", FixtureHelper.ResolvePath(model.FLLogFile));
+                LogFile logFile = new LogFile(FixtureHelper.ResolvePath(model.FrontierLabsLogFile));
+                logFile.ExtractInformation();
+
+                ti.TargetSupportFiles.Add("Log file", logFile);
 
                 var recording = await this.subject.ProcessFileAsync(
                     ti,

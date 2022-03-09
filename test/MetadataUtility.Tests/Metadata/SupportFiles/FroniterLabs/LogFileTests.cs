@@ -21,13 +21,24 @@ namespace MetadataUtility.Tests.Metadata.SupportFiles
 
         [Theory]
         [ClassData(typeof(FixtureHelper.FixtureData))]
-        public void ReadTotalSamplesTest(FixtureModel model)
+        public void HasLogFileTest(FixtureModel model)
         {
-            if (model.Process.Contains("LogFileExtractor"))
+            if (model.Process.Contains("FrontierLabsLogFileExtractor"))
             {
-                Fin<bool> hasLogFile = LogFile.FileExists(model.ToTargetInformation(this.RealFileSystem));
+                Fin<bool> hasLogFile = LogFile.HasLogFile(model.ToTargetInformation(this.RealFileSystem));
                 Assert.True(hasLogFile.IsSucc);
                 ((bool)hasLogFile).Should().Be(true);
+            }
+        }
+
+        [Theory]
+        [ClassData(typeof(FixtureHelper.FixtureData))]
+        public void IsLogFileTest(FixtureModel model)
+        {
+            if (model.Process.Contains("FrontierLabsLogFileExtractor"))
+            {
+                bool hasLogFile = LogFile.IsLogFile(FixtureHelper.ResolvePath(model.FrontierLabsLogFile));
+                hasLogFile.Should().Be(true);
             }
         }
     }

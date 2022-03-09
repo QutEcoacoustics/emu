@@ -5,6 +5,7 @@
 namespace MetadataUtility.Metadata.FrontierLabs
 {
     using System.Threading.Tasks;
+    using MetadataUtility.Metadata.SupportFiles.FrontierLabs;
     using MetadataUtility.Models;
     using Microsoft.Extensions.Logging;
 
@@ -20,25 +21,19 @@ namespace MetadataUtility.Metadata.FrontierLabs
             this.logger = logger;
         }
 
-        public static (int, int)? CorrelateSD(string filename, List<(int Serial, int Line)> sdCards, string[] lines)
+        public static MemoryCard CorrelateSD(List<(MemoryCard MemoryCard, int Line)> memoryCardLogs, (string Recording, int Line) recordingLog)
         {
-            (int, int) sdCard = (0, 0);
+            MemoryCard memoryCard = memoryCardLogs[0].MemoryCard;
 
-            for (int i = 0; i < lines.Length(); i++)
+            foreach ((MemoryCard memoryCard_, int line) in memoryCardLogs)
             {
-                if (lines[i].Contains(filename))
+                if (line < recordingLog.Line)
                 {
-                    foreach ((int Serial, int Line) sd in sdCards)
-                    {
-                        if (sd.Line < i)
-                        {
-                            sdCard = sd;
-                        }
-                        else
-                        {
-                            return sdCard;
-                        }
-                    }
+                    memoryCard = memoryCard_;
+                }
+                else
+                {
+                    return memoryCard;
                 }
             }
 
@@ -47,65 +42,55 @@ namespace MetadataUtility.Metadata.FrontierLabs
 
         public ValueTask<bool> CanProcessAsync(TargetInformation information)
         {
-            var result = information.HasBarltSupportFile();
+            var result = information.HasBarltLogFile();
 
             return ValueTask.FromResult(result);
         }
 
         public ValueTask<Recording> ProcessFileAsync(TargetInformation information, Recording recording)
         {
-            string[] lines = information.FileSystem.File.ReadAllLines(information.KnownSupportFiles[LogFileKey]);
+            LogFile logFile = (LogFile)information.TargetSupportFiles[LogFileKey];
+            MemoryCard memoryCard = null;
 
-            int i = 0;
+            List<uint> serialNumbers = logFile.MemoryCardsLogs.Select(x => x.MemoryCard.SDSerialNumber).ToList();
 
-            // List to store sd card serial numbers and line numbers
-            List<(int, int)> sdCards = new List<(int, int)>();
-
-            while (i < lines.Length)
+            if (serialNumbers.Distinct().Count() == 1)
             {
-                if (lines[i].Contains("SD Card :"))
-                {
-                    sdCards.Add((int.Parse(lines[i + SerialNumberLineOffset].Substring(MetadataOffset)), i));
-                }
-
-                i++;
+                memoryCard = logFile.MemoryCardsLogs[0].MemoryCard;
             }
-
-            //Doesn't exist??
-            (int, int)? sdCard = sdCards[0];
-
-            foreach ((int, int) sd in sdCards)
+            else
             {
-                if (sd.Item1 != sdCard?.Item1)
+                string fileName = information.FileSystem.Path.GetFileName(information.Path);
+                List<string> recordings = (List<string>)logFile.RecordingLogs.Select(x => x.Recording);
+
+                if (recordings.Contains(fileName))
                 {
-                    sdCard = CorrelateSD(information.FileSystem.Path.GetFileName(information.Path), sdCards, lines);
+                    memoryCard = CorrelateSD(logFile.MemoryCardsLogs, logFile.RecordingLogs[recordings.IndexOf(fileName)]);
                 }
             }
 
-            if (sdCard != null)
+            if (memoryCard != null)
             {
-                i = (int)sdCard.Value.Item2;
-            }
-
-            recording = recording with
-            {
-                MemoryCard = new MemoryCard() with
+                recording = recording with
                 {
-                    SDFormatType = lines[++i].Substring(MetadataOffset),
-                    SDManufacturerID = uint.Parse(lines[++i].Substring(MetadataOffset)),
-                    SDOEMID = lines[++i].Substring(MetadataOffset),
-                    SDProductName = lines[++i].Substring(MetadataOffset),
-                    SDProductRevision = float.Parse(lines[++i].Substring(MetadataOffset)),
-                    SDSerialNumber = uint.Parse(lines[++i].Substring(MetadataOffset)),
-                    SDManufactureDate = lines[++i].Substring(MetadataOffset),
-                    SDSpeed = uint.Parse(lines[++i].Substring(MetadataOffset)),
-                    SDCapacity = uint.Parse(lines[++i].Substring(MetadataOffset)),
-                    SDWrCurrentVmin = uint.Parse(lines[++i].Substring(MetadataOffset)),
-                    SDWrCurrentVmax = uint.Parse(lines[++i].Substring(MetadataOffset)),
-                    SDWriteB1Size = uint.Parse(lines[++i].Substring(MetadataOffset)),
-                    SDEraseB1Size = uint.Parse(lines[++i].Substring(MetadataOffset)),
-                },
-            };
+                    MemoryCard = new MemoryCard() with
+                    {
+                        SDFormatType = memoryCard.SDFormatType,
+                        SDManufacturerID = memoryCard.SDManufacturerID,
+                        SDOEMID = memoryCard.SDOEMID,
+                        SDProductName = memoryCard.SDProductName,
+                        SDProductRevision = memoryCard.SDProductRevision,
+                        SDSerialNumber = memoryCard.SDSerialNumber,
+                        SDManufactureDate = memoryCard.SDManufactureDate,
+                        SDSpeed = memoryCard.SDSpeed,
+                        SDCapacity = memoryCard.SDCapacity,
+                        SDWrCurrentVmin = memoryCard.SDWrCurrentVmin,
+                        SDWrCurrentVmax = memoryCard.SDWrCurrentVmax,
+                        SDWriteB1Size = memoryCard.SDWriteB1Size,
+                        SDEraseB1Size = memoryCard.SDEraseB1Size,
+                    },
+                };
+            }
 
             return ValueTask.FromResult(recording);
         }

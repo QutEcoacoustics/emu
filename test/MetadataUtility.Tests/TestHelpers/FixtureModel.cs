@@ -49,7 +49,7 @@ namespace MetadataUtility.Tests.TestHelpers
 
         public ulong TotalSamples { get; set; }
 
-        public string FLLogFile { get; set; }
+        public string FrontierLabsLogFile { get; set; }
 
         public string[] Process { get; set; }
 

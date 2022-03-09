@@ -5,58 +5,88 @@
 namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
 {
     using LanguageExt;
+    using MetadataUtility.Models;
 
-    public static class LogFile
+    public class LogFile : SupportFile
     {
         public const string FrontierLabsLogString = "FRONTIER LABS Bioacoustic Audio Recorder";
         public const string LogFileKey = "Log file";
+        public const string FirmwareString = "Firmware:";
+        public const int FirmwareTokenOffset = 2;
+        public const int SerialNumberLineOffset = 6;
+        public const int MetadataOffset = 39;
+        public const int RecordingOffset = 45;
+        public const string SDCardString = "SD Card :";
+        public const string RecordingString = "New recording started:";
+        public const string Pattern = "*logfile*.txt";
 
-        public static Fin<bool> FileExists(TargetInformation information)
+        public LogFile(string file)
         {
-            List<string> logFiles = new List<string>();
-            string fileDirectory = information.FileSystem.Path.GetDirectoryName(information.Path);
-            string searchDirectory = information.FileSystem.Path.GetDirectoryName(information.Path);
+            this.File = file;
+        }
 
-            int i = 0;
+        public List<(MemoryCard MemoryCard, int Line)> MemoryCardsLogs { get; } = new List<(MemoryCard MemoryCard, int Line)>();
 
-            while (i++ < 3 && (logFiles = information.FileSystem.Directory.GetFiles(searchDirectory, "*logfile*.txt", SearchOption.AllDirectories).ToList()).Length() == 0)
+        public List<(string Recording, int Line)> RecordingLogs { get; } = new List<(string Recording, int Line)>();
+
+        public float Firmware { get; set; }
+
+        public static Fin<bool> HasLogFile(TargetInformation information)
+        {
+            List<string> logFiles = FindSupportFiles(information, Pattern);
+
+            // If no log files were found, return false
+            if (logFiles.Length() == 0)
             {
-                searchDirectory = information.FileSystem.Directory.GetParent(searchDirectory)?.FullName;
-
-                //return false if root directory is reached before any log files are found
-                if (searchDirectory == null)
-                {
-                    return false;
-                }
+                return false;
             }
 
-            if (logFiles.Length() == 1)
+            // If one log file was found, return true and add it to known support files for the target
+            if (logFiles.Length() == 1 && IsLogFile(logFiles[0]))
             {
-                string logDirectory = information.FileSystem.Path.GetDirectoryName(logFiles[0]);
+                List<string> knownSupportFilePaths = TargetInformation.KnownSupportFiles.Select(x => x.File).ToList();
 
-                // If the log file is in a subdirectory of the audio file or vice versa, they are linked
-                // Otherwise we can't assume they are!
-                if ((searchDirectory!.Equals(fileDirectory) ||
-                    information.FileSystem.Directory.GetFiles(logDirectory, "*", SearchOption.AllDirectories).ToList().Contains(information.Path)) &&
-                    IsLogFile(logFiles[0]))
+                if (knownSupportFilePaths.Contains(logFiles[0]))
                 {
-                    information.KnownSupportFiles.Add(LogFileKey, logFiles[0]);
-                    return true;
+                    information.TargetSupportFiles.Add(LogFileKey, TargetInformation.KnownSupportFiles[knownSupportFilePaths.IndexOf(logFiles[0])]);
                 }
+                else
+                {
+                    LogFile logFile = new LogFile(logFiles[0]);
+                    logFile.ExtractInformation();
+
+                    TargetInformation.KnownSupportFiles.Add(logFile);
+                    information.TargetSupportFiles.Add(LogFileKey, logFile);
+                }
+
+                return true;
             }
 
-            foreach (string logFile in logFiles)
+            foreach (string log in logFiles)
             {
-                if (IsLogFile(logFile))
+                if (IsLogFile(log))
                 {
-                    string[] lines = information.FileSystem.File.ReadAllLines(logFile);
+                    LogFile logFile;
+                    List<string> knownSupportFilePaths = TargetInformation.KnownSupportFiles.Select(x => x.File).ToList();
 
-                    // Newer firmware versions contain the file name in the log file
-                    foreach (string line in lines)
+                    if (knownSupportFilePaths.Contains(log))
                     {
-                        if (line.Contains(information.FileSystem.Path.GetFileName(information.Path)))
+                        logFile = (LogFile)TargetInformation.KnownSupportFiles[knownSupportFilePaths.IndexOf(log)];
+                    }
+                    else
+                    {
+                        logFile = new LogFile(log);
+                        logFile.ExtractInformation();
+                        TargetInformation.KnownSupportFiles.Add(logFile);
+                    }
+
+                    // If more than one log file is found, we must check for the file name in the log file
+                    // Won't apply to later firmware versions
+                    foreach ((string recording, int line) in logFile.RecordingLogs)
+                    {
+                        if (recording.Contains(information.FileSystem.Path.GetFileName(information.Path)))
                         {
-                            information.KnownSupportFiles.Add(LogFileKey, logFile);
+                            information.TargetSupportFiles.Add(LogFileKey, logFile);
                             return true;
                         }
                     }
@@ -80,6 +110,61 @@ namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
             }
 
             return false;
+        }
+
+        public override void ExtractInformation()
+        {
+            string[] lines = System.IO.File.ReadAllLines(this.File);
+
+            int i = 0;
+
+            for (; i < 8; i++)
+            {
+                if (lines[i].Contains(FirmwareString))
+                {
+                    string firmwareString = lines[i].Split(" ")[FirmwareTokenOffset];
+
+                    if (firmwareString[0] == 'V')
+                    {
+                        this.Firmware = float.Parse(firmwareString.Substring(1));
+                    }
+                    else
+                    {
+                        this.Firmware = float.Parse(firmwareString);
+                    }
+                }
+            }
+
+            for (; i < lines.Length(); i++)
+            {
+                if (lines[i].Contains(SDCardString))
+                {
+                    MemoryCard memoryCard = new MemoryCard() with
+                    {
+                        SDFormatType = lines[++i].Substring(MetadataOffset),
+                        SDManufacturerID = uint.Parse(lines[++i].Substring(MetadataOffset)),
+                        SDOEMID = lines[++i].Substring(MetadataOffset),
+                        SDProductName = lines[++i].Substring(MetadataOffset),
+                        SDProductRevision = float.Parse(lines[++i].Substring(MetadataOffset)),
+                        SDSerialNumber = uint.Parse(lines[++i].Substring(MetadataOffset)),
+                        SDManufactureDate = lines[++i].Substring(MetadataOffset),
+                        SDSpeed = uint.Parse(lines[++i].Substring(MetadataOffset)),
+                        SDCapacity = uint.Parse(lines[++i].Substring(MetadataOffset)),
+                        SDWrCurrentVmin = uint.Parse(lines[++i].Substring(MetadataOffset)),
+                        SDWrCurrentVmax = uint.Parse(lines[++i].Substring(MetadataOffset)),
+                        SDWriteB1Size = uint.Parse(lines[++i].Substring(MetadataOffset)),
+                        SDEraseB1Size = uint.Parse(lines[++i].Substring(MetadataOffset)),
+                    };
+
+                    this.MemoryCardsLogs.Add((memoryCard, i));
+                }
+                else if (lines[i].Contains(RecordingString))
+                {
+                    string recording = lines[i].Substring(RecordingOffset);
+
+                    this.RecordingLogs.Add((recording, i));
+                }
+            }
         }
     }
 }
