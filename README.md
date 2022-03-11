@@ -12,21 +12,21 @@ A generic tool for metadata manipulation of ecoacoustics audio recordings
 
 Currently every environmental sensor captures audio recordings and recording metadata in a differant way.
 
-There are efforts underway to standardize this process, but even in a perfect world, there are still plenty of problems to  deal with:
+There are efforts underway to standardize this process, but even in a perfect world, there are still plenty of problems to deal with:
 
-- standards adoption takes time
-- there a millions of recording made using older sensors
-- there a many problems and quirks with existing sensors
+-   standards adoption takes time
+-   there a millions of recording made using older sensors
+-   there a many problems and quirks with existing sensors
 
 ## Features
 
 _EMU_ aims to be a babelfish—an adapter—between these formats. _EMU_ can:
 
-- extract metadata from audio recordings
-- recognize and parse different date stamp formats
-- rename files so that they have a consistent format
-- fix problems in recordings so you can recover and use the data (idempotently)
-- do this in various formats (human friendly, compact, json, json-lines, and csv)
+-   extract metadata from audio recordings
+-   recognize and parse different date stamp formats
+-   rename files so that they have a consistent format
+-   fix problems in recordings so you can recover and use the data (idempotently)
+-   do this in various formats (human friendly, compact, json, json-lines, and csv)
 
 ## Output
 
@@ -34,11 +34,11 @@ Emu is designed to be used as part of an automated process - that is why it is a
 
 Emu can output results from must of its commands in a format that best suits you:
 
-- default - a format meant to be easy to read. Will include extra comments, headers, and footers.
-- compact
-- JSON
-- [JSON Lines](https://jsonlines.org/) (easier to parse line by line records)
-- CSV (a great choice for R's data frames)
+-   default - a format meant to be easy to read. Will include extra comments, headers, and footers.
+-   compact
+-   JSON
+-   [JSON Lines](https://jsonlines.org/) (easier to parse line by line records)
+-   CSV (a great choice for R's data frames)
 
 ![example format output](docs/media/formats.png)
 
@@ -47,12 +47,12 @@ Emu can output results from must of its commands in a format that best suits you
 It's still early days. _EMU_ is an _alpha-level_ product and we have a lot more fixes and utilities we want to add to it.
 However, _EMU_ is being actively used in large-scale automated ecoacoustics pipelines to validate and repair faulty audio recordings.
 
-- EMU runs on Windows, Linux, and Mac*
-- A docker container is provided (see [Docker](#docker))
-- The metadata extraction and date recognition features are currently a work in progress
-- There is one Fix that works well: `FL010` - the Frontier Labs metadata duration bug can be repaired automatically
+-   EMU runs on Windows, Linux, and Mac\*
+-   A docker container is provided (see [Docker](#docker))
+-   The metadata extraction and date recognition features are currently a work in progress
+-   There is one Fix that works well: `FL010` - the Frontier Labs metadata duration bug can be repaired automatically
 
-<small>*EMU needs to be compiled from source on Macs</small>
+<small>\*EMU needs to be compiled from source on Macs</small>
 
 ## Examples
 
@@ -83,6 +83,7 @@ Looking for targets...
 File 20211004T200000+0000_Rec2_-18.1883+144.5414.flac:
         - FL010: Affected. File's duration is wrong
 ```
+
 ### Fix the FL010 metadata duration bug
 
 We recommend doing a ""dry run"" (a practice run) before doing any command that can modify a file.
@@ -124,7 +125,7 @@ Looking for targets...
 ### Rename your files: add an offset to a local datestamp
 
 Most acoustic monitors record only a local datestamp - this means the date stamp has no timezone information.
-For example a classic SM4 datestamp looks like this: `PILLIGA_20121204_234600.wav`. We can see it was 
+For example a classic SM4 datestamp looks like this: `PILLIGA_20121204_234600.wav`. We can see it was
 recorded at 11:46 PM... but is that 11:46 PM UTC time? Eastern Australian Standard Time? Eastern Australian Daylight Savings Time? Something else!?
 
 For small projects adding timezone information won't help a lot. But for any project which spans multiple timezones (
@@ -195,8 +196,6 @@ Looking for targets...
 4 files, 2 renamed, 2 unchanged, 0 failed
 ```
 
-
-
 ## Build notes
 
 If you want to run a copy of `emu`, you'll need to build it yourself (we'll have an installer soon but it is not yet ready).
@@ -219,32 +218,32 @@ If you want to run a copy of `emu`, you'll need to build it yourself (we'll have
 5. Copy the resulting folder from the `publish` directory to somewhere on your computer
 6. You can then use `emu` by referring to the full path of the `emu` binary.
     - It will be `emu.exe` on Windows
-    - `emu` (with no extension)  on Linux and MaxOS
+    - `emu` (with no extension) on Linux and MaxOS
 
 Other notes:
 
-- You can build for development with `dotnet build`
-- You can test in development with `dotnet test`
-- You can run EMU dev builds from the `src/MetadataUtility` folder with `dotnet run  -- `
-  - Arguments after the `--` are passed to EMU as if you had run EMU directly
-- You can build all releases for all platforms with the command:
+-   You can build for development with `dotnet build`
+-   You can test in development with `dotnet test`
+-   You can run EMU dev builds from the `src/MetadataUtility` folder with `dotnet run -- `
+    -   Arguments after the `--` are passed to EMU as if you had run EMU directly
+-   You can build all releases for all platforms with the command:
 
     ```powershell
     $rids = ("win-x64", "linux-x64", "osx-x64", "osx-arm64", "linux-arm", "linux-arm64")
     $rids | ForEach-Object { dotnet publish .\src\MetadataUtility\ -c Release -o ./publish/$_ --self-contained -r $_  }
     ```
 
-- Release a new version with:
+-   Release a new version with:
 
-  ```powershell
-  dotnet test
-  git tag -a -m "Version x.x.x" x.x.x
-  $rids = ("win-x64", "linux-x64", "osx-x64", "osx-arm64", "linux-arm", "linux-arm64")
-  $rids | ForEach-Object { dotnet publish .\src\MetadataUtility\ -c Release -o ./publish/$_ --self-contained -r $_  }
-  Get-ChildItem ./publish/ -Directory | % { Compress-Archive -Path $_ -DestinationPath ('./publish/' + $_.Name + ".zip") }
-  git push --tags
-  ./docker_build_and_push.ps1
-  ```
+    ```powershell
+    dotnet test
+    git tag -a -m "Version x.x.x" x.x.x
+    $rids = ("win-x64", "linux-x64", "osx-x64", "osx-arm64", "linux-arm", "linux-arm64")
+    $rids | ForEach-Object { dotnet publish .\src\MetadataUtility\ -c Release -o ./publish/$_ --self-contained -r $_  }
+    Get-ChildItem ./publish/ -Directory | % { Compress-Archive -Path $_ -DestinationPath ('./publish/' + $_.Name + ".zip") }
+    git push --tags
+    ./docker_build_and_push.ps1
+    ```
 
 ## Docker
 
@@ -256,7 +255,7 @@ EMU uses a multistage build dockerfile. In your dockerfile you should be able to
 
 ```dockerfile
 
-ENV DOTNET_RUNNING_IN_CONTAINER=true 
+ENV DOTNET_RUNNING_IN_CONTAINER=true
 ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=true
 
 COPY --from=qutecoacoustics/emu:latest /emu /emu
@@ -276,3 +275,7 @@ The environment variables are recommended as well.
 This project is funded through QUT Ecoacoustics and the [Open Ecoacoustics](https://openecoacoustics.org/) projects
 
 [![open ecoacoustics logo](./docs/media/OpenEcoAcoustics_horizontal_rgb_white_bg.png)](https://openecoacoustics.org/)
+
+Special thanks also go to Doug Hynes and ECCC for sponsoring the development of the metadata extraction features.
+
+[![ECCC logo](./docs/media/ECCC.jpg)](https://www.canada.ca/en/environment-climate-change.html)
