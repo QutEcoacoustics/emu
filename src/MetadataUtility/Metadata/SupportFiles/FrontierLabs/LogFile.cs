@@ -4,6 +4,7 @@
 
 namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
 {
+    using System.Text.RegularExpressions;
     using LanguageExt;
     using MetadataUtility.Models;
 
@@ -12,10 +13,6 @@ namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
         public const string FrontierLabsLogString = "FRONTIER LABS Bioacoustic Audio Recorder";
         public const string LogFileKey = "Frontier Labs Log file";
         public const string FirmwareString = "Firmware:";
-        public const int FirmwareTokenOffset = 2;
-        public const int SerialNumberLineOffset = 6;
-        public const int MetadataOffset = 39;
-        public const int RecordingOffset = 45;
         public const string SDCardString = "SD Card :";
         public const string RecordingString = "New recording started:";
         public const string Pattern = "*logfile*.txt";
@@ -124,15 +121,18 @@ namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
             {
                 if (lines[i].Contains(FirmwareString))
                 {
-                    string firmwareString = lines[i].Split(" ")[FirmwareTokenOffset];
+                    string firmwareString = lines[i].Split().Where(x => new Regex(@"V?\d+").IsMatch(x)).FirstOrDefault();
 
-                    if (firmwareString[0] == 'V')
+                    if (firmwareString != null)
                     {
-                        this.Firmware = float.Parse(firmwareString.Substring(1));
-                    }
-                    else
-                    {
-                        this.Firmware = float.Parse(firmwareString);
+                        if (firmwareString[0] == 'V')
+                        {
+                            this.Firmware = float.Parse(firmwareString.Substring(1));
+                        }
+                        else
+                        {
+                            this.Firmware = float.Parse(firmwareString);
+                        }
                     }
                 }
             }
@@ -143,26 +143,26 @@ namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
                 {
                     MemoryCard memoryCard = new MemoryCard() with
                     {
-                        FormatType = lines[++i].Substring(MetadataOffset),
-                        ManufacturerID = uint.Parse(lines[++i].Substring(MetadataOffset)),
-                        OEMID = lines[++i].Substring(MetadataOffset),
-                        ProductName = lines[++i].Substring(MetadataOffset),
-                        ProductRevision = float.Parse(lines[++i].Substring(MetadataOffset)),
-                        SerialNumber = uint.Parse(lines[++i].Substring(MetadataOffset)),
-                        ManufactureDate = lines[++i].Substring(MetadataOffset),
-                        Speed = uint.Parse(lines[++i].Substring(MetadataOffset)),
-                        Capacity = uint.Parse(lines[++i].Substring(MetadataOffset)),
-                        WrCurrentVmin = uint.Parse(lines[++i].Substring(MetadataOffset)),
-                        WrCurrentVmax = uint.Parse(lines[++i].Substring(MetadataOffset)),
-                        WriteB1Size = uint.Parse(lines[++i].Substring(MetadataOffset)),
-                        EraseB1Size = uint.Parse(lines[++i].Substring(MetadataOffset)),
+                        FormatType = lines[++i].Split().Last(),
+                        ManufacturerID = uint.Parse(lines[++i].Split().Last()),
+                        OEMID = lines[++i].Split().Last(),
+                        ProductName = lines[++i].Split().Last(),
+                        ProductRevision = float.Parse(lines[++i].Split().Last()),
+                        SerialNumber = uint.Parse(lines[++i].Split().Last()),
+                        ManufactureDate = lines[++i].Split().Last(),
+                        Speed = uint.Parse(lines[++i].Split().Last()),
+                        Capacity = uint.Parse(lines[++i].Split().Last()),
+                        WrCurrentVmin = uint.Parse(lines[++i].Split().Last()),
+                        WrCurrentVmax = uint.Parse(lines[++i].Split().Last()),
+                        WriteB1Size = uint.Parse(lines[++i].Split().Last()),
+                        EraseB1Size = uint.Parse(lines[++i].Split().Last()),
                     };
 
                     this.MemoryCardsLogs.Add((memoryCard, i));
                 }
                 else if (lines[i].Contains(RecordingString))
                 {
-                    string recording = lines[i].Substring(RecordingOffset);
+                    string recording = lines[i];
 
                     this.RecordingLogs.Add((recording, i));
                 }

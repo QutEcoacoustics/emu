@@ -11,8 +11,6 @@ namespace MetadataUtility.Metadata.FrontierLabs
 
     public class LogFileExtractor : IMetadataOperation
     {
-        public const int MetadataOffset = 39;
-        public const int SerialNumberLineOffset = 6;
         private readonly ILogger<LogFileExtractor> logger;
 
         public LogFileExtractor(ILogger<LogFileExtractor> logger)
