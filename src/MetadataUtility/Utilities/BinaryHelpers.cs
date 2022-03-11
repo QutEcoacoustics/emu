@@ -127,6 +127,26 @@ namespace MetadataUtility.Utilities
         }
 
         /// <summary>
+        /// Extracts a 24-bit integer from a 3-byte span.
+        /// </summary>
+        /// <param name="bytes">The source bytes.</param>
+        /// <returns>an unsigned 32-bit integer representing the decoded 24-bit integer.</returns>
+        public static uint Read24bitUnsignedBigEndian(ReadOnlySpan<byte> bytes)
+        {
+            if (bytes.Length < 3)
+            {
+                throw new ArgumentException("bytes span must at least be 1 long", nameof(bytes));
+            }
+
+            uint dest = (uint)bytes[0] << 16;
+            dest |= (uint)bytes[1] << 8;
+            dest |= (uint)bytes[2];
+
+            return dest;
+
+        }
+
+        /// <summary>
         /// Writes a 36-bit integer to a 5 byte buffer.
         /// It ignore the first nibble (4-bits) of the buffer and starts writing from the second nibble onwards.
         /// </summary>
