@@ -6,51 +6,59 @@ namespace MetadataUtility.Metadata.SupportFiles
 {
     public abstract class SupportFile
     {
-        public string File { get; set; }
+        public string FilePath { get; set; }
 
         public static List<string> FindSupportFiles(TargetInformation information, string pattern)
         {
-            List<string> logFiles = new List<string>();
+            List<string> supportFiles = new List<string>();
             string fileDirectory = information.FileSystem.Path.GetDirectoryName(information.Path);
-            string searchDirectory = information.FileSystem.Path.GetDirectoryName(information.Path);
+            string searchDirectory = fileDirectory;
 
             int i = 0;
+            const int maxHeight = 3;
 
-            while (i++ < 3 && (logFiles = information.FileSystem.Directory.GetFiles(searchDirectory, pattern, SearchOption.AllDirectories).ToList()).Length() == 0)
+            while (i++ < maxHeight)
             {
+                supportFiles = information.FileSystem.Directory.GetFiles(searchDirectory, pattern, SearchOption.AllDirectories).ToList();
+
+                if (supportFiles.Any())
+                {
+                    break;
+                }
+
                 searchDirectory = information.FileSystem.Directory.GetParent(searchDirectory)?.FullName;
 
                 //return if root directory is reached before any log files are found
                 if (searchDirectory == null)
                 {
-                    return logFiles;
+                    return supportFiles;
                 }
             }
 
-            if (logFiles.Length() == 1)
+            if (supportFiles.Length() == 1)
             {
-                string logDirectory = information.FileSystem.Path.GetDirectoryName(logFiles[0]);
+                string logDirectory = information.FileSystem.Path.GetDirectoryName(supportFiles[0]);
 
                 // If the log file is in a subdirectory of the audio file or vice versa, they are linked
                 // Otherwise we can't assume they are!
                 if (searchDirectory.Equals(fileDirectory) ||
                     information.FileSystem.Directory.GetFiles(logDirectory, "*", SearchOption.AllDirectories).ToList().Contains(information.Path))
                 {
-                    return logFiles;
+                    return supportFiles;
                 }
                 else
                 {
-                    logFiles.RemoveAt(0);
-                    return logFiles;
+                    supportFiles.RemoveAt(0);
+                    return supportFiles;
                 }
             }
 
-            return logFiles;
+            return supportFiles;
         }
 
         /// <summary>
-        /// Extracts all useful information out of the log file.
-        /// This should done only once for each log file, the result should then be cached in KnownSupportFiles (TargetInformation.cs).
+        /// Extracts all useful information out of the support file.
+        /// This should done only once for each support file, the result should then be cached in KnownSupportFiles (TargetInformation.cs).
         /// </summary>
         public abstract void ExtractInformation();
     }

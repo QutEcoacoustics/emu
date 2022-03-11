@@ -9,6 +9,7 @@ namespace MetadataUtility.Tests.TestHelpers
     using CsvHelper.Configuration.Attributes;
     using MetadataUtility.Audio;
     using MetadataUtility.Metadata;
+    using MetadataUtility.Models;
     using Rationals;
 
     public enum ValidMetadata
@@ -92,6 +93,27 @@ namespace MetadataUtility.Tests.TestHelpers
                 this.fixturePath = value;
                 this.AbsoluteFixturePath = FixtureHelper.ResolvePath(value);
             }
+        }
+
+        public MemoryCard MemoryCard
+        {
+            get =>
+                new MemoryCard() with
+                {
+                    FormatType = this.SDFormatType,
+                    ManufacturerID = this.SDManufacturerID,
+                    OEMID = this.SDOEMID,
+                    ProductName = this.SDProductName,
+                    ProductRevision = this.SDProductRevision,
+                    SerialNumber = this.SDSerialNumber,
+                    ManufactureDate = this.SDManufactureDate,
+                    Speed = this.SDSpeed,
+                    Capacity = this.SDCapacity,
+                    WrCurrentVmin = this.SDWrCurrentVmin,
+                    WrCurrentVmax = this.SDWrCurrentVmax,
+                    WriteB1Size = this.SDWriteB1Size,
+                    EraseB1Size = this.SDEraseB1Size,
+                };
         }
 
         [Ignore]

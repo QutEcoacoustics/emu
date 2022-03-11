@@ -49,25 +49,13 @@ namespace MetadataUtility.Tests.Metadata
                 LogFile logFile = new LogFile(FixtureHelper.ResolvePath(model.FrontierLabsLogFile));
                 logFile.ExtractInformation();
 
-                ti.TargetSupportFiles.Add("Log file", logFile);
+                ti.TargetSupportFiles.Add(LogFile.LogFileKey, logFile);
 
                 var recording = await this.subject.ProcessFileAsync(
                     ti,
                     this.Recording);
 
-                recording.MemoryCard.SDFormatType.Should().Be(model.SDFormatType);
-                recording.MemoryCard.SDManufacturerID.Should().Be(model.SDManufacturerID);
-                recording.MemoryCard.SDOEMID.Should().Be(model.SDOEMID);
-                recording.MemoryCard.SDProductName.Should().Be(model.SDProductName);
-                recording.MemoryCard.SDProductRevision.Should().Be(model.SDProductRevision);
-                recording.MemoryCard.SDSerialNumber.Should().Be(model.SDSerialNumber);
-                recording.MemoryCard.SDManufactureDate.Should().Be(model.SDManufactureDate);
-                recording.MemoryCard.SDSpeed.Should().Be(model.SDSpeed);
-                recording.MemoryCard.SDCapacity.Should().Be(model.SDCapacity);
-                recording.MemoryCard.SDWrCurrentVmin.Should().Be(model.SDWrCurrentVmin);
-                recording.MemoryCard.SDWrCurrentVmax.Should().Be(model.SDWrCurrentVmax);
-                recording.MemoryCard.SDWriteB1Size.Should().Be(model.SDWriteB1Size);
-                recording.MemoryCard.SDEraseB1Size.Should().Be(model.SDEraseB1Size);
+                recording.MemoryCard.Should().BeEquivalentTo(model.MemoryCard);
             }
         }
     }

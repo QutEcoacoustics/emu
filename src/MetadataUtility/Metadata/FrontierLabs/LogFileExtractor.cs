@@ -13,7 +13,6 @@ namespace MetadataUtility.Metadata.FrontierLabs
     {
         public const int MetadataOffset = 39;
         public const int SerialNumberLineOffset = 6;
-        public const string LogFileKey = "Log file";
         private readonly ILogger<LogFileExtractor> logger;
 
         public LogFileExtractor(ILogger<LogFileExtractor> logger)
@@ -25,11 +24,11 @@ namespace MetadataUtility.Metadata.FrontierLabs
         {
             MemoryCard memoryCard = memoryCardLogs[0].MemoryCard;
 
-            foreach ((MemoryCard memoryCard_, int line) in memoryCardLogs)
+            foreach ((MemoryCard currentMemoryCard, int line) in memoryCardLogs)
             {
                 if (line < recordingLog.Line)
                 {
-                    memoryCard = memoryCard_;
+                    memoryCard = currentMemoryCard;
                 }
                 else
                 {
@@ -49,10 +48,10 @@ namespace MetadataUtility.Metadata.FrontierLabs
 
         public ValueTask<Recording> ProcessFileAsync(TargetInformation information, Recording recording)
         {
-            LogFile logFile = (LogFile)information.TargetSupportFiles[LogFileKey];
+            LogFile logFile = (LogFile)information.TargetSupportFiles[LogFile.LogFileKey];
             MemoryCard memoryCard = null;
 
-            List<uint> serialNumbers = logFile.MemoryCardsLogs.Select(x => x.MemoryCard.SDSerialNumber).ToList();
+            List<uint> serialNumbers = logFile.MemoryCardsLogs.Select(x => x.MemoryCard.SerialNumber).ToList();
 
             if (serialNumbers.Distinct().Count() == 1)
             {
@@ -75,19 +74,19 @@ namespace MetadataUtility.Metadata.FrontierLabs
                 {
                     MemoryCard = new MemoryCard() with
                     {
-                        SDFormatType = memoryCard.SDFormatType,
-                        SDManufacturerID = memoryCard.SDManufacturerID,
-                        SDOEMID = memoryCard.SDOEMID,
-                        SDProductName = memoryCard.SDProductName,
-                        SDProductRevision = memoryCard.SDProductRevision,
-                        SDSerialNumber = memoryCard.SDSerialNumber,
-                        SDManufactureDate = memoryCard.SDManufactureDate,
-                        SDSpeed = memoryCard.SDSpeed,
-                        SDCapacity = memoryCard.SDCapacity,
-                        SDWrCurrentVmin = memoryCard.SDWrCurrentVmin,
-                        SDWrCurrentVmax = memoryCard.SDWrCurrentVmax,
-                        SDWriteB1Size = memoryCard.SDWriteB1Size,
-                        SDEraseB1Size = memoryCard.SDEraseB1Size,
+                        FormatType = memoryCard.FormatType,
+                        ManufacturerID = memoryCard.ManufacturerID,
+                        OEMID = memoryCard.OEMID,
+                        ProductName = memoryCard.ProductName,
+                        ProductRevision = memoryCard.ProductRevision,
+                        SerialNumber = memoryCard.SerialNumber,
+                        ManufactureDate = memoryCard.ManufactureDate,
+                        Speed = memoryCard.Speed,
+                        Capacity = memoryCard.Capacity,
+                        WrCurrentVmin = memoryCard.WrCurrentVmin,
+                        WrCurrentVmax = memoryCard.WrCurrentVmax,
+                        WriteB1Size = memoryCard.WriteB1Size,
+                        EraseB1Size = memoryCard.EraseB1Size,
                     },
                 };
             }

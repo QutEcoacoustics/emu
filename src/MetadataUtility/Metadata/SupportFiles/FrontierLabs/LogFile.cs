@@ -10,7 +10,7 @@ namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
     public class LogFile : SupportFile
     {
         public const string FrontierLabsLogString = "FRONTIER LABS Bioacoustic Audio Recorder";
-        public const string LogFileKey = "Log file";
+        public const string LogFileKey = "Frontier Labs Log file";
         public const string FirmwareString = "Firmware:";
         public const int FirmwareTokenOffset = 2;
         public const int SerialNumberLineOffset = 6;
@@ -20,9 +20,9 @@ namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
         public const string RecordingString = "New recording started:";
         public const string Pattern = "*logfile*.txt";
 
-        public LogFile(string file)
+        public LogFile(string filePath)
         {
-            this.File = file;
+            this.FilePath = filePath;
         }
 
         public List<(MemoryCard MemoryCard, int Line)> MemoryCardsLogs { get; } = new List<(MemoryCard MemoryCard, int Line)>();
@@ -41,18 +41,20 @@ namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
                 return false;
             }
 
-            // If one log file was found, return true and add it to known support files for the target
-            if (logFiles.Length() == 1 && IsLogFile(logFiles[0]))
-            {
-                List<string> knownSupportFilePaths = TargetInformation.KnownSupportFiles.Select(x => x.File).ToList();
+            string first;
 
-                if (knownSupportFilePaths.Contains(logFiles[0]))
+            // If one log file was found, return true and add it to known support files for the target
+            if (logFiles.Length() == 1 && IsLogFile(first = logFiles.First()))
+            {
+                List<string> knownSupportFilePaths = TargetInformation.KnownSupportFiles.Select(x => x.FilePath).ToList();
+
+                if (knownSupportFilePaths.Contains(first))
                 {
-                    information.TargetSupportFiles.Add(LogFileKey, TargetInformation.KnownSupportFiles[knownSupportFilePaths.IndexOf(logFiles[0])]);
+                    information.TargetSupportFiles.Add(LogFileKey, TargetInformation.KnownSupportFiles[knownSupportFilePaths.IndexOf(first)]);
                 }
                 else
                 {
-                    LogFile logFile = new LogFile(logFiles[0]);
+                    LogFile logFile = new LogFile(first);
                     logFile.ExtractInformation();
 
                     TargetInformation.KnownSupportFiles.Add(logFile);
@@ -67,7 +69,7 @@ namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
                 if (IsLogFile(log))
                 {
                     LogFile logFile;
-                    List<string> knownSupportFilePaths = TargetInformation.KnownSupportFiles.Select(x => x.File).ToList();
+                    List<string> knownSupportFilePaths = TargetInformation.KnownSupportFiles.Select(x => x.FilePath).ToList();
 
                     if (knownSupportFilePaths.Contains(log))
                     {
@@ -114,7 +116,7 @@ namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
 
         public override void ExtractInformation()
         {
-            string[] lines = System.IO.File.ReadAllLines(this.File);
+            string[] lines = System.IO.File.ReadAllLines(this.FilePath);
 
             int i = 0;
 
@@ -141,19 +143,19 @@ namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
                 {
                     MemoryCard memoryCard = new MemoryCard() with
                     {
-                        SDFormatType = lines[++i].Substring(MetadataOffset),
-                        SDManufacturerID = uint.Parse(lines[++i].Substring(MetadataOffset)),
-                        SDOEMID = lines[++i].Substring(MetadataOffset),
-                        SDProductName = lines[++i].Substring(MetadataOffset),
-                        SDProductRevision = float.Parse(lines[++i].Substring(MetadataOffset)),
-                        SDSerialNumber = uint.Parse(lines[++i].Substring(MetadataOffset)),
-                        SDManufactureDate = lines[++i].Substring(MetadataOffset),
-                        SDSpeed = uint.Parse(lines[++i].Substring(MetadataOffset)),
-                        SDCapacity = uint.Parse(lines[++i].Substring(MetadataOffset)),
-                        SDWrCurrentVmin = uint.Parse(lines[++i].Substring(MetadataOffset)),
-                        SDWrCurrentVmax = uint.Parse(lines[++i].Substring(MetadataOffset)),
-                        SDWriteB1Size = uint.Parse(lines[++i].Substring(MetadataOffset)),
-                        SDEraseB1Size = uint.Parse(lines[++i].Substring(MetadataOffset)),
+                        FormatType = lines[++i].Substring(MetadataOffset),
+                        ManufacturerID = uint.Parse(lines[++i].Substring(MetadataOffset)),
+                        OEMID = lines[++i].Substring(MetadataOffset),
+                        ProductName = lines[++i].Substring(MetadataOffset),
+                        ProductRevision = float.Parse(lines[++i].Substring(MetadataOffset)),
+                        SerialNumber = uint.Parse(lines[++i].Substring(MetadataOffset)),
+                        ManufactureDate = lines[++i].Substring(MetadataOffset),
+                        Speed = uint.Parse(lines[++i].Substring(MetadataOffset)),
+                        Capacity = uint.Parse(lines[++i].Substring(MetadataOffset)),
+                        WrCurrentVmin = uint.Parse(lines[++i].Substring(MetadataOffset)),
+                        WrCurrentVmax = uint.Parse(lines[++i].Substring(MetadataOffset)),
+                        WriteB1Size = uint.Parse(lines[++i].Substring(MetadataOffset)),
+                        EraseB1Size = uint.Parse(lines[++i].Substring(MetadataOffset)),
                     };
 
                     this.MemoryCardsLogs.Add((memoryCard, i));
