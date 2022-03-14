@@ -8,22 +8,35 @@ namespace MetadataUtility.Metadata.SupportFiles
 
     public abstract class SupportFile
     {
-        public static Action<TargetInformation>[] SupportFileFinders
+        // Each of these functions are used to correlate a specific type of support file to targets
+        public static Action<TargetInformation, IEnumerable<string>>[] SupportFileFinders
         {
             get
             {
-                return new Action<TargetInformation>[]
+                return new Action<TargetInformation, IEnumerable<string>>[]
                 {
                     FrontierLabs.LogFile.FindLogFile,
                 };
             }
         }
 
+        // Each potential support file pattern to search for
+        public static string[] SupportFilePatterns
+        {
+            get
+            {
+                return new string[]
+                {
+                    "*logfile*.txt",
+                };
+            }
+        }
+
         public string FilePath { get; set; }
 
-        public static List<string> FindSupportFiles(TargetInformation information, string pattern)
+        public static void FindSupportFiles(TargetInformation information)
         {
-            List<string> supportFiles = new List<string>();
+            IEnumerable<string> supportFiles = new List<string>();
             string fileDirectory = information.FileSystem.Path.GetDirectoryName(information.Path);
             string searchDirectory = fileDirectory;
 
@@ -32,7 +45,11 @@ namespace MetadataUtility.Metadata.SupportFiles
 
             while (i++ < maxHeight)
             {
-                supportFiles = information.FileSystem.Directory.GetFiles(searchDirectory, pattern, SearchOption.AllDirectories).ToList();
+                // Find any potential support files
+                foreach (string pattern in SupportFilePatterns)
+                {
+                    supportFiles = supportFiles.Append(information.FileSystem.Directory.GetFiles(searchDirectory, pattern, SearchOption.TopDirectoryOnly).ToList());
+                }
 
                 if (supportFiles.Any())
                 {
@@ -41,32 +58,18 @@ namespace MetadataUtility.Metadata.SupportFiles
 
                 searchDirectory = information.FileSystem.Directory.GetParent(searchDirectory)?.FullName;
 
-                //return if root directory is reached before any log files are found
+                //return if root directory is reached before any support files are found
                 if (searchDirectory == null)
                 {
-                    return supportFiles;
+                    return;
                 }
             }
 
-            if (supportFiles.Length() == 1)
+            // Correlate specific support files to each target
+            foreach (Action<TargetInformation, IEnumerable<string>> finder in SupportFileFinders)
             {
-                string logDirectory = information.FileSystem.Path.GetDirectoryName(supportFiles[0]);
-
-                // If the log file is in a subdirectory of the audio file or vice versa, they are linked
-                // Otherwise we can't assume they are!
-                if (searchDirectory.Equals(fileDirectory) ||
-                    information.FileSystem.Directory.GetFiles(logDirectory, "*", SearchOption.AllDirectories).ToList().Contains(information.Path))
-                {
-                    return supportFiles;
-                }
-                else
-                {
-                    supportFiles.RemoveAt(0);
-                    return supportFiles;
-                }
+                finder(information, supportFiles);
             }
-
-            return supportFiles;
         }
 
         /// <summary>

@@ -48,11 +48,7 @@ namespace MetadataUtility.Commands.Metadata
             {
                 using var context = this.CreateContainer(path);
 
-                // Find all support files for each target
-                foreach (Action<TargetInformation> supportFileFinder in SupportFile.SupportFileFinders)
-                {
-                    supportFileFinder(context);
-                }
+                SupportFile.FindSupportFiles(context);
 
                 Recording recording = new Recording
                 {

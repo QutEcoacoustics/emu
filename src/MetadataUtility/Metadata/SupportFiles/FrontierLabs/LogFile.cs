@@ -15,7 +15,6 @@ namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
         public const string FirmwareString = "Firmware:";
         public const string SDCardString = "SD Card :";
         public const string RecordingString = "New recording started:";
-        public const string Pattern = "*logfile*.txt";
 
         public LogFile(string filePath)
         {
@@ -28,9 +27,9 @@ namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
 
         public float Firmware { get; set; }
 
-        public static void FindLogFile(TargetInformation information)
+        public static void FindLogFile(TargetInformation information, IEnumerable<string> supportFiles)
         {
-            List<string> logFiles = FindSupportFiles(information, Pattern);
+            IEnumerable<string> logFiles = supportFiles.Where(x => new Regex(@".*logfile.*txt").IsMatch(x));
 
             string first;
 

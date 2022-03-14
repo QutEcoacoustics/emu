@@ -136,10 +136,7 @@ namespace MetadataUtility.Tests.TestHelpers
                 Base = FixtureHelper.ResolveFirstDirectory(this.FixturePath),
             };
 
-            foreach (Action<TargetInformation> func in SupportFile.SupportFileFinders)
-            {
-                func(ti);
-            }
+            SupportFile.FindSupportFiles(ti);
 
             return ti;
         }
