@@ -50,7 +50,7 @@
     <PackageReference Include="System.CommandLine.Hosting" Version="0.3.0-alpha.21216.1" />
     <PackageReference Include="System.CommandLine.Rendering" Version="0.3.0-alpha.21216.1" />
     <PackageReference Include="System.IO.Abstractions" Version="16.1.22" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.1" />
   </ItemGroup>
   <ItemGroup>
     <AdditionalFiles Include="../../stylecop.json" />
