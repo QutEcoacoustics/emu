@@ -11,6 +11,8 @@ namespace MetadataUtility.Utilities
     /// </summary>
     public static class BinaryHelpers
     {
+        public const int BitsPerByte = 8;
+
         /// <summary>
         /// Maximum for an unsigned 36-bit integer is 68,719,476,735.
         /// </summary>

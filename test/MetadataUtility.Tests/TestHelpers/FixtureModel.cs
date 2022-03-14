@@ -23,6 +23,9 @@ namespace MetadataUtility.Tests.TestHelpers
         public const string MetadataDurationBug = "Metadata duration bug";
         public const string ZeroDbSamples = "Zero dB Samples";
         public const string NormalFile = "Normal file";
+        public const string SM4BatNormal1 = "SM4 Bat Normal 1";
+
+
 
         private string fixturePath;
 
