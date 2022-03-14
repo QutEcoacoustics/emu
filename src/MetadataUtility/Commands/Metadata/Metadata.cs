@@ -4,23 +4,15 @@
 
 namespace MetadataUtility.Commands.Metadata
 {
-    using System;
-    using System.Collections.Generic;
     using System.CommandLine.Invocation;
-    using System.IO;
     using System.IO.Abstractions;
-    using System.Linq;
     using System.Threading.Tasks;
-    using LanguageExt;
-    using LanguageExt.Common;
     using MetadataUtility.Cli;
-    using MetadataUtility.Extensions.System;
-    using MetadataUtility.Filenames;
     using MetadataUtility.Metadata;
+    using MetadataUtility.Metadata.SupportFiles;
     using MetadataUtility.Models;
     using MetadataUtility.Utilities;
     using Microsoft.Extensions.Logging;
-    using NodaTime;
 
     public class Metadata : EmuCommandHandler
     {
@@ -55,6 +47,12 @@ namespace MetadataUtility.Commands.Metadata
             foreach (var path in paths)
             {
                 using var context = this.CreateContainer(path);
+
+                // Find all support files for each target
+                foreach (Action<TargetInformation> supportFileFinder in SupportFile.SupportFileFinders)
+                {
+                    supportFileFinder(context);
+                }
 
                 Recording recording = new Recording
                 {

@@ -9,6 +9,7 @@ namespace MetadataUtility.Tests.TestHelpers
     using CsvHelper.Configuration.Attributes;
     using MetadataUtility.Audio;
     using MetadataUtility.Metadata;
+    using MetadataUtility.Metadata.SupportFiles;
     using MetadataUtility.Models;
     using Rationals;
 
@@ -129,11 +130,18 @@ namespace MetadataUtility.Tests.TestHelpers
 
         public TargetInformation ToTargetInformation(IFileSystem fileSystem)
         {
-            return new TargetInformation(fileSystem)
+            TargetInformation ti = new TargetInformation(fileSystem) with
             {
                 Path = this.AbsoluteFixturePath,
                 Base = FixtureHelper.ResolveFirstDirectory(this.FixturePath),
             };
+
+            foreach (Action<TargetInformation> func in SupportFile.SupportFileFinders)
+            {
+                func(ti);
+            }
+
+            return ti;
         }
 
         public override string ToString()

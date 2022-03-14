@@ -4,8 +4,21 @@
 
 namespace MetadataUtility.Metadata.SupportFiles
 {
+    using System;
+
     public abstract class SupportFile
     {
+        public static Action<TargetInformation>[] SupportFileFinders
+        {
+            get
+            {
+                return new Action<TargetInformation>[]
+                {
+                    FrontierLabs.LogFile.FindLogFile,
+                };
+            }
+        }
+
         public string FilePath { get; set; }
 
         public static List<string> FindSupportFiles(TargetInformation information, string pattern)

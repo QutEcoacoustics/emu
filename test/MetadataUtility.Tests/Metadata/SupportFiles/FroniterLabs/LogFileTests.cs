@@ -6,7 +6,7 @@ namespace MetadataUtility.Tests.Metadata.SupportFiles
 {
     using System.Linq;
     using FluentAssertions;
-    using LanguageExt;
+    using MetadataUtility.Metadata;
     using MetadataUtility.Metadata.SupportFiles.FrontierLabs;
     using MetadataUtility.Tests.TestHelpers;
     using Xunit;
@@ -25,9 +25,9 @@ namespace MetadataUtility.Tests.Metadata.SupportFiles
         {
             if (model.Process.Contains("FrontierLabsLogFileExtractor"))
             {
-                Fin<bool> hasLogFile = LogFile.HasLogFile(model.ToTargetInformation(this.RealFileSystem));
-                Assert.True(hasLogFile.IsSucc);
-                ((bool)hasLogFile).Should().Be(true);
+                TargetInformation ti = model.ToTargetInformation(this.RealFileSystem);
+
+                Assert.True(ti.TargetSupportFiles.ContainsKey(LogFile.LogFileKey));
             }
         }
 

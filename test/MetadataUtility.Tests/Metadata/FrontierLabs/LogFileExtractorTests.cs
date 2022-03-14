@@ -46,10 +46,6 @@ namespace MetadataUtility.Tests.Metadata
             if (model.Process.Contains("FrontierLabsLogFileExtractor"))
             {
                 TargetInformation ti = model.ToTargetInformation(this.RealFileSystem);
-                LogFile logFile = new LogFile(FixtureHelper.ResolvePath(model.FrontierLabsLogFile));
-                logFile.ExtractInformation();
-
-                ti.TargetSupportFiles.Add(LogFile.LogFileKey, logFile);
 
                 var recording = await this.subject.ProcessFileAsync(
                     ti,

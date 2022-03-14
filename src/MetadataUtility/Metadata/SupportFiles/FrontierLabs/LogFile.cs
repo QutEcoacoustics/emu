@@ -28,15 +28,9 @@ namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
 
         public float Firmware { get; set; }
 
-        public static Fin<bool> HasLogFile(TargetInformation information)
+        public static void FindLogFile(TargetInformation information)
         {
             List<string> logFiles = FindSupportFiles(information, Pattern);
-
-            // If no log files were found, return false
-            if (logFiles.Length() == 0)
-            {
-                return false;
-            }
 
             string first;
 
@@ -57,42 +51,42 @@ namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
                     TargetInformation.KnownSupportFiles.Add(logFile);
                     information.TargetSupportFiles.Add(LogFileKey, logFile);
                 }
-
-                return true;
             }
-
-            foreach (string log in logFiles)
+            else if (logFiles.Length() > 1)
             {
-                if (IsLogFile(log))
+                foreach (string log in logFiles)
                 {
-                    LogFile logFile;
-                    IEnumerable<string> knownSupportFilePaths = TargetInformation.KnownSupportFiles.Select(x => x.FilePath);
+                    if (IsLogFile(log))
+                    {
+                        LogFile logFile;
+                        IEnumerable<string> knownSupportFilePaths = TargetInformation.KnownSupportFiles.Select(x => x.FilePath);
 
-                    if (knownSupportFilePaths.Contains(log))
-                    {
-                        logFile = (LogFile)TargetInformation.KnownSupportFiles[knownSupportFilePaths.ToList().IndexOf(log)];
-                    }
-                    else
-                    {
-                        logFile = new LogFile(log);
-                        logFile.ExtractInformation();
-                        TargetInformation.KnownSupportFiles.Add(logFile);
-                    }
-
-                    // If more than one log file is found, we must check for the file name in the log file
-                    // Won't apply to later firmware versions
-                    foreach ((string recording, int line) in logFile.RecordingLogs)
-                    {
-                        if (recording.Contains(information.FileSystem.Path.GetFileName(information.Path)))
+                        if (knownSupportFilePaths.Contains(log))
                         {
-                            information.TargetSupportFiles.Add(LogFileKey, logFile);
-                            return true;
+                            logFile = (LogFile)TargetInformation.KnownSupportFiles[knownSupportFilePaths.ToList().IndexOf(log)];
+                        }
+                        else
+                        {
+                            logFile = new LogFile(log);
+                            logFile.ExtractInformation();
+                            TargetInformation.KnownSupportFiles.Add(logFile);
+                        }
+
+                        // If more than one log file is found, we must check for the file name in the log file
+                        // Won't apply to later firmware versions
+                        foreach ((string recording, int line) in logFile.RecordingLogs)
+                        {
+                            if (recording.Contains(information.FileSystem.Path.GetFileName(information.Path)))
+                            {
+                                information.TargetSupportFiles.Add(LogFileKey, logFile);
+                                return;
+                            }
                         }
                     }
                 }
             }
 
-            return false;
+            return;
         }
 
         public static bool IsLogFile(string logFile)
