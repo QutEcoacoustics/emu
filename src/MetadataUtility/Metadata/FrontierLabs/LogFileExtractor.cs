@@ -49,20 +49,20 @@ namespace MetadataUtility.Metadata.FrontierLabs
             LogFile logFile = (LogFile)information.TargetSupportFiles[LogFile.LogFileKey];
             MemoryCard memoryCard = null;
 
-            List<uint> serialNumbers = logFile.MemoryCardsLogs.Select(x => x.MemoryCard.SerialNumber).ToList();
+            IEnumerable<uint> serialNumbers = logFile.MemoryCardLogs.Select(x => x.MemoryCard.SerialNumber);
 
             if (serialNumbers.Distinct().Count() == 1)
             {
-                memoryCard = logFile.MemoryCardsLogs[0].MemoryCard;
+                memoryCard = logFile.MemoryCardLogs.First().MemoryCard;
             }
             else
             {
                 string fileName = information.FileSystem.Path.GetFileName(information.Path);
-                List<string> recordings = (List<string>)logFile.RecordingLogs.Select(x => x.Recording);
+                IEnumerable<string> recordings = logFile.RecordingLogs.Select(x => x.Recording);
 
                 if (recordings.Contains(fileName))
                 {
-                    memoryCard = CorrelateSD(logFile.MemoryCardsLogs, logFile.RecordingLogs[recordings.IndexOf(fileName)]);
+                    memoryCard = CorrelateSD(logFile.MemoryCardLogs, logFile.RecordingLogs[recordings.ToList().IndexOf(fileName)]);
                 }
             }
 

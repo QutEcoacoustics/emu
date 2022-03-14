@@ -22,7 +22,7 @@ namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
             this.FilePath = filePath;
         }
 
-        public List<(MemoryCard MemoryCard, int Line)> MemoryCardsLogs { get; } = new List<(MemoryCard MemoryCard, int Line)>();
+        public List<(MemoryCard MemoryCard, int Line)> MemoryCardLogs { get; } = new List<(MemoryCard MemoryCard, int Line)>();
 
         public List<(string Recording, int Line)> RecordingLogs { get; } = new List<(string Recording, int Line)>();
 
@@ -43,11 +43,11 @@ namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
             // If one log file was found, return true and add it to known support files for the target
             if (logFiles.Length() == 1 && IsLogFile(first = logFiles.First()))
             {
-                List<string> knownSupportFilePaths = TargetInformation.KnownSupportFiles.Select(x => x.FilePath).ToList();
+                IEnumerable<string> knownSupportFilePaths = TargetInformation.KnownSupportFiles.Select(x => x.FilePath);
 
                 if (knownSupportFilePaths.Contains(first))
                 {
-                    information.TargetSupportFiles.Add(LogFileKey, TargetInformation.KnownSupportFiles[knownSupportFilePaths.IndexOf(first)]);
+                    information.TargetSupportFiles.Add(LogFileKey, TargetInformation.KnownSupportFiles[knownSupportFilePaths.ToList().IndexOf(first)]);
                 }
                 else
                 {
@@ -66,11 +66,11 @@ namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
                 if (IsLogFile(log))
                 {
                     LogFile logFile;
-                    List<string> knownSupportFilePaths = TargetInformation.KnownSupportFiles.Select(x => x.FilePath).ToList();
+                    IEnumerable<string> knownSupportFilePaths = TargetInformation.KnownSupportFiles.Select(x => x.FilePath);
 
                     if (knownSupportFilePaths.Contains(log))
                     {
-                        logFile = (LogFile)TargetInformation.KnownSupportFiles[knownSupportFilePaths.IndexOf(log)];
+                        logFile = (LogFile)TargetInformation.KnownSupportFiles[knownSupportFilePaths.ToList().IndexOf(log)];
                     }
                     else
                     {
@@ -158,7 +158,7 @@ namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
                         EraseB1Size = uint.Parse(lines[++i].Split().Last()),
                     };
 
-                    this.MemoryCardsLogs.Add((memoryCard, i));
+                    this.MemoryCardLogs.Add((memoryCard, i));
                 }
                 else if (lines[i].Contains(RecordingString))
                 {
