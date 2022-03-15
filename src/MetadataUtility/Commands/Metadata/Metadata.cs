@@ -44,26 +44,48 @@ namespace MetadataUtility.Commands.Metadata
         {
             var paths = this.fileMatcher.ExpandMatches(this.fileSystem.Directory.GetCurrentDirectory(), this.Targets);
 
+            Dictionary<string, List<TargetInformation>> targetDirectories = new Dictionary<string, List<TargetInformation>>();
+
+            // Group targets together according to their directories
+            // This is done so that only one search for support files is done per directory
             foreach (var path in paths)
             {
                 using var context = this.CreateContainer(path);
 
-                SupportFile.FindSupportFiles(context);
+                string directory = context.FileSystem.Path.GetDirectoryName(context.Path);
 
-                Recording recording = new Recording
+                if (targetDirectories.ContainsKey(directory))
                 {
-                    SourcePath = context.Path,
-                };
-
-                foreach (var extractor in this.extractorRegister.All)
-                {
-                    if (await extractor.CanProcessAsync(context))
-                    {
-                        recording = await extractor.ProcessFileAsync(context, recording);
-                    }
+                    targetDirectories[directory].Add(context);
                 }
+                else
+                {
+                    targetDirectories[directory] = new List<TargetInformation> { context };
+                }
+            }
 
-                this.writer.Write(recording);
+            // Extract recording information from each target
+            foreach ((string directory, List<TargetInformation> targets) in targetDirectories)
+            {
+                SupportFile.FindSupportFiles(directory, targets, this.fileSystem);
+
+                foreach (TargetInformation target in targets)
+                {
+                    Recording recording = new Recording
+                    {
+                        SourcePath = target.Path,
+                    };
+
+                    foreach (var extractor in this.extractorRegister.All)
+                    {
+                        if (await extractor.CanProcessAsync(target))
+                        {
+                            recording = await extractor.ProcessFileAsync(target, recording);
+                        }
+                    }
+
+                    this.writer.Write(recording);
+                }
             }
 
             return ExitCodes.Success;

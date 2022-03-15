@@ -48,6 +48,7 @@ namespace MetadataUtility.Metadata.FrontierLabs
         {
             LogFile logFile = (LogFile)information.TargetSupportFiles[LogFile.LogFileKey];
             MemoryCard memoryCard = null;
+            Sensor sensor = logFile.Sensor;
 
             IEnumerable<uint> serialNumbers = logFile.MemoryCardLogs.Select(x => x.MemoryCard.SerialNumber);
 
@@ -70,24 +71,19 @@ namespace MetadataUtility.Metadata.FrontierLabs
             {
                 recording = recording with
                 {
-                    MemoryCard = new MemoryCard() with
-                    {
-                        FormatType = memoryCard.FormatType,
-                        ManufacturerID = memoryCard.ManufacturerID,
-                        OEMID = memoryCard.OEMID,
-                        ProductName = memoryCard.ProductName,
-                        ProductRevision = memoryCard.ProductRevision,
-                        SerialNumber = memoryCard.SerialNumber,
-                        ManufactureDate = memoryCard.ManufactureDate,
-                        Speed = memoryCard.Speed,
-                        Capacity = memoryCard.Capacity,
-                        WrCurrentVmin = memoryCard.WrCurrentVmin,
-                        WrCurrentVmax = memoryCard.WrCurrentVmax,
-                        WriteB1Size = memoryCard.WriteB1Size,
-                        EraseB1Size = memoryCard.EraseB1Size,
-                    },
+                    MemoryCard = memoryCard,
                 };
             }
+
+            recording = recording with
+            {
+                Sensor = recording.Sensor ?? new Sensor() with
+                {
+                    Firmware = sensor.Firmware,
+                    SerialNumber = sensor.SerialNumber,
+                    PowerSource = sensor.PowerSource,
+                },
+            };
 
             return ValueTask.FromResult(recording);
         }

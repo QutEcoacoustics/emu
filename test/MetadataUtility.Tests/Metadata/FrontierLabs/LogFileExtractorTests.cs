@@ -9,7 +9,6 @@ namespace MetadataUtility.Tests.Metadata
     using FluentAssertions;
     using MetadataUtility.Metadata;
     using MetadataUtility.Metadata.FrontierLabs;
-    using MetadataUtility.Metadata.SupportFiles.FrontierLabs;
     using MetadataUtility.Models;
     using MetadataUtility.Tests.TestHelpers;
     using Xunit;
@@ -52,6 +51,9 @@ namespace MetadataUtility.Tests.Metadata
                     this.Recording);
 
                 recording.MemoryCard.Should().BeEquivalentTo(model.MemoryCard);
+                recording.Sensor.Firmware.Should().Be(model.Sensor.Firmware);
+                recording.Sensor.SerialNumber.Should().Be(model.Sensor.SerialNumber);
+                recording.Sensor.PowerSource.Should().Be(model.Sensor.PowerSource);
             }
         }
     }

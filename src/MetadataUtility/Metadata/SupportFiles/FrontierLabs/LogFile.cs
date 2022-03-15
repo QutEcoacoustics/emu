@@ -13,9 +13,12 @@ namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
         public const string FrontierLabsLogString = "FRONTIER LABS Bioacoustic Audio Recorder";
         public const string LogFileKey = "Frontier Labs Log file";
         public const string FirmwareString = "Firmware:";
+        public const string SerialNumberString = "Serial Number:";
+        public const string ConfigString = "Config:";
         public const string SDCardString = "SD Card :";
         public const string RecordingString = "New recording started:";
         public static readonly Regex LogFileRegex = new Regex(@".*logfile.*txt");
+        public static readonly Regex FirmwareRegex = new Regex(@"V?\d+");
 
         public LogFile(string filePath)
         {
@@ -26,7 +29,7 @@ namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
 
         public List<(string Recording, int Line)> RecordingLogs { get; } = new List<(string Recording, int Line)>();
 
-        public float Firmware { get; set; }
+        public Sensor Sensor { get; set; }
 
         public static void FindLogFile(TargetInformation information, IEnumerable<string> supportFiles)
         {
@@ -37,52 +40,26 @@ namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
             string first = logFiles.FirstOrDefault();
 
             // If one log file was found, return true and add it to known support files for the target
-            if (length == 1 && IsLogFile(first))
+            if (length == 1)
             {
-                IEnumerable<string> knownSupportFilePaths = TargetInformation.KnownSupportFiles.Select(x => x.FilePath);
+                LogFile logFile = GetLogFile(first);
 
-                if (knownSupportFilePaths.Contains(first))
-                {
-                    information.TargetSupportFiles.Add(LogFileKey, TargetInformation.KnownSupportFiles[knownSupportFilePaths.ToList().IndexOf(first)]);
-                }
-                else
-                {
-                    LogFile logFile = new LogFile(first);
-                    logFile.ExtractInformation();
-
-                    TargetInformation.KnownSupportFiles.Add(logFile);
-                    information.TargetSupportFiles.Add(LogFileKey, logFile);
-                }
+                information.TargetSupportFiles.Add(LogFileKey, logFile);
             }
             else if (length > 1)
             {
                 foreach (string log in logFiles)
                 {
-                    if (IsLogFile(log))
+                    LogFile logFile = GetLogFile(log);
+
+                    // If more than one log file is found, we must check for the file name in the log file
+                    // Won't apply to later firmware versions
+                    foreach ((string recording, int line) in logFile.RecordingLogs)
                     {
-                        LogFile logFile;
-                        IEnumerable<string> knownSupportFilePaths = TargetInformation.KnownSupportFiles.Select(x => x.FilePath);
-
-                        if (knownSupportFilePaths.Contains(log))
+                        if (recording.Contains(information.FileSystem.Path.GetFileName(information.Path)))
                         {
-                            logFile = (LogFile)TargetInformation.KnownSupportFiles[knownSupportFilePaths.ToList().IndexOf(log)];
-                        }
-                        else
-                        {
-                            logFile = new LogFile(log);
-                            logFile.ExtractInformation();
-                            TargetInformation.KnownSupportFiles.Add(logFile);
-                        }
-
-                        // If more than one log file is found, we must check for the file name in the log file
-                        // Won't apply to later firmware versions
-                        foreach ((string recording, int line) in logFile.RecordingLogs)
-                        {
-                            if (recording.Contains(information.FileSystem.Path.GetFileName(information.Path)))
-                            {
-                                information.TargetSupportFiles.Add(LogFileKey, logFile);
-                                return;
-                            }
+                            information.TargetSupportFiles.Add(LogFileKey, logFile);
+                            return;
                         }
                     }
                 }
@@ -91,77 +68,124 @@ namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
             return;
         }
 
-        public static bool IsLogFile(string logFile)
+        public static LogFile GetLogFile(string log)
         {
-            using (StreamReader reader = new StreamReader(logFile))
+            IEnumerable<string> knownSupportFilePaths = TargetInformation.KnownSupportFiles.Select(x => x.FilePath);
+            LogFile logFile;
+
+            if (knownSupportFilePaths.Contains(log))
             {
-                for (int i = 0; i < 5; i++)
-                {
-                    if ((reader.ReadLine() ?? string.Empty).Contains(FrontierLabsLogString))
-                    {
-                        return true;
-                    }
-                }
+                logFile = (LogFile)TargetInformation.KnownSupportFiles[knownSupportFilePaths.ToList().IndexOf(log)];
+            }
+            else
+            {
+                logFile = new LogFile(log);
+                logFile.ExtractInformation();
+                TargetInformation.KnownSupportFiles.Add(logFile);
             }
 
-            return false;
+            return logFile;
         }
 
         public override void ExtractInformation()
         {
-            string[] lines = System.IO.File.ReadAllLines(this.FilePath);
+            int i;
+            bool isLogFile = false;
+            string line;
 
-            int i = 0;
+            float firmware = 0;
+            string serialNumber = string.Empty, powerSource = string.Empty;
 
-            for (; i < 8; i++)
+            using (StreamReader reader = new StreamReader(this.FilePath))
             {
-                if (lines[i].Contains(FirmwareString))
+                // Extract information found at the beginning of the log file
+                for (i = 0; i < 8; i++)
                 {
-                    string firmwareString = lines[i].Split().Where(x => new Regex(@"V?\d+").IsMatch(x)).FirstOrDefault();
+                    line = reader.ReadLine() ?? string.Empty;
 
-                    if (firmwareString != null)
+                    if (line.Contains(FrontierLabsLogString))
                     {
-                        if (firmwareString[0] == 'V')
+                        isLogFile = true;
+                    }
+                    else if (line.Contains(FirmwareString))
+                    {
+                        string firmwareString = line.Split().Where(x => FirmwareRegex.IsMatch(x)).FirstOrDefault();
+
+                        if (firmwareString != null)
                         {
-                            this.Firmware = float.Parse(firmwareString.Substring(1));
-                        }
-                        else
-                        {
-                            this.Firmware = float.Parse(firmwareString);
+                            if (firmwareString[0] == 'V')
+                            {
+                                firmware = float.Parse(firmwareString.Substring(1));
+                            }
+                            else
+                            {
+                                firmware = float.Parse(firmwareString);
+                            }
                         }
                     }
-                }
-            }
-
-            for (; i < lines.Length(); i++)
-            {
-                if (lines[i].Contains(SDCardString))
-                {
-                    MemoryCard memoryCard = new MemoryCard() with
+                    else if (line.Contains(SerialNumberString))
                     {
-                        FormatType = lines[++i].Split().Last(),
-                        ManufacturerID = uint.Parse(lines[++i].Split().Last()),
-                        OEMID = lines[++i].Split().Last(),
-                        ProductName = lines[++i].Split().Last(),
-                        ProductRevision = float.Parse(lines[++i].Split().Last()),
-                        SerialNumber = uint.Parse(lines[++i].Split().Last()),
-                        ManufactureDate = lines[++i].Split().Last(),
-                        Speed = uint.Parse(lines[++i].Split().Last()),
-                        Capacity = uint.Parse(lines[++i].Split().Last()),
-                        WrCurrentVmin = uint.Parse(lines[++i].Split().Last()),
-                        WrCurrentVmax = uint.Parse(lines[++i].Split().Last()),
-                        WriteB1Size = uint.Parse(lines[++i].Split().Last()),
-                        EraseB1Size = uint.Parse(lines[++i].Split().Last()),
-                    };
-
-                    this.MemoryCardLogs.Add((memoryCard, i));
+                        serialNumber = line.Split().Last();
+                    }
+                    else if (line.Contains(ConfigString))
+                    {
+                        powerSource = line.Split().Last();
+                    }
                 }
-                else if (lines[i].Contains(RecordingString))
+
+                if (!isLogFile)
                 {
-                    string recording = lines[i];
-
-                    this.RecordingLogs.Add((recording, i));
+                    return;
                 }
+                else
+                {
+                    this.Sensor = new Sensor() with
+                    {
+                        Firmware = firmware,
+                        SerialNumber = serialNumber,
+                        PowerSource = powerSource,
+                    };
+                }
+
+                while ((line = reader.ReadLine()) != null)
+                {
+                    if (line.Contains(SDCardString))
+                    {
+                        try
+                        {
+                            MemoryCard memoryCard = new MemoryCard() with
+                            {
+                                FormatType = reader.ReadLine()?.Split().Last(),
+                                ManufacturerID = uint.Parse(reader.ReadLine()!.Split().Last()),
+                                OEMID = reader.ReadLine()?.Split().Last(),
+                                ProductName = reader.ReadLine()?.Split().Last(),
+                                ProductRevision = float.Parse(reader.ReadLine()!.Split().Last()),
+                                SerialNumber = uint.Parse(reader.ReadLine()!.Split().Last()),
+                                ManufactureDate = reader.ReadLine()?.Split().Last(),
+                                Speed = uint.Parse(reader.ReadLine()!.Split().Last()),
+                                Capacity = uint.Parse(reader.ReadLine()!.Split().Last()),
+                                WrCurrentVmin = uint.Parse(reader.ReadLine()!.Split().Last()),
+                                WrCurrentVmax = uint.Parse(reader.ReadLine()!.Split().Last()),
+                                WriteB1Size = uint.Parse(reader.ReadLine()!.Split().Last()),
+                                EraseB1Size = uint.Parse(reader.ReadLine()!.Split().Last()),
+                            };
+
+                            this.MemoryCardLogs.Add((memoryCard, i));
+                        }
+                        catch (ArgumentNullException)
+                        {
+                            return;
+                        }
+                    }
+                    else if (line.Contains(RecordingString))
+                    {
+                        string recording = line;
+
+                        this.RecordingLogs.Add((recording, i));
+                    }
+                }
+
+                return;
             }
         }
     }

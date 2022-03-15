@@ -5,6 +5,7 @@
 namespace MetadataUtility.Tests.TestHelpers
 {
     using System;
+    using System.Collections.Generic;
     using System.IO.Abstractions;
     using CsvHelper.Configuration.Attributes;
     using MetadataUtility.Audio;
@@ -55,31 +56,9 @@ namespace MetadataUtility.Tests.TestHelpers
 
         public string[] Process { get; set; }
 
-        public string SDFormatType { get; set; }
+        public MemoryCard MemoryCard { get; set; }
 
-        public uint SDManufacturerID { get; set; }
-
-        public string SDOEMID { get; set; }
-
-        public string SDProductName { get; set; }
-
-        public float SDProductRevision { get; set; }
-
-        public uint SDSerialNumber { get; set; }
-
-        public string SDManufactureDate { get; set; }
-
-        public uint SDSpeed { get; set; }
-
-        public uint SDCapacity { get; set; }
-
-        public uint SDWrCurrentVmin { get; set; }
-
-        public uint SDWrCurrentVmax { get; set; }
-
-        public uint SDWriteB1Size { get; set; }
-
-        public uint SDEraseB1Size { get; set; }
+        public Sensor Sensor { get; set; }
 
         // TODO: add other columns from the CSV here!
 
@@ -94,27 +73,6 @@ namespace MetadataUtility.Tests.TestHelpers
                 this.fixturePath = value;
                 this.AbsoluteFixturePath = FixtureHelper.ResolvePath(value);
             }
-        }
-
-        public MemoryCard MemoryCard
-        {
-            get =>
-                new MemoryCard() with
-                {
-                    FormatType = this.SDFormatType,
-                    ManufacturerID = this.SDManufacturerID,
-                    OEMID = this.SDOEMID,
-                    ProductName = this.SDProductName,
-                    ProductRevision = this.SDProductRevision,
-                    SerialNumber = this.SDSerialNumber,
-                    ManufactureDate = this.SDManufactureDate,
-                    Speed = this.SDSpeed,
-                    Capacity = this.SDCapacity,
-                    WrCurrentVmin = this.SDWrCurrentVmin,
-                    WrCurrentVmax = this.SDWrCurrentVmax,
-                    WriteB1Size = this.SDWriteB1Size,
-                    EraseB1Size = this.SDEraseB1Size,
-                };
         }
 
         [Ignore]
@@ -136,7 +94,7 @@ namespace MetadataUtility.Tests.TestHelpers
                 Base = FixtureHelper.ResolveFirstDirectory(this.FixturePath),
             };
 
-            SupportFile.FindSupportFiles(ti);
+            SupportFile.FindSupportFiles(fileSystem.Path.GetDirectoryName(ti.Path), new List<TargetInformation> { ti }, fileSystem);
 
             return ti;
         }

@@ -71,10 +71,9 @@ namespace MetadataUtility.Tests.Audio
         [ClassData(typeof(FixtureHelper.FixtureData))]
         public void IsFlacFileTest(FixtureModel model)
         {
-            Fin<bool> isFlac = Flac.IsFlacFile(model.ToTargetInformation(this.RealFileSystem).FileStream);
-            Assert.True(isFlac.IsSucc);
+            bool isFlac = Flac.IsFlacFile(model.ToTargetInformation(this.RealFileSystem).FileStream).IfFail(false);
 
-            ((bool)isFlac).Should().Be(model.IsFlac);
+            isFlac.Should().Be(model.IsFlac);
         }
 
         [Theory]
@@ -84,7 +83,7 @@ namespace MetadataUtility.Tests.Audio
             Fin<bool> hasMetadata = Flac.HasMetadataBlock(model.ToTargetInformation(this.RealFileSystem).FileStream);
             Assert.True(hasMetadata.IsSucc);
 
-            ((bool)hasMetadata).Should().Be(model.ValidMetadata != ValidMetadata.No);
+            ((bool)hasMetadata).Should().Be(model.IsFlac && model.ValidMetadata != ValidMetadata.No);
         }
     }
 }

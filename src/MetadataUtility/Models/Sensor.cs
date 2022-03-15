@@ -4,8 +4,6 @@
 
 namespace MetadataUtility.Models
 {
-    using System.Collections.Generic;
-
     /// <summary>
     /// Describes a passive acoustic monitor/sensor that
     /// was used to generate a recording.
@@ -20,12 +18,12 @@ namespace MetadataUtility.Models
         /// <summary>
         /// Gets the firmware version of this sensor.
         /// </summary>
-        public string Firmware { get; init; }
+        public float Firmware { get; init; }
 
         /// <summary>
         /// Gets the serial number of the sensor.
         /// </summary>
-        public string SensorSerialNumber { get; init; }
+        public string SerialNumber { get; init; }
 
         /// <summary>
         /// Gets a description of the powersource used by this sensor.

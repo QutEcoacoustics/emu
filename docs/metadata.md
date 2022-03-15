@@ -34,7 +34,7 @@ This document outlines all of the files from which we hope to extract metadata.
 | ------------------------ | --------- | --------------- | ----------- |
 | Date Time                | ❌         | Name            |             |
 | UTC Offset               | ❌         | Name            |             |
-| Serial Number            | ❌         | Header, Support |             |
+| Serial Number            | ✔️(Support)| Header, Support |             |
 | Microphone Serial Number | ❌         | Header, Support |             |
 | Longitude                | ❌         | Name, Support   | GPS_log.csv |
 | Latitude                 | ❌         | Name, Support   | GPS_log.csv |
@@ -45,9 +45,9 @@ This document outlines all of the files from which we hope to extract metadata.
 | Battery Percentage       | ❌         | Header, Support | Log file    |
 | SD Capacity (GB)         | ✔️(Support)| Header, Support | Log file    |
 | SD Free Space (GB)       | ❌         | Header, Support | Log file    |
-| ARU Firmware             | ❌         | Header, Support | Log file    |
+| ARU Firmware             | ✔️(Support)| Header, Support | Log file    |
 | Device Type              | ❌         | Header, Support | Log file    |
-| Power Type               | ❌         | Support         | Log file    |
+| Power Type               | ✔️         | Support         | Log file    |
 | SD Card Manufacture Date | ✔️(Support)| Header, Support | Log file    |
 | ARU Manufacture Date     | ❌         | Header, Support | Log file    |
 | SD Card Speed            | ✔️(Support)| Header, Support | Log file    |

@@ -30,16 +30,5 @@ namespace MetadataUtility.Tests.Metadata.SupportFiles
                 Assert.True(ti.TargetSupportFiles.ContainsKey(LogFile.LogFileKey));
             }
         }
-
-        [Theory]
-        [ClassData(typeof(FixtureHelper.FixtureData))]
-        public void IsLogFileTest(FixtureModel model)
-        {
-            if (model.Process.Contains("FrontierLabsLogFileExtractor"))
-            {
-                bool hasLogFile = LogFile.IsLogFile(FixtureHelper.ResolvePath(model.FrontierLabsLogFile));
-                hasLogFile.Should().Be(true);
-            }
-        }
     }
 }

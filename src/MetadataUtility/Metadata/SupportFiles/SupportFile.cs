@@ -5,6 +5,7 @@
 namespace MetadataUtility.Metadata.SupportFiles
 {
     using System;
+    using System.IO.Abstractions;
 
     public abstract class SupportFile
     {
@@ -34,11 +35,10 @@ namespace MetadataUtility.Metadata.SupportFiles
 
         public string FilePath { get; set; }
 
-        public static void FindSupportFiles(TargetInformation information)
+        public static void FindSupportFiles(string directory, List<TargetInformation> targets, IFileSystem fileSystem)
         {
             List<string> supportFiles = new List<string>();
-            string fileDirectory = information.FileSystem.Path.GetDirectoryName(information.Path);
-            string searchDirectory = fileDirectory;
+            string searchDirectory = directory;
 
             int i = 0;
             const int maxHeight = 3;
@@ -48,7 +48,7 @@ namespace MetadataUtility.Metadata.SupportFiles
                 // Find any potential support files
                 foreach (string pattern in SupportFilePatterns)
                 {
-                    supportFiles.AddRange(information.FileSystem.Directory.GetFiles(searchDirectory, pattern, SearchOption.TopDirectoryOnly));
+                    supportFiles.AddRange(fileSystem.Directory.GetFiles(searchDirectory, pattern, SearchOption.TopDirectoryOnly));
                 }
 
                 // We assume that support files will only be found in one directory!
@@ -57,7 +57,7 @@ namespace MetadataUtility.Metadata.SupportFiles
                     break;
                 }
 
-                searchDirectory = information.FileSystem.Directory.GetParent(searchDirectory)?.FullName;
+                searchDirectory = fileSystem.Directory.GetParent(searchDirectory)?.FullName;
 
                 //return if root directory is reached before any support files are found
                 if (searchDirectory == null)
@@ -66,10 +66,13 @@ namespace MetadataUtility.Metadata.SupportFiles
                 }
             }
 
-            // Correlate specific support files to each target
-            foreach (Action<TargetInformation, IEnumerable<string>> finder in SupportFileFinders)
+            foreach (TargetInformation target in targets)
             {
-                finder(information, supportFiles);
+                // Correlate specific support files to each target
+                foreach (Action<TargetInformation, IEnumerable<string>> finder in SupportFileFinders)
+                {
+                    finder(target, supportFiles);
+                }
             }
         }
 
