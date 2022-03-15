@@ -23,14 +23,25 @@ namespace MetadataUtility.Metadata.FrontierLabs
 
         public async ValueTask<Recording> ProcessFileAsync(TargetInformation information, Recording recording)
         {
-            //Stream.Seek(0, SeekOrigin.Begin);
-            //Span<byte> data = stackalloc byte[(int)information.FileStream.Length];
-
-            var samples = Wave.ReadTotalSamples(information.FileStream);
-            var sampleRate = Wave.ReadWaveSampleRate(information.FileStream);
-            var channels = Wave.ReadWaveChannels(information.FileStream);
-            var bitRate = Wave.ReadWaveBitsPerSecond(information.FileStream);
+            //File length uses neither chunk
             var fileLength = Wave.ReadWaveFileLength(information.FileStream);
+
+            byte[] waveFormat = Wave.GetWaveFormatChunk(information.FileStream);
+
+            //Functions that use "fmt " chunk
+            var sampleRate = Wave.ReadWaveSampleRate(waveFormat);
+            var channels = Wave.ReadWaveChannels(waveFormat);
+            var bitRate = Wave.ReadWaveBitsPerSecond(waveFormat);
+
+            ulong f = (ulong)fileLength;
+            uint s = (uint)sampleRate;
+            byte c = (byte)channels;
+            uint b = (uint)bitRate;
+
+            //Get length of the "data" chunk
+            var samples = Wave.ReadTotalSamples(information.FileStream);
+
+            ulong t = (ulong)samples;
 
             Duration? duration = samples.IsFail ? null : Duration.FromSeconds((ulong)samples / (ulong)sampleRate);
 

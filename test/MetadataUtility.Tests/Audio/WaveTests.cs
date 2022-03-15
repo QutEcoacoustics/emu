@@ -37,7 +37,7 @@ namespace MetadataUtility.Tests.Audio
         {
             if (model.Process.Contains("WaveHeaderExtractor"))
             {
-                Fin<uint> sampleRate = Wave.ReadWaveSampleRate(model.ToTargetInformation(this.RealFileSystem).FileStream);
+                Fin<uint> sampleRate = Wave.ReadWaveSampleRate(model.FmtBytes); //Changed from model.ToTargetInformation(this.RealFileSystem).FileStream
                 Assert.True(sampleRate.IsSucc);
                 ((uint)sampleRate).Should().Be(model.SampleRateHertz);
             }
@@ -47,9 +47,9 @@ namespace MetadataUtility.Tests.Audio
         [ClassData(typeof(FixtureHelper.FixtureData))]
         public void ReadNumChannelsTest(FixtureModel model)
         {
-            if (model.Process.Contains("FlacHeaderExtractor"))
+            if (model.Process.Contains("WaveHeaderExtractor"))
             {
-                Fin<byte> channels = Wave.ReadWaveChannels(model.ToTargetInformation(this.RealFileSystem).FileStream);
+                Fin<byte> channels = Wave.ReadWaveChannels(model.FmtBytes); //Changed from model.ToTargetInformation(this.RealFileSystem).FileStream
                 Assert.True(channels.IsSucc);
                 ((byte)channels).Should().Be(model.Channels);
             }
@@ -59,7 +59,7 @@ namespace MetadataUtility.Tests.Audio
         [ClassData(typeof(FixtureHelper.FixtureData))]
         public void IsWaveFileTest(FixtureModel model)
         {
-            Fin<bool> isWave = Wave.IsWaveFile(model.ToTargetInformation(this.RealFileSystem).FileStream);
+            Fin<bool> isWave = Wave.IsWaveFilePCM(model.ToTargetInformation(this.RealFileSystem).FileStream);
             Assert.True(isWave.IsSucc);
 
             ((bool)isWave).Should().Be(model.IsWave);

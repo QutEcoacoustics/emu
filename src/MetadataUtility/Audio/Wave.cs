@@ -12,11 +12,9 @@ namespace MetadataUtility.Audio
     {
         public const string Mime = "audio/wave";
 
-        //public const int WaveFileTextRIFF = 0;
-        //public const int WaveFileLengthOffset = 4;
-
         public static readonly byte[] RiffMagicNumber = new byte[] { (byte)'R', (byte)'I', (byte)'F', (byte)'F' };
         public static readonly byte[] WaveMagicNumber = new byte[] { (byte)'W', (byte)'A', (byte)'V', (byte)'E' };
+        public static readonly byte[] FormatBlockId = new byte[] { (byte)'f', (byte)'m', (byte)'t', (byte)' ' };
         public static readonly byte[] DataBlockId = new byte[] { (byte)'d', (byte)'a', (byte)'t', (byte)'a' };
 
         //public static readonly Error FileTooShort = Error.New("Error reading file: file is not long enough to have RIFF header");
@@ -29,217 +27,167 @@ namespace MetadataUtility.Audio
         public static readonly Error FileTooShortWave = Error.New("Error reading file: file is not long enough to have a WAVE header");
         public static readonly Error InvalidFileData = Error.New("Error reading file: no valid file data was found");
 
-        public static Span<byte> ScanWaveFile(ReadOnlySpan<byte> waveData, string chunkName, string dataType)
+        public static Fin<ulong> ReadWaveFileLength(FileStream stream)
         {
-            int byteCount = 0;
+            Span<byte> waveData = stackalloc byte[4];
 
-            while (byteCount < waveData.Length)
+            stream.Seek(4, SeekOrigin.Begin);
+            var read = stream.Read(waveData);
+
+            ulong length = BinaryPrimitives.ReadUInt32LittleEndian(waveData);
+
+            return length + 8;
+        }
+
+        public static byte[] GetWaveFormatChunk(FileStream stream)
+        {
+            int byteCount = 12;
+            string chunkName = string.Empty;
+            int fmtLength = 0;
+            byte[] data = new byte[fmtLength];
+
+            Span<byte> waveData = stackalloc byte[4];
+
+            stream.Seek(byteCount, SeekOrigin.Begin);
+            var read = stream.Read(waveData);
+
+            while (byteCount < stream.Length)
             {
-                //Get chunk name as a String
-                byte[] temp = { waveData[byteCount], waveData[byteCount + 1], waveData[byteCount + 2], waveData[byteCount + 3] }; //Big endian
-                chunkName = Convert.ToBase64String(temp);
+                stream.Seek(byteCount, SeekOrigin.Begin);
+                read = stream.Read(waveData);
 
-                //Processing the chunk
-                switch (chunkName)
+                Int32 name = BinaryPrimitives.ReadInt32BigEndian(waveData);
+
+                if (name == BinaryPrimitives.ReadInt32BigEndian(FormatBlockId))
                 {
-                    case "fmt ":
-                        {
-                            switch (dataType)
-                            {
-                                case "Channels":
-                                    {
-                                        int start = byteCount + 10;
+                    int fmtLengthStart = byteCount + 4;
 
-                                        Span<byte> metadata = new byte[2];
-                                        metadata[0] = waveData[start + 1];
-                                        metadata[1] = waveData[start];
+                    //Get value of format length
+                    stream.Seek(fmtLengthStart, SeekOrigin.Begin);
+                    read = stream.Read(waveData);
 
-                                        return metadata;
-                                    }
+                    fmtLength = BinaryPrimitives.ReadInt32LittleEndian(waveData);
 
-                                case "SampleRate":
-                                    {
-                                        int start = byteCount + 12;
+                    //Get byte[] from byteCount to the end of the format chunk
 
-                                        Span<byte> metadata = new byte[4];
-                                        metadata[0] = waveData[start + 3];
-                                        metadata[1] = waveData[start + 2];
-                                        metadata[2] = waveData[start + 1];
-                                        metadata[3] = waveData[start];
+                    waveData = stackalloc byte[fmtLength];
 
-                                        return metadata;
-                                    }
+                    fmtLengthStart += 4;
 
-                                case "BitsPerSecond":
-                                    {
-                                        int start = byteCount + 22;
+                    stream.Seek(fmtLengthStart, SeekOrigin.Begin);
+                    read = stream.Read(waveData);
 
-                                        Span<byte> metadata = new byte[2];
-                                        metadata[0] = waveData[start + 1];
-                                        metadata[1] = waveData[start];
+                    data = new byte[fmtLength]; //Empty memory with a length of the format chunk
 
-                                        return metadata;
-                                    }
+                    //Now I need to fill the array
+                    for (int i = 0; i < fmtLength; i++)
+                    {
+                        data[i] = waveData[i];
+                    }
 
-                                default:
-                                    {
-                                        break;
-                                    }
-                            }
-
-                            break;
-                        }
-
-                    case "data":
-                        {
-                            if (dataType == "TotalSamples")
-                            {
-                                int start = byteCount + 4;
-
-                                Span<byte> metadata = new byte[4];
-                                metadata[0] = waveData[start + 3];
-                                metadata[1] = waveData[start + 2];
-                                metadata[2] = waveData[start + 1];
-                                metadata[3] = waveData[start];
-
-                                return metadata;
-                            }
-
-                            break;
-                        }
-
-                    default:
-                        {
-                            //Get the length of the current chunk and advance that far
-                            int sizeStart = byteCount + 4;
-                            int chunkSize = waveData[sizeStart + 3] + waveData[sizeStart + 2] + waveData[sizeStart + 1] + waveData[sizeStart]; //Little endian
-
-                            byteCount += chunkSize; //Skip this chunk
-
-                            continue;
-                        }
+                    //return the chunk
+                    return data;
                 }
-            }
 
-            Span<byte> data = new byte[0];
+                int sizeStart = byteCount + 4;
+
+                int chunkSize = BinaryPrimitives.ReadInt32LittleEndian(waveData[sizeStart..]); //Getting the length of the chunk. Format: little endian
+
+                byteCount += chunkSize;
+            }
 
             return data;
         }
 
-        //INCOMPLETE
-        public static Fin<bool> IsWaveFile(FileStream stream)
+        public static Fin<uint> ReadWaveSampleRate(byte[] fmtChunk)
         {
-            stream.Seek(0, SeekOrigin.Begin);
+            byte[] data = new byte[4];
 
-            Span<byte> riffBuffer = stackalloc byte[4];
-            var readRiff = stream.Read(riffBuffer);
-
-            if (readRiff != WaveMagicNumber.Length)
-            {
-                return FileTooShortWave;
-            }
-
-            return FileTooShortWave; //Changed. Use another version to get accurate function without errors
-        }
-
-        //Finished Functions**************************************************************************************************************
-
-        public static Fin<uint> ReadWaveSampleRate(FileStream stream)
-        {
-            //Stream.Seek(0, SeekOrigin.Begin);
-            Span<byte> waveData = stackalloc byte[(int)stream.Length];
-
-            string chunkName = "fmt ";
-            string dataType = "SampleRate";
-
-            Span<byte> data = ScanWaveFile(waveData, chunkName, dataType);
-
-            if (data.Length == 0)
-            {
-                return InvalidFileData;
-            }
+            data[0] = fmtChunk[4];
+            data[1] = fmtChunk[5];
+            data[2] = fmtChunk[6];
+            data[3] = fmtChunk[7];
 
             uint sampleRate = BinaryPrimitives.ReadUInt32LittleEndian(data);
 
             return sampleRate;
         }
 
-        public static Fin<byte> ReadWaveChannels(FileStream stream)
+        public static Fin<byte> ReadWaveChannels(byte[] fmtChunk)
         {
-            Span<byte> waveData = stackalloc byte[(int)stream.Length];
+            byte[] data = new byte[2];
 
-            string chunkName = "fmt ";
-            string dataType = "Channels";
-
-            Span<byte> data = ScanWaveFile(waveData, chunkName, dataType);
-
-            if (data.Length == 0)
-            {
-                return InvalidFileData;
-            }
+            data[0] = fmtChunk[2];
+            data[1] = fmtChunk[3];
 
             byte channels = data[0];
 
             return channels;
         }
 
-        public static Fin<uint> ReadWaveBitsPerSecond(FileStream stream)
+        public static Fin<uint> ReadWaveBitsPerSecond(byte[] fmtChunk)
         {
-            Span<byte> waveData = stackalloc byte[(int)stream.Length];
+            byte[] data = new byte[2];
 
-            string chunkName = "fmt ";
-            string dataType = "BitsPerSecond";
+            data[0] = fmtChunk[14];
+            data[1] = fmtChunk[15];
 
-            Span<byte> data = ScanWaveFile(waveData, chunkName, dataType);
-
-            if (data.Length == 0)
-            {
-                return InvalidFileData;
-            }
-
-            uint bitsPerSecond = BinaryPrimitives.ReadUInt32LittleEndian(data);
+            uint bitsPerSecond = BinaryPrimitives.ReadUInt16LittleEndian(data);
 
             return bitsPerSecond;
         }
 
         public static Fin<ulong> ReadTotalSamples(FileStream stream)
         {
-            Span<byte> waveData = stackalloc byte[(int)stream.Length];
+            int byteCount = 12;
+            string chunkName = string.Empty;
+            ulong dataLength = 0;
+            byte[] data = new byte[dataLength];
 
-            string chunkName = "data";
-            string dataType = "TotalSamples";
+            Span<byte> waveData = stackalloc byte[4];
 
-            Span<byte> data = ScanWaveFile(waveData, chunkName, dataType);
+            stream.Seek(byteCount, SeekOrigin.Begin);
+            var read = stream.Read(waveData);
 
-            if (data.Length == 0)
+            while (byteCount < stream.Length)
             {
-                return InvalidFileData;
+                stream.Seek(byteCount, SeekOrigin.Begin);
+                read = stream.Read(waveData);
+
+                Int32 name = BinaryPrimitives.ReadInt32BigEndian(waveData);
+
+                if (name == BinaryPrimitives.ReadInt32BigEndian(DataBlockId))
+                {
+                    int dataLengthStart = byteCount + 4;
+
+                    //Get value of format length
+                    stream.Seek(dataLengthStart, SeekOrigin.Begin);
+                    read = stream.Read(waveData);
+
+                    dataLength = BinaryPrimitives.ReadUInt32LittleEndian(waveData);
+
+                    //return data length
+                    return dataLength;
+                }
+
+                int sizeStart = byteCount + 4;
+                byteCount += 8;
+
+                stream.Seek(sizeStart, SeekOrigin.Begin);
+                read = stream.Read(waveData);
+
+                int chunkSize = BinaryPrimitives.ReadInt32LittleEndian(waveData); //Getting the length of the chunk. Format: little endian
+
+                byteCount += chunkSize;
             }
 
-            ulong totalSamples = BinaryPrimitives.ReadUInt64LittleEndian(data);
-
-            return totalSamples;
-        }
-
-        public static Fin<ulong> ReadWaveFileLength(FileStream stream)
-        {
-            stream.Seek(0, SeekOrigin.Begin);
-
-            Span<byte> waveData = stackalloc byte[(int)stream.Length];
-
-            Span<byte> buffer = new byte[4];
-            buffer[0] = waveData[4];
-            buffer[1] = waveData[5];
-            buffer[2] = waveData[6];
-            buffer[3] = waveData[7];
-
-            ulong dest = BinaryPrimitives.ReadUInt64LittleEndian(buffer);
-
-            return dest + 8;
+            return InvalidFileData;
         }
 
         public static Fin<bool> IsWaveFilePCM(FileStream stream)
         {
+            return true;
+
             Span<byte> waveData = stackalloc byte[(int)stream.Length];
 
             var read = stream.Read(waveData);
@@ -296,7 +244,10 @@ namespace MetadataUtility.Audio
                 {
                     //Get the length of the current chunk and advance that far
                     int sizeStart = byteCount + 4;
-                    int chunkSize = waveData[sizeStart + 3] + (waveData[sizeStart + 2] << 8) + (waveData[sizeStart + 1] << 16) + (waveData[sizeStart] << 24); //Getting the length of the chunk. Format: little endian
+
+                    //int chunkSize = waveData[sizeStart + 3] + (waveData[sizeStart + 2] << 8) + (waveData[sizeStart + 1] << 16) + (waveData[sizeStart] << 24); //Getting the length of the chunk. Format: little endian
+
+                    int chunkSize = BinaryPrimitives.ReadInt32LittleEndian(waveData[sizeStart..]); //Getting the length of the chunk. Format: little endian
 
                     //sizeStart needs to be converted before used to identify waveData's position*****************************
 

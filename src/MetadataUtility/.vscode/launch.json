@@ -14,7 +14,11 @@
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
             "program": "${workspaceFolder}/bin/Debug/net6.0/win-x64/emu.exe",
-            "args": [],
+            //Args copied from launchSettings.json. Return to the correct file later. "commandLineArgs": "fix -vv fix check C:\\Work\\Github\\metadata-utility\\test\\Fixtures\\FL_BAR_LT\\3.17_Duration\\*.flac -f FL010"
+            "args": [
+                "metadata",
+                "C://Users//mercerjo//Documents//emuTestingAudio//S4U09523_20210621_205706.wav"
+            ],
             "cwd": "${workspaceFolder}",
             // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
             "console": "internalConsole",
