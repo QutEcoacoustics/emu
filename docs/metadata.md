@@ -58,9 +58,8 @@ This document outlines all of the files from which we hope to extract metadata.
 | SD Card Product Revision | ✔️(Support)| Header, Support | Log file    |
 | SD Write Current Vmin    | ✔️(Support)| Header, Support | Log file    |
 | SD Write Current Vmax    | ✔️(Support)| Header, Support | Log file    |
-| SD Write B1 Size         | ✔️(Support)| Header, Support | Log file    |
-| SD Write B2 Size         | ❌         | Header, Support | Log file    |
-| SD Erase B1 Size         | ✔️(Support)| Header, Support | Log file    |
+| SD Write Bl Size         | ✔️(Support)| Header, Support | Log file    |
+| SD Erase Bl Size         | ✔️(Support)| Header, Support | Log file    |
 
 ### BAR
 
