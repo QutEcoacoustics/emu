@@ -5,8 +5,8 @@
 namespace MetadataUtility.Models
 {
     /// <summary>
-    /// Holds information regarding a microphone
-    /// that is attached to the device.
+    /// Holds information regarding a memory card
+    /// that is installed in to the device.
     /// </summary>
     public record MemoryCard
     {

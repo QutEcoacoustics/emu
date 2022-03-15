@@ -15,6 +15,7 @@ namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
         public const string FirmwareString = "Firmware:";
         public const string SDCardString = "SD Card :";
         public const string RecordingString = "New recording started:";
+        public static readonly Regex LogFileRegex = new Regex(@".*logfile.*txt");
 
         public LogFile(string filePath)
         {
@@ -29,12 +30,14 @@ namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
 
         public static void FindLogFile(TargetInformation information, IEnumerable<string> supportFiles)
         {
-            IEnumerable<string> logFiles = supportFiles.Where(x => new Regex(@".*logfile.*txt").IsMatch(x));
+            IEnumerable<string> logFiles = supportFiles.Where(x => LogFileRegex.IsMatch(x));
 
-            string first;
+            int length = logFiles.Length();
+
+            string first = logFiles.FirstOrDefault();
 
             // If one log file was found, return true and add it to known support files for the target
-            if (logFiles.Length() == 1 && IsLogFile(first = logFiles.First()))
+            if (length == 1 && IsLogFile(first))
             {
                 IEnumerable<string> knownSupportFilePaths = TargetInformation.KnownSupportFiles.Select(x => x.FilePath);
 
@@ -51,7 +54,7 @@ namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
                     information.TargetSupportFiles.Add(LogFileKey, logFile);
                 }
             }
-            else if (logFiles.Length() > 1)
+            else if (length > 1)
             {
                 foreach (string log in logFiles)
                 {

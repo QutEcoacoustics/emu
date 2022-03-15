@@ -36,7 +36,7 @@ namespace MetadataUtility.Metadata.SupportFiles
 
         public static void FindSupportFiles(TargetInformation information)
         {
-            IEnumerable<string> supportFiles = new List<string>();
+            List<string> supportFiles = new List<string>();
             string fileDirectory = information.FileSystem.Path.GetDirectoryName(information.Path);
             string searchDirectory = fileDirectory;
 
@@ -48,9 +48,10 @@ namespace MetadataUtility.Metadata.SupportFiles
                 // Find any potential support files
                 foreach (string pattern in SupportFilePatterns)
                 {
-                    supportFiles = supportFiles.Append(information.FileSystem.Directory.GetFiles(searchDirectory, pattern, SearchOption.TopDirectoryOnly).ToList());
+                    supportFiles.AddRange(information.FileSystem.Directory.GetFiles(searchDirectory, pattern, SearchOption.TopDirectoryOnly));
                 }
 
+                // We assume that support files will only be found in one directory!
                 if (supportFiles.Any())
                 {
                     break;
