@@ -7,52 +7,64 @@ namespace MetadataUtility.Metadata.FrontierLabs
     using System.Threading.Tasks;
     using MetadataUtility.Audio;
     using MetadataUtility.Models;
+    using MetadataUtility.Utilities;
+    using Microsoft.Extensions.Logging;
     using NodaTime;
 
     public class WaveHeaderExtractor : IMetadataOperation
     {
-        //public static readonly Error FileNotWavePCM = Error.New("Error reading file: file must be wave format PCM to be processed");
+        private readonly ILogger<WaveHeaderExtractor> logger;
+
+        public WaveHeaderExtractor(ILogger<WaveHeaderExtractor> logger)
+        {
+            this.logger = logger;
+        }
 
         public ValueTask<bool> CanProcessAsync(TargetInformation information)
         {
-            //var result = !information.IsWaveFile();
             var result = information.IsWaveFilePCM();
 
             return ValueTask.FromResult(result);
         }
 
-        public async ValueTask<Recording> ProcessFileAsync(TargetInformation information, Recording recording)
+        public ValueTask<Recording> ProcessFileAsync(TargetInformation information, Recording recording)
         {
-            //File length uses neither chunk
-            var fileLength = Wave.ReadWaveFileLength(information.FileStream);
+            var stream = information.FileStream;
 
-            byte[] waveFormat = Wave.GetWaveFormatChunk(information.FileStream);
+            var riffChunk = Wave.FindRiffChunk(stream);
+            var waveChunk = riffChunk.Bind(r => Wave.FindWaveChunk(stream, r));
+            var formatChunk = waveChunk.Bind(w => Wave.FindFormatChunk(stream, w));
+            var dataChunk = waveChunk.Bind(w => Wave.FindFormatChunk(stream, w));
 
-            //Functions that use "fmt " chunk
-            var sampleRate = Wave.ReadWaveSampleRate(waveFormat);
-            var channels = Wave.ReadWaveChannels(waveFormat);
-            var bitRate = Wave.ReadWaveBitsPerSecond(waveFormat);
-
-            ulong f = (ulong)fileLength;
-            uint s = (uint)sampleRate;
-            byte c = (byte)channels;
-            uint b = (uint)bitRate;
-
-            //Get length of the "data" chunk
-            var samples = Wave.ReadTotalSamples(information.FileStream);
-
-            ulong t = (ulong)samples;
-
-            Duration? duration = samples.IsFail ? null : Duration.FromSeconds((ulong)samples / (ulong)sampleRate);
-
-            return recording with
+            if (formatChunk.IsFail)
             {
-                DurationSeconds = duration,
+                this.logger.LogError("Failed to process wave file: {error}", formatChunk);
+                return new ValueTask<Recording>(recording);
+            }
+
+            var formatSpan = Wave.ReadRange(stream, (Wave.Range)formatChunk);
+
+            var sampleRate = Wave.GetSampleRate(formatSpan);
+            var bitsPerSample = Wave.GetBitsPerSample(formatSpan);
+            var byteRate = Wave.GetByteRate(formatSpan);
+            var channels = Wave.GetChannels(formatSpan);
+
+            var samples = dataChunk.Map(d => Wave.GetTotalSamples(d, channels, bitsPerSample));
+            var fileLength = stream.Length;
+
+
+            // TODO: replace with rational type from master branch
+            var duration = samples.Map(s => Duration.FromSeconds((double)samples / (double)sampleRate));
+
+            return ValueTask.FromResult(recording with
+            {
+                DurationSeconds = duration.IfFail(null),
                 SampleRateHertz = (uint)sampleRate,
                 Channels = (byte)channels,
-                BitsPerSecond = (uint)bitRate,
+                BitsPerSecond = (uint)byteRate * BinaryHelpers.BitsPerByte,
+                BitDepth = (byte)bitsPerSample,
                 FileLengthBytes = (ulong)fileLength,
-            };
+            });
         }
     }
 }
