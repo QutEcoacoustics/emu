@@ -53,6 +53,10 @@ namespace MetadataUtility.Tests.TestHelpers
 
         public ulong TotalSamples { get; set; }
 
+        public byte[] FmtBytes { get; set; }
+
+        public byte[] DataBytes { get; set; }
+
         // TODO: add other columns from the CSV here!
 
         public bool IsFlac => this.MimeType == Flac.Mime;

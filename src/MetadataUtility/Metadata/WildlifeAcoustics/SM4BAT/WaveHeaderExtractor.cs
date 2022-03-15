@@ -52,6 +52,7 @@ namespace MetadataUtility.Metadata.FrontierLabs
             var samples = dataChunk.Map(d => Wave.GetTotalSamples(d, channels, bitsPerSample));
             var fileLength = stream.Length;
 
+
             // TODO: replace with rational type from master branch
             var duration = samples.Map(s => Duration.FromSeconds((double)samples / (double)sampleRate));
 

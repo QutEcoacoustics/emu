@@ -66,6 +66,7 @@ namespace MetadataUtility.Tests.Audio
             using var stream = model.ToTargetInformation(this.RealFileSystem).FileStream;
 
             Fin<bool> isWave = Wave.IsWaveFile(stream);
+
             Assert.True(isWave.IsSucc);
 
             ((bool)isWave).Should().Be(model.IsWave);

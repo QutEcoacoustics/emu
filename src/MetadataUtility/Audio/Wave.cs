@@ -22,6 +22,7 @@ namespace MetadataUtility.Audio
     public static class Wave
     {
         public const string Mime = "audio/wave";
+
         public const int MinimumRiffHeaderLength = 8;
 
         public static readonly byte[] RiffMagicNumber = new byte[] { (byte)'R', (byte)'I', (byte)'F', (byte)'F' };
@@ -117,6 +118,7 @@ namespace MetadataUtility.Audio
             return new Range(offset, offset + riffChunk.End);
         }
 
+
         public static Fin<Range> FindFormatChunk(Stream stream, Range waveChunk)
         {
             return ScanForChunk(stream, waveChunk, FormatChunkId);
@@ -162,6 +164,7 @@ namespace MetadataUtility.Audio
         {
             // TODO!
 
+
             return /* TODO! */ 0;
         }
 
@@ -204,6 +207,7 @@ namespace MetadataUtility.Audio
 
             var audioFormat = GetAudioFormat(chunk);
             return audioFormat == Format.Pcm;
+
         }
 
         public static ReadOnlySpan<byte> ReadRange(Stream stream, Range range)

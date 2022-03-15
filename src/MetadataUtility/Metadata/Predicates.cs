@@ -15,9 +15,6 @@ public static class Predicates
     public static readonly Func<TargetInformation, bool> IsFlacFile =
         target => Flac.IsFlacFile(target.FileStream).IfFail(false);
 
-    public static readonly Func<TargetInformation, bool> IsWaveFile =
-        target => Wave.IsWaveFile(target.FileStream).IfFail(false);
-
     public static readonly Func<TargetInformation, bool> IsWaveFilePCM =
         target => Wave.IsWaveFilePcm(target.FileStream).IsSucc;
 
@@ -36,11 +33,6 @@ public static class TargetInformationExtensions
     public static bool IsFlacFile(this TargetInformation target)
     {
         return target.CheckPredicate(Predicates.IsFlacFile);
-    }
-
-    public static bool IsWaveFile(this TargetInformation target)
-    {
-        return target.CheckPredicate(Predicates.IsWaveFile);
     }
 
     public static bool IsWaveFilePCM(this TargetInformation target)
