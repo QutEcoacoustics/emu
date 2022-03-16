@@ -115,7 +115,7 @@ namespace MetadataUtility.Audio
                 return Error.New("Cannot process a non-WAVE RIFF file.");
             }
 
-            return new Range(offset, offset + riffChunk.End);
+            return new Range(offset, riffChunk.End);
         }
 
 
@@ -138,9 +138,28 @@ namespace MetadataUtility.Audio
             return waveChunk.IsSucc;
         }
 
+        public static Fin<bool> IsPcmWaveFile(Stream stream)
+        {
+            var riffChunk = FindRiffChunk(stream);
+
+            var waveChunk = riffChunk.Bind(r => FindWaveChunk(stream, r));
+
+            var formatChunk = waveChunk.Bind(w => Wave.FindFormatChunk(stream, w));
+            if (formatChunk.IsFail)
+            {
+                return (Error)formatChunk;
+            }
+
+            var formatSpan = Wave.ReadRange(stream, (Wave.Range)formatChunk);
+
+            var format = Wave.GetAudioFormat(formatSpan);
+
+            return format == Format.Pcm;
+        }
+
         public static uint GetSampleRate(ReadOnlySpan<byte> formatChunk)
         {
-            const int sampleRateOffset = /* TODO! */ 0;
+            const int sampleRateOffset = 4;
             uint sampleRate = BinaryPrimitives.ReadUInt32LittleEndian(formatChunk[sampleRateOffset..]);
 
             return sampleRate;
@@ -148,38 +167,42 @@ namespace MetadataUtility.Audio
 
         public static Format GetAudioFormat(ReadOnlySpan<byte> formatChunk)
         {
-            // TODO!
+            const int audioFormatOffset = 0;
+            ushort audioFormat = BinaryPrimitives.ReadUInt16LittleEndian(formatChunk[audioFormatOffset..]);
 
-            return /* TODO! */ 0;
+            return (Format)audioFormat;
         }
 
         public static short GetChannels(ReadOnlySpan<byte> formatChunk)
         {
-            // TODO!
+            const int channelsOffset = 2;
+            short channels = BinaryPrimitives.ReadInt16LittleEndian(formatChunk[channelsOffset..]);
 
-            return /* TODO! */ 0;
+            return channels;
         }
 
         public static uint GetByteRate(ReadOnlySpan<byte> formatChunk)
         {
-            // TODO!
+            const int byteRateOffset = 8;
+            uint byteRate = BinaryPrimitives.ReadUInt32LittleEndian(formatChunk[byteRateOffset..]);
 
-
-            return /* TODO! */ 0;
+            return byteRate;
         }
 
         public static short GetBlockAlign(ReadOnlySpan<byte> formatChunk)
         {
-            // TODO!
+            const int blockAlignOffset = 12;
+            short blockAlign = BinaryPrimitives.ReadInt16LittleEndian(formatChunk[blockAlignOffset..]);
 
-            return /* TODO! */ 0;
+            return blockAlign;
         }
 
         public static short GetBitsPerSample(ReadOnlySpan<byte> formatChunk)
         {
-            // TODO!
+            const int bitsPerSampleOffset = 14;
+            short bitsPerSample = BinaryPrimitives.ReadInt16LittleEndian(formatChunk[bitsPerSampleOffset..]);
 
-            return /* TODO! */ 0;
+            return bitsPerSample;
         }
 
         public static uint GetTotalSamples(Range dataChunk, short channels, short bitsPerSample)

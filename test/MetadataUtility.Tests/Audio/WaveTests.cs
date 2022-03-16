@@ -49,6 +49,28 @@ namespace MetadataUtility.Tests.Audio
 
         [Fact]
 
+        public void GetAudioFormatTest()
+        {
+            var model = this.data[FixtureModel.SM4BatNormal1];
+            var (format, dataRange) = this.ReadChunkRanges(model);
+
+            var sampleRate = Wave.GetAudioFormat(format);
+            sampleRate.Should().Be(Wave.Format.Pcm);
+        }
+
+        [Fact]
+
+        public void BitsPerSampleTest()
+        {
+            var model = this.data[FixtureModel.SM4BatNormal1];
+            var (format, dataRange) = this.ReadChunkRanges(model);
+
+            var sampleRate = Wave.GetBitsPerSample(format);
+            sampleRate.Should().Be(model.BitDepth);
+        }
+
+        [Fact]
+
         public void ReadNumChannelsTest()
         {
             var model = this.data[FixtureModel.SM4BatNormal1];
@@ -56,6 +78,28 @@ namespace MetadataUtility.Tests.Audio
 
             var channels = Wave.GetChannels(format);
             channels.Should().Be(model.Channels);
+        }
+
+        [Fact]
+
+        public void GetByteRateTest()
+        {
+            var model = this.data[FixtureModel.SM4BatNormal1];
+            var (format, dataRange) = this.ReadChunkRanges(model);
+
+            var channels = Wave.GetByteRate(format);
+            channels.Should().Be(model.ByteRate);
+        }
+
+        [Fact]
+
+        public void GetBlockAlignTest()
+        {
+            var model = this.data[FixtureModel.SM4BatNormal1];
+            var (format, dataRange) = this.ReadChunkRanges(model);
+
+            var channels = Wave.GetBlockAlign(format);
+            channels.Should().Be(model.BlockAlign);
         }
 
         [Fact]
@@ -72,59 +116,19 @@ namespace MetadataUtility.Tests.Audio
             ((bool)isWave).Should().Be(model.IsWave);
         }
 
-        // TODO: broken code, out of sync with master branch
-        // [Theory]
-        // [ClassData(typeof(FixtureHelper.FixtureData))]
-        // public void ReadTotalSamplesTest(FixtureModel model)
-        // {
-        //     if (model.Process.Contains("WaveHeaderExtractor"))
-        //     {
-        //         var (format, dataRange) = this.ReadChunkRanges(model);
-        //         var bitsPerSample = Wave.GetBitsPerSample(format);
-        //         var channels = Wave.GetChannels(format);
+        [Fact]
 
-        //         var totalSamples = (ulong)Wave.GetTotalSamples(dataRange, channels, bitsPerSample);
-        //         totalSamples.Should().Be(model.TotalSamples);
-        //     }
-        // }
+        public void IsPcmWaveFileTest()
+        {
+            var model = this.data[FixtureModel.SM4BatNormal1];
+            using var stream = model.ToTargetInformation(this.RealFileSystem).FileStream;
 
-        // [Theory]
-        // [ClassData(typeof(FixtureHelper.FixtureData))]
-        // public void ReadSampleRateTest(FixtureModel model)
-        // {
-        //     if (model.Process.Contains("WaveHeaderExtractor"))
-        //     {
-        //         var (format, dataRange) = this.ReadChunkRanges(model);
+            Fin<bool> isWave = Wave.IsPcmWaveFile(stream);
 
-        //         var sampleRate = Wave.GetSampleRate(format);
-        //         sampleRate.Should().Be(model.SampleRateHertz);
-        //     }
-        // }
+            Assert.True(isWave.IsSucc);
 
-        // [Theory]
-        // [ClassData(typeof(FixtureHelper.FixtureData))]
-        // public void ReadNumChannelsTest(FixtureModel model)
-        // {
-        //     if (model.Process.Contains("WaveHeaderExtractor"))
-        //     {
-        //         var (format, dataRange) = this.ReadChunkRanges(model);
-
-        //         var channels = Wave.GetChannels(format);
-        //         channels.Should().Be(model.Channels);
-        //     }
-        // }
-
-        // [Theory]
-        // [ClassData(typeof(FixtureHelper.FixtureData))]
-        // public void IsWaveFileTest(FixtureModel model)
-        // {
-        //     using var stream = model.ToTargetInformation(this.RealFileSystem).FileStream;
-
-        //     Fin<bool> isWave = Wave.IsWaveFile(stream);
-        //     Assert.True(isWave.IsSucc);
-
-        //     ((bool)isWave).Should().Be(model.IsWave);
-        // }
+            ((bool)isWave).Should().Be(model.IsWave);
+        }
 
         private (byte[] FormatChunk, Wave.Range DataChunk) ReadChunkRanges(FixtureModel model)
         {

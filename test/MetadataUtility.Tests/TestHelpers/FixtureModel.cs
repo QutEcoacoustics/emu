@@ -47,15 +47,17 @@ namespace MetadataUtility.Tests.TestHelpers
 
         public uint BitsPerSecond { get; set; }
 
+        public short BitDepth { get; set; }
+
         public ulong FileLengthBytes { get; set; }
 
         public string[] Process { get; set; }
 
         public ulong TotalSamples { get; set; }
 
-        public byte[] FmtBytes { get; set; }
+        public uint ByteRate { get; set; }
 
-        public byte[] DataBytes { get; set; }
+        public short BlockAlign { get; set; }
 
         // TODO: add other columns from the CSV here!
 
