@@ -47,7 +47,7 @@ namespace MetadataUtility.Tests.TestHelpers
 
         public uint BitsPerSecond { get; set; }
 
-        public short BitDepth { get; set; }
+        public ushort BitDepth { get; set; }
 
         public ulong FileLengthBytes { get; set; }
 
@@ -57,7 +57,7 @@ namespace MetadataUtility.Tests.TestHelpers
 
         public uint ByteRate { get; set; }
 
-        public short BlockAlign { get; set; }
+        public ushort BlockAlign { get; set; }
 
         // TODO: add other columns from the CSV here!
 

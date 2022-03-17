@@ -7,15 +7,15 @@ This document outlines all of the files from which we hope to extract metadata.
 | Name                     | Supported | Location(s)  | Notes               |
 | ------------------------ | --------- | ------------ | ------------------- |
 | Sample Rate              | ✔️        | File header  |                     |
-| Duration                 | :x:       | File header  |                     |
+| Duration                 | ✔️        | File header  |                     |
 | Total Samples            | ✔️        | File header  |                     |
 | Audio Format             | ✔️        | File header  |                     |
 | Channel Count            | ✔️        | File header  |                     |
 | Byte Rate                | ✔️        | File header  |                     |
 | Block Align              | ✔️        | File header  |                     |
-| Bit Depth                | :x:       | File header  |                     |
+| Bit Depth                | ✔️        | File header  |                     |
 | Bits per Sample          | ✔️        | File header  |                     |
-| File Size                | :x:       | File header  |                     |
+| File Size                | ✔️        | File header  |                     |
 
 ## Frontier Labs
 

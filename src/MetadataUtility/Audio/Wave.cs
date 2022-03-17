@@ -173,10 +173,10 @@ namespace MetadataUtility.Audio
             return (Format)audioFormat;
         }
 
-        public static short GetChannels(ReadOnlySpan<byte> formatChunk)
+        public static ushort GetChannels(ReadOnlySpan<byte> formatChunk)
         {
             const int channelsOffset = 2;
-            short channels = BinaryPrimitives.ReadInt16LittleEndian(formatChunk[channelsOffset..]);
+            ushort channels = BinaryPrimitives.ReadUInt16LittleEndian(formatChunk[channelsOffset..]);
 
             return channels;
         }
@@ -189,48 +189,28 @@ namespace MetadataUtility.Audio
             return byteRate;
         }
 
-        public static short GetBlockAlign(ReadOnlySpan<byte> formatChunk)
+        public static ushort GetBlockAlign(ReadOnlySpan<byte> formatChunk)
         {
             const int blockAlignOffset = 12;
-            short blockAlign = BinaryPrimitives.ReadInt16LittleEndian(formatChunk[blockAlignOffset..]);
+            ushort blockAlign = BinaryPrimitives.ReadUInt16LittleEndian(formatChunk[blockAlignOffset..]);
 
             return blockAlign;
         }
 
-        public static short GetBitsPerSample(ReadOnlySpan<byte> formatChunk)
+        public static ushort GetBitsPerSample(ReadOnlySpan<byte> formatChunk)
         {
             const int bitsPerSampleOffset = 14;
-            short bitsPerSample = BinaryPrimitives.ReadInt16LittleEndian(formatChunk[bitsPerSampleOffset..]);
+            ushort bitsPerSample = BinaryPrimitives.ReadUInt16LittleEndian(formatChunk[bitsPerSampleOffset..]);
 
             return bitsPerSample;
         }
 
-        public static uint GetTotalSamples(Range dataChunk, short channels, short bitsPerSample)
+        public static uint GetTotalSamples(Range dataChunk, ushort channels, ushort bitsPerSample)
         {
             // size of the data chunk
             var length = (uint)dataChunk.Length;
 
             return length / (uint)(channels * (bitsPerSample / 8));
-        }
-
-        public static Fin<bool> IsWaveFilePcm(Stream stream)
-        {
-            var riffChunk = FindRiffChunk(stream);
-
-            var waveChunk = riffChunk.Bind(r => FindWaveChunk(stream, r));
-
-            var formatChunk = waveChunk.Bind(w => FindFormatChunk(stream, w));
-
-            if (!formatChunk.IsSucc)
-            {
-                return (Error)formatChunk;
-            }
-
-            var chunk = ReadRange(stream, (Range)formatChunk);
-
-            var audioFormat = GetAudioFormat(chunk);
-            return audioFormat == Format.Pcm;
-
         }
 
         public static ReadOnlySpan<byte> ReadRange(Stream stream, Range range)

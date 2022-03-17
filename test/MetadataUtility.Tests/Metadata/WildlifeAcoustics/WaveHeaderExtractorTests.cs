@@ -38,8 +38,8 @@ namespace MetadataUtility.Tests.Metadata
         {
             var result = await this.subject.CanProcessAsync(model.ToTargetInformation(this.RealFileSystem));
 
-            // we can process any file that is Wildlife Acoustics and WAVE
-            var expected = model.IsVendor(Vendor.WildlifeAcoustics) && model.IsWave;
+            // we can process any WAVE file
+            var expected = model.IsWave;
             Assert.Equal(expected, result);
         }
 
@@ -59,6 +59,8 @@ namespace MetadataUtility.Tests.Metadata
             recording.Channels.Should().Be(model.Channels);
 
             recording.BitsPerSecond.Should().Be(model.BitsPerSecond);
+
+            recording.BitDepth.Should().Be((byte)model.BitDepth);
 
             recording.FileLengthBytes.Should().Be(model.FileLengthBytes);
 

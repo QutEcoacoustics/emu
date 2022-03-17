@@ -2,7 +2,7 @@
   "profiles": {
     "MetadataUtility": {
       "commandName": "Project",
-      "commandLineArgs": "metadata C://Users//mercerjo//Documents//emuTestingAudio//S4U09523_20210621_205706.wav"
+      "commandLineArgs": "fix -vv fix check C:\\Work\\Github\\metadata-utility\\test\\Fixtures\\FL_BAR_LT\\3.17_Duration\\*.flac -f FL010"
     },
     "Docker": {
       "commandName": "Docker"

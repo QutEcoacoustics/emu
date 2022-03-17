@@ -22,7 +22,7 @@ namespace MetadataUtility.Metadata.FrontierLabs
 
         public ValueTask<bool> CanProcessAsync(TargetInformation information)
         {
-            var result = information.IsWaveFilePCM();
+            var result = information.IsPcmWaveFile();
 
             return ValueTask.FromResult(result);
         }
@@ -59,9 +59,9 @@ namespace MetadataUtility.Metadata.FrontierLabs
             return ValueTask.FromResult(recording with
             {
                 DurationSeconds = duration.IfFail(null),
-                SampleRateHertz = (uint)sampleRate,
+                SampleRateHertz = sampleRate,
                 Channels = (byte)channels,
-                BitsPerSecond = (uint)byteRate * BinaryHelpers.BitsPerByte,
+                BitsPerSecond = byteRate * BinaryHelpers.BitsPerByte,
                 BitDepth = (byte)bitsPerSample,
                 FileLengthBytes = (ulong)fileLength,
             });

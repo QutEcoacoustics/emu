@@ -54,8 +54,8 @@ namespace MetadataUtility.Tests.Audio
             var model = this.data[FixtureModel.SM4BatNormal1];
             var (format, dataRange) = this.ReadChunkRanges(model);
 
-            var sampleRate = Wave.GetAudioFormat(format);
-            sampleRate.Should().Be(Wave.Format.Pcm);
+            var audioFormat = Wave.GetAudioFormat(format);
+            audioFormat.Should().Be(Wave.Format.Pcm);
         }
 
         [Fact]
@@ -65,8 +65,8 @@ namespace MetadataUtility.Tests.Audio
             var model = this.data[FixtureModel.SM4BatNormal1];
             var (format, dataRange) = this.ReadChunkRanges(model);
 
-            var sampleRate = Wave.GetBitsPerSample(format);
-            sampleRate.Should().Be(model.BitDepth);
+            var bitsPerSample = Wave.GetBitsPerSample(format);
+            bitsPerSample.Should().Be(model.BitDepth);
         }
 
         [Fact]
@@ -87,8 +87,8 @@ namespace MetadataUtility.Tests.Audio
             var model = this.data[FixtureModel.SM4BatNormal1];
             var (format, dataRange) = this.ReadChunkRanges(model);
 
-            var channels = Wave.GetByteRate(format);
-            channels.Should().Be(model.ByteRate);
+            var byteRate = Wave.GetByteRate(format);
+            byteRate.Should().Be(model.ByteRate);
         }
 
         [Fact]
@@ -98,8 +98,8 @@ namespace MetadataUtility.Tests.Audio
             var model = this.data[FixtureModel.SM4BatNormal1];
             var (format, dataRange) = this.ReadChunkRanges(model);
 
-            var channels = Wave.GetBlockAlign(format);
-            channels.Should().Be(model.BlockAlign);
+            var blockAlign = Wave.GetBlockAlign(format);
+            blockAlign.Should().Be(model.BlockAlign);
         }
 
         [Fact]

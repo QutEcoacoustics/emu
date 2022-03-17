@@ -15,8 +15,8 @@ public static class Predicates
     public static readonly Func<TargetInformation, bool> IsFlacFile =
         target => Flac.IsFlacFile(target.FileStream).IfFail(false);
 
-    public static readonly Func<TargetInformation, bool> IsWaveFilePCM =
-        target => Wave.IsWaveFilePcm(target.FileStream).IsSucc;
+    public static readonly Func<TargetInformation, bool> IsPcmWaveFile =
+        target => Wave.IsPcmWaveFile(target.FileStream).IsSucc;
 
     // An example of an async predicate
     // public static readonly Func<TargetInformation, ValueTask<bool>> IsFlacFile2 =
@@ -35,9 +35,9 @@ public static class TargetInformationExtensions
         return target.CheckPredicate(Predicates.IsFlacFile);
     }
 
-    public static bool IsWaveFilePCM(this TargetInformation target)
+    public static bool IsPcmWaveFile(this TargetInformation target)
     {
-        return target.CheckPredicate(Predicates.IsWaveFilePCM);
+        return target.CheckPredicate(Predicates.IsPcmWaveFile);
     }
 
     // an example of an async predicate extension method.
