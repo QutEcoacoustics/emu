@@ -1,0 +1,1 @@
+Example of two log files created by one sensor, each on different SD cards

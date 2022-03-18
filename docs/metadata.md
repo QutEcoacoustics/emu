@@ -34,32 +34,32 @@ This document outlines all of the files from which we hope to extract metadata.
 | ------------------------ | --------- | --------------- | ----------- |
 | Date Time                | ❌         | Name            |             |
 | UTC Offset               | ❌         | Name            |             |
-| Serial Number            | ❌         | Header, Support |             |
+| Serial Number            | ✔️(Support)| Header, Support |             |
 | Microphone Serial Number | ❌         | Header, Support |             |
 | Longitude                | ❌         | Name, Support   | GPS_log.csv |
 | Latitude                 | ❌         | Name, Support   | GPS_log.csv |
 | Gain                     | ❌         | Header, Support | Log file    |
 | Battery Voltage          | ❌         | Header, Support | Log file    |
-| SD Card Serial           | ❌         | Header, Support | Log file    |
+| SD Card Serial           | ✔️(Support)| Header, Support | Log file    |
 | Card Slot Number         | ❌         | Header, Support | Log file    |
 | Battery Percentage       | ❌         | Header, Support | Log file    |
-| SD Capacity (GB)         | ❌         | Header, Support | Log file    |
+| SD Capacity (GB)         | ✔️(Support)| Header, Support | Log file    |
 | SD Free Space (GB)       | ❌         | Header, Support | Log file    |
-| ARU Firmware             | ❌         | Header, Support | Log file    |
+| ARU Firmware             | ✔️(Support)| Header, Support | Log file    |
 | Device Type              | ❌         | Header, Support | Log file    |
-| Power Type               | ❌         | Support         | Log file    |
-| SD Card Manufacture Date | ❌         | Header, Support | Log file    |
+| Power Type               | ✔️         | Support         | Log file    |
+| SD Card Manufacture Date | ✔️(Support)| Header, Support | Log file    |
 | ARU Manufacture Date     | ❌         | Header, Support | Log file    |
-| SD Card Speed            | ❌         | Header, Support | Log file    |
-| SD Card Product Name     | ❌         | Header, Support | Log file    |
-| SD Format Type           | ❌         | Header, Support | Log file    |
-| SD Card Manufacture ID   | ❌         | Header, Support | Log file    |
-| SD Card OemID            | ❌         | Header, Support | Log file    |
-| SD Card Product Revision | ❌         | Header, Support | Log file    |
-| SD Write Current Vmin    | ❌         | Header, Support | Log file    |
-| SD Write Current Vmax    | ❌         | Header, Support | Log file    |
-| SD Write B1 Size         | ❌         | Header, Support | Log file    |
-| SD Write B2 Size         | ❌         | Header, Support | Log file    |
+| SD Card Speed            | ✔️(Support)| Header, Support | Log file    |
+| SD Card Product Name     | ✔️(Support)| Header, Support | Log file    |
+| SD Format Type           | ✔️(Support)| Header, Support | Log file    |
+| SD Card Manufacture ID   | ✔️(Support)| Header, Support | Log file    |
+| SD Card OemID            | ✔️(Support)| Header, Support | Log file    |
+| SD Card Product Revision | ✔️(Support)| Header, Support | Log file    |
+| SD Write Current Vmin    | ✔️(Support)| Header, Support | Log file    |
+| SD Write Current Vmax    | ✔️(Support)| Header, Support | Log file    |
+| SD Write Bl Size         | ✔️(Support)| Header, Support | Log file    |
+| SD Erase Bl Size         | ✔️(Support)| Header, Support | Log file    |
 
 ### BAR
 
