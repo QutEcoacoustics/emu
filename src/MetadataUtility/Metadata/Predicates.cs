@@ -5,7 +5,6 @@
 namespace MetadataUtility.Metadata;
 
 using MetadataUtility.Audio;
-using MetadataUtility.Metadata;
 
 public static class Predicates
 {
@@ -19,7 +18,7 @@ public static class Predicates
         target => Flac.HasMetadataBlock(target.FileStream).IfFail(false);
 
     public static readonly Func<TargetInformation, bool> HasFrontierLabsVorbisComment =
-        target => Flac.HasFrontierLabsVorbisComment(target.FileStream).IfFail(false);
+        target => Audio.Vendors.FrontierLabs.HasFrontierLabsVorbisComment(target.FileStream).IfFail(false);
 
     // An example of an async predicate
     // public static readonly Func<TargetInformation, ValueTask<bool>> IsFlacFile2 =

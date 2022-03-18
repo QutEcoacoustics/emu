@@ -5,15 +5,18 @@
 namespace MetadataUtility.Audio.Vendors
 {
     using System.Buffers.Binary;
+    using System.Diagnostics;
     using System.Text;
     using LanguageExt;
     using LanguageExt.Common;
     using MetadataUtility.Extensions.System;
+    using MetadataUtility.Utilities;
 
     public static class FrontierLabs
     {
         public const string FirmwareCommentKey = "SensorFirmwareVersion";
         public const int DefaultFileStubLength = 44;
+        public const int BlockTypeOffset = 4;
 
         public static readonly byte[] VendorString = Encoding.ASCII.GetBytes("Frontier Labs");
         public static readonly Error VendorStringNotFound = Error.New("Error reading file: could not find vendor string Frontier Labs in file header");
@@ -114,6 +117,49 @@ namespace MetadataUtility.Audio.Vendors
 
                 return false;
             }
+        }
+
+        public static Fin<bool> HasFrontierLabsVorbisComment(Stream stream)
+        {
+            long position = stream.Seek(BlockTypeOffset, SeekOrigin.Begin);
+            Debug.Assert(position == 4, $"Expected stream.Seek position to return 4, instead returned {position}");
+
+            Span<byte> blockTypeBuffer = stackalloc byte[1];
+            Span<byte> blockLengthBuffer = stackalloc byte[3];
+
+            uint length = 0, i = 0, blockType;
+
+            do
+            {
+                stream.Seek(length, SeekOrigin.Current);
+
+                stream.Read(blockTypeBuffer);
+                stream.Read(blockLengthBuffer);
+
+                blockType = BinaryHelpers.Read7BitUnsignedBigEndianIgnoringFirstBit(blockTypeBuffer);
+                length = BinaryHelpers.Read24bitUnsignedBigEndian(blockLengthBuffer);
+
+                i++;
+            }
+            while (blockType != 4 && (blockTypeBuffer[0] >> 7) != 1 && i < 20);
+
+            Span<byte> vendorLengthBuffer = stackalloc byte[4];
+
+            if (blockType == 4)
+            {
+                stream.Read(vendorLengthBuffer);
+                uint vendorLength = BinaryPrimitives.ReadUInt32LittleEndian(vendorLengthBuffer);
+
+                Span<byte> vendorBuffer = stackalloc byte[(int)vendorLength];
+                stream.Read(vendorBuffer);
+
+                if (vendorBuffer.SequenceEqual(VendorString.AsSpan()))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         private static Fin<FirmwareRecord> FindInBufferFirmware(ReadOnlySpan<byte> buffer)

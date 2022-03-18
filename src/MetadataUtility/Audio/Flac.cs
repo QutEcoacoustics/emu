@@ -14,7 +14,6 @@ namespace MetadataUtility.Audio
     public static class Flac
     {
         public const string Mime = "audio/flac";
-        public const string FrontierLabsCheck = "Frontier Labs";
         public const int FlacSamplesOffset = 21;
         public const int SampleRateOffset = 18;
         public const int ChannelOffset = 20;
@@ -180,47 +179,6 @@ namespace MetadataUtility.Audio
             stream.Read(buffer);
 
             return stream.Length > MetadataBlockSize && BinaryHelpers.Read7BitUnsignedBigEndianIgnoringFirstBit(buffer) == 0;
-        }
-
-        public static Fin<bool> HasFrontierLabsVorbisComment(Stream stream)
-        {
-            long position = stream.Seek(BlockTypeOffset, SeekOrigin.Begin);
-            Debug.Assert(position == 4, $"Expected stream.Seek position to return 4, instead returned {position}");
-
-            Span<byte> blockTypeBuffer = stackalloc byte[1];
-            Span<byte> blockLengthBuffer = stackalloc byte[3];
-
-            uint length = 0;
-            uint blockType;
-
-            do
-            {
-                stream.Seek(length, SeekOrigin.Current);
-
-                stream.Read(blockTypeBuffer);
-                stream.Read(blockLengthBuffer);
-
-                length = BinaryHelpers.Read24bitUnsignedBigEndian(blockLengthBuffer);
-            }
-            while ((blockType = BinaryHelpers.Read7BitUnsignedBigEndianIgnoringFirstBit(blockTypeBuffer)) != 4 && (blockTypeBuffer[0] >> 7) != 1);
-
-            Span<byte> vendorLengthBuffer = stackalloc byte[4];
-
-            if (blockType == 4)
-            {
-                stream.Read(vendorLengthBuffer);
-                uint vendorLength = BinaryPrimitives.ReadUInt32LittleEndian(vendorLengthBuffer);
-
-                Span<byte> vendorBuffer = stackalloc byte[(int)vendorLength];
-                stream.Read(vendorBuffer);
-
-                if (Encoding.ASCII.GetString(vendorBuffer).Equals(FrontierLabsCheck))
-                {
-                    return true;
-                }
-            }
-
-            return false;
         }
     }
 }

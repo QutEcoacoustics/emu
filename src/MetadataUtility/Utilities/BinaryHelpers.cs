@@ -143,7 +143,6 @@ namespace MetadataUtility.Utilities
             dest |= (uint)bytes[2];
 
             return dest;
-
         }
 
         /// <summary>
