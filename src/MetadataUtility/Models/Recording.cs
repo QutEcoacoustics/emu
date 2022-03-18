@@ -117,6 +117,12 @@ namespace MetadataUtility.Models
         public ulong FileLengthBytes { get; init; }
 
         /// <summary>
+        /// Gets a <see cref="MemoryCard"/> object
+        /// that describes the memory card this recording was stored on.
+        /// </summary>
+        public MemoryCard MemoryCard { get; init; }
+
+        /// <summary>
         /// Gets a <see cref="Sensor"/> object
         /// that describes the sensor that produced this recording.
         /// </summary>

@@ -4,61 +4,62 @@ This document outlines all of the files from which we hope to extract metadata.
 
 ## FLAC Files
 
-| Name                     | Supported | Location(s)  | Notes               |
-| ------------------------ | --------- | ------------ | ------------------- |
-| Sample Rate              | ✔️        | File header  |                     |
-| Duration                 | ✔️        | File header  |                     |
-| Total Samples            | ✔️        | File header  |                     |
-| Channel Count            | ✔️        | File header  |                     |
-| Bit Depth                | ✔️        | File header  |                     |
-| Bits per Sample          | ✔️        | File header  |                     |
+| Name            | Supported | Location(s) | Notes |
+| --------------- | --------- | ----------- | ----- |
+| Sample Rate     | ✔️         | Header      |       |
+| Duration        | ✔️         | Header      |       |
+| Total Samples   | ✔️         | Header      |       |
+| Channel Count   | ✔️         | Header      |       |
+| Bit Depth       | ✔️         | Header      |       |
+| Bits per Sample | ✔️         | Header      |       |
+| File Size       | ❌         | File        |       |
 
 ## WAVE Files
 
-| Name                     | Supported | Location(s)  | Notes               |
-| ------------------------ | --------- | ------------ | ------------------- |
-| Sample Rate              | :x:       | File header  |                     |
-| Duration                 | :x:       | File header  |                     |
-| Total Samples            | :x:       | File header  |                     |
-| Channel Count            | :x:       | File header  |                     |
-| Bit Depth                | :x:       | File header  |                     |
-| Bits per Sample          | :x:       | File header  |                     |
-| File Size                | :x:       | File header  |                     |
+| Name            | Supported | Location(s) | Notes |
+| --------------- | --------- | ----------- | ----- |
+| Sample Rate     | ❌         | Header      |       |
+| Duration        | ❌         | Header      |       |
+| Total Samples   | ❌         | Header      |       |
+| Channel Count   | ❌         | Header      |       |
+| Bit Depth       | ❌         | Header      |       |
+| Bits per Sample | ❌         | Header      |       |
+| File Size       | ❌         | File        |       |
 
 ## Frontier Labs
 
 ### BAR-LT
 
-| Name                     | Supported | Location(s)  | Notes               |
-| ------------------------ | --------- | ------------ | ------------------- |
-| Date Time                | :x:       | File name    |                     |
-| UTC Offset               | :x:       | File name    |                     |
-| Serial Number            | :x:       | File name    |                     |
-| Microphone Serial Number | :x:       | File name    |                     |
-| Longitude                | :x:       | File name    | Also in GPS_log.csv |
-| Latitude                 | :x:       | File name    | Also in GPS_log.csv |
-| Gain                     | :x:       | Support File | Log file            |
-| Battery Voltage          | :x:       | Support File | Log file            |
-| SD Card Serial           | :x:       | Support File | Log file            |
-| Card Slot Number         | :x:       | Support File | Log file            |
-| Battery Percentage       | :x:       | Support File | Log file            |
-| SD Capacity (GB)         | :x:       | Support File | Log file            |
-| SD Free Space (GB)       | :x:       | Support File | Log file            |
-| ARU Firmware             | :x:       | Support File | Log file            |
-| Device Type              | :x:       | Support File | Log file            |
-| Power Type               | :x:       | Support File | Log file            |
-| SD Card Manufacture Date | :x:       | Support File | Log file            |
-| ARU Manufacture Date     | :x:       | Support File | Log file            |
-| SD Card Speed            | :x:       | Support File | Log file            |
-| SD Card Product Name     | :x:       | Support File | Log file            |
-| SD Format Type           | :x:       | Support File | Log file            |
-| SD Card Manufacture ID   | :x:       | Support File | Log file            |
-| SD Card OemID            | :x:       | Support File | Log file            |
-| SD Card Product Revision | :x:       | Support File | Log file            |
-| SD Write Current Vmin    | :x:       | Support File | Log file            |
-| SD Write Current Vmax    | :x:       | Support File | Log file            |
-| SD Write B1 Size         | :x:       | Support File | Log file            |
-| SD Write B2 Size         | :x:       | Support File | Log file            |
+| Name                     | Supported | Location(s)     | Notes       |
+| ------------------------ | --------- | --------------- | ----------- |
+| Date Time                | ❌         | Name            |             |
+| UTC Offset               | ❌         | Name            |             |
+| Serial Number            | ✔️(Support)| Header, Support |             |
+| Microphone Serial Number | ❌         | Header, Support |             |
+| Longitude                | ❌         | Name, Support   | GPS_log.csv |
+| Latitude                 | ❌         | Name, Support   | GPS_log.csv |
+| Gain                     | ❌         | Header, Support | Log file    |
+| Battery Voltage          | ❌         | Header, Support | Log file    |
+| SD Card Serial           | ✔️(Support)| Header, Support | Log file    |
+| Card Slot Number         | ❌         | Header, Support | Log file    |
+| Battery Percentage       | ❌         | Header, Support | Log file    |
+| SD Capacity (GB)         | ✔️(Support)| Header, Support | Log file    |
+| SD Free Space (GB)       | ❌         | Header, Support | Log file    |
+| ARU Firmware             | ✔️(Support)| Header, Support | Log file    |
+| Device Type              | ❌         | Header, Support | Log file    |
+| Power Type               | ✔️         | Support         | Log file    |
+| SD Card Manufacture Date | ✔️(Support)| Header, Support | Log file    |
+| ARU Manufacture Date     | ❌         | Header, Support | Log file    |
+| SD Card Speed            | ✔️(Support)| Header, Support | Log file    |
+| SD Card Product Name     | ✔️(Support)| Header, Support | Log file    |
+| SD Format Type           | ✔️(Support)| Header, Support | Log file    |
+| SD Card Manufacture ID   | ✔️(Support)| Header, Support | Log file    |
+| SD Card OemID            | ✔️(Support)| Header, Support | Log file    |
+| SD Card Product Revision | ✔️(Support)| Header, Support | Log file    |
+| SD Write Current Vmin    | ✔️(Support)| Header, Support | Log file    |
+| SD Write Current Vmax    | ✔️(Support)| Header, Support | Log file    |
+| SD Write Bl Size         | ✔️(Support)| Header, Support | Log file    |
+| SD Erase Bl Size         | ✔️(Support)| Header, Support | Log file    |
 
 ### BAR
 
@@ -66,43 +67,42 @@ This document outlines all of the files from which we hope to extract metadata.
 
 ### AudioMoth
 
-| Name            | Supported | Location(s)  | Notes       |
-| --------------- | --------- | ------------ | ----------- |
-| Date Time       | :x:       | File name    |             |
-| UTC Offset      | :x:       | Support File | Config file |
-| Serial Number   | :x:       | Support File | Config file |
-| Gain            | :x:       | File Header  |             |
-| Battery Voltage | :x:       | File Header  |             |
-| ARU Firmware    | :x:       | Support File | Config File |
+| Name            | Supported | Location(s) | Notes       |
+| --------------- | --------- | ----------- | ----------- |
+| Date Time       | ❌         | Name        |             |
+| UTC Offset      | ❌         | Support     | Config file |
+| Serial Number   | ❌         | Support     | Config file |
+| Gain            | ❌         | Header      |             |
+| Battery Voltage | ❌         | Header      |             |
+| ARU Firmware    | ❌         | Support     | Config File |
 
 ## Wildlife Acoustics
 
 ### Song Meter SM4BAT
 
-| Name            | Supported | Location(s)  | Notes        |
-| --------------- | --------- | ------------ | ------------ |
-| Date Time       | :x:       | File name    |              |
-| Serial Number   | :x:       | File Header  |              |
-| Longitude       | :x:       | File Header  |              |
-| Latitude        | :x:       | File Header  |              |
-| Battery Voltage | :x:       | Support File | Summary file |
+| Name            | Supported | Location(s) | Notes        |
+| --------------- | --------- | ----------- | ------------ |
+| Date Time       | ❌         | Name        |              |
+| Serial Number   | ❌         | Header      |              |
+| Longitude       | ❌         | Header      |              |
+| Latitude        | ❌         | Header      |              |
+| Battery Voltage | ❌         | Support     | Summary file |
 
 ### Song Meter SM4
 
-| Name            | Supported | Location(s)  | Notes        |
-| --------------- | --------- | ------------ | ------------ |
-| Date Time       | :x:       | File Header  |              |
-| Serial Number   | :x:       | File Header  |              |
-| Longitude       | :x:       | File Header  |              |
-| Latitude        | :x:       | File Header  |              |
-| Battery Voltage | :x:       | Support File | Summary file |
-
+| Name            | Supported | Location(s) | Notes        |
+| --------------- | --------- | ----------- | ------------ |
+| Date Time       | ❌         | Header      |              |
+| Serial Number   | ❌         | Header      |              |
+| Longitude       | ❌         | Header      |              |
+| Latitude        | ❌         | Header      |              |
+| Battery Voltage | ❌         | Support     | Summary file |
 
 ### Song Meter Mini
 
 | Name          | Supported | Location(s) | Notes |
 | ------------- | --------- | ----------- | ----- |
-| Serial Number | :x:       | File Header |       |
+| Serial Number | ❌         | Header      |       |
 
 ### Song Meter SM3
 

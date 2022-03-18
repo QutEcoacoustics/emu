@@ -12,7 +12,7 @@ namespace MetadataUtility.Serialization.Converters
     {
         public override object ConvertFromString(string text, IReaderRow row, MemberMapData memberMapData)
         {
-            if (text != null)
+            if (text != null && !text.Equals(string.Empty))
             {
                 return text.Split(";");
             }

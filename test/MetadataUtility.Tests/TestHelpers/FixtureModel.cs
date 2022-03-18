@@ -5,10 +5,13 @@
 namespace MetadataUtility.Tests.TestHelpers
 {
     using System;
+    using System.Collections.Generic;
     using System.IO.Abstractions;
     using CsvHelper.Configuration.Attributes;
     using MetadataUtility.Audio;
     using MetadataUtility.Metadata;
+    using MetadataUtility.Metadata.SupportFiles;
+    using MetadataUtility.Models;
     using Rationals;
 
     public enum ValidMetadata
@@ -49,7 +52,13 @@ namespace MetadataUtility.Tests.TestHelpers
 
         public ulong TotalSamples { get; set; }
 
+        public string FrontierLabsLogFile { get; set; }
+
         public string[] Process { get; set; }
+
+        public MemoryCard MemoryCard { get; set; }
+
+        public Sensor Sensor { get; set; }
 
         // TODO: add other columns from the CSV here!
 
@@ -79,11 +88,15 @@ namespace MetadataUtility.Tests.TestHelpers
 
         public TargetInformation ToTargetInformation(IFileSystem fileSystem)
         {
-            return new TargetInformation(fileSystem)
+            TargetInformation ti = new TargetInformation(fileSystem) with
             {
                 Path = this.AbsoluteFixturePath,
                 Base = FixtureHelper.ResolveFirstDirectory(this.FixturePath),
             };
+
+            SupportFile.FindSupportFiles(fileSystem.Path.GetDirectoryName(ti.Path), new List<TargetInformation> { ti }, fileSystem);
+
+            return ti;
         }
 
         public override string ToString()

@@ -1,0 +1,748 @@
+
+-----------------------------------------------------------
+ FRONTIER LABS Bioacoustic Audio Recorder 
+ Serial Number: 00008537
+ Config: Stereo, Ext-power
+ Firmware: 3.28 (May 14 2021 15:35:55)
+-----------------------------------------------------------
+2021-06-13 21:55:29 SD Card detected in slot 3
+2021-06-13 21:58:27 SD Card detected in slot 3
+2021-06-13 21:58:59 SD Card detected in slot 3
+2021-06-13 21:59:14 SD Card detected in slot 3
+2010-01-01 00:00:05 SD Card detected in slot 3
+2021-06-14 10:35:01 SD Card detected in slot 3
+2021-06-14 10:38:05 SD Card detected in slot 3
+2021-06-14 10:39:29 SD Card detected in slot 3
+
+-----------------------------------------------------------
+ FRONTIER LABS Bioacoustic Audio Recorder 
+ Serial Number: 00008537
+ Config: Stereo, Ext-power
+ Firmware: 3.28 (May 14 2021 15:35:55)
+-----------------------------------------------------------
+2021-06-22 15:59:56 SD Card 1 full (Moving to next SD card if present)
+2021-06-22 15:59:56 Previous card was full. Attempting to use SD card 2
+2021-06-22 15:59:56 Preparing for a new recording..
+2021-06-22 15:59:57 SD Card :
+2021-06-22 15:59:57   Format type      exFAT
+2021-06-22 15:59:57   Manufacturer ID  3
+2021-06-22 15:59:57   OEM ID           SD
+2021-06-22 15:59:57   Product Name     SD128
+2021-06-22 15:59:57   Product Revision 8.5
+2021-06-22 15:59:57   Serial Number    13281763
+2021-06-22 15:59:57   Manufacture Date 2020/08
+2021-06-22 15:59:57   Speed            50
+2021-06-22 15:59:57   Capacity         124868608
+2021-06-22 15:59:57   Wr Current Vmin  5
+2021-06-22 15:59:57   Wr Current Vmax  5
+2021-06-22 15:59:57   Write Bl Size    512
+2021-06-22 15:59:57   Erase Bl Size    65536
+2021-06-22 15:59:58 Pre-allocating 2047 MB on SD card.
+2021-06-22 16:00:00 -----------------------------------
+2021-06-22 16:00:00 | New recording started: 1:/8537_20210622_every1d6x4hrs [+44.72053-062.80072]/8537_20210622T160000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-22 16:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-22 16:00:00 | Battery: 78% ( 3.94 V )
+2021-06-22 16:00:00 | Storage: Card 2 ( 117GB free of 119GB )
+2021-06-22 16:00:00 | Microphone: Unknown
+2021-06-22 16:00:00 -----------------------------------
+2021-06-22 19:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-22 19:22:55 Pre-allocating 373 MB on SD card.
+2021-06-22 19:59:56 Recording stopped. 373 MB recorded, 119487 MB remaining on the SD card
+2021-06-22 19:59:56 Total buffer overruns = 0
+2021-06-22 19:59:56 Preparing for a new recording..
+2021-06-22 19:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-22 20:00:00 -----------------------------------
+2021-06-22 20:00:00 | New recording started: 1:/8537_20210622_every1d6x4hrs [+44.72053-062.80072]/8537_20210622T200000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-22 20:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-22 20:00:00 | Battery: 78% ( 3.93 V )
+2021-06-22 20:00:00 | Storage: Card 2 ( 114.6GB free of 119GB )
+2021-06-22 20:00:00 | Microphone: Unknown
+2021-06-22 20:00:00 -----------------------------------
+2021-06-22 23:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-22 23:22:55 Pre-allocating 373 MB on SD card.
+2021-06-22 23:59:56 Recording stopped. 373 MB recorded, 117065 MB remaining on the SD card
+2021-06-22 23:59:56 Total buffer overruns = 0
+2021-06-22 23:59:56 Preparing for a new recording..
+2021-06-22 23:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-23 00:00:00 -----------------------------------
+2021-06-23 00:00:00 | New recording started: 1:/8537_20210623_every1d6x4hrs [+44.72053-062.80072]/8537_20210623T000000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-23 00:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-23 00:00:00 | Battery: 77% ( 3.93 V )
+2021-06-23 00:00:00 | Storage: Card 2 ( 112.3GB free of 119GB )
+2021-06-23 00:00:00 | Microphone: Unknown
+2021-06-23 00:00:00 -----------------------------------
+2021-06-23 03:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-23 03:22:55 Pre-allocating 373 MB on SD card.
+2021-06-23 03:59:56 Recording stopped. 373 MB recorded, 114643 MB remaining on the SD card
+2021-06-23 03:59:56 Total buffer overruns = 0
+2021-06-23 03:59:56 Preparing for a new recording..
+2021-06-23 03:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-23 04:00:00 -----------------------------------
+2021-06-23 04:00:00 | New recording started: 1:/8537_20210623_every1d6x4hrs [+44.72053-062.80072]/8537_20210623T040000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-23 04:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-23 04:00:00 | Battery: 77% ( 3.92 V )
+2021-06-23 04:00:00 | Storage: Card 2 ( 109.9GB free of 119GB )
+2021-06-23 04:00:00 | Microphone: Unknown
+2021-06-23 04:00:00 -----------------------------------
+2021-06-23 07:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-23 07:22:55 Pre-allocating 373 MB on SD card.
+2021-06-23 07:59:56 Recording stopped. 373 MB recorded, 112221 MB remaining on the SD card
+2021-06-23 07:59:56 Total buffer overruns = 0
+2021-06-23 07:59:56 Preparing for a new recording..
+2021-06-23 07:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-23 08:00:00 -----------------------------------
+2021-06-23 08:00:00 | New recording started: 1:/8537_20210623_every1d6x4hrs [+44.72053-062.80072]/8537_20210623T080000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-23 08:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-23 08:00:00 | Battery: 76% ( 3.92 V )
+2021-06-23 08:00:00 | Storage: Card 2 ( 107.5GB free of 119GB )
+2021-06-23 08:00:00 | Microphone: Unknown
+2021-06-23 08:00:00 -----------------------------------
+2021-06-23 11:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-23 11:22:55 Pre-allocating 373 MB on SD card.
+2021-06-23 11:59:56 Recording stopped. 373 MB recorded, 109799 MB remaining on the SD card
+2021-06-23 11:59:56 Total buffer overruns = 0
+2021-06-23 11:59:56 Preparing for a new recording..
+2021-06-23 11:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-23 12:00:00 -----------------------------------
+2021-06-23 12:00:00 | New recording started: 1:/8537_20210623_every1d6x4hrs [+44.72053-062.80072]/8537_20210623T120000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-23 12:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-23 12:00:00 | Battery: 76% ( 3.91 V )
+2021-06-23 12:00:00 | Storage: Card 2 ( 105.2GB free of 119GB )
+2021-06-23 12:00:00 | Microphone: Unknown
+2021-06-23 12:00:00 -----------------------------------
+2021-06-23 15:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-23 15:22:55 Pre-allocating 373 MB on SD card.
+2021-06-23 15:59:56 Recording stopped. 373 MB recorded, 107378 MB remaining on the SD card
+2021-06-23 15:59:56 Total buffer overruns = 0
+2021-06-23 15:59:56 Preparing for a new recording..
+2021-06-23 15:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-23 16:00:00 -----------------------------------
+2021-06-23 16:00:00 | New recording started: 1:/8537_20210623_every1d6x4hrs [+44.72053-062.80072]/8537_20210623T160000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-23 16:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-23 16:00:00 | Battery: 76% ( 3.91 V )
+2021-06-23 16:00:00 | Storage: Card 2 ( 102.8GB free of 119GB )
+2021-06-23 16:00:00 | Microphone: Unknown
+2021-06-23 16:00:00 -----------------------------------
+2021-06-23 19:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-23 19:22:55 Pre-allocating 373 MB on SD card.
+2021-06-23 19:59:56 Recording stopped. 373 MB recorded, 104956 MB remaining on the SD card
+2021-06-23 19:59:56 Total buffer overruns = 0
+2021-06-23 19:59:56 Preparing for a new recording..
+2021-06-23 19:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-23 20:00:00 -----------------------------------
+2021-06-23 20:00:00 | New recording started: 1:/8537_20210623_every1d6x4hrs [+44.72053-062.80072]/8537_20210623T200000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-23 20:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-23 20:00:00 | Battery: 75% ( 3.90 V )
+2021-06-23 20:00:00 | Storage: Card 2 ( 100.4GB free of 119GB )
+2021-06-23 20:00:00 | Microphone: Unknown
+2021-06-23 20:00:00 -----------------------------------
+2021-06-23 23:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-23 23:22:55 Pre-allocating 373 MB on SD card.
+2021-06-23 23:59:56 Recording stopped. 373 MB recorded, 102534 MB remaining on the SD card
+2021-06-23 23:59:56 Total buffer overruns = 0
+2021-06-23 23:59:56 Preparing for a new recording..
+2021-06-23 23:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-24 00:00:00 -----------------------------------
+2021-06-24 00:00:00 | New recording started: 1:/8537_20210624_every1d6x4hrs [+44.72053-062.80072]/8537_20210624T000000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-24 00:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-24 00:00:00 | Battery: 74% ( 3.89 V )
+2021-06-24 00:00:00 | Storage: Card 2 ( 98.1GB free of 119GB )
+2021-06-24 00:00:00 | Microphone: Unknown
+2021-06-24 00:00:00 -----------------------------------
+2021-06-24 03:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-24 03:22:55 Pre-allocating 373 MB on SD card.
+2021-06-24 03:59:56 Recording stopped. 373 MB recorded, 100112 MB remaining on the SD card
+2021-06-24 03:59:56 Total buffer overruns = 0
+2021-06-24 03:59:56 Preparing for a new recording..
+2021-06-24 03:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-24 04:00:00 -----------------------------------
+2021-06-24 04:00:00 | New recording started: 1:/8537_20210624_every1d6x4hrs [+44.72053-062.80072]/8537_20210624T040000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-24 04:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-24 04:00:00 | Battery: 74% ( 3.88 V )
+2021-06-24 04:00:00 | Storage: Card 2 ( 95.7GB free of 119GB )
+2021-06-24 04:00:00 | Microphone: Unknown
+2021-06-24 04:00:00 -----------------------------------
+2021-06-24 07:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-24 07:22:55 Pre-allocating 373 MB on SD card.
+2021-06-24 07:59:56 Recording stopped. 373 MB recorded, 97691 MB remaining on the SD card
+2021-06-24 07:59:56 Total buffer overruns = 0
+2021-06-24 07:59:56 Preparing for a new recording..
+2021-06-24 07:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-24 08:00:00 -----------------------------------
+2021-06-24 08:00:00 | New recording started: 1:/8537_20210624_every1d6x4hrs [+44.72053-062.80072]/8537_20210624T080000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-24 08:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-24 08:00:00 | Battery: 73% ( 3.88 V )
+2021-06-24 08:00:00 | Storage: Card 2 ( 93.3GB free of 119GB )
+2021-06-24 08:00:00 | Microphone: Unknown
+2021-06-24 08:00:00 -----------------------------------
+2021-06-24 11:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-24 11:22:55 Pre-allocating 373 MB on SD card.
+2021-06-24 11:59:56 Recording stopped. 373 MB recorded, 95269 MB remaining on the SD card
+2021-06-24 11:59:56 Total buffer overruns = 0
+2021-06-24 11:59:56 Preparing for a new recording..
+2021-06-24 11:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-24 12:00:00 -----------------------------------
+2021-06-24 12:00:00 | New recording started: 1:/8537_20210624_every1d6x4hrs [+44.72053-062.80072]/8537_20210624T120000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-24 12:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-24 12:00:00 | Battery: 73% ( 3.88 V )
+2021-06-24 12:00:00 | Storage: Card 2 ( 91GB free of 119GB )
+2021-06-24 12:00:00 | Microphone: Unknown
+2021-06-24 12:00:00 -----------------------------------
+2021-06-24 15:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-24 15:22:55 Pre-allocating 373 MB on SD card.
+2021-06-24 15:59:56 Recording stopped. 373 MB recorded, 92847 MB remaining on the SD card
+2021-06-24 15:59:56 Total buffer overruns = 0
+2021-06-24 15:59:56 Preparing for a new recording..
+2021-06-24 15:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-24 16:00:00 -----------------------------------
+2021-06-24 16:00:00 | New recording started: 1:/8537_20210624_every1d6x4hrs [+44.72053-062.80072]/8537_20210624T160000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-24 16:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-24 16:00:00 | Battery: 72% ( 3.86 V )
+2021-06-24 16:00:00 | Storage: Card 2 ( 88.6GB free of 119GB )
+2021-06-24 16:00:00 | Microphone: Unknown
+2021-06-24 16:00:00 -----------------------------------
+2021-06-24 19:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-24 19:22:55 Pre-allocating 373 MB on SD card.
+2021-06-24 19:59:56 Recording stopped. 373 MB recorded, 90425 MB remaining on the SD card
+2021-06-24 19:59:56 Total buffer overruns = 0
+2021-06-24 19:59:56 Preparing for a new recording..
+2021-06-24 19:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-24 20:00:00 -----------------------------------
+2021-06-24 20:00:00 | New recording started: 1:/8537_20210624_every1d6x4hrs [+44.72053-062.80072]/8537_20210624T200000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-24 20:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-24 20:00:00 | Battery: 70% ( 3.85 V )
+2021-06-24 20:00:00 | Storage: Card 2 ( 86.3GB free of 119GB )
+2021-06-24 20:00:00 | Microphone: Unknown
+2021-06-24 20:00:00 -----------------------------------
+2021-06-24 23:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-24 23:22:55 Pre-allocating 373 MB on SD card.
+2021-06-24 23:59:56 Recording stopped. 373 MB recorded, 88004 MB remaining on the SD card
+2021-06-24 23:59:56 Total buffer overruns = 0
+2021-06-24 23:59:56 Preparing for a new recording..
+2021-06-24 23:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-25 00:00:00 -----------------------------------
+2021-06-25 00:00:00 | New recording started: 1:/8537_20210625_every1d6x4hrs [+44.72053-062.80072]/8537_20210625T000000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-25 00:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-25 00:00:00 | Battery: 69% ( 3.83 V )
+2021-06-25 00:00:00 | Storage: Card 2 ( 83.9GB free of 119GB )
+2021-06-25 00:00:00 | Microphone: Unknown
+2021-06-25 00:00:00 -----------------------------------
+2021-06-25 03:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-25 03:22:55 Pre-allocating 373 MB on SD card.
+2021-06-25 03:59:56 Recording stopped. 373 MB recorded, 85582 MB remaining on the SD card
+2021-06-25 03:59:56 Total buffer overruns = 0
+2021-06-25 03:59:56 Preparing for a new recording..
+2021-06-25 03:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-25 04:00:00 -----------------------------------
+2021-06-25 04:00:00 | New recording started: 1:/8537_20210625_every1d6x4hrs [+44.72053-062.80072]/8537_20210625T040000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-25 04:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-25 04:00:00 | Battery: 68% ( 3.82 V )
+2021-06-25 04:00:00 | Storage: Card 2 ( 81.5GB free of 119GB )
+2021-06-25 04:00:00 | Microphone: Unknown
+2021-06-25 04:00:00 -----------------------------------
+2021-06-25 07:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-25 07:22:55 Pre-allocating 373 MB on SD card.
+2021-06-25 07:59:56 Recording stopped. 373 MB recorded, 83160 MB remaining on the SD card
+2021-06-25 07:59:56 Total buffer overruns = 0
+2021-06-25 07:59:56 Preparing for a new recording..
+2021-06-25 07:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-25 08:00:00 -----------------------------------
+2021-06-25 08:00:00 | New recording started: 1:/8537_20210625_every1d6x4hrs [+44.72053-062.80072]/8537_20210625T080000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-25 08:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-25 08:00:00 | Battery: 67% ( 3.81 V )
+2021-06-25 08:00:00 | Storage: Card 2 ( 79.2GB free of 119GB )
+2021-06-25 08:00:00 | Microphone: Unknown
+2021-06-25 08:00:00 -----------------------------------
+2021-06-25 11:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-25 11:22:55 Pre-allocating 373 MB on SD card.
+2021-06-25 11:59:56 Recording stopped. 373 MB recorded, 80738 MB remaining on the SD card
+2021-06-25 11:59:56 Total buffer overruns = 0
+2021-06-25 11:59:56 Preparing for a new recording..
+2021-06-25 11:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-25 12:00:00 -----------------------------------
+2021-06-25 12:00:00 | New recording started: 1:/8537_20210625_every1d6x4hrs [+44.72053-062.80072]/8537_20210625T120000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-25 12:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-25 12:00:00 | Battery: 68% ( 3.82 V )
+2021-06-25 12:00:00 | Storage: Card 2 ( 76.8GB free of 119GB )
+2021-06-25 12:00:00 | Microphone: Unknown
+2021-06-25 12:00:00 -----------------------------------
+2021-06-25 15:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-25 15:22:55 Pre-allocating 373 MB on SD card.
+2021-06-25 15:59:56 Recording stopped. 373 MB recorded, 78316 MB remaining on the SD card
+2021-06-25 15:59:56 Total buffer overruns = 0
+2021-06-25 15:59:56 Preparing for a new recording..
+2021-06-25 15:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-25 16:00:00 -----------------------------------
+2021-06-25 16:00:00 | New recording started: 1:/8537_20210625_every1d6x4hrs [+44.72053-062.80072]/8537_20210625T160000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-25 16:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-25 16:00:00 | Battery: 68% ( 3.82 V )
+2021-06-25 16:00:00 | Storage: Card 2 ( 74.4GB free of 119GB )
+2021-06-25 16:00:00 | Microphone: Unknown
+2021-06-25 16:00:00 -----------------------------------
+2021-06-25 19:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-25 19:22:55 Pre-allocating 373 MB on SD card.
+2021-06-25 19:59:56 Recording stopped. 373 MB recorded, 75895 MB remaining on the SD card
+2021-06-25 19:59:56 Total buffer overruns = 0
+2021-06-25 19:59:56 Preparing for a new recording..
+2021-06-25 19:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-25 20:00:00 -----------------------------------
+2021-06-25 20:00:00 | New recording started: 1:/8537_20210625_every1d6x4hrs [+44.72053-062.80072]/8537_20210625T200000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-25 20:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-25 20:00:00 | Battery: 67% ( 3.80 V )
+2021-06-25 20:00:00 | Storage: Card 2 ( 72.1GB free of 119GB )
+2021-06-25 20:00:00 | Microphone: Unknown
+2021-06-25 20:00:00 -----------------------------------
+2021-06-25 23:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-25 23:22:55 Pre-allocating 373 MB on SD card.
+2021-06-25 23:59:56 Recording stopped. 373 MB recorded, 73473 MB remaining on the SD card
+2021-06-25 23:59:56 Total buffer overruns = 0
+2021-06-25 23:59:56 Preparing for a new recording..
+2021-06-25 23:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-26 00:00:00 -----------------------------------
+2021-06-26 00:00:00 | New recording started: 1:/8537_20210626_every1d6x4hrs [+44.72053-062.80072]/8537_20210626T000000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-26 00:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-26 00:00:00 | Battery: 66% ( 3.80 V )
+2021-06-26 00:00:00 | Storage: Card 2 ( 69.7GB free of 119GB )
+2021-06-26 00:00:00 | Microphone: Unknown
+2021-06-26 00:00:00 -----------------------------------
+2021-06-26 03:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-26 03:22:55 Pre-allocating 373 MB on SD card.
+2021-06-26 03:59:56 Recording stopped. 373 MB recorded, 71051 MB remaining on the SD card
+2021-06-26 03:59:56 Total buffer overruns = 0
+2021-06-26 03:59:56 Preparing for a new recording..
+2021-06-26 03:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-26 04:00:00 -----------------------------------
+2021-06-26 04:00:00 | New recording started: 1:/8537_20210626_every1d6x4hrs [+44.72053-062.80072]/8537_20210626T040000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-26 04:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-26 04:00:00 | Battery: 66% ( 3.79 V )
+2021-06-26 04:00:00 | Storage: Card 2 ( 67.3GB free of 119GB )
+2021-06-26 04:00:00 | Microphone: Unknown
+2021-06-26 04:00:00 -----------------------------------
+2021-06-26 07:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-26 07:22:55 Pre-allocating 373 MB on SD card.
+2021-06-26 07:59:56 Recording stopped. 373 MB recorded, 68629 MB remaining on the SD card
+2021-06-26 07:59:56 Total buffer overruns = 0
+2021-06-26 07:59:56 Preparing for a new recording..
+2021-06-26 07:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-26 08:00:00 -----------------------------------
+2021-06-26 08:00:00 | New recording started: 1:/8537_20210626_every1d6x4hrs [+44.72053-062.80072]/8537_20210626T080000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-26 08:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-26 08:00:00 | Battery: 66% ( 3.79 V )
+2021-06-26 08:00:00 | Storage: Card 2 ( 65GB free of 119GB )
+2021-06-26 08:00:00 | Microphone: Unknown
+2021-06-26 08:00:00 -----------------------------------
+2021-06-26 11:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-26 11:22:55 Pre-allocating 373 MB on SD card.
+2021-06-26 11:59:56 Recording stopped. 373 MB recorded, 66208 MB remaining on the SD card
+2021-06-26 11:59:56 Total buffer overruns = 0
+2021-06-26 11:59:56 Preparing for a new recording..
+2021-06-26 11:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-26 12:00:00 -----------------------------------
+2021-06-26 12:00:00 | New recording started: 1:/8537_20210626_every1d6x4hrs [+44.72053-062.80072]/8537_20210626T120000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-26 12:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-26 12:00:00 | Battery: 65% ( 3.78 V )
+2021-06-26 12:00:00 | Storage: Card 2 ( 62.6GB free of 119GB )
+2021-06-26 12:00:00 | Microphone: Unknown
+2021-06-26 12:00:00 -----------------------------------
+2021-06-26 15:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-26 15:22:55 Pre-allocating 373 MB on SD card.
+2021-06-26 15:59:56 Recording stopped. 373 MB recorded, 63786 MB remaining on the SD card
+2021-06-26 15:59:56 Total buffer overruns = 0
+2021-06-26 15:59:56 Preparing for a new recording..
+2021-06-26 15:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-26 16:00:00 -----------------------------------
+2021-06-26 16:00:00 | New recording started: 1:/8537_20210626_every1d6x4hrs [+44.72053-062.80072]/8537_20210626T160000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-26 16:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-26 16:00:00 | Battery: 65% ( 3.78 V )
+2021-06-26 16:00:00 | Storage: Card 2 ( 60.2GB free of 119GB )
+2021-06-26 16:00:00 | Microphone: Unknown
+2021-06-26 16:00:00 -----------------------------------
+2021-06-26 19:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-26 19:22:55 Pre-allocating 373 MB on SD card.
+2021-06-26 19:59:56 Recording stopped. 373 MB recorded, 61364 MB remaining on the SD card
+2021-06-26 19:59:56 Total buffer overruns = 0
+2021-06-26 19:59:56 Preparing for a new recording..
+2021-06-26 19:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-26 20:00:00 -----------------------------------
+2021-06-26 20:00:00 | New recording started: 1:/8537_20210626_every1d6x4hrs [+44.72053-062.80072]/8537_20210626T200000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-26 20:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-26 20:00:00 | Battery: 64% ( 3.77 V )
+2021-06-26 20:00:00 | Storage: Card 2 ( 57.9GB free of 119GB )
+2021-06-26 20:00:00 | Microphone: Unknown
+2021-06-26 20:00:00 -----------------------------------
+2021-06-26 23:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-26 23:22:55 Pre-allocating 373 MB on SD card.
+2021-06-26 23:59:56 Recording stopped. 373 MB recorded, 58942 MB remaining on the SD card
+2021-06-26 23:59:56 Total buffer overruns = 0
+2021-06-26 23:59:56 Preparing for a new recording..
+2021-06-26 23:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-27 00:00:00 -----------------------------------
+2021-06-27 00:00:00 | New recording started: 1:/8537_20210627_every1d6x4hrs [+44.72053-062.80072]/8537_20210627T000000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-27 00:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-27 00:00:00 | Battery: 64% ( 3.77 V )
+2021-06-27 00:00:00 | Storage: Card 2 ( 55.5GB free of 119GB )
+2021-06-27 00:00:00 | Microphone: Unknown
+2021-06-27 00:00:00 -----------------------------------
+2021-06-27 03:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-27 03:22:55 Pre-allocating 373 MB on SD card.
+2021-06-27 03:59:56 Recording stopped. 373 MB recorded, 56520 MB remaining on the SD card
+2021-06-27 03:59:56 Total buffer overruns = 0
+2021-06-27 03:59:56 Preparing for a new recording..
+2021-06-27 03:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-27 04:00:00 -----------------------------------
+2021-06-27 04:00:00 | New recording started: 1:/8537_20210627_every1d6x4hrs [+44.72053-062.80072]/8537_20210627T040000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-27 04:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-27 04:00:00 | Battery: 63% ( 3.76 V )
+2021-06-27 04:00:00 | Storage: Card 2 ( 53.1GB free of 119GB )
+2021-06-27 04:00:00 | Microphone: Unknown
+2021-06-27 04:00:00 -----------------------------------
+2021-06-27 07:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-27 07:22:55 Pre-allocating 373 MB on SD card.
+2021-06-27 07:59:56 Recording stopped. 373 MB recorded, 54099 MB remaining on the SD card
+2021-06-27 07:59:56 Total buffer overruns = 0
+2021-06-27 07:59:56 Preparing for a new recording..
+2021-06-27 07:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-27 08:00:00 -----------------------------------
+2021-06-27 08:00:00 | New recording started: 1:/8537_20210627_every1d6x4hrs [+44.72053-062.80072]/8537_20210627T080000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-27 08:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-27 08:00:00 | Battery: 63% ( 3.75 V )
+2021-06-27 08:00:00 | Storage: Card 2 ( 50.8GB free of 119GB )
+2021-06-27 08:00:00 | Microphone: Unknown
+2021-06-27 08:00:00 -----------------------------------
+2021-06-27 11:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-27 11:22:55 Pre-allocating 373 MB on SD card.
+2021-06-27 11:59:56 Recording stopped. 373 MB recorded, 51677 MB remaining on the SD card
+2021-06-27 11:59:56 Total buffer overruns = 0
+2021-06-27 11:59:56 Preparing for a new recording..
+2021-06-27 11:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-27 12:00:00 -----------------------------------
+2021-06-27 12:00:00 | New recording started: 1:/8537_20210627_every1d6x4hrs [+44.72053-062.80072]/8537_20210627T120000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-27 12:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-27 12:00:00 | Battery: 63% ( 3.75 V )
+2021-06-27 12:00:00 | Storage: Card 2 ( 48.4GB free of 119GB )
+2021-06-27 12:00:00 | Microphone: Unknown
+2021-06-27 12:00:00 -----------------------------------
+2021-06-27 15:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-27 15:22:55 Pre-allocating 373 MB on SD card.
+2021-06-27 15:59:56 Recording stopped. 373 MB recorded, 49255 MB remaining on the SD card
+2021-06-27 15:59:56 Total buffer overruns = 0
+2021-06-27 15:59:56 Preparing for a new recording..
+2021-06-27 15:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-27 16:00:00 -----------------------------------
+2021-06-27 16:00:00 | New recording started: 1:/8537_20210627_every1d6x4hrs [+44.72053-062.80072]/8537_20210627T160000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-27 16:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-27 16:00:00 | Battery: 62% ( 3.75 V )
+2021-06-27 16:00:00 | Storage: Card 2 ( 46.1GB free of 119GB )
+2021-06-27 16:00:00 | Microphone: Unknown
+2021-06-27 16:00:00 -----------------------------------
+2021-06-27 19:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-27 19:22:55 Pre-allocating 373 MB on SD card.
+2021-06-27 19:59:56 Recording stopped. 373 MB recorded, 46833 MB remaining on the SD card
+2021-06-27 19:59:56 Total buffer overruns = 0
+2021-06-27 19:59:56 Preparing for a new recording..
+2021-06-27 19:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-27 20:00:00 -----------------------------------
+2021-06-27 20:00:00 | New recording started: 1:/8537_20210627_every1d6x4hrs [+44.72053-062.80072]/8537_20210627T200000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-27 20:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-27 20:00:00 | Battery: 62% ( 3.74 V )
+2021-06-27 20:00:00 | Storage: Card 2 ( 43.7GB free of 119GB )
+2021-06-27 20:00:00 | Microphone: Unknown
+2021-06-27 20:00:00 -----------------------------------
+2021-06-27 23:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-27 23:22:55 Pre-allocating 373 MB on SD card.
+2021-06-27 23:59:56 Recording stopped. 373 MB recorded, 44412 MB remaining on the SD card
+2021-06-27 23:59:56 Total buffer overruns = 0
+2021-06-27 23:59:56 Preparing for a new recording..
+2021-06-27 23:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-28 00:00:00 -----------------------------------
+2021-06-28 00:00:00 | New recording started: 1:/8537_20210628_every1d6x4hrs [+44.72053-062.80072]/8537_20210628T000000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-28 00:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-28 00:00:00 | Battery: 61% ( 3.73 V )
+2021-06-28 00:00:00 | Storage: Card 2 ( 41.3GB free of 119GB )
+2021-06-28 00:00:00 | Microphone: Unknown
+2021-06-28 00:00:00 -----------------------------------
+2021-06-28 03:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-28 03:22:55 Pre-allocating 373 MB on SD card.
+2021-06-28 03:59:56 Recording stopped. 373 MB recorded, 41990 MB remaining on the SD card
+2021-06-28 03:59:56 Total buffer overruns = 0
+2021-06-28 03:59:56 Preparing for a new recording..
+2021-06-28 03:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-28 04:00:00 -----------------------------------
+2021-06-28 04:00:00 | New recording started: 1:/8537_20210628_every1d6x4hrs [+44.72053-062.80072]/8537_20210628T040000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-28 04:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-28 04:00:00 | Battery: 61% ( 3.73 V )
+2021-06-28 04:00:00 | Storage: Card 2 ( 39GB free of 119GB )
+2021-06-28 04:00:00 | Microphone: Unknown
+2021-06-28 04:00:00 -----------------------------------
+2021-06-28 07:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-28 07:22:55 Pre-allocating 373 MB on SD card.
+2021-06-28 07:59:56 Recording stopped. 373 MB recorded, 39568 MB remaining on the SD card
+2021-06-28 07:59:56 Total buffer overruns = 0
+2021-06-28 07:59:56 Preparing for a new recording..
+2021-06-28 07:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-28 08:00:00 -----------------------------------
+2021-06-28 08:00:00 | New recording started: 1:/8537_20210628_every1d6x4hrs [+44.72053-062.80072]/8537_20210628T080000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-28 08:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-28 08:00:00 | Battery: 60% ( 3.73 V )
+2021-06-28 08:00:00 | Storage: Card 2 ( 36.6GB free of 119GB )
+2021-06-28 08:00:00 | Microphone: Unknown
+2021-06-28 08:00:00 -----------------------------------
+2021-06-28 11:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-28 11:22:55 Pre-allocating 373 MB on SD card.
+2021-06-28 11:59:56 Recording stopped. 373 MB recorded, 37146 MB remaining on the SD card
+2021-06-28 11:59:56 Total buffer overruns = 0
+2021-06-28 11:59:56 Preparing for a new recording..
+2021-06-28 11:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-28 12:00:00 -----------------------------------
+2021-06-28 12:00:00 | New recording started: 1:/8537_20210628_every1d6x4hrs [+44.72053-062.80072]/8537_20210628T120000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-28 12:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-28 12:00:00 | Battery: 60% ( 3.73 V )
+2021-06-28 12:00:00 | Storage: Card 2 ( 34.2GB free of 119GB )
+2021-06-28 12:00:00 | Microphone: Unknown
+2021-06-28 12:00:00 -----------------------------------
+2021-06-28 15:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-28 15:22:55 Pre-allocating 373 MB on SD card.
+2021-06-28 15:59:56 Recording stopped. 373 MB recorded, 34725 MB remaining on the SD card
+2021-06-28 15:59:56 Total buffer overruns = 0
+2021-06-28 15:59:56 Preparing for a new recording..
+2021-06-28 15:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-28 16:00:00 -----------------------------------
+2021-06-28 16:00:00 | New recording started: 1:/8537_20210628_every1d6x4hrs [+44.72053-062.80072]/8537_20210628T160000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-28 16:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-28 16:00:00 | Battery: 60% ( 3.72 V )
+2021-06-28 16:00:00 | Storage: Card 2 ( 31.9GB free of 119GB )
+2021-06-28 16:00:00 | Microphone: Unknown
+2021-06-28 16:00:00 -----------------------------------
+2021-06-28 19:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-28 19:22:55 Pre-allocating 373 MB on SD card.
+2021-06-28 19:59:56 Recording stopped. 373 MB recorded, 32303 MB remaining on the SD card
+2021-06-28 19:59:56 Total buffer overruns = 0
+2021-06-28 19:59:56 Preparing for a new recording..
+2021-06-28 19:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-28 20:00:00 -----------------------------------
+2021-06-28 20:00:00 | New recording started: 1:/8537_20210628_every1d6x4hrs [+44.72053-062.80072]/8537_20210628T200000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-28 20:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-28 20:00:00 | Battery: 59% ( 3.71 V )
+2021-06-28 20:00:00 | Storage: Card 2 ( 29.5GB free of 119GB )
+2021-06-28 20:00:00 | Microphone: Unknown
+2021-06-28 20:00:00 -----------------------------------
+2021-06-28 23:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-28 23:22:55 Pre-allocating 373 MB on SD card.
+2021-06-28 23:59:56 Recording stopped. 373 MB recorded, 29881 MB remaining on the SD card
+2021-06-28 23:59:56 Total buffer overruns = 0
+2021-06-28 23:59:56 Preparing for a new recording..
+2021-06-28 23:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-29 00:00:00 -----------------------------------
+2021-06-29 00:00:00 | New recording started: 1:/8537_20210629_every1d6x4hrs [+44.72053-062.80072]/8537_20210629T000000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-29 00:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-29 00:00:00 | Battery: 59% ( 3.71 V )
+2021-06-29 00:00:00 | Storage: Card 2 ( 27.1GB free of 119GB )
+2021-06-29 00:00:00 | Microphone: Unknown
+2021-06-29 00:00:00 -----------------------------------
+2021-06-29 03:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-29 03:22:55 Pre-allocating 373 MB on SD card.
+2021-06-29 03:59:56 Recording stopped. 373 MB recorded, 27459 MB remaining on the SD card
+2021-06-29 03:59:56 Total buffer overruns = 0
+2021-06-29 03:59:56 Preparing for a new recording..
+2021-06-29 03:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-29 04:00:00 -----------------------------------
+2021-06-29 04:00:00 | New recording started: 1:/8537_20210629_every1d6x4hrs [+44.72053-062.80072]/8537_20210629T040000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-29 04:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-29 04:00:00 | Battery: 59% ( 3.71 V )
+2021-06-29 04:00:00 | Storage: Card 2 ( 24.8GB free of 119GB )
+2021-06-29 04:00:00 | Microphone: Unknown
+2021-06-29 04:00:00 -----------------------------------
+2021-06-29 07:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-29 07:22:55 Pre-allocating 373 MB on SD card.
+2021-06-29 07:59:56 Recording stopped. 373 MB recorded, 25037 MB remaining on the SD card
+2021-06-29 07:59:56 Total buffer overruns = 0
+2021-06-29 07:59:56 Preparing for a new recording..
+2021-06-29 07:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-29 08:00:00 -----------------------------------
+2021-06-29 08:00:00 | New recording started: 1:/8537_20210629_every1d6x4hrs [+44.72053-062.80072]/8537_20210629T080000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-29 08:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-29 08:00:00 | Battery: 58% ( 3.70 V )
+2021-06-29 08:00:00 | Storage: Card 2 ( 22.4GB free of 119GB )
+2021-06-29 08:00:00 | Microphone: Unknown
+2021-06-29 08:00:00 -----------------------------------
+2021-06-29 11:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-29 11:22:55 Pre-allocating 373 MB on SD card.
+2021-06-29 11:59:56 Recording stopped. 373 MB recorded, 22616 MB remaining on the SD card
+2021-06-29 11:59:56 Total buffer overruns = 0
+2021-06-29 11:59:56 Preparing for a new recording..
+2021-06-29 11:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-29 12:00:00 -----------------------------------
+2021-06-29 12:00:00 | New recording started: 1:/8537_20210629_every1d6x4hrs [+44.72053-062.80072]/8537_20210629T120000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-29 12:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-29 12:00:00 | Battery: 58% ( 3.70 V )
+2021-06-29 12:00:00 | Storage: Card 2 ( 20GB free of 119GB )
+2021-06-29 12:00:00 | Microphone: Unknown
+2021-06-29 12:00:00 -----------------------------------
+2021-06-29 15:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-29 15:22:55 Pre-allocating 373 MB on SD card.
+2021-06-29 15:59:56 Recording stopped. 373 MB recorded, 20194 MB remaining on the SD card
+2021-06-29 15:59:56 Total buffer overruns = 0
+2021-06-29 15:59:56 Preparing for a new recording..
+2021-06-29 15:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-29 16:00:00 -----------------------------------
+2021-06-29 16:00:00 | New recording started: 1:/8537_20210629_every1d6x4hrs [+44.72053-062.80072]/8537_20210629T160000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-29 16:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-29 16:00:00 | Battery: 58% ( 3.70 V )
+2021-06-29 16:00:00 | Storage: Card 2 ( 17.7GB free of 119GB )
+2021-06-29 16:00:00 | Microphone: Unknown
+2021-06-29 16:00:00 -----------------------------------
+2021-06-29 19:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-29 19:22:55 Pre-allocating 373 MB on SD card.
+2021-06-29 19:59:56 Recording stopped. 373 MB recorded, 17772 MB remaining on the SD card
+2021-06-29 19:59:56 Total buffer overruns = 0
+2021-06-29 19:59:56 Preparing for a new recording..
+2021-06-29 19:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-29 20:00:00 -----------------------------------
+2021-06-29 20:00:00 | New recording started: 1:/8537_20210629_every1d6x4hrs [+44.72053-062.80072]/8537_20210629T200000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-29 20:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-29 20:00:00 | Battery: 57% ( 3.69 V )
+2021-06-29 20:00:00 | Storage: Card 2 ( 15.3GB free of 119GB )
+2021-06-29 20:00:00 | Microphone: Unknown
+2021-06-29 20:00:00 -----------------------------------
+2021-06-29 23:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-29 23:22:55 Pre-allocating 373 MB on SD card.
+2021-06-29 23:59:56 Recording stopped. 373 MB recorded, 15350 MB remaining on the SD card
+2021-06-29 23:59:56 Total buffer overruns = 0
+2021-06-29 23:59:56 Preparing for a new recording..
+2021-06-29 23:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-30 00:00:00 -----------------------------------
+2021-06-30 00:00:00 | New recording started: 1:/8537_20210630_every1d6x4hrs [+44.72053-062.80072]/8537_20210630T000000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-30 00:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-30 00:00:00 | Battery: 57% ( 3.68 V )
+2021-06-30 00:00:00 | Storage: Card 2 ( 12.9GB free of 119GB )
+2021-06-30 00:00:00 | Microphone: Unknown
+2021-06-30 00:00:00 -----------------------------------
+2021-06-30 03:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-30 03:22:55 Pre-allocating 373 MB on SD card.
+2021-06-30 03:59:56 Recording stopped. 373 MB recorded, 12929 MB remaining on the SD card
+2021-06-30 03:59:56 Total buffer overruns = 0
+2021-06-30 03:59:56 Preparing for a new recording..
+2021-06-30 03:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-30 04:00:00 -----------------------------------
+2021-06-30 04:00:00 | New recording started: 1:/8537_20210630_every1d6x4hrs [+44.72053-062.80072]/8537_20210630T040000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-30 04:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-30 04:00:00 | Battery: 57% ( 3.68 V )
+2021-06-30 04:00:00 | Storage: Card 2 ( 10.6GB free of 119GB )
+2021-06-30 04:00:00 | Microphone: Unknown
+2021-06-30 04:00:00 -----------------------------------
+2021-06-30 07:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-30 07:22:55 Pre-allocating 373 MB on SD card.
+2021-06-30 07:59:56 Recording stopped. 373 MB recorded, 10507 MB remaining on the SD card
+2021-06-30 07:59:56 Total buffer overruns = 0
+2021-06-30 07:59:56 Preparing for a new recording..
+2021-06-30 07:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-30 08:00:00 -----------------------------------
+2021-06-30 08:00:00 | New recording started: 1:/8537_20210630_every1d6x4hrs [+44.72053-062.80072]/8537_20210630T080000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-30 08:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-30 08:00:00 | Battery: 56% ( 3.68 V )
+2021-06-30 08:00:00 | Storage: Card 2 ( 8.2GB free of 119GB )
+2021-06-30 08:00:00 | Microphone: Unknown
+2021-06-30 08:00:00 -----------------------------------
+2021-06-30 11:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-30 11:22:55 Pre-allocating 373 MB on SD card.
+2021-06-30 11:59:56 Recording stopped. 373 MB recorded, 8085 MB remaining on the SD card
+2021-06-30 11:59:56 Total buffer overruns = 0
+2021-06-30 11:59:56 Preparing for a new recording..
+2021-06-30 11:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-30 12:00:00 -----------------------------------
+2021-06-30 12:00:00 | New recording started: 1:/8537_20210630_every1d6x4hrs [+44.72053-062.80072]/8537_20210630T120000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-30 12:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-30 12:00:00 | Battery: 57% ( 3.68 V )
+2021-06-30 12:00:00 | Storage: Card 2 ( 5.8GB free of 119GB )
+2021-06-30 12:00:00 | Microphone: Unknown
+2021-06-30 12:00:00 -----------------------------------
+2021-06-30 15:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-30 15:22:55 Pre-allocating 373 MB on SD card.
+2021-06-30 15:59:56 Recording stopped. 373 MB recorded, 5663 MB remaining on the SD card
+2021-06-30 15:59:56 Total buffer overruns = 0
+2021-06-30 15:59:56 Preparing for a new recording..
+2021-06-30 15:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-30 16:00:00 -----------------------------------
+2021-06-30 16:00:00 | New recording started: 1:/8537_20210630_every1d6x4hrs [+44.72053-062.80072]/8537_20210630T160000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-30 16:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-30 16:00:00 | Battery: 56% ( 3.68 V )
+2021-06-30 16:00:00 | Storage: Card 2 ( 3.5GB free of 119GB )
+2021-06-30 16:00:00 | Microphone: Unknown
+2021-06-30 16:00:00 -----------------------------------
+2021-06-30 19:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-30 19:22:55 Pre-allocating 373 MB on SD card.
+2021-06-30 19:59:56 Recording stopped. 373 MB recorded, 3242 MB remaining on the SD card
+2021-06-30 19:59:56 Total buffer overruns = 0
+2021-06-30 19:59:56 Preparing for a new recording..
+2021-06-30 19:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-30 20:00:00 -----------------------------------
+2021-06-30 20:00:00 | New recording started: 1:/8537_20210630_every1d6x4hrs [+44.72053-062.80072]/8537_20210630T200000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-30 20:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-30 20:00:00 | Battery: 56% ( 3.67 V )
+2021-06-30 20:00:00 | Storage: Card 2 ( 1.1GB free of 119GB )
+2021-06-30 20:00:00 | Microphone: Unknown
+2021-06-30 20:00:00 -----------------------------------
+2021-06-30 23:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-30 23:22:55 Pre-allocating 373 MB on SD card.
+2021-06-30 23:59:56 Recording stopped. 373 MB recorded, 820 MB remaining on the SD card
+2021-06-30 23:59:56 Total buffer overruns = 0
+2021-06-30 23:59:56 Preparing for a new recording..
+2021-08-09 11:46:31 SD Card detected in slot 3
+2021-08-09 11:46:39 SD Card detected in slot 3
+2021-08-09 11:46:48 SD Card detected in slot 3
+2021-08-09 11:46:56 SD Card detected in slot 3
+2021-08-09 11:47:05 SD Card detected in slot 3
+2021-08-09 11:47:13 SD Card detected in slot 3
+2021-08-09 11:47:22 SD Card detected in slot 3
+2021-08-09 11:47:30 SD Card detected in slot 3
+2021-08-09 11:47:38 SD Card detected in slot 3
+2021-08-09 11:47:47 SD Card detected in slot 3
+2021-08-09 11:48:11 SD Card detected in slot 3
+2021-08-09 11:48:19 SD Card detected in slot 3
+2021-08-09 11:48:28 SD Card detected in slot 3
+2021-08-09 11:48:36 SD Card detected in slot 3
+2021-08-09 11:48:44 SD Card detected in slot 3
+2021-08-09 11:48:53 SD Card detected in slot 3
+2021-08-09 11:49:01 SD Card detected in slot 3
+2021-08-09 11:49:10 SD Card detected in slot 3
+2021-08-09 11:49:18 SD Card detected in slot 3
+2021-08-09 11:49:26 SD Card detected in slot 3
+2021-08-09 11:49:35 SD Card detected in slot 3
+2021-08-09 11:49:43 SD Card detected in slot 3
+2021-08-09 11:49:52 SD Card detected in slot 3
+2021-08-09 11:50:00 SD Card detected in slot 3
+2021-08-09 11:50:08 SD Card detected in slot 3
+2021-08-09 11:50:17 SD Card detected in slot 3
+2021-08-09 11:50:25 SD Card detected in slot 3
+2021-08-09 11:50:34 SD Card detected in slot 3
+2021-08-09 11:50:42 SD Card detected in slot 3
+2021-08-09 11:50:50 SD Card detected in slot 3
+2021-08-09 11:50:59 SD Card detected in slot 3
+2021-08-09 11:51:07 SD Card detected in slot 3
+2021-08-09 11:51:15 SD Card detected in slot 3
+2021-08-09 11:51:24 SD Card detected in slot 3
+2021-08-09 11:51:32 SD Card detected in slot 3
+2021-08-09 11:51:41 SD Card detected in slot 3
+2021-08-09 11:51:49 SD Card detected in slot 3
+2021-08-09 11:51:57 SD Card detected in slot 3
+2021-08-09 11:52:06 SD Card detected in slot 3
+2021-08-09 11:52:14 SD Card detected in slot 3
+2021-08-09 11:52:22 SD Card detected in slot 3
+2021-08-09 11:52:31 SD Card detected in slot 3
+2021-08-09 11:52:39 SD Card detected in slot 3
+2021-08-09 11:52:48 SD Card detected in slot 3
+2021-08-09 11:52:56 SD Card detected in slot 3
+2021-08-09 11:53:04 SD Card detected in slot 3
+2021-08-09 11:53:13 SD Card detected in slot 3
+2021-08-09 11:53:21 SD Card detected in slot 3
+2021-08-09 11:53:29 SD Card detected in slot 3
+2021-08-09 11:53:38 SD Card detected in slot 3
+2021-08-09 11:53:46 SD Card detected in slot 3
+2021-08-09 11:53:55 SD Card detected in slot 3
+2021-08-09 11:54:03 SD Card detected in slot 3
+2021-08-09 11:54:12 SD Card detected in slot 3
+2021-08-09 11:54:20 SD Card detected in slot 3
+2021-08-09 11:54:29 SD Card detected in slot 3
+2021-08-09 11:54:37 SD Card detected in slot 3
+2021-08-09 11:54:46 SD Card detected in slot 3
+2021-08-09 11:54:54 SD Card detected in slot 3
