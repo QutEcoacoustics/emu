@@ -12,4 +12,4 @@ Memory Card Serial 2: 11184608
 
 # Fault information:
 
-The files has no known problems.
+The files have no known problems.
