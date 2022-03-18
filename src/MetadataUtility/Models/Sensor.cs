@@ -18,7 +18,7 @@ namespace MetadataUtility.Models
         /// <summary>
         /// Gets the firmware version of this sensor.
         /// </summary>
-        public float Firmware { get; init; }
+        public string Firmware { get; init; }
 
         /// <summary>
         /// Gets the serial number of the sensor.

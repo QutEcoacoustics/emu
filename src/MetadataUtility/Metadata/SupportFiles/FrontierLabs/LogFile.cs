@@ -93,7 +93,7 @@ namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
             bool isLogFile = false;
             string line;
 
-            float firmware = 0;
+            string firmware = null;
             string serialNumber = string.Empty, powerSource = string.Empty;
 
             using (StreamReader reader = new StreamReader(this.FilePath))
@@ -111,17 +111,9 @@ namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
                     {
                         string firmwareString = line.Split().Where(x => FirmwareRegex.IsMatch(x)).FirstOrDefault();
 
-                        if (firmwareString != null)
-                        {
-                            if (firmwareString[0] == 'V')
-                            {
-                                firmware = float.Parse(firmwareString.Substring(1));
-                            }
-                            else
-                            {
-                                firmware = float.Parse(firmwareString);
-                            }
-                        }
+                        firmwareString = firmwareString?.StartsWith("V") ?? false ? firmwareString[1..] : firmwareString;
+
+                        firmware = firmwareString;
                     }
                     else if (line.Contains(SerialNumberString))
                     {
