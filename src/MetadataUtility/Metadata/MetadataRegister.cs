@@ -5,6 +5,7 @@
 namespace MetadataUtility.Metadata
 {
     using MetadataUtility.Metadata.FrontierLabs;
+    using MetadataUtility.Metadata.WildlifeAcoustics.SM4BAT;
 
     public class MetadataRegister
     {

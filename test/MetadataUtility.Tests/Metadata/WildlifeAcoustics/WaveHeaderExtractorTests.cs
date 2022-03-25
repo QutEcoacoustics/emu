@@ -12,6 +12,7 @@ namespace MetadataUtility.Tests.Metadata
     using FluentAssertions;
     using MetadataUtility.Audio;
     using MetadataUtility.Metadata;
+    using MetadataUtility.Metadata.WildlifeAcoustics.SM4BAT;
     using MetadataUtility.Models;
     using MetadataUtility.Tests.TestHelpers;
     using Xunit;
@@ -19,15 +20,13 @@ namespace MetadataUtility.Tests.Metadata
 
     public class WaveHeaderExtractorTests : TestBase
     {
-        private readonly FilenameExtractor subject;
+        private readonly WaveHeaderExtractor subject;
 
         public WaveHeaderExtractorTests(ITestOutputHelper output)
             : base(output)
         {
-            this.subject = new FilenameExtractor(
-                this.BuildLogger<FilenameExtractor>(),
-                this.TestFiles,
-                this.FilenameParser);
+            this.subject = new WaveHeaderExtractor(
+                this.BuildLogger<WaveHeaderExtractor>());
         }
 
         public Recording Recording => new();
@@ -47,24 +46,27 @@ namespace MetadataUtility.Tests.Metadata
         [ClassData(typeof(FixtureHelper.FixtureData))]
         public async void ProcessFilesWorks(FixtureModel model)
         {
-            // we can process all files that have a filename
-            var recording = await this.subject.ProcessFileAsync(
-                model.ToTargetInformation(this.RealFileSystem),
-                this.Recording);
+            if (model.IsWave)
+            {
+                // we can process all files that have a filename
+                var recording = await this.subject.ProcessFileAsync(
+                    model.ToTargetInformation(this.RealFileSystem),
+                    this.Recording);
 
-            recording.DurationSeconds?.TotalSeconds.Should().Be(model.DurationSeconds);
+                recording.DurationSeconds?.TotalSeconds.Should().Be(model.DurationSeconds);
 
-            recording.SampleRateHertz.Should().Be(model.SampleRateHertz);
+                recording.SampleRateHertz.Should().Be(model.SampleRateHertz);
 
-            recording.Channels.Should().Be(model.Channels);
+                recording.Channels.Should().Be(model.Channels);
 
-            recording.BitsPerSecond.Should().Be(model.BitsPerSecond);
+                recording.BitsPerSecond.Should().Be(model.BitsPerSecond);
 
-            recording.BitDepth.Should().Be((byte)model.BitDepth);
+                recording.BitDepth.Should().Be((byte)model.BitDepth);
 
-            recording.FileLengthBytes.Should().Be(model.FileLengthBytes);
+                recording.FileLengthBytes.Should().Be(model.FileLengthBytes);
 
-            // TODO: Add other assertions here!
+                // TODO: Add other assertions here!
+            }
         }
     }
 }

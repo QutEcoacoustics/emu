@@ -2,7 +2,7 @@
 // All code in this file and all associated files are the copyright and property of the QUT Ecoacoustics Research Group.
 // </copyright>
 
-namespace MetadataUtility.Metadata.FrontierLabs
+namespace MetadataUtility.Metadata.WildlifeAcoustics.SM4BAT
 {
     using System.Threading.Tasks;
     using MetadataUtility.Audio;
@@ -51,7 +51,6 @@ namespace MetadataUtility.Metadata.FrontierLabs
 
             var samples = dataChunk.Map(d => Wave.GetTotalSamples(d, channels, bitsPerSample));
             var fileLength = stream.Length;
-
 
             // TODO: replace with rational type from master branch
             var duration = samples.Map(s => Duration.FromSeconds((double)samples / (double)sampleRate));
