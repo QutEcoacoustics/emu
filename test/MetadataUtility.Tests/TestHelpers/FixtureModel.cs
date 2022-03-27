@@ -5,10 +5,14 @@
 namespace MetadataUtility.Tests.TestHelpers
 {
     using System;
+    using System.Collections.Generic;
     using System.IO.Abstractions;
     using CsvHelper.Configuration.Attributes;
     using MetadataUtility.Audio;
     using MetadataUtility.Metadata;
+    using MetadataUtility.Metadata.SupportFiles;
+    using MetadataUtility.Models;
+    using Rationals;
 
     public enum ValidMetadata
     {
@@ -39,7 +43,25 @@ namespace MetadataUtility.Tests.TestHelpers
 
         public string MimeType { get; set; }
 
-        public double DurationSeconds { get; set; }
+        public Rational DurationSeconds { get; set; }
+
+        public byte Channels { get; set; }
+
+        public uint SampleRateHertz { get; set; }
+
+        public uint BitsPerSecond { get; set; }
+
+        public byte BitDepth { get; set; }
+
+        public ulong TotalSamples { get; set; }
+
+        public string FrontierLabsLogFile { get; set; }
+
+        public string[] Process { get; set; }
+
+        public MemoryCard MemoryCard { get; set; }
+
+        public Sensor Sensor { get; set; }
 
         public uint SampleRateHertz { get; set; }
 
@@ -89,11 +111,15 @@ namespace MetadataUtility.Tests.TestHelpers
 
         public TargetInformation ToTargetInformation(IFileSystem fileSystem)
         {
-            return new TargetInformation(fileSystem)
+            TargetInformation ti = new TargetInformation(fileSystem) with
             {
                 Path = this.AbsoluteFixturePath,
                 Base = FixtureHelper.ResolveFirstDirectory(this.FixturePath),
             };
+
+            SupportFile.FindSupportFiles(fileSystem.Path.GetDirectoryName(ti.Path), new List<TargetInformation> { ti }, fileSystem);
+
+            return ti;
         }
 
         public override string ToString()

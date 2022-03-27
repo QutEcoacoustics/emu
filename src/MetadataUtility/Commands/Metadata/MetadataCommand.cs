@@ -5,9 +5,7 @@
 namespace MetadataUtility
 {
     using System.CommandLine;
-    using MetadataUtility.Cli;
     using MetadataUtility.Commands;
-    using NodaTime;
 
     public class MetadataCommand : Command
     {

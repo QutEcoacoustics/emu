@@ -27,6 +27,18 @@ namespace MetadataUtility.Tests.TestHelpers
             return path;
         }
 
+        public static string ResolveDirectory(string name)
+        {
+            var path = RealFileSystem.Path.GetFullPath(RealFileSystem.Path.Combine(Helpers.FixturesRoot, name));
+
+            if (!RealFileSystem.Directory.Exists(path))
+            {
+                throw new FileNotFoundException($"Could not find name {name} at path {path}");
+            }
+
+            return path;
+        }
+
         public static string ResolveFirstDirectory(string name)
         {
             // be convention all of the paths in our fixtures CSV uses `/`

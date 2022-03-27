@@ -14,6 +14,8 @@ namespace MetadataUtility.Metadata
             // each time we make a new extractor we'll add it here
             typeof(FilenameExtractor),
             typeof(WaveHeaderExtractor),
+            typeof(FrontierLabs.FlacHeaderExtractor),
+            typeof(FrontierLabs.LogFileExtractor),
         };
 
         private readonly IServiceProvider provider;

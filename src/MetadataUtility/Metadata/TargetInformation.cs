@@ -5,6 +5,7 @@
 namespace MetadataUtility.Metadata
 {
     using System.IO.Abstractions;
+    using MetadataUtility.Metadata.SupportFiles;
 
     // a.wav
     // b.flac
@@ -55,19 +56,25 @@ namespace MetadataUtility.Metadata
         /// <summary>
         /// Gets the file stream for the current target.
         /// </summary>
-        public FileStream FileStream
+        public Stream FileStream
         {
             get
             {
-                return this.stream ?? (FileStream)this.FileSystem.File.Open(this.Path, FileMode.Open, FileAccess.Read, FileShare.Read);
+                return this.stream ?? this.FileSystem.File.Open(this.Path, FileMode.Open, FileAccess.Read, FileShare.Read);
             }
         }
 
         /// <summary>
-        /// Gets all known support files.
+        /// Gets all support files for this target.
         /// Support files are log files, configuration files, etc.
         /// </summary>
-        public Dictionary<string, string> KnownSupportFiles { get; } = new Dictionary<string, string>();
+        public Dictionary<string, SupportFile> TargetSupportFiles { get; } = new Dictionary<string, SupportFile>();
+
+        /// <summary>
+        /// Gets list of each identified support file
+        /// Support files are log files, configuration files, etc.
+        /// </summary>
+        public static List<SupportFile> KnownSupportFiles { get; } = new List<SupportFile>();
 
         public IFileSystem FileSystem => this.fileSystem;
 

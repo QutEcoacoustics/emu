@@ -84,22 +84,22 @@ namespace MetadataUtility.Models
         /// <summary>
         /// Gets the number of channels in the recording.
         /// </summary>
-        public byte Channels { get; init; }
+        public byte? Channels { get; init; }
 
         /// <summary>
         /// Gets the sample rate of the recording.
         /// </summary>
-        public uint SampleRateHertz { get; init; }
+        public uint? SampleRateHertz { get; init; }
 
         /// <summary>
         /// Gets the bit rate.
         /// </summary>
-        public uint BitsPerSecond { get; init; }
+        public uint? BitsPerSecond { get; init; }
 
         /// <summary>
         /// Gets the numbers of bits used to quantize each sample.
         /// </summary>
-        public byte BitDepth { get; init; }
+        public byte? BitDepth { get; init; }
 
         /// <summary>
         /// Gets an IANA Media Type.
@@ -107,9 +107,20 @@ namespace MetadataUtility.Models
         public string MediaType { get; init; }
 
         /// <summary>
+        /// Gets the number of samples in this file.
+        /// </summary>
+        public ulong? TotalSamples { get; init; }
+
+        /// <summary>
         /// Gets the number of bytes in this file.
         /// </summary>
         public ulong FileLengthBytes { get; init; }
+
+        /// <summary>
+        /// Gets a <see cref="MemoryCard"/> object
+        /// that describes the memory card this recording was stored on.
+        /// </summary>
+        public MemoryCard MemoryCard { get; init; }
 
         /// <summary>
         /// Gets a <see cref="Sensor"/> object
