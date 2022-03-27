@@ -87,8 +87,8 @@ namespace MetadataUtility.Tests.Audio
             var model = this.data[FixtureModel.SM4BatNormal1];
             var (format, dataRange) = this.ReadChunkRanges(model);
 
-            var byteRate = Wave.GetByteRate(format);
-            byteRate.Should().Be(model.ByteRate);
+            var byteRate = Wave.GetByteRate(format) * 8;
+            byteRate.Should().Be(model.BitsPerSecond);
         }
 
         [Fact]

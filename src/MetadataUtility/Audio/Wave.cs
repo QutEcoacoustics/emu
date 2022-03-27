@@ -82,7 +82,6 @@ namespace MetadataUtility.Audio
 
         public static Fin<Range> FindWaveChunk(Stream stream, Range riffChunk)
         {
-
             if (riffChunk.Length < WaveMagicNumber.Length)
             {
                 return FileTooShortRiff;
@@ -100,7 +99,7 @@ namespace MetadataUtility.Audio
 
             var read = stream.Read(buffer);
 
-            if (read != (WaveMagicNumber.Length))
+            if (read != WaveMagicNumber.Length)
             {
                 return FileTooShortRiff;
             }
@@ -117,7 +116,6 @@ namespace MetadataUtility.Audio
 
             return new Range(offset, riffChunk.End);
         }
-
 
         public static Fin<Range> FindFormatChunk(Stream stream, Range waveChunk)
         {
@@ -219,7 +217,7 @@ namespace MetadataUtility.Audio
 
             if (stream.Seek(range.Start, SeekOrigin.Begin) != range.Start)
             {
-                throw new IOException("ReadRange: could not seek to position"); ;
+                throw new IOException("ReadRange: could not seek to position");
             }
 
             var read = stream.Read(buffer);

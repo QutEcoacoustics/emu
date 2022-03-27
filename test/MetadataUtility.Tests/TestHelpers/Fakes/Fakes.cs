@@ -28,7 +28,7 @@ namespace MetadataUtility.Tests.TestHelpers.Fakes
                 .RuleFor(
                     x => x.StartDate,
                     f => Provenance.FileHeader.Wrap(f.Noda().ZonedDateTime.Recent(7).ToOffsetDateTime()))
-                .RuleFor(x => x.DurationSeconds, f => f.Noda().Duration(Duration.FromHours(24)))
+                .RuleFor(x => x.DurationSeconds, f => 24 * 86400)
                 .RuleFor(x => x.Channels, f => f.Random.Byte(1, 4))
                 .RuleFor(x => x.SampleRateHertz, f => f.PickRandom(KnownSampleRates))
                 .RuleFor(x => x.BitsPerSecond, f => f.Random.UInt(22050 * 16, 96000 * 16))
@@ -37,7 +37,7 @@ namespace MetadataUtility.Tests.TestHelpers.Fakes
                 .RuleFor(x => x.FileLengthBytes, f => (ulong)f.Random.Long(2_000_000_000L))
                 .RuleFor(
                     x => x.EndDate,
-                    (f, x) => x.StartDate + x.DurationSeconds)
+                    (f, x) => x.StartDate + Duration.FromSeconds((double)x.DurationSeconds))
 
                 //(f, x) => Provenance.Calculated.Wrap(x.StartDate?.Value + x.DurationSeconds))
 

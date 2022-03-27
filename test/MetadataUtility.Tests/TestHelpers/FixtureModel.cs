@@ -63,21 +63,7 @@ namespace MetadataUtility.Tests.TestHelpers
 
         public Sensor Sensor { get; set; }
 
-        public uint SampleRateHertz { get; set; }
-
-        public byte Channels { get; set; }
-
-        public uint BitsPerSecond { get; set; }
-
-        public ushort BitDepth { get; set; }
-
         public ulong FileLengthBytes { get; set; }
-
-        public string[] Process { get; set; }
-
-        public ulong TotalSamples { get; set; }
-
-        public uint ByteRate { get; set; }
 
         public ushort BlockAlign { get; set; }
 

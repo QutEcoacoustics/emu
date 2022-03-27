@@ -10,6 +10,7 @@ namespace MetadataUtility.Metadata.WildlifeAcoustics.SM4BAT
     using MetadataUtility.Utilities;
     using Microsoft.Extensions.Logging;
     using NodaTime;
+    using Rationals;
 
     public class WaveHeaderExtractor : IMetadataOperation
     {
@@ -53,7 +54,7 @@ namespace MetadataUtility.Metadata.WildlifeAcoustics.SM4BAT
             var fileLength = stream.Length;
 
             // TODO: replace with rational type from master branch
-            var duration = samples.Map(s => Duration.FromSeconds((double)samples / (double)sampleRate));
+            var duration = samples.Map(s => new Rational((uint)samples) / new Rational((uint)sampleRate));
 
             return ValueTask.FromResult(recording with
             {

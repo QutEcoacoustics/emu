@@ -9,6 +9,7 @@ namespace MetadataUtility.Metadata.FrontierLabs
     using MetadataUtility.Models;
     using Microsoft.Extensions.Logging;
     using NodaTime;
+    using Rationals;
 
     public class FlacHeaderExtractor : IMetadataOperation
     {
@@ -33,7 +34,7 @@ namespace MetadataUtility.Metadata.FrontierLabs
             var channels = Flac.ReadNumChannels(information.FileStream);
             var bitDepth = Flac.ReadBitDepth(information.FileStream);
 
-            Duration? duration = samples.IsFail || sampleRate.IsFail || (uint)sampleRate == 0 ? null : Duration.FromSeconds((double)samples / (double)sampleRate);
+            Rational? duration = samples.IsFail || sampleRate.IsFail || (uint)sampleRate == 0 ? null : (new Rational((ulong)samples) / new Rational((uint)sampleRate));
             uint? bitRate = sampleRate.IsFail || bitDepth.IsFail || channels.IsFail ? null : (uint)sampleRate * (uint)bitDepth * (uint)channels;
 
             recording = recording with
