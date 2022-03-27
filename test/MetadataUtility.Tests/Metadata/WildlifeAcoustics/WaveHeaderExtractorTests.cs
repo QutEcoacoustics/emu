@@ -48,7 +48,6 @@ namespace MetadataUtility.Tests.Metadata
         {
             if (model.IsWave)
             {
-                // we can process all files that have a filename
                 var recording = await this.subject.ProcessFileAsync(
                     model.ToTargetInformation(this.RealFileSystem),
                     this.Recording);
