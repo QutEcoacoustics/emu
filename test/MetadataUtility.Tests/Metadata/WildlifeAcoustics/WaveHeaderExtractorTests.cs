@@ -38,7 +38,7 @@ namespace MetadataUtility.Tests.Metadata
             var result = await this.subject.CanProcessAsync(model.ToTargetInformation(this.RealFileSystem));
 
             // we can process any WAVE file
-            var expected = model.IsWave;
+            var expected = model.IsWave && model.ValidMetadata == ValidMetadata.Yes;
             Assert.Equal(expected, result);
         }
 
@@ -46,7 +46,7 @@ namespace MetadataUtility.Tests.Metadata
         [ClassData(typeof(FixtureHelper.FixtureData))]
         public async void ProcessFilesWorks(FixtureModel model)
         {
-            if (model.IsWave)
+            if (model.IsWave && model.ValidMetadata == ValidMetadata.Yes)
             {
                 var recording = await this.subject.ProcessFileAsync(
                     model.ToTargetInformation(this.RealFileSystem),

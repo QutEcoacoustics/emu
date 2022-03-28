@@ -32,6 +32,8 @@ namespace MetadataUtility.Serialization
                     new StringEnumConverter(),
                     new WellKnownProblemJsonConverter(),
                     new JsonRangeConverter(),
+                    new RationalNullJsonConverter(),
+                    new RationalJsonConverter(),
                 },
             }.ConfigureForNodaTime(DateTimeZoneProviders.Tzdb);
 

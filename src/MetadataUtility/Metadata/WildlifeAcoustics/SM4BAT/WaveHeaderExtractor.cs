@@ -35,7 +35,7 @@ namespace MetadataUtility.Metadata.WildlifeAcoustics.SM4BAT
             var riffChunk = Wave.FindRiffChunk(stream);
             var waveChunk = riffChunk.Bind(r => Wave.FindWaveChunk(stream, r));
             var formatChunk = waveChunk.Bind(w => Wave.FindFormatChunk(stream, w));
-            var dataChunk = waveChunk.Bind(w => Wave.FindFormatChunk(stream, w));
+            var dataChunk = waveChunk.Bind(w => Wave.FindDataChunk(stream, w));
 
             if (formatChunk.IsFail)
             {
@@ -60,7 +60,7 @@ namespace MetadataUtility.Metadata.WildlifeAcoustics.SM4BAT
             {
                 DurationSeconds = duration.IfFail(null),
                 SampleRateHertz = sampleRate,
-                Channels = (byte)channels,
+                Channels = (ushort)channels,
                 BitsPerSecond = byteRate * BinaryHelpers.BitsPerByte,
                 BitDepth = (byte)bitsPerSample,
                 FileLengthBytes = (ulong)fileLength,

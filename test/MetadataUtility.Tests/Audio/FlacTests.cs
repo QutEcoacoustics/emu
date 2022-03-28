@@ -51,7 +51,7 @@ namespace MetadataUtility.Tests.Audio
             {
                 Fin<byte> channels = Flac.ReadNumChannels(model.ToTargetInformation(this.RealFileSystem).FileStream);
                 Assert.True(channels.IsSucc);
-                ((byte)channels).Should().Be(model.Channels);
+                ((byte)channels).Should().Be((byte)model.Channels);
             }
         }
 

@@ -34,7 +34,7 @@ namespace MetadataUtility.Models
         /// Gets the voltage of the <see cref="PowerSource"/>
         /// used by this sensor.
         /// </summary>
-        public double Voltage { get; init; }
+        public double? Voltage { get; init; }
 
         /// <summary>
         /// Gets the gain setting used by the sensor.

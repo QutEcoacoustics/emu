@@ -85,7 +85,7 @@ namespace MetadataUtility.Models
         /// <summary>
         /// Gets the number of channels in the recording.
         /// </summary>
-        public byte? Channels { get; init; }
+        public ushort? Channels { get; init; }
 
         /// <summary>
         /// Gets the sample rate of the recording.
