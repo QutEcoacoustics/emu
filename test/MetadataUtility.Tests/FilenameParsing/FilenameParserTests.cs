@@ -71,10 +71,10 @@ namespace MetadataUtility.Tests.FilenameParsing
             if (test.ExpectedLongitude.HasValue)
             {
                 $"And then the latitude parsed in this filename should be {test.ExpectedLatitude}"
-                    .x(() => Assert.Equal(test.ExpectedLatitude.Value, actual.Location.Latitude, Wgs84Epsilon));
+                    .x(() => Assert.Equal(test.ExpectedLatitude.Value, (double)actual.Location.Latitude, Wgs84Epsilon));
 
                 $"and the longitude should be {test.ExpectedLongitude}"
-                    .x(() => Assert.Equal(test.ExpectedLongitude.Value, actual.Location.Longitude, Wgs84Epsilon));
+                    .x(() => Assert.Equal(test.ExpectedLongitude.Value, (double)actual.Location.Longitude, Wgs84Epsilon));
 
                 "and the location sample date should be set"
                     .x(() => Assert.Equal(actual.OffsetDateTime?.ToInstant(), actual.Location.SampleDateTime));

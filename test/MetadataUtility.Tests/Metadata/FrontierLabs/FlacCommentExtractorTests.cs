@@ -50,8 +50,8 @@ namespace MetadataUtility.Tests.Metadata
                 recording.Sensor.Microphones.Should().BeEquivalentTo(model.Sensor.Microphones);
                 recording.Sensor.BatteryLevel.Should().Be(model.Sensor.BatteryLevel);
                 recording.Sensor.LastTimeSync.Should().Be(model.Sensor.LastTimeSync);
-                (recording.Location == null ? 0 : recording.Location.Longitude).Should().Be(model.Location.Longitude);
-                (recording.Location == null ? 0 : recording.Location.Latitude).Should().Be(model.Location.Latitude);
+                (recording.Location?.Longitude).Should().Be(model.Location.Longitude);
+                (recording.Location?.Latitude).Should().Be(model.Location.Latitude);
                 recording.StartDate.Should().Be(model.StartDate);
                 recording.EndDate.Should().Be(model.EndDate);
             }

@@ -62,11 +62,12 @@ namespace MetadataUtility.Tests.TestHelpers
 
         public Sensor Sensor { get; set; }
 
-        public Location? Location { get; set; }
+        public Location Location { get; set; }
 
         public OffsetDateTime? StartDate { get; set; }
 
         public OffsetDateTime? EndDate { get; set; }
+
         public ulong? FileLengthBytes { get; set; }
 
         public ushort? BlockAlign { get; set; }
