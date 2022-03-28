@@ -4,12 +4,16 @@
 
 namespace MetadataUtility.Metadata
 {
+    using MetadataUtility.Metadata.FrontierLabs;
+    using MetadataUtility.Metadata.WildlifeAcoustics.SM4BAT;
+
     public class MetadataRegister
     {
         public static readonly IReadOnlyCollection<Type> KnownOperations = new[]
         {
             // each time we make a new extractor we'll add it here
             typeof(FilenameExtractor),
+            typeof(WaveHeaderExtractor),
             typeof(FrontierLabs.FlacHeaderExtractor),
             typeof(FrontierLabs.LogFileExtractor),
         };
