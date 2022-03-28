@@ -12,6 +12,7 @@ namespace MetadataUtility.Metadata
             typeof(FilenameExtractor),
             typeof(FrontierLabs.FlacHeaderExtractor),
             typeof(FrontierLabs.LogFileExtractor),
+            typeof(FrontierLabs.FlacCommentExtractor),
         };
 
         private readonly IServiceProvider provider;

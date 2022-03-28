@@ -4,6 +4,9 @@
 
 namespace MetadataUtility.Models
 {
+    using Newtonsoft.Json;
+    using NodaTime;
+
     /// <summary>
     /// Describes a passive acoustic monitor/sensor that
     /// was used to generate a recording.
@@ -37,14 +40,19 @@ namespace MetadataUtility.Models
         public double Voltage { get; init; }
 
         /// <summary>
-        /// Gets the gain setting used by the sensor.
+        /// Gets the battery level of the sensor.
         /// </summary>
-        public string Gain { get; init; }
+        public string BatteryLevel { get; init; }
 
         /// <summary>
         /// Gets a list of microphones attached to this sensor.
         /// </summary>
-        public Microphone[] Microphones { get; init; }
+        public IList<Microphone> Microphones { get; init; }
+
+        /// <summary>
+        /// Gets the last time the sensor was synchronized.
+        /// </summary>
+        public OffsetDateTime? LastTimeSync { get; init; }
 
         /// <summary>
         /// Gets a base64 encoded representation of the sensor's

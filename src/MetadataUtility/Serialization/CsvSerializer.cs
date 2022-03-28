@@ -9,6 +9,7 @@ namespace MetadataUtility.Serialization
     using System.IO;
     using CsvHelper;
     using CsvHelper.Configuration;
+    using MetadataUtility.Models;
     using MetadataUtility.Serialization.Converters;
     using NodaTime;
     using Rationals;
@@ -112,6 +113,7 @@ namespace MetadataUtility.Serialization
             context.TypeConverterCache.AddConverter<Range>(new CsvRangeConverter());
             context.TypeConverterCache.AddConverter<Rational>(new RationalsConverter());
             context.TypeConverterCache.AddConverter<string[]>(new StringListConverter());
+            context.TypeConverterCache.AddConverter<IList<Microphone>>(new MicrophoneListConverter());
         }
     }
 }

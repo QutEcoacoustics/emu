@@ -5,6 +5,7 @@
 namespace MetadataUtility.Tests.Metadata
 {
     using System.Linq;
+    using FluentAssertions;
     using MetadataUtility.Metadata.FrontierLabs;
     using MetadataUtility.Models;
     using MetadataUtility.Tests.TestHelpers;
@@ -33,6 +34,27 @@ namespace MetadataUtility.Tests.Metadata
             // we can process any file that is Frontier Labs and FLAC
             var expected = model.Process.Contains("FlacCommentExtractor");
             Assert.Equal(expected, result);
+        }
+
+        [Theory]
+        [ClassData(typeof(FixtureHelper.FixtureData))]
+        public async void ProcessFilesWorks(FixtureModel model)
+        {
+            if (model.Process.Contains("FlacCommentExtractor"))
+            {
+                var recording = await this.subject.ProcessFileAsync(
+                    model.ToTargetInformation(this.RealFileSystem),
+                    this.Recording);
+
+                recording.Sensor.Firmware.Should().Be(model.Sensor.Firmware);
+                recording.Sensor.Microphones.Should().BeEquivalentTo(model.Sensor.Microphones);
+                recording.Sensor.BatteryLevel.Should().Be(model.Sensor.BatteryLevel);
+                recording.Sensor.LastTimeSync.Should().Be(model.Sensor.LastTimeSync);
+                (recording.Location == null ? 0 : recording.Location.Longitude).Should().Be(model.Location.Longitude);
+                (recording.Location == null ? 0 : recording.Location.Latitude).Should().Be(model.Location.Latitude);
+                recording.StartDate.Should().Be(model.StartDate);
+                recording.EndDate.Should().Be(model.EndDate);
+            }
         }
     }
 }

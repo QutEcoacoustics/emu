@@ -5,6 +5,7 @@
 namespace MetadataUtility.Metadata.FrontierLabs
 {
     using System.Threading.Tasks;
+    using MetadataUtility.Audio.Vendors;
     using MetadataUtility.Models;
     using Microsoft.Extensions.Logging;
 
@@ -26,6 +27,8 @@ namespace MetadataUtility.Metadata.FrontierLabs
 
         public ValueTask<Recording> ProcessFileAsync(TargetInformation information, Recording recording)
         {
+            FrontierLabs.ExtractVorbisCommentMetadata(information.FileStream, ref recording);
+
             return ValueTask.FromResult(recording);
         }
     }
