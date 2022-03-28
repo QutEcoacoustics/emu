@@ -28,6 +28,7 @@ namespace MetadataUtility.Tests.TestHelpers
         public const string MetadataDurationBug = "Metadata duration bug";
         public const string ZeroDbSamples = "Zero dB Samples";
         public const string NormalFile = "Normal file";
+        public const string SM4BatNormal1 = "SM4 Bat Normal 1";
 
         private string fixturePath;
 
@@ -43,7 +44,7 @@ namespace MetadataUtility.Tests.TestHelpers
 
         public Rational DurationSeconds { get; set; }
 
-        public byte Channels { get; set; }
+        public ushort Channels { get; set; }
 
         public uint SampleRateHertz { get; set; }
 
@@ -61,15 +62,20 @@ namespace MetadataUtility.Tests.TestHelpers
 
         public Sensor Sensor { get; set; }
 
-        public Location Location { get; set; }
+        public Location? Location { get; set; }
 
         public OffsetDateTime? StartDate { get; set; }
 
         public OffsetDateTime? EndDate { get; set; }
+        public ulong? FileLengthBytes { get; set; }
+
+        public ushort? BlockAlign { get; set; }
 
         // TODO: add other columns from the CSV here!
 
         public bool IsFlac => this.MimeType == Flac.Mime;
+
+        public bool IsWave => this.MimeType == Wave.Mime;
 
         public string FixturePath
         {

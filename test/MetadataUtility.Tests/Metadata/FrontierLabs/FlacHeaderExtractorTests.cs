@@ -49,7 +49,7 @@ namespace MetadataUtility.Tests.Metadata
                     model.ToTargetInformation(this.RealFileSystem),
                     this.Recording);
 
-                recording.DurationSeconds.Should().Be(Duration.FromSeconds((double)model.DurationSeconds));
+                recording.DurationSeconds.Should().Be(model.DurationSeconds);
                 recording.SampleRateHertz.Should().Be(model.SampleRateHertz);
                 recording.Channels.Should().Be(model.Channels);
                 recording.BitDepth.Should().Be(model.BitDepth);

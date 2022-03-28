@@ -2,6 +2,7 @@
 
 This document outlines all of the files from which we hope to extract metadata.
 
+
 ## FLAC Files
 
 | Name            | Supported | Location(s) | Notes |
@@ -16,15 +17,19 @@ This document outlines all of the files from which we hope to extract metadata.
 
 ## WAVE Files
 
-| Name            | Supported | Location(s) | Notes |
-| --------------- | --------- | ----------- | ----- |
-| Sample Rate     | ❌         | Header      |       |
-| Duration        | ❌         | Header      |       |
-| Total Samples   | ❌         | Header      |       |
-| Channel Count   | ❌         | Header      |       |
-| Bit Depth       | ❌         | Header      |       |
-| Bits per Sample | ❌         | Header      |       |
-| File Size       | ❌         | File        |       |
+| Name                     | Supported | Location(s)  | Notes               |
+| ------------------------ | --------- | ------------ | ------------------- |
+| Sample Rate              | ✔️        | Header  |                     |
+| Duration                 | ✔️        | Header  |                     |
+| Total Samples            | ✔️        | Header  |                     |
+| Audio Format             | ✔️        | Header  |                     |
+| Channel Count            | ✔️        | Header  |                     |
+| Byte Rate                | ✔️        | Header  |                     |
+| Block Align              | ✔️        | Header  |                     |
+| Bit Depth                | ✔️        | Header  |                     |
+| Bits per Sample          | ✔️        | Header  |                     |
+| File Size                | ✔️        | Header  |                     |
+
 
 ## Frontier Labs
 

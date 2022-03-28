@@ -12,28 +12,28 @@ namespace MetadataUtility.Models
     {
         public string FormatType { get; init; }
 
-        public uint ManufacturerID { get; init; }
+        public uint? ManufacturerID { get; init; }
 
         public string OEMID { get; init; }
 
         public string ProductName { get; init; }
 
-        public float ProductRevision { get; init; }
+        public float? ProductRevision { get; init; }
 
-        public uint SerialNumber { get; init; }
+        public uint? SerialNumber { get; init; }
 
         public string ManufactureDate { get; init; }
 
-        public uint Speed { get; init; }
+        public uint? Speed { get; init; }
 
-        public uint Capacity { get; init; }
+        public uint? Capacity { get; init; }
 
-        public uint WrCurrentVmin { get; init; }
+        public uint? WrCurrentVmin { get; init; }
 
-        public uint WrCurrentVmax { get; init; }
+        public uint? WrCurrentVmax { get; init; }
 
-        public uint WriteB1Size { get; init; }
+        public uint? WriteB1Size { get; init; }
 
-        public uint EraseB1Size { get; init; }
+        public uint? EraseB1Size { get; init; }
     }
 }

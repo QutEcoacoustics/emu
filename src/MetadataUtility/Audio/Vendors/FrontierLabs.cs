@@ -118,10 +118,10 @@ namespace MetadataUtility.Audio.Vendors
 
             static bool Check(ReadOnlySpan<byte> buffer)
             {
-                var dataBlockIndex = buffer.IndexOf(Wave.DataBlockId);
+                var dataBlockIndex = buffer.IndexOf(Wave.DataChunkId);
                 if (dataBlockIndex >= 0)
                 {
-                    var dataChunkSize = BinaryPrimitives.ReadUInt32LittleEndian(buffer.Slice(dataBlockIndex + Wave.DataBlockId.Length));
+                    var dataChunkSize = BinaryPrimitives.ReadUInt32LittleEndian(buffer.Slice(dataBlockIndex + Wave.DataChunkId.Length));
                     return dataChunkSize == 0;
                 }
 

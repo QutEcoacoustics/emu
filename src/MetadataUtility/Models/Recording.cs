@@ -8,6 +8,7 @@ namespace MetadataUtility.Models
     using System.IO;
     using Newtonsoft.Json;
     using NodaTime;
+    using Rationals;
 
     /// <summary>
     /// A audio recording captured by a sensor or monitor.
@@ -79,12 +80,12 @@ namespace MetadataUtility.Models
         /// <summary>
         /// Gets the duration of the recording.
         /// </summary>
-        public Duration? DurationSeconds { get; init; }
+        public Rational? DurationSeconds { get; init; }
 
         /// <summary>
         /// Gets the number of channels in the recording.
         /// </summary>
-        public byte? Channels { get; init; }
+        public ushort? Channels { get; init; }
 
         /// <summary>
         /// Gets the sample rate of the recording.

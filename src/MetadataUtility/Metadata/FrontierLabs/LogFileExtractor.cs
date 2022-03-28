@@ -50,7 +50,7 @@ namespace MetadataUtility.Metadata.FrontierLabs
             MemoryCard memoryCard = null;
             Sensor sensor = logFile.Sensor;
 
-            IEnumerable<uint> serialNumbers = logFile.MemoryCardLogs.Select(x => x.MemoryCard.SerialNumber);
+            var serialNumbers = logFile.MemoryCardLogs.Select(x => x.MemoryCard?.SerialNumber);
 
             if (serialNumbers.Distinct().Count() == 1)
             {
