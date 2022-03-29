@@ -39,6 +39,11 @@ public static class PredicateExtensions
         return target.CheckPredicate(Predicates.HasBarltLogFile);
     }
 
+    public static bool IsPreallocatedHeader(this TargetInformation target)
+    {
+        return target.CheckPredicate(Predicates.IsPreallocatedHeader);
+    }
+
     // an example of an async predicate extension method.
     // public static ValueTask<bool> IsFlacFileAsync(this TargetInformation target)
     // {
@@ -64,6 +69,9 @@ public static class PredicateExtensions
 
         public static readonly Func<TargetInformation, bool> HasFrontierLabsVorbisComment =
             target => Audio.Vendors.FrontierLabs.HasFrontierLabsVorbisComment(target.FileStream).IfFail(false);
+
+        public static readonly Func<TargetInformation, bool> IsPreallocatedHeader =
+            target => Wave.IsPreallocatedHeader(target.FileStream).IfFail(false);
 
         // An example of an async predicate
         // public static readonly Func<TargetInformation, ValueTask<bool>> IsFlacFile2 =

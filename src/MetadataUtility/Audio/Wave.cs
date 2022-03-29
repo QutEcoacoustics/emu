@@ -155,6 +155,24 @@ namespace MetadataUtility.Audio
             return format == Format.Pcm;
         }
 
+        public static Fin<bool> IsPreallocatedHeader(Stream stream)
+        {
+            var riffChunk = FindRiffChunk(stream);
+
+            // If file is longer than riff chunk realizes, return true
+            if (((Range)riffChunk).End < stream.Length)
+            {
+                return true;
+            }
+
+            var waveChunk = riffChunk.Bind(r => FindWaveChunk(stream, r));
+
+            var dataChunk = waveChunk.Bind(w => FindDataChunk(stream, w));
+
+            // Return true if data chunk is empty
+            return ((Range)dataChunk).Start == ((Range)dataChunk).End;
+        }
+
         public static uint GetSampleRate(ReadOnlySpan<byte> formatChunk)
         {
             const int sampleRateOffset = 4;

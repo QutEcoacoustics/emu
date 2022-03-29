@@ -23,7 +23,7 @@ namespace MetadataUtility.Metadata.WildlifeAcoustics.SM4BAT
 
         public ValueTask<bool> CanProcessAsync(TargetInformation information)
         {
-            var result = information.IsPcmWaveFile();
+            var result = information.IsPcmWaveFile() && !information.IsPreallocatedHeader();
 
             return ValueTask.FromResult(result);
         }
