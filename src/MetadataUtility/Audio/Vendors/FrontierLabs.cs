@@ -131,23 +131,41 @@ namespace MetadataUtility.Audio.Vendors
 
         public static Fin<bool> HasFrontierLabsVorbisComment(Stream stream)
         {
-            Fin<long> result = FindVendorStringPosition(stream);
+            stream.Seek(0, SeekOrigin.Begin);
+
+            var buffer = new byte[SeekLimit];
+
+            var count = stream.Read(buffer);
+            if (count != SeekLimit)
+            {
+                return FileTooShortFirmware;
+            }
+
+            Fin<int> result = FindVendorStringPosition(buffer);
 
             return result.IsSucc;
         }
 
         public static void ExtractVorbisCommentMetadata(Stream stream, ref Recording recording)
         {
-            long startPosition = (long)FindVendorStringPosition(stream);
+            stream.Seek(0, SeekOrigin.Begin);
+
+            var buffer = new byte[SeekLimit];
+
+            var count = stream.Read(buffer);
+            if (count != SeekLimit)
+            {
+                return;
+            }
+
+            int startPosition = (int)FindVendorStringPosition(buffer);
 
             long position = stream.Seek(startPosition, SeekOrigin.Begin);
             Debug.Assert(position == startPosition, $"Expected stream.Seek position to return {startPosition}, instead returned {position}");
 
-            Span<byte> buffer = stackalloc byte[SeekLimit];
-            stream.Read(buffer);
-            int offset = 0;
+            int offset = startPosition;
 
-            uint commentListLength = BinaryPrimitives.ReadUInt32LittleEndian(buffer);
+            uint commentListLength = BinaryPrimitives.ReadUInt32LittleEndian(buffer[startPosition..]);
             offset += 4;
 
             uint commentLength;
@@ -363,47 +381,56 @@ namespace MetadataUtility.Audio.Vendors
         /// <summary>
         /// Frontier Labs vendor string is found within the file stream.
         /// </summary>
-        /// <param name="stream">The flac file stream.</param>
+        /// <param name="buffer">Buffer containing the beginning of the file contents.</param>
         /// <returns>The position of the vendor string in the file stream.</returns>
-        private static Fin<long> FindVendorStringPosition(Stream stream)
+        private static Fin<int> FindVendorStringPosition(ReadOnlySpan<byte> buffer)
         {
             const int VorbisCommentBlockNumber = 4, MaxIteration = 20;
 
-            long position = stream.Seek(BlockTypeOffset, SeekOrigin.Begin);
-            Debug.Assert(position == 4, $"Expected stream.Seek position to return 4, instead returned {position}");
-
-            Span<byte> blockTypeBuffer = stackalloc byte[1];
-            Span<byte> blockLengthBuffer = stackalloc byte[3];
-
-            uint length = 0, i = 0, blockType;
+            int offset = BlockTypeOffset, length = 0, i = 0, end = 0;
+            byte blockType;
+            bool lastBlock;
 
             do
             {
-                stream.Seek(length, SeekOrigin.Current);
-
-                stream.Read(blockTypeBuffer);
-                stream.Read(blockLengthBuffer);
-
-                blockType = BinaryHelpers.Read7BitUnsignedBigEndianIgnoringFirstBit(blockTypeBuffer);
-                length = BinaryHelpers.Read24bitUnsignedBigEndian(blockLengthBuffer);
-
-                i++;
-            }
-            while (blockType != VorbisCommentBlockNumber && (blockTypeBuffer[0] >> 7) != 1 && i < MaxIteration);
-
-            Span<byte> vendorLengthBuffer = stackalloc byte[4];
-
-            if (blockType == 4)
-            {
-                stream.Read(vendorLengthBuffer);
-                uint vendorLength = BinaryPrimitives.ReadUInt32LittleEndian(vendorLengthBuffer);
-
-                Span<byte> vendorBuffer = stackalloc byte[(int)vendorLength];
-                stream.Read(vendorBuffer);
-
-                if (vendorBuffer.SequenceEqual(VendorString.AsSpan()))
+                try
                 {
-                    return stream.Position;
+                    offset += length;
+
+                    end = offset + 1;
+
+                    lastBlock = (buffer[offset] >> 7) == 1;
+                    blockType = BinaryHelpers.Read7BitUnsignedBigEndianIgnoringFirstBit(buffer[offset..end]);
+
+                    offset = end;
+                    end += 3;
+
+                    length = BinaryHelpers.Read24bitUnsignedBigEndian(buffer[offset..end]);
+
+                    offset = end;
+
+                    i++;
+                }
+                catch (IndexOutOfRangeException)
+                {
+                    return VendorStringNotFound;
+                }
+            }
+            while (blockType != VorbisCommentBlockNumber && !lastBlock && i < MaxIteration);
+
+            if (blockType == VorbisCommentBlockNumber)
+            {
+                // Reading in length of vendor string, won't overflow
+                int vendorLength = BinaryPrimitives.ReadInt32LittleEndian(buffer[offset..]);
+                offset += 4;
+
+                end = offset + vendorLength;
+
+                string vendor = Encoding.UTF8.GetString(buffer[offset..end]);
+
+                if (vendor.Equals(Encoding.UTF8.GetString(VendorString)))
+                {
+                    return end;
                 }
             }
 
@@ -412,16 +439,14 @@ namespace MetadataUtility.Audio.Vendors
 
         private static Fin<FirmwareRecord> FindInBufferFirmware(ReadOnlySpan<byte> buffer)
         {
-            // beginning of file
-            int offset = 0;
-            var index = buffer.IndexOf(VendorString);
-            if (index < 0)
+            var vendorPosition = FindVendorStringPosition(buffer);
+
+            if (vendorPosition.IsFail)
             {
                 return VendorStringNotFound;
             }
 
-            // next read the number of comments
-            offset += index + VendorString.Length;
+            int offset = (int)vendorPosition;
 
             var commentCount = BinaryPrimitives.ReadUInt32LittleEndian(buffer[offset..]);
             offset += 4;

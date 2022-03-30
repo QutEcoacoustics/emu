@@ -133,16 +133,16 @@ namespace MetadataUtility.Utilities
         /// </summary>
         /// <param name="bytes">The source bytes.</param>
         /// <returns>an unsigned 32-bit integer representing the decoded 24-bit integer.</returns>
-        public static uint Read24bitUnsignedBigEndian(ReadOnlySpan<byte> bytes)
+        public static int Read24bitUnsignedBigEndian(ReadOnlySpan<byte> bytes)
         {
             if (bytes.Length < 3)
             {
                 throw new ArgumentException("bytes span must at least be 1 long", nameof(bytes));
             }
 
-            uint dest = (uint)bytes[0] << 16;
-            dest |= (uint)bytes[1] << 8;
-            dest |= (uint)bytes[2];
+            int dest = bytes[0] << 16;
+            dest |= bytes[1] << 8;
+            dest |= bytes[2];
 
             return dest;
         }

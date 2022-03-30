@@ -51,9 +51,9 @@ namespace MetadataUtility.Tests.Audio.Vendors
         [ClassData(typeof(FixtureHelper.FixtureData))]
         public void HasFrontierLabsVorbisComment(FixtureModel model)
         {
-            Fin<bool> hasComment = FrontierLabs.HasFrontierLabsVorbisComment(model.ToTargetInformation(this.RealFileSystem).FileStream);
+            bool hasComment = FrontierLabs.HasFrontierLabsVorbisComment(model.ToTargetInformation(this.RealFileSystem).FileStream).IfFail(false);
 
-            ((bool)hasComment).Should().Be(model.Process.Contains("FlacCommentExtractor"));
+            hasComment.Should().Be(model.Process.Contains("FlacCommentExtractor"));
         }
     }
 }
