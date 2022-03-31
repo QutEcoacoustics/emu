@@ -54,6 +54,12 @@ namespace MetadataUtility.Tests.Metadata
                 (recording.Location?.Latitude).Should().Be(model.Location.Latitude);
                 recording.StartDate.Should().Be(model.StartDate);
                 recording.EndDate.Should().Be(model.EndDate);
+                recording.MemoryCard.ManufacturerID.Should().Be(model.MemoryCard.ManufacturerID);
+                recording.MemoryCard.OEMID.Should().Be(model.MemoryCard.OEMID);
+                recording.MemoryCard.ProductName.Should().Be(model.MemoryCard.ProductName);
+                recording.MemoryCard.ProductRevision.Should().Be(model.MemoryCard.ProductRevision);
+                recording.MemoryCard.SerialNumber.Should().Be(model.MemoryCard.SerialNumber);
+                recording.MemoryCard.ManufactureDate.Should().Be(model.MemoryCard.ManufactureDate);
             }
         }
     }

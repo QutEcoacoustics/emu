@@ -21,8 +21,9 @@ namespace MetadataUtility.Audio.Vendors
         public const string BatteryLevelCommentKey = "BatteryLevel";
         public const string LocationCommentKey = "SensorLocation";
         public const string LastSyncCommentKey = "LastTimeSync";
-        public const string SensorIdKey = "SensorUid";
+        public const string SensorIdCommentKey = "SensorUid";
         public const string RecordingEndCommentKey = "RecordingEnd";
+        public const string SdCidCommentKey = "SdCardCid";
         public const string UnknownMicrophoneString = "unknown";
         public const string EmptyGainString = "0dB";
         public const string DateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'sso<+HHmm>";
@@ -278,13 +279,71 @@ namespace MetadataUtility.Audio.Vendors
                 }
 
                 // Extract sensor ID
-                else if (comment.Contains(SensorIdKey))
+                else if (comment.Contains(SensorIdCommentKey))
                 {
                     recording = recording with
                     {
                         Sensor = (recording.Sensor ?? new Sensor()) with
                         {
                             SerialNumber = value,
+                        },
+                    };
+                }
+
+                // Extract and parse SD card CID
+                else if (comment.Contains(SdCidCommentKey))
+                {
+                    const int OEMIDLength = 2;
+                    const int ProductNameLength = 5;
+
+                    int cidOffset = 0;
+
+                    uint manufacturerID = uint.Parse(value.Substring(cidOffset, 2), System.Globalization.NumberStyles.HexNumber);
+                    cidOffset += 2;
+
+                    string oemId = string.Empty;
+
+                    // Parse OEM ID one ASCII character at a time
+                    for (int j = 0; j < OEMIDLength; j++)
+                    {
+                        oemId += System.Convert.ToChar(uint.Parse(value.Substring(cidOffset, 2), System.Globalization.NumberStyles.HexNumber));
+                        cidOffset += 2;
+                    }
+
+                    string productName = string.Empty;
+
+                    // Parse product name one ASCII character at a time
+                    for (int j = 0; j < ProductNameLength; j++)
+                    {
+                        productName += System.Convert.ToChar(uint.Parse(value.Substring(cidOffset, 2), System.Globalization.NumberStyles.HexNumber));
+                        cidOffset += 2;
+                    }
+
+                    byte productRevisionWholePart = byte.Parse(value.Substring(cidOffset, 1), System.Globalization.NumberStyles.HexNumber);
+                    cidOffset++;
+                    byte productRevisionDecimalPart = byte.Parse(value.Substring(cidOffset, 1), System.Globalization.NumberStyles.HexNumber);
+                    cidOffset++;
+
+                    float productRevision = productRevisionWholePart + ((float)productRevisionDecimalPart / 10);
+
+                    uint serialNumber = uint.Parse(value.Substring(cidOffset, 8), System.Globalization.NumberStyles.HexNumber);
+                    cidOffset += 9;
+
+                    string year = System.Convert.ToString(2000 + byte.Parse(value.Substring(cidOffset, 2), System.Globalization.NumberStyles.HexNumber));
+                    string month = System.Convert.ToString(byte.Parse(value.Substring(cidOffset + 2, 1), System.Globalization.NumberStyles.HexNumber));
+
+                    string manufactureDate = year + "/" + month;
+
+                    recording = recording with
+                    {
+                        MemoryCard = (recording.MemoryCard ?? new MemoryCard()) with
+                        {
+                            ManufacturerID = manufacturerID,
+                            OEMID = oemId,
+                            ProductName = productName,
+                            ProductRevision = productRevision,
+                            SerialNumber = serialNumber,
+                            ManufactureDate = manufactureDate,
                         },
                     };
                 }
