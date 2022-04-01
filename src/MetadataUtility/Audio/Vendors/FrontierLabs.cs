@@ -12,6 +12,7 @@ namespace MetadataUtility.Audio.Vendors
     using MetadataUtility.Extensions.System;
     using MetadataUtility.Models;
     using MetadataUtility.Utilities;
+    using NodaTime;
     using NodaTime.Text;
 
     public static class FrontierLabs
@@ -26,10 +27,10 @@ namespace MetadataUtility.Audio.Vendors
         public const string SdCidCommentKey = "SdCardCid";
         public const string UnknownMicrophoneString = "unknown";
         public const string EmptyGainString = "0dB";
-        public const string DateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'sso<+HHmm>";
         public const int DefaultFileStubLength = 44;
         public const int BlockTypeOffset = 4;
         public const int SeekLimit = 1024;
+        public static readonly string[] DateFormats = { "yyyy'-'MM'-'dd'T'HH':'mm':'sso<+HHmm>", "yyyy'-'MM'-'dd'T'HH':'mm':'sso<+HH:mm>" };
         public static readonly (string, string)[] MicrophoneKeys = { ("MicrophoneType", "Type"), ("MicrophoneUid", "UID"), ("MicrophoneBuildDate", "BuildDate"), ("ChannelGain", "Gain") };
         public static readonly byte[] VendorString = Encoding.ASCII.GetBytes("Frontier Labs");
         public static readonly LanguageExt.Common.Error VendorStringNotFound = LanguageExt.Common.Error.New("Error reading file: could not find vendor string Frontier Labs in file header");
@@ -212,19 +213,53 @@ namespace MetadataUtility.Audio.Vendors
                 // Extract recording start
                 else if (comment.Contains(RecordingStartCommentKey))
                 {
-                    recording = recording with
+                    OffsetDateTime? startDate = null;
+
+                    foreach (string dateFormat in DateFormats)
                     {
-                        StartDate = OffsetDateTimePattern.CreateWithInvariantCulture(DateFormat).Parse(value).Value,
-                    };
+                        try
+                        {
+                            startDate = OffsetDateTimePattern.CreateWithInvariantCulture(dateFormat).Parse(value).Value;
+                        }
+                        catch (UnparsableValueException)
+                        {
+                            continue;
+                        }
+                    }
+
+                    if (startDate != null)
+                    {
+                        recording = recording with
+                        {
+                            StartDate = startDate,
+                        };
+                    }
                 }
 
                 // Extract recording end
                 else if (comment.Contains(RecordingEndCommentKey))
                 {
-                    recording = recording with
+                    OffsetDateTime? endDate = null;
+
+                    foreach (string dateFormat in DateFormats)
                     {
-                        EndDate = OffsetDateTimePattern.CreateWithInvariantCulture(DateFormat).Parse(value).Value,
-                    };
+                        try
+                        {
+                            endDate = OffsetDateTimePattern.CreateWithInvariantCulture(dateFormat).Parse(value).Value;
+                        }
+                        catch (UnparsableValueException)
+                        {
+                            continue;
+                        }
+                    }
+
+                    if (endDate != null)
+                    {
+                        recording = recording with
+                        {
+                            EndDate = endDate,
+                        };
+                    }
                 }
 
                 // Extract batter level
@@ -269,13 +304,30 @@ namespace MetadataUtility.Audio.Vendors
                 // Extract last sync time
                 else if (comment.Contains(LastSyncCommentKey))
                 {
-                    recording = recording with
+                    OffsetDateTime? lastTimeSync = null;
+
+                    foreach (string dateFormat in DateFormats)
                     {
-                        Sensor = (recording.Sensor ?? new Sensor()) with
+                        try
                         {
-                            LastTimeSync = OffsetDateTimePattern.CreateWithInvariantCulture(DateFormat).Parse(value).Value,
-                        },
-                    };
+                            lastTimeSync = OffsetDateTimePattern.CreateWithInvariantCulture(dateFormat).Parse(value).Value;
+                        }
+                        catch (UnparsableValueException)
+                        {
+                            continue;
+                        }
+                    }
+
+                    if (lastTimeSync != null)
+                    {
+                        recording = recording with
+                        {
+                            Sensor = (recording.Sensor ?? new Sensor()) with
+                            {
+                                LastTimeSync = lastTimeSync,
+                            },
+                        };
+                    }
                 }
 
                 // Extract sensor ID
@@ -332,6 +384,8 @@ namespace MetadataUtility.Audio.Vendors
                     string year = System.Convert.ToString(2000 + byte.Parse(value.Substring(cidOffset, 2), System.Globalization.NumberStyles.HexNumber));
                     string month = System.Convert.ToString(byte.Parse(value.Substring(cidOffset + 2, 1), System.Globalization.NumberStyles.HexNumber));
 
+                    month = month.Length == 1 ? "0" + month : month;
+
                     string manufactureDate = year + "/" + month;
 
                     recording = recording with
@@ -385,7 +439,7 @@ namespace MetadataUtility.Audio.Vendors
                     }
                 }
 
-                if (!hasMicrophone)
+                if (!hasMicrophone && newMicrophone.UID != UnknownMicrophoneString)
                 {
                     recording.Sensor.Microphones.Add(new Microphone() with
                     {
@@ -400,11 +454,6 @@ namespace MetadataUtility.Audio.Vendors
 
         private static void UpdateMicrophones(string comment, string value, List<Microphone> microphones, (string CommentKey, string ModelKey) microphoneKey)
         {
-            if (value.Contains(UnknownMicrophoneString) || value.Equals(EmptyGainString))
-            {
-                return;
-            }
-
             // Parse the microphone number & see if it has already been identified
             int micNumber = int.Parse(comment.Substring(microphoneKey.CommentKey.Length(), 1));
             int micIndex = -1;
