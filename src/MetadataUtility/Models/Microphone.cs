@@ -16,8 +16,7 @@ namespace MetadataUtility.Models
         /// Gets microphone number according to the sensor (1, 2, etc.).
         /// Used internally to correlate microphone metadata correctly.
         /// </summary>
-        [JsonIgnore]
-        public int Number { get; init; }
+        public int Channel { get; init; }
 
         /// <summary>
         /// Gets the type of this microphone.

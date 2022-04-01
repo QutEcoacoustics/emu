@@ -350,7 +350,7 @@ namespace MetadataUtility.Audio.Vendors
 
                     int cidOffset = 0;
 
-                    uint manufacturerID = uint.Parse(value.Substring(cidOffset, 2), System.Globalization.NumberStyles.HexNumber);
+                    byte manufacturerID = byte.Parse(value.Substring(cidOffset, 2), System.Globalization.NumberStyles.HexNumber);
                     cidOffset += 2;
 
                     string oemId = string.Empty;
@@ -447,6 +447,7 @@ namespace MetadataUtility.Audio.Vendors
                         BuildDate = newMicrophone.BuildDate,
                         Type = newMicrophone.Type,
                         Gain = newMicrophone.Gain,
+                        Channel = newMicrophone.Channel,
                     });
                 }
             }
@@ -459,7 +460,7 @@ namespace MetadataUtility.Audio.Vendors
             int micIndex = -1;
             for (int i = 0; i < microphones.Length(); i++)
             {
-                if (microphones[i].Number == micNumber)
+                if (microphones[i].Channel == micNumber)
                 {
                     micIndex = i;
                     break;
@@ -471,7 +472,7 @@ namespace MetadataUtility.Audio.Vendors
             {
                 microphones.Add(new Microphone() with
                 {
-                    Number = micNumber,
+                    Channel = micNumber,
                 });
 
                 micIndex = microphones.Length() - 1;

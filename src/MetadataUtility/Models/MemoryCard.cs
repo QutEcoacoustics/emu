@@ -12,7 +12,7 @@ namespace MetadataUtility.Models
     {
         public string FormatType { get; init; }
 
-        public uint? ManufacturerID { get; init; }
+        public byte? ManufacturerID { get; init; }
 
         public string OEMID { get; init; }
 

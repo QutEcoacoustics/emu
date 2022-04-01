@@ -148,7 +148,7 @@ namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
                             MemoryCard memoryCard = new MemoryCard() with
                             {
                                 FormatType = reader.ReadLine()?.Split().Last(),
-                                ManufacturerID = uint.Parse(reader.ReadLine()!.Split().Last()),
+                                ManufacturerID = byte.Parse(reader.ReadLine()!.Split().Last()),
                                 OEMID = reader.ReadLine()?.Split().Last(),
                                 ProductName = reader.ReadLine()?.Split().Last(),
                                 ProductRevision = float.Parse(reader.ReadLine()!.Split().Last()),
