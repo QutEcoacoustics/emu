@@ -1,0 +1,60 @@
+
+-----------------------------------------------------------
+ FRONTIER LABS Bioacoustic Audio Recorder 
+ Serial Number: 00008570
+ Config: Stereo, Ext-power
+ Firmware: 3.30 (Jul 20 2021 15:53:03)
+-----------------------------------------------------------
+2022-03-31 09:48:36 Wakeup from ON/OFF switch
+2022-03-31 09:48:37 GPS enabled
+2022-03-31 09:48:38 Battery at 66% ( 3.80 V )
+2022-03-31 09:48:38 Using backup location from schedule until GPS fix is acquired.
+2022-03-31 09:48:38 Schedule loaded
+2022-03-31 09:48:38   Name: continuousBigFish
+2022-03-31 09:48:38   Backup GPS location: 43°42"16'N 65°57"3'W
+2022-03-31 09:48:38   Number of entries: 1
+2022-03-31 09:48:38   1) "Rec" Start at 09:00 on 31/3/2022 and record for 1 mins only, at 44100 Hz with FLAC compression for one day only
+2022-03-31 09:48:38 SD Card detected in slot 1
+2022-03-31 09:48:39 SD Card :
+2022-03-31 09:48:39   Format type      exFAT
+2022-03-31 09:48:39   Manufacturer ID  3
+2022-03-31 09:48:39   OEM ID           SD
+2022-03-31 09:48:39   Product Name     SD128
+2022-03-31 09:48:39   Product Revision 8.5
+2022-03-31 09:48:39   Serial Number    8041328
+2022-03-31 09:48:39   Manufacture Date 2020/08
+2022-03-31 09:48:39   Speed            50
+2022-03-31 09:48:39   Capacity         124868608
+2022-03-31 09:48:39   Wr Current Vmin  5
+2022-03-31 09:48:39   Wr Current Vmax  5
+2022-03-31 09:48:39   Write Bl Size    512
+2022-03-31 09:48:39   Erase Bl Size    65536
+2022-03-31 09:48:40 No card in SD slot 2.
+2022-03-31 09:48:40 No card in SD slot 3.
+2022-03-31 09:48:40 No card in SD slot 4.
+2022-03-31 09:48:40 Updating clock from the GPS to local time 09:48:40 (UTC-03:00)
+2022-03-31 09:48:40 Microphone B attached
+2022-03-31 09:48:40 There are no more recordings left in the schedule
+2022-03-31 09:49:00 Schedule entry "Rec" modified by the user -> Start at 09:00 on 31/3/2022 and record for 61 mins only, at 44100 Hz with FLAC compression for one day only
+2022-03-31 09:49:00 Saving changes to schedule
+2022-03-31 09:49:01 Preparing for a new recording..
+2022-03-31 09:49:01  - This is the first recording since being turned on.
+2022-03-31 09:49:01  - Pre-allocating 60 MB on SD card.
+2022-03-31 09:49:01 -----------------------------------
+2022-03-31 09:49:01 | New recording started: 0:/Dartmouth_20220331_continuousBigFish/00008570_Dartmouth_20220331T094900-0300_Rec.flac
+2022-03-31 09:49:01 | "Rec" --> 00h11m59s long with 16bit samples at 44100Hz with a gain of 50dB on channel B with FLAC compression
+2022-03-31 09:49:01 | Battery: 63% ( 3.75 V )
+2022-03-31 09:49:01 | Storage: Card 1 ( 119GB free of 119GB )
+2022-03-31 09:49:01 | Microphone Ch B: 009966 "STD AUDIO MIC" ( 20/03/2019 )  
+2022-03-31 09:49:01 -----------------------------------
+2022-03-31 09:49:43 Lid closed
+2022-03-31 09:51:09 GPS position acquired, waiting to stabilise
+2022-03-31 09:51:39 GPS position lock acquired [+44.67699-063.55557]
+2022-03-31 09:51:39 GPS disabled
+2022-03-31 09:57:45 Lid opened
+2022-03-31 10:01:02 Recording stopped. 35 MB recorded, 121900 MB remaining on the SD card
+2022-03-31 10:01:02 Total buffer overruns = 0
+2022-03-31 10:01:02 There are no more recordings left in the schedule
+2022-03-31 10:02:14 BAR switched OFF (All future recordings disabled)
+2022-03-31 10:02:14 BAR powering down
+
