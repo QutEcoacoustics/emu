@@ -262,7 +262,7 @@ namespace MetadataUtility.Audio.Vendors
                     }
                 }
 
-                // Extract batter level
+                // Extract battery level
                 else if (comment.Contains(BatteryLevelCommentKey))
                 {
                     recording = recording with
