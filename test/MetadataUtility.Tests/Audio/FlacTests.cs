@@ -80,8 +80,7 @@ namespace MetadataUtility.Tests.Audio
         [ClassData(typeof(FixtureHelper.FixtureData))]
         public void HasMetadataBlockTest(FixtureModel model)
         {
-            Fin<bool> hasMetadata = Flac.HasMetadataBlock(model.ToTargetInformation(this.RealFileSystem).FileStream);
-            Assert.True(hasMetadata.IsSucc);
+            bool hasMetadata = Flac.HasMetadataBlock(model.ToTargetInformation(this.RealFileSystem).FileStream).IfFail(false);
 
             ((bool)hasMetadata).Should().Be(model.IsFlac && model.ValidMetadata != ValidMetadata.No);
         }

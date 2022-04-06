@@ -176,7 +176,12 @@ namespace MetadataUtility.Audio
             Debug.Assert(position == 4, $"Expected stream.Seek position to return 4, instead returned {position}");
 
             Span<byte> buffer = stackalloc byte[1];
-            stream.Read(buffer);
+            var bytesRead = stream.Read(buffer);
+
+            if (bytesRead < buffer.Length)
+            {
+                return FileTooShortFlac;
+            }
 
             return stream.Length > MetadataBlockSize && BinaryHelpers.Read7BitUnsignedBigEndianIgnoringFirstBit(buffer) == 0;
         }

@@ -45,6 +45,11 @@ namespace MetadataUtility.Models
         public string BatteryLevel { get; init; }
 
         /// <summary>
+        /// Gets the gain used by the sensor.
+        /// </summary>
+        public string Gain { get; init; }
+
+        /// <summary>
         /// Gets a list of microphones attached to this sensor.
         /// </summary>
         public IList<Microphone> Microphones { get; init; }

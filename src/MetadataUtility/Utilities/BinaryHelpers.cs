@@ -133,7 +133,7 @@ namespace MetadataUtility.Utilities
         /// </summary>
         /// <param name="bytes">The source bytes.</param>
         /// <returns>an unsigned 32-bit integer representing the decoded 24-bit integer.</returns>
-        public static int Read24bitUnsignedBigEndian(ReadOnlySpan<byte> bytes)
+        public static uint Read24bitUnsignedBigEndian(ReadOnlySpan<byte> bytes)
         {
             if (bytes.Length < 3)
             {
@@ -144,7 +144,7 @@ namespace MetadataUtility.Utilities
             dest |= bytes[1] << 8;
             dest |= bytes[2];
 
-            return dest;
+            return (uint)dest;
         }
 
         /// <summary>

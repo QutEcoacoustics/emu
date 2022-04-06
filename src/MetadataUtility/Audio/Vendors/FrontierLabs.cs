@@ -26,7 +26,6 @@ namespace MetadataUtility.Audio.Vendors
         public const string RecordingEndCommentKey = "RecordingEnd";
         public const string SdCidCommentKey = "SdCardCid";
         public const string UnknownMicrophoneString = "unknown";
-        public const string EmptyGainString = "0dB";
         public const int DefaultFileStubLength = 44;
         public const int BlockTypeOffset = 4;
         public const int SeekLimit = 1024;
@@ -133,7 +132,8 @@ namespace MetadataUtility.Audio.Vendors
 
         public static Fin<bool> HasFrontierLabsVorbisComment(Stream stream)
         {
-            stream.Seek(0, SeekOrigin.Begin);
+            long position = stream.Seek(0, SeekOrigin.Begin);
+            Debug.Assert(position == 0, $"Expected stream.Seek position to return 0, instead returned {position}");
 
             var buffer = new byte[SeekLimit];
 
@@ -150,7 +150,8 @@ namespace MetadataUtility.Audio.Vendors
 
         public static void ExtractVorbisCommentMetadata(Stream stream, ref Recording recording)
         {
-            stream.Seek(0, SeekOrigin.Begin);
+            long position = stream.Seek(0, SeekOrigin.Begin);
+            Debug.Assert(position == 0, $"Expected stream.Seek position to return 0, instead returned {position}");
 
             var buffer = new byte[SeekLimit];
 
@@ -162,7 +163,7 @@ namespace MetadataUtility.Audio.Vendors
 
             int startPosition = (int)FindVendorStringPosition(buffer);
 
-            long position = stream.Seek(startPosition, SeekOrigin.Begin);
+            position = stream.Seek(startPosition, SeekOrigin.Begin);
             Debug.Assert(position == startPosition, $"Expected stream.Seek position to return {startPosition}, instead returned {position}");
 
             int offset = startPosition;
@@ -496,7 +497,8 @@ namespace MetadataUtility.Audio.Vendors
         {
             const int VorbisCommentBlockNumber = 4, MaxIteration = 20;
 
-            int offset = BlockTypeOffset, length = 0, i = 0, end = 0;
+            int offset = BlockTypeOffset, i = 0, end = 0;
+            uint length = 0;
             byte blockType;
             bool lastBlock;
 
@@ -504,7 +506,7 @@ namespace MetadataUtility.Audio.Vendors
             {
                 try
                 {
-                    offset += length;
+                    offset += (int)length;
 
                     end = offset + 1;
 
