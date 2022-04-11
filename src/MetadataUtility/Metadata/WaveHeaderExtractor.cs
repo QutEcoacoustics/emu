@@ -52,6 +52,52 @@ namespace MetadataUtility.Metadata.WildlifeAcoustics.SM4BAT
             var samples = dataChunk.Map(d => Wave.GetTotalSamples(d, channels, bitsPerSample));
             var fileLength = stream.Length;
 
+            //Wamd chunk metadata
+            ushort version;
+
+            if (Wamd.IsWildlifeAcousticsWaveFile(stream))
+            {
+                ushort subchunkId;
+                int wamdOffset = 0;
+
+                //Getting the "wamd" chunk
+                var wamdChunkRange = Wamd.FindWamdChunk(stream);
+                var wamdChunk = Wamd.ReadWamdChunk(stream, (Wamd.Range)wamdChunkRange);
+
+                //Getting METATAG_VERSION
+                version = Wamd.GetVersion(wamdChunk);
+
+                //If METATAG_VERSION is not 1, the file should not be analyzed
+                if (version == 1)
+                {
+                    //Advance to the start of the next subchunk 
+                    wamdOffset += 8;
+
+                    while (wamdOffset < wamdChunk.Length)
+                    {
+                        subchunkId = Wamd.GetSubchunkId(wamdChunk);
+
+                        switch (subchunkId)
+                        {
+                            case 01:
+                                {
+                                    //Run extractor for subchunk with the ID of 01. GetDeviceModel(wamdChunk)
+
+                                    //advance wamdOffset to the start of the next subchunk
+
+                                    break;
+                                }
+
+                            default:
+                                {
+                                    break;
+                                }
+                        }
+                    }
+
+                }
+            }
+
             // TODO: replace with rational type from master branch
             var duration = samples.Map(s => new Rational((uint)samples) / new Rational((uint)sampleRate));
 
