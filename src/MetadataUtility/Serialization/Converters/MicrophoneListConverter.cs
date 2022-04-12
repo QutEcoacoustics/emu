@@ -23,14 +23,14 @@ namespace MetadataUtility.Serialization
                 return string.Empty;
             }
 
-            return JsonConvert.SerializeObject((IList<Microphone>)value);
+            return JsonConvert.SerializeObject((Microphone[])value);
         }
 
         public override object ConvertFromString(string text, IReaderRow row, MemberMapData memberMapData)
         {
             if (text != null)
             {
-                return JsonConvert.DeserializeObject<IList<Microphone>>(text);
+                return JsonConvert.DeserializeObject<Microphone[]>(text);
             }
 
             return null;

@@ -9,9 +9,9 @@ namespace MetadataUtility.Audio.Vendors
     using System.Reflection;
     using System.Text;
     using LanguageExt;
+    using LanguageExt.Common;
+    using MetadataUtility.Audio;
     using MetadataUtility.Extensions.System;
-    using MetadataUtility.Models;
-    using MetadataUtility.Utilities;
     using NodaTime;
     using NodaTime.Text;
 
@@ -25,18 +25,28 @@ namespace MetadataUtility.Audio.Vendors
         public const string SensorIdCommentKey = "SensorUid";
         public const string RecordingEndCommentKey = "RecordingEnd";
         public const string SdCidCommentKey = "SdCardCid";
+        public const string MicrophoneTypeCommentKey = "MicrophoneType";
+        public const string MicrophoneUIDCommentKey = "MicrophoneUid";
+        public const string MicrophoneBuildDateCommentKey = "MicrophoneBuildDate";
+        public const string MicrophoneGainCommentKey = "ChannelGain";
         public const string UnknownMicrophoneString = "unknown";
+        public const string LongitudeKey = "Longitude";
+        public const string LatitudeKey = "Latitude";
+        public const string MicrophonesKey = "Microphones";
+        public const string MicrophoneKey = "Microphone";
         public const int DefaultFileStubLength = 44;
-        public const int BlockTypeOffset = 4;
         public const int SeekLimit = 1024;
         public static readonly string[] DateFormats = { "yyyy'-'MM'-'dd'T'HH':'mm':'sso<+HHmm>", "yyyy'-'MM'-'dd'T'HH':'mm':'sso<+HH:mm>" };
-        public static readonly (string, string)[] MicrophoneKeys = { ("MicrophoneType", "Type"), ("MicrophoneUid", "UID"), ("MicrophoneBuildDate", "BuildDate"), ("ChannelGain", "Gain") };
         public static readonly byte[] VendorString = Encoding.ASCII.GetBytes("Frontier Labs");
-        public static readonly LanguageExt.Common.Error VendorStringNotFound = LanguageExt.Common.Error.New("Error reading file: could not find vendor string Frontier Labs in file header");
-
-        public static readonly LanguageExt.Common.Error FileTooShortFirmware = LanguageExt.Common.Error.New("Error reading file: file is not long enough to have a firmware comment");
-        public static readonly LanguageExt.Common.Error FirmwareNotFound = LanguageExt.Common.Error.New("Frontier Labs firmware comment string not found");
-        public static readonly Func<string, LanguageExt.Common.Error> FirmwareVersionInvalid = x => LanguageExt.Common.Error.New($"Frontier Labs firmware version `{x}` is invlaid");
+        public static readonly Error VendorStringNotFound = Error.New("Error reading file: could not find vendor string Frontier Labs in file header");
+        public static readonly Error FileTooShortFirmware = Error.New("Error reading file: file is not long enough to have a firmware comment");
+        public static readonly Error FirmwareNotFound = Error.New("Frontier Labs firmware comment string not found");
+        public static readonly Func<string, Error> FirmwareVersionInvalid = x => Error.New($"Frontier Labs firmware version `{x}` is invalid");
+        public static readonly Func<string, Error> StartDateInvalid = x => Error.New($"Start date `{x}` is invalid");
+        public static readonly Func<string, Error> EndDateInvalid = x => Error.New($"End date `{x}` is invalid");
+        public static readonly Func<string, Error> LocationInvalid = x => Error.New($"Location `{x}` is invalid");
+        public static readonly Func<string, Error> LastTimeSyncInvalid = x => Error.New($"Last time sync `{x}` is invalid");
+        public static readonly Func<string, Error> CIDInvalid = x => Error.New($"CID `{x}` is invalid");
 
         public static async ValueTask<Fin<FirmwareRecord>> ReadFirmwareAsync(FileStream stream)
         {
@@ -143,421 +153,241 @@ namespace MetadataUtility.Audio.Vendors
                 return FileTooShortFirmware;
             }
 
-            Fin<int> result = FindVendorStringPosition(buffer);
+            Fin<(string Vendor, int LineNumber)> result = Flac.FindVendorString(buffer);
 
-            return result.IsSucc;
+            return result.IsSucc && (((string Vendor, int LineNumber))result).Vendor.Equals(Encoding.UTF8.GetString(VendorString));
         }
 
-        public static void ExtractVorbisCommentMetadata(Stream stream, ref Recording recording)
+        public static Fin<Dictionary<string, object>> ParseComments(Dictionary<string, string> comments)
         {
-            long position = stream.Seek(0, SeekOrigin.Begin);
-            Debug.Assert(position == 0, $"Expected stream.Seek position to return 0, instead returned {position}");
-
-            var buffer = new byte[SeekLimit];
-
-            var count = stream.Read(buffer);
-            if (count != SeekLimit)
+            Dictionary<string, Func<string, Fin<(string, object)>>> commentParsers = new Dictionary<string, Func<string, Fin<(string, object)>>>
             {
-                return;
-            }
-
-            int startPosition = (int)FindVendorStringPosition(buffer);
-
-            position = stream.Seek(startPosition, SeekOrigin.Begin);
-            Debug.Assert(position == startPosition, $"Expected stream.Seek position to return {startPosition}, instead returned {position}");
-
-            int offset = startPosition;
-
-            uint commentListLength = BinaryPrimitives.ReadUInt32LittleEndian(buffer[startPosition..]);
-            offset += 4;
-
-            uint commentLength;
-            string comment, value;
-            List<Microphone> microphones = new List<Microphone>();
-
-            // Extract each comment one by one
-            for (int i = 0; i < commentListLength; i++)
-            {
-                commentLength = BinaryPrimitives.ReadUInt32LittleEndian(buffer[offset..]);
-                offset += 4;
-
-                int commentStart = offset;
-                int commentEnd = (int)(offset + commentLength);
-                Range range = commentStart..commentEnd;
-                offset += (int)commentLength;
-
-                comment = Encoding.UTF8.GetString(buffer[range]);
-                value = comment.Split("=")[1].Trim();
-
-                // Extract firmware version
-                if (comment.Contains(FirmwareCommentKey))
-                {
-                    var segments = value.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-                    string firmware = segments[0];
-
-                    if (firmware.Contains("Firmware:"))
-                    {
-                        firmware = segments[1];
-                    }
-
-                    firmware = firmware.StartsWith("V") ? firmware[1..] : firmware;
-
-                    recording = recording with
-                    {
-                        Sensor = (recording.Sensor ?? new Sensor()) with
-                        {
-                            Firmware = firmware,
-                        },
-                    };
-                }
-
-                // Extract recording start
-                else if (comment.Contains(RecordingStartCommentKey))
-                {
-                    OffsetDateTime? startDate = null;
-
-                    foreach (string dateFormat in DateFormats)
-                    {
-                        try
-                        {
-                            startDate = OffsetDateTimePattern.CreateWithInvariantCulture(dateFormat).Parse(value).Value;
-                        }
-                        catch (UnparsableValueException)
-                        {
-                            continue;
-                        }
-                    }
-
-                    if (startDate != null)
-                    {
-                        recording = recording with
-                        {
-                            StartDate = startDate,
-                        };
-                    }
-                }
-
-                // Extract recording end
-                else if (comment.Contains(RecordingEndCommentKey))
-                {
-                    OffsetDateTime? endDate = null;
-
-                    foreach (string dateFormat in DateFormats)
-                    {
-                        try
-                        {
-                            endDate = OffsetDateTimePattern.CreateWithInvariantCulture(dateFormat).Parse(value).Value;
-                        }
-                        catch (UnparsableValueException)
-                        {
-                            continue;
-                        }
-                    }
-
-                    if (endDate != null)
-                    {
-                        recording = recording with
-                        {
-                            EndDate = endDate,
-                        };
-                    }
-                }
-
-                // Extract battery level
-                else if (comment.Contains(BatteryLevelCommentKey))
-                {
-                    recording = recording with
-                    {
-                        Sensor = (recording.Sensor ?? new Sensor()) with
-                        {
-                            BatteryLevel = value,
-                        },
-                    };
-                }
-
-                //Extract coordinates
-                else if (comment.Contains(LocationCommentKey))
-                {
-                    try
-                    {
-                        value = new string(value.Where(c => char.IsDigit(c) || (new char[] { '+', '-', '.' }).Contains(c)).ToArray());
-
-                        int latLonDividingIndex = value.IndexOfAny(new char[] { '+', '-' }, 1);
-
-                        double latitude = double.Parse(value.Substring(0, latLonDividingIndex));
-                        double longitude = double.Parse(value.Substring(latLonDividingIndex));
-
-                        recording = recording with
-                        {
-                            Location = (recording.Location ?? new Location()) with
-                            {
-                                Latitude = latitude,
-                                Longitude = longitude,
-                            },
-                        };
-                    }
-                    catch (ArgumentOutOfRangeException)
-                    {
-                        continue;
-                    }
-                }
-
-                // Extract last sync time
-                else if (comment.Contains(LastSyncCommentKey))
-                {
-                    OffsetDateTime? lastTimeSync = null;
-
-                    foreach (string dateFormat in DateFormats)
-                    {
-                        try
-                        {
-                            lastTimeSync = OffsetDateTimePattern.CreateWithInvariantCulture(dateFormat).Parse(value).Value;
-                        }
-                        catch (UnparsableValueException)
-                        {
-                            continue;
-                        }
-                    }
-
-                    if (lastTimeSync != null)
-                    {
-                        recording = recording with
-                        {
-                            Sensor = (recording.Sensor ?? new Sensor()) with
-                            {
-                                LastTimeSync = lastTimeSync,
-                            },
-                        };
-                    }
-                }
-
-                // Extract sensor ID
-                else if (comment.Contains(SensorIdCommentKey))
-                {
-                    recording = recording with
-                    {
-                        Sensor = (recording.Sensor ?? new Sensor()) with
-                        {
-                            SerialNumber = value,
-                        },
-                    };
-                }
-
-                // Extract and parse SD card CID
-                else if (comment.Contains(SdCidCommentKey))
-                {
-                    const int OEMIDLength = 2;
-                    const int ProductNameLength = 5;
-
-                    int cidOffset = 0;
-
-                    byte manufacturerID = byte.Parse(value.Substring(cidOffset, 2), System.Globalization.NumberStyles.HexNumber);
-                    cidOffset += 2;
-
-                    string oemId = string.Empty;
-
-                    // Parse OEM ID one ASCII character at a time
-                    for (int j = 0; j < OEMIDLength; j++)
-                    {
-                        oemId += System.Convert.ToChar(uint.Parse(value.Substring(cidOffset, 2), System.Globalization.NumberStyles.HexNumber));
-                        cidOffset += 2;
-                    }
-
-                    string productName = string.Empty;
-
-                    // Parse product name one ASCII character at a time
-                    for (int j = 0; j < ProductNameLength; j++)
-                    {
-                        productName += System.Convert.ToChar(uint.Parse(value.Substring(cidOffset, 2), System.Globalization.NumberStyles.HexNumber));
-                        cidOffset += 2;
-                    }
-
-                    byte productRevisionWholePart = byte.Parse(value.Substring(cidOffset, 1), System.Globalization.NumberStyles.HexNumber);
-                    cidOffset++;
-                    byte productRevisionDecimalPart = byte.Parse(value.Substring(cidOffset, 1), System.Globalization.NumberStyles.HexNumber);
-                    cidOffset++;
-
-                    float productRevision = productRevisionWholePart + ((float)productRevisionDecimalPart / 10);
-
-                    uint serialNumber = uint.Parse(value.Substring(cidOffset, 8), System.Globalization.NumberStyles.HexNumber);
-                    cidOffset += 9;
-
-                    string year = System.Convert.ToString(2000 + byte.Parse(value.Substring(cidOffset, 2), System.Globalization.NumberStyles.HexNumber));
-                    string month = System.Convert.ToString(byte.Parse(value.Substring(cidOffset + 2, 1), System.Globalization.NumberStyles.HexNumber));
-
-                    month = month.Length == 1 ? "0" + month : month;
-
-                    string manufactureDate = year + "/" + month;
-
-                    recording = recording with
-                    {
-                        MemoryCard = (recording.MemoryCard ?? new MemoryCard()) with
-                        {
-                            ManufacturerID = manufacturerID,
-                            OEMID = oemId,
-                            ProductName = productName,
-                            ProductRevision = productRevision,
-                            SerialNumber = serialNumber,
-                            ManufactureDate = manufactureDate,
-                        },
-                    };
-                }
-
-                // Extract microphone information
-                else
-                {
-                    foreach ((string CommentKey, string ModelKey) microphoneKey in MicrophoneKeys)
-                    {
-                        if (comment.Contains(microphoneKey.CommentKey))
-                        {
-                            UpdateMicrophones(comment, value, microphones, microphoneKey);
-                        }
-                    }
-                }
-            }
-
-            recording = recording with
-            {
-                Sensor = (recording.Sensor ?? new Sensor()) with
-                {
-                    Microphones = recording.Sensor!.Microphones ?? new List<Microphone>(),
-                },
+                { FirmwareCommentKey, FirmwareParser },
+                { RecordingStartCommentKey, StartDateParser },
+                { RecordingEndCommentKey, EndDateParser },
+                { BatteryLevelCommentKey, BatteryLevelParser },
+                { LocationCommentKey, LocationParser },
+                { LastSyncCommentKey, LastSyncParser },
+                { SensorIdCommentKey, SensorIdParser },
+                { SdCidCommentKey, SdCidParser },
+                { MicrophoneTypeCommentKey, MicrophoneTypeParser },
+                { MicrophoneUIDCommentKey, MicrophoneUIDParser },
+                { MicrophoneBuildDateCommentKey, MicrophoneBuildDateParser },
+                { MicrophoneGainCommentKey, MicrophoneGainParser },
             };
 
-            bool hasMicrophone;
-
-            // Update recording with new microphone(s)
-            // First verify this microphone has not been added from a different source
-            foreach (Microphone newMicrophone in microphones)
+            string[] microphoneKeys =
             {
-                hasMicrophone = false;
+                MicrophoneTypeCommentKey,
+                MicrophoneUIDCommentKey,
+                MicrophoneBuildDateCommentKey,
+                MicrophoneGainCommentKey,
+            };
 
-                foreach (Microphone microphone in recording.Sensor.Microphones)
+            Dictionary<string, object> parsedResults = new Dictionary<string, object>();
+
+            foreach (var comment in comments)
+            {
+                foreach (var commentParser in commentParsers)
                 {
-                    if (microphone.UID.Equals(newMicrophone.UID))
+                    // Extract each comment using its corresponding parser function
+                    if (comment.Key.Contains(commentParser.Key))
                     {
-                        hasMicrophone = true;
+                        var result = commentParser.Value(comment.Value);
+
+                        if (result.IsSucc)
+                        {
+                            (string Key, object Value) parsedResult = ((string, object))result;
+
+                            if (microphoneKeys.Contains(commentParser.Key))
+                            {
+                                int micNumber = int.Parse(comment.Key.Substring(commentParser.Key.Length(), 1));
+
+                                if (!parsedResults.ContainsKey(MicrophonesKey))
+                                {
+                                    parsedResults[MicrophonesKey] = new Dictionary<string, Dictionary<string, object>>();
+                                }
+
+                                Dictionary<string, Dictionary<string, object>> microphones = (Dictionary<string, Dictionary<string, object>>)parsedResults[MicrophonesKey];
+
+                                if (!microphones.ContainsKey(MicrophoneKey + micNumber))
+                                {
+                                    Dictionary<string, object> microphoneInfo = new Dictionary<string, object>() { { parsedResult.Key, parsedResult.Value } };
+                                    microphones[MicrophoneKey + micNumber] = microphoneInfo;
+                                }
+                                else
+                                {
+                                    microphones[MicrophoneKey + micNumber][parsedResult.Key] = parsedResult.Value;
+                                }
+
+                                break;
+                            }
+
+                            parsedResults[parsedResult.Key] = parsedResult.Value;
+                        }
                     }
                 }
-
-                if (!hasMicrophone && newMicrophone.UID != UnknownMicrophoneString)
-                {
-                    recording.Sensor.Microphones.Add(new Microphone() with
-                    {
-                        UID = newMicrophone.UID,
-                        BuildDate = newMicrophone.BuildDate,
-                        Type = newMicrophone.Type,
-                        Gain = newMicrophone.Gain,
-                        Channel = newMicrophone.Channel,
-                    });
-                }
             }
+
+            return parsedResults;
         }
 
-        private static void UpdateMicrophones(string comment, string value, List<Microphone> microphones, (string CommentKey, string ModelKey) microphoneKey)
+        public static Fin<(string Key, object Value)> FirmwareParser(string value)
         {
-            // Parse the microphone number & see if it has already been identified
-            int micNumber = int.Parse(comment.Substring(microphoneKey.CommentKey.Length(), 1));
-            int micIndex = -1;
-            for (int i = 0; i < microphones.Length(); i++)
+            var segments = value.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+            if (segments.Length < 1)
             {
-                if (microphones[i].Channel == micNumber)
-                {
-                    micIndex = i;
-                    break;
-                }
+                return FirmwareVersionInvalid(value);
             }
 
-            // If this mic hasn't been created yet, create it
-            if (micIndex == -1)
-            {
-                microphones.Add(new Microphone() with
-                {
-                    Channel = micNumber,
-                });
+            string firmware = segments[0];
 
-                micIndex = microphones.Length() - 1;
+            if (firmware.Contains("Firmware:"))
+            {
+                firmware = segments[1];
             }
 
-            // Update the given value of the microphone using Type.InvokeMember
-            microphones[micIndex].GetType().InvokeMember(
-                microphoneKey.ModelKey,
-                BindingFlags.Instance | BindingFlags.Public | BindingFlags.SetProperty,
-                Type.DefaultBinder,
-                microphones[micIndex],
-                new string[] { value });
+            firmware = firmware.StartsWith("V") ? firmware[1..] : firmware;
+
+            return (FirmwareCommentKey, firmware);
         }
 
-        /// <summary>
-        /// Frontier Labs vendor string is found within the file stream.
-        /// </summary>
-        /// <param name="buffer">Buffer containing the beginning of the file contents.</param>
-        /// <returns>The position of the vendor string in the file stream.</returns>
-        private static Fin<int> FindVendorStringPosition(ReadOnlySpan<byte> buffer)
+        public static Fin<(string Key, object Value)> StartDateParser(string value)
         {
-            const int VorbisCommentBlockNumber = 4, MaxIteration = 20;
+            OffsetDateTime? startDate = null;
 
-            int offset = BlockTypeOffset, i = 0, end = 0;
-            uint length = 0;
-            byte blockType;
-            bool lastBlock;
-
-            do
+            foreach (string dateFormat in DateFormats)
             {
                 try
                 {
-                    offset += (int)length;
-
-                    end = offset + 1;
-
-                    lastBlock = (buffer[offset] >> 7) == 1;
-                    blockType = BinaryHelpers.Read7BitUnsignedBigEndianIgnoringFirstBit(buffer[offset..end]);
-
-                    offset = end;
-                    end += 3;
-
-                    length = BinaryHelpers.Read24bitUnsignedBigEndian(buffer[offset..end]);
-
-                    offset = end;
-
-                    i++;
+                    startDate = OffsetDateTimePattern.CreateWithInvariantCulture(dateFormat).Parse(value).Value;
                 }
-                catch (IndexOutOfRangeException)
+                catch (UnparsableValueException)
                 {
-                    return VendorStringNotFound;
+                    continue;
                 }
             }
-            while (blockType != VorbisCommentBlockNumber && !lastBlock && i < MaxIteration);
 
-            if (blockType == VorbisCommentBlockNumber)
+            if (startDate == null)
             {
-                // Reading in length of vendor string, won't overflow
-                int vendorLength = BinaryPrimitives.ReadInt32LittleEndian(buffer[offset..]);
-                offset += 4;
+                return StartDateInvalid(value);
+            }
 
-                end = offset + vendorLength;
+            return (RecordingStartCommentKey, startDate);
+        }
 
-                string vendor = Encoding.UTF8.GetString(buffer[offset..end]);
+        public static Fin<(string Key, object Value)> EndDateParser(string value)
+        {
+            OffsetDateTime? endDate = null;
 
-                if (vendor.Equals(Encoding.UTF8.GetString(VendorString)))
+            foreach (string dateFormat in DateFormats)
+            {
+                try
                 {
-                    return end;
+                    endDate = OffsetDateTimePattern.CreateWithInvariantCulture(dateFormat).Parse(value).Value;
+                }
+                catch (UnparsableValueException)
+                {
+                    continue;
                 }
             }
 
-            return VendorStringNotFound;
+            if (endDate == null)
+            {
+                return EndDateInvalid(value);
+            }
+
+            return (RecordingEndCommentKey, endDate);
         }
+
+        public static Fin<(string Key, object Value)> BatteryLevelParser(string value) => (BatteryLevelCommentKey, value);
+
+        public static Fin<(string Key, object Value)> LocationParser(string value)
+        {
+            Dictionary<string, double> location = new Dictionary<string, double>();
+
+            try
+            {
+                value = new string(value.Where(c => char.IsDigit(c) || (new char[] { '+', '-', '.' }).Contains(c)).ToArray());
+
+                int latLonDividingIndex = value.IndexOfAny(new char[] { '+', '-' }, 1);
+
+                double latitude = double.Parse(value.Substring(0, latLonDividingIndex));
+                double longitude = double.Parse(value.Substring(latLonDividingIndex));
+
+                location[LatitudeKey] = latitude;
+                location[LongitudeKey] = longitude;
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                return LocationInvalid(value);
+            }
+
+            return (LocationCommentKey, location);
+        }
+
+        public static Fin<(string Key, object Value)> LastSyncParser(string value)
+        {
+            OffsetDateTime? lastTimeSync = null;
+
+            foreach (string dateFormat in DateFormats)
+            {
+                try
+                {
+                    lastTimeSync = OffsetDateTimePattern.CreateWithInvariantCulture(dateFormat).Parse(value).Value;
+                }
+                catch (UnparsableValueException)
+                {
+                    continue;
+                }
+            }
+
+            if (lastTimeSync == null)
+            {
+                return LastTimeSyncInvalid(value);
+            }
+
+            return (LastSyncCommentKey, lastTimeSync);
+        }
+
+        public static Fin<(string Key, object Value)> SensorIdParser(string value) => (SensorIdCommentKey, value);
+
+        public static Fin<(string Key, object Value)> SdCidParser(string value)
+        {
+            Models.SdCardCid cid = new Models.SdCardCid(value);
+            Dictionary<string, object> cidInfo;
+
+            try
+            {
+                cidInfo = cid.ExtractSdInfo();
+            }
+            catch (IndexOutOfRangeException)
+            {
+                return CIDInvalid(value);
+            }
+
+            return (SdCidCommentKey, cidInfo);
+        }
+
+        public static Fin<(string Key, object Value)> MicrophoneTypeParser(string value) => (MicrophoneTypeCommentKey, value);
+
+        public static Fin<(string Key, object Value)> MicrophoneUIDParser(string value) => (MicrophoneUIDCommentKey, value);
+
+        public static Fin<(string Key, object Value)> MicrophoneBuildDateParser(string value) => (MicrophoneBuildDateCommentKey, value);
+
+        public static Fin<(string Key, object Value)> MicrophoneGainParser(string value) => (MicrophoneGainCommentKey, value);
 
         private static Fin<FirmwareRecord> FindInBufferFirmware(ReadOnlySpan<byte> buffer)
         {
-            var vendorPosition = FindVendorStringPosition(buffer);
+            var vendorPosition = Flac.FindVendorString(buffer);
 
             if (vendorPosition.IsFail)
             {
                 return VendorStringNotFound;
             }
 
-            int offset = (int)vendorPosition;
+            int offset = (((string Vendor, int Position))vendorPosition).Position;
 
             var commentCount = BinaryPrimitives.ReadUInt32LittleEndian(buffer[offset..]);
             offset += 4;

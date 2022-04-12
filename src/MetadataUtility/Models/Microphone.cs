@@ -4,20 +4,12 @@
 
 namespace MetadataUtility.Models
 {
-    using Newtonsoft.Json;
-
     /// <summary>
     /// Holds information regarding a microphone
     /// that is attached to the device.
     /// </summary>
     public record Microphone
     {
-        /// <summary>
-        /// Gets microphone number according to the sensor (1, 2, etc.).
-        /// Used internally to correlate microphone metadata correctly.
-        /// </summary>
-        public int Channel { get; init; }
-
         /// <summary>
         /// Gets the type of this microphone.
         /// </summary>

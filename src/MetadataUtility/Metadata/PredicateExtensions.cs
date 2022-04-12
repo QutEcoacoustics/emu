@@ -53,7 +53,7 @@ public static class PredicateExtensions
     public static class Predicates
     {
         public static readonly Func<TargetInformation, bool> HasFileName =
-        target => !string.IsNullOrWhiteSpace(target.FileSystem.Path.GetFileName(target.Path));
+            target => !string.IsNullOrWhiteSpace(target.FileSystem.Path.GetFileName(target.Path));
 
         public static readonly Func<TargetInformation, bool> IsFlacFile =
             target => Flac.IsFlacFile(target.FileStream).IfFail(false);

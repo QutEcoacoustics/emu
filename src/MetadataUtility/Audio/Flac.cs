@@ -22,8 +22,8 @@ namespace MetadataUtility.Audio
         public static readonly byte[] FlacMagicNumber = new byte[] { (byte)'f', (byte)'L', (byte)'a', (byte)'C' };
 
         public static readonly Error FileTooShort = Error.New("Error reading file: file is not long enough to have a duration header");
-
         public static readonly Error FileTooShortFlac = Error.New("Error reading file: file is not long enough to have a fLaC header");
+        public static readonly Error VendorStringNotFound = Error.New("Error reading file: could not find vendor string Frontier Labs in file header");
 
         /// <summary>
         /// The total samples in the stream are read from the flac header here.
@@ -184,6 +184,111 @@ namespace MetadataUtility.Audio
             }
 
             return stream.Length > MetadataBlockSize && BinaryHelpers.Read7BitUnsignedBigEndianIgnoringFirstBit(buffer) == 0;
+        }
+
+        public static Fin<Dictionary<string, string>> ExtractComments(Stream stream)
+        {
+            const int SeekLimit = 1024;
+            Dictionary<string, string> comments = new Dictionary<string, string>();
+
+            long position = stream.Seek(0, SeekOrigin.Begin);
+            Debug.Assert(position == 0, $"Expected stream.Seek position to return 0, instead returned {position}");
+
+            var buffer = new byte[SeekLimit];
+
+            var count = stream.Read(buffer);
+            if (count != SeekLimit)
+            {
+                return FileTooShortFlac;
+            }
+
+            var vendorString = ((string Vendor, int LineNumber))FindVendorString(buffer);
+
+            int offset = vendorString.LineNumber;
+
+            uint commentListLength = BinaryPrimitives.ReadUInt32LittleEndian(buffer[offset..]);
+            offset += 4;
+
+            uint commentLength;
+            string[] comment;
+            string key, value;
+
+            // Extract each comment one by one
+            for (int i = 0; i < commentListLength; i++)
+            {
+                commentLength = BinaryPrimitives.ReadUInt32LittleEndian(buffer[offset..]);
+                offset += 4;
+
+                int commentStart = offset;
+                int commentEnd = (int)(offset + commentLength);
+                Range range = commentStart..commentEnd;
+                offset += (int)commentLength;
+
+                comment = Encoding.UTF8.GetString(buffer[range]).Split("=");
+                key = comment[0].Trim();
+                value = comment[1].Trim();
+
+                comments.Add(key, value);
+            }
+
+            return comments;
+        }
+
+        /// <summary>
+        /// Retrieve vendor string from vorbis comment block.
+        /// </summary>
+        /// <param name="buffer">Buffer containing the beginning of the file contents.</param>
+        /// <returns>The vendor string and its position in the file stream.</returns>
+        public static Fin<(string Vendor, int Position)> FindVendorString(ReadOnlySpan<byte> buffer)
+        {
+            const int VorbisCommentBlockNumber = 4, MaxIteration = 20;
+
+            int offset = BlockTypeOffset, i = 0, end = 0;
+            uint length = 0;
+            byte blockType;
+            bool lastBlock;
+
+            do
+            {
+                try
+                {
+                    offset += (int)length;
+
+                    end = offset + 1;
+
+                    lastBlock = (buffer[offset] >> 7) == 1;
+                    blockType = BinaryHelpers.Read7BitUnsignedBigEndianIgnoringFirstBit(buffer[offset..end]);
+
+                    offset = end;
+                    end += 3;
+
+                    length = BinaryHelpers.Read24bitUnsignedBigEndian(buffer[offset..end]);
+
+                    offset = end;
+
+                    i++;
+                }
+                catch (IndexOutOfRangeException)
+                {
+                    return VendorStringNotFound;
+                }
+            }
+            while (blockType != VorbisCommentBlockNumber && !lastBlock && i < MaxIteration);
+
+            if (blockType == VorbisCommentBlockNumber)
+            {
+                // Reading in length of vendor string, won't overflow
+                int vendorLength = BinaryPrimitives.ReadInt32LittleEndian(buffer[offset..]);
+                offset += 4;
+
+                end = offset + vendorLength;
+
+                string vendor = Encoding.UTF8.GetString(buffer[offset..end]);
+
+                return (vendor, end);
+            }
+
+            return VendorStringNotFound;
         }
     }
 }

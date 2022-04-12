@@ -77,7 +77,7 @@ namespace MetadataUtility.Metadata.FrontierLabs
 
             recording = recording with
             {
-                Sensor = recording.Sensor ?? new Sensor() with
+                Sensor = (recording.Sensor ?? new Sensor()) with
                 {
                     Firmware = sensor.Firmware,
                     SerialNumber = sensor.SerialNumber,

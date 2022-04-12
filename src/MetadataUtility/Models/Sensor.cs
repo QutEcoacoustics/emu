@@ -4,7 +4,6 @@
 
 namespace MetadataUtility.Models
 {
-    using Newtonsoft.Json;
     using NodaTime;
 
     /// <summary>
@@ -52,7 +51,7 @@ namespace MetadataUtility.Models
         /// <summary>
         /// Gets a list of microphones attached to this sensor.
         /// </summary>
-        public IList<Microphone> Microphones { get; init; }
+        public Microphone[] Microphones { get; init; }
 
         /// <summary>
         /// Gets the last time the sensor was synchronized.

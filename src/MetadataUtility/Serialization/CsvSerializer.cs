@@ -113,7 +113,7 @@ namespace MetadataUtility.Serialization
             context.TypeConverterCache.AddConverter<Range>(new CsvRangeConverter());
             context.TypeConverterCache.AddConverter<Rational>(new RationalsConverter());
             context.TypeConverterCache.AddConverter<string[]>(new StringListConverter());
-            context.TypeConverterCache.AddConverter<IList<Microphone>>(new MicrophoneListConverter());
+            context.TypeConverterCache.AddConverter<Microphone[]>(new MicrophoneListConverter());
         }
     }
 }
