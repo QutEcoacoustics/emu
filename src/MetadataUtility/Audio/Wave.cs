@@ -157,20 +157,64 @@ namespace MetadataUtility.Audio
 
         public static Fin<bool> IsPreallocatedHeader(Stream stream)
         {
+            int faults = 0;
+
             var riffChunk = FindRiffChunk(stream);
 
-            // If file is longer than riff chunk realizes, return true
-            if (((Range)riffChunk).End < stream.Length)
+            // If the riff chunk size is incorrect, increment faults
+            if (((Range)riffChunk).End != stream.Length)
             {
-                return true;
+                faults++;
+            }
+
+            // If there are less than 200 bytes in the file, increment faults
+            if (stream.Length < 200)
+            {
+                faults++;
+            }
+
+            // If there is a flac extension, increment faults
+            if (((FileStream)stream).Name.Split(".").Last().Equals("flac"))
+            {
+                faults++;
             }
 
             var waveChunk = riffChunk.Bind(r => FindWaveChunk(stream, r));
 
             var dataChunk = waveChunk.Bind(w => FindDataChunk(stream, w));
 
-            // Return true if data chunk is empty
-            return ((Range)dataChunk).Start == ((Range)dataChunk).End;
+            long dataStart = ((Range)dataChunk).Start;
+            long dataEnd = ((Range)dataChunk).End;
+
+            // If the data is less than 4 bytes or the first 4 bytes are 0, increment faults
+            if (dataEnd - dataStart < 4)
+            {
+                faults++;
+            }
+            else
+            {
+                Span<byte> dataBuffer = stackalloc byte[4];
+                long position = stream.Seek(dataStart, SeekOrigin.Begin);
+
+                if (position == dataStart)
+                {
+                    stream.Read(dataBuffer);
+
+                    if (BinaryPrimitives.ReadInt32BigEndian(dataBuffer) == 0)
+                    {
+                        faults++;
+                    }
+                }
+            }
+
+            // If the data section is longer than the stream, increment faults
+            if (dataEnd > stream.Length)
+            {
+                faults++;
+            }
+
+            // Return true if at least 3 pre-allocated header indicators are found
+            return faults >= 3;
         }
 
         public static uint GetSampleRate(ReadOnlySpan<byte> formatChunk)
