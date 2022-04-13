@@ -42,10 +42,8 @@ namespace MetadataUtility.Audio.Vendors
         public static readonly Error FileTooShortFirmware = Error.New("Error reading file: file is not long enough to have a firmware comment");
         public static readonly Error FirmwareNotFound = Error.New("Frontier Labs firmware comment string not found");
         public static readonly Func<string, Error> FirmwareVersionInvalid = x => Error.New($"Frontier Labs firmware version `{x}` is invalid");
-        public static readonly Func<string, Error> StartDateInvalid = x => Error.New($"Start date `{x}` is invalid");
-        public static readonly Func<string, Error> EndDateInvalid = x => Error.New($"End date `{x}` is invalid");
+        public static readonly Func<string, Error> DateInvalid = x => Error.New($"Date `{x}` is invalid");
         public static readonly Func<string, Error> LocationInvalid = x => Error.New($"Location `{x}` is invalid");
-        public static readonly Func<string, Error> LastTimeSyncInvalid = x => Error.New($"Last time sync `{x}` is invalid");
         public static readonly Func<string, Error> CIDInvalid = x => Error.New($"CID `{x}` is invalid");
 
         public static async ValueTask<Fin<FirmwareRecord>> ReadFirmwareAsync(FileStream stream)
@@ -66,7 +64,7 @@ namespace MetadataUtility.Audio.Vendors
 
         public static Fin<FirmwareRecord> ParseFirmwareComment(string comment, Range offset)
         {
-            var firmware = (((string Key, object Value))FirmwareParser(comment[(FirmwareCommentKey.Length + 1)..])).Value;
+            var firmware = (((string Key, object Value))FirmwareParser(FirmwareCommentKey, comment[(FirmwareCommentKey.Length + 1)..])).Value;
 
             var rest = comment[(comment.IndexOf((string)firmware) + ((string)firmware).Length)..].Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
@@ -144,20 +142,20 @@ namespace MetadataUtility.Audio.Vendors
 
         public static Fin<Dictionary<string, object>> ParseComments(Dictionary<string, string> comments)
         {
-            Dictionary<string, Func<string, Fin<(string, object)>>> commentParsers = new Dictionary<string, Func<string, Fin<(string, object)>>>
+            Dictionary<string, Func<string, string, Fin<(string, object)>>> commentParsers = new Dictionary<string, Func<string, string, Fin<(string, object)>>>
             {
                 { FirmwareCommentKey, FirmwareParser },
-                { RecordingStartCommentKey, StartDateParser },
-                { RecordingEndCommentKey, EndDateParser },
-                { BatteryLevelCommentKey, BatteryLevelParser },
+                { RecordingStartCommentKey, DateParser },
+                { RecordingEndCommentKey, DateParser },
+                { BatteryLevelCommentKey, GenericParser },
                 { LocationCommentKey, LocationParser },
-                { LastSyncCommentKey, LastSyncParser },
-                { SensorIdCommentKey, SensorIdParser },
+                { LastSyncCommentKey, DateParser },
+                { SensorIdCommentKey, GenericParser },
                 { SdCidCommentKey, SdCidParser },
-                { MicrophoneTypeCommentKey, MicrophoneTypeParser },
-                { MicrophoneUIDCommentKey, MicrophoneUIDParser },
-                { MicrophoneBuildDateCommentKey, MicrophoneBuildDateParser },
-                { MicrophoneGainCommentKey, MicrophoneGainParser },
+                { MicrophoneTypeCommentKey, GenericParser },
+                { MicrophoneUIDCommentKey, GenericParser },
+                { MicrophoneBuildDateCommentKey, GenericParser },
+                { MicrophoneGainCommentKey, GenericParser },
             };
 
             string[] microphoneKeys =
@@ -177,7 +175,7 @@ namespace MetadataUtility.Audio.Vendors
                     // Extract each comment using its corresponding parser function
                     if (comment.Key.Contains(commentParser.Key))
                     {
-                        var result = commentParser.Value(comment.Value);
+                        var result = commentParser.Value(commentParser.Key, comment.Value);
 
                         if (result.IsSucc)
                         {
@@ -216,7 +214,9 @@ namespace MetadataUtility.Audio.Vendors
             return parsedResults;
         }
 
-        public static Fin<(string Key, object Value)> FirmwareParser(string value)
+        public static Fin<(string Key, object Value)> GenericParser(string key, string value) => (key, value);
+
+        public static Fin<(string Key, object Value)> FirmwareParser(string key, string value)
         {
             var segments = value.Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
@@ -234,18 +234,18 @@ namespace MetadataUtility.Audio.Vendors
 
             firmware = firmware.StartsWith("V") ? firmware[1..] : firmware;
 
-            return (FirmwareCommentKey, firmware);
+            return (key, firmware);
         }
 
-        public static Fin<(string Key, object Value)> StartDateParser(string value)
+        public static Fin<(string Key, object Value)> DateParser(string key, string value)
         {
-            OffsetDateTime? startDate = null;
+            OffsetDateTime? date = null;
 
             foreach (string dateFormat in DateFormats)
             {
                 try
                 {
-                    startDate = OffsetDateTimePattern.CreateWithInvariantCulture(dateFormat).Parse(value).Value;
+                    date = OffsetDateTimePattern.CreateWithInvariantCulture(dateFormat).Parse(value).Value;
                 }
                 catch (UnparsableValueException)
                 {
@@ -253,41 +253,15 @@ namespace MetadataUtility.Audio.Vendors
                 }
             }
 
-            if (startDate == null)
+            if (date == null)
             {
-                return StartDateInvalid(value);
+                return DateInvalid(value);
             }
 
-            return (RecordingStartCommentKey, startDate);
+            return (key, date);
         }
 
-        public static Fin<(string Key, object Value)> EndDateParser(string value)
-        {
-            OffsetDateTime? endDate = null;
-
-            foreach (string dateFormat in DateFormats)
-            {
-                try
-                {
-                    endDate = OffsetDateTimePattern.CreateWithInvariantCulture(dateFormat).Parse(value).Value;
-                }
-                catch (UnparsableValueException)
-                {
-                    continue;
-                }
-            }
-
-            if (endDate == null)
-            {
-                return EndDateInvalid(value);
-            }
-
-            return (RecordingEndCommentKey, endDate);
-        }
-
-        public static Fin<(string Key, object Value)> BatteryLevelParser(string value) => (BatteryLevelCommentKey, value);
-
-        public static Fin<(string Key, object Value)> LocationParser(string value)
+        public static Fin<(string Key, object Value)> LocationParser(string key, string value)
         {
             Dictionary<string, double> location = new Dictionary<string, double>();
 
@@ -308,36 +282,10 @@ namespace MetadataUtility.Audio.Vendors
                 return LocationInvalid(value);
             }
 
-            return (LocationCommentKey, location);
+            return (key, location);
         }
 
-        public static Fin<(string Key, object Value)> LastSyncParser(string value)
-        {
-            OffsetDateTime? lastTimeSync = null;
-
-            foreach (string dateFormat in DateFormats)
-            {
-                try
-                {
-                    lastTimeSync = OffsetDateTimePattern.CreateWithInvariantCulture(dateFormat).Parse(value).Value;
-                }
-                catch (UnparsableValueException)
-                {
-                    continue;
-                }
-            }
-
-            if (lastTimeSync == null)
-            {
-                return LastTimeSyncInvalid(value);
-            }
-
-            return (LastSyncCommentKey, lastTimeSync);
-        }
-
-        public static Fin<(string Key, object Value)> SensorIdParser(string value) => (SensorIdCommentKey, value);
-
-        public static Fin<(string Key, object Value)> SdCidParser(string value)
+        public static Fin<(string Key, object Value)> SdCidParser(string key, string value)
         {
             Models.SdCardCid cid = new Models.SdCardCid(value);
             Dictionary<string, object> cidInfo;
@@ -351,16 +299,8 @@ namespace MetadataUtility.Audio.Vendors
                 return CIDInvalid(value);
             }
 
-            return (SdCidCommentKey, cidInfo);
+            return (key, cidInfo);
         }
-
-        public static Fin<(string Key, object Value)> MicrophoneTypeParser(string value) => (MicrophoneTypeCommentKey, value);
-
-        public static Fin<(string Key, object Value)> MicrophoneUIDParser(string value) => (MicrophoneUIDCommentKey, value);
-
-        public static Fin<(string Key, object Value)> MicrophoneBuildDateParser(string value) => (MicrophoneBuildDateCommentKey, value);
-
-        public static Fin<(string Key, object Value)> MicrophoneGainParser(string value) => (MicrophoneGainCommentKey, value);
 
         private static Fin<FirmwareRecord> FindInBufferFirmware(ReadOnlySpan<byte> buffer)
         {
