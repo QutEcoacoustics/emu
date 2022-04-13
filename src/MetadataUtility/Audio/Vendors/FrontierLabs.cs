@@ -122,6 +122,11 @@ namespace MetadataUtility.Audio.Vendors
             }
         }
 
+        /// <summary>
+        /// Determines whether a FLAC file has a frontier labs vorbis comment block.
+        /// </summary>
+        /// <param name="stream">The file stream.</param>
+        /// <returns>Boolean indicating whether the file has the vorbis comment block.</returns>
         public static Fin<bool> HasFrontierLabsVorbisComment(Stream stream)
         {
             long position = stream.Seek(0, SeekOrigin.Begin);
@@ -140,6 +145,11 @@ namespace MetadataUtility.Audio.Vendors
             return result.IsSucc && (((string Vendor, int LineNumber))result).Vendor.Equals(Encoding.UTF8.GetString(VendorString));
         }
 
+        /// <summary>
+        /// Parses vorbis comments into recording metadata.
+        /// </summary>
+        /// <param name="comments">The comments extracted from a FLAC file.</param>
+        /// <returns>Dictionary representing all of the parsed metadata.</returns>
         public static Fin<Dictionary<string, object>> ParseComments(Dictionary<string, string> comments)
         {
             Dictionary<string, Func<string, string, Fin<(string, object)>>> commentParsers = new Dictionary<string, Func<string, string, Fin<(string, object)>>>
@@ -181,10 +191,12 @@ namespace MetadataUtility.Audio.Vendors
                         {
                             (string Key, object Value) parsedResult = ((string, object))result;
 
+                            // Parse microphone metadata, making sure to correlate to the correct microphone
                             if (microphoneKeys.Contains(commentParser.Key))
                             {
                                 int micNumber = int.Parse(comment.Key.Substring(commentParser.Key.Length(), 1));
 
+                                // If no microphone data has been added, create a place in the dictionary for it
                                 if (!parsedResults.ContainsKey(MicrophonesKey))
                                 {
                                     parsedResults[MicrophonesKey] = new Dictionary<string, Dictionary<string, object>>();
@@ -192,6 +204,7 @@ namespace MetadataUtility.Audio.Vendors
 
                                 Dictionary<string, Dictionary<string, object>> microphones = (Dictionary<string, Dictionary<string, object>>)parsedResults[MicrophonesKey];
 
+                                // If no data on this specific microphone has been added, create a place in the dictionary for it
                                 if (!microphones.ContainsKey(MicrophoneKey + micNumber))
                                 {
                                     Dictionary<string, object> microphoneInfo = new Dictionary<string, object>() { { parsedResult.Key, parsedResult.Value } };
@@ -199,12 +212,14 @@ namespace MetadataUtility.Audio.Vendors
                                 }
                                 else
                                 {
+                                    // Update the microphone with new information
                                     microphones[MicrophoneKey + micNumber][parsedResult.Key] = parsedResult.Value;
                                 }
 
                                 break;
                             }
 
+                            // Update dictionary with new metadata
                             parsedResults[parsedResult.Key] = parsedResult.Value;
                         }
                     }
@@ -227,11 +242,13 @@ namespace MetadataUtility.Audio.Vendors
 
             string firmware = segments[0];
 
+            // v3.08 has "Firmware: " prefix
             if (firmware.Contains("Firmware:"))
             {
                 firmware = segments[1];
             }
 
+            // trim the leading "V" if present
             firmware = firmware.StartsWith("V") ? firmware[1..] : firmware;
 
             return (key, firmware);
@@ -241,6 +258,7 @@ namespace MetadataUtility.Audio.Vendors
         {
             OffsetDateTime? date = null;
 
+            // Try parsing the date in each known date format (varies depending on firmware version)
             foreach (string dateFormat in DateFormats)
             {
                 try
@@ -267,10 +285,13 @@ namespace MetadataUtility.Audio.Vendors
 
             try
             {
+                // Only keep characters relevant to coordinates
                 value = new string(value.Where(c => char.IsDigit(c) || (new char[] { '+', '-', '.' }).Contains(c)).ToArray());
 
+                // Find index dividing lat and lon
                 int latLonDividingIndex = value.IndexOfAny(new char[] { '+', '-' }, 1);
 
+                // Parse lat and lon
                 double latitude = double.Parse(value.Substring(0, latLonDividingIndex));
                 double longitude = double.Parse(value.Substring(latLonDividingIndex));
 

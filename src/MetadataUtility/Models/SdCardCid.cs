@@ -103,6 +103,7 @@ namespace MetadataUtility.Models
             offset += 2;
             string month = System.Convert.ToString(byte.Parse(this.CID.Substring(offset, 1), System.Globalization.NumberStyles.HexNumber));
 
+            // Ensure month is in MM format
             month = month.Length == 1 ? "0" + month : month;
 
             string manufactureDate = year + "/" + month;

@@ -186,6 +186,11 @@ namespace MetadataUtility.Audio
             return stream.Length > MetadataBlockSize && BinaryHelpers.Read7BitUnsignedBigEndianIgnoringFirstBit(buffer) == 0;
         }
 
+        /// <summary>
+        /// Extract vorbis comments from file.
+        /// </summary>
+        /// <param name="stream">The FLAC file stream.</param>
+        /// <returns>A dictionary representing each comment.</returns>
         public static Fin<Dictionary<string, string>> ExtractComments(Stream stream)
         {
             const int SeekLimit = 1024;
@@ -196,12 +201,14 @@ namespace MetadataUtility.Audio
 
             var buffer = new byte[SeekLimit];
 
+            // Read beginning of FLAC file into buffer
             var count = stream.Read(buffer);
             if (count != SeekLimit)
             {
                 return FileTooShortFlac;
             }
 
+            // Find the vendor string at the beginning of the vorbis comment block
             var vendorString = ((string Vendor, int LineNumber))FindVendorString(buffer);
 
             int offset = vendorString.LineNumber;
@@ -235,10 +242,10 @@ namespace MetadataUtility.Audio
         }
 
         /// <summary>
-        /// Retrieve vendor string from vorbis comment block.
+        /// Retrieve vendor string from vorbis comment block (https://xiph.org/vorbis/doc/v-comment.html).
         /// </summary>
         /// <param name="buffer">Buffer containing the beginning of the file contents.</param>
-        /// <returns>The vendor string and its position in the file stream.</returns>
+        /// <returns>The vendor string and its position in the file stream (specifically the first position following the vendor string).</returns>
         public static Fin<(string Vendor, int Position)> FindVendorString(ReadOnlySpan<byte> buffer)
         {
             const int VorbisCommentBlockNumber = 4, MaxIteration = 20;
@@ -248,6 +255,7 @@ namespace MetadataUtility.Audio
             byte blockType;
             bool lastBlock;
 
+            // Loop until vorbis comment block is found
             do
             {
                 try

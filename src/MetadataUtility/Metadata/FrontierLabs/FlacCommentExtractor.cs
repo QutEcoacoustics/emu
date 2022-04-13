@@ -43,9 +43,9 @@ namespace MetadataUtility.Metadata.FrontierLabs
                     {
                         Sensor = (recording.Sensor ?? new Sensor()) with
                         {
-                            Firmware = (string)parsedComments[FrontierLabs.FirmwareCommentKey] ?? null,
-                            BatteryLevel = (string)parsedComments[FrontierLabs.BatteryLevelCommentKey] ?? null,
-                            LastTimeSync = (OffsetDateTime?)parsedComments[FrontierLabs.LastSyncCommentKey] ?? null,
+                            Firmware = (string)parsedComments[FrontierLabs.FirmwareCommentKey],
+                            BatteryLevel = (string)parsedComments[FrontierLabs.BatteryLevelCommentKey],
+                            LastTimeSync = (OffsetDateTime?)parsedComments[FrontierLabs.LastSyncCommentKey],
                             SerialNumber = (string)parsedComments[FrontierLabs.SensorIdCommentKey],
                             Microphones = recording.Sensor?.Microphones ?? new Microphone[2],
                         },
