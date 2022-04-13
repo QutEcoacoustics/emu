@@ -39,12 +39,12 @@ namespace MetadataUtility.Metadata.FrontierLabs
 
             recording = recording with
             {
-                DurationSeconds = duration,
-                SampleRateHertz = sampleRate.IsFail ? null : (uint)sampleRate,
-                TotalSamples = samples.IsFail ? null : (ulong)samples,
-                Channels = channels.IsFail ? null : (byte)channels,
-                BitDepth = bitDepth.IsFail ? null : (byte)bitDepth,
-                BitsPerSecond = bitRate,
+                DurationSeconds = recording.DurationSeconds ?? duration,
+                SampleRateHertz = recording.SampleRateHertz ?? (sampleRate.IsFail ? null : (uint)sampleRate),
+                TotalSamples = recording.TotalSamples ?? (samples.IsFail ? null : (ulong)samples),
+                Channels = recording.Channels ?? (channels.IsFail ? null : (byte)channels),
+                BitDepth = recording.BitDepth ?? (bitDepth.IsFail ? null : (byte)bitDepth),
+                BitsPerSecond = recording.BitsPerSecond ?? bitRate,
             };
 
             return ValueTask.FromResult(recording);

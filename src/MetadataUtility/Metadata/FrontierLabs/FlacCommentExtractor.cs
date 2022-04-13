@@ -43,27 +43,31 @@ namespace MetadataUtility.Metadata.FrontierLabs
                     {
                         Sensor = (recording.Sensor ?? new Sensor()) with
                         {
-                            Firmware = (string)parsedComments[FrontierLabs.FirmwareCommentKey],
-                            BatteryLevel = (string)parsedComments[FrontierLabs.BatteryLevelCommentKey],
-                            LastTimeSync = (OffsetDateTime?)parsedComments[FrontierLabs.LastSyncCommentKey],
-                            SerialNumber = (string)parsedComments[FrontierLabs.SensorIdCommentKey],
+                            Firmware = recording.Sensor?.Firmware ?? (string)parsedComments[FrontierLabs.FirmwareCommentKey],
+                            BatteryLevel = recording.Sensor?.BatteryLevel ?? (string)parsedComments[FrontierLabs.BatteryLevelCommentKey],
+                            LastTimeSync = recording.Sensor?.LastTimeSync ?? (OffsetDateTime?)parsedComments[FrontierLabs.LastSyncCommentKey],
+                            SerialNumber = recording.Sensor?.SerialNumber ?? (string)parsedComments[FrontierLabs.SensorIdCommentKey],
                             Microphones = recording.Sensor?.Microphones ?? new Microphone[2],
                         },
-                        StartDate = (OffsetDateTime)parsedComments[FrontierLabs.RecordingStartCommentKey],
-                        EndDate = (OffsetDateTime)parsedComments[FrontierLabs.RecordingEndCommentKey],
-                        Location = parsedComments.ContainsKey(FrontierLabs.LocationCommentKey) ? (recording.Location ?? new Location()) with
+                        StartDate = recording.StartDate ?? (OffsetDateTime)parsedComments[FrontierLabs.RecordingStartCommentKey],
+                        EndDate = recording.EndDate ?? (OffsetDateTime)parsedComments[FrontierLabs.RecordingEndCommentKey],
+                        Location = (recording.Location ?? new Location()) with
                         {
-                            Longitude = ((Dictionary<string, double>)parsedComments[FrontierLabs.LocationCommentKey])[FrontierLabs.LongitudeKey],
-                            Latitude = ((Dictionary<string, double>)parsedComments[FrontierLabs.LocationCommentKey])[FrontierLabs.LatitudeKey],
-                        } : null,
+                            Longitude = recording.Location?.Longitude ??
+                                (parsedComments.ContainsKey(FrontierLabs.LocationCommentKey) ?
+                                ((Dictionary<string, double>)parsedComments[FrontierLabs.LocationCommentKey])[FrontierLabs.LongitudeKey] : null),
+                            Latitude = recording.Location?.Latitude ??
+                                (parsedComments.ContainsKey(FrontierLabs.LocationCommentKey) ?
+                                ((Dictionary<string, double>)parsedComments[FrontierLabs.LocationCommentKey])[FrontierLabs.LatitudeKey] : null),
+                        },
                         MemoryCard = (recording.MemoryCard ?? new MemoryCard()) with
                         {
-                            ManufacturerID = (byte)((Dictionary<string, object>)parsedComments[FrontierLabs.SdCidCommentKey])[SdCardCid.ManufacturerIDKey],
-                            OEMID = (string)((Dictionary<string, object>)parsedComments[FrontierLabs.SdCidCommentKey])[SdCardCid.OEMIDKey],
-                            ProductName = (string)((Dictionary<string, object>)parsedComments[FrontierLabs.SdCidCommentKey])[SdCardCid.ProductNameKey],
-                            ProductRevision = (float)((Dictionary<string, object>)parsedComments[FrontierLabs.SdCidCommentKey])[SdCardCid.ProductRevisionKey],
-                            SerialNumber = (uint)((Dictionary<string, object>)parsedComments[FrontierLabs.SdCidCommentKey])[SdCardCid.SerialNumberKey],
-                            ManufactureDate = (string)((Dictionary<string, object>)parsedComments[FrontierLabs.SdCidCommentKey])[SdCardCid.ManufactureDateKey],
+                            ManufacturerID = recording.MemoryCard?.ManufacturerID ?? (byte)((Dictionary<string, object>)parsedComments[FrontierLabs.SdCidCommentKey])[SdCardCid.ManufacturerIDKey],
+                            OEMID = recording.MemoryCard?.OEMID ?? (string)((Dictionary<string, object>)parsedComments[FrontierLabs.SdCidCommentKey])[SdCardCid.OEMIDKey],
+                            ProductName = recording.MemoryCard?.ProductName ?? (string)((Dictionary<string, object>)parsedComments[FrontierLabs.SdCidCommentKey])[SdCardCid.ProductNameKey],
+                            ProductRevision = recording.MemoryCard?.ProductRevision ?? (float)((Dictionary<string, object>)parsedComments[FrontierLabs.SdCidCommentKey])[SdCardCid.ProductRevisionKey],
+                            SerialNumber = recording.MemoryCard?.SerialNumber ?? (uint)((Dictionary<string, object>)parsedComments[FrontierLabs.SdCidCommentKey])[SdCardCid.SerialNumberKey],
+                            ManufactureDate = recording.MemoryCard?.ManufactureDate ?? (string)((Dictionary<string, object>)parsedComments[FrontierLabs.SdCidCommentKey])[SdCardCid.ManufactureDateKey],
                         },
                     };
 
@@ -77,10 +81,10 @@ namespace MetadataUtility.Metadata.FrontierLabs
                                 {
                                     recording.Sensor.Microphones[i] = (recording.Sensor.Microphones[i] ?? new Microphone()) with
                                     {
-                                        Type = (string)newMicrophone[FrontierLabs.MicrophoneTypeCommentKey],
-                                        UID = (string)newMicrophone[FrontierLabs.MicrophoneUIDCommentKey],
-                                        BuildDate = (string)newMicrophone[FrontierLabs.MicrophoneBuildDateCommentKey],
-                                        Gain = (string)newMicrophone[FrontierLabs.MicrophoneGainCommentKey],
+                                        Type = recording.Sensor.Microphones[i]?.Type ?? (string)newMicrophone[FrontierLabs.MicrophoneTypeCommentKey],
+                                        UID = recording.Sensor.Microphones[i]?.UID ?? (string)newMicrophone[FrontierLabs.MicrophoneUIDCommentKey],
+                                        BuildDate = recording.Sensor.Microphones[i]?.BuildDate ?? (string)newMicrophone[FrontierLabs.MicrophoneBuildDateCommentKey],
+                                        Gain = recording.Sensor.Microphones[i]?.Gain ?? (string)newMicrophone[FrontierLabs.MicrophoneGainCommentKey],
                                     };
                                 }
 

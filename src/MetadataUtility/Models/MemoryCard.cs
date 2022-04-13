@@ -32,8 +32,8 @@ namespace MetadataUtility.Models
 
         public uint? WrCurrentVmax { get; init; }
 
-        public uint? WriteB1Size { get; init; }
+        public uint? WriteBlSize { get; init; }
 
-        public uint? EraseB1Size { get; init; }
+        public uint? EraseBlSize { get; init; }
     }
 }

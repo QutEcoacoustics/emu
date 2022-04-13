@@ -158,8 +158,8 @@ namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
                                 Capacity = uint.Parse(reader.ReadLine()!.Split().Last()),
                                 WrCurrentVmin = uint.Parse(reader.ReadLine()!.Split().Last()),
                                 WrCurrentVmax = uint.Parse(reader.ReadLine()!.Split().Last()),
-                                WriteB1Size = uint.Parse(reader.ReadLine()!.Split().Last()),
-                                EraseB1Size = uint.Parse(reader.ReadLine()!.Split().Last()),
+                                WriteBlSize = uint.Parse(reader.ReadLine()!.Split().Last()),
+                                EraseBlSize = uint.Parse(reader.ReadLine()!.Split().Last()),
                             };
 
                             this.MemoryCardLogs.Add((memoryCard, i));

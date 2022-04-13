@@ -15,8 +15,8 @@ namespace MetadataUtility.Metadata
             typeof(FilenameExtractor),
             typeof(WaveHeaderExtractor),
             typeof(FlacHeaderExtractor),
-            typeof(LogFileExtractor),
             typeof(FlacCommentExtractor),
+            typeof(LogFileExtractor),
         };
 
         private readonly IServiceProvider provider;
