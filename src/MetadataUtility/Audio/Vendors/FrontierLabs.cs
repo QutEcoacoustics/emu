@@ -66,27 +66,11 @@ namespace MetadataUtility.Audio.Vendors
 
         public static Fin<FirmwareRecord> ParseFirmwareComment(string comment, Range offset)
         {
-            // remove leading comment key and '=', then split by space
-            var segments = comment[(FirmwareCommentKey.Length + 1)..].Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            var firmware = (((string Key, object Value))FirmwareParser(comment[(FirmwareCommentKey.Length + 1)..])).Value;
 
-            if (segments.Length < 1)
-            {
-                return FirmwareVersionInvalid(comment);
-            }
+            var rest = comment[(comment.IndexOf((string)firmware) + ((string)firmware).Length)..].Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
-            var first = segments[0];
-            var rest = segments[1..];
-            if (first.Contains("Firmware:"))
-            {
-                // v3.08 has "Firmware: " prefix
-                first = segments[1];
-                rest = segments[2..];
-            }
-
-            // trim the leading "V" if present
-            first = first.StartsWith("V") ? first[1..] : first;
-
-            if (decimal.TryParse(first, out var version))
+            if (decimal.TryParse((string)firmware, out var version))
             {
                 return new FirmwareRecord(comment, version, offset, rest);
             }
