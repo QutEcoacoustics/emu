@@ -137,7 +137,7 @@ namespace MetadataUtility.Utilities
         {
             if (bytes.Length < 3)
             {
-                throw new ArgumentException("bytes span must at least be 1 long", nameof(bytes));
+                throw new ArgumentException("bytes span must at least be 3 long", nameof(bytes));
             }
 
             int dest = bytes[0] << 16;

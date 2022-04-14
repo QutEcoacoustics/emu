@@ -6,7 +6,7 @@ namespace MetadataUtility.Audio.Vendors
 {
     using System.Buffers.Binary;
     using System.Diagnostics;
-    using System.Reflection;
+    using System.Diagnostics.CodeAnalysis;
     using System.Text;
     using LanguageExt;
     using LanguageExt.Common;
@@ -48,18 +48,17 @@ namespace MetadataUtility.Audio.Vendors
 
         public static async ValueTask<Fin<FirmwareRecord>> ReadFirmwareAsync(FileStream stream)
         {
-            stream.Seek(0, SeekOrigin.Begin);
+            var vorbisChunk = Flac.ScanForChunk(stream, Flac.VorbisCommentBlockNumber);
 
-            var buffer = new byte[SeekLimit];
-
-            var count = await stream.ReadAsync(buffer);
-            if (count != SeekLimit)
+            if (vorbisChunk.IsFail)
             {
-                return FileTooShortFirmware;
+                return (Error)vorbisChunk;
             }
 
+            var vorbisSpan = await Flac.ReadRangeAsync(stream, (Flac.Range)vorbisChunk);
+
             // find the frontier labs vorbis vendor comment
-            return FindInBufferFirmware(buffer);
+            return FindInBufferFirmware(vorbisSpan);
         }
 
         public static Fin<FirmwareRecord> ParseFirmwareComment(string comment, Range offset)
@@ -132,17 +131,18 @@ namespace MetadataUtility.Audio.Vendors
             long position = stream.Seek(0, SeekOrigin.Begin);
             Debug.Assert(position == 0, $"Expected stream.Seek position to return 0, instead returned {position}");
 
-            var buffer = new byte[SeekLimit];
+            var vorbisChunk = Flac.ScanForChunk(stream, Flac.VorbisCommentBlockNumber);
 
-            var count = stream.Read(buffer);
-            if (count != SeekLimit)
+            if (vorbisChunk.IsFail)
             {
-                return FileTooShortFirmware;
+                return (Error)vorbisChunk;
             }
 
-            Fin<(string Vendor, int LineNumber)> result = Flac.FindVendorString(buffer);
+            var vorbisSpan = Flac.ReadRange(stream, (Flac.Range)vorbisChunk);
 
-            return result.IsSucc && (((string Vendor, int LineNumber))result).Vendor.Equals(Encoding.UTF8.GetString(VendorString));
+            var vendorString = Flac.FindXiphVendorString(vorbisSpan);
+
+            return vendorString.Equals(Encoding.UTF8.GetString(VendorString));
         }
 
         /// <summary>
@@ -323,16 +323,15 @@ namespace MetadataUtility.Audio.Vendors
             return (key, cidInfo);
         }
 
+        [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1008:OpeningParenthesisMustBeSpacedCorrectly", Justification = "Parentheses are valid (line 353).")]
         private static Fin<FirmwareRecord> FindInBufferFirmware(ReadOnlySpan<byte> buffer)
         {
-            var vendorPosition = Flac.FindVendorString(buffer);
+            int offset = 0;
+            int vendorLength = BinaryPrimitives.ReadInt32LittleEndian(buffer);
 
-            if (vendorPosition.IsFail)
-            {
-                return VendorStringNotFound;
-            }
+            offset += 4;
 
-            int offset = (((string Vendor, int Position))vendorPosition).Position;
+            offset += vendorLength;
 
             var commentCount = BinaryPrimitives.ReadUInt32LittleEndian(buffer[offset..]);
             offset += 4;
@@ -340,6 +339,8 @@ namespace MetadataUtility.Audio.Vendors
             // read each comment
             for (int i = 0; i < commentCount; i++)
             {
+                const int VorbisOffset = 46;
+
                 var commentLength = BinaryPrimitives.ReadUInt32LittleEndian(buffer[offset..]);
                 offset += 4;
 
@@ -349,11 +350,13 @@ namespace MetadataUtility.Audio.Vendors
                 int commentEnd = (int)(offset + commentLength);
                 Range range = commentStart..commentEnd;
 
+                Range absoluteRange = (commentStart + VorbisOffset)..(commentEnd + VorbisOffset);
+
                 var comment = Encoding.UTF8.GetString(buffer[range]);
 
                 if (comment.Contains(FirmwareCommentKey))
                 {
-                    return ParseFirmwareComment(comment, range);
+                    return ParseFirmwareComment(comment, absoluteRange);
                 }
 
                 offset += (int)commentLength;

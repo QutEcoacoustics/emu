@@ -32,9 +32,7 @@ namespace MetadataUtility.Audio
 
         public static readonly Error FileTooShortRiff = Error.New("Error reading file: file is not long enough to have RIFF/WAVE header");
         public static readonly Error FileNotWave = Error.New("Error reading file: file is not a RIFF/WAVE file");
-
         public static readonly Error InvalidFileData = Error.New("Error reading file: no valid file data was found");
-
         public static readonly Error InvalidOffset = Error.New("Error reading file: an invalid offset was found");
 
         public enum Format : ushort
