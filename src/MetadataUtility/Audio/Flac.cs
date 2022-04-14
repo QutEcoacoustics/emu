@@ -189,6 +189,13 @@ namespace MetadataUtility.Audio
             return stream.Length > MetadataBlockSize && BinaryHelpers.Read7BitUnsignedBigEndianIgnoringFirstBit(buffer) == 0;
         }
 
+        /// <summary>
+        /// Scans a FLAC file for a specific block.
+        /// Blocks are identified by unique byte.
+        /// </summary>
+        /// <param name="stream">The flac file stream.</param>
+        /// <param name="targetBlockType">The block being searched for.</param>
+        /// <returns>Range indicating the position of the block in the file stream.</returns>
         public static Fin<Range> ScanForChunk(Stream stream, byte targetBlockType)
         {
             const int BlockTypeLength = 1, BlockLengthLength = 3;
@@ -232,6 +239,12 @@ namespace MetadataUtility.Audio
             return ChunkNotFound(targetBlockType);
         }
 
+        /// <summary>
+        /// Reads a given range from a FLAC file stream.
+        /// </summary>
+        /// <param name="stream">The FLAC file stream.</param>
+        /// <param name="range">The range to read.</param>
+        /// <returns>A span containing the contents of the stream in the range.</returns>
         public static ReadOnlySpan<byte> ReadRange(Stream stream, Range range)
         {
             Span<byte> buffer = new byte[range.Length];
@@ -251,6 +264,12 @@ namespace MetadataUtility.Audio
             return buffer;
         }
 
+        /// <summary>
+        /// Reads a given range from a FLAC file stream asynchronously.
+        /// </summary>
+        /// <param name="stream">The FLAC file stream.</param>
+        /// <param name="range">The range to read.</param>
+        /// <returns>A byte array containing the contents of the stream in the range.</returns>
         public static async ValueTask<byte[]> ReadRangeAsync(Stream stream, Range range)
         {
             byte[] buffer = new byte[range.Length];
