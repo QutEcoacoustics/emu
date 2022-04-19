@@ -53,7 +53,7 @@ namespace MetadataUtility.Metadata.FrontierLabs
                         Gain = (string)this.ParseComment(FrontierLabs.MicrophoneGainCommentKey + micNumber, comments),
                     };
 
-                    if (microphone.Type != null && !microphone.Type.Equals(FrontierLabs.UnknownMicrophoneString))
+                    if (microphone.Type != null && !microphone.Type.Equals(FrontierLabs.UnknownValueString))
                     {
                         microphones.Add(microphone);
                     }
@@ -102,6 +102,10 @@ namespace MetadataUtility.Metadata.FrontierLabs
                     };
                 }
             }
+            else
+            {
+                this.logger.LogError("Error extracting comments: {error}", tryComments);
+            }
 
             return ValueTask.FromResult(recording);
         }
@@ -121,7 +125,7 @@ namespace MetadataUtility.Metadata.FrontierLabs
                 // Strip the microphone number if it exists so the comment parser is properly identified
                 key = char.IsDigit(key.Last()) ? key.Substring(0, key.Length() - 1) : key;
 
-                var parsedValue = FrontierLabs.CommentParsers[key](value);
+                var parsedValue = FrontierLabs.CommentParsers[key](value.Trim());
 
                 if (parsedValue.IsSucc)
                 {
@@ -130,7 +134,7 @@ namespace MetadataUtility.Metadata.FrontierLabs
                 else
                 {
                     // If a parsing error occured, log it
-                    this.logger.LogError("Error parsing comment: {error}", parsedValue);
+                    this.logger.LogError("Error parsing comment: {error}", (LanguageExt.Common.Error)parsedValue);
                 }
             }
 

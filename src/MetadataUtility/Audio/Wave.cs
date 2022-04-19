@@ -153,6 +153,17 @@ namespace MetadataUtility.Audio
             return format == Format.Pcm;
         }
 
+        /// <summary>
+        /// Determines whether a given file stream exhibits behaviour of a preallocated header file.
+        /// These files act like wave files, but don't have any meaningful data.
+        /// There are certain traits that identify this problem, not every preallocated header file has them all.
+        /// A scoring system is used to determine whether a file fits the criteria.
+        /// If three or more faults are found, the file is deemed to have the problem.
+        /// </summary>
+        /// <param name="stream">The file stream.</param>
+        /// <returns>
+        /// True for a preallocated header file, false if not.
+        /// </returns>
         public static Fin<bool> IsPreallocatedHeader(Stream stream)
         {
             int faults = 0;
@@ -211,7 +222,7 @@ namespace MetadataUtility.Audio
                 faults++;
             }
 
-            // Return true if at least 3 pre-allocated header indicators are found
+            // Return true if at least 3 pre-allocated header faults are found
             return faults >= 3;
         }
 

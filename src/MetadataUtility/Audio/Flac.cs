@@ -298,9 +298,6 @@ namespace MetadataUtility.Audio
         {
             Dictionary<string, string> comments = new Dictionary<string, string>();
 
-            long position = stream.Seek(0, SeekOrigin.Begin);
-            Debug.Assert(position == 0, $"Expected stream.Seek position to return 0, instead returned {position}");
-
             var vorbisChunk = Flac.ScanForChunk(stream, VorbisCommentBlockNumber);
 
             if (vorbisChunk.IsFail)
@@ -321,7 +318,6 @@ namespace MetadataUtility.Audio
             offset += 4;
 
             uint commentLength;
-            string[] comment;
             string key, value;
 
             // Extract each comment one by one
@@ -334,9 +330,9 @@ namespace MetadataUtility.Audio
                 int commentEnd = (int)(offset + commentLength);
                 offset += (int)commentLength;
 
-                comment = Encoding.UTF8.GetString(vorbisSpan[commentStart..commentEnd]).Split("=");
-                key = comment[0].Trim();
-                value = comment[1].Trim();
+                int keyValueDivder = commentStart + vorbisSpan[commentStart..commentEnd].IndexOf((byte)'=');
+                key = Encoding.ASCII.GetString(vorbisSpan[commentStart..keyValueDivder]);
+                value = Encoding.UTF8.GetString(vorbisSpan[(keyValueDivder + 1)..commentEnd]);
 
                 comments.Add(key, value);
             }

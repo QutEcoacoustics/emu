@@ -29,7 +29,7 @@ namespace MetadataUtility.Audio.Vendors
         public const string MicrophoneUIDCommentKey = "MicrophoneUid";
         public const string MicrophoneBuildDateCommentKey = "MicrophoneBuildDate";
         public const string MicrophoneGainCommentKey = "ChannelGain";
-        public const string UnknownMicrophoneString = "unknown";
+        public const string UnknownValueString = "unknown";
         public const string LongitudeKey = "Longitude";
         public const string LatitudeKey = "Latitude";
         public const string MicrophonesKey = "Microphones";
@@ -236,14 +236,14 @@ namespace MetadataUtility.Audio.Vendors
             try
             {
                 // Only keep characters relevant to coordinates
-                value = new string(value.Where(c => char.IsDigit(c) || (new char[] { '+', '-', '.' }).Contains(c)).ToArray());
+                var parsedValue = new string(value.Where(c => char.IsDigit(c) || (new char[] { '+', '-', '.' }).Contains(c)).ToArray());
 
                 // Find index dividing lat and lon
-                int latLonDividingIndex = value.IndexOfAny(new char[] { '+', '-' }, 1);
+                int latLonDividingIndex = parsedValue.IndexOfAny(new char[] { '+', '-' }, 1);
 
                 // Parse lat and lon
-                double latitude = double.Parse(value.Substring(0, latLonDividingIndex));
-                double longitude = double.Parse(value.Substring(latLonDividingIndex));
+                double latitude = double.Parse(parsedValue.Substring(0, latLonDividingIndex));
+                double longitude = double.Parse(parsedValue.Substring(latLonDividingIndex));
 
                 location[LatitudeKey] = latitude;
                 location[LongitudeKey] = longitude;
