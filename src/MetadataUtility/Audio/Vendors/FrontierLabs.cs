@@ -35,11 +35,24 @@ namespace MetadataUtility.Audio.Vendors
         public const string MicrophonesKey = "Microphones";
         public const string MicrophoneKey = "Microphone";
         public const int DefaultFileStubLength = 44;
-        public const int SeekLimit = 1024;
         public static readonly string[] DateFormats = { "yyyy'-'MM'-'dd'T'HH':'mm':'sso<+HHmm>", "yyyy'-'MM'-'dd'T'HH':'mm':'sso<+HH:mm>" };
         public static readonly byte[] VendorString = Encoding.ASCII.GetBytes("Frontier Labs");
-        public static readonly Error VendorStringNotFound = Error.New("Error reading file: could not find vendor string Frontier Labs in file header");
-        public static readonly Error FileTooShortFirmware = Error.New("Error reading file: file is not long enough to have a firmware comment");
+        public static readonly Dictionary<string, Func<string, Fin<object>>> CommentParsers = new Dictionary<string, Func<string, Fin<object>>>
+        {
+            { FirmwareCommentKey, FirmwareParser },
+            { RecordingStartCommentKey, DateParser },
+            { RecordingEndCommentKey, DateParser },
+            { BatteryLevelCommentKey, GenericParser },
+            { LocationCommentKey, LocationParser },
+            { LastSyncCommentKey, DateParser },
+            { SensorIdCommentKey, GenericParser },
+            { SdCidCommentKey, SdCidParser },
+            { MicrophoneTypeCommentKey, GenericParser },
+            { MicrophoneUIDCommentKey, GenericParser },
+            { MicrophoneBuildDateCommentKey, GenericParser },
+            { MicrophoneGainCommentKey, GenericParser },
+        };
+
         public static readonly Error FirmwareNotFound = Error.New("Frontier Labs firmware comment string not found");
         public static readonly Func<string, Error> FirmwareVersionInvalid = x => Error.New($"Frontier Labs firmware version `{x}` is invalid");
         public static readonly Func<string, Error> DateInvalid = x => Error.New($"Date `{x}` is invalid");
@@ -63,7 +76,7 @@ namespace MetadataUtility.Audio.Vendors
 
         public static Fin<FirmwareRecord> ParseFirmwareComment(string comment, Range offset)
         {
-            var firmware = (((string Key, object Value))FirmwareParser(FirmwareCommentKey, comment[(FirmwareCommentKey.Length + 1)..])).Value;
+            var firmware = FirmwareParser(comment[(FirmwareCommentKey.Length + 1)..]);
 
             var rest = comment[(comment.IndexOf((string)firmware) + ((string)firmware).Length)..].Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
@@ -146,92 +159,19 @@ namespace MetadataUtility.Audio.Vendors
         }
 
         /// <summary>
-        /// Parses vorbis comments into recording metadata.
+        /// Generic Frontier Labs vorbis comment parser.
         /// </summary>
-        /// <param name="comments">The comments extracted from a FLAC file.</param>
-        /// <returns>Dictionary representing all of the parsed metadata.</returns>
-        public static Fin<Dictionary<string, object>> ParseComments(Dictionary<string, string> comments)
-        {
-            Dictionary<string, Func<string, string, Fin<(string, object)>>> commentParsers = new Dictionary<string, Func<string, string, Fin<(string, object)>>>
-            {
-                { FirmwareCommentKey, FirmwareParser },
-                { RecordingStartCommentKey, DateParser },
-                { RecordingEndCommentKey, DateParser },
-                { BatteryLevelCommentKey, GenericParser },
-                { LocationCommentKey, LocationParser },
-                { LastSyncCommentKey, DateParser },
-                { SensorIdCommentKey, GenericParser },
-                { SdCidCommentKey, SdCidParser },
-                { MicrophoneTypeCommentKey, GenericParser },
-                { MicrophoneUIDCommentKey, GenericParser },
-                { MicrophoneBuildDateCommentKey, GenericParser },
-                { MicrophoneGainCommentKey, GenericParser },
-            };
+        /// <param name="value">The value to parse.</param>
+        /// <returns>The parsed value, in this case no parsing is really required.
+        /// The encoded value itself is what we're looking for.</returns>
+        public static Fin<object> GenericParser(string value) => value;
 
-            string[] microphoneKeys =
-            {
-                MicrophoneTypeCommentKey,
-                MicrophoneUIDCommentKey,
-                MicrophoneBuildDateCommentKey,
-                MicrophoneGainCommentKey,
-            };
-
-            Dictionary<string, object> parsedResults = new Dictionary<string, object>();
-
-            foreach (var comment in comments)
-            {
-                foreach (var commentParser in commentParsers)
-                {
-                    // Extract each comment using its corresponding parser function
-                    if (comment.Key.Contains(commentParser.Key))
-                    {
-                        var result = commentParser.Value(commentParser.Key, comment.Value);
-
-                        if (result.IsSucc)
-                        {
-                            (string Key, object Value) parsedResult = ((string, object))result;
-
-                            // Parse microphone metadata, making sure to correlate to the correct microphone
-                            if (microphoneKeys.Contains(commentParser.Key))
-                            {
-                                int micNumber = int.Parse(comment.Key.Substring(commentParser.Key.Length(), 1));
-
-                                // If no microphone data has been added, create a place in the dictionary for it
-                                if (!parsedResults.ContainsKey(MicrophonesKey))
-                                {
-                                    parsedResults[MicrophonesKey] = new Dictionary<string, Dictionary<string, object>>();
-                                }
-
-                                Dictionary<string, Dictionary<string, object>> microphones = (Dictionary<string, Dictionary<string, object>>)parsedResults[MicrophonesKey];
-
-                                // If no data on this specific microphone has been added, create a place in the dictionary for it
-                                if (!microphones.ContainsKey(MicrophoneKey + micNumber))
-                                {
-                                    Dictionary<string, object> microphoneInfo = new Dictionary<string, object>() { { parsedResult.Key, parsedResult.Value } };
-                                    microphones[MicrophoneKey + micNumber] = microphoneInfo;
-                                }
-                                else
-                                {
-                                    // Update the microphone with new information
-                                    microphones[MicrophoneKey + micNumber][parsedResult.Key] = parsedResult.Value;
-                                }
-
-                                break;
-                            }
-
-                            // Update dictionary with new metadata
-                            parsedResults[parsedResult.Key] = parsedResult.Value;
-                        }
-                    }
-                }
-            }
-
-            return parsedResults;
-        }
-
-        public static Fin<(string Key, object Value)> GenericParser(string key, string value) => (key, value);
-
-        public static Fin<(string Key, object Value)> FirmwareParser(string key, string value)
+        /// <summary>
+        /// Frontier Labs vorbis comment firmware parser.
+        /// </summary>
+        /// <param name="value">The value to parse.</param>
+        /// <returns>The parsed firmware.</returns>
+        public static Fin<object> FirmwareParser(string value)
         {
             var segments = value.Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
@@ -251,10 +191,15 @@ namespace MetadataUtility.Audio.Vendors
             // trim the leading "V" if present
             firmware = firmware.StartsWith("V") ? firmware[1..] : firmware;
 
-            return (key, firmware);
+            return firmware;
         }
 
-        public static Fin<(string Key, object Value)> DateParser(string key, string value)
+        /// <summary>
+        /// Frontier Labs vorbis comment date parser.
+        /// </summary>
+        /// <param name="value">The value to parse.</param>
+        /// <returns>The parsed date.</returns>
+        public static Fin<object> DateParser(string value)
         {
             OffsetDateTime? date = null;
 
@@ -276,10 +221,15 @@ namespace MetadataUtility.Audio.Vendors
                 return DateInvalid(value);
             }
 
-            return (key, date);
+            return date;
         }
 
-        public static Fin<(string Key, object Value)> LocationParser(string key, string value)
+        /// <summary>
+        /// Frontier Labs vorbis comment location parser.
+        /// </summary>
+        /// <param name="value">The value to parse.</param>
+        /// <returns>A dictionary containing the coordinates.</returns>
+        public static Fin<object> LocationParser(string value)
         {
             Dictionary<string, double> location = new Dictionary<string, double>();
 
@@ -303,10 +253,15 @@ namespace MetadataUtility.Audio.Vendors
                 return LocationInvalid(value);
             }
 
-            return (key, location);
+            return location;
         }
 
-        public static Fin<(string Key, object Value)> SdCidParser(string key, string value)
+        /// <summary>
+        /// Frontier Labs vorbis comment SD CID parser.
+        /// </summary>
+        /// <param name="value">The value to parse.</param>
+        /// <returns>A dictionary containing all CID values.</returns>
+        public static Fin<object> SdCidParser(string value)
         {
             Models.SdCardCid cid = new Models.SdCardCid(value);
             Dictionary<string, object> cidInfo;
@@ -320,10 +275,10 @@ namespace MetadataUtility.Audio.Vendors
                 return CIDInvalid(value);
             }
 
-            return (key, cidInfo);
+            return cidInfo;
         }
 
-        [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1008:OpeningParenthesisMustBeSpacedCorrectly", Justification = "Parentheses are valid (line 353).")]
+        [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1008:OpeningParenthesisMustBeSpacedCorrectly", Justification = "Parentheses are valid when calculating absolute range.")]
         private static Fin<FirmwareRecord> FindInBufferFirmware(ReadOnlySpan<byte> buffer)
         {
             int offset = 0;
