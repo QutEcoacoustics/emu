@@ -31,10 +31,10 @@ namespace MetadataUtility.Audio
         public static Fin<bool> IsWildlifeAcousticsWaveFile(Stream stream)
         {
             //Get the "wamd" chunk
-            var wamdChunk = FindWamdChunk(stream);
+            var wamdChunk = ReadWamdChunk(stream);
 
             //If a "wamd" chunk is present, then the file is a Wildlife Acoustics file
-            if (wamdChunk.IsSucc)
+            if (!wamdChunk.IsEmpty)
             {
                 return true;
             }
@@ -42,79 +42,14 @@ namespace MetadataUtility.Audio
             return InvalidFileData;
         }
 
-        public static Fin<Range> FindRiffChunk(Stream stream)
+        public static ReadOnlySpan<byte> ReadWamdChunk(Stream stream)
         {
-            if (stream.Length < MinimumRiffHeaderLength)
-            {
-                return FileTooShortRiff;
-            }
+            var riffChunk = Wave.FindRiffChunk(stream);
+            var waveChunk = Wave.FindWaveChunk(stream, (Wave.Range)riffChunk);
 
-            stream.Position = 0;
-            Span<byte> buffer = stackalloc byte[MinimumRiffHeaderLength];
-            var offset = stream.Read(buffer);
+            Wave.Range wamdRange = (Wave.Range)ScanForChunk(stream, (Wave.Range)waveChunk, WamdChunkId);
 
-            if (offset != MinimumRiffHeaderLength)
-            {
-                return FileTooShortRiff;
-            }
-
-            if (!buffer.Slice(0, 4).SequenceEqual(RiffMagicNumber))
-            {
-                return InvalidFileData;
-            }
-
-            var length = BinaryPrimitives.ReadInt32LittleEndian(buffer.Slice(4));
-
-            return new Range(offset, offset + length);
-        }
-
-        public static Fin<Range> FindWaveChunk(Stream stream, Range riffChunk)
-        {
-            if (riffChunk.Length < WaveMagicNumber.Length)
-            {
-                return FileTooShortRiff;
-            }
-
-            var offset = riffChunk.Start;
-            var newOffset = stream.Seek(offset, SeekOrigin.Begin);
-            if (newOffset != offset)
-            {
-                return InvalidOffset;
-            }
-
-            // read the first chunk type
-            Span<byte> buffer = stackalloc byte[WaveMagicNumber.Length];
-
-            var read = stream.Read(buffer);
-
-            if (read != WaveMagicNumber.Length)
-            {
-                return FileTooShortRiff;
-            }
-
-            // advance our offset counter by the 4 bytes we just read
-            offset += read;
-
-            // check whether we found our target chunk or not
-            if (!WaveMagicNumber.AsSpan().SequenceEqual(buffer))
-            {
-                // cannot process a non wave file
-                return Error.New("Cannot process a non-WAVE RIFF file.");
-            }
-
-            return new Range(offset, riffChunk.End);
-        }
-
-        public static Fin<Range> FindWamdChunk(Stream stream)
-        {
-            var riffChunk = FindRiffChunk(stream);
-            var waveChunk = FindWaveChunk(stream, (Wamd.Range)riffChunk);
-
-            return ScanForChunk(stream, (Wamd.Range)waveChunk, WamdChunkId);
-        }
-
-        public static ReadOnlySpan<byte> ReadWamdChunk(Stream stream, Range wamdRange)
-        {
+            //Go from range to Span<byte>
             Span<byte> buffer = new byte[wamdRange.Length];
 
             if (stream.Seek(wamdRange.Start, SeekOrigin.Begin) != wamdRange.Start)
@@ -148,6 +83,21 @@ namespace MetadataUtility.Audio
             return id;
         }
 
+        public static string GetDeviceModel(ReadOnlySpan<byte> wamdChunk)
+        {
+            const int lengthOffset = 2;
+            const int dataOffset = 6;
+            string deviceModel = "";
+            uint length = BinaryPrimitives.ReadUInt32LittleEndian(wamdChunk[lengthOffset..]);
+
+            for (int i = 0; i < length; i++)
+            {
+                throw new NotImplementedException();
+            }
+
+            return deviceModel;
+        }
+
         private static Error FileTooShort(ReadOnlySpan<byte> chunkName) =>
             Error.New($"Error reading file: file is not long enough to have a {Encoding.ASCII.GetString(chunkName)} header");
 
@@ -164,7 +114,7 @@ namespace MetadataUtility.Audio
         /// <param name="container">The subset of the stream to read from.</param>
         /// <param name="targetChunkId">The target chunk to look for.</param>
         /// <returns>An error if the chunk was not found, or a Range of the target chunk if it was found.</returns>
-        private static Fin<Range> ScanForChunk(Stream stream, Range container, ReadOnlySpan<byte> targetChunkId)
+        private static Fin<Wave.Range> ScanForChunk(Stream stream, Wave.Range container, ReadOnlySpan<byte> targetChunkId)
         {
             const int ChunkIdLength = 4;
             const int ChunkLengthLength = 4;
@@ -210,7 +160,7 @@ namespace MetadataUtility.Audio
                 if (targetChunkId.SequenceEqual(chunkId))
                 {
                     // success, stop here and return the range of the chunk
-                    return new Range(offset, offset + length);
+                    return new Wave.Range(offset, offset + length);
                 }
 
                 // advance our offset counter by the length of the chunk to look for the next sibling

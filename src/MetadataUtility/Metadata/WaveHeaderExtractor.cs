@@ -61,8 +61,9 @@ namespace MetadataUtility.Metadata.WildlifeAcoustics.SM4BAT
                 int wamdOffset = 0;
 
                 //Getting the "wamd" chunk
-                var wamdChunkRange = Wamd.FindWamdChunk(stream);
-                var wamdChunk = Wamd.ReadWamdChunk(stream, (Wamd.Range)wamdChunkRange);
+                var wamdChunk = Wamd.ReadWamdChunk(stream);
+
+                //var wamdChunk = Wamd.ReadWamdChunk(stream, (Wamd.Range)wamdChunkRange);
 
                 //Getting METATAG_VERSION
                 version = Wamd.GetVersion(wamdChunk);
@@ -70,11 +71,13 @@ namespace MetadataUtility.Metadata.WildlifeAcoustics.SM4BAT
                 //If METATAG_VERSION is not 1, the file should not be analyzed
                 if (version == 1)
                 {
-                    //Advance to the start of the next subchunk 
+                    //Advance to the start of the next subchunk
                     wamdOffset += 8;
 
                     while (wamdOffset < wamdChunk.Length)
                     {
+                        throw new NotImplementedException();
+
                         subchunkId = Wamd.GetSubchunkId(wamdChunk);
 
                         switch (subchunkId)
@@ -94,7 +97,6 @@ namespace MetadataUtility.Metadata.WildlifeAcoustics.SM4BAT
                                 }
                         }
                     }
-
                 }
             }
 
