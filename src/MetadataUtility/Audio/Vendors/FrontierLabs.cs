@@ -71,7 +71,7 @@ namespace MetadataUtility.Audio.Vendors
             var vorbisSpan = await Flac.ReadRangeAsync(stream, (Flac.Range)vorbisChunk);
 
             // find the frontier labs vorbis vendor comment
-            return FindInBufferFirmware(vorbisSpan);
+            return FindInBufferFirmware(vorbisSpan, ((Flac.Range)vorbisChunk).Start);
         }
 
         public static Fin<FirmwareRecord> ParseFirmwareComment(string comment, Range offset)
@@ -279,7 +279,7 @@ namespace MetadataUtility.Audio.Vendors
         }
 
         [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1008:OpeningParenthesisMustBeSpacedCorrectly", Justification = "Parentheses are valid when calculating absolute range.")]
-        private static Fin<FirmwareRecord> FindInBufferFirmware(ReadOnlySpan<byte> buffer)
+        private static Fin<FirmwareRecord> FindInBufferFirmware(ReadOnlySpan<byte> buffer, long absoluteOffset)
         {
             int offset = 0;
             int vendorLength = BinaryPrimitives.ReadInt32LittleEndian(buffer);
@@ -294,8 +294,6 @@ namespace MetadataUtility.Audio.Vendors
             // read each comment
             for (int i = 0; i < commentCount; i++)
             {
-                const int VorbisOffset = 46;
-
                 var commentLength = BinaryPrimitives.ReadUInt32LittleEndian(buffer[offset..]);
                 offset += 4;
 
@@ -303,11 +301,10 @@ namespace MetadataUtility.Audio.Vendors
 
                 // dangerous cast: but we're reading a 4096 size buffer, we'll never hit the overflow.
                 int commentEnd = (int)(offset + commentLength);
-                Range range = commentStart..commentEnd;
 
-                Range absoluteRange = (commentStart + VorbisOffset)..(commentEnd + VorbisOffset);
+                Range absoluteRange = (commentStart + (int)absoluteOffset)..(commentEnd + (int)absoluteOffset);
 
-                var comment = Encoding.UTF8.GetString(buffer[range]);
+                var comment = Encoding.UTF8.GetString(buffer[commentStart..commentEnd]);
 
                 if (comment.Contains(FirmwareCommentKey))
                 {
