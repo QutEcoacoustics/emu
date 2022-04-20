@@ -53,7 +53,7 @@ namespace MetadataUtility.Metadata.FrontierLabs
                         Gain = (string)this.ParseComment(FrontierLabs.MicrophoneGainCommentKey + micNumber, comments),
                     };
 
-                    if (microphone.Type != null && !microphone.Type.Equals(FrontierLabs.UnknownValueString))
+                    if (microphone.Type != null)
                     {
                         microphones.Add(microphone);
                     }
@@ -104,7 +104,7 @@ namespace MetadataUtility.Metadata.FrontierLabs
             }
             else
             {
-                this.logger.LogError("Error extracting comments: {error}", tryComments);
+                this.logger.LogError("Error extracting comments: {error}", (LanguageExt.Common.Error)tryComments);
             }
 
             return ValueTask.FromResult(recording);
@@ -118,7 +118,7 @@ namespace MetadataUtility.Metadata.FrontierLabs
         /// <returns>The parsed comment, or null if something went wrong.</returns>
         public Fin<object>? ParseComment(string key, Dictionary<string, string> comments)
         {
-            if (comments.ContainsKey(key))
+            if (comments.ContainsKey(key) && !comments[key].Contains(FrontierLabs.UnknownValueString))
             {
                 string value = comments[key];
 
