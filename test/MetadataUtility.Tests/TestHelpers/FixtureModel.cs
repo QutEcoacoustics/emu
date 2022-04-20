@@ -58,6 +58,8 @@ namespace MetadataUtility.Tests.TestHelpers
 
         public string[] Process { get; set; }
 
+        public string[] CanProcess { get; set; }
+
         public MemoryCard MemoryCard { get; set; }
 
         public Sensor Sensor { get; set; }

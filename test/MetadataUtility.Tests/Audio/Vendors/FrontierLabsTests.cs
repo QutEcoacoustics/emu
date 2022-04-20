@@ -53,7 +53,7 @@ namespace MetadataUtility.Tests.Audio.Vendors
         {
             bool hasComment = FrontierLabs.HasFrontierLabsVorbisComment(model.ToTargetInformation(this.RealFileSystem).FileStream).IfFail(false);
 
-            hasComment.Should().Be(model.Process.Contains("FlacCommentExtractor"));
+            hasComment.Should().Be(model.CanProcess.Contains("FlacCommentExtractor"));
         }
     }
 }

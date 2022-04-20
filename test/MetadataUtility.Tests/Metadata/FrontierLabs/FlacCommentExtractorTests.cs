@@ -32,7 +32,7 @@ namespace MetadataUtility.Tests.Metadata
             var result = await this.subject.CanProcessAsync(model.ToTargetInformation(this.RealFileSystem));
 
             // we can process any file that is Frontier Labs and FLAC
-            var expected = model.Process.Contains("FlacCommentExtractor");
+            var expected = model.CanProcess.Contains("FlacCommentExtractor");
             Assert.Equal(expected, result);
         }
 
