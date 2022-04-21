@@ -1,6 +1,6 @@
 # Provenance
 
-These files was sourced from the Canadain Wildlife Service under a
+These files was sourced from the Canadian Wildlife Service under a
 Creative Commons By Attribution v4.0 license.
 
 Site: Owls Head Federal Lands

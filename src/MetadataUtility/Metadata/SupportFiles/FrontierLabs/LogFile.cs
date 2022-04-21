@@ -148,7 +148,7 @@ namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
                             MemoryCard memoryCard = new MemoryCard() with
                             {
                                 FormatType = reader.ReadLine()?.Split().Last(),
-                                ManufacturerID = uint.Parse(reader.ReadLine()!.Split().Last()),
+                                ManufacturerID = byte.Parse(reader.ReadLine()!.Split().Last()),
                                 OEMID = reader.ReadLine()?.Split().Last(),
                                 ProductName = reader.ReadLine()?.Split().Last(),
                                 ProductRevision = float.Parse(reader.ReadLine()!.Split().Last()),
@@ -158,8 +158,8 @@ namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
                                 Capacity = uint.Parse(reader.ReadLine()!.Split().Last()),
                                 WrCurrentVmin = uint.Parse(reader.ReadLine()!.Split().Last()),
                                 WrCurrentVmax = uint.Parse(reader.ReadLine()!.Split().Last()),
-                                WriteB1Size = uint.Parse(reader.ReadLine()!.Split().Last()),
-                                EraseB1Size = uint.Parse(reader.ReadLine()!.Split().Last()),
+                                WriteBlSize = uint.Parse(reader.ReadLine()!.Split().Last()),
+                                EraseBlSize = uint.Parse(reader.ReadLine()!.Split().Last()),
                             };
 
                             this.MemoryCardLogs.Add((memoryCard, i));

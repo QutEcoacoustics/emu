@@ -32,9 +32,7 @@ namespace MetadataUtility.Audio
 
         public static readonly Error FileTooShortRiff = Error.New("Error reading file: file is not long enough to have RIFF/WAVE header");
         public static readonly Error FileNotWave = Error.New("Error reading file: file is not a RIFF/WAVE file");
-
         public static readonly Error InvalidFileData = Error.New("Error reading file: no valid file data was found");
-
         public static readonly Error InvalidOffset = Error.New("Error reading file: an invalid offset was found");
 
         public enum Format : ushort
@@ -153,6 +151,79 @@ namespace MetadataUtility.Audio
             var format = Wave.GetAudioFormat(formatSpan);
 
             return format == Format.Pcm;
+        }
+
+        /// <summary>
+        /// Determines whether a given file stream exhibits behaviour of a preallocated header file.
+        /// These files act like wave files, but don't have any meaningful data.
+        /// There are certain traits that identify this problem, not every preallocated header file has them all.
+        /// A scoring system is used to determine whether a file fits the criteria.
+        /// If three or more faults are found, the file is deemed to have the problem.
+        /// </summary>
+        /// <param name="stream">The file stream.</param>
+        /// <returns>
+        /// True for a preallocated header file, false if not.
+        /// </returns>
+        public static Fin<bool> IsPreallocatedHeader(Stream stream)
+        {
+            int faults = 0;
+
+            var riffChunk = FindRiffChunk(stream);
+
+            // If the riff chunk size is incorrect, increment faults
+            if (((Range)riffChunk).End != stream.Length)
+            {
+                faults++;
+            }
+
+            // If there are less than 200 bytes in the file, increment faults
+            if (stream.Length < 200)
+            {
+                faults++;
+            }
+
+            // If there is a flac extension, increment faults
+            if (((FileStream)stream).Name.Split(".").Last().Equals("flac"))
+            {
+                faults++;
+            }
+
+            var waveChunk = riffChunk.Bind(r => FindWaveChunk(stream, r));
+
+            var dataChunk = waveChunk.Bind(w => FindDataChunk(stream, w));
+
+            long dataStart = ((Range)dataChunk).Start;
+            long dataEnd = ((Range)dataChunk).End;
+
+            // If the data is less than 4 bytes or the first 4 bytes are 0, increment faults
+            if (dataEnd - dataStart < 4)
+            {
+                faults++;
+            }
+            else
+            {
+                Span<byte> dataBuffer = stackalloc byte[4];
+                long position = stream.Seek(dataStart, SeekOrigin.Begin);
+
+                if (position == dataStart)
+                {
+                    stream.Read(dataBuffer);
+
+                    if (BinaryPrimitives.ReadInt32BigEndian(dataBuffer) == 0)
+                    {
+                        faults++;
+                    }
+                }
+            }
+
+            // If the data section is longer than the stream, increment faults
+            if (dataEnd > stream.Length)
+            {
+                faults++;
+            }
+
+            // Return true if at least 3 pre-allocated header faults are found
+            return faults >= 3;
         }
 
         public static uint GetSampleRate(ReadOnlySpan<byte> formatChunk)

@@ -71,17 +71,32 @@ namespace MetadataUtility.Metadata.FrontierLabs
             {
                 recording = recording with
                 {
-                    MemoryCard = memoryCard,
+                    MemoryCard = (recording.MemoryCard ?? new MemoryCard()) with
+                    {
+                        FormatType = recording.MemoryCard?.FormatType ?? memoryCard.FormatType,
+                        ManufacturerID = recording.MemoryCard?.ManufacturerID ?? memoryCard.ManufacturerID,
+                        OEMID = recording.MemoryCard?.OEMID ?? memoryCard.OEMID,
+                        ProductName = recording.MemoryCard?.ProductName ?? memoryCard.ProductName,
+                        ProductRevision = recording.MemoryCard?.ProductRevision ?? memoryCard.ProductRevision,
+                        SerialNumber = recording.MemoryCard?.SerialNumber ?? memoryCard.SerialNumber,
+                        ManufactureDate = recording.MemoryCard?.ManufactureDate ?? memoryCard.ManufactureDate,
+                        Speed = recording.MemoryCard?.Speed ?? memoryCard.Speed,
+                        Capacity = recording.MemoryCard?.Capacity ?? memoryCard.Capacity,
+                        WrCurrentVmin = recording.MemoryCard?.WrCurrentVmin ?? memoryCard.WrCurrentVmin,
+                        WrCurrentVmax = recording.MemoryCard?.WrCurrentVmax ?? memoryCard.WrCurrentVmax,
+                        WriteBlSize = recording.MemoryCard?.WriteBlSize ?? memoryCard.WriteBlSize,
+                        EraseBlSize = recording.MemoryCard?.EraseBlSize ?? memoryCard.EraseBlSize,
+                    },
                 };
             }
 
             recording = recording with
             {
-                Sensor = recording.Sensor ?? new Sensor() with
+                Sensor = (recording.Sensor ?? new Sensor()) with
                 {
-                    Firmware = sensor.Firmware,
-                    SerialNumber = sensor.SerialNumber,
-                    PowerSource = sensor.PowerSource,
+                    Firmware = recording.Sensor?.Firmware ?? sensor.Firmware,
+                    SerialNumber = recording.Sensor?.SerialNumber ?? sensor.SerialNumber,
+                    PowerSource = recording.Sensor?.PowerSource ?? sensor.PowerSource,
                 },
             };
 

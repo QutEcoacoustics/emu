@@ -5,64 +5,82 @@
 namespace MetadataUtility.Audio.Vendors
 {
     using System.Buffers.Binary;
+    using System.Diagnostics;
+    using System.Diagnostics.CodeAnalysis;
     using System.Text;
     using LanguageExt;
     using LanguageExt.Common;
+    using MetadataUtility.Audio;
     using MetadataUtility.Extensions.System;
+    using NodaTime;
+    using NodaTime.Text;
 
     public static class FrontierLabs
     {
         public const string FirmwareCommentKey = "SensorFirmwareVersion";
+        public const string RecordingStartCommentKey = "RecordingStart";
+        public const string BatteryLevelCommentKey = "BatteryLevel";
+        public const string LocationCommentKey = "SensorLocation";
+        public const string LastSyncCommentKey = "LastTimeSync";
+        public const string SensorIdCommentKey = "SensorUid";
+        public const string RecordingEndCommentKey = "RecordingEnd";
+        public const string SdCidCommentKey = "SdCardCid";
+        public const string MicrophoneTypeCommentKey = "MicrophoneType";
+        public const string MicrophoneUIDCommentKey = "MicrophoneUid";
+        public const string MicrophoneBuildDateCommentKey = "MicrophoneBuildDate";
+        public const string MicrophoneGainCommentKey = "ChannelGain";
+        public const string UnknownValueString = "unknown";
+        public const string LongitudeKey = "Longitude";
+        public const string LatitudeKey = "Latitude";
+        public const string MicrophonesKey = "Microphones";
+        public const string MicrophoneKey = "Microphone";
         public const int DefaultFileStubLength = 44;
-
+        public static readonly string[] DateFormats = { "yyyy'-'MM'-'dd'T'HH':'mm':'sso<+HHmm>", "yyyy'-'MM'-'dd'T'HH':'mm':'sso<+HH:mm>" };
         public static readonly byte[] VendorString = Encoding.ASCII.GetBytes("Frontier Labs");
-        public static readonly Error VendorStringNotFound = Error.New("Error reading file: could not find vendor string Frontier Labs in file header");
+        public static readonly Dictionary<string, Func<string, Fin<object>>> CommentParsers = new Dictionary<string, Func<string, Fin<object>>>
+        {
+            { FirmwareCommentKey, FirmwareParser },
+            { RecordingStartCommentKey, DateParser },
+            { RecordingEndCommentKey, DateParser },
+            { BatteryLevelCommentKey, GenericParser },
+            { LocationCommentKey, LocationParser },
+            { LastSyncCommentKey, DateParser },
+            { SensorIdCommentKey, GenericParser },
+            { SdCidCommentKey, SdCidParser },
+            { MicrophoneTypeCommentKey, GenericParser },
+            { MicrophoneUIDCommentKey, GenericParser },
+            { MicrophoneBuildDateCommentKey, GenericParser },
+            { MicrophoneGainCommentKey, GenericParser },
+        };
 
-        public static readonly Error FileTooShortFirmware = Error.New("Error reading file: file is not long enough to have a firmware comment");
         public static readonly Error FirmwareNotFound = Error.New("Frontier Labs firmware comment string not found");
-        public static readonly Func<string, Error> FirmwareVersionInvalid = x => Error.New($"Frontier Labs firmware version `{x}` is invlaid");
+        public static readonly Func<string, Error> FirmwareVersionInvalid = x => Error.New($"Frontier Labs firmware version `{x}` is invalid");
+        public static readonly Func<string, Error> DateInvalid = x => Error.New($"Date `{x}` is invalid");
+        public static readonly Func<string, Error> LocationInvalid = x => Error.New($"Location `{x}` is invalid");
+        public static readonly Func<string, Error> CIDInvalid = x => Error.New($"CID `{x}` is invalid");
 
         public static async ValueTask<Fin<FirmwareRecord>> ReadFirmwareAsync(FileStream stream)
         {
-            const int SeekLimit = 1024;
+            var vorbisChunk = Flac.ScanForChunk(stream, Flac.VorbisCommentBlockNumber);
 
-            stream.Seek(0, SeekOrigin.Begin);
-
-            var buffer = new byte[SeekLimit];
-
-            var count = await stream.ReadAsync(buffer);
-            if (count != SeekLimit)
+            if (vorbisChunk.IsFail)
             {
-                return FileTooShortFirmware;
+                return (Error)vorbisChunk;
             }
 
+            var vorbisSpan = await Flac.ReadRangeAsync(stream, (Flac.Range)vorbisChunk);
+
             // find the frontier labs vorbis vendor comment
-            return FindInBufferFirmware(buffer);
+            return FindInBufferFirmware(vorbisSpan, ((Flac.Range)vorbisChunk).Start);
         }
 
         public static Fin<FirmwareRecord> ParseFirmwareComment(string comment, Range offset)
         {
-            // remove leading comment key and '=', then split by space
-            var segments = comment[(FirmwareCommentKey.Length + 1)..].Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            var firmware = FirmwareParser(comment[(FirmwareCommentKey.Length + 1)..]);
 
-            if (segments.Length < 1)
-            {
-                return FirmwareVersionInvalid(comment);
-            }
+            var rest = comment[(comment.IndexOf((string)firmware) + ((string)firmware).Length)..].Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
-            var first = segments[0];
-            var rest = segments[1..];
-            if (first.Contains("Firmware:"))
-            {
-                // v3.08 has "Firmware: " prefix
-                first = segments[1];
-                rest = segments[2..];
-            }
-
-            // trim the leading "V" if present
-            first = first.StartsWith("V") ? first[1..] : first;
-
-            if (decimal.TryParse(first, out var version))
+            if (decimal.TryParse((string)firmware, out var version))
             {
                 return new FirmwareRecord(comment, version, offset, rest);
             }
@@ -116,18 +134,159 @@ namespace MetadataUtility.Audio.Vendors
             }
         }
 
-        private static Fin<FirmwareRecord> FindInBufferFirmware(ReadOnlySpan<byte> buffer)
+        /// <summary>
+        /// Determines whether a FLAC file has a frontier labs vorbis comment block.
+        /// </summary>
+        /// <param name="stream">The file stream.</param>
+        /// <returns>Boolean indicating whether the file has the vorbis comment block.</returns>
+        public static Fin<bool> HasFrontierLabsVorbisComment(Stream stream)
         {
-            // beginning of file
-            int offset = 0;
-            var index = buffer.IndexOf(VendorString);
-            if (index < 0)
+            long position = stream.Seek(0, SeekOrigin.Begin);
+            Debug.Assert(position == 0, $"Expected stream.Seek position to return 0, instead returned {position}");
+
+            var vorbisChunk = Flac.ScanForChunk(stream, Flac.VorbisCommentBlockNumber);
+
+            if (vorbisChunk.IsFail)
             {
-                return VendorStringNotFound;
+                return (Error)vorbisChunk;
             }
 
-            // next read the number of comments
-            offset += index + VendorString.Length;
+            var vorbisSpan = Flac.ReadRange(stream, (Flac.Range)vorbisChunk);
+
+            var vendorString = Flac.FindXiphVendorString(vorbisSpan);
+
+            return vendorString.Equals(Encoding.UTF8.GetString(VendorString));
+        }
+
+        /// <summary>
+        /// Generic Frontier Labs vorbis comment parser.
+        /// </summary>
+        /// <param name="value">The value to parse.</param>
+        /// <returns>The parsed value, in this case no parsing is really required.
+        /// The encoded value itself is what we're looking for.</returns>
+        public static Fin<object> GenericParser(string value) => value;
+
+        /// <summary>
+        /// Frontier Labs vorbis comment firmware parser.
+        /// </summary>
+        /// <param name="value">The value to parse.</param>
+        /// <returns>The parsed firmware.</returns>
+        public static Fin<object> FirmwareParser(string value)
+        {
+            var segments = value.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+            if (segments.Length < 1)
+            {
+                return FirmwareVersionInvalid(value);
+            }
+
+            string firmware = segments[0];
+
+            // v3.08 has "Firmware: " prefix
+            if (firmware.Contains("Firmware:"))
+            {
+                firmware = segments[1];
+            }
+
+            // trim the leading "V" if present
+            firmware = firmware.StartsWith("V") ? firmware[1..] : firmware;
+
+            return firmware;
+        }
+
+        /// <summary>
+        /// Frontier Labs vorbis comment date parser.
+        /// </summary>
+        /// <param name="value">The value to parse.</param>
+        /// <returns>The parsed date.</returns>
+        public static Fin<object> DateParser(string value)
+        {
+            OffsetDateTime? date = null;
+
+            // Try parsing the date in each known date format (varies depending on firmware version)
+            foreach (string dateFormat in DateFormats)
+            {
+                try
+                {
+                    date = OffsetDateTimePattern.CreateWithInvariantCulture(dateFormat).Parse(value).Value;
+                }
+                catch (UnparsableValueException)
+                {
+                    continue;
+                }
+            }
+
+            if (date == null)
+            {
+                return DateInvalid(value);
+            }
+
+            return date;
+        }
+
+        /// <summary>
+        /// Frontier Labs vorbis comment location parser.
+        /// </summary>
+        /// <param name="value">The value to parse.</param>
+        /// <returns>A dictionary containing the coordinates.</returns>
+        public static Fin<object> LocationParser(string value)
+        {
+            Dictionary<string, double> location = new Dictionary<string, double>();
+
+            try
+            {
+                // Only keep characters relevant to coordinates
+                var parsedValue = new string(value.Where(c => char.IsDigit(c) || (new char[] { '+', '-', '.' }).Contains(c)).ToArray());
+
+                // Find index dividing lat and lon
+                int latLonDividingIndex = parsedValue.IndexOfAny(new char[] { '+', '-' }, 1);
+
+                // Parse lat and lon
+                double latitude = double.Parse(parsedValue.Substring(0, latLonDividingIndex));
+                double longitude = double.Parse(parsedValue.Substring(latLonDividingIndex));
+
+                location[LatitudeKey] = latitude;
+                location[LongitudeKey] = longitude;
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                return LocationInvalid(value);
+            }
+
+            return location;
+        }
+
+        /// <summary>
+        /// Frontier Labs vorbis comment SD CID parser.
+        /// </summary>
+        /// <param name="value">The value to parse.</param>
+        /// <returns>A dictionary containing all CID values.</returns>
+        public static Fin<object> SdCidParser(string value)
+        {
+            Models.SdCardCid cid = new Models.SdCardCid(value);
+            Dictionary<string, object> cidInfo;
+
+            try
+            {
+                cidInfo = cid.ExtractSdInfo();
+            }
+            catch (IndexOutOfRangeException)
+            {
+                return CIDInvalid(value);
+            }
+
+            return cidInfo;
+        }
+
+        [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1008:OpeningParenthesisMustBeSpacedCorrectly", Justification = "Parentheses are valid when calculating absolute range.")]
+        private static Fin<FirmwareRecord> FindInBufferFirmware(ReadOnlySpan<byte> buffer, long absoluteOffset)
+        {
+            int offset = 0;
+            int vendorLength = BinaryPrimitives.ReadInt32LittleEndian(buffer);
+
+            offset += 4;
+
+            offset += vendorLength;
 
             var commentCount = BinaryPrimitives.ReadUInt32LittleEndian(buffer[offset..]);
             offset += 4;
@@ -142,13 +301,14 @@ namespace MetadataUtility.Audio.Vendors
 
                 // dangerous cast: but we're reading a 4096 size buffer, we'll never hit the overflow.
                 int commentEnd = (int)(offset + commentLength);
-                Range range = commentStart..commentEnd;
 
-                var comment = Encoding.UTF8.GetString(buffer[range]);
+                Range absoluteRange = (commentStart + (int)absoluteOffset)..(commentEnd + (int)absoluteOffset);
+
+                var comment = Encoding.UTF8.GetString(buffer[commentStart..commentEnd]);
 
                 if (comment.Contains(FirmwareCommentKey))
                 {
-                    return ParseFirmwareComment(comment, range);
+                    return ParseFirmwareComment(comment, absoluteRange);
                 }
 
                 offset += (int)commentLength;

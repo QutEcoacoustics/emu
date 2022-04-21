@@ -12,7 +12,7 @@ namespace MetadataUtility.Models
     {
         public string FormatType { get; init; }
 
-        public uint? ManufacturerID { get; init; }
+        public byte? ManufacturerID { get; init; }
 
         public string OEMID { get; init; }
 
@@ -32,8 +32,8 @@ namespace MetadataUtility.Models
 
         public uint? WrCurrentVmax { get; init; }
 
-        public uint? WriteB1Size { get; init; }
+        public uint? WriteBlSize { get; init; }
 
-        public uint? EraseB1Size { get; init; }
+        public uint? EraseBlSize { get; init; }
     }
 }

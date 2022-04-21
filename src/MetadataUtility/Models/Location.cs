@@ -59,12 +59,12 @@ namespace MetadataUtility.Models
         /// <summary>
         /// Gets longitude in decimal degrees.
         /// </summary>
-        public double Latitude { get; init; }
+        public double? Latitude { get; init; }
 
         /// <summary>
         /// Gets longitude in decimal degrees.
         /// </summary>
-        public double Longitude { get; init; }
+        public double? Longitude { get; init; }
 
         /// <summary>
         /// Gets altitude in meters above the WGS84 reference ellipsoid in meters.

@@ -5,12 +5,22 @@
 namespace MetadataUtility.Tests.Audio.Vendors
 {
     using System;
+    using System.Linq;
     using FluentAssertions;
+    using LanguageExt;
+    using MetadataUtility.Audio.Vendors;
+    using MetadataUtility.Tests.TestHelpers;
     using Xunit;
+    using Xunit.Abstractions;
     using static MetadataUtility.Audio.Vendors.FrontierLabs;
 
-    public class FrontierLabsTests
+    public class FrontierLabsTests : TestBase
     {
+        public FrontierLabsTests(ITestOutputHelper output)
+            : base(output)
+        {
+        }
+
         [Theory]
         [InlineData("SensorFirmwareVersion=3.17", 3.17, null)]
         [InlineData("SensorFirmwareVersion=3.2", 3.2, null)]
@@ -35,6 +45,15 @@ namespace MetadataUtility.Tests.Audio.Vendors
 
             Assert.Equal(expected, firmware.Version);
             firmware.Tags.Should().BeEquivalentTo(tags);
+        }
+
+        [Theory]
+        [ClassData(typeof(FixtureHelper.FixtureData))]
+        public void HasFrontierLabsVorbisComment(FixtureModel model)
+        {
+            bool hasComment = FrontierLabs.HasFrontierLabsVorbisComment(model.ToTargetInformation(this.RealFileSystem).FileStream).IfFail(false);
+
+            hasComment.Should().Be(model.CanProcess.Contains("FlacCommentExtractor"));
         }
     }
 }

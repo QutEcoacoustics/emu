@@ -34,7 +34,7 @@ namespace MetadataUtility.Tests.Metadata
             var result = await this.subject.CanProcessAsync(model.ToTargetInformation(this.RealFileSystem));
 
             // we can process any file that has Frontier Lab log files
-            var expected = model.Process.Contains("FrontierLabsLogFileExtractor");
+            var expected = model.CanProcess.Contains("FrontierLabsLogFileExtractor");
             Assert.Equal(expected, result);
         }
 

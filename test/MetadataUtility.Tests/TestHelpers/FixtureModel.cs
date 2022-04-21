@@ -12,6 +12,7 @@ namespace MetadataUtility.Tests.TestHelpers
     using MetadataUtility.Metadata;
     using MetadataUtility.Metadata.SupportFiles;
     using MetadataUtility.Models;
+    using NodaTime;
     using Rationals;
 
     public enum ValidMetadata
@@ -57,9 +58,17 @@ namespace MetadataUtility.Tests.TestHelpers
 
         public string[] Process { get; set; }
 
+        public string[] CanProcess { get; set; }
+
         public MemoryCard MemoryCard { get; set; }
 
         public Sensor Sensor { get; set; }
+
+        public Location Location { get; set; }
+
+        public OffsetDateTime? StartDate { get; set; }
+
+        public OffsetDateTime? EndDate { get; set; }
 
         public ulong? FileLengthBytes { get; set; }
 
