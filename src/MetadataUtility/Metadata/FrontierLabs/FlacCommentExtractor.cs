@@ -45,12 +45,18 @@ namespace MetadataUtility.Metadata.FrontierLabs
                 // Extract all microphone information
                 while (comments.ContainsKey(FrontierLabs.MicrophoneTypeCommentKey + micNumber))
                 {
+                    // FL uses channel A, B to refer to microphones 1 and 2 respectively
+                    // Converts to channel name using ASCII value offset of 64
+                    string channelName = ((char)(micNumber + 64)).ToString();
+
                     Microphone microphone = new Microphone() with
                     {
                         Type = (string)this.ParseComment(FrontierLabs.MicrophoneTypeCommentKey + micNumber, comments),
                         UID = (string)this.ParseComment(FrontierLabs.MicrophoneUIDCommentKey + micNumber, comments),
                         BuildDate = (string)this.ParseComment(FrontierLabs.MicrophoneBuildDateCommentKey + micNumber, comments),
                         Gain = (string)this.ParseComment(FrontierLabs.MicrophoneGainCommentKey + micNumber, comments),
+                        Channel = micNumber,
+                        ChannelName = channelName,
                     };
 
                     if (microphone.Type != null)
@@ -93,13 +99,7 @@ namespace MetadataUtility.Metadata.FrontierLabs
                 // Update recording microphone information
                 for (int i = 0; i < recording.Sensor.Microphones.Length(); i++)
                 {
-                    recording.Sensor.Microphones[i] = recording.Sensor.Microphones[i] ?? new Microphone() with
-                    {
-                        Type = microphones[i].Type,
-                        UID = microphones[i].UID,
-                        BuildDate = microphones[i].BuildDate,
-                        Gain = microphones[i].Gain,
-                    };
+                    recording.Sensor.Microphones[i] = recording.Sensor.Microphones[i] ?? microphones[i];
                 }
             }
             else

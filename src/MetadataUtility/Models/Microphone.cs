@@ -29,5 +29,15 @@ namespace MetadataUtility.Models
         /// Gets the gain of this microphone.
         /// </summary>
         public string Gain { get; init; }
+
+        /// <summary>
+        /// Gets microphone number according to the sensor (1, 2, etc.).
+        /// </summary>
+        public int Channel { get; init; }
+
+        /// <summary>
+        /// Gets the name of the microphone (style depends on vendor).
+        /// </summary>
+        public string ChannelName { get; init; }
     }
 }
