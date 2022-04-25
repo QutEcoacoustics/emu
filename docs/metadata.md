@@ -39,12 +39,12 @@ This document outlines all of the files from which we hope to extract metadata.
 | ------------------------ | --------- | --------------- | ----------- |
 | Date Time                | ✔️(Header) | Name, Header    |             |
 | UTC Offset               | ✔️(Header) | Name, Header    |             |
-| Serial Number            | ✔️         | Header, Support |             |
-| Microphone Serial Number | ✔️(Header) | Header, Support |             |
-| Microphone Type          | ✔️(Header) | Header, Support |             |
-| Microphone ID            | ✔️(Header) | Header, Support |             |
-| Microphone Build Date    | ✔️(Header) | Header, Support |             |
-| Microphone Channel       | ✔️(Header) | Header, Support |             |
+| Serial Number            | ✔️         | Header, Support | Log file    |
+| Microphone Serial Number | ✔️(Header) | Header, Support | Log file    |
+| Microphone Type          | ✔️(Header) | Header, Support | Log file    |
+| Microphone ID            | ✔️(Header) | Header, Support | Log file    |
+| Microphone Build Date    | ✔️(Header) | Header, Support | Log file    |
+| Microphone Channel       | ✔️(Header) | Header, Support | Log file    |
 | Longitude                | ✔️(Header) | Header, Name, Support   | GPS_log.csv |
 | Latitude                 | ✔️(Header) | Header, Name, Support   | GPS_log.csv |
 | Gain                     | ✔️(Header) | Header, Support | Log file    |
