@@ -130,7 +130,7 @@ namespace MetadataUtility.Tests.Audio
             ((bool)isWave).Should().Be(model.IsWave);
         }
 
-        private (byte[] FormatChunk, Wave.Range DataChunk) ReadChunkRanges(FixtureModel model)
+        private (byte[] FormatChunk, RangeHelper.Range DataChunk) ReadChunkRanges(FixtureModel model)
         {
             using var stream = model.ToTargetInformation(this.RealFileSystem).FileStream;
 
@@ -139,9 +139,9 @@ namespace MetadataUtility.Tests.Audio
             var formatChunk = waveChunk.Bind(w => Wave.FindFormatChunk(stream, w));
             var dataChunk = waveChunk.Bind(w => Wave.FindDataChunk(stream, w));
 
-            var formatSpan = Wave.ReadRange(stream, (Wave.Range)formatChunk);
+            var formatSpan = RangeHelper.ReadRange(stream, (RangeHelper.Range)formatChunk);
 
-            return (formatSpan.ToArray(), (Wave.Range)dataChunk);
+            return (formatSpan.ToArray(), (RangeHelper.Range)dataChunk);
         }
     }
 }

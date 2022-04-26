@@ -196,7 +196,7 @@ namespace MetadataUtility.Audio
         /// <param name="stream">The flac file stream.</param>
         /// <param name="targetBlockType">The block being searched for.</param>
         /// <returns>Range indicating the position of the block in the file stream.</returns>
-        public static Fin<Range> ScanForChunk(Stream stream, byte targetBlockType)
+        public static Fin<RangeHelper.Range> ScanForChunk(Stream stream, byte targetBlockType)
         {
             const int BlockTypeLength = 1, BlockLengthLength = 3;
 
@@ -230,63 +230,13 @@ namespace MetadataUtility.Audio
 
                 if (blockType == targetBlockType)
                 {
-                    return new Range(offset, offset + length);
+                    return new RangeHelper.Range(offset, offset + length);
                 }
 
                 offset += (int)length;
             }
 
             return ChunkNotFound(targetBlockType);
-        }
-
-        /// <summary>
-        /// Reads a given range from a FLAC file stream.
-        /// </summary>
-        /// <param name="stream">The FLAC file stream.</param>
-        /// <param name="range">The range to read.</param>
-        /// <returns>A span containing the contents of the stream in the range.</returns>
-        public static ReadOnlySpan<byte> ReadRange(Stream stream, Range range)
-        {
-            Span<byte> buffer = new byte[range.Length];
-
-            if (stream.Seek(range.Start, SeekOrigin.Begin) != range.Start)
-            {
-                throw new IOException("ReadRange: could not seek to position");
-            }
-
-            var read = stream.Read(buffer);
-
-            if (read != range.Length)
-            {
-                throw new InvalidOperationException("ReadRange: read != range.Length");
-            }
-
-            return buffer;
-        }
-
-        /// <summary>
-        /// Reads a given range from a FLAC file stream asynchronously.
-        /// </summary>
-        /// <param name="stream">The FLAC file stream.</param>
-        /// <param name="range">The range to read.</param>
-        /// <returns>A byte array containing the contents of the stream in the range.</returns>
-        public static async ValueTask<byte[]> ReadRangeAsync(Stream stream, Range range)
-        {
-            byte[] buffer = new byte[range.Length];
-
-            if (stream.Seek(range.Start, SeekOrigin.Begin) != range.Start)
-            {
-                throw new IOException("ReadRange: could not seek to position");
-            }
-
-            var read = await stream.ReadAsync(buffer);
-
-            if (read != range.Length)
-            {
-                throw new InvalidOperationException("ReadRange: read != range.Length");
-            }
-
-            return buffer;
         }
 
         /// <summary>
@@ -305,7 +255,7 @@ namespace MetadataUtility.Audio
                 return (Error)vorbisChunk;
             }
 
-            var vorbisSpan = Flac.ReadRange(stream, (Flac.Range)vorbisChunk);
+            var vorbisSpan = RangeHelper.ReadRange(stream, (RangeHelper.Range)vorbisChunk);
 
             int offset = 0;
             int vendorLength = BinaryPrimitives.ReadInt32LittleEndian(vorbisSpan);
@@ -355,13 +305,6 @@ namespace MetadataUtility.Audio
             string vendor = Encoding.UTF8.GetString(buffer[offset..(offset + vendorLength)]);
 
             return vendor;
-        }
-
-        public partial record Range(long Start, long End);
-
-        public partial record Range
-        {
-            public long Length => this.End - this.Start;
         }
     }
 }

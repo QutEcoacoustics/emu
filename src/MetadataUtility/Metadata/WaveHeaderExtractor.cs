@@ -9,7 +9,6 @@ namespace MetadataUtility.Metadata.WildlifeAcoustics.SM4BAT
     using MetadataUtility.Models;
     using MetadataUtility.Utilities;
     using Microsoft.Extensions.Logging;
-    using NodaTime;
     using Rationals;
 
     public class WaveHeaderExtractor : IMetadataOperation
@@ -43,7 +42,7 @@ namespace MetadataUtility.Metadata.WildlifeAcoustics.SM4BAT
                 return new ValueTask<Recording>(recording);
             }
 
-            var formatSpan = Wave.ReadRange(stream, (Wave.Range)formatChunk);
+            var formatSpan = RangeHelper.ReadRange(stream, (RangeHelper.Range)formatChunk);
 
             var sampleRate = Wave.GetSampleRate(formatSpan);
             var bitsPerSample = Wave.GetBitsPerSample(formatSpan);
