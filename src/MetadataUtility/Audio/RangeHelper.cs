@@ -9,7 +9,7 @@ namespace MetadataUtility.Audio
         /// <summary>
         /// Reads a given range from a file stream.
         /// </summary>
-        /// <param name="stream">The FLAC file stream.</param>
+        /// <param name="stream">The file stream.</param>
         /// <param name="range">The range to read.</param>
         /// <returns>A span containing the contents of the stream in the range.</returns>
         public static ReadOnlySpan<byte> ReadRange(Stream stream, Range range)
