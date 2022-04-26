@@ -7,7 +7,7 @@ namespace MetadataUtility.Audio
     public static class RangeHelper
     {
         /// <summary>
-        /// Reads a given range from a FLAC file stream.
+        /// Reads a given range from a file stream.
         /// </summary>
         /// <param name="stream">The FLAC file stream.</param>
         /// <param name="range">The range to read.</param>
