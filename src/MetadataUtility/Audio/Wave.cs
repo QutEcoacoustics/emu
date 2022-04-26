@@ -52,7 +52,7 @@ namespace MetadataUtility.Audio
         /// The range of the RIFF chunk if found, otherwise an error.
         /// The range offsets are relative to the start of the stream.
         /// </returns>
-        public static Fin<Range> FindRiffChunk(Stream stream)
+        public static Fin<RangeHelper.Range> FindRiffChunk(Stream stream)
         {
             if (stream.Length < MinimumRiffHeaderLength)
             {
@@ -75,10 +75,10 @@ namespace MetadataUtility.Audio
 
             var length = BinaryPrimitives.ReadInt32LittleEndian(buffer.Slice(4));
 
-            return new Range(offset, offset + length);
+            return new RangeHelper.Range(offset, offset + length);
         }
 
-        public static Fin<Range> FindWaveChunk(Stream stream, Range riffChunk)
+        public static Fin<RangeHelper.Range> FindWaveChunk(Stream stream, RangeHelper.Range riffChunk)
         {
             if (riffChunk.Length < WaveMagicNumber.Length)
             {
@@ -112,15 +112,15 @@ namespace MetadataUtility.Audio
                 return Error.New("Cannot process a non-WAVE RIFF file.");
             }
 
-            return new Range(offset, riffChunk.End);
+            return new RangeHelper.Range(offset, riffChunk.End);
         }
 
-        public static Fin<Range> FindFormatChunk(Stream stream, Range waveChunk)
+        public static Fin<RangeHelper.Range> FindFormatChunk(Stream stream, RangeHelper.Range waveChunk)
         {
             return ScanForChunk(stream, waveChunk, FormatChunkId);
         }
 
-        public static Fin<Range> FindDataChunk(Stream stream, Range waveChunk)
+        public static Fin<RangeHelper.Range> FindDataChunk(Stream stream, RangeHelper.Range waveChunk)
         {
             return ScanForChunk(stream, waveChunk, DataChunkId);
         }
@@ -146,7 +146,7 @@ namespace MetadataUtility.Audio
                 return (Error)formatChunk;
             }
 
-            var formatSpan = Wave.ReadRange(stream, (Wave.Range)formatChunk);
+            var formatSpan = RangeHelper.ReadRange(stream, (RangeHelper.Range)formatChunk);
 
             var format = Wave.GetAudioFormat(formatSpan);
 
@@ -171,7 +171,7 @@ namespace MetadataUtility.Audio
             var riffChunk = FindRiffChunk(stream);
 
             // If the riff chunk size is incorrect, increment faults
-            if (((Range)riffChunk).End != stream.Length)
+            if (((RangeHelper.Range)riffChunk).End != stream.Length)
             {
                 faults++;
             }
@@ -192,8 +192,8 @@ namespace MetadataUtility.Audio
 
             var dataChunk = waveChunk.Bind(w => FindDataChunk(stream, w));
 
-            long dataStart = ((Range)dataChunk).Start;
-            long dataEnd = ((Range)dataChunk).End;
+            long dataStart = ((RangeHelper.Range)dataChunk).Start;
+            long dataEnd = ((RangeHelper.Range)dataChunk).End;
 
             // If the data is less than 4 bytes or the first 4 bytes are 0, increment faults
             if (dataEnd - dataStart < 4)
@@ -274,31 +274,12 @@ namespace MetadataUtility.Audio
             return bitsPerSample;
         }
 
-        public static uint GetTotalSamples(Range dataChunk, ushort channels, ushort bitsPerSample)
+        public static uint GetTotalSamples(RangeHelper.Range dataChunk, ushort channels, ushort bitsPerSample)
         {
             // size of the data chunk
             var length = (uint)dataChunk.Length;
 
             return length / (uint)(channels * (bitsPerSample / 8));
-        }
-
-        public static ReadOnlySpan<byte> ReadRange(Stream stream, Range range)
-        {
-            Span<byte> buffer = new byte[range.Length];
-
-            if (stream.Seek(range.Start, SeekOrigin.Begin) != range.Start)
-            {
-                throw new IOException("ReadRange: could not seek to position");
-            }
-
-            var read = stream.Read(buffer);
-
-            if (read != range.Length)
-            {
-                throw new InvalidOperationException("ReadRange: read != range.Length");
-            }
-
-            return buffer;
         }
 
         private static Error FileTooShort(ReadOnlySpan<byte> chunkName) =>
@@ -317,7 +298,7 @@ namespace MetadataUtility.Audio
         /// <param name="container">The subset of the stream to read from.</param>
         /// <param name="targetChunkId">The target chunk to look for.</param>
         /// <returns>An error if the chunk was not found, or a Range of the target chunk if it was found.</returns>
-        private static Fin<Range> ScanForChunk(Stream stream, Range container, ReadOnlySpan<byte> targetChunkId)
+        private static Fin<RangeHelper.Range> ScanForChunk(Stream stream, RangeHelper.Range container, ReadOnlySpan<byte> targetChunkId)
         {
             const int ChunkIdLength = 4;
             const int ChunkLengthLength = 4;
@@ -363,7 +344,7 @@ namespace MetadataUtility.Audio
                 if (targetChunkId.SequenceEqual(chunkId))
                 {
                     // success, stop here and return the range of the chunk
-                    return new Range(offset, offset + length);
+                    return new RangeHelper.Range(offset, offset + length);
                 }
 
                 // advance our offset counter by the length of the chunk to look for the next sibling
@@ -371,13 +352,6 @@ namespace MetadataUtility.Audio
             }
 
             return ChunkNotFound(targetChunkId);
-        }
-
-        public partial record Range(long Start, long End);
-
-        public partial record Range
-        {
-            public long Length => this.End - this.Start;
         }
     }
 }

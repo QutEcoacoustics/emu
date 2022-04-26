@@ -42,7 +42,7 @@ namespace MetadataUtility.Metadata.WildlifeAcoustics.SM4BAT
                 return new ValueTask<Recording>(recording);
             }
 
-            var formatSpan = Wave.ReadRange(stream, (Wave.Range)formatChunk);
+            var formatSpan = RangeHelper.ReadRange(stream, (RangeHelper.Range)formatChunk);
 
             var sampleRate = Wave.GetSampleRate(formatSpan);
             var bitsPerSample = Wave.GetBitsPerSample(formatSpan);

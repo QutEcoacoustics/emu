@@ -68,10 +68,10 @@ namespace MetadataUtility.Audio.Vendors
                 return (Error)vorbisChunk;
             }
 
-            var vorbisSpan = await Flac.ReadRangeAsync(stream, (Flac.Range)vorbisChunk);
+            var vorbisSpan = await RangeHelper.ReadRangeAsync(stream, (RangeHelper.Range)vorbisChunk);
 
             // find the frontier labs vorbis vendor comment
-            return FindInBufferFirmware(vorbisSpan, ((Flac.Range)vorbisChunk).Start);
+            return FindInBufferFirmware(vorbisSpan, ((RangeHelper.Range)vorbisChunk).Start);
         }
 
         public static Fin<FirmwareRecord> ParseFirmwareComment(string comment, Range offset)
@@ -151,7 +151,7 @@ namespace MetadataUtility.Audio.Vendors
                 return (Error)vorbisChunk;
             }
 
-            var vorbisSpan = Flac.ReadRange(stream, (Flac.Range)vorbisChunk);
+            var vorbisSpan = RangeHelper.ReadRange(stream, (RangeHelper.Range)vorbisChunk);
 
             var vendorString = Flac.FindXiphVendorString(vorbisSpan);
 
