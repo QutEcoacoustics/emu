@@ -9,7 +9,6 @@ namespace MetadataUtility.Metadata.WildlifeAcoustics.SM4BAT
     using MetadataUtility.Models;
     using MetadataUtility.Utilities;
     using Microsoft.Extensions.Logging;
-    using NodaTime;
     using Rationals;
 
     public class WaveHeaderExtractor : IMetadataOperation

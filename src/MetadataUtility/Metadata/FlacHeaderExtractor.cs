@@ -8,7 +8,6 @@ namespace MetadataUtility.Metadata.FrontierLabs
     using MetadataUtility.Audio;
     using MetadataUtility.Models;
     using Microsoft.Extensions.Logging;
-    using NodaTime;
     using Rationals;
 
     public class FlacHeaderExtractor : IMetadataOperation
