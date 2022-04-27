@@ -34,7 +34,7 @@ namespace MetadataUtility.Metadata.WildlifeAcoustics
             if (wamdChunk.IsFail)
             {
                 this.logger.LogError("Failed to process wamd chunk: {error}", (LanguageExt.Common.Error)wamdChunk);
-                return ValueTask.FromResult(recording); ;
+                return ValueTask.FromResult(recording);
             }
 
             var wamdSpan = RangeHelper.ReadRange(stream, (RangeHelper.Range)wamdChunk);
