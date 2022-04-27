@@ -2,7 +2,7 @@
 // All code in this file and all associated files are the copyright and property of the QUT Ecoacoustics Research Group.
 // </copyright>
 
-namespace MetadataUtility.Metadata.WildlifeAcoustics.SM4BAT
+namespace MetadataUtility.Metadata.WildlifeAcoustics
 {
     using System.Threading.Tasks;
     using MetadataUtility.Audio;
