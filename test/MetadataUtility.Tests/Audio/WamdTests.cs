@@ -39,7 +39,7 @@ namespace MetadataUtility.Tests.Audio
             var model = this.data[FixtureModel.SM4BatNormal1];
             using var stream = model.ToTargetInformation(this.RealFileSystem).FileStream;
 
-            Fin<bool> isWamd = Wamd.IsWildlifeAcousticsWaveFile(stream);
+            Fin<bool> isWamd = Wamd.HasVersion1WamdChunk(stream);
 
             Assert.True(isWamd.IsSucc);
 

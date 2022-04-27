@@ -298,7 +298,7 @@ namespace MetadataUtility.Audio
         /// <param name="container">The subset of the stream to read from.</param>
         /// <param name="targetChunkId">The target chunk to look for.</param>
         /// <returns>An error if the chunk was not found, or a Range of the target chunk if it was found.</returns>
-        private static Fin<RangeHelper.Range> ScanForChunk(Stream stream, RangeHelper.Range container, ReadOnlySpan<byte> targetChunkId)
+        public static Fin<RangeHelper.Range> ScanForChunk(Stream stream, RangeHelper.Range container, ReadOnlySpan<byte> targetChunkId)
         {
             const int ChunkIdLength = 4;
             const int ChunkLengthLength = 4;
