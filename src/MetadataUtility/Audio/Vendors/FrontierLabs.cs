@@ -32,10 +32,8 @@ namespace MetadataUtility.Audio.Vendors
         public const string UnknownValueString = "unknown";
         public const string LongitudeKey = "Longitude";
         public const string LatitudeKey = "Latitude";
-        public const string MicrophonesKey = "Microphones";
-        public const string MicrophoneKey = "Microphone";
         public const int DefaultFileStubLength = 44;
-        public static readonly string[] DateFormats = { "yyyy'-'MM'-'dd'T'HH':'mm':'sso<+HHmm>", "yyyy'-'MM'-'dd'T'HH':'mm':'sso<+HH:mm>" };
+        public static readonly string[] DateFormats = { "yyyy'-'MM'-'dd'T'HH':'mm':'sso<M>", "yyyy'-'MM'-'dd'T'HH':'mm':'sso<m>" };
         public static readonly byte[] VendorString = Encoding.ASCII.GetBytes("Frontier Labs");
         public static readonly Dictionary<string, Func<string, Fin<object>>> CommentParsers = new Dictionary<string, Func<string, Fin<object>>>
         {

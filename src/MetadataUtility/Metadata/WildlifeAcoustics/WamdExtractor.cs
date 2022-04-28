@@ -20,7 +20,7 @@ namespace MetadataUtility.Metadata.WildlifeAcoustics
 
         public ValueTask<bool> CanProcessAsync(TargetInformation information)
         {
-            var result = information.IsPcmWaveFile(); // && information.HasValidWamdChunk
+            var result = information.IsPcmWaveFile() && information.HasVersion1WamdChunk();
 
             return ValueTask.FromResult(result);
         }
@@ -39,7 +39,7 @@ namespace MetadataUtility.Metadata.WildlifeAcoustics
 
             var wamdSpan = RangeHelper.ReadRange(stream, (RangeHelper.Range)wamdChunk);
 
-            //var wamdData = Wamd.ExtractMetadata(wamdSpan);
+            var wamdData = Wamd.ExtractMetadata(wamdSpan);
 
             //update recording
 
