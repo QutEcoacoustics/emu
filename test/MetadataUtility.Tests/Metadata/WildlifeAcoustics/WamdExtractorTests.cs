@@ -5,6 +5,7 @@
 namespace MetadataUtility.Tests.Metadata
 {
     using System.Linq;
+    using FluentAssertions;
     using MetadataUtility.Metadata.WildlifeAcoustics;
     using MetadataUtility.Models;
     using MetadataUtility.Tests.TestHelpers;
@@ -45,7 +46,14 @@ namespace MetadataUtility.Tests.Metadata
                     model.ToTargetInformation(this.RealFileSystem),
                     this.Recording);
 
-                // Test model vs recording
+                recording.StartDate.Should().Be(model.StartDate);
+                recording.Sensor.Name.Should().Be(model.Sensor.Name);
+                recording.Sensor.SerialNumber.Should().Be(model.Sensor.SerialNumber);
+                recording.Sensor.Firmware.Should().Be(model.Sensor.Firmware);
+                recording.Sensor.Temperature.Should().Be(model.Sensor.Temperature);
+                recording.Sensor.Microphones.Should().BeEquivalentTo(model.Sensor.Microphones);
+                recording.Location.Latitude.Should().Be(model.Location.Latitude);
+                recording.Location.Longitude.Should().Be(model.Location.Longitude);
             }
         }
     }

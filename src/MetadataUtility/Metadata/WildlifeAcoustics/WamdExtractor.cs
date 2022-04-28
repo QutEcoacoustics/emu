@@ -39,9 +39,38 @@ namespace MetadataUtility.Metadata.WildlifeAcoustics
 
             var wamdSpan = RangeHelper.ReadRange(stream, (RangeHelper.Range)wamdChunk);
 
-            var wamdData = Wamd.ExtractMetadata(wamdSpan);
+            Wamd wamdData = Wamd.ExtractMetadata(wamdSpan);
 
-            //update recording
+            int numMicrophones = wamdData.MicrophoneType.Length;
+
+            // Update recording information with wamd metadata
+            recording = recording with
+            {
+                StartDate = recording.StartDate ?? wamdData.StartDate,
+                Sensor = (recording.Sensor ?? new Sensor()) with
+                {
+                    Name = recording.Sensor?.Name ?? wamdData.Name,
+                    SerialNumber = recording.Sensor?.SerialNumber ?? wamdData.SerialNumber,
+                    Firmware = recording.Sensor?.Firmware ?? wamdData.Firmware,
+                    Temperature = recording.Sensor?.Temperature ?? wamdData.Temperature,
+                    Microphones = recording.Sensor?.Microphones ?? new Microphone[numMicrophones],
+                },
+                Location = (recording.Location ?? new Location()) with
+                {
+                    Longitude = recording.Location?.Longitude ?? wamdData.Longitude,
+                    Latitude = recording.Location?.Latitude ?? wamdData.Latitude,
+                },
+            };
+
+            // Update recording microphone information
+            for (int i = 0; i < recording.Sensor.Microphones.Length; i++)
+            {
+                recording.Sensor.Microphones[i] = recording.Sensor.Microphones[i] ?? new Microphone() with
+                {
+                    Type = wamdData.MicrophoneType[i],
+                    Sensitivity = wamdData.MicrophoneSensitivity[i],
+                };
+            }
 
             return ValueTask.FromResult(recording);
         }

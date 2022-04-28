@@ -18,23 +18,23 @@ namespace MetadataUtility.Audio
 
         public static readonly Error WamdVersionError = Error.New("Error reading wamd version");
 
-        private string Name { get; set; }
+        public string Name { get; set; }
 
-        private string SerialNumber { get; set; }
+        public string SerialNumber { get; set; }
 
-        private string Firmware { get; set; }
+        public string Firmware { get; set; }
 
-        private string Temperature { get; set; }
+        public string Temperature { get; set; }
 
-        private OffsetDateTime? StartDate { get; set; }
+        public OffsetDateTime? StartDate { get; set; }
 
-        private string MicrophoneType { get; set; }
+        public string[] MicrophoneType { get; set; }
 
-        private string MicrophoneSensitivity { get; set; }
+        public string[] MicrophoneSensitivity { get; set; }
 
-        private double Longitude { get; set; }
+        public double Longitude { get; set; }
 
-        private double Latitude { get; set; }
+        public double Latitude { get; set; }
 
         /// <summary>
         /// Check if file has version 1 wamd chunk.
@@ -164,8 +164,8 @@ namespace MetadataUtility.Audio
                 { 2, value => wamdData.SerialNumber = value },
                 { 3, value => wamdData.Firmware = value },
                 { 5, value => wamdData.StartDate = DateParser(value) },
-                { 18, value => wamdData.MicrophoneType = value },
-                { 19, value => wamdData.MicrophoneSensitivity = value },
+                { 18, value => wamdData.MicrophoneType = value.Split(",") },
+                { 19, value => wamdData.MicrophoneSensitivity = value.Split(",") },
                 { 20, value => SetLocation(value, wamdData) },
                 { 21, value => wamdData.Temperature = value },
             };
