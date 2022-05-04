@@ -20,6 +20,7 @@ namespace MetadataUtility.Metadata.WildlifeAcoustics
 
         public ValueTask<bool> CanProcessAsync(TargetInformation information)
         {
+            // TODO: Add support for .wac (or other Wildlife Acoustic) files
             var result = information.IsPcmWaveFile() && information.HasVersion1WamdChunk();
 
             return ValueTask.FromResult(result);

@@ -42,6 +42,7 @@ namespace MetadataUtility.Models
 
         /// <summary>
         /// Gets the sensitivity of the microphone.
+        /// Units: Decibels relative to full scale (dBFS).
         /// </summary>
         public string Sensitivity { get; init; }
     }

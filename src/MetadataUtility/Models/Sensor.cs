@@ -66,6 +66,7 @@ namespace MetadataUtility.Models
 
         /// <summary>
         /// Gets the temperature from the sensor.
+        /// Units: Degrees celsius.
         /// </summary>
         public string Temperature { get; init; }
     }

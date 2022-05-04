@@ -14,9 +14,37 @@ namespace MetadataUtility.Audio
 
     public class Wamd
     {
+        public const int ModelNameChunkId = 0x01;
+        public const int ModelSerialNumberChunkId = 0x02;
+        public const int FirmwareChunkId = 0x03;
+        public const int StartDateChunkId = 0x05;
+        public const int MicrophoneTypeChunkId = 0x12;
+        public const int MicrophoneSensitivityChunkId = 0x13;
+        public const int LocationChunkId = 0x14;
+        public const int TemperatureChunkId = 0x15;
+        public const string LatitudeKey = "Latitude";
+        public const string LongitudeKey = "Longitude";
         public static readonly byte[] WamdChunkId = new byte[] { (byte)'w', (byte)'a', (byte)'m', (byte)'d' };
-
         public static readonly Error WamdVersionError = Error.New("Error reading wamd version");
+        public static readonly OffsetDateTimePattern DatePattern = OffsetDateTimePattern.CreateWithInvariantCulture("yyyy'-'MM'-'dd' 'HH':'mm':'sso<m>");
+        public static readonly Dictionary<int, Action<Wamd, string>> Setters = new Dictionary<int, Action<Wamd, string>>
+        {
+            { ModelNameChunkId, (wamdData, value) => wamdData.Name = value },
+            { ModelSerialNumberChunkId, (wamdData, value) => wamdData.SerialNumber = value },
+            { FirmwareChunkId, (wamdData, value) => wamdData.Firmware = value },
+            { StartDateChunkId, (wamdData, value) => wamdData.StartDate = DateParser(value) },
+            { MicrophoneTypeChunkId, (wamdData, value) => wamdData.MicrophoneType = value.Split(",") },
+            { MicrophoneSensitivityChunkId, (wamdData, value) => wamdData.MicrophoneSensitivity = value.Split(",").Select(x => x + "dBFS").ToArray() },
+            {
+                LocationChunkId, (wamdData, value) =>
+                {
+                    Dictionary<string, double> location = LocationParser(value);
+                    wamdData.Latitude = location[LatitudeKey];
+                    wamdData.Longitude = location[LongitudeKey];
+                }
+            },
+            { TemperatureChunkId, (wamdData, value) => wamdData.Temperature = value },
+        };
 
         public string Name { get; set; }
 
@@ -119,7 +147,7 @@ namespace MetadataUtility.Audio
 
             try
             {
-                date = OffsetDateTimePattern.CreateWithInvariantCulture("yyyy'-'MM'-'dd' 'HH':'mm':'sso<m>").Parse(value).Value;
+                date = DatePattern.Parse(value).Value;
             }
             catch (UnparsableValueException)
             {
@@ -130,13 +158,14 @@ namespace MetadataUtility.Audio
         }
 
         /// <summary>
-        /// Parses a location's longitude and latitude.
-        /// Assigns the location data to a given wamd object.
+        /// Parses location data.
         /// </summary>
         /// <param name="value">The location to parse.</param>
-        /// <param name="wamdData">The wamd object.</param>
-        public static void SetLocation(string value, Wamd wamdData)
+        /// <returns>Dictionary representing the parsed location data.</returns>
+        public static Dictionary<string, double> LocationParser(string value)
         {
+            Dictionary<string, double> location = new Dictionary<string, double>();
+
             string[] locationInfo = value.Split(",", StringSplitOptions.RemoveEmptyEntries);
 
             double latitude = double.Parse(locationInfo[0]);
@@ -145,8 +174,10 @@ namespace MetadataUtility.Audio
             double longitude = double.Parse(locationInfo[2]);
             string longitudeDirection = locationInfo[3];
 
-            wamdData.Latitude = latitudeDirection.Equals("N") ? latitude : latitude * -1;
-            wamdData.Longitude = latitudeDirection.Equals("E") ? longitude : longitude * -1;
+            location[LatitudeKey] = latitudeDirection.Equals("N") ? latitude : latitude * -1;
+            location[LongitudeKey] = latitudeDirection.Equals("E") ? longitude : longitude * -1;
+
+            return location;
         }
 
         /// <summary>
@@ -156,19 +187,6 @@ namespace MetadataUtility.Audio
         public static Wamd ExtractMetadata(ReadOnlySpan<byte> wamdSpan)
         {
             Wamd wamdData = new Wamd();
-
-            // Links metadata set functions to their corresponding subchunk ID
-            Dictionary<int, Action<string>> setters = new Dictionary<int, Action<string>>
-            {
-                { 1, value => wamdData.Name = value },
-                { 2, value => wamdData.SerialNumber = value },
-                { 3, value => wamdData.Firmware = value },
-                { 5, value => wamdData.StartDate = DateParser(value) },
-                { 18, value => wamdData.MicrophoneType = value.Split(",") },
-                { 19, value => wamdData.MicrophoneSensitivity = value.Split(",") },
-                { 20, value => SetLocation(value, wamdData) },
-                { 21, value => wamdData.Temperature = value },
-            };
 
             int wamdOffset = 0;
             ushort subChunkId;
@@ -187,11 +205,12 @@ namespace MetadataUtility.Audio
                 int start = wamdOffset;
                 int end = wamdOffset + (int)length;
 
+                // TODO: May need to selectively parse some values with utf-8
                 value = Encoding.ASCII.GetString(wamdSpan[start..end]);
 
-                if (setters.ContainsKey(subChunkId))
+                if (Setters.ContainsKey(subChunkId))
                 {
-                    setters[subChunkId](value);
+                    Setters[subChunkId](wamdData, value);
                 }
 
                 wamdOffset += (int)length;
