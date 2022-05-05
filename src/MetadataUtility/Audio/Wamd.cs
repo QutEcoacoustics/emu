@@ -189,9 +189,19 @@ namespace MetadataUtility.Audio
         /// <summary>
         /// Extracts metadata from a wamd chunk.
         /// </summary>
-        /// <param name="wamdSpan">The wamd chunk.</param>
-        public static Wamd ExtractMetadata(ReadOnlySpan<byte> wamdSpan)
+        /// <param name="stream">The file stream.</param>
+        /// <returns>Wamd metadata.</returns>
+        public static Fin<Wamd> ExtractMetadata(Stream stream)
         {
+            var wamdChunk = Wamd.GetWamdChunk(stream);
+
+            if (wamdChunk.IsFail)
+            {
+                return (Error)wamdChunk;
+            }
+
+            var wamdSpan = RangeHelper.ReadRange(stream, (RangeHelper.Range)wamdChunk);
+
             Wamd wamdData = new Wamd();
 
             int wamdOffset = 0;

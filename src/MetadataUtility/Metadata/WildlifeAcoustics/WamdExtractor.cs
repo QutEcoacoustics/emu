@@ -30,47 +30,46 @@ namespace MetadataUtility.Metadata.WildlifeAcoustics
         {
             var stream = information.FileStream;
 
-            var wamdChunk = Wamd.GetWamdChunk(stream);
+            var tryWamdData = Wamd.ExtractMetadata(stream);
 
-            if (wamdChunk.IsFail)
+            if (tryWamdData.IsSucc)
             {
-                this.logger.LogError("Failed to process wamd chunk: {error}", (LanguageExt.Common.Error)wamdChunk);
-                return ValueTask.FromResult(recording);
-            }
+                Wamd wamdData = (Wamd)tryWamdData;
 
-            var wamdSpan = RangeHelper.ReadRange(stream, (RangeHelper.Range)wamdChunk);
+                int numMicrophones = wamdData.MicrophoneType.Length;
 
-            Wamd wamdData = Wamd.ExtractMetadata(wamdSpan);
-
-            int numMicrophones = wamdData.MicrophoneType.Length;
-
-            // Update recording information with wamd metadata
-            recording = recording with
-            {
-                StartDate = recording.StartDate ?? wamdData.StartDate,
-                Sensor = (recording.Sensor ?? new Sensor()) with
+                // Update recording information with wamd metadata
+                recording = recording with
                 {
-                    Name = recording.Sensor?.Name ?? wamdData.Name,
-                    SerialNumber = recording.Sensor?.SerialNumber ?? wamdData.SerialNumber,
-                    Firmware = recording.Sensor?.Firmware ?? wamdData.Firmware,
-                    Temperature = recording.Sensor?.Temperature ?? wamdData.Temperature,
-                    Microphones = recording.Sensor?.Microphones ?? new Microphone[numMicrophones],
-                },
-                Location = (recording.Location ?? new Location()) with
-                {
-                    Longitude = recording.Location?.Longitude ?? wamdData.Longitude,
-                    Latitude = recording.Location?.Latitude ?? wamdData.Latitude,
-                },
-            };
-
-            // Update recording microphone information
-            for (int i = 0; i < recording.Sensor.Microphones.Length; i++)
-            {
-                recording.Sensor.Microphones[i] = recording.Sensor.Microphones[i] ?? new Microphone() with
-                {
-                    Type = wamdData.MicrophoneType[i],
-                    Sensitivity = wamdData.MicrophoneSensitivity[i],
+                    StartDate = recording.StartDate ?? wamdData.StartDate,
+                    Sensor = (recording.Sensor ?? new Sensor()) with
+                    {
+                        Name = recording.Sensor?.Name ?? wamdData.Name,
+                        SerialNumber = recording.Sensor?.SerialNumber ?? wamdData.SerialNumber,
+                        Firmware = recording.Sensor?.Firmware ?? wamdData.Firmware,
+                        Temperature = recording.Sensor?.Temperature ?? wamdData.Temperature,
+                        Microphones = recording.Sensor?.Microphones ?? new Microphone[numMicrophones],
+                    },
+                    Location = (recording.Location ?? new Location()) with
+                    {
+                        Longitude = recording.Location?.Longitude ?? wamdData.Longitude,
+                        Latitude = recording.Location?.Latitude ?? wamdData.Latitude,
+                    },
                 };
+
+                // Update recording microphone information
+                for (int i = 0; i < recording.Sensor.Microphones.Length; i++)
+                {
+                    recording.Sensor.Microphones[i] = recording.Sensor.Microphones[i] ?? new Microphone() with
+                    {
+                        Type = wamdData.MicrophoneType[i],
+                        Sensitivity = wamdData.MicrophoneSensitivity[i],
+                    };
+                }
+            }
+            else
+            {
+                this.logger.LogError("Error extracting comments: {error}", (LanguageExt.Common.Error)tryWamdData);
             }
 
             return ValueTask.FromResult(recording);
