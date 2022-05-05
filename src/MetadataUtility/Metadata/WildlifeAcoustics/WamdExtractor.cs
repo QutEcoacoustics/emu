@@ -8,6 +8,7 @@ namespace MetadataUtility.Metadata.WildlifeAcoustics
     using MetadataUtility.Audio;
     using MetadataUtility.Models;
     using Microsoft.Extensions.Logging;
+    using NodaTime;
 
     public class WamdExtractor : IMetadataOperation
     {
@@ -41,7 +42,8 @@ namespace MetadataUtility.Metadata.WildlifeAcoustics
                 // Update recording information with wamd metadata
                 recording = recording with
                 {
-                    StartDate = recording.StartDate ?? wamdData.StartDate,
+                    StartDate = recording.StartDate ?? (wamdData.StartDate.IsLeft ? (OffsetDateTime?)wamdData.StartDate : null),
+                    LocalStartDate = recording.LocalStartDate ?? (wamdData.StartDate.IsRight ? (LocalDateTime?)wamdData.StartDate : null),
                     Sensor = (recording.Sensor ?? new Sensor()) with
                     {
                         Name = recording.Sensor?.Name ?? wamdData.Name,

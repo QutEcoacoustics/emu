@@ -27,7 +27,8 @@ namespace MetadataUtility.Audio
         public const string AltitudeKey = "Altitude";
         public static readonly byte[] WamdChunkId = new byte[] { (byte)'w', (byte)'a', (byte)'m', (byte)'d' };
         public static readonly Error WamdVersionError = Error.New("Error reading wamd version");
-        public static readonly OffsetDateTimePattern DatePattern = OffsetDateTimePattern.CreateWithInvariantCulture("yyyy'-'MM'-'dd' 'HH':'mm':'sso<m>");
+        public static readonly OffsetDateTimePattern OffsetDatePattern = OffsetDateTimePattern.CreateWithInvariantCulture("yyyy'-'MM'-'dd' 'HH':'mm':'sso<m>");
+        public static readonly LocalDateTimePattern LocalDatePattern = LocalDateTimePattern.CreateWithInvariantCulture("yyyy'-'MM'-'dd' 'HH':'mm':'ss");
         public static readonly Dictionary<int, Action<Wamd, string>> Setters = new Dictionary<int, Action<Wamd, string>>
         {
             { ModelNameChunkId, (wamdData, value) => wamdData.Name = value },
@@ -56,7 +57,7 @@ namespace MetadataUtility.Audio
 
         public string Temperature { get; set; }
 
-        public OffsetDateTime? StartDate { get; set; }
+        public Either<OffsetDateTime?, LocalDateTime?> StartDate { get; set; }
 
         public string[] MicrophoneType { get; set; }
 
@@ -145,16 +146,21 @@ namespace MetadataUtility.Audio
         /// </summary>
         /// <param name="value">The date to parse.</param>
         /// <returns>The parsed date.</returns>
-        public static OffsetDateTime? DateParser(string value)
+        public static Either<OffsetDateTime?, LocalDateTime?> DateParser(string value)
         {
-            var date = DatePattern.Parse(value);
+            var offsetDate = OffsetDatePattern.Parse(value);
+            var localDate = LocalDatePattern.Parse(value);
 
-            if (!date.Success)
+            if (offsetDate.Success)
             {
-                throw date.Exception;
+                return offsetDate.Value;
+            }
+            else if (localDate.Success)
+            {
+                return localDate.Value;
             }
 
-            return date.Value;
+            throw offsetDate.Exception;
         }
 
         /// <summary>

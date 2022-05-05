@@ -9,6 +9,7 @@ namespace MetadataUtility.Tests.Audio
     using FluentAssertions;
     using MetadataUtility.Audio;
     using MetadataUtility.Tests.TestHelpers;
+    using NodaTime;
     using NodaTime.Text;
     using Xunit;
     using Xunit.Abstractions;
@@ -40,7 +41,7 @@ namespace MetadataUtility.Tests.Audio
 
             Wamd wamdData = (Wamd)tryWamdData;
 
-            wamdData.StartDate.Should().Be(OffsetDateTimePattern.CreateWithInvariantCulture("G").Parse("2021-06-21T20:57:06-03:00").Value);
+            ((OffsetDateTime)wamdData.StartDate).Should().Be(OffsetDateTimePattern.CreateWithInvariantCulture("G").Parse("2021-06-21T20:57:06-03:00").Value);
             wamdData.Name.Should().Be("SM4BAT-FS");
             wamdData.SerialNumber.Should().Be("S4U09523");
             wamdData.Firmware.Should().Be("2.2.1");
