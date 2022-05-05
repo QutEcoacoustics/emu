@@ -56,6 +56,7 @@ namespace MetadataUtility.Metadata.WildlifeAcoustics
                     {
                         Longitude = recording.Location?.Longitude ?? wamdData.Longitude,
                         Latitude = recording.Location?.Latitude ?? wamdData.Latitude,
+                        Altitude = recording.Location?.Altitude ?? wamdData.Altitude,
                     },
                 };
 

@@ -172,21 +172,21 @@ namespace MetadataUtility.Audio
         {
             Dictionary<string, double> location = new Dictionary<string, double>();
 
-            string[] locationInfo = value.Split(",", StringSplitOptions.RemoveEmptyEntries);
+            string[] locationInfo = value.Split(",");
 
-            double latitude = double.Parse(locationInfo[0]);
-            string latitudeDirection = locationInfo[1];
+            double latitude = double.Parse(locationInfo[1]);
+            string latitudeDirection = locationInfo[2];
 
-            double longitude = double.Parse(locationInfo[2]);
-            string longitudeDirection = locationInfo[3];
+            double longitude = double.Parse(locationInfo[3]);
+            string longitudeDirection = locationInfo[4];
 
             location[LatitudeKey] = latitudeDirection.Equals("N") ? latitude : latitude * -1;
             location[LongitudeKey] = latitudeDirection.Equals("E") ? longitude : longitude * -1;
 
             // If location contains an altitude information, parse that as well
-            if (locationInfo.Length > 4)
+            if (locationInfo.Length > 5)
             {
-                location[AltitudeKey] = double.Parse(locationInfo[4]);
+                location[AltitudeKey] = double.Parse(locationInfo[5]);
             }
 
             return location;
