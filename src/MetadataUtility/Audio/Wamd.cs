@@ -24,6 +24,7 @@ namespace MetadataUtility.Audio
         public const int TemperatureChunkId = 0x15;
         public const string LatitudeKey = "Latitude";
         public const string LongitudeKey = "Longitude";
+        public const string AltitudeKey = "Altitude";
         public static readonly byte[] WamdChunkId = new byte[] { (byte)'w', (byte)'a', (byte)'m', (byte)'d' };
         public static readonly Error WamdVersionError = Error.New("Error reading wamd version");
         public static readonly OffsetDateTimePattern DatePattern = OffsetDateTimePattern.CreateWithInvariantCulture("yyyy'-'MM'-'dd' 'HH':'mm':'sso<m>");
@@ -41,6 +42,7 @@ namespace MetadataUtility.Audio
                     Dictionary<string, double> location = LocationParser(value);
                     wamdData.Latitude = location[LatitudeKey];
                     wamdData.Longitude = location[LongitudeKey];
+                    wamdData.Altitude = location.ContainsKey(AltitudeKey) ? location[AltitudeKey] : null;
                 }
             },
             { TemperatureChunkId, (wamdData, value) => wamdData.Temperature = value },
@@ -60,9 +62,11 @@ namespace MetadataUtility.Audio
 
         public string[] MicrophoneSensitivity { get; set; }
 
-        public double Longitude { get; set; }
+        public double? Longitude { get; set; }
 
-        public double Latitude { get; set; }
+        public double? Latitude { get; set; }
+
+        public double? Altitude { get; set; }
 
         /// <summary>
         /// Check if file has version 1 wamd chunk.
@@ -143,18 +147,14 @@ namespace MetadataUtility.Audio
         /// <returns>The parsed date.</returns>
         public static OffsetDateTime? DateParser(string value)
         {
-            OffsetDateTime? date = null;
+            var date = DatePattern.Parse(value);
 
-            try
+            if (!date.Success)
             {
-                date = DatePattern.Parse(value).Value;
-            }
-            catch (UnparsableValueException)
-            {
-                return null;
+                throw date.Exception;
             }
 
-            return date;
+            return date.Value;
         }
 
         /// <summary>
@@ -176,6 +176,12 @@ namespace MetadataUtility.Audio
 
             location[LatitudeKey] = latitudeDirection.Equals("N") ? latitude : latitude * -1;
             location[LongitudeKey] = latitudeDirection.Equals("E") ? longitude : longitude * -1;
+
+            // If location contains an altitude information, parse that as well
+            if (locationInfo.Length > 4)
+            {
+                location[AltitudeKey] = double.Parse(locationInfo[4]);
+            }
 
             return location;
         }
