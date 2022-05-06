@@ -21,13 +21,16 @@ namespace MetadataUtility.Tests.Audio
         {
         }
 
-        [Theory]
-        [ClassData(typeof(FixtureHelper.FixtureData))]
-        public void HasVersion1WamdChunkTest(FixtureModel model)
+        [Fact]
+        public void HasVersion1WamdChunkTest()
         {
-            bool hasWamd = Wamd.HasVersion1WamdChunk(model.ToTargetInformation(this.RealFileSystem).FileStream).IfFail(false);
+            Stream wamdFile = this.RealFileSystem.File.Open(Helpers.FixturesRoot + "/WA_SM4BAT/2.2.1_Normal/S4U09523_20210621_205706.wav", FileMode.Open, FileAccess.Read, FileShare.Read);
+            bool hasWamd = Wamd.HasVersion1WamdChunk(wamdFile).IfFail(false);
+            Assert.True(hasWamd);
 
-            hasWamd.Should().Be(model.CanProcess.Contains("WamdExtractor"));
+            Stream noWamdFile = this.RealFileSystem.File.Open(Helpers.FixturesRoot + "/FL_BAR_LT/3.14_Normal/20191026T000000+1000_REC.flac", FileMode.Open, FileAccess.Read, FileShare.Read);
+            hasWamd = Wamd.HasVersion1WamdChunk(noWamdFile).IfFail(false);
+            Assert.False(hasWamd);
         }
 
         [Fact]

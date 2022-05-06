@@ -6,6 +6,7 @@ namespace MetadataUtility.Audio
 {
     using System;
     using System.Buffers.Binary;
+    using System.Diagnostics;
     using System.Text;
     using LanguageExt;
     using LanguageExt.Common;
@@ -165,6 +166,7 @@ namespace MetadataUtility.Audio
 
         /// <summary>
         /// Parses location data.
+        /// Expected format according to wamd documentation: WGS84,nn.nnnnn,N,mmm.mmmmm,W[,alt].
         /// </summary>
         /// <param name="value">The location to parse.</param>
         /// <returns>Dictionary representing the parsed location data.</returns>
@@ -173,6 +175,9 @@ namespace MetadataUtility.Audio
             Dictionary<string, double> location = new Dictionary<string, double>();
 
             string[] locationInfo = value.Split(",");
+
+            // First element (WGS84) is assumed to be empty, if not location format could be unpredictable
+            Debug.Assert(string.IsNullOrEmpty(locationInfo[0]), $"Expected empty WGS84, instead found {locationInfo[0]}");
 
             double latitude = double.Parse(locationInfo[1]);
             string latitudeDirection = locationInfo[2];
