@@ -51,8 +51,9 @@ namespace MetadataUtility.Tests.Metadata
                 this.Recording);
 
             recording.Extension.Should().Be(model.Extension);
-
-            // TODO: Add other assertions here!
+            recording.StartDate.Should().Be(model.StartDate);
+            recording.LocalStartDate.Should().Be(model.LocalStartDate);
+            recording.Location.Should().BeEquivalentTo(model.Location);
         }
     }
 }

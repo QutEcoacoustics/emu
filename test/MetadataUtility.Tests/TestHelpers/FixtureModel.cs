@@ -68,6 +68,8 @@ namespace MetadataUtility.Tests.TestHelpers
 
         public OffsetDateTime? StartDate { get; set; }
 
+        public LocalDateTime? LocalStartDate { get; set; }
+
         public OffsetDateTime? EndDate { get; set; }
 
         public ulong? FileLengthBytes { get; set; }

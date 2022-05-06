@@ -28,5 +28,10 @@ namespace MetadataUtility.Serialization
         /// Gets a singleton <see cref="OffsetConverter"/>.
         /// </summary>
         public static OffsetConverter OffsetConverter { get; } = new OffsetConverter();
+
+        /// <summary>
+        /// Gets a singleton <see cref="InstantConverter"/>.
+        /// </summary>
+        public static InstantConverter InstantConverter { get; } = new InstantConverter();
     }
 }
