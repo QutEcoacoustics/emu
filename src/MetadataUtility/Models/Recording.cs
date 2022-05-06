@@ -64,12 +64,19 @@ namespace MetadataUtility.Models
         public string Name => this.Stem + this.Extension;
 
         /// <summary>
-        /// Gets the start date of the recording.
+        /// Gets the unambiguous start date of the recording.
         /// This is extracted either from the filename or from the metadata
         /// included in the recording.
         /// </summary>
         //public MetadataSource<OffsetDateTime>? StartDate { get; init; }
         public OffsetDateTime? StartDate { get; init; }
+
+        /// <summary>
+        /// Gets an ambiguous start date of the recording (no offset).
+        /// This is extracted either from the filename or from the metadata
+        /// included in the recording.
+        /// </summary>
+        public LocalDateTime? LocalStartDate { get; init; }
 
         /// <summary>
         /// Gets a Checksum calculated for the file.

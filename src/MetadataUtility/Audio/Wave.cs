@@ -282,12 +282,6 @@ namespace MetadataUtility.Audio
             return length / (uint)(channels * (bitsPerSample / 8));
         }
 
-        private static Error FileTooShort(ReadOnlySpan<byte> chunkName) =>
- Error.New($"Error reading file: file is not long enough to have a {Encoding.ASCII.GetString(chunkName)} header");
-
-        private static Error ChunkNotFound(ReadOnlySpan<byte> chunkName) =>
-            Error.New($"Error reading file: a {Encoding.ASCII.GetString(chunkName)} chunk was not found");
-
         /// <summary>
         /// Scans a container (a range of bytes) for a sub-chunk with the given chunk ID.
         /// The target chunk may be in any position within it's siblings.
@@ -298,7 +292,7 @@ namespace MetadataUtility.Audio
         /// <param name="container">The subset of the stream to read from.</param>
         /// <param name="targetChunkId">The target chunk to look for.</param>
         /// <returns>An error if the chunk was not found, or a Range of the target chunk if it was found.</returns>
-        private static Fin<RangeHelper.Range> ScanForChunk(Stream stream, RangeHelper.Range container, ReadOnlySpan<byte> targetChunkId)
+        public static Fin<RangeHelper.Range> ScanForChunk(Stream stream, RangeHelper.Range container, ReadOnlySpan<byte> targetChunkId)
         {
             const int ChunkIdLength = 4;
             const int ChunkLengthLength = 4;
@@ -353,5 +347,11 @@ namespace MetadataUtility.Audio
 
             return ChunkNotFound(targetChunkId);
         }
+
+        private static Error FileTooShort(ReadOnlySpan<byte> chunkName) =>
+            Error.New($"Error reading file: file is not long enough to have a {Encoding.ASCII.GetString(chunkName)} header");
+
+        private static Error ChunkNotFound(ReadOnlySpan<byte> chunkName) =>
+            Error.New($"Error reading file: a {Encoding.ASCII.GetString(chunkName)} chunk was not found");
     }
 }

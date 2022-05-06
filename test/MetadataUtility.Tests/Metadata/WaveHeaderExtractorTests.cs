@@ -4,15 +4,8 @@
 
 namespace MetadataUtility.Tests.Metadata
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
     using FluentAssertions;
-    using MetadataUtility.Audio;
     using MetadataUtility.Metadata;
-    using MetadataUtility.Metadata.WildlifeAcoustics.SM4BAT;
     using MetadataUtility.Models;
     using MetadataUtility.Tests.TestHelpers;
     using Xunit;

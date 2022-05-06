@@ -39,5 +39,11 @@ namespace MetadataUtility.Models
         /// Gets the name of the microphone (style depends on vendor).
         /// </summary>
         public string ChannelName { get; init; }
+
+        /// <summary>
+        /// Gets the sensitivity of the microphone.
+        /// Units: Decibels relative to full scale (dBFS).
+        /// </summary>
+        public string Sensitivity { get; init; }
     }
 }

@@ -5,7 +5,7 @@
 namespace MetadataUtility.Metadata
 {
     using MetadataUtility.Metadata.FrontierLabs;
-    using MetadataUtility.Metadata.WildlifeAcoustics.SM4BAT;
+    using MetadataUtility.Metadata.WildlifeAcoustics;
 
     public class MetadataRegister
     {
@@ -16,6 +16,7 @@ namespace MetadataUtility.Metadata
             typeof(WaveHeaderExtractor),
             typeof(FlacHeaderExtractor),
             typeof(FlacCommentExtractor),
+            typeof(WamdExtractor),
             typeof(LogFileExtractor),
         };
 
