@@ -38,6 +38,7 @@ namespace MetadataUtility.Metadata
             recording = recording with
             {
                 Extension = recording.Extension ?? result.Extension,
+                Stem = recording.Stem ?? result.Prefix + result.DatePart + result.Suffix,
                 StartDate = recording.StartDate ?? result.OffsetDateTime,
                 LocalStartDate = recording.LocalStartDate ?? result.LocalDateTime,
                 Location = recording.Location ?? result.Location,
