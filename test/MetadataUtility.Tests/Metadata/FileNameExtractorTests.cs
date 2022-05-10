@@ -4,11 +4,6 @@
 
 namespace MetadataUtility.Tests.Metadata
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
     using FluentAssertions;
     using MetadataUtility.Metadata;
     using MetadataUtility.Models;
@@ -51,6 +46,7 @@ namespace MetadataUtility.Tests.Metadata
                 this.Recording);
 
             recording.Extension.Should().Be(model.Extension);
+            recording.Stem.Should().Be(model.Stem);
             recording.StartDate.Should().Be(model.StartDate);
             recording.LocalStartDate.Should().Be(model.LocalStartDate);
             recording.Location.Should().BeEquivalentTo(model.Location);

@@ -24,10 +24,10 @@ namespace MetadataUtility.Tests.TestHelpers
 
     public class FixtureModel
     {
-        public const string ShortFile = "Short error file";
-        public const string MetadataDurationBug = "Metadata duration bug";
+        public const string ShortFile = "Short Error File";
+        public const string MetadataDurationBug = "Metadata Duration Bug";
         public const string ZeroDbSamples = "Zero dB Samples";
-        public const string NormalFile = "Normal file";
+        public const string NormalFile = "Normal File";
         public const string SM4BatNormal1 = "SM4 Bat Normal 1";
 
         private string fixturePath;
@@ -36,7 +36,13 @@ namespace MetadataUtility.Tests.TestHelpers
 
         public string Extension { get; set; }
 
+        public string Stem { get; set; }
+
         public string Vendor { get; set; }
+
+        public Checksum CalculatedChecksum { get; set; }
+
+        public Checksum EmbeddedChecksum { get; set; }
 
         public ValidMetadata ValidMetadata { get; set; }
 
