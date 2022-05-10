@@ -82,6 +82,8 @@ namespace MetadataUtility.Tests.TestHelpers
 
         public ushort? BlockAlign { get; set; }
 
+        public Dictionary<string, FixtureModel> Conditionals { get; set; }
+
         // TODO: add other columns from the CSV here!
 
         public bool IsFlac => this.MimeType == Flac.Mime;

@@ -50,6 +50,11 @@ namespace MetadataUtility.Tests.Metadata
                     ti,
                     this.Recording);
 
+                if (model.Conditionals != null && model.Conditionals.ContainsKey("FrontierLabsLogFileExtractor"))
+                {
+                    model = model.Conditionals["FrontierLabsLogFileExtractor"];
+                }
+
                 recording.MemoryCard.Should().BeEquivalentTo(model.MemoryCard);
                 recording.Sensor.Firmware.Should().Be(model.Sensor.Firmware);
                 recording.Sensor.SerialNumber.Should().Be(model.Sensor.SerialNumber);

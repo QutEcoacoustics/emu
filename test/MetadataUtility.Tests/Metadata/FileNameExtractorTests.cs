@@ -4,6 +4,7 @@
 
 namespace MetadataUtility.Tests.Metadata
 {
+    using System.Linq;
     using FluentAssertions;
     using MetadataUtility.Metadata;
     using MetadataUtility.Models;
@@ -45,11 +46,19 @@ namespace MetadataUtility.Tests.Metadata
                 model.ToTargetInformation(this.RealFileSystem),
                 this.Recording);
 
-            recording.Extension.Should().Be(model.Extension);
-            recording.Stem.Should().Be(model.Stem);
-            recording.StartDate.Should().Be(model.StartDate);
-            recording.LocalStartDate.Should().Be(model.LocalStartDate);
-            recording.Location.Should().BeEquivalentTo(model.Location);
+            if (model.Process.Contains("FilenameExtractor"))
+            {
+                if (model.Conditionals != null && model.Conditionals.ContainsKey("FilenameExtractor"))
+                {
+                    model = model.Conditionals["FilenameExtractor"];
+                }
+
+                recording.Extension.Should().Be(model.Extension);
+                recording.Stem.Should().Be(model.Stem);
+                recording.StartDate.Should().Be(model.StartDate);
+                recording.LocalStartDate.Should().Be(model.LocalStartDate);
+                recording.Location.Should().BeEquivalentTo(model.Location);
+            }
         }
     }
 }

@@ -66,6 +66,7 @@
     Value:
   EndDate:
   BlockAlign:
+  Conditionals:
 
 - Name: Metadata Duration Bug
   FixturePath: FL_BAR_LT/3.17_Duration/20200801T000000+1000_REC.flac
@@ -144,6 +145,13 @@
     Value:
   EndDate: 2020-08-01T01:59:55+10:00
   BlockAlign:
+  Conditionals:
+    FilenameExtractor:
+      Extension: .flac
+      Stem: 20200801T000000+1000_REC
+      StartDate: 2020-08-01T00:00:00+10:00
+      LocalStartDate: 2020-08-01T00:00:00
+      Location:
 
 - Name: Zero dB Samples
   FixturePath: FL_BAR_LT/3.03_OneHour/20181101_000006_REC [-27.3866 152.8761].flac
@@ -214,7 +222,8 @@
     Type:
     Value:
   EndDate:
-  BlockAlign:	
+  BlockAlign:
+  Conditionals:
 
 - Name: Normal File
   FixturePath: FL_BAR_LT/3.14_Normal/20191026T000000+1000_REC.flac
@@ -292,7 +301,14 @@
     Type:
     Value:
   EndDate: 2019-10-26T01:59:56+10:00
-  BlockAlign:	
+  BlockAlign:
+  Conditionals: 
+    FilenameExtractor:
+      Extension: .flac
+      Stem: 20191026T000000+1000_REC
+      StartDate: 2019-10-26T00:00:00+10:00
+      LocalStartDate: 2019-10-26T00:00:00
+      Location:
 
 - Name: Glitchy Signal
   FixturePath: FL_BAR_LT/3.14_GlitchySignal/20191125_AAO/20191125T235900+1000_REC.flac
@@ -372,7 +388,14 @@
     Type:
     Value:
   EndDate: 2019-11-25T23:59:56+10:00
-  BlockAlign:	
+  BlockAlign:
+  Conditionals:
+    FilenameExtractor:
+      Extension: .flac
+      Stem: 20191125T235900+1000_REC
+      StartDate: 2019-11-25T23:59:00+10:00
+      LocalStartDate: 2019-11-25T23:59:00
+      Location:
 
 - Name: Short File
   FixturePath: FL_BAR_LT/3.14_ShortFiles/20191104_AAO/20191104T020000+1000_REC.flac
@@ -452,7 +475,14 @@
     Type:
     Value:
   EndDate: 2019-11-04T01:59:55+10:00
-  BlockAlign:	
+  BlockAlign:
+  Conditionals:
+    FilenameExtractor:
+      Extension: .flac
+      Stem: 20191104T020000+1000_REC
+      StartDate: 2019-11-04T02:00:00+10:00
+      LocalStartDate: 2019-11-04T02:00:00
+      Location:
 
 - Name: Two Log Files 1
   FixturePath: FL_BAR_LT/3.28_MultiLogFile/8537_20210709T040000-0300_every1d6x4hrs [+44.72053-062.80072].wav
@@ -521,7 +551,8 @@
     Type:
     Value:
   EndDate:
-  BlockAlign:	
+  BlockAlign:
+  Conditionals:
 
 - Name: Two Log Files 2
   FixturePath: FL_BAR_LT/3.28_MultiLogFile/8537_20210622T160000-0300_every1d6x4hrs [+44.72053-062.80072].wav
@@ -591,6 +622,7 @@
     Value:
   EndDate:
   BlockAlign:	
+  Conditionals:
 
 - Name: SM4 Bat Normal 1
   FixturePath: WA_SM4BAT/2.2.1_Normal/S4U09523_20210621_205706.wav
@@ -669,6 +701,13 @@
     Value:
   EndDate:
   BlockAlign: 2
+  Conditionals:
+    FilenameExtractor:
+      Extension: .wav
+      Stem: S4U09523_20210621_205706
+      StartDate:
+      LocalStartDate: 2021-06-21T20:57:06
+      Location:
 
 - Name: SM4 Bat Normal 2
   FixturePath: WA_SM4BAT/2.2.1_Normal/S4U09523_20210621_212111.wav
@@ -747,6 +786,13 @@
     Value:
   EndDate:
   BlockAlign: 2
+  Conditionals:
+    FilenameExtractor:
+      Extension: .wav
+      Stem: S4U09523_20210621_212111
+      StartDate:
+      LocalStartDate: 2021-06-21T21:21:11
+      Location:
 
 - Name: Firmware 3.3
   FixturePath: FL_BAR_LT/3.30_NewFirmware/00008570_Dartmouth_20220331T094900-0300_Rec.flac
@@ -765,6 +811,7 @@
     - FilenameExtractor
     - FlacHeaderExtractor
     - FlacCommentExtractor
+    - FrontierLabsLogFileExtractor
     - FLCommentAndLogExtractor
   Vendor: Frontier Labs
   StartDate: 2022-03-31T09:49:02-03:00
@@ -827,3 +874,29 @@
     Value:
   EndDate: 2022-03-31T10:01:02-03:00
   BlockAlign:	
+  Conditionals:
+    FilenameExtractor:
+      Extension: .flac
+      Stem: 00008570_Dartmouth_20220331T094900-0300_Rec
+      StartDate: 2022-03-31T09:49:00-03:00
+      LocalStartDate: 2022-03-31T09:49:00
+      Location:
+    FrontierLabsLogFileExtractor:
+      MemoryCard:
+        FormatType: exFAT
+        ManufacturerID: 3
+        OEMID: SD
+        ProductName: SD128
+        ProductRevision: 8.5
+        SerialNumber: 8041328
+        ManufactureDate: 2020/08
+        Speed: 50
+        Capacity: 124868608
+        WrCurrentVmin: 5
+        WrCurrentVmax: 5
+        WriteBlSize: 512
+        EraseBlSize: 65536
+      Sensor:
+        Firmware: 3.30
+        SerialNumber: 00008570
+        PowerSource: Ext-power     
