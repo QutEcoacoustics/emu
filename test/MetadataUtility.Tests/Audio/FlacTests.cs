@@ -4,7 +4,6 @@
 
 namespace MetadataUtility.Tests.Audio
 {
-    using System.Linq;
     using FluentAssertions;
     using LanguageExt;
     using MetadataUtility.Audio;
@@ -23,11 +22,11 @@ namespace MetadataUtility.Tests.Audio
         [ClassData(typeof(FixtureHelper.FixtureData))]
         public void ReadTotalSamplesTest(FixtureModel model)
         {
-            if (model.Process.Contains("FlacHeaderExtractor"))
+            if (model.Process.ContainsKey(FixtureModel.FlacHeaderExtractor))
             {
                 Fin<ulong> totalSamples = Flac.ReadTotalSamples(model.ToTargetInformation(this.RealFileSystem).FileStream);
                 Assert.True(totalSamples.IsSucc);
-                ((ulong)totalSamples).Should().Be(model.TotalSamples);
+                ((ulong)totalSamples).Should().Be(model.Record.TotalSamples);
             }
         }
 
@@ -35,11 +34,11 @@ namespace MetadataUtility.Tests.Audio
         [ClassData(typeof(FixtureHelper.FixtureData))]
         public void ReadSampleRateTest(FixtureModel model)
         {
-            if (model.Process.Contains("FlacHeaderExtractor"))
+            if (model.Process.ContainsKey(FixtureModel.FlacHeaderExtractor))
             {
                 Fin<uint> sampleRate = Flac.ReadSampleRate(model.ToTargetInformation(this.RealFileSystem).FileStream);
                 Assert.True(sampleRate.IsSucc);
-                ((uint)sampleRate).Should().Be(model.SampleRateHertz);
+                ((uint)sampleRate).Should().Be(model.Record.SampleRateHertz);
             }
         }
 
@@ -47,11 +46,11 @@ namespace MetadataUtility.Tests.Audio
         [ClassData(typeof(FixtureHelper.FixtureData))]
         public void ReadNumChannelsTest(FixtureModel model)
         {
-            if (model.Process.Contains("FlacHeaderExtractor"))
+            if (model.Process.ContainsKey(FixtureModel.FlacHeaderExtractor))
             {
                 Fin<byte> channels = Flac.ReadNumChannels(model.ToTargetInformation(this.RealFileSystem).FileStream);
                 Assert.True(channels.IsSucc);
-                ((byte)channels).Should().Be((byte)model.Channels);
+                ((byte)channels).Should().Be((byte)model.Record.Channels);
             }
         }
 
@@ -59,11 +58,11 @@ namespace MetadataUtility.Tests.Audio
         [ClassData(typeof(FixtureHelper.FixtureData))]
         public void ReadBitDepthTest(FixtureModel model)
         {
-            if (model.Process.Contains("FlacHeaderExtractor"))
+            if (model.Process.ContainsKey(FixtureModel.FlacHeaderExtractor))
             {
                 Fin<byte> bitDepth = Flac.ReadBitDepth(model.ToTargetInformation(this.RealFileSystem).FileStream);
                 Assert.True(bitDepth.IsSucc);
-                ((byte)bitDepth).Should().Be(model.BitDepth);
+                ((byte)bitDepth).Should().Be(model.Record.BitDepth);
             }
         }
 

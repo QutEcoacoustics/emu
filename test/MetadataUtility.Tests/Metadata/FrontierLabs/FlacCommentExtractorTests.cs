@@ -4,7 +4,6 @@
 
 namespace MetadataUtility.Tests.Metadata
 {
-    using System.Linq;
     using FluentAssertions;
     using MetadataUtility.Metadata.FrontierLabs;
     using MetadataUtility.Models;
@@ -32,7 +31,7 @@ namespace MetadataUtility.Tests.Metadata
             var result = await this.subject.CanProcessAsync(model.ToTargetInformation(this.RealFileSystem));
 
             // we can process any file that is Frontier Labs and FLAC
-            var expected = model.CanProcess.Contains("FlacCommentExtractor");
+            var expected = model.Process.ContainsKey(FixtureModel.FlacCommentExtractor);
             Assert.Equal(expected, result);
         }
 
@@ -40,26 +39,28 @@ namespace MetadataUtility.Tests.Metadata
         [ClassData(typeof(FixtureHelper.FixtureData))]
         public async void ProcessFilesWorks(FixtureModel model)
         {
-            if (model.Process.Contains("FlacCommentExtractor"))
+            if (model.Process.ContainsKey(FixtureModel.FlacCommentExtractor))
             {
+                Recording expectedRecording = model.Record;
+
                 var recording = await this.subject.ProcessFileAsync(
                     model.ToTargetInformation(this.RealFileSystem),
                     this.Recording);
 
-                recording.Sensor.Firmware.Should().Be(model.Sensor.Firmware);
-                recording.Sensor.Microphones.Should().BeEquivalentTo(model.Sensor.Microphones);
-                recording.Sensor.BatteryLevel.Should().Be(model.Sensor.BatteryLevel);
-                recording.Sensor.LastTimeSync.Should().Be(model.Sensor.LastTimeSync);
-                (recording.Location?.Longitude).Should().Be(model.Location.Longitude);
-                (recording.Location?.Latitude).Should().Be(model.Location.Latitude);
-                recording.StartDate.Should().Be(model.StartDate);
-                recording.EndDate.Should().Be(model.EndDate);
-                recording.MemoryCard.ManufacturerID.Should().Be(model.MemoryCard.ManufacturerID);
-                recording.MemoryCard.OEMID.Should().Be(model.MemoryCard.OEMID);
-                recording.MemoryCard.ProductName.Should().Be(model.MemoryCard.ProductName);
-                recording.MemoryCard.ProductRevision.Should().Be(model.MemoryCard.ProductRevision);
-                recording.MemoryCard.SerialNumber.Should().Be(model.MemoryCard.SerialNumber);
-                recording.MemoryCard.ManufactureDate.Should().Be(model.MemoryCard.ManufactureDate);
+                recording.Sensor.Firmware.Should().Be(expectedRecording.Sensor.Firmware);
+                recording.Sensor.Microphones.Should().BeEquivalentTo(expectedRecording.Sensor.Microphones);
+                recording.Sensor.BatteryLevel.Should().Be(expectedRecording.Sensor.BatteryLevel);
+                recording.Sensor.LastTimeSync.Should().Be(expectedRecording.Sensor.LastTimeSync);
+                (recording.Location?.Longitude).Should().Be(expectedRecording.Location.Longitude);
+                (recording.Location?.Latitude).Should().Be(expectedRecording.Location.Latitude);
+                recording.StartDate.Should().Be(expectedRecording.StartDate);
+                recording.EndDate.Should().Be(expectedRecording.EndDate);
+                recording.MemoryCard.ManufacturerID.Should().Be(expectedRecording.MemoryCard.ManufacturerID);
+                recording.MemoryCard.OEMID.Should().Be(expectedRecording.MemoryCard.OEMID);
+                recording.MemoryCard.ProductName.Should().Be(expectedRecording.MemoryCard.ProductName);
+                recording.MemoryCard.ProductRevision.Should().Be(expectedRecording.MemoryCard.ProductRevision);
+                recording.MemoryCard.SerialNumber.Should().Be(expectedRecording.MemoryCard.SerialNumber);
+                recording.MemoryCard.ManufactureDate.Should().Be(expectedRecording.MemoryCard.ManufactureDate);
             }
         }
     }

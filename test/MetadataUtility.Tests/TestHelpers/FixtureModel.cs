@@ -7,13 +7,12 @@ namespace MetadataUtility.Tests.TestHelpers
     using System;
     using System.Collections.Generic;
     using System.IO.Abstractions;
+    using System.Reflection;
     using CsvHelper.Configuration.Attributes;
     using MetadataUtility.Audio;
     using MetadataUtility.Metadata;
     using MetadataUtility.Metadata.SupportFiles;
     using MetadataUtility.Models;
-    using NodaTime;
-    using Rationals;
 
     public enum ValidMetadata
     {
@@ -29,62 +28,28 @@ namespace MetadataUtility.Tests.TestHelpers
         public const string ZeroDbSamples = "Zero dB Samples";
         public const string NormalFile = "Normal File";
         public const string SM4BatNormal1 = "SM4 Bat Normal 1";
+        public const string FilenameExtractor = "FilenameExtractor";
+        public const string FlacHeaderExtractor = "FlacHeaderExtractor";
+        public const string FlacCommentExtractor = "FlacCommentExtractor";
+        public const string FrontierLabsLogFileExtractor = "FrontierLabsLogFileExtractor";
+        public const string WamdExtractor = "WamdExtractor";
+        public const string FLCommentAndLogExtractor = "FLCommentAndLogExtractor";
 
         private string fixturePath;
 
+        public Recording Record { get; set; }
+
         public string Name { get; set; }
 
-        public string Extension { get; set; }
-
-        public string Stem { get; set; }
-
         public string Vendor { get; set; }
-
-        public Checksum CalculatedChecksum { get; set; }
-
-        public Checksum EmbeddedChecksum { get; set; }
 
         public ValidMetadata ValidMetadata { get; set; }
 
         public string MimeType { get; set; }
 
-        public Rational DurationSeconds { get; set; }
+        public string[] OverwriteProperties { get; set; }
 
-        public ushort Channels { get; set; }
-
-        public uint SampleRateHertz { get; set; }
-
-        public uint BitsPerSecond { get; set; }
-
-        public byte BitDepth { get; set; }
-
-        public ulong TotalSamples { get; set; }
-
-        public string FrontierLabsLogFile { get; set; }
-
-        public string[] Process { get; set; }
-
-        public string[] CanProcess { get; set; }
-
-        public MemoryCard MemoryCard { get; set; }
-
-        public Sensor Sensor { get; set; }
-
-        public Location Location { get; set; }
-
-        public OffsetDateTime? StartDate { get; set; }
-
-        public LocalDateTime? LocalStartDate { get; set; }
-
-        public OffsetDateTime? EndDate { get; set; }
-
-        public ulong? FileLengthBytes { get; set; }
-
-        public ushort? BlockAlign { get; set; }
-
-        public Dictionary<string, FixtureModel> Conditionals { get; set; }
-
-        // TODO: add other columns from the CSV here!
+        public Dictionary<string, FixtureModel> Process { get; set; }
 
         public bool IsFlac => this.MimeType == Flac.Mime;
 
@@ -123,6 +88,34 @@ namespace MetadataUtility.Tests.TestHelpers
             SupportFile.FindSupportFiles(fileSystem.Path.GetDirectoryName(ti.Path), new List<TargetInformation> { ti }, fileSystem);
 
             return ti;
+        }
+
+        /// <summary>
+        /// Overwrite certain values in the recording.
+        /// Used for edge cases with some extractor.
+        /// </summary>
+        /// <param name="overwriteRecording">The FixtureModel containing the values to overwrite.</param>
+        public void ApplyOverwrites(FixtureModel overwriteRecording)
+        {
+            foreach (string overwrite in overwriteRecording.OverwriteProperties)
+            {
+                var nestedProperties = overwrite.Split(".");
+                object currentObject = this.Record, overwriteValue = overwriteRecording.Record;
+                PropertyInfo property = currentObject.GetType().GetProperty(nestedProperties[0]);
+
+                // Locate the property if nested
+                for (int i = 1; i < nestedProperties.Length; i++)
+                {
+                    currentObject = property.GetValue(currentObject);
+                    overwriteValue = property.GetValue(overwriteValue);
+
+                    property = currentObject.GetType().GetProperty(nestedProperties[i]);
+                }
+
+                overwriteValue = property.GetValue(overwriteValue);
+
+                property.SetValue(currentObject, overwriteValue);
+            }
         }
 
         public override string ToString()

@@ -1,902 +1,839 @@
-- Name: Short Error File
+- Name: Short Error File 
+  Record:
+    Extension: .flac
+    Stem: 20181101_060000_REC [-27.3866 152.8761]
+    StartDate:
+    LocalStartDate: 2018-11-01T06:00:00
+    EndDate:
+    DurationSeconds: 0
+    TotalSamples: 0
+    Channels: 0
+    SampleRateHertz: 0
+    BitsPerSecond: 0
+    BitDepth: 0
+    FileLengthBytes: 44
+    BlockAlign:
+    CalculatedChecksum:
+      Type: SHA-2-256
+      Value: grxftajz7fo6my31
+    EmbeddedChecksum:
+      Type:
+      Value:
+    MemoryCard:
+      FormatType: exFAT
+      ManufacturerID: 40
+      OEMID: BE
+      ProductName: SD256
+      ProductRevision: 0.2
+      SerialNumber: 560
+      ManufactureDate: 2015/04
+      Speed: 50
+      Capacity: 250412032
+      WrCurrentVmin: 3
+      WrCurrentVmax: 3
+      WriteBlSize: 512
+      EraseBlSize: 65536
+    Sensor:
+      Name:
+      Firmware: 3.03
+      SerialNumber: 53373100-31334832-34303132-30353031
+      PowerSource: Ext-power
+      Microphones:
+      Voltage:
+      Gain:
+      Configuration:
+      BatteryLevel:
+      Temperature:
+      LastTimeSync:
+    Location:
+      Longitude: 152.8761
+      Latitude: -27.3866
+      Altitude:
+      HorizontalAccuracy:
+      VerticalAccuracy:
+      Speed:
+      Course:
+      SampleDateTime:
+      CoordinateReferenceSystem:
   FixturePath: FL_BAR_LT/3.03_PreallocatedHeader/20181101_AAO [-27.3866 152.8761]/20181101_060000_REC [-27.3866 152.8761].flac
   Notes:
-  Extension: .flac
-  Stem: 20181101_060000_REC [-27.3866 152.8761]
   ValidMetadata: No
   MimeType: audio/wave
-  FrontierLabsLogFile: FL_BAR_LT/3.03_PreallocatedHeader/logfile.txt
-  CanProcess:
-    - FilenameExtractor
-    - FrontierLabsLogFileExtractor
-  Process:
-    - FilenameExtractor
-    - FrontierLabsLogFileExtractor
   Vendor: Frontier Labs
-  StartDate:
-  LocalStartDate: 2018-11-01T06:00:00
-  CalculatedChecksum:
-    Type: SHA-2-256
-    Value: grxftajz7fo6my31
-  DurationSeconds: 0
-  TotalSamples: 0
-  Channels: 0
-  SampleRateHertz: 0
-  BitsPerSecond: 0
-  BitDepth: 0
-  MemoryCard:
-    FormatType: exFAT
-    ManufacturerID: 40
-    OEMID: BE
-    ProductName: SD256
-    ProductRevision: 0.2
-    SerialNumber: 560
-    ManufactureDate: 2015/04
-    Speed: 50
-    Capacity: 250412032
-    WrCurrentVmin: 3
-    WrCurrentVmax: 3
-    WriteBlSize: 512
-    EraseBlSize: 65536
-  FileLengthBytes: 44
-  Sensor:
-    Name:
-    Firmware: 3.03
-    SerialNumber: 53373100-31334832-34303132-30353031
-    PowerSource: Ext-power
-    Microphones:
-    Voltage:
-    Gain:
-    Configuration:
-    BatteryLevel:
-    Temperature:
-    LastTimeSync:
-  Location:
-    Longitude: 152.8761
-    Latitude: -27.3866
-    Altitude:
-    HorizontalAccuracy:
-    VerticalAccuracy:
-    Speed:
-    Course:
-    SampleDateTime:
-    CoordinateReferenceSystem:
-  EmbeddedChecksum:
-    Type:
-    Value:
-  EndDate:
-  BlockAlign:
-  Conditionals:
+  Process:
+    FilenameExtractor: ~
+    FrontierLabsLogFileExtractor: ~
 
-- Name: Metadata Duration Bug
+- Record:
+    Extension: .flac
+    Stem: 20200801T000000+1000_REC
+    StartDate: 2020-08-01T00:00:00+10:00
+    LocalStartDate: 2020-08-01T00:00:00
+    EndDate: 2020-08-01T01:59:55+10:00
+    DurationSeconds: 317292544/22050
+    TotalSamples: 317292544
+    Channels: 1
+    SampleRateHertz: 22050
+    BitsPerSecond: 352800
+    BitDepth: 16
+    FileLengthBytes:
+    BlockAlign:  
+    CalculatedChecksum:
+      Type:
+      Value:
+    EmbeddedChecksum:
+      Type:
+      Value:
+    MemoryCard:
+      FormatType:
+      ManufacturerID: 158
+      OEMID: BE
+      ProductName: 512GB
+      ProductRevision: 0.2
+      SerialNumber: 234
+      ManufactureDate: 2018/10
+      Speed:
+      Capacity:
+      WrCurrentVmin:
+      WrCurrentVmax:
+      WriteBlSize:
+      EraseBlSize:
+    Sensor:
+      Name:
+      Firmware: 3.20
+      SerialNumber: 00002716
+      PowerSource:
+      Microphones:
+        - Type: STD AUDIO MIC
+          UID: 000629
+          BuildDate: 2019-02-22
+          Gain: 50dB
+          Channel: 1
+          ChannelName: A
+          Sensitivity:
+      Voltage:
+      Gain:
+      Configuration:
+      BatteryLevel: 53p 12.16V
+      Temperature:
+      LastTimeSync: 2020-07-31T09:11:30+10:00
+    Location:
+      Longitude: 152.8811
+      Latitude: -27.3886
+      Altitude:
+      HorizontalAccuracy:
+      VerticalAccuracy:
+      Speed:
+      Course:
+      SampleDateTime:
+      CoordinateReferenceSystem:
+  Name: Metadata Duration Bug
   FixturePath: FL_BAR_LT/3.17_Duration/20200801T000000+1000_REC.flac
   Notes:
-  Extension: .flac
-  Stem: 20200801T000000+1000_REC
   ValidMetadata: Partial
   MimeType: audio/flac
-  FrontierLabsLogFile: 
-  CanProcess:
-    - FilenameExtractor
-    - FlacHeaderExtractor
-    - FlacCommentExtractor
-  Process:
-    - FilenameExtractor
-    - FlacHeaderExtractor
-    - FlacCommentExtractor
   Vendor: Frontier Labs
-  StartDate: 2020-08-01T00:00:00+10:00
-  LocalStartDate: 2020-08-01T00:00:00
-  CalculatedChecksum:
-    Type:
-    Value:
-  DurationSeconds: 317292544/22050
-  TotalSamples: 317292544
-  Channels: 1
-  SampleRateHertz: 22050
-  BitsPerSecond: 352800
-  BitDepth: 16
-  MemoryCard:
-    FormatType:
-    ManufacturerID: 158
-    OEMID: BE
-    ProductName: 512GB
-    ProductRevision: 0.2
-    SerialNumber: 234
-    ManufactureDate: 2018/10
-    Speed:
-    Capacity:
-    WrCurrentVmin:
-    WrCurrentVmax:
-    WriteBlSize:
-    EraseBlSize:
-  FileLengthBytes:
-  Sensor:
-    Name:
-    Firmware: 3.20
-    SerialNumber: 00002716
-    PowerSource:
-    Microphones:
-      - Type: STD AUDIO MIC
-        UID: 000629
-        BuildDate: 2019-02-22
-        Gain: 50dB
-        Channel: 1
-        ChannelName: A
-        Sensitivity:
-    Voltage:
-    Gain:
-    Configuration:
-    BatteryLevel: 53p 12.16V
-    Temperature:
-    LastTimeSync: 2020-07-31T09:11:30+10:00
-  Location:
-    Longitude: 152.8811
-    Latitude: -27.3886
-    Altitude:
-    HorizontalAccuracy:
-    VerticalAccuracy:
-    Speed:
-    Course:
-    SampleDateTime:
-    CoordinateReferenceSystem:
-  EmbeddedChecksum:
-    Type:
-    Value:
-  EndDate: 2020-08-01T01:59:55+10:00
-  BlockAlign:
-  Conditionals:
+  Process:
     FilenameExtractor:
-      Extension: .flac
-      Stem: 20200801T000000+1000_REC
-      StartDate: 2020-08-01T00:00:00+10:00
-      LocalStartDate: 2020-08-01T00:00:00
-      Location:
+      Record:
+        Location: ~
+      OverwriteProperties:
+        - Location
+    FlacHeaderExtractor: ~
+    FlacCommentExtractor: ~
 
 - Name: Zero dB Samples
+  Record:
+    Extension: .flac
+    Stem: 20181101_000006_REC [-27.3866 152.8761]
+    StartDate:
+    LocalStartDate: 2018-11-01T00:00:06
+    EndDate:
+    DurationSeconds: 79110144/22050
+    TotalSamples: 79110144
+    Channels: 1
+    SampleRateHertz: 22050
+    BitsPerSecond: 352800
+    BitDepth: 16
+    FileLengthBytes:
+    BlockAlign:
+    CalculatedChecksum:
+      Type:
+      Value:
+    EmbeddedChecksum:
+      Type:
+      Value:
+    MemoryCard:
+      FormatType: exFAT
+      ManufacturerID: 40
+      OEMID: BE
+      ProductName: SD256
+      ProductRevision: 0.2
+      SerialNumber: 560
+      ManufactureDate: 2015/04
+      Speed: 50
+      Capacity: 250412032
+      WrCurrentVmin: 3
+      WrCurrentVmax: 3
+      WriteBlSize: 512
+      EraseBlSize: 65536
+    Sensor:
+      Name:
+      Firmware: 3.03
+      SerialNumber: 53373100-31334832-34303132-30353031
+      PowerSource: Ext-power
+      Microphones:
+      Voltage:
+      Gain:
+      Configuration:
+      BatteryLevel:
+      Temperature:
+      LastTimeSync:
+    Location:
+      Longitude: 152.8761
+      Latitude: -27.3866
+      Altitude:
+      HorizontalAccuracy:
+      VerticalAccuracy:
+      Speed:
+      Course:
+      SampleDateTime:
+      CoordinateReferenceSystem:
   FixturePath: FL_BAR_LT/3.03_OneHour/20181101_000006_REC [-27.3866 152.8761].flac
   Notes:
-  Extension: .flac
-  Stem: 20181101_000006_REC [-27.3866 152.8761]
   ValidMetadata: Yes
   MimeType: audio/flac
-  FrontierLabsLogFile: FL_BAR_LT/3.03_OneHour/logfile.txt
-  CanProcess:
-    - FilenameExtractor
-    - FlacHeaderExtractor
-    - FrontierLabsLogFileExtractor
-  Process:
-    - FilenameExtractor
-    - FlacHeaderExtractor
-    - FrontierLabsLogFileExtractor
   Vendor: Frontier Labs
-  StartDate:
-  LocalStartDate: 2018-11-01T00:00:06
-  CalculatedChecksum:
-    Type:
-    Value:
-  DurationSeconds: 79110144/22050
-  TotalSamples: 79110144
-  Channels: 1
-  SampleRateHertz: 22050
-  BitsPerSecond: 352800
-  BitDepth: 16
-  MemoryCard:
-    FormatType: exFAT
-    ManufacturerID: 40
-    OEMID: BE
-    ProductName: SD256
-    ProductRevision: 0.2
-    SerialNumber: 560
-    ManufactureDate: 2015/04
-    Speed: 50
-    Capacity: 250412032
-    WrCurrentVmin: 3
-    WrCurrentVmax: 3
-    WriteBlSize: 512
-    EraseBlSize: 65536
-  FileLengthBytes:
-  Sensor:
-    Name:
-    Firmware: 3.03
-    SerialNumber: 53373100-31334832-34303132-30353031
-    PowerSource: Ext-power
-    Microphones:
-    Voltage:
-    Gain:
-    Configuration:
-    BatteryLevel:
-    Temperature:
-    LastTimeSync:
-  Location:
-    Longitude: 152.8761
-    Latitude: -27.3866
-    Altitude:
-    HorizontalAccuracy:
-    VerticalAccuracy:
-    Speed:
-    Course:
-    SampleDateTime:
-    CoordinateReferenceSystem:
-  EmbeddedChecksum:
-    Type:
-    Value:
-  EndDate:
-  BlockAlign:
-  Conditionals:
+  Process:
+    FilenameExtractor: ~
+    FlacHeaderExtractor: ~
+    FrontierLabsLogFileExtractor: ~
 
 - Name: Normal File
+  Record:
+    Extension: .flac
+    Stem: 20191026T000000+1000_REC
+    StartDate: 2019-10-26T00:00:01+10:00
+    LocalStartDate: 2019-10-26T00:00:01
+    EndDate: 2019-10-26T01:59:56+10:00
+    DurationSeconds: 158644224/22050
+    TotalSamples: 158644224
+    Channels: 1
+    SampleRateHertz: 22050
+    BitsPerSecond: 352800
+    BitDepth: 16
+    FileLengthBytes:
+    BlockAlign:
+    CalculatedChecksum:
+      Type:
+      Value:
+    EmbeddedChecksum:
+      Type:
+      Value:
+    MemoryCard:
+      FormatType:
+      ManufacturerID: 158
+      OEMID: BE
+      ProductName: 512GB
+      ProductRevision: 0.2
+      SerialNumber: 135
+      ManufactureDate: 2018/10
+      Speed:
+      Capacity:
+      WrCurrentVmin:
+      WrCurrentVmax:
+      WriteBlSize:
+      EraseBlSize:
+    Sensor:
+      Name:
+      Firmware: 3.14
+      SerialNumber: 00000963
+      PowerSource:
+      Microphones:
+        - Type: STD AUDIO MIC
+          UID: 001720
+          BuildDate: 2019-06-18
+          Gain: 50dB
+          Channel: 1
+          ChannelName: A
+          Sensitivity:
+      Voltage:
+      Gain:
+      Configuration:
+      BatteryLevel: 97p 12.72V
+      Temperature:
+      LastTimeSync: 2019-10-25T22:05:49+10:00
+    Location:
+      Longitude: 151.7763
+      Latitude: -30.0905
+      Altitude:
+      HorizontalAccuracy:
+      VerticalAccuracy:
+      Speed:
+      Course:
+      SampleDateTime:
+      CoordinateReferenceSystem:
   FixturePath: FL_BAR_LT/3.14_Normal/20191026T000000+1000_REC.flac
   Notes:
-  Extension: .flac
-  Stem: 20191026T000000+1000_REC
   ValidMetadata: Yes
   MimeType: audio/flac
-  FrontierLabsLogFile:
-  CanProcess:
-    - FilenameExtractor
-    - FlacHeaderExtractor
-    - FlacCommentExtractor
-  Process:
-    - FilenameExtractor
-    - FlacHeaderExtractor
-    - FlacCommentExtractor
   Vendor: Frontier Labs
-  StartDate: 2019-10-26T00:00:01+10:00
-  LocalStartDate: 2019-10-26T00:00:01
-  CalculatedChecksum:
-    Type:
-    Value:
-  DurationSeconds: 158644224/22050
-  TotalSamples: 158644224
-  Channels: 1
-  SampleRateHertz: 22050
-  BitsPerSecond: 352800
-  BitDepth: 16
-  MemoryCard:
-    FormatType:
-    ManufacturerID: 158
-    OEMID: BE
-    ProductName: 512GB
-    ProductRevision: 0.2
-    SerialNumber: 135
-    ManufactureDate: 2018/10
-    Speed:
-    Capacity:
-    WrCurrentVmin:
-    WrCurrentVmax:
-    WriteBlSize:
-    EraseBlSize:
-  FileLengthBytes:
-  Sensor:
-    Name:
-    Firmware: 3.14
-    SerialNumber: 00000963
-    PowerSource:
-    Microphones:
-      - Type: STD AUDIO MIC
-        UID: 001720
-        BuildDate: 2019-06-18
-        Gain: 50dB
-        Channel: 1
-        ChannelName: A
-        Sensitivity:
-    Voltage:
-    Gain:
-    Configuration:
-    BatteryLevel: 97p 12.72V
-    Temperature:
-    LastTimeSync: 2019-10-25T22:05:49+10:00
-  Location:
-    Longitude: 151.7763
-    Latitude: -30.0905
-    Altitude:
-    HorizontalAccuracy:
-    VerticalAccuracy:
-    Speed:
-    Course:
-    SampleDateTime:
-    CoordinateReferenceSystem:
-  EmbeddedChecksum:
-    Type:
-    Value:
-  EndDate: 2019-10-26T01:59:56+10:00
-  BlockAlign:
-  Conditionals: 
+  Process:
     FilenameExtractor:
-      Extension: .flac
-      Stem: 20191026T000000+1000_REC
-      StartDate: 2019-10-26T00:00:00+10:00
-      LocalStartDate: 2019-10-26T00:00:00
-      Location:
+      Record:
+        StartDate: 2019-10-26T00:00:00+10:00
+        LocalStartDate: 2019-10-26T00:00:00
+        Location: ~
+      OverwriteProperties:
+        - StartDate
+        - LocalStartDate
+        - Location
+    FlacHeaderExtractor: ~
+    FlacCommentExtractor: ~
 
 - Name: Glitchy Signal
+  Record:
+    Extension: .flac
+    Stem: 20191125T235900+1000_REC
+    StartDate: 2019-11-25T23:59:06+10:00
+    LocalStartDate: 2019-11-25T23:59:06
+    EndDate: 2019-11-25T23:59:56+10:00
+    DurationSeconds: 1096704/22050
+    TotalSamples: 1096704
+    Channels: 1
+    SampleRateHertz: 22050
+    BitsPerSecond: 352800
+    BitDepth: 16
+    FileLengthBytes:
+    BlockAlign:
+    CalculatedChecksum:
+      Type:
+      Value:
+    EmbeddedChecksum:
+      Type:
+      Value:
+    MemoryCard:
+      FormatType: exFAT
+      ManufacturerID: 158
+      OEMID: BE
+      ProductName: 512GB
+      ProductRevision: 1
+      SerialNumber: 309
+      ManufactureDate: 2018/11
+      Speed: 50
+      Capacity: 484102144
+      WrCurrentVmin: 3
+      WrCurrentVmax: 3
+      WriteBlSize: 512
+      EraseBlSize: 65536
+    Sensor:
+      Name:
+      Firmware: 3.14
+      SerialNumber: 53373100-38324832-30303430-39323032
+      PowerSource: Solar-power
+      Microphones:
+        - Type: STD AUDIO MIC
+          UID: 000610
+          BuildDate: 2019-02-22
+          Gain: 50dB
+          Channel: 1
+          ChannelName: A
+          Sensitivity:
+      Voltage:
+      Gain:
+      Configuration:
+      BatteryLevel: 9p 11.62V
+      Temperature:
+      LastTimeSync: 2019-11-23T01:59:55+10:00
+    Location:
+      Longitude:
+      Latitude:
+      Altitude:
+      HorizontalAccuracy:
+      VerticalAccuracy:
+      Speed:
+      Course:
+      SampleDateTime:
+      CoordinateReferenceSystem:
   FixturePath: FL_BAR_LT/3.14_GlitchySignal/20191125_AAO/20191125T235900+1000_REC.flac
   Notes:
-  Extension: .flac
-  Stem: 20191125T235900+1000_REC
   ValidMetadata: Partial
   MimeType: audio/flac
-  FrontierLabsLogFile: FL_BAR_LT/3.14_GlitchySignal/logfile.txt
-  CanProcess:
-    - FilenameExtractor
-    - FlacHeaderExtractor
-    - FrontierLabsLogFileExtractor
-    - FlacCommentExtractor
-  Process:
-    - FilenameExtractor
-    - FlacHeaderExtractor
-    - FrontierLabsLogFileExtractor
-    - FlacCommentExtractor
   Vendor: Frontier Labs
-  StartDate: 2019-11-25T23:59:06+10:00
-  LocalStartDate: 2019-11-25T23:59:06
-  CalculatedChecksum:
-    Type:
-    Value:
-  DurationSeconds: 1096704/22050
-  TotalSamples: 1096704
-  Channels: 1
-  SampleRateHertz: 22050
-  BitsPerSecond: 352800
-  BitDepth: 16
-  MemoryCard:
-    FormatType: exFAT
-    ManufacturerID: 158
-    OEMID: BE
-    ProductName: 512GB
-    ProductRevision: 1
-    SerialNumber: 309
-    ManufactureDate: 2018/11
-    Speed: 50
-    Capacity: 484102144
-    WrCurrentVmin: 3
-    WrCurrentVmax: 3
-    WriteBlSize: 512
-    EraseBlSize: 65536
-  FileLengthBytes:
-  Sensor:
-    Name:
-    Firmware: 3.14
-    SerialNumber: 53373100-38324832-30303430-39323032
-    PowerSource: Solar-power
-    Microphones:
-      - Type: STD AUDIO MIC
-        UID: 000610
-        BuildDate: 2019-02-22
-        Gain: 50dB
-        Channel: 1
-        ChannelName: A
-        Sensitivity:
-    Voltage:
-    Gain:
-    Configuration:
-    BatteryLevel: 9p 11.62V
-    Temperature:
-    LastTimeSync: 2019-11-23T01:59:55+10:00
-  Location:
-    Longitude:
-    Latitude:
-    Altitude:
-    HorizontalAccuracy:
-    VerticalAccuracy:
-    Speed:
-    Course:
-    SampleDateTime:
-    CoordinateReferenceSystem:
-  EmbeddedChecksum:
-    Type:
-    Value:
-  EndDate: 2019-11-25T23:59:56+10:00
-  BlockAlign:
-  Conditionals:
+  Process:
     FilenameExtractor:
-      Extension: .flac
-      Stem: 20191125T235900+1000_REC
-      StartDate: 2019-11-25T23:59:00+10:00
-      LocalStartDate: 2019-11-25T23:59:00
-      Location:
+      Record:
+        StartDate: 2019-11-25T23:59:00+10:00
+        LocalStartDate: 2019-11-25T23:59:00
+        Location: ~
+      OverwriteProperties:
+        - StartDate
+        - LocalStartDate
+        - Location
+    FlacHeaderExtractor: ~
+    FrontierLabsLogFileExtractor: ~
+    FlacCommentExtractor: ~
 
 - Name: Short File
+  Record:
+    Extension: .flac
+    Stem: 20191104T020000+1000_REC
+    StartDate: 2019-11-04T01:59:55+10:00
+    LocalStartDate: 2019-11-04T01:59:55
+    EndDate: 2019-11-04T01:59:55+10:00
+    DurationSeconds: 9216/22050
+    TotalSamples: 9216
+    Channels: 1
+    SampleRateHertz: 22050
+    BitsPerSecond: 352800
+    BitDepth: 16
+    FileLengthBytes:
+    BlockAlign:
+    CalculatedChecksum:
+      Type:
+      Value:
+    EmbeddedChecksum:
+      Type:
+      Value:
+    MemoryCard:
+      FormatType: exFAT
+      ManufacturerID: 158
+      OEMID: BE
+      ProductName: 512GB
+      ProductRevision: 1
+      SerialNumber: 309
+      ManufactureDate: 2018/11
+      Speed: 50
+      Capacity: 484102144
+      WrCurrentVmin: 3
+      WrCurrentVmax: 3
+      WriteBlSize: 512
+      EraseBlSize: 65536
+    Sensor:
+      Name:
+      Firmware: 3.14
+      SerialNumber: 53373100-38324832-30303430-39323032
+      PowerSource: Solar-power
+      Microphones:
+        - Type: STD AUDIO MIC
+          UID: 000610
+          BuildDate: 2019-02-22
+          Gain: 50dB
+          Channel: 1
+          ChannelName: A
+          Sensitivity:
+      Voltage:
+      Gain:
+      Configuration:
+      BatteryLevel: 52p 12.15V
+      Temperature:
+      LastTimeSync: 2019-11-04T01:59:54+10:00
+    Location:
+      Longitude:
+      Latitude:
+      Altitude:
+      HorizontalAccuracy:
+      VerticalAccuracy:
+      Speed:
+      Course:
+      SampleDateTime:
+      CoordinateReferenceSystem:
   FixturePath: FL_BAR_LT/3.14_ShortFiles/20191104_AAO/20191104T020000+1000_REC.flac
   Notes:
-  Extension: .flac
-  Stem: 20191104T020000+1000_REC
   ValidMetadata: Partial
   MimeType: audio/flac
-  FrontierLabsLogFile: FL_BAR_LT/3.14_ShortFiles/logfile.txt
-  CanProcess:
-    - FilenameExtractor
-    - FlacHeaderExtractor
-    - FrontierLabsLogFileExtractor
-    - FlacCommentExtractor
-  Process:
-    - FilenameExtractor
-    - FlacHeaderExtractor
-    - FrontierLabsLogFileExtractor
-    - FlacCommentExtractor
   Vendor: Frontier Labs
-  StartDate: 2019-11-04T01:59:55+10:00
-  LocalStartDate: 2019-11-04T01:59:55
-  CalculatedChecksum:
-    Type:
-    Value:
-  DurationSeconds: 9216/22050
-  TotalSamples: 9216
-  Channels: 1
-  SampleRateHertz: 22050
-  BitsPerSecond: 352800
-  BitDepth: 16
-  MemoryCard:
-    FormatType: exFAT
-    ManufacturerID: 158
-    OEMID: BE
-    ProductName: 512GB
-    ProductRevision: 1
-    SerialNumber: 309
-    ManufactureDate: 2018/11
-    Speed: 50
-    Capacity: 484102144
-    WrCurrentVmin: 3
-    WrCurrentVmax: 3
-    WriteBlSize: 512
-    EraseBlSize: 65536
-  FileLengthBytes:
-  Sensor:
-    Name:
-    Firmware: 3.14
-    SerialNumber: 53373100-38324832-30303430-39323032
-    PowerSource: Solar-power
-    Microphones:
-      - Type: STD AUDIO MIC
-        UID: 000610
-        BuildDate: 2019-02-22
-        Gain: 50dB
-        Channel: 1
-        ChannelName: A
-        Sensitivity:
-    Voltage:
-    Gain:
-    Configuration:
-    BatteryLevel: 52p 12.15V
-    Temperature:
-    LastTimeSync: 2019-11-04T01:59:54+10:00
-  Location:
-    Longitude:
-    Latitude:
-    Altitude:
-    HorizontalAccuracy:
-    VerticalAccuracy:
-    Speed:
-    Course:
-    SampleDateTime:
-    CoordinateReferenceSystem:
-  EmbeddedChecksum:
-    Type:
-    Value:
-  EndDate: 2019-11-04T01:59:55+10:00
-  BlockAlign:
-  Conditionals:
+  Process:
     FilenameExtractor:
-      Extension: .flac
-      Stem: 20191104T020000+1000_REC
-      StartDate: 2019-11-04T02:00:00+10:00
-      LocalStartDate: 2019-11-04T02:00:00
-      Location:
+      Record:
+        StartDate: 2019-11-04T02:00:00+10:00
+        LocalStartDate: 2019-11-04T02:00:00
+        Location: ~
+      OverwriteProperties:
+        - StartDate
+        - LocalStartDate
+        - Location
+    FlacHeaderExtractor: ~
+    FrontierLabsLogFileExtractor: ~
+    FlacCommentExtractor: ~
 
 - Name: Two Log Files 1
+  Record:
+    Extension: .wav
+    Stem: 8537_20210709T040000-0300_every1d6x4hrs [+44.72053-062.80072]
+    StartDate: 2021-07-09T04:00:00-03:00
+    LocalStartDate: 2021-07-09T04:00:00
+    EndDate:
+    DurationSeconds: 0
+    TotalSamples: 0
+    Channels: 0
+    SampleRateHertz: 0
+    BitsPerSecond: 0
+    BitDepth: 0
+    FileLengthBytes:
+    BlockAlign:
+    CalculatedChecksum:
+      Type:
+      Value:
+    EmbeddedChecksum:
+      Type:
+      Value:
+    MemoryCard:
+      FormatType: exFAT
+      ManufacturerID: 3
+      OEMID: SD
+      ProductName: SD128
+      ProductRevision: 8.5
+      SerialNumber: 11184608
+      ManufactureDate: 2020/08
+      Speed: 50
+      Capacity: 124868608
+      WrCurrentVmin: 5
+      WrCurrentVmax: 5
+      WriteBlSize: 512
+      EraseBlSize: 65536
+    Sensor:
+      Name:
+      Firmware: 3.28
+      SerialNumber: 00008537
+      PowerSource: Ext-power
+      Microphones:
+      Voltage:
+      Gain:
+      Configuration:
+      BatteryLevel:
+      Temperature:
+      LastTimeSync:
+    Location:
+      Longitude: -62.80072
+      Latitude: 44.72053
+      Altitude:
+      HorizontalAccuracy:
+      VerticalAccuracy:
+      Speed:
+      Course:
+      SampleDateTime: 2021-07-09T07:00:00Z
+      CoordinateReferenceSystem:
   FixturePath: FL_BAR_LT/3.28_MultiLogFile/8537_20210709T040000-0300_every1d6x4hrs [+44.72053-062.80072].wav
   Notes:
-  Extension: .wav
-  Stem: 8537_20210709T040000-0300_every1d6x4hrs [+44.72053-062.80072]
   ValidMetadata: No
   MimeType: audio/wave
-  FrontierLabsLogFile: FL_BAR_LT/3.28_MultiLogFile/logfile.txt
-  CanProcess:
-    - FilenameExtractor
-    - FrontierLabsLogFileExtractor
-  Process:
-    - FilenameExtractor
-    - FrontierLabsLogFileExtractor
   Vendor: Frontier Labs
-  StartDate: 2021-07-09T04:00:00-03:00
-  LocalStartDate: 2021-07-09T04:00:00
-  CalculatedChecksum:
-    Type:
-    Value:
-  DurationSeconds: 0
-  TotalSamples: 0
-  Channels: 0
-  SampleRateHertz: 0
-  BitsPerSecond: 0
-  BitDepth: 0
-  MemoryCard:
-    FormatType: exFAT
-    ManufacturerID: 3
-    OEMID: SD
-    ProductName: SD128
-    ProductRevision: 8.5
-    SerialNumber: 11184608
-    ManufactureDate: 2020/08
-    Speed: 50
-    Capacity: 124868608
-    WrCurrentVmin: 5
-    WrCurrentVmax: 5
-    WriteBlSize: 512
-    EraseBlSize: 65536
-  FileLengthBytes:
-  Sensor:
-    Name:
-    Firmware: 3.28
-    SerialNumber: 00008537
-    PowerSource: Ext-power
-    Microphones:
-    Voltage:
-    Gain:
-    Configuration:
-    BatteryLevel:
-    Temperature:
-    LastTimeSync:
-  Location:
-    Longitude: -62.80072
-    Latitude: 44.72053
-    Altitude:
-    HorizontalAccuracy:
-    VerticalAccuracy:
-    Speed:
-    Course:
-    SampleDateTime: 2021-07-09T07:00:00Z
-    CoordinateReferenceSystem:
-  EmbeddedChecksum:
-    Type:
-    Value:
-  EndDate:
-  BlockAlign:
-  Conditionals:
+  Process:
+    FilenameExtractor: ~
+    FrontierLabsLogFileExtractor: ~
 
 - Name: Two Log Files 2
+  Record:
+    Extension: .wav
+    Stem: 8537_20210622T160000-0300_every1d6x4hrs [+44.72053-062.80072]
+    StartDate: 2021-06-22T16:00:00-03:00
+    LocalStartDate: 2021-06-22T16:00:00
+    EndDate:
+    DurationSeconds: 0
+    TotalSamples: 0
+    Channels: 0
+    SampleRateHertz: 0
+    BitsPerSecond: 0
+    BitDepth: 0
+    FileLengthBytes:
+    BlockAlign:
+    CalculatedChecksum:
+      Type:
+      Value:
+    EmbeddedChecksum:
+      Type:
+      Value:
+    MemoryCard:
+      FormatType: exFAT
+      ManufacturerID: 3
+      OEMID: SD
+      ProductName: SD128
+      ProductRevision: 8.5
+      SerialNumber: 13281763
+      ManufactureDate: 2020/08
+      Speed: 50
+      Capacity: 124868608
+      WrCurrentVmin: 5
+      WrCurrentVmax: 5
+      WriteBlSize: 512
+      EraseBlSize: 65536
+    Sensor:
+      Name:
+      Firmware: 3.28
+      SerialNumber: 00008537
+      PowerSource: Ext-power
+      Microphones:
+      Voltage:
+      Gain:
+      Configuration:
+      BatteryLevel:
+      Temperature:
+      LastTimeSync:
+    Location:
+      Longitude: -62.80072
+      Latitude: 44.72053
+      Altitude:
+      HorizontalAccuracy:
+      VerticalAccuracy:
+      Speed:
+      Course:
+      SampleDateTime: 2021-06-22T19:00:00Z
+      CoordinateReferenceSystem:
   FixturePath: FL_BAR_LT/3.28_MultiLogFile/8537_20210622T160000-0300_every1d6x4hrs [+44.72053-062.80072].wav
   Notes:
-  Extension: .wav
-  Stem: 8537_20210622T160000-0300_every1d6x4hrs [+44.72053-062.80072]
   ValidMetadata: No
   MimeType: audio/wave
-  FrontierLabsLogFile: FL_BAR_LT/3.28_MultiLogFile/logfile (2).txt
-  CanProcess:
-    - FilenameExtractor
-    - FrontierLabsLogFileExtractor
-  Process:
-    - FilenameExtractor
-    - FrontierLabsLogFileExtractor
   Vendor: Frontier Labs
-  StartDate: 2021-06-22T16:00:00-03:00
-  LocalStartDate: 2021-06-22T16:00:00
-  CalculatedChecksum:
-    Type:
-    Value:
-  DurationSeconds: 0
-  TotalSamples: 0
-  Channels: 0
-  SampleRateHertz: 0
-  BitsPerSecond: 0
-  BitDepth: 0
-  MemoryCard:
-    FormatType: exFAT
-    ManufacturerID: 3
-    OEMID: SD
-    ProductName: SD128
-    ProductRevision: 8.5
-    SerialNumber: 13281763
-    ManufactureDate: 2020/08
-    Speed: 50
-    Capacity: 124868608
-    WrCurrentVmin: 5
-    WrCurrentVmax: 5
-    WriteBlSize: 512
-    EraseBlSize: 65536
-  FileLengthBytes:
-  Sensor:
-    Name:
-    Firmware: 3.28
-    SerialNumber: 00008537
-    PowerSource: Ext-power
-    Microphones:
-    Voltage:
-    Gain:
-    Configuration:
-    BatteryLevel:
-    Temperature:
-    LastTimeSync:
-  Location:
-    Longitude: -62.80072
-    Latitude: 44.72053
-    Altitude:
-    HorizontalAccuracy:
-    VerticalAccuracy:
-    Speed:
-    Course:
-    SampleDateTime: 2021-06-22T19:00:00Z
-    CoordinateReferenceSystem:
-  EmbeddedChecksum:
-    Type:
-    Value:
-  EndDate:
-  BlockAlign:	
-  Conditionals:
+  Process:
+    FilenameExtractor: ~
+    FrontierLabsLogFileExtractor: ~
 
 - Name: SM4 Bat Normal 1
+  Record: 
+    Extension: .wav
+    Stem: S4U09523_20210621_205706
+    StartDate: 2021-06-21T20:57:06-03:00
+    LocalStartDate: 2021-06-21T20:57:06
+    EndDate:
+    DurationSeconds: 514048/256000
+    TotalSamples: 514048
+    Channels: 1
+    SampleRateHertz: 256000
+    BitsPerSecond: 4096000
+    BitDepth: 16
+    FileLengthBytes: 1030730
+    BlockAlign: 2
+    CalculatedChecksum:
+      Type:
+      Value:
+    EmbeddedChecksum:
+      Type:
+      Value:
+    MemoryCard:
+      FormatType:
+      ManufacturerID:
+      OEMID:
+      ProductName:
+      ProductRevision:
+      SerialNumber:
+      ManufactureDate:
+      Speed:
+      Capacity:
+      WrCurrentVmin:
+      WrCurrentVmax:
+      WriteBlSize:
+      EraseBlSize:
+    Sensor:
+      Name: SM4BAT-FS
+      Firmware: 2.2.1
+      SerialNumber: S4U09523
+      PowerSource: 
+      Microphones:
+        - Type: U2
+          UID:
+          BuildDate:
+          Gain:
+          Channel:
+          ChannelName:
+          Sensitivity: 13.0dBFS
+      Voltage:
+      Gain:
+      Configuration:
+      BatteryLevel:
+      Temperature: 24.25C
+      LastTimeSync:
+    Location:
+      Longitude: -64.23352
+      Latitude: 45.7835
+      Altitude:
+      HorizontalAccuracy:
+      VerticalAccuracy:
+      Speed:
+      Course:
+      SampleDateTime:
+      CoordinateReferenceSystem:
   FixturePath: WA_SM4BAT/2.2.1_Normal/S4U09523_20210621_205706.wav
   Notes:
-  Extension: .wav
-  Stem: S4U09523_20210621_205706
   ValidMetadata: Yes
   MimeType: audio/wave
-  FrontierLabsLogFile:
-  CanProcess:
-    - FilenameExtractor
-    - WaveHeaderExtractor
-    - WamdExtractor
-  Process:
-    - FilenameExtractor
-    - WaveHeaderExtractor
-    - WamdExtractor
   Vendor: Wildlife Acoustics
-  StartDate: 2021-06-21T20:57:06-03:00
-  LocalStartDate: 2021-06-21T20:57:06
-  CalculatedChecksum:
-    Type:
-    Value:
-  DurationSeconds: 514048/256000
-  TotalSamples: 514048
-  Channels: 1
-  SampleRateHertz: 256000
-  BitsPerSecond: 4096000
-  BitDepth: 16
-  MemoryCard:
-    FormatType:
-    ManufacturerID:
-    OEMID:
-    ProductName:
-    ProductRevision:
-    SerialNumber:
-    ManufactureDate:
-    Speed:
-    Capacity:
-    WrCurrentVmin:
-    WrCurrentVmax:
-    WriteBlSize:
-    EraseBlSize:
-  FileLengthBytes: 1030730
-  Sensor:
-    Name: SM4BAT-FS
-    Firmware: 2.2.1
-    SerialNumber: S4U09523
-    PowerSource: 
-    Microphones:
-      - Type: U2
-        UID:
-        BuildDate:
-        Gain:
-        Channel:
-        ChannelName:
-        Sensitivity: 13.0dBFS
-    Voltage:
-    Gain:
-    Configuration:
-    BatteryLevel:
-    Temperature: 24.25C
-    LastTimeSync:
-  Location:
-    Longitude: -64.23352
-    Latitude: 45.7835
-    Altitude:
-    HorizontalAccuracy:
-    VerticalAccuracy:
-    Speed:
-    Course:
-    SampleDateTime:
-    CoordinateReferenceSystem:
-  EmbeddedChecksum:
-    Type:
-    Value:
-  EndDate:
-  BlockAlign: 2
-  Conditionals:
+  Process:
     FilenameExtractor:
-      Extension: .wav
-      Stem: S4U09523_20210621_205706
-      StartDate:
-      LocalStartDate: 2021-06-21T20:57:06
-      Location:
+      Record:
+        StartDate: ~
+        Location: ~
+      OverwriteProperties:
+        - StartDate
+        - Location
+    WaveHeaderExtractor: ~
+    WamdExtractor: ~
 
 - Name: SM4 Bat Normal 2
+  Record:
+    Extension: .wav
+    Stem: S4U09523_20210621_212111
+    StartDate: 2021-06-21T21:21:11-03:00
+    LocalStartDate: 2021-06-21T21:21:11
+    EndDate:
+    DurationSeconds: 557056/256000
+    TotalSamples: 557056
+    Channels: 1
+    SampleRateHertz: 256000
+    BitsPerSecond: 4096000
+    BitDepth: 16
+    FileLengthBytes: 1116746
+    BlockAlign: 2
+    CalculatedChecksum:
+      Type:
+      Value:
+    EmbeddedChecksum:
+      Type:
+      Value:
+    MemoryCard:
+      FormatType:
+      ManufacturerID:
+      OEMID:
+      ProductName:
+      ProductRevision:
+      SerialNumber:
+      ManufactureDate:
+      Speed:
+      Capacity:
+      WrCurrentVmin:
+      WrCurrentVmax:
+      WriteBlSize:
+      EraseBlSize:
+    Sensor:
+      Name: SM4BAT-FS
+      Firmware: 2.2.1
+      SerialNumber: S4U09523
+      PowerSource: 
+      Microphones:
+        - Type: U2
+          UID:
+          BuildDate:
+          Gain:
+          Channel:
+          ChannelName:
+          Sensitivity: 13.0dBFS
+      Voltage:
+      Gain:
+      Configuration:
+      BatteryLevel:
+      Temperature: 23.25C
+      LastTimeSync:
+    Location:
+      Longitude: -64.23352
+      Latitude: 45.7835
+      Altitude:
+      HorizontalAccuracy:
+      VerticalAccuracy:
+      Speed:
+      Course:
+      SampleDateTime:
+      CoordinateReferenceSystem:
   FixturePath: WA_SM4BAT/2.2.1_Normal/S4U09523_20210621_212111.wav
   Notes:
-  Extension: .wav
-  Stem: S4U09523_20210621_212111
   ValidMetadata: Yes
   MimeType: audio/wave
-  FrontierLabsLogFile:
-  CanProcess:
-    - FilenameExtractor
-    - WaveHeaderExtractor
-    - WamdExtractor
-  Process:
-    - FilenameExtractor
-    - WaveHeaderExtractor
-    - WamdExtractor
   Vendor: Wildlife Acoustics
-  StartDate: 2021-06-21T21:21:11-03:00
-  LocalStartDate: 2021-06-21T21:21:11
-  CalculatedChecksum:
-    Type:
-    Value:
-  DurationSeconds: 557056/256000
-  TotalSamples: 557056
-  Channels: 1
-  SampleRateHertz: 256000
-  BitsPerSecond: 4096000
-  BitDepth: 16
-  MemoryCard:
-    FormatType:
-    ManufacturerID:
-    OEMID:
-    ProductName:
-    ProductRevision:
-    SerialNumber:
-    ManufactureDate:
-    Speed:
-    Capacity:
-    WrCurrentVmin:
-    WrCurrentVmax:
-    WriteBlSize:
-    EraseBlSize:
-  FileLengthBytes: 1116746
-  Sensor:
-    Name: SM4BAT-FS
-    Firmware: 2.2.1
-    SerialNumber: S4U09523
-    PowerSource: 
-    Microphones:
-      - Type: U2
-        UID:
-        BuildDate:
-        Gain:
-        Channel:
-        ChannelName:
-        Sensitivity: 13.0dBFS
-    Voltage:
-    Gain:
-    Configuration:
-    BatteryLevel:
-    Temperature: 23.25C
-    LastTimeSync:
-  Location:
-    Longitude: -64.23352
-    Latitude: 45.7835
-    Altitude:
-    HorizontalAccuracy:
-    VerticalAccuracy:
-    Speed:
-    Course:
-    SampleDateTime:
-    CoordinateReferenceSystem:
-  EmbeddedChecksum:
-    Type:
-    Value:
-  EndDate:
-  BlockAlign: 2
-  Conditionals:
+  Process:
     FilenameExtractor:
-      Extension: .wav
-      Stem: S4U09523_20210621_212111
-      StartDate:
-      LocalStartDate: 2021-06-21T21:21:11
-      Location:
+      Record:
+        StartDate: ~
+        Location: ~
+      OverwriteProperties:
+        - StartDate
+        - Location
+    WaveHeaderExtractor: ~
+    WamdExtractor: ~
 
 - Name: Firmware 3.3
+  Record:
+    Extension: .flac
+    Stem: 00008570_Dartmouth_20220331T094900-0300_Rec
+    StartDate: 2022-03-31T09:49:02-03:00
+    LocalStartDate: 2022-03-31T09:49:02
+    EndDate: 2022-03-31T10:01:02-03:00
+    DurationSeconds: 31703040/44100
+    TotalSamples: 31703040
+    Channels: 1
+    SampleRateHertz: 44100
+    BitsPerSecond: 705600
+    BitDepth: 16
+    FileLengthBytes:
+    BlockAlign:
+    CalculatedChecksum:
+      Type:
+      Value:
+    EmbeddedChecksum:
+      Type:
+      Value:
+    MemoryCard:
+      FormatType: exFAT
+      ManufacturerID: 3
+      OEMID: SD
+      ProductName: SD128
+      ProductRevision: 8.5
+      SerialNumber: 1132114800
+      ManufactureDate: 2020/08
+      Speed: 50
+      Capacity: 124868608
+      WrCurrentVmin: 5
+      WrCurrentVmax: 5
+      WriteBlSize: 512
+      EraseBlSize: 65536
+    Sensor:
+      Name:
+      Firmware: 3.30
+      SerialNumber: 00008570
+      PowerSource: Ext-power
+      Microphones:
+        - Type: STD AUDIO MIC
+          UID: 009966
+          BuildDate: 2019-03-20
+          Gain: 50dB
+          Channel: 2
+          ChannelName: B
+          Sensitivity:
+      Voltage:
+      Gain:
+      Configuration:
+      BatteryLevel: 65p 3.79V
+      Temperature:
+      LastTimeSync: 2022-03-31T09:48:40-03:00
+    Location:
+      Longitude: -65.95084
+      Latitude: 43.70444
+      Altitude:
+      HorizontalAccuracy:
+      VerticalAccuracy:
+      Speed:
+      Course:
+      SampleDateTime:
+      CoordinateReferenceSystem:
   FixturePath: FL_BAR_LT/3.30_NewFirmware/00008570_Dartmouth_20220331T094900-0300_Rec.flac
   Notes:
-  Extension: .flac
-  Stem: 00008570_Dartmouth_20220331T094900-0300_Rec
   ValidMetadata: Yes
   MimeType: audio/flac
-  FrontierLabsLogFile: FL_BAR_LT/3.30_NewFirmware/logfile_00008570_SD1.txt
-  CanProcess:
-    - FilenameExtractor
-    - FlacHeaderExtractor
-    - FlacCommentExtractor
-    - FrontierLabsLogFileExtractor
-  Process:
-    - FilenameExtractor
-    - FlacHeaderExtractor
-    - FlacCommentExtractor
-    - FrontierLabsLogFileExtractor
-    - FLCommentAndLogExtractor
   Vendor: Frontier Labs
-  StartDate: 2022-03-31T09:49:02-03:00
-  LocalStartDate: 2022-03-31T09:49:02
-  CalculatedChecksum:
-    Type:
-    Value:
-  DurationSeconds: 31703040/44100
-  TotalSamples: 31703040
-  Channels: 1
-  SampleRateHertz: 44100
-  BitsPerSecond: 705600
-  BitDepth: 16
-  MemoryCard:
-    FormatType: exFAT
-    ManufacturerID: 3
-    OEMID: SD
-    ProductName: SD128
-    ProductRevision: 8.5
-    SerialNumber: 1132114800
-    ManufactureDate: 2020/08
-    Speed: 50
-    Capacity: 124868608
-    WrCurrentVmin: 5
-    WrCurrentVmax: 5
-    WriteBlSize: 512
-    EraseBlSize: 65536
-  FileLengthBytes:
-  Sensor:
-    Name:
-    Firmware: 3.30
-    SerialNumber: 00008570
-    PowerSource: Ext-power
-    Microphones:
-      - Type: STD AUDIO MIC
-        UID: 009966
-        BuildDate: 2019-03-20
-        Gain: 50dB
-        Channel: 2
-        ChannelName: B
-        Sensitivity:
-    Voltage:
-    Gain:
-    Configuration:
-    BatteryLevel: 65p 3.79V
-    Temperature:
-    LastTimeSync: 2022-03-31T09:48:40-03:00
-  Location:
-    Longitude: -65.95084
-    Latitude: 43.70444
-    Altitude:
-    HorizontalAccuracy:
-    VerticalAccuracy:
-    Speed:
-    Course:
-    SampleDateTime:
-    CoordinateReferenceSystem:
-  EmbeddedChecksum:
-    Type:
-    Value:
-  EndDate: 2022-03-31T10:01:02-03:00
-  BlockAlign:	
-  Conditionals:
+  Process:
     FilenameExtractor:
-      Extension: .flac
-      Stem: 00008570_Dartmouth_20220331T094900-0300_Rec
-      StartDate: 2022-03-31T09:49:00-03:00
-      LocalStartDate: 2022-03-31T09:49:00
-      Location:
+      Record:
+        StartDate: 2022-03-31T09:49:00-03:00
+        LocalStartDate: 2022-03-31T09:49:00
+        Location: ~
+      OverwriteProperties:
+        - StartDate
+        - LocalStartDate
+        - Location
+    FlacHeaderExtractor: ~
+    FlacCommentExtractor: ~
     FrontierLabsLogFileExtractor:
-      MemoryCard:
-        FormatType: exFAT
-        ManufacturerID: 3
-        OEMID: SD
-        ProductName: SD128
-        ProductRevision: 8.5
-        SerialNumber: 8041328
-        ManufactureDate: 2020/08
-        Speed: 50
-        Capacity: 124868608
-        WrCurrentVmin: 5
-        WrCurrentVmax: 5
-        WriteBlSize: 512
-        EraseBlSize: 65536
-      Sensor:
-        Firmware: 3.30
-        SerialNumber: 00008570
-        PowerSource: Ext-power     
+      Record:
+        MemoryCard:
+          SerialNumber: 8041328
+      OverwriteProperties:
+        - MemoryCard.SerialNumber
+    FLCommentAndLogExtractor: ~

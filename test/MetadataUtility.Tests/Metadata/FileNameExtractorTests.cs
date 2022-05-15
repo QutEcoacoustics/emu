@@ -41,23 +41,24 @@ namespace MetadataUtility.Tests.Metadata
         [ClassData(typeof(FixtureHelper.FixtureData))]
         public async void ProcessFilesWorks(FixtureModel model)
         {
-            // we can process all files that have a filename
-            var recording = await this.subject.ProcessFileAsync(
-                model.ToTargetInformation(this.RealFileSystem),
-                this.Recording);
-
-            if (model.Process.Contains("FilenameExtractor"))
+            if (model.Process.ContainsKey(FixtureModel.FilenameExtractor))
             {
-                if (model.Conditionals != null && model.Conditionals.ContainsKey("FilenameExtractor"))
+                if (model.Process[FixtureModel.FilenameExtractor] != null)
                 {
-                    model = model.Conditionals["FilenameExtractor"];
+                    model.ApplyOverwrites(model.Process[FixtureModel.FilenameExtractor]);
                 }
 
-                recording.Extension.Should().Be(model.Extension);
-                recording.Stem.Should().Be(model.Stem);
-                recording.StartDate.Should().Be(model.StartDate);
-                recording.LocalStartDate.Should().Be(model.LocalStartDate);
-                recording.Location.Should().BeEquivalentTo(model.Location);
+                Recording expectedRecording = model.Record;
+
+                var recording = await this.subject.ProcessFileAsync(
+                    model.ToTargetInformation(this.RealFileSystem),
+                    this.Recording);
+
+                recording.Extension.Should().Be(expectedRecording.Extension);
+                recording.Stem.Should().Be(expectedRecording.Stem);
+                recording.StartDate.Should().Be(expectedRecording.StartDate);
+                recording.LocalStartDate.Should().Be(expectedRecording.LocalStartDate);
+                recording.Location.Should().BeEquivalentTo(expectedRecording.Location);
             }
         }
     }

@@ -41,23 +41,19 @@ namespace MetadataUtility.Tests.Metadata
         {
             if (model.IsWave && model.ValidMetadata == ValidMetadata.Yes)
             {
+                Recording expectedRecording = model.Record;
+
                 var recording = await this.subject.ProcessFileAsync(
                     model.ToTargetInformation(this.RealFileSystem),
                     this.Recording);
 
-                recording.DurationSeconds?.Should().Be(model.DurationSeconds);
-
-                recording.SampleRateHertz.Should().Be(model.SampleRateHertz);
-
-                recording.Channels.Should().Be(model.Channels);
-
-                recording.BitsPerSecond.Should().Be(model.BitsPerSecond);
-
-                recording.BitDepth.Should().Be((byte)model.BitDepth);
-
-                recording.FileLengthBytes.Should().Be(model.FileLengthBytes);
-
-                // TODO: Add other assertions here!
+                recording.DurationSeconds?.Should().Be(expectedRecording.DurationSeconds);
+                recording.SampleRateHertz.Should().Be(expectedRecording.SampleRateHertz);
+                recording.Channels.Should().Be(expectedRecording.Channels);
+                recording.BitsPerSecond.Should().Be(expectedRecording.BitsPerSecond);
+                recording.BitDepth.Should().Be(expectedRecording.BitDepth);
+                recording.FileLengthBytes.Should().Be(expectedRecording.FileLengthBytes);
+                recording.BlockAlign.Should().Be(expectedRecording.BlockAlign);
             }
         }
     }

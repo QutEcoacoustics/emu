@@ -31,7 +31,7 @@ namespace MetadataUtility.Tests.Metadata
         [ClassData(typeof(FixtureHelper.FixtureData))]
         public async void FLCommentAndLogExtractor(FixtureModel model)
         {
-            if (model.Process.Contains("FLCommentAndLogExtractor"))
+            if (model.Process.ContainsKey(FixtureModel.FLCommentAndLogExtractor))
             {
                 FlacCommentExtractor commentExtractor = new FlacCommentExtractor(
                     this.BuildLogger<FlacCommentExtractor>());
@@ -47,7 +47,7 @@ namespace MetadataUtility.Tests.Metadata
                     model.ToTargetInformation(this.RealFileSystem),
                     recording);
 
-                recording.MemoryCard.SerialNumber.Should().Be(model.MemoryCard.SerialNumber);
+                recording.MemoryCard.SerialNumber.Should().Be(model.Record.MemoryCard.SerialNumber);
             }
         }
     }

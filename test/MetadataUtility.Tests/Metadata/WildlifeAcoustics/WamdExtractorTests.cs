@@ -4,7 +4,6 @@
 
 namespace MetadataUtility.Tests.Metadata
 {
-    using System.Linq;
     using FluentAssertions;
     using MetadataUtility.Metadata.WildlifeAcoustics;
     using MetadataUtility.Models;
@@ -32,7 +31,7 @@ namespace MetadataUtility.Tests.Metadata
             var result = await this.subject.CanProcessAsync(model.ToTargetInformation(this.RealFileSystem));
 
             // we can process any file that is Frontier Labs and FLAC
-            var expected = model.CanProcess.Contains("WamdExtractor");
+            var expected = model.Process.ContainsKey(FixtureModel.WamdExtractor);
             Assert.Equal(expected, result);
         }
 
@@ -40,20 +39,22 @@ namespace MetadataUtility.Tests.Metadata
         [ClassData(typeof(FixtureHelper.FixtureData))]
         public async void ProcessFilesWorks(FixtureModel model)
         {
-            if (model.Process.Contains("WamdExtractor"))
+            if (model.Process.ContainsKey(FixtureModel.WamdExtractor))
             {
+                Recording expectedRecording = model.Record;
+
                 var recording = await this.subject.ProcessFileAsync(
                     model.ToTargetInformation(this.RealFileSystem),
                     this.Recording);
 
-                recording.StartDate.Should().Be(model.StartDate);
-                recording.Sensor.Name.Should().Be(model.Sensor.Name);
-                recording.Sensor.SerialNumber.Should().Be(model.Sensor.SerialNumber);
-                recording.Sensor.Firmware.Should().Be(model.Sensor.Firmware);
-                recording.Sensor.Temperature.Should().Be(model.Sensor.Temperature);
-                recording.Sensor.Microphones.Should().BeEquivalentTo(model.Sensor.Microphones);
-                recording.Location.Latitude.Should().Be(model.Location.Latitude);
-                recording.Location.Longitude.Should().Be(model.Location.Longitude);
+                recording.StartDate.Should().Be(expectedRecording.StartDate);
+                recording.Sensor.Name.Should().Be(expectedRecording.Sensor.Name);
+                recording.Sensor.SerialNumber.Should().Be(expectedRecording.Sensor.SerialNumber);
+                recording.Sensor.Firmware.Should().Be(expectedRecording.Sensor.Firmware);
+                recording.Sensor.Temperature.Should().Be(expectedRecording.Sensor.Temperature);
+                recording.Sensor.Microphones.Should().BeEquivalentTo(expectedRecording.Sensor.Microphones);
+                recording.Location.Latitude.Should().Be(expectedRecording.Location.Latitude);
+                recording.Location.Longitude.Should().Be(expectedRecording.Location.Longitude);
             }
         }
     }

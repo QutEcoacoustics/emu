@@ -95,6 +95,12 @@ namespace MetadataUtility.Models
         public ushort? Channels { get; init; }
 
         /// <summary>
+        /// Gets the block align of the recording
+        /// block align is the number of bytes per sample (including all channels).
+        /// </summary>
+        public ushort? BlockAlign { get; init; }
+
+        /// <summary>
         /// Gets the sample rate of the recording.
         /// </summary>
         public uint? SampleRateHertz { get; init; }
