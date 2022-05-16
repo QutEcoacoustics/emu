@@ -4,10 +4,7 @@
 
 namespace MetadataUtility.Tests.Metadata
 {
-    using System;
-    using System.Linq;
     using FluentAssertions;
-    using MetadataUtility.Metadata;
     using MetadataUtility.Metadata.FrontierLabs;
     using MetadataUtility.Models;
     using MetadataUtility.Tests.TestHelpers;
@@ -34,7 +31,7 @@ namespace MetadataUtility.Tests.Metadata
             var result = await this.subject.CanProcessAsync(model.ToTargetInformation(this.RealFileSystem));
 
             // we can process any file that has Frontier Lab log files
-            var expected = model.CanProcess.Contains("FrontierLabsLogFileExtractor");
+            var expected = model.Process.ContainsKey(FixtureModel.FrontierLabsLogFileExtractor);
             Assert.Equal(expected, result);
         }
 
@@ -42,18 +39,23 @@ namespace MetadataUtility.Tests.Metadata
         [ClassData(typeof(FixtureHelper.FixtureData))]
         public async void ProcessFilesWorks(FixtureModel model)
         {
-            if (model.Process.Contains("FrontierLabsLogFileExtractor"))
+            if (model.Process.ContainsKey(FixtureModel.FrontierLabsLogFileExtractor))
             {
-                TargetInformation ti = model.ToTargetInformation(this.RealFileSystem);
+                Recording expectedRecording = model.Record;
+
+                if (model.Process[FixtureModel.FrontierLabsLogFileExtractor] != null)
+                {
+                    expectedRecording = model.Process[FixtureModel.FrontierLabsLogFileExtractor];
+                }
 
                 var recording = await this.subject.ProcessFileAsync(
-                    ti,
+                    model.ToTargetInformation(this.RealFileSystem),
                     this.Recording);
 
-                recording.MemoryCard.Should().BeEquivalentTo(model.MemoryCard);
-                recording.Sensor.Firmware.Should().Be(model.Sensor.Firmware);
-                recording.Sensor.SerialNumber.Should().Be(model.Sensor.SerialNumber);
-                recording.Sensor.PowerSource.Should().Be(model.Sensor.PowerSource);
+                recording.MemoryCard.Should().BeEquivalentTo(expectedRecording.MemoryCard);
+                recording.Sensor.Firmware.Should().Be(expectedRecording.Sensor.Firmware);
+                recording.Sensor.SerialNumber.Should().Be(expectedRecording.Sensor.SerialNumber);
+                recording.Sensor.PowerSource.Should().Be(expectedRecording.Sensor.PowerSource);
             }
         }
     }

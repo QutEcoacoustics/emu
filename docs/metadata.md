@@ -37,16 +37,16 @@ This document outlines all of the files from which we hope to extract metadata.
 
 | Name                     | Supported | Location(s)     | Notes       |
 | ------------------------ | --------- | --------------- | ----------- |
-| Date Time                | ✔️(Header) | Name, Header    |             |
-| UTC Offset               | ✔️(Header) | Name, Header    |             |
+| Date Time                | ✔️         | Name, Header    |             |
+| UTC Offset               | ✔️         | Name, Header    |             |
 | Serial Number            | ✔️         | Header, Support | Log file    |
 | Microphone Serial Number | ✔️(Header) | Header, Support | Log file    |
 | Microphone Type          | ✔️(Header) | Header, Support | Log file    |
 | Microphone ID            | ✔️(Header) | Header, Support | Log file    |
 | Microphone Build Date    | ✔️(Header) | Header, Support | Log file    |
 | Microphone Channel       | ✔️(Header) | Header, Support | Log file    |
-| Longitude                | ✔️(Header) | Header, Name, Support   | GPS_log.csv |
-| Latitude                 | ✔️(Header) | Header, Name, Support   | GPS_log.csv |
+| Longitude                | ✔️(Header, Name) | Header, Name, Support   | GPS_log.csv |
+| Latitude                 | ✔️(Header, Name) | Header, Name, Support   | GPS_log.csv |
 | Gain                     | ✔️(Header) | Header, Support | Log file    |
 | Battery Voltage          | ✔️(Header) | Header, Support | Log file    |
 | Card Slot Number         | ❌         | Header, Support | Log file    |
@@ -92,7 +92,7 @@ This document outlines all of the files from which we hope to extract metadata.
 
 | Name            | Supported | Location(s) | Notes        |
 | --------------- | --------- | ----------- | ------------ |
-| Date Time       | ❌         | Name        |              |
+| Date Time       | ✔️        | Name        |              |
 | Serial Number   | ❌         | Header      |              |
 | Longitude       | ❌         | Header      |              |
 | Latitude        | ❌         | Header      |              |

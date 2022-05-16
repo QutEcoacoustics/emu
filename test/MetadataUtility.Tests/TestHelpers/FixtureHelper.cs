@@ -10,6 +10,8 @@ namespace MetadataUtility.Tests.TestHelpers
     using System.IO.Abstractions;
     using System.Linq;
     using MetadataUtility.Serialization;
+    using YamlDotNet.Core;
+    using YamlDotNet.Serialization;
 
     public static partial class FixtureHelper
     {
@@ -84,16 +86,18 @@ namespace MetadataUtility.Tests.TestHelpers
 
         public class FixtureData : IEnumerable<object[]>
         {
-            private const string FixtureFile = "Fixtures.csv";
+            private const string FixtureFile = "Fixtures.yaml";
             private readonly Dictionary<string, FixtureModel> fixtureModels;
 
             public FixtureData()
             {
                 using var streamReader = RealFileSystem.File.OpenText(ResolvePath(FixtureFile));
-                var serializer = new CsvSerializer();
 
-                this.fixtureModels = serializer
-                    .Deserialize<FixtureModel>(streamReader)
+                var parser = new MergingParser(new Parser(streamReader));
+                var deserializer = new DeserializerBuilder().Build();
+
+                this.fixtureModels = deserializer
+                    .Deserialize<List<FixtureModel>>(parser)
                     .ToDictionary(f => f.Name);
             }
 

@@ -7,13 +7,12 @@ namespace MetadataUtility.Tests.TestHelpers
     using System;
     using System.Collections.Generic;
     using System.IO.Abstractions;
+    using System.Reflection;
     using CsvHelper.Configuration.Attributes;
     using MetadataUtility.Audio;
     using MetadataUtility.Metadata;
     using MetadataUtility.Metadata.SupportFiles;
     using MetadataUtility.Models;
-    using NodaTime;
-    using Rationals;
 
     public enum ValidMetadata
     {
@@ -24,17 +23,23 @@ namespace MetadataUtility.Tests.TestHelpers
 
     public class FixtureModel
     {
-        public const string ShortFile = "Short error file";
-        public const string MetadataDurationBug = "Metadata duration bug";
+        public const string ShortFile = "Short Error File";
+        public const string MetadataDurationBug = "Metadata Duration Bug";
         public const string ZeroDbSamples = "Zero dB Samples";
-        public const string NormalFile = "Normal file";
+        public const string NormalFile = "Normal File";
         public const string SM4BatNormal1 = "SM4 Bat Normal 1";
+        public const string FilenameExtractor = "FilenameExtractor";
+        public const string FlacHeaderExtractor = "FlacHeaderExtractor";
+        public const string FlacCommentExtractor = "FlacCommentExtractor";
+        public const string FrontierLabsLogFileExtractor = "FrontierLabsLogFileExtractor";
+        public const string WamdExtractor = "WamdExtractor";
+        public const string FLCommentAndLogExtractor = "FLCommentAndLogExtractor";
 
         private string fixturePath;
 
-        public string Name { get; set; }
+        public Recording Record { get; set; }
 
-        public string Extension { get; set; }
+        public string Name { get; set; }
 
         public string Vendor { get; set; }
 
@@ -42,43 +47,13 @@ namespace MetadataUtility.Tests.TestHelpers
 
         public string MimeType { get; set; }
 
-        public Rational DurationSeconds { get; set; }
-
-        public ushort Channels { get; set; }
-
-        public uint SampleRateHertz { get; set; }
-
-        public uint BitsPerSecond { get; set; }
-
-        public byte BitDepth { get; set; }
-
-        public ulong TotalSamples { get; set; }
-
-        public string FrontierLabsLogFile { get; set; }
-
-        public string[] Process { get; set; }
-
-        public string[] CanProcess { get; set; }
-
-        public MemoryCard MemoryCard { get; set; }
-
-        public Sensor Sensor { get; set; }
-
-        public Location Location { get; set; }
-
-        public OffsetDateTime? StartDate { get; set; }
-
-        public OffsetDateTime? EndDate { get; set; }
-
-        public ulong? FileLengthBytes { get; set; }
-
-        public ushort? BlockAlign { get; set; }
-
-        // TODO: add other columns from the CSV here!
+        public Dictionary<string, Recording> Process { get; set; }
 
         public bool IsFlac => this.MimeType == Flac.Mime;
 
         public bool IsWave => this.MimeType == Wave.Mime;
+
+        public ushort? BlockAlign { get; set; }
 
         public string FixturePath
         {

@@ -5,9 +5,7 @@
 namespace MetadataUtility.Models
 {
     using System;
-    using System.Collections;
     using System.Globalization;
-    using System.Text.RegularExpressions;
     using NodaTime;
 
     /// <summary>
@@ -53,7 +51,7 @@ namespace MetadataUtility.Models
                 this.Altitude = alt;
             }
 
-            this.CoordinateReferenceSystem = crs;
+            this.CoordinateReferenceSystem = !string.IsNullOrEmpty(crs) ? crs : null;
         }
 
         /// <summary>

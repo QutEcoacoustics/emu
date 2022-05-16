@@ -35,15 +35,16 @@ namespace MetadataUtility.Metadata
         {
             var result = this.parser.Parse(information.Path);
 
-            var updated = recording with
+            recording = recording with
             {
-                Extension = result.Extension,
-
-                //StartDate = result.OffsetDateTime ?? result.LocalDateTime,
-                // etc...
+                Extension = recording.Extension ?? result.Extension,
+                Stem = recording.Stem ?? result.Prefix + result.DatePart + result.Suffix,
+                StartDate = recording.StartDate ?? result.OffsetDateTime,
+                LocalStartDate = recording.LocalStartDate ?? result.LocalDateTime,
+                Location = recording.Location ?? result.Location,
             };
 
-            return ValueTask.FromResult(updated);
+            return ValueTask.FromResult(recording);
         }
     }
 }

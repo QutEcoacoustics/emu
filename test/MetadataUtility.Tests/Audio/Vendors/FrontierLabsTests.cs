@@ -5,9 +5,7 @@
 namespace MetadataUtility.Tests.Audio.Vendors
 {
     using System;
-    using System.Linq;
     using FluentAssertions;
-    using LanguageExt;
     using MetadataUtility.Audio.Vendors;
     using MetadataUtility.Tests.TestHelpers;
     using Xunit;
@@ -53,7 +51,7 @@ namespace MetadataUtility.Tests.Audio.Vendors
         {
             bool hasComment = FrontierLabs.HasFrontierLabsVorbisComment(model.ToTargetInformation(this.RealFileSystem).FileStream).IfFail(false);
 
-            hasComment.Should().Be(model.CanProcess.Contains("FlacCommentExtractor"));
+            hasComment.Should().Be(model.Process.ContainsKey(FixtureModel.FlacCommentExtractor));
         }
     }
 }

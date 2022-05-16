@@ -110,6 +110,8 @@ namespace MetadataUtility.Serialization
                 NodatimeConverters.OffsetConverter);
             context.TypeConverterCache.AddConverter<Duration>(
                 NodatimeConverters.DurationConverter);
+            context.TypeConverterCache.AddConverter<Instant>(
+                NodatimeConverters.InstantConverter);
             context.TypeConverterCache.AddConverter<Range>(new CsvRangeConverter());
             context.TypeConverterCache.AddConverter<Rational>(new RationalsConverter());
             context.TypeConverterCache.AddConverter<string[]>(new StringListConverter());

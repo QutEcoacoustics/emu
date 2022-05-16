@@ -4,8 +4,6 @@
 
 namespace MetadataUtility.Tests.Audio
 {
-    using System;
-    using System.Linq;
     using FluentAssertions;
     using LanguageExt;
     using MetadataUtility.Audio;
@@ -33,7 +31,7 @@ namespace MetadataUtility.Tests.Audio
             var channels = Wave.GetChannels(format);
 
             var totalSamples = (ulong)Wave.GetTotalSamples(dataRange, channels, bitsPerSample);
-            totalSamples.Should().Be(model.TotalSamples);
+            totalSamples.Should().Be(model.Record.TotalSamples);
         }
 
         [Fact]
@@ -44,7 +42,7 @@ namespace MetadataUtility.Tests.Audio
             var (format, dataRange) = this.ReadChunkRanges(model);
 
             var sampleRate = Wave.GetSampleRate(format);
-            sampleRate.Should().Be(model.SampleRateHertz);
+            sampleRate.Should().Be(model.Record.SampleRateHertz);
         }
 
         [Fact]
@@ -66,7 +64,7 @@ namespace MetadataUtility.Tests.Audio
             var (format, dataRange) = this.ReadChunkRanges(model);
 
             var bitsPerSample = Wave.GetBitsPerSample(format);
-            bitsPerSample.Should().Be(model.BitDepth);
+            bitsPerSample.Should().Be(model.Record.BitDepth);
         }
 
         [Fact]
@@ -77,7 +75,7 @@ namespace MetadataUtility.Tests.Audio
             var (format, dataRange) = this.ReadChunkRanges(model);
 
             var channels = Wave.GetChannels(format);
-            channels.Should().Be(model.Channels);
+            channels.Should().Be(model.Record.Channels);
         }
 
         [Fact]
@@ -88,7 +86,7 @@ namespace MetadataUtility.Tests.Audio
             var (format, dataRange) = this.ReadChunkRanges(model);
 
             var byteRate = Wave.GetByteRate(format) * 8;
-            byteRate.Should().Be(model.BitsPerSecond);
+            byteRate.Should().Be(model.Record.BitsPerSecond);
         }
 
         [Fact]

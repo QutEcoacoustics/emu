@@ -4,14 +4,11 @@
 
 namespace MetadataUtility.Tests.Metadata
 {
-    using System;
-    using System.Linq;
     using FluentAssertions;
     using MetadataUtility.Audio;
     using MetadataUtility.Metadata.FrontierLabs;
     using MetadataUtility.Models;
     using MetadataUtility.Tests.TestHelpers;
-    using NodaTime;
     using Xunit;
     using Xunit.Abstractions;
 
@@ -43,17 +40,19 @@ namespace MetadataUtility.Tests.Metadata
         [ClassData(typeof(FixtureHelper.FixtureData))]
         public async void ProcessFilesWorks(FixtureModel model)
         {
-            if (model.Process.Contains("FlacHeaderExtractor"))
+            if (model.Process.ContainsKey(FixtureModel.FlacHeaderExtractor))
             {
+                Recording expectedRecording = model.Record;
+
                 var recording = await this.subject.ProcessFileAsync(
                     model.ToTargetInformation(this.RealFileSystem),
                     this.Recording);
 
-                recording.DurationSeconds.Should().Be(model.DurationSeconds);
-                recording.SampleRateHertz.Should().Be(model.SampleRateHertz);
-                recording.Channels.Should().Be(model.Channels);
-                recording.BitDepth.Should().Be(model.BitDepth);
-                recording.BitsPerSecond.Should().Be(model.BitsPerSecond);
+                recording.DurationSeconds.Should().Be(expectedRecording.DurationSeconds);
+                recording.SampleRateHertz.Should().Be(expectedRecording.SampleRateHertz);
+                recording.Channels.Should().Be(expectedRecording.Channels);
+                recording.BitDepth.Should().Be(expectedRecording.BitDepth);
+                recording.BitsPerSecond.Should().Be(expectedRecording.BitsPerSecond);
             }
         }
     }

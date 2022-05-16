@@ -5,7 +5,6 @@
 namespace MetadataUtility.Tests.Audio
 {
     using System.IO;
-    using System.Linq;
     using FluentAssertions;
     using MetadataUtility.Audio;
     using MetadataUtility.Tests.TestHelpers;

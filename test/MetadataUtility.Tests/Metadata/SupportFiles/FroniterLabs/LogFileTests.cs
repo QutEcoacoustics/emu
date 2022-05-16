@@ -4,8 +4,6 @@
 
 namespace MetadataUtility.Tests.Metadata.SupportFiles
 {
-    using System.Linq;
-    using FluentAssertions;
     using MetadataUtility.Metadata;
     using MetadataUtility.Metadata.SupportFiles.FrontierLabs;
     using MetadataUtility.Tests.TestHelpers;
@@ -23,7 +21,7 @@ namespace MetadataUtility.Tests.Metadata.SupportFiles
         [ClassData(typeof(FixtureHelper.FixtureData))]
         public void HasLogFileTest(FixtureModel model)
         {
-            if (model.Process.Contains("FrontierLabsLogFileExtractor"))
+            if (model.Process.ContainsKey(FixtureModel.FrontierLabsLogFileExtractor))
             {
                 TargetInformation ti = model.ToTargetInformation(this.RealFileSystem);
 

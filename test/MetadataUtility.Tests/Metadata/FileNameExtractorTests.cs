@@ -4,11 +4,7 @@
 
 namespace MetadataUtility.Tests.Metadata
 {
-    using System;
-    using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
     using FluentAssertions;
     using MetadataUtility.Metadata;
     using MetadataUtility.Models;
@@ -45,14 +41,25 @@ namespace MetadataUtility.Tests.Metadata
         [ClassData(typeof(FixtureHelper.FixtureData))]
         public async void ProcessFilesWorks(FixtureModel model)
         {
-            // we can process all files that have a filename
-            var recording = await this.subject.ProcessFileAsync(
-                model.ToTargetInformation(this.RealFileSystem),
-                this.Recording);
+            if (model.Process.ContainsKey(FixtureModel.FilenameExtractor))
+            {
+                Recording expectedRecording = model.Record;
 
-            recording.Extension.Should().Be(model.Extension);
+                if (model.Process[FixtureModel.FilenameExtractor] != null)
+                {
+                    expectedRecording = model.Process[FixtureModel.FilenameExtractor];
+                }
 
-            // TODO: Add other assertions here!
+                var recording = await this.subject.ProcessFileAsync(
+                    model.ToTargetInformation(this.RealFileSystem),
+                    this.Recording);
+
+                recording.Extension.Should().Be(expectedRecording.Extension);
+                recording.Stem.Should().Be(expectedRecording.Stem);
+                recording.StartDate.Should().Be(expectedRecording.StartDate);
+                recording.LocalStartDate.Should().Be(expectedRecording.LocalStartDate);
+                recording.Location.Should().BeEquivalentTo(expectedRecording.Location);
+            }
         }
     }
 }
