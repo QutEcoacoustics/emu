@@ -47,13 +47,13 @@ namespace MetadataUtility.Tests.TestHelpers
 
         public string MimeType { get; set; }
 
-        public string[] OverwriteProperties { get; set; }
-
-        public Dictionary<string, FixtureModel> Process { get; set; }
+        public Dictionary<string, Recording> Process { get; set; }
 
         public bool IsFlac => this.MimeType == Flac.Mime;
 
         public bool IsWave => this.MimeType == Wave.Mime;
+
+        public ushort? BlockAlign { get; set; }
 
         public string FixturePath
         {
@@ -88,34 +88,6 @@ namespace MetadataUtility.Tests.TestHelpers
             SupportFile.FindSupportFiles(fileSystem.Path.GetDirectoryName(ti.Path), new List<TargetInformation> { ti }, fileSystem);
 
             return ti;
-        }
-
-        /// <summary>
-        /// Overwrite certain values in the recording.
-        /// Used for edge cases with some extractor.
-        /// </summary>
-        /// <param name="overwriteRecording">The FixtureModel containing the values to overwrite.</param>
-        public void ApplyOverwrites(FixtureModel overwriteRecording)
-        {
-            foreach (string overwrite in overwriteRecording.OverwriteProperties)
-            {
-                var nestedProperties = overwrite.Split(".");
-                object currentObject = this.Record, overwriteValue = overwriteRecording.Record;
-                PropertyInfo property = currentObject.GetType().GetProperty(nestedProperties[0]);
-
-                // Locate the property if nested
-                for (int i = 1; i < nestedProperties.Length; i++)
-                {
-                    currentObject = property.GetValue(currentObject);
-                    overwriteValue = property.GetValue(overwriteValue);
-
-                    property = currentObject.GetType().GetProperty(nestedProperties[i]);
-                }
-
-                overwriteValue = property.GetValue(overwriteValue);
-
-                property.SetValue(currentObject, overwriteValue);
-            }
         }
 
         public override string ToString()

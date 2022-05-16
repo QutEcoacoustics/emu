@@ -53,7 +53,6 @@ namespace MetadataUtility.Tests.Metadata
                 recording.BitsPerSecond.Should().Be(expectedRecording.BitsPerSecond);
                 recording.BitDepth.Should().Be(expectedRecording.BitDepth);
                 recording.FileLengthBytes.Should().Be(expectedRecording.FileLengthBytes);
-                recording.BlockAlign.Should().Be(expectedRecording.BlockAlign);
             }
         }
     }

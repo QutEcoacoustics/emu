@@ -48,7 +48,6 @@ namespace MetadataUtility.Metadata
             var bitsPerSample = Wave.GetBitsPerSample(formatSpan);
             var byteRate = Wave.GetByteRate(formatSpan);
             var channels = Wave.GetChannels(formatSpan);
-            var blockAlign = Wave.GetBlockAlign(formatSpan);
 
             var samples = dataChunk.Map(d => Wave.GetTotalSamples(d, channels, bitsPerSample));
             var fileLength = stream.Length;
@@ -61,7 +60,6 @@ namespace MetadataUtility.Metadata
                 DurationSeconds = duration.IfFail(null),
                 SampleRateHertz = sampleRate,
                 Channels = (ushort)channels,
-                BlockAlign = blockAlign,
                 BitsPerSecond = byteRate * BinaryHelpers.BitsPerByte,
                 BitDepth = (byte)bitsPerSample,
                 FileLengthBytes = (ulong)fileLength,

@@ -41,12 +41,12 @@ namespace MetadataUtility.Tests.Metadata
         {
             if (model.Process.ContainsKey(FixtureModel.FrontierLabsLogFileExtractor))
             {
+                Recording expectedRecording = model.Record;
+
                 if (model.Process[FixtureModel.FrontierLabsLogFileExtractor] != null)
                 {
-                    model.ApplyOverwrites(model.Process[FixtureModel.FrontierLabsLogFileExtractor]);
+                    expectedRecording = model.Process[FixtureModel.FrontierLabsLogFileExtractor];
                 }
-
-                Recording expectedRecording = model.Record;
 
                 var recording = await this.subject.ProcessFileAsync(
                     model.ToTargetInformation(this.RealFileSystem),

@@ -1,5 +1,5 @@
 - Name: Short Error File 
-  Record:
+  Record: &ShortErrorFile
     Extension: .flac
     Stem: 20181101_060000_REC [-27.3866 152.8761]
     StartDate:
@@ -12,7 +12,6 @@
     BitsPerSecond: 0
     BitDepth: 0
     FileLengthBytes: 44
-    BlockAlign:
     CalculatedChecksum:
       Type: SHA-2-256
       Value: grxftajz7fo6my31
@@ -55,6 +54,7 @@
       Course:
       SampleDateTime:
       CoordinateReferenceSystem:
+  BlockAlign:
   FixturePath: FL_BAR_LT/3.03_PreallocatedHeader/20181101_AAO [-27.3866 152.8761]/20181101_060000_REC [-27.3866 152.8761].flac
   Notes:
   ValidMetadata: No
@@ -64,7 +64,8 @@
     FilenameExtractor: ~
     FrontierLabsLogFileExtractor: ~
 
-- Record:
+- Name: Metadata Duration Bug
+  Record: &MetadataDurationBug
     Extension: .flac
     Stem: 20200801T000000+1000_REC
     StartDate: 2020-08-01T00:00:00+10:00
@@ -77,7 +78,6 @@
     BitsPerSecond: 352800
     BitDepth: 16
     FileLengthBytes:
-    BlockAlign:  
     CalculatedChecksum:
       Type:
       Value:
@@ -127,7 +127,7 @@
       Course:
       SampleDateTime:
       CoordinateReferenceSystem:
-  Name: Metadata Duration Bug
+  BlockAlign:
   FixturePath: FL_BAR_LT/3.17_Duration/20200801T000000+1000_REC.flac
   Notes:
   ValidMetadata: Partial
@@ -135,15 +135,13 @@
   Vendor: Frontier Labs
   Process:
     FilenameExtractor:
-      Record:
-        Location: ~
-      OverwriteProperties:
-        - Location
+      <<: *MetadataDurationBug
+      Location: ~
     FlacHeaderExtractor: ~
     FlacCommentExtractor: ~
 
 - Name: Zero dB Samples
-  Record:
+  Record: &ZerodBSamples
     Extension: .flac
     Stem: 20181101_000006_REC [-27.3866 152.8761]
     StartDate:
@@ -156,7 +154,6 @@
     BitsPerSecond: 352800
     BitDepth: 16
     FileLengthBytes:
-    BlockAlign:
     CalculatedChecksum:
       Type:
       Value:
@@ -199,6 +196,7 @@
       Course:
       SampleDateTime:
       CoordinateReferenceSystem:
+  BlockAlign:
   FixturePath: FL_BAR_LT/3.03_OneHour/20181101_000006_REC [-27.3866 152.8761].flac
   Notes:
   ValidMetadata: Yes
@@ -210,7 +208,7 @@
     FrontierLabsLogFileExtractor: ~
 
 - Name: Normal File
-  Record:
+  Record: &NormalFile
     Extension: .flac
     Stem: 20191026T000000+1000_REC
     StartDate: 2019-10-26T00:00:01+10:00
@@ -223,7 +221,6 @@
     BitsPerSecond: 352800
     BitDepth: 16
     FileLengthBytes:
-    BlockAlign:
     CalculatedChecksum:
       Type:
       Value:
@@ -273,6 +270,7 @@
       Course:
       SampleDateTime:
       CoordinateReferenceSystem:
+  BlockAlign:
   FixturePath: FL_BAR_LT/3.14_Normal/20191026T000000+1000_REC.flac
   Notes:
   ValidMetadata: Yes
@@ -280,19 +278,15 @@
   Vendor: Frontier Labs
   Process:
     FilenameExtractor:
-      Record:
-        StartDate: 2019-10-26T00:00:00+10:00
-        LocalStartDate: 2019-10-26T00:00:00
-        Location: ~
-      OverwriteProperties:
-        - StartDate
-        - LocalStartDate
-        - Location
+      <<: *NormalFile
+      StartDate: 2019-10-26T00:00:00+10:00
+      LocalStartDate: 2019-10-26T00:00:00
+      Location: ~
     FlacHeaderExtractor: ~
     FlacCommentExtractor: ~
 
 - Name: Glitchy Signal
-  Record:
+  Record: &GlitchySignal
     Extension: .flac
     Stem: 20191125T235900+1000_REC
     StartDate: 2019-11-25T23:59:06+10:00
@@ -305,7 +299,6 @@
     BitsPerSecond: 352800
     BitDepth: 16
     FileLengthBytes:
-    BlockAlign:
     CalculatedChecksum:
       Type:
       Value:
@@ -355,6 +348,7 @@
       Course:
       SampleDateTime:
       CoordinateReferenceSystem:
+  BlockAlign:
   FixturePath: FL_BAR_LT/3.14_GlitchySignal/20191125_AAO/20191125T235900+1000_REC.flac
   Notes:
   ValidMetadata: Partial
@@ -362,20 +356,16 @@
   Vendor: Frontier Labs
   Process:
     FilenameExtractor:
-      Record:
-        StartDate: 2019-11-25T23:59:00+10:00
-        LocalStartDate: 2019-11-25T23:59:00
-        Location: ~
-      OverwriteProperties:
-        - StartDate
-        - LocalStartDate
-        - Location
+      <<: *GlitchySignal
+      StartDate: 2019-11-25T23:59:00+10:00
+      LocalStartDate: 2019-11-25T23:59:00
+      Location: ~
     FlacHeaderExtractor: ~
     FrontierLabsLogFileExtractor: ~
     FlacCommentExtractor: ~
 
 - Name: Short File
-  Record:
+  Record: &ShortFile
     Extension: .flac
     Stem: 20191104T020000+1000_REC
     StartDate: 2019-11-04T01:59:55+10:00
@@ -388,7 +378,6 @@
     BitsPerSecond: 352800
     BitDepth: 16
     FileLengthBytes:
-    BlockAlign:
     CalculatedChecksum:
       Type:
       Value:
@@ -438,6 +427,7 @@
       Course:
       SampleDateTime:
       CoordinateReferenceSystem:
+  BlockAlign:
   FixturePath: FL_BAR_LT/3.14_ShortFiles/20191104_AAO/20191104T020000+1000_REC.flac
   Notes:
   ValidMetadata: Partial
@@ -445,20 +435,16 @@
   Vendor: Frontier Labs
   Process:
     FilenameExtractor:
-      Record:
-        StartDate: 2019-11-04T02:00:00+10:00
-        LocalStartDate: 2019-11-04T02:00:00
-        Location: ~
-      OverwriteProperties:
-        - StartDate
-        - LocalStartDate
-        - Location
+      <<: *ShortFile
+      StartDate: 2019-11-04T02:00:00+10:00
+      LocalStartDate: 2019-11-04T02:00:00
+      Location: ~
     FlacHeaderExtractor: ~
     FrontierLabsLogFileExtractor: ~
     FlacCommentExtractor: ~
 
 - Name: Two Log Files 1
-  Record:
+  Record: &TwoLogFiles1
     Extension: .wav
     Stem: 8537_20210709T040000-0300_every1d6x4hrs [+44.72053-062.80072]
     StartDate: 2021-07-09T04:00:00-03:00
@@ -471,7 +457,6 @@
     BitsPerSecond: 0
     BitDepth: 0
     FileLengthBytes:
-    BlockAlign:
     CalculatedChecksum:
       Type:
       Value:
@@ -514,6 +499,7 @@
       Course:
       SampleDateTime: 2021-07-09T07:00:00Z
       CoordinateReferenceSystem:
+  BlockAlign:
   FixturePath: FL_BAR_LT/3.28_MultiLogFile/8537_20210709T040000-0300_every1d6x4hrs [+44.72053-062.80072].wav
   Notes:
   ValidMetadata: No
@@ -524,7 +510,7 @@
     FrontierLabsLogFileExtractor: ~
 
 - Name: Two Log Files 2
-  Record:
+  Record: &TwoLogFiles2
     Extension: .wav
     Stem: 8537_20210622T160000-0300_every1d6x4hrs [+44.72053-062.80072]
     StartDate: 2021-06-22T16:00:00-03:00
@@ -537,7 +523,6 @@
     BitsPerSecond: 0
     BitDepth: 0
     FileLengthBytes:
-    BlockAlign:
     CalculatedChecksum:
       Type:
       Value:
@@ -580,6 +565,7 @@
       Course:
       SampleDateTime: 2021-06-22T19:00:00Z
       CoordinateReferenceSystem:
+  BlockAlign:
   FixturePath: FL_BAR_LT/3.28_MultiLogFile/8537_20210622T160000-0300_every1d6x4hrs [+44.72053-062.80072].wav
   Notes:
   ValidMetadata: No
@@ -590,7 +576,7 @@
     FrontierLabsLogFileExtractor: ~
 
 - Name: SM4 Bat Normal 1
-  Record: 
+  Record: &SM4BatNormal1
     Extension: .wav
     Stem: S4U09523_20210621_205706
     StartDate: 2021-06-21T20:57:06-03:00
@@ -603,7 +589,6 @@
     BitsPerSecond: 4096000
     BitDepth: 16
     FileLengthBytes: 1030730
-    BlockAlign: 2
     CalculatedChecksum:
       Type:
       Value:
@@ -653,6 +638,7 @@
       Course:
       SampleDateTime:
       CoordinateReferenceSystem:
+  BlockAlign: 2
   FixturePath: WA_SM4BAT/2.2.1_Normal/S4U09523_20210621_205706.wav
   Notes:
   ValidMetadata: Yes
@@ -660,17 +646,14 @@
   Vendor: Wildlife Acoustics
   Process:
     FilenameExtractor:
-      Record:
-        StartDate: ~
-        Location: ~
-      OverwriteProperties:
-        - StartDate
-        - Location
+      <<: *SM4BatNormal1
+      StartDate: ~
+      Location: ~
     WaveHeaderExtractor: ~
     WamdExtractor: ~
 
 - Name: SM4 Bat Normal 2
-  Record:
+  Record: &SM4BatNormal2
     Extension: .wav
     Stem: S4U09523_20210621_212111
     StartDate: 2021-06-21T21:21:11-03:00
@@ -683,7 +666,6 @@
     BitsPerSecond: 4096000
     BitDepth: 16
     FileLengthBytes: 1116746
-    BlockAlign: 2
     CalculatedChecksum:
       Type:
       Value:
@@ -733,6 +715,7 @@
       Course:
       SampleDateTime:
       CoordinateReferenceSystem:
+  BlockAlign: 2
   FixturePath: WA_SM4BAT/2.2.1_Normal/S4U09523_20210621_212111.wav
   Notes:
   ValidMetadata: Yes
@@ -740,17 +723,14 @@
   Vendor: Wildlife Acoustics
   Process:
     FilenameExtractor:
-      Record:
-        StartDate: ~
-        Location: ~
-      OverwriteProperties:
-        - StartDate
-        - Location
+      <<: *SM4BatNormal2
+      StartDate: ~
+      Location: ~
     WaveHeaderExtractor: ~
     WamdExtractor: ~
 
 - Name: Firmware 3.3
-  Record:
+  Record: &Firmware3.3
     Extension: .flac
     Stem: 00008570_Dartmouth_20220331T094900-0300_Rec
     StartDate: 2022-03-31T09:49:02-03:00
@@ -763,14 +743,13 @@
     BitsPerSecond: 705600
     BitDepth: 16
     FileLengthBytes:
-    BlockAlign:
     CalculatedChecksum:
       Type:
       Value:
     EmbeddedChecksum:
       Type:
       Value:
-    MemoryCard:
+    MemoryCard: &Firmware3.3MemoryCard
       FormatType: exFAT
       ManufacturerID: 3
       OEMID: SD
@@ -813,6 +792,7 @@
       Course:
       SampleDateTime:
       CoordinateReferenceSystem:
+  BlockAlign:
   FixturePath: FL_BAR_LT/3.30_NewFirmware/00008570_Dartmouth_20220331T094900-0300_Rec.flac
   Notes:
   ValidMetadata: Yes
@@ -820,20 +800,15 @@
   Vendor: Frontier Labs
   Process:
     FilenameExtractor:
-      Record:
-        StartDate: 2022-03-31T09:49:00-03:00
-        LocalStartDate: 2022-03-31T09:49:00
-        Location: ~
-      OverwriteProperties:
-        - StartDate
-        - LocalStartDate
-        - Location
+      <<: *Firmware3.3
+      StartDate: 2022-03-31T09:49:00-03:00
+      LocalStartDate: 2022-03-31T09:49:00
+      Location: ~
     FlacHeaderExtractor: ~
     FlacCommentExtractor: ~
     FrontierLabsLogFileExtractor:
-      Record:
-        MemoryCard:
-          SerialNumber: 8041328
-      OverwriteProperties:
-        - MemoryCard.SerialNumber
+      <<: *Firmware3.3
+      MemoryCard:
+        <<: *Firmware3.3MemoryCard
+        SerialNumber: 8041328
     FLCommentAndLogExtractor: ~

@@ -10,6 +10,7 @@ namespace MetadataUtility.Tests.TestHelpers
     using System.IO.Abstractions;
     using System.Linq;
     using MetadataUtility.Serialization;
+    using YamlDotNet.Core;
     using YamlDotNet.Serialization;
 
     public static partial class FixtureHelper
@@ -91,10 +92,12 @@ namespace MetadataUtility.Tests.TestHelpers
             public FixtureData()
             {
                 using var streamReader = RealFileSystem.File.OpenText(ResolvePath(FixtureFile));
+
+                var parser = new MergingParser(new Parser(streamReader));
                 var deserializer = new DeserializerBuilder().Build();
 
                 this.fixtureModels = deserializer
-                    .Deserialize<List<FixtureModel>>(streamReader)
+                    .Deserialize<List<FixtureModel>>(parser)
                     .ToDictionary(f => f.Name);
             }
 

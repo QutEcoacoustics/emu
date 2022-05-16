@@ -97,7 +97,7 @@ namespace MetadataUtility.Tests.Audio
             var (format, dataRange) = this.ReadChunkRanges(model);
 
             var blockAlign = Wave.GetBlockAlign(format);
-            blockAlign.Should().Be(model.Record.BlockAlign);
+            blockAlign.Should().Be(model.BlockAlign);
         }
 
         [Fact]
