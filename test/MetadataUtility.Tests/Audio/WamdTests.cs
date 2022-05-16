@@ -47,9 +47,9 @@ namespace MetadataUtility.Tests.Audio
             wamdData.Name.Should().Be("SM4BAT-FS");
             wamdData.SerialNumber.Should().Be("S4U09523");
             wamdData.Firmware.Should().Be("2.2.1");
-            wamdData.Temperature.Should().Be("24.25C");
+            wamdData.Temperature.Should().Be(24.25);
             wamdData.MicrophoneType.Should().AllBe("U2");
-            wamdData.MicrophoneSensitivity.Should().AllBe("13.0dBFS");
+            wamdData.MicrophoneSensitivity.Should().AllBeEquivalentTo(13.0);
             wamdData.Latitude.Should().Be(45.7835);
             wamdData.Longitude.Should().Be(-64.23352);
         }

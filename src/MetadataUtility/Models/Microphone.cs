@@ -27,8 +27,9 @@ namespace MetadataUtility.Models
 
         /// <summary>
         /// Gets the gain of this microphone.
+        /// Units: Decibels.
         /// </summary>
-        public string Gain { get; init; }
+        public double? Gain { get; init; }
 
         /// <summary>
         /// Gets microphone number according to the sensor (1, 2, etc.).
@@ -44,6 +45,6 @@ namespace MetadataUtility.Models
         /// Gets the sensitivity of the microphone.
         /// Units: Decibels relative to full scale (dBFS).
         /// </summary>
-        public string Sensitivity { get; init; }
+        public double? Sensitivity { get; init; }
     }
 }

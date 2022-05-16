@@ -25,7 +25,7 @@
       ProductName: SD256
       ProductRevision: 0.2
       SerialNumber: 560
-      ManufactureDate: 2015/04
+      ManufactureDate: 2015-04
       Speed: 50
       Capacity: 250412032
       WrCurrentVmin: 3
@@ -38,9 +38,9 @@
       SerialNumber: 53373100-31334832-34303132-30353031
       PowerSource: Ext-power
       Microphones:
-      Voltage:
       Gain:
       Configuration:
+      Voltage:
       BatteryLevel:
       Temperature:
       LastTimeSync:
@@ -91,7 +91,7 @@
       ProductName: 512GB
       ProductRevision: 0.2
       SerialNumber: 234
-      ManufactureDate: 2018/10
+      ManufactureDate: 2018-10
       Speed:
       Capacity:
       WrCurrentVmin:
@@ -107,14 +107,14 @@
         - Type: STD AUDIO MIC
           UID: 000629
           BuildDate: 2019-02-22
-          Gain: 50dB
+          Gain: 50
           Channel: 1
           ChannelName: A
           Sensitivity:
-      Voltage:
       Gain:
       Configuration:
-      BatteryLevel: 53p 12.16V
+      Voltage: 12.16
+      BatteryLevel: 0.53
       Temperature:
       LastTimeSync: 2020-07-31T09:11:30+10:00
     Location:
@@ -167,7 +167,7 @@
       ProductName: SD256
       ProductRevision: 0.2
       SerialNumber: 560
-      ManufactureDate: 2015/04
+      ManufactureDate: 2015-04
       Speed: 50
       Capacity: 250412032
       WrCurrentVmin: 3
@@ -180,9 +180,9 @@
       SerialNumber: 53373100-31334832-34303132-30353031
       PowerSource: Ext-power
       Microphones:
-      Voltage:
       Gain:
       Configuration:
+      Voltage:
       BatteryLevel:
       Temperature:
       LastTimeSync:
@@ -234,7 +234,7 @@
       ProductName: 512GB
       ProductRevision: 0.2
       SerialNumber: 135
-      ManufactureDate: 2018/10
+      ManufactureDate: 2018-10
       Speed:
       Capacity:
       WrCurrentVmin:
@@ -250,14 +250,14 @@
         - Type: STD AUDIO MIC
           UID: 001720
           BuildDate: 2019-06-18
-          Gain: 50dB
+          Gain: 50
           Channel: 1
           ChannelName: A
           Sensitivity:
-      Voltage:
       Gain:
       Configuration:
-      BatteryLevel: 97p 12.72V
+      Voltage: 12.72
+      BatteryLevel: 0.97
       Temperature:
       LastTimeSync: 2019-10-25T22:05:49+10:00
     Location:
@@ -312,7 +312,7 @@
       ProductName: 512GB
       ProductRevision: 1
       SerialNumber: 309
-      ManufactureDate: 2018/11
+      ManufactureDate: 2018-11
       Speed: 50
       Capacity: 484102144
       WrCurrentVmin: 3
@@ -328,14 +328,14 @@
         - Type: STD AUDIO MIC
           UID: 000610
           BuildDate: 2019-02-22
-          Gain: 50dB
+          Gain: 50
           Channel: 1
           ChannelName: A
           Sensitivity:
-      Voltage:
       Gain:
       Configuration:
-      BatteryLevel: 9p 11.62V
+      Voltage: 11.62
+      BatteryLevel: 0.09
       Temperature:
       LastTimeSync: 2019-11-23T01:59:55+10:00
     Location:
@@ -391,7 +391,7 @@
       ProductName: 512GB
       ProductRevision: 1
       SerialNumber: 309
-      ManufactureDate: 2018/11
+      ManufactureDate: 2018-11
       Speed: 50
       Capacity: 484102144
       WrCurrentVmin: 3
@@ -407,14 +407,14 @@
         - Type: STD AUDIO MIC
           UID: 000610
           BuildDate: 2019-02-22
-          Gain: 50dB
+          Gain: 50
           Channel: 1
           ChannelName: A
           Sensitivity:
-      Voltage:
       Gain:
       Configuration:
-      BatteryLevel: 52p 12.15V
+      Voltage: 12.15
+      BatteryLevel: 0.52
       Temperature:
       LastTimeSync: 2019-11-04T01:59:54+10:00
     Location:
@@ -470,7 +470,7 @@
       ProductName: SD128
       ProductRevision: 8.5
       SerialNumber: 11184608
-      ManufactureDate: 2020/08
+      ManufactureDate: 2020-08
       Speed: 50
       Capacity: 124868608
       WrCurrentVmin: 5
@@ -483,9 +483,9 @@
       SerialNumber: 00008537
       PowerSource: Ext-power
       Microphones:
-      Voltage:
       Gain:
       Configuration:
+      Voltage:
       BatteryLevel:
       Temperature:
       LastTimeSync:
@@ -536,7 +536,7 @@
       ProductName: SD128
       ProductRevision: 8.5
       SerialNumber: 13281763
-      ManufactureDate: 2020/08
+      ManufactureDate: 2020-08
       Speed: 50
       Capacity: 124868608
       WrCurrentVmin: 5
@@ -549,9 +549,9 @@
       SerialNumber: 00008537
       PowerSource: Ext-power
       Microphones:
-      Voltage:
       Gain:
       Configuration:
+      Voltage:
       BatteryLevel:
       Temperature:
       LastTimeSync:
@@ -621,12 +621,12 @@
           Gain:
           Channel:
           ChannelName:
-          Sensitivity: 13.0dBFS
-      Voltage:
+          Sensitivity: 13
       Gain:
       Configuration:
+      Voltage:
       BatteryLevel:
-      Temperature: 24.25C
+      Temperature: 24.25
       LastTimeSync:
     Location:
       Longitude: -64.23352
@@ -698,12 +698,12 @@
           Gain:
           Channel:
           ChannelName:
-          Sensitivity: 13.0dBFS
-      Voltage:
+          Sensitivity: 13
       Gain:
       Configuration:
+      Voltage:
       BatteryLevel:
-      Temperature: 23.25C
+      Temperature: 23.25
       LastTimeSync:
     Location:
       Longitude: -64.23352
@@ -756,7 +756,7 @@
       ProductName: SD128
       ProductRevision: 8.5
       SerialNumber: 1132114800
-      ManufactureDate: 2020/08
+      ManufactureDate: 2020-08
       Speed: 50
       Capacity: 124868608
       WrCurrentVmin: 5
@@ -772,14 +772,14 @@
         - Type: STD AUDIO MIC
           UID: 009966
           BuildDate: 2019-03-20
-          Gain: 50dB
+          Gain: 50
           Channel: 2
           ChannelName: B
           Sensitivity:
-      Voltage:
       Gain:
       Configuration:
-      BatteryLevel: 65p 3.79V
+      Voltage: 3.79
+      BatteryLevel: 0.65
       Temperature:
       LastTimeSync: 2022-03-31T09:48:40-03:00
     Location:

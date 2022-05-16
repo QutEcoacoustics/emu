@@ -39,9 +39,9 @@ namespace MetadataUtility.Models
         public double? Voltage { get; init; }
 
         /// <summary>
-        /// Gets the battery level of the sensor.
+        /// Gets the battery level of the sensor as a percentage.
         /// </summary>
-        public string BatteryLevel { get; init; }
+        public double? BatteryLevel { get; init; }
 
         /// <summary>
         /// Gets the gain used by the sensor.
@@ -68,6 +68,6 @@ namespace MetadataUtility.Models
         /// Gets the temperature from the sensor.
         /// Units: Degrees celsius.
         /// </summary>
-        public string Temperature { get; init; }
+        public double? Temperature { get; init; }
     }
 }
