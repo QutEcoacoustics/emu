@@ -339,6 +339,7 @@ namespace MetadataUtility.Audio
                 // advance our offset counter by the 8 bytes we just read
                 offset += read;
 
+                // check the chunk length falls within the bounds of the file
                 if (offset + length > stream.Length)
                 {
                     return InvalidChunk;
