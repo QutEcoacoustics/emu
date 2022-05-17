@@ -106,7 +106,7 @@ namespace MetadataUtility.Models
             // Ensure month is in MM format
             month = month.Length == 1 ? "0" + month : month;
 
-            string manufactureDate = year + "/" + month;
+            string manufactureDate = year + "-" + month;
 
             return manufactureDate;
         }

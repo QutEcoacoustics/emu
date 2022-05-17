@@ -37,7 +37,7 @@ namespace MetadataUtility.Audio
             { FirmwareChunkId, (wamdData, value) => wamdData.Firmware = value },
             { StartDateChunkId, (wamdData, value) => wamdData.StartDate = DateParser(value) },
             { MicrophoneTypeChunkId, (wamdData, value) => wamdData.MicrophoneType = value.Split(",") },
-            { MicrophoneSensitivityChunkId, (wamdData, value) => wamdData.MicrophoneSensitivity = value.Split(",").Select(x => x + "dBFS").ToArray() },
+            { MicrophoneSensitivityChunkId, (wamdData, value) => wamdData.MicrophoneSensitivity = Array.ConvertAll(value.Split(","), double.Parse) },
             {
                 LocationChunkId, (wamdData, value) =>
                 {
@@ -47,7 +47,7 @@ namespace MetadataUtility.Audio
                     wamdData.Altitude = location.ContainsKey(AltitudeKey) ? location[AltitudeKey] : null;
                 }
             },
-            { TemperatureChunkId, (wamdData, value) => wamdData.Temperature = value },
+            { TemperatureChunkId, (wamdData, value) => wamdData.Temperature = double.Parse(value.Where(c => char.IsDigit(c) || (new char[] { '.', '-' }).Contains(c)).ToArray()) },
         };
 
         public string Name { get; set; }
@@ -56,13 +56,13 @@ namespace MetadataUtility.Audio
 
         public string Firmware { get; set; }
 
-        public string Temperature { get; set; }
+        public double? Temperature { get; set; }
 
         public Either<OffsetDateTime?, LocalDateTime?> StartDate { get; set; }
 
         public string[] MicrophoneType { get; set; }
 
-        public string[] MicrophoneSensitivity { get; set; }
+        public double[] MicrophoneSensitivity { get; set; }
 
         public double? Longitude { get; set; }
 

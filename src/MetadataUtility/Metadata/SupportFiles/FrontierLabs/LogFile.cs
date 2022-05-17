@@ -153,7 +153,7 @@ namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
                                 ProductName = reader.ReadLine()?.Split().Last(),
                                 ProductRevision = float.Parse(reader.ReadLine()!.Split().Last()),
                                 SerialNumber = uint.Parse(reader.ReadLine()!.Split().Last()),
-                                ManufactureDate = reader.ReadLine()?.Split().Last(),
+                                ManufactureDate = reader.ReadLine()?.Split().Last().Replace('/', '-'),
                                 Speed = uint.Parse(reader.ReadLine()!.Split().Last()),
                                 Capacity = uint.Parse(reader.ReadLine()!.Split().Last()),
                                 WrCurrentVmin = uint.Parse(reader.ReadLine()!.Split().Last()),

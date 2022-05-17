@@ -106,6 +106,7 @@ namespace MetadataUtility.Models
 
         /// <summary>
         /// Gets the numbers of bits used to quantize each sample.
+        /// Value is per channel.
         /// </summary>
         public byte? BitDepth { get; init; }
 

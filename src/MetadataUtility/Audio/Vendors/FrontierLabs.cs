@@ -45,7 +45,7 @@ namespace MetadataUtility.Audio.Vendors
             { FirmwareCommentKey, FirmwareParser },
             { RecordingStartCommentKey, DateParser },
             { RecordingEndCommentKey, DateParser },
-            { BatteryLevelCommentKey, GenericParser },
+            { BatteryLevelCommentKey, BatteryParser },
             { LocationCommentKey, LocationParser },
             { LastSyncCommentKey, DateParser },
             { SensorIdCommentKey, GenericParser },
@@ -53,14 +53,16 @@ namespace MetadataUtility.Audio.Vendors
             { MicrophoneTypeCommentKey, GenericParser },
             { MicrophoneUIDCommentKey, GenericParser },
             { MicrophoneBuildDateCommentKey, GenericParser },
-            { MicrophoneGainCommentKey, GenericParser },
+            { MicrophoneGainCommentKey, NumericParser },
         };
 
         public static readonly Error FirmwareNotFound = Error.New("Frontier Labs firmware comment string not found");
-        public static readonly Func<string, Error> FirmwareVersionInvalid = x => Error.New($"Frontier Labs firmware version `{x}` is invalid");
-        public static readonly Func<string, Error> DateInvalid = x => Error.New($"Date `{x}` is invalid");
-        public static readonly Func<string, Error> LocationInvalid = x => Error.New($"Location `{x}` is invalid");
-        public static readonly Func<string, Error> CIDInvalid = x => Error.New($"CID `{x}` is invalid");
+        public static readonly Func<string, Error> FirmwareVersionInvalid = x => Error.New($"Frontier Labs firmware version `{x}` can't be parsed");
+        public static readonly Func<string, Error> DateInvalid = x => Error.New($"Date `{x}` can't be parsed");
+        public static readonly Func<string, Error> LocationInvalid = x => Error.New($"Location `{x}` can't be parsed");
+        public static readonly Func<string, Error> CIDInvalid = x => Error.New($"CID `{x}` can't be parsed");
+        public static readonly Func<string, Error> BatteryValuesInvalid = x => Error.New($"Battery values '{x}' can't be parsed");
+        public static readonly Func<string, Error> ParsingError = x => Error.New($"Value '{x}' cant' be parsed");
 
         public static async ValueTask<Fin<FirmwareRecord>> ReadFirmwareAsync(FileStream stream)
         {
@@ -170,6 +172,14 @@ namespace MetadataUtility.Audio.Vendors
         public static Fin<object> GenericParser(string value) => value;
 
         /// <summary>
+        /// Frontier Labs vorbis comment numeric parser.
+        /// Strips all non numeric characters from the value.
+        /// </summary>
+        /// <param name="value">The value to parse.</param>
+        /// <returns>The parsed value.</returns>
+        public static Fin<object> NumericParser(string value) => double.Parse(value.Where(c => char.IsDigit(c) || (new char[] { '.', '-' }).Contains(c)).ToArray());
+
+        /// <summary>
         /// Frontier Labs vorbis comment firmware parser.
         /// </summary>
         /// <param name="value">The value to parse.</param>
@@ -195,6 +205,27 @@ namespace MetadataUtility.Audio.Vendors
             firmware = firmware.StartsWith("V") ? firmware[1..] : firmware;
 
             return firmware;
+        }
+
+        /// <summary>
+        /// Frontier Labs vorbis comment battery parser.
+        /// Parses battery voltage and battery level.
+        /// </summary>
+        /// <param name="value">The value to parse.</param>
+        /// <returns>The parsed battery values.</returns>
+        public static Fin<object> BatteryParser(string value)
+        {
+            string[] batteryValues = value.Split(" ", StringSplitOptions.RemoveEmptyEntries);
+
+            if (batteryValues.Length != 2)
+            {
+                return BatteryValuesInvalid(value);
+            }
+
+            double? batteryLevel = (double)NumericParser(batteryValues[0]);
+            double? batteryVoltage = (double)NumericParser(batteryValues[1]);
+
+            return (batteryLevel, batteryVoltage);
         }
 
         /// <summary>

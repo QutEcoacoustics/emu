@@ -54,7 +54,7 @@ namespace MetadataUtility.Metadata.FrontierLabs
                         Type = (string)this.ParseComment(FrontierLabs.MicrophoneTypeCommentKey + micNumber, comments),
                         UID = (string)this.ParseComment(FrontierLabs.MicrophoneUIDCommentKey + micNumber, comments),
                         BuildDate = (string)this.ParseComment(FrontierLabs.MicrophoneBuildDateCommentKey + micNumber, comments),
-                        Gain = (string)this.ParseComment(FrontierLabs.MicrophoneGainCommentKey + micNumber, comments),
+                        Gain = (double?)this.ParseComment(FrontierLabs.MicrophoneGainCommentKey + micNumber, comments),
                         Channel = micNumber,
                         ChannelName = channelName,
                     };
@@ -67,13 +67,28 @@ namespace MetadataUtility.Metadata.FrontierLabs
                     micNumber++;
                 }
 
+                // Extract battery related values
+                // Two batter values are extracted from the same comment as a tuple
+                var batteryValues = ((double?, double?)?)this.ParseComment(FrontierLabs.BatteryLevelCommentKey, comments);
+                double? batteryLevel = null, voltage = null;
+
+                if (batteryValues != null)
+                {
+                    batteryLevel = batteryValues?.Item1;
+
+                    batteryLevel = batteryLevel == null ? null : batteryLevel / 100;
+
+                    voltage = batteryValues?.Item2;
+                }
+
                 // Update recording information with parsed comments
                 recording = recording with
                 {
                     Sensor = (recording.Sensor ?? new Sensor()) with
                     {
                         Firmware = recording.Sensor?.Firmware ?? (string)this.ParseComment(FrontierLabs.FirmwareCommentKey, comments),
-                        BatteryLevel = recording.Sensor?.BatteryLevel ?? (string)this.ParseComment(FrontierLabs.BatteryLevelCommentKey, comments),
+                        BatteryLevel = recording.Sensor?.BatteryLevel ?? batteryLevel,
+                        Voltage = recording.Sensor?.Voltage ?? voltage,
                         LastTimeSync = recording.Sensor?.LastTimeSync ?? (OffsetDateTime?)this.ParseComment(FrontierLabs.LastSyncCommentKey, comments),
                         SerialNumber = recording.Sensor?.SerialNumber ?? (string)this.ParseComment(FrontierLabs.SensorIdCommentKey, comments),
                         Microphones = recording.Sensor?.Microphones ?? new Microphone[microphones.Length()],
