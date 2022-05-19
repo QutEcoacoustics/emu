@@ -34,6 +34,7 @@ namespace MetadataUtility.Audio
         public static readonly Error FileNotWave = Error.New("Error reading file: file is not a RIFF/WAVE file");
         public static readonly Error InvalidFileData = Error.New("Error reading file: no valid file data was found");
         public static readonly Error InvalidOffset = Error.New("Error reading file: an invalid offset was found");
+        public static readonly Error InvalidChunk = Error.New("Error reading chunk: chunk size exceeds file size");
 
         public enum Format : ushort
         {
@@ -170,6 +171,11 @@ namespace MetadataUtility.Audio
 
             var riffChunk = FindRiffChunk(stream);
 
+            if (riffChunk.IsFail)
+            {
+                return (Error)riffChunk;
+            }
+
             // If the riff chunk size is incorrect, increment faults
             if (((RangeHelper.Range)riffChunk).End != stream.Length)
             {
@@ -189,8 +195,12 @@ namespace MetadataUtility.Audio
             }
 
             var waveChunk = riffChunk.Bind(r => FindWaveChunk(stream, r));
-
             var dataChunk = waveChunk.Bind(w => FindDataChunk(stream, w));
+
+            if (dataChunk.IsFail)
+            {
+                return (Error)dataChunk;
+            }
 
             long dataStart = ((RangeHelper.Range)dataChunk).Start;
             long dataEnd = ((RangeHelper.Range)dataChunk).End;
@@ -297,10 +307,16 @@ namespace MetadataUtility.Audio
             const int ChunkIdLength = 4;
             const int ChunkLengthLength = 4;
 
+            /* 
+            Check to ensure the given container range fits within the bounds of the file.
+            Commented out for now since this check can cause files affected by FL005 to crash.
+            https://github.com/ecoacoustics/known-problems/blob/main/frontier_labs/FL005.md
+
             if (container.End > stream.Length)
             {
                 throw new ArgumentOutOfRangeException(nameof(container), "container.End must be less than or equal to stream.Length");
             }
+            */
 
             // check if the container is long enough to contain the chunk
             if (stream.Length < (ChunkIdLength + ChunkLengthLength + container.Start))
@@ -333,6 +349,12 @@ namespace MetadataUtility.Audio
 
                 // advance our offset counter by the 8 bytes we just read
                 offset += read;
+
+                // check the chunk length falls within the bounds of the file
+                if (offset + length > stream.Length)
+                {
+                    return InvalidChunk;
+                }
 
                 // check whether we found our target chunk or not
                 if (targetChunkId.SequenceEqual(chunkId))

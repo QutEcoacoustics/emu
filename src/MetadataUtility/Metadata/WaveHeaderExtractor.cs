@@ -53,11 +53,11 @@ namespace MetadataUtility.Metadata
             var fileLength = stream.Length;
 
             // TODO: replace with rational type from master branch
-            var duration = samples.Map(s => new Rational((uint)samples) / new Rational((uint)sampleRate));
+            var duration = samples.Map(s => (Rational?)new Rational((uint)samples, (uint)sampleRate));
 
             return ValueTask.FromResult(recording with
             {
-                DurationSeconds = duration.IfFail(null),
+                DurationSeconds = duration.IfFail((Rational?)null),
                 SampleRateHertz = sampleRate,
                 Channels = (ushort)channels,
                 BitsPerSecond = byteRate * BinaryHelpers.BitsPerByte,
