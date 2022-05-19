@@ -307,6 +307,17 @@ namespace MetadataUtility.Audio
             const int ChunkIdLength = 4;
             const int ChunkLengthLength = 4;
 
+            /* 
+            Check to ensure the given container range fits within the bounds of the file.
+            Commented out for now since this check can cause files affected by FL005 to crash.
+            https://github.com/ecoacoustics/known-problems/blob/main/frontier_labs/FL005.md
+
+            if (container.End > stream.Length)
+            {
+                throw new ArgumentOutOfRangeException(nameof(container), "container.End must be less than or equal to stream.Length");
+            }
+            */
+
             // check if the container is long enough to contain the chunk
             if (stream.Length < (ChunkIdLength + ChunkLengthLength + container.Start))
             {
