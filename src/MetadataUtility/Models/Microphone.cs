@@ -34,7 +34,7 @@ namespace MetadataUtility.Models
         /// <summary>
         /// Gets microphone number according to the sensor (1, 2, etc.).
         /// </summary>
-        public int Channel { get; init; }
+        public int? Channel { get; init; }
 
         /// <summary>
         /// Gets the name of the microphone (style depends on vendor).

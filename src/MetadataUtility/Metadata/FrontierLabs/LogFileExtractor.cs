@@ -18,13 +18,13 @@ namespace MetadataUtility.Metadata.FrontierLabs
             this.logger = logger;
         }
 
-        public static MemoryCard CorrelateSD(List<(MemoryCard MemoryCard, int Line)> memoryCardLogs, (string Recording, int Line) recordingLog)
+        public static MemoryCard CorrelateSD(List<(MemoryCard MemoryCard, int ItemNumber)> memoryCardLogs, LogFile.RecordingRecord recording)
         {
             MemoryCard memoryCard = memoryCardLogs[0].MemoryCard;
 
-            foreach ((MemoryCard currentMemoryCard, int line) in memoryCardLogs)
+            foreach ((MemoryCard currentMemoryCard, int itemNumber) in memoryCardLogs)
             {
-                if (line < recordingLog.Line)
+                if (itemNumber < recording.ItemNumber)
                 {
                     memoryCard = currentMemoryCard;
                 }
@@ -50,21 +50,18 @@ namespace MetadataUtility.Metadata.FrontierLabs
             MemoryCard memoryCard = null;
             Sensor sensor = logFile.Sensor;
 
+            string filename = information.FileSystem.Path.GetFileName(information.Path);
+            var recordingRecord = logFile.RecordingLogs.Where(x => x.Name.Contains(filename)).FirstOrDefault();
+
             var serialNumbers = logFile.MemoryCardLogs.Select(x => x.MemoryCard?.SerialNumber);
 
             if (serialNumbers.Distinct().Count() == 1)
             {
                 memoryCard = logFile.MemoryCardLogs.First().MemoryCard;
             }
-            else
+            else if (recordingRecord != null)
             {
-                string fileName = information.FileSystem.Path.GetFileName(information.Path);
-                IEnumerable<string> recordings = logFile.RecordingLogs.Select(x => x.Recording);
-
-                if (recordings.Contains(fileName))
-                {
-                    memoryCard = CorrelateSD(logFile.MemoryCardLogs, logFile.RecordingLogs[recordings.ToList().IndexOf(fileName)]);
-                }
+                memoryCard = CorrelateSD(logFile.MemoryCardLogs, recordingRecord);
             }
 
             if (memoryCard != null)
@@ -97,6 +94,9 @@ namespace MetadataUtility.Metadata.FrontierLabs
                     Firmware = recording.Sensor?.Firmware ?? sensor.Firmware,
                     SerialNumber = recording.Sensor?.SerialNumber ?? sensor.SerialNumber,
                     PowerSource = recording.Sensor?.PowerSource ?? sensor.PowerSource,
+                    BatteryLevel = recording.Sensor?.BatteryLevel ?? recordingRecord?.BatteryLevel,
+                    Voltage = recording.Sensor?.BatteryLevel ?? recordingRecord?.Voltage,
+                    Microphones = recording.Sensor?.Microphones ?? recordingRecord?.Microphones,
                 },
             };
 
