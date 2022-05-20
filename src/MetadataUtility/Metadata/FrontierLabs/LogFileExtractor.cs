@@ -18,13 +18,22 @@ namespace MetadataUtility.Metadata.FrontierLabs
             this.logger = logger;
         }
 
-        public static MemoryCard CorrelateSD(List<(MemoryCard MemoryCard, int ItemNumber)> memoryCardLogs, LogFile.RecordingRecord recording)
+        /// <summary>
+        /// Correlates memory card to its corresponding recording.
+        /// Uses item number which keeps track of the relative position of memory cards and recordings in the log file.
+        /// </summary>
+        /// <param name="memoryCardLogs">List of all memory cards found in the log file and their relative positions.</param>
+        /// <param name="recordingItemNumber">Relative order of the recording in the log file.</param>
+        /// <returns>
+        /// The corresponding memory card.
+        /// </returns>
+        public static MemoryCard CorrelateSD(List<(MemoryCard MemoryCard, int ItemNumber)> memoryCardLogs, int recordingItemNumber)
         {
             MemoryCard memoryCard = memoryCardLogs[0].MemoryCard;
 
             foreach ((MemoryCard currentMemoryCard, int itemNumber) in memoryCardLogs)
             {
-                if (itemNumber < recording.ItemNumber)
+                if (itemNumber < recordingItemNumber)
                 {
                     memoryCard = currentMemoryCard;
                 }
@@ -64,7 +73,7 @@ namespace MetadataUtility.Metadata.FrontierLabs
             }
             else if (recordingRecord != null)
             {
-                memoryCard = CorrelateSD(logFile.MemoryCardLogs, recordingRecord);
+                memoryCard = CorrelateSD(logFile.MemoryCardLogs, recordingRecord.ItemNumber);
             }
 
             if (memoryCard != null)

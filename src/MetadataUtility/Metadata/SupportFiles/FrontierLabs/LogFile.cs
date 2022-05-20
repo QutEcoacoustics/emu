@@ -41,7 +41,7 @@ namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
         /// Searches each potential support file for a log file that correlates with the given recording.
         /// </summary>
         /// <param name="information">The target recording information.</param>
-        /// <param name="supportFiles">List of all potential support files for this target.</param>       
+        /// <param name="supportFiles">List of all potential support files for this target.</param>
         public static void FindLogFile(TargetInformation information, IEnumerable<string> supportFiles)
         {
             IEnumerable<string> logFiles = supportFiles.Where(x => LogFileRegex.IsMatch(x));
@@ -92,7 +92,7 @@ namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
         /// If the given log file has already been cached, find and return it.
         /// If this is an unseen log file, parse all of it's data and return it.
         /// </summary>
-        /// <param name="log">The log file name.</param>  
+        /// <param name="log">The log file name.</param>
         /// <returns>
         /// A parsed log file object.
         /// </returns>
