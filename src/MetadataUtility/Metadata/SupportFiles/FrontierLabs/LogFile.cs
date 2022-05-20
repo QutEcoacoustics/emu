@@ -20,7 +20,7 @@ namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
         public const string LocationString = "GPS position lock acquired [";
         public const string BatteryString = "Battery:";
         public const string MicrophoneString = "Microphone";
-        public const string EndSection = "--------";
+        public const string EndRecordingSection = "--------";
         public static readonly Regex LogFileRegex = new Regex(@".*logfile.*txt");
         public static readonly Regex FirmwareRegex = new Regex(@"V?\d+");
 
@@ -37,6 +37,11 @@ namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
 
         public Location Location { get; set; }
 
+        /// <summary>
+        /// Searches each potential support file for a log file that correlates with the given recording.
+        /// </summary>
+        /// <param name="information">The target recording information.</param>
+        /// <param name="supportFiles">List of all potential support files for this target.</param>       
         public static void FindLogFile(TargetInformation information, IEnumerable<string> supportFiles)
         {
             IEnumerable<string> logFiles = supportFiles.Where(x => LogFileRegex.IsMatch(x));
@@ -47,7 +52,6 @@ namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
 
             LogFile logFile = null;
 
-            // If one log file was found, return true and add it to known support files for the target
             if (length == 1)
             {
                 logFile = GetLogFile(first);
@@ -76,12 +80,22 @@ namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
                 }
             }
 
+            // If log file is found, correlate it to the target
             if (logFile != null)
             {
                 information.TargetSupportFiles.Add(LogFileKey, logFile);
             }
         }
 
+        /// <summary>
+        /// Retrieves log file information in one of two ways.
+        /// If the given log file has already been cached, find and return it.
+        /// If this is an unseen log file, parse all of it's data and return it.
+        /// </summary>
+        /// <param name="log">The log file name.</param>  
+        /// <returns>
+        /// A parsed log file object.
+        /// </returns>
         public static LogFile GetLogFile(string log)
         {
             IEnumerable<string> knownSupportFilePaths = TargetInformation.KnownSupportFiles.Select(x => x.FilePath);
@@ -109,6 +123,13 @@ namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
             return null;
         }
 
+        /// <summary>
+        /// Parses a memory card from a log file.
+        /// </summary>
+        /// <param name="reader">Log file stream reader.</param>
+        /// <returns>
+        /// A parsed memory card object.
+        /// </returns>
         public static MemoryCard MemoryCardParser(StreamReader reader)
         {
             return new MemoryCard() with
@@ -129,6 +150,13 @@ namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
             };
         }
 
+        /// <summary>
+        /// Parses a location from a log file.
+        /// </summary>
+        /// <param name="value">The unparsed location value.</param>
+        /// <returns>
+        /// A parsed location object.
+        /// </returns>
         public static Location LocationParser(string value)
         {
             double? longitude, latitude;
@@ -149,6 +177,13 @@ namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
             };
         }
 
+        /// <summary>
+        /// Parses battery data from a log file.
+        /// </summary>
+        /// <param name="value">The unparsed battery data.</param>
+        /// <returns>
+        /// Parsed battery data.
+        /// </returns>
         public static (double? BatteryLevel, double? Voltage) BatteryParser(string value)
         {
             string[] batteryValues = value.Split(" ", StringSplitOptions.RemoveEmptyEntries);
@@ -159,6 +194,13 @@ namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
             return (batteryLevel, batteryVoltage);
         }
 
+        /// <summary>
+        /// Parses a microphone from a log file.
+        /// </summary>
+        /// <param name="value">The unparsed microphone value.</param>
+        /// <returns>
+        /// A parsed microphone object.
+        /// </returns>
         public static Microphone MicrophoneParser(string value)
         {
             if (value.Contains("Unknown"))
@@ -169,6 +211,7 @@ namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
             char? channelName = null;
             int? channel = null;
 
+            // Parse channel data if it exists
             if (value.Contains("Ch"))
             {
                 channelName = value.Split(':').First().ToArray().Last();
@@ -178,6 +221,7 @@ namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
             // Split string into individual microphone values
             string[] micValues = value.Split("\"").Select(x => x.Trim()).ToArray();
 
+            // Parse each value
             string uid = micValues[0].Split(" ").Last();
             string type = micValues[1];
             string buildDate = string.Join(
@@ -195,13 +239,28 @@ namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
             };
         }
 
+        /// <summary>
+        /// Helps parse numeric values by removing all non numeric characters.
+        /// </summary>
+        /// <param name="value">The unparsed numeric value.</param>
+        /// <returns>
+        /// A string containing only numeric characters.
+        /// </returns>
         public static string NumericParser(string value) => new string(value.Where(c => char.IsDigit(c) || (new char[] { '.', '-', '+' }).Contains(c)).ToArray());
 
+        /// <summary>
+        /// Parses data from a log file header.
+        /// </summary>
+        /// <param name="reader">Log file stream reader.</param>
+        /// <returns>
+        /// A parsed file header record.
+        /// </returns>
         public static FileHeader HeaderParser(StreamReader reader)
         {
             string line, firmware = null, serialNumber = null, powerSource = null;
             bool isLogFile = false;
 
+            // Header data will be in first 8 lines of a log file
             for (int i = 0; i < 8; i++)
             {
                 line = reader.ReadLine() ?? string.Empty;
@@ -231,6 +290,15 @@ namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
             return new FileHeader(isLogFile, firmware, serialNumber, powerSource);
         }
 
+        /// <summary>
+        /// Parses data specific to one recording from a log file.
+        /// </summary>
+        /// <param name="reader">Log file stream reader.</param>
+        /// <param name="name">Recording name.</param>
+        /// <param name="itemNumber">Item number of this recording relative to other objects in the log file.</param>
+        /// <returns>
+        /// A parsed file header record.
+        /// </returns>
         public static RecordingRecord RecordingParser(StreamReader reader, string name, int itemNumber)
         {
             string line;
@@ -238,7 +306,7 @@ namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
             (double?, double?)? batteryData = null;
             List<Microphone> microphones = null;
 
-            while ((line = reader.ReadLine()) != null && !line.Contains(EndSection))
+            while ((line = reader.ReadLine()) != null && !line.Contains(EndRecordingSection))
             {
                 if (line.Contains(BatteryString))
                 {
@@ -264,6 +332,12 @@ namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
             return new RecordingRecord(name, itemNumber, batteryData?.Item1, batteryData?.Item2, microphones?.ToArray());
         }
 
+        /// <summary>
+        /// Extracts all information from a log file.
+        /// </summary>
+        /// <returns>
+        /// A boolean representing whether the data extraction was succesful.
+        /// </returns>
         public override bool ExtractInformation()
         {
             using (StreamReader reader = new StreamReader(this.FilePath))

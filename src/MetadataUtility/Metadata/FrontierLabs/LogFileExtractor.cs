@@ -46,14 +46,17 @@ namespace MetadataUtility.Metadata.FrontierLabs
 
         public ValueTask<Recording> ProcessFileAsync(TargetInformation information, Recording recording)
         {
+            // Retrieve all information parsed from the log file
             LogFile logFile = (LogFile)information.TargetSupportFiles[LogFile.LogFileKey];
-            MemoryCard memoryCard = null;
             Sensor sensor = logFile.Sensor;
 
             string filename = information.FileSystem.Path.GetFileName(information.Path);
             var recordingRecord = logFile.RecordingLogs.Where(x => x.Name.Contains(filename)).FirstOrDefault();
 
             var serialNumbers = logFile.MemoryCardLogs.Select(x => x.MemoryCard?.SerialNumber);
+
+            // Correlate memory card data
+            MemoryCard memoryCard = null;
 
             if (serialNumbers.Distinct().Count() == 1)
             {
