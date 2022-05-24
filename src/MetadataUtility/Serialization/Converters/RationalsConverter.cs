@@ -12,6 +12,16 @@ namespace MetadataUtility.Serialization.Converters
 
     public class RationalsConverter : DefaultTypeConverter
     {
+        public override string ConvertToString(object value, IWriterRow row, MemberMapData memberMapData)
+        {
+            if (value == null)
+            {
+                return string.Empty;
+            }
+
+            return ((double)((Rational)value)).ToString();
+        }
+
         public override object ConvertFromString(string text, IReaderRow row, MemberMapData memberMapData)
         {
             if (text != null)
