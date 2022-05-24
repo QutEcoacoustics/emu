@@ -7,6 +7,8 @@ namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
     using System.Text.RegularExpressions;
     using LanguageExt;
     using MetadataUtility.Models;
+    using NodaTime;
+    using NodaTime.Text;
 
     public class LogFile : SupportFile
     {
@@ -186,10 +188,11 @@ namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
         /// </returns>
         public static (double? BatteryLevel, double? Voltage) BatteryParser(string value)
         {
+            value = NumericParser(value);
             string[] batteryValues = value.Split(" ", StringSplitOptions.RemoveEmptyEntries);
 
-            double? batteryLevel = double.Parse(NumericParser(batteryValues[0])) / 100;
-            double? batteryVoltage = double.Parse(NumericParser(batteryValues[1]));
+            double? batteryLevel = double.Parse(batteryValues[0]) / 100;
+            double? batteryVoltage = double.Parse(batteryValues[1]);
 
             return (batteryLevel, batteryVoltage);
         }
@@ -203,6 +206,7 @@ namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
         /// </returns>
         public static Microphone MicrophoneParser(string value)
         {
+            // Microphone data may be unknown
             if (value.Contains("Unknown"))
             {
                 return null;
@@ -224,10 +228,8 @@ namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
             // Parse each value
             string uid = micValues[0].Split(" ").Last();
             string type = micValues[1];
-            string buildDate = string.Join(
-                '-',
-                new string(micValues[2].Where(c => !(new char[] { ' ', '(', ')' }).Contains(c)).ToArray())
-                .Split('/').Reverse().ToArray());
+            LocalDate buildDate = LocalDatePattern.CreateWithInvariantCulture("dd'/'MM'/'yyyy")
+                .Parse(Regex.Replace(micValues[2], "[^0-9/]", string.Empty)).Value;
 
             return new Microphone() with
             {
@@ -246,7 +248,7 @@ namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
         /// <returns>
         /// A string containing only numeric characters.
         /// </returns>
-        public static string NumericParser(string value) => new string(value.Where(c => char.IsDigit(c) || (new char[] { '.', '-', '+' }).Contains(c)).ToArray());
+        public static string NumericParser(string value) => Regex.Replace(value, "[^0-9+-. ]", string.Empty);
 
         /// <summary>
         /// Parses data from a log file header.
@@ -310,7 +312,7 @@ namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
             {
                 if (line.Contains(BatteryString))
                 {
-                    batteryData = BatteryParser(new string(line.Split(BatteryString).Last().Where(c => c != '(' && c != ')').ToArray()));
+                    batteryData = BatteryParser(line.Split(BatteryString).Last());
                 }
 
                 if (line.Contains(MicrophoneString))

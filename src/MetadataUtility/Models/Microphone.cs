@@ -4,6 +4,8 @@
 
 namespace MetadataUtility.Models
 {
+    using NodaTime;
+
     /// <summary>
     /// Holds information regarding a microphone
     /// that is attached to the device.
@@ -23,7 +25,7 @@ namespace MetadataUtility.Models
         /// <summary>
         /// Gets the build date of this microphone.
         /// </summary>
-        public string BuildDate { get; init; }
+        public LocalDate? BuildDate { get; init; }
 
         /// <summary>
         /// Gets the gain of this microphone.

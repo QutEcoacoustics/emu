@@ -53,7 +53,7 @@ namespace MetadataUtility.Metadata.FrontierLabs
                     {
                         Type = (string)this.ParseComment(FrontierLabs.MicrophoneTypeCommentKey + micNumber, comments),
                         UID = (string)this.ParseComment(FrontierLabs.MicrophoneUIDCommentKey + micNumber, comments),
-                        BuildDate = (string)this.ParseComment(FrontierLabs.MicrophoneBuildDateCommentKey + micNumber, comments),
+                        BuildDate = (LocalDate?)this.ParseComment(FrontierLabs.MicrophoneBuildDateCommentKey + micNumber, comments),
                         Gain = (double?)this.ParseComment(FrontierLabs.MicrophoneGainCommentKey + micNumber, comments),
                         Channel = micNumber,
                         ChannelName = channelName,

@@ -43,16 +43,16 @@ namespace MetadataUtility.Audio.Vendors
         public static readonly Dictionary<string, Func<string, Fin<object>>> CommentParsers = new Dictionary<string, Func<string, Fin<object>>>
         {
             { FirmwareCommentKey, FirmwareParser },
-            { RecordingStartCommentKey, DateParser },
-            { RecordingEndCommentKey, DateParser },
+            { RecordingStartCommentKey, OffsetDateTimeParser },
+            { RecordingEndCommentKey, OffsetDateTimeParser },
             { BatteryLevelCommentKey, BatteryParser },
             { LocationCommentKey, LocationParser },
-            { LastSyncCommentKey, DateParser },
+            { LastSyncCommentKey, OffsetDateTimeParser },
             { SensorIdCommentKey, GenericParser },
             { SdCidCommentKey, SdCidParser },
             { MicrophoneTypeCommentKey, GenericParser },
             { MicrophoneUIDCommentKey, GenericParser },
-            { MicrophoneBuildDateCommentKey, GenericParser },
+            { MicrophoneBuildDateCommentKey, DateParser },
             { MicrophoneGainCommentKey, NumericParser },
         };
 
@@ -229,11 +229,11 @@ namespace MetadataUtility.Audio.Vendors
         }
 
         /// <summary>
-        /// Frontier Labs vorbis comment date parser.
+        /// Frontier Labs vorbis comment offset date time parser.
         /// </summary>
         /// <param name="value">The value to parse.</param>
         /// <returns>The parsed date.</returns>
-        public static Fin<object> DateParser(string value)
+        public static Fin<object> OffsetDateTimeParser(string value)
         {
             OffsetDateTime? date = null;
 
@@ -257,6 +257,13 @@ namespace MetadataUtility.Audio.Vendors
 
             return date;
         }
+
+        /// <summary>
+        /// Frontier Labs vorbis comment date parser.
+        /// </summary>
+        /// <param name="value">The value to parse.</param>
+        /// <returns>The parsed date.</returns>
+        public static Fin<object> DateParser(string value) => LocalDatePattern.CreateWithInvariantCulture("yyyy'-'MM'-'dd").Parse(value).Value;
 
         /// <summary>
         /// Frontier Labs vorbis comment location parser.
