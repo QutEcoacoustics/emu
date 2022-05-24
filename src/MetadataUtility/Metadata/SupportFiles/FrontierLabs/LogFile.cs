@@ -154,6 +154,7 @@ namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
 
         /// <summary>
         /// Parses a location from a log file.
+        /// Example location format: [+43.70588-065.95160]
         /// </summary>
         /// <param name="value">The unparsed location value.</param>
         /// <returns>
@@ -181,6 +182,7 @@ namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
 
         /// <summary>
         /// Parses battery data from a log file.
+        /// Example batter data format: 94% ( 4.13 V )
         /// </summary>
         /// <param name="value">The unparsed battery data.</param>
         /// <returns>
@@ -199,6 +201,7 @@ namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
 
         /// <summary>
         /// Parses a microphone from a log file.
+        /// Example microphone data format: Ch A: 006277 "STD AUDIO MIC" ( 16/01/2020 )
         /// </summary>
         /// <param name="value">The unparsed microphone value.</param>
         /// <returns>
