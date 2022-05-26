@@ -201,7 +201,7 @@ namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
 
         /// <summary>
         /// Parses a microphone from a log file.
-        /// Example microphone data format: Ch A: 006277 "STD AUDIO MIC" ( 16/01/2020 )
+        /// Example microphone data format: <c>Ch A: 006277 "STD AUDIO MIC" ( 16/01/2020 )</c>.
         /// </summary>
         /// <param name="value">The unparsed microphone value.</param>
         /// <returns>
