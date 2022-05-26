@@ -154,7 +154,7 @@ namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
 
         /// <summary>
         /// Parses a location from a log file.
-        /// Example location format: [+43.70588-065.95160]
+        /// Example location format: <c>[+43.70588-065.95160]</c>.
         /// </summary>
         /// <param name="value">The unparsed location value.</param>
         /// <returns>
