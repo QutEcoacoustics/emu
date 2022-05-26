@@ -182,7 +182,7 @@ namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
 
         /// <summary>
         /// Parses battery data from a log file.
-        /// Example batter data format: 94% ( 4.13 V )
+        /// Example battery data format: <c>94% ( 4.13 V )</c>.
         /// </summary>
         /// <param name="value">The unparsed battery data.</param>
         /// <returns>
