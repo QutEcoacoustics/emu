@@ -25,6 +25,7 @@ namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
         public const string EndRecordingSection = "--------";
         public static readonly Regex LogFileRegex = new Regex(@".*logfile.*txt");
         public static readonly Regex FirmwareRegex = new Regex(@"V?\d+");
+        public static readonly Regex BatteryParsingRegex = new Regex(@"[%V()]");
 
         public LogFile(string filePath)
         {
@@ -164,7 +165,8 @@ namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
         {
             double? longitude, latitude;
 
-            value = NumericParser(value);
+            // remove []
+            value = value.Replace("[", string.Empty).Replace("]", string.Empty).Split(" ", StringSplitOptions.RemoveEmptyEntries).First();
 
             // Find index dividing lat and lon
             int latLonDividingIndex = value.IndexOfAny(new char[] { '+', '-' }, 1);
@@ -190,7 +192,7 @@ namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
         /// </returns>
         public static (double? BatteryLevel, double? Voltage) BatteryParser(string value)
         {
-            value = NumericParser(value);
+            value = BatteryParsingRegex.Replace(value, string.Empty);
             string[] batteryValues = value.Split(" ", StringSplitOptions.RemoveEmptyEntries);
 
             double? batteryLevel = double.Parse(batteryValues[0]) / 100;
@@ -231,8 +233,9 @@ namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
             // Parse each value
             string uid = micValues[0].Split(" ").Last();
             string type = micValues[1];
+            string stringBuildDate = micValues[2].Replace("(", string.Empty).Replace(")", string.Empty).Split(" ", StringSplitOptions.RemoveEmptyEntries).First();
             LocalDate buildDate = LocalDatePattern.CreateWithInvariantCulture("dd'/'MM'/'yyyy")
-                .Parse(Regex.Replace(micValues[2], "[^0-9/]", string.Empty)).Value;
+                .Parse(stringBuildDate).Value;
 
             return new Microphone() with
             {
@@ -243,15 +246,6 @@ namespace MetadataUtility.Metadata.SupportFiles.FrontierLabs
                 BuildDate = buildDate,
             };
         }
-
-        /// <summary>
-        /// Helps parse numeric values by removing all non numeric characters.
-        /// </summary>
-        /// <param name="value">The unparsed numeric value.</param>
-        /// <returns>
-        /// A string containing only numeric characters.
-        /// </returns>
-        public static string NumericParser(string value) => Regex.Replace(value, "[^0-9+-. ]", string.Empty);
 
         /// <summary>
         /// Parses data from a log file header.
