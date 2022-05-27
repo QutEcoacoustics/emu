@@ -56,6 +56,9 @@ namespace MetadataUtility.Tests.Metadata
                 recording.Sensor.Firmware.Should().Be(expectedRecording.Sensor.Firmware);
                 recording.Sensor.SerialNumber.Should().Be(expectedRecording.Sensor.SerialNumber);
                 recording.Sensor.PowerSource.Should().Be(expectedRecording.Sensor.PowerSource);
+                recording.Sensor.BatteryLevel.Should().Be(expectedRecording.Sensor.BatteryLevel);
+                recording.Sensor.Voltage.Should().Be(expectedRecording.Sensor.Voltage);
+                recording.Sensor.Microphones.Should().BeEquivalentTo(expectedRecording.Sensor.Microphones);
             }
         }
     }

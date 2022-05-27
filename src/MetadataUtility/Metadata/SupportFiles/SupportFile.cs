@@ -80,6 +80,7 @@ namespace MetadataUtility.Metadata.SupportFiles
         /// Extracts all useful information out of the support file.
         /// This should done only once for each support file, the result should then be cached in KnownSupportFiles (TargetInformation.cs).
         /// </summary>
-        public abstract void ExtractInformation();
+        /// <returns>True if extracted succesfully, false if not.</returns>
+        public abstract bool ExtractInformation();
     }
 }

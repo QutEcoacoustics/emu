@@ -319,7 +319,7 @@
       WrCurrentVmax: 3
       WriteBlSize: 512
       EraseBlSize: 65536
-    Sensor:
+    Sensor: &GlitchySignalSensor
       Name:
       Firmware: 3.14
       SerialNumber: 53373100-38324832-30303430-39323032
@@ -361,7 +361,18 @@
       LocalStartDate: 2019-11-25T23:59:00
       Location: ~
     FlacHeaderExtractor: ~
-    FrontierLabsLogFileExtractor: ~
+    FrontierLabsLogFileExtractor:
+      <<: *GlitchySignal
+      Sensor:
+        <<: *GlitchySignalSensor
+        Microphones:
+        - Type: STD AUDIO MIC
+          UID: 000610
+          BuildDate: 2019-02-22
+          Gain:
+          Channel:
+          ChannelName:
+          Sensitivity:
     FlacCommentExtractor: ~
 
 - Name: Short File
@@ -398,7 +409,7 @@
       WrCurrentVmax: 3
       WriteBlSize: 512
       EraseBlSize: 65536
-    Sensor:
+    Sensor: &ShortFileSensor
       Name:
       Firmware: 3.14
       SerialNumber: 53373100-38324832-30303430-39323032
@@ -440,7 +451,18 @@
       LocalStartDate: 2019-11-04T02:00:00
       Location: ~
     FlacHeaderExtractor: ~
-    FrontierLabsLogFileExtractor: ~
+    FrontierLabsLogFileExtractor:
+      <<: *ShortFile
+      Sensor:
+        <<: *ShortFileSensor
+        Microphones:
+          - Type: STD AUDIO MIC
+            UID: 000610
+            BuildDate: 2019-02-22
+            Gain:
+            Channel:
+            ChannelName:
+            Sensitivity:
     FlacCommentExtractor: ~
 
 - Name: Two Log Files 1
@@ -485,8 +507,8 @@
       Microphones:
       Gain:
       Configuration:
-      Voltage:
-      BatteryLevel:
+      Voltage: 3.21
+      BatteryLevel: 0.18
       Temperature:
       LastTimeSync:
     Location:
@@ -551,8 +573,8 @@
       Microphones:
       Gain:
       Configuration:
-      Voltage:
-      BatteryLevel:
+      Voltage: 3.94
+      BatteryLevel: 0.78
       Temperature:
       LastTimeSync:
     Location:
@@ -763,7 +785,7 @@
       WrCurrentVmax: 5
       WriteBlSize: 512
       EraseBlSize: 65536
-    Sensor:
+    Sensor: &Firmware3.3Sensor
       Name:
       Firmware: 3.30
       SerialNumber: 00008570
@@ -811,4 +833,16 @@
       MemoryCard:
         <<: *Firmware3.3MemoryCard
         SerialNumber: 8041328
+      Sensor:
+        <<: *Firmware3.3Sensor
+        BatteryLevel: 0.63
+        Voltage: 3.75
+        Microphones:
+        - Type: STD AUDIO MIC
+          UID: 009966
+          BuildDate: 2019-03-20
+          Gain:
+          Channel: 2
+          ChannelName: B
+          Sensitivity:
     FLCommentAndLogExtractor: ~
