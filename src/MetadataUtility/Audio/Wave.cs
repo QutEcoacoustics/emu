@@ -307,7 +307,7 @@ namespace MetadataUtility.Audio
             const int ChunkIdLength = 4;
             const int ChunkLengthLength = 4;
 
-            /* 
+            /*
             Check to ensure the given container range fits within the bounds of the file.
             Commented out for now since this check can cause files affected by FL005 to crash.
             https://github.com/ecoacoustics/known-problems/blob/main/frontier_labs/FL005.md
