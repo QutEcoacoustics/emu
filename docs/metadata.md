@@ -92,19 +92,25 @@ This document outlines all of the files from which we hope to extract metadata.
 | Name            | Supported | Location(s) | Notes        |
 | --------------- | --------- | ----------- | ------------ |
 | Date Time       | ✔️         | Name        |              |
-| Serial Number   | ❌         | Header      |              |
-| Longitude       | ❌         | Header      |              |
-| Latitude        | ❌         | Header      |              |
+| Sensor Name     | ✔️         | Header      |              |
+| Firmware        | ✔️         | Header      |              |
+| Serial Number   | ✔️         | Header      |              |
+| Longitude       | ✔️         | Header      |              |
+| Latitude        | ✔️         | Header      |              |
+| Temperature     | ✔️         | Header      |              |
 | Battery Voltage | ❌         | Support     | Summary file |
 
 ### Song Meter SM4
 
 | Name            | Supported | Location(s) | Notes        |
 | --------------- | --------- | ----------- | ------------ |
-| Date Time       | ❌         | Header      |              |
-| Serial Number   | ❌         | Header      |              |
-| Longitude       | ❌         | Header      |              |
-| Latitude        | ❌         | Header      |              |
+| Date Time       | ✔️         | Header      |              |
+| Sensor Name     | ✔️         | Header      |              |
+| Firmware        | ✔️         | Header      |              |
+| Serial Number   | ✔️         | Header      |              |
+| Longitude       | ✔️         | Header      |              |
+| Latitude        | ✔️         | Header      |              |
+| Temperature     | ✔️         | Header      |              |
 | Battery Voltage | ❌         | Support     | Summary file |
 
 ### Song Meter Mini
