@@ -24,7 +24,7 @@
   <ItemGroup>
     <PackageReference Include="CsvHelper" Version="27.2.1" />
     <PackageReference Include="GitInfo" Version="2.2.0" />
-    <PackageReference Include="LanguageExt.Core" Version="4.2.2" />
+    <PackageReference Include="LanguageExt.Core" Version="4.2.5" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0" />
