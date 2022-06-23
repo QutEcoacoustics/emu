@@ -41,7 +41,6 @@ namespace MetadataUtility.Tests.TestHelpers.Fakes
 
                 //(f, x) => Provenance.Calculated.Wrap(x.StartDate?.Value + x.DurationSeconds))
 
-                .RuleFor(x => x.StorageCardIdentifier, f => f.Random.AlphaNumeric(16))
                 .RuleFor(x => x.ExpectedDurationSeconds, f => Duration.FromHours(24));
 
             this.Checksum = new Faker<Checksum>()
