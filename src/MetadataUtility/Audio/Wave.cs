@@ -284,12 +284,12 @@ namespace MetadataUtility.Audio
             return bitsPerSample;
         }
 
-        public static uint GetTotalSamples(RangeHelper.Range dataChunk, ushort channels, ushort bitsPerSample)
+        public static ulong GetTotalSamples(RangeHelper.Range dataChunk, ushort channels, ushort bitsPerSample)
         {
             // size of the data chunk
-            var length = (uint)dataChunk.Length;
+            var length = (ulong)dataChunk.Length;
 
-            return length / (uint)(channels * (bitsPerSample / 8));
+            return length / (ulong)(channels * (bitsPerSample / 8));
         }
 
         /// <summary>
@@ -353,7 +353,16 @@ namespace MetadataUtility.Audio
                 // check the chunk length falls within the bounds of the file
                 if (offset + length > stream.Length)
                 {
-                    return InvalidChunk;
+                    // FL005 is detected - decrement length by 44 for an accurate value
+                    // TODO: Fix this problem rather than cover it up
+                    if (offset + length - stream.Length == 44)
+                    {
+                        length -= 44;
+                    }
+                    else
+                    {
+                        return InvalidChunk;
+                    }
                 }
 
                 // check whether we found our target chunk or not

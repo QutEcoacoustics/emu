@@ -49,15 +49,16 @@ namespace MetadataUtility.Metadata
             var byteRate = Wave.GetByteRate(formatSpan);
             var channels = Wave.GetChannels(formatSpan);
 
-            var samples = dataChunk.Map(d => Wave.GetTotalSamples(d, channels, bitsPerSample));
+            var samples = dataChunk.Map(d => (ulong?)Wave.GetTotalSamples(d, channels, bitsPerSample));
             var fileLength = stream.Length;
 
             // TODO: replace with rational type from master branch
-            var duration = samples.Map(s => (Rational?)new Rational((uint)samples, (uint)sampleRate));
+            var duration = samples.Map(s => (Rational?)new Rational((uint)samples!, (uint)sampleRate));
 
             return ValueTask.FromResult(recording with
             {
                 DurationSeconds = duration.IfFail((Rational?)null),
+                TotalSamples = samples.IfFail((ulong?)null),
                 SampleRateHertz = sampleRate,
                 Channels = (ushort)channels,
                 BitsPerSecond = byteRate * BinaryHelpers.BitsPerByte,

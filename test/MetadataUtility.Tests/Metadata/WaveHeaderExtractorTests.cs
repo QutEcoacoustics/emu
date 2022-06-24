@@ -48,6 +48,7 @@ namespace MetadataUtility.Tests.Metadata
                     this.Recording);
 
                 recording.DurationSeconds?.Should().Be(expectedRecording.DurationSeconds);
+                recording.TotalSamples.Should().Be(expectedRecording.TotalSamples);
                 recording.SampleRateHertz.Should().Be(expectedRecording.SampleRateHertz);
                 recording.Channels.Should().Be(expectedRecording.Channels);
                 recording.BitsPerSecond.Should().Be(expectedRecording.BitsPerSecond);
