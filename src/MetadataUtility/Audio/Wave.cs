@@ -360,7 +360,7 @@ namespace MetadataUtility.Audio
                     // TODO: Fix this problem rather than cover it up
                     if (offset + length - stream.Length == FL005ErrorBytes)
                     {
-                        length -= FL005Patch(length);
+                        length = FL005Patch(length);
                     }
                     else
                     {
