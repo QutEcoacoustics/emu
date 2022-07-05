@@ -34,11 +34,11 @@ Column definitions:
 | Name            | Supported | Location(s) | Notes | Field | Units |
 | --------------- | --------- | ----------- | ----- | ----- | ----- |
 | Sample Rate     | ✔️         | Header      |       |       | Hertz |
-| Duration        | ✔️         | Header      |       |       |       |
+| Duration        | ✔️         | Header      |       |       | Seconds |
 | Total Samples   | ✔️         | Header      |       |       |       |
 | Channel Count   | ✔️         | Header      |       |       |       |
 | Bit Depth       | ✔️         | Header      |       |       |       |
-| Bits per Sample | ✔️         | Header      |       |       |       |
+| Bits per Second | ✔️         | Header      |       |       |       |
 | File Size       | ❌         | File        |       |       |       |
 
 ### WAVE Files
@@ -46,15 +46,13 @@ Column definitions:
 | Name            | Supported | Location(s) | Notes | Field | Units |
 | --------------- | --------- | ----------- | ----- | ----- | ----- |
 | Sample Rate     | ✔️         | Header      |       |       | Hertz |
-| Duration        | ✔️         | Header      |       |       |       |
+| Duration        | ✔️         | Header      |       |       | Seconds |
 | Total Samples   | ✔️         | Header      |       |       |       |
 | Audio Format    | ✔️         | Header      |       |       |       |
 | Channel Count   | ✔️         | Header      |       |       |       |
-| Byte Rate       | ✔️         | Header      |       |       |       |
-| Block Align     | ✔️         | Header      |       |       |       |
 | Bit Depth       | ✔️         | Header      |       |       |       |
-| Bits per Sample | ✔️         | Header      |       |       |       |
-| File Size       | ✔️         | Header      |       |       |       |
+| Bits per Second | ✔️         | Header      |       |       |       |
+| File Size       | ✔️         | Header      |       |       | Bytes |
 
 
 ### Frontier Labs
@@ -63,34 +61,34 @@ Column definitions:
 
 | Name                     | Supported | Location(s)           | Notes       | Field | Units |
 | ------------------------ | --------- | --------------------- | ----------- | ----- | ----- |
-| Date Time                | ✔️         | Name, Header          |             |       |       |
-| UTC Offset               | ✔️         | Name, Header          |             |       |       |
+| Date Time                | ✔️         | Name, Header, Support | Reclog      |       |       |
+| UTC Offset               | ✔️         | Name, Header, Support | Reclog      |       |       |
 | Serial Number            | ✔️         | Header, Support       | Log file    |       |       |
-| Microphone Type          | ✔️         | Header, Support       | Log file    |       |       |
-| Microphone ID            | ✔️(Header) | Header, Support       | Log file    |       |       |
-| Microphone Build Date    | ✔️         | Header, Support       | Log file    |       |       |
+| Microphone Type          | ✔️         | Header, Support       | Log file, Reclog |       |       |
+| Microphone ID            | ✔️         | Header, Support       | Log file, Reclog |       |       |
+| Microphone Build Date    | ✔️         | Header, Support       | Log file, Reclog |       |       |
 | Microphone Channel       | ✔️         | Header, Support       | Log file    |       |       |
-| Longitude                | ✔️         | Header, Name, Support | GPS_log.csv |       |       |
-| Latitude                 | ✔️         | Header, Name, Support | GPS_log.csv |       |       |
-| Gain                     | ✔️(Header) | Header, Support       | Log file    |       |       |
-| Battery Voltage          | ✔️         | Header, Support       | Log file    |       |       |
-| Card Slot Number         | ❌         | Header, Support       | Log file    |       |       |
-| Battery Percentage       | ✔️         | Header, Support       | Log file    |       |       |
+| Longitude                | ✔️(Header, Name) | Header, Name, Support | GPS_log.csv |       |       |
+| Latitude                 | ✔️(Header, Name) | Header, Name, Support | GPS_log.csv |       |       |
+| Gain                     | ✔️(Header) | Header, Support       | Log file, Reclog |       | dB    |
+| Battery Voltage          | ✔️         | Header, Support       | Log file, Reclog |       |       |
+| Card Slot Number         | ❌         | Header, Support       | Log file, Reclog |       |       |
+| Battery Percentage       | ✔️         | Header, Support       | Log file, Reclog |       |       |
 | Device Type              | ❌         | Header, Support       | Log file    |       |       |
 | Power Type               | ✔️         | Support               | Log file    |       |       |
 | Last Time Sync           | ✔️         | Header                |             |       |       |
 | ARU Firmware             | ✔️         | Header, Support       | Log file    |       |       |
 | ARU Manufacture Date     | ❌         | Header, Support       | Log file    |       |       |
-| SD Capacity (GB)         | ✔️         | Support               | Log file    |       |       |
-| SD Free Space (GB)       | ❌         | Support               | Log file    |       |       |
-| SD Card Serial           | ✔️         | Header, Support       | Log file    |       |       |
-| SD Card Manufacture Date | ✔️         | Header, Support       | Log file    |       |       |
-| SD Card Speed            | ✔️         | Support               | Log file    |       |       |
-| SD Card Product Name     | ✔️         | Header, Support       | Log file    |       |       |
+| SD Capacity              | ✔️         | Support               | Log file, Reclog |       | KiB   |
+| SD Free Space            | ❌         | Support               | Log file, Reclog |       |       |
+| SD Card Serial           | ✔️         | Header, Support       | Log file, Reclog |       |       |
+| SD Card Manufacture Date | ✔️         | Header, Support       | Log file, Reclog |       |       |
+| SD Card Speed            | ✔️         | Support               | Log file    |       | MB/s  |
+| SD Card Product Name     | ✔️         | Header, Support       | Log file, Reclog |       |       |
 | SD Format Type           | ✔️         | Support               | Log file    |       |       |
-| SD Card Manufacture ID   | ✔️         | Header, Support       | Log file    |       |       |
-| SD Card OemID            | ✔️         | Header, Support       | Log file    |       |       |
-| SD Card Product Revision | ✔️         | Header, Support       | Log file    |       |       |
+| SD Card Manufacture ID   | ✔️         | Header, Support       | Log file, Reclog |       |       |
+| SD Card OemID            | ✔️         | Header, Support       | Log file, Reclog |       |       |
+| SD Card Product Revision | ✔️         | Header, Support       | Log file, Reclog |       |       |
 | SD Write Current Vmin    | ✔️         | Support               | Log file    |       |       |
 | SD Write Current Vmax    | ✔️         | Support               | Log file    |       |       |
 | SD Write Bl Size         | ✔️         | Support               | Log file    |       |       |
@@ -123,7 +121,7 @@ Column definitions:
 | Serial Number   | ✔️         | Header      |              |       |       |
 | Longitude       | ✔️         | Header      |              |       |       |
 | Latitude        | ✔️         | Header      |              |       |       |
-| Temperature     | ✔️         | Header      |              |       |       |
+| Temperature     | ✔️         | Header      |              |       | °C    |
 | Battery Voltage | ❌         | Support     | Summary file |       |       |
 
 #### Song Meter SM4
@@ -136,7 +134,7 @@ Column definitions:
 | Serial Number   | ✔️         | Header      |              |       |       |
 | Longitude       | ✔️         | Header      |              |       |       |
 | Latitude        | ✔️         | Header      |              |       |       |
-| Temperature     | ✔️         | Header      |              |       |       |
+| Temperature     | ✔️         | Header      |              |       | °C    |
 | Battery Voltage | ❌         | Support     | Summary file |       |       |
 
 #### Song Meter Mini
