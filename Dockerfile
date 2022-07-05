@@ -2,12 +2,12 @@ FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build-env
 WORKDIR /app
 
 # Copy csproj and restore as distinct layers
-COPY ./src/MetadataUtility/MetadataUtility.csproj ./src/MetadataUtility/MetadataUtility.csproj
-RUN dotnet restore ./src/MetadataUtility/MetadataUtility.csproj
+COPY ./src/Emu/Emu.csproj ./src/Emu/Emu.csproj
+RUN dotnet restore ./src/Emu/Emu.csproj
 
 # Copy everything else and build
 COPY ./ ./
-RUN dotnet publish -r linux-x64 --self-contained -o publish ./src/MetadataUtility/MetadataUtility.csproj
+RUN dotnet publish -r linux-x64 --self-contained -o publish ./src/Emu/Emu.csproj
 
 
 FROM debian:buster-slim

@@ -21,12 +21,12 @@ If you want to run a copy of `emu`, you'll need to build it yourself (we'll have
 4. Then choose **one** of publish commands from below that matches your OS and CPU architecture:
 
     ```shell
-    dotnet publish -r linux-x64 --self-contained -o ./publish/linux-x64 ./src/MetadataUtility/MetadataUtility.csproj
-    dotnet publish -r win-x64 --self-contained -o ./publish/win-x64 ./src/MetadataUtility/MetadataUtility.csproj
-    dotnet publish -r osx-x64 --self-contained -o ./publish/osx-x64 ./src/MetadataUtility/MetadataUtility.csproj
-    dotnet publish -r osx-arm64 --self-contained -o ./publish/osx-arm64 ./src/MetadataUtility/MetadataUtility.csproj
-    dotnet publish -r linux-arm --self-contained -o ./publish/linux-arm ./src/MetadataUtility/MetadataUtility.csproj
-    dotnet publish -r linux-arm64 --self-contained -o ./publish/linux-arm64 ./src/MetadataUtility/MetadataUtility.csproj
+    dotnet publish -r linux-x64 --self-contained -o ./publish/linux-x64 ./src/Emu/Emu.csproj
+    dotnet publish -r win-x64 --self-contained -o ./publish/win-x64 ./src/Emu/Emu.csproj
+    dotnet publish -r osx-x64 --self-contained -o ./publish/osx-x64 ./src/Emu/Emu.csproj
+    dotnet publish -r osx-arm64 --self-contained -o ./publish/osx-arm64 ./src/Emu/Emu.csproj
+    dotnet publish -r linux-arm --self-contained -o ./publish/linux-arm ./src/Emu/Emu.csproj
+    dotnet publish -r linux-arm64 --self-contained -o ./publish/linux-arm64 ./src/Emu/Emu.csproj
     ```
 
 5. Copy the resulting folder from the `publish` directory to somewhere on your computer
@@ -38,13 +38,13 @@ Other notes:
 
 -   You can build for development with `dotnet build`
 -   You can test in development with `dotnet test`
--   You can run EMU dev builds from the `src/MetadataUtility` folder with `dotnet run -- `
+-   You can run EMU dev builds from the `src/Emu` folder with `dotnet run -- `
     -   Arguments after the `--` are passed to EMU as if you had run EMU directly
 -   You can build all releases for all platforms with the command:
 
     ```powershell
     $rids = ("win-x64", "linux-x64", "osx-x64", "osx-arm64", "linux-arm", "linux-arm64")
-    $rids | ForEach-Object { dotnet publish .\src\MetadataUtility\ -c Release -o ./publish/$_ --self-contained -r $_  }
+    $rids | ForEach-Object { dotnet publish .\src\Emu\ -c Release -o ./publish/$_ --self-contained -r $_  }
     ```
 
 -   Release a new version with:
@@ -53,7 +53,7 @@ Other notes:
     dotnet test
     git tag -a -m "Version x.x.x" x.x.x
     $rids = ("win-x64", "linux-x64", "osx-x64", "osx-arm64", "linux-arm", "linux-arm64")
-    $rids | ForEach-Object { dotnet publish .\src\MetadataUtility\ -c Release -o ./publish/$_ --self-contained -r $_  }
+    $rids | ForEach-Object { dotnet publish .\src\Emu\ -c Release -o ./publish/$_ --self-contained -r $_  }
     Get-ChildItem ./publish/ -Directory | % { Compress-Archive -Path $_ -DestinationPath ('./publish/' + $_.Name + ".zip") }
     git push --tags
     ./docker_build_and_push.ps1

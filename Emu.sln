@@ -1,0 +1,60 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31612.314
+MinimumVisualStudioVersion = 15.0.26124.0
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{215A672B-9FA4-4668-B3B5-6FBD4895F412}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Emu", "src\Emu\Emu.csproj", "{8A1F15D6-7E5D-4EED-A944-AAAD37807351}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{31493EB7-965B-4CE3-AEAA-BD44CA2F857A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Emu.Tests", "test\Emu.Tests\Emu.Tests.csproj", "{926134D7-C58E-400E-B4A5-1C5AB7D9110E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{84AD0DF8-2F42-4FF2-B737-A9362D2855DA}"
+	ProjectSection(SolutionItems) = preProject
+		.dockerignore = .dockerignore
+		.editorconfig = .editorconfig
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		docker_build_and_push.ps1 = docker_build_and_push.ps1
+		Dockerfile = Dockerfile
+		global.json = global.json
+		README.md = README.md
+		stylecop.json = stylecop.json
+		stylecop.ruleset = stylecop.ruleset
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Fixtures", "Fixtures", "{AF0635F5-0693-41C3-AC5D-798548EE77BB}"
+	ProjectSection(SolutionItems) = preProject
+		test\Fixtures\FilenameParsingFixtures.csv = test\Fixtures\FilenameParsingFixtures.csv
+		test\Fixtures\Fixtures.csv = test\Fixtures\Fixtures.csv
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8A1F15D6-7E5D-4EED-A944-AAAD37807351}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A1F15D6-7E5D-4EED-A944-AAAD37807351}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A1F15D6-7E5D-4EED-A944-AAAD37807351}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A1F15D6-7E5D-4EED-A944-AAAD37807351}.Release|Any CPU.Build.0 = Release|Any CPU
+		{926134D7-C58E-400E-B4A5-1C5AB7D9110E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{926134D7-C58E-400E-B4A5-1C5AB7D9110E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{926134D7-C58E-400E-B4A5-1C5AB7D9110E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{926134D7-C58E-400E-B4A5-1C5AB7D9110E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8A1F15D6-7E5D-4EED-A944-AAAD37807351} = {215A672B-9FA4-4668-B3B5-6FBD4895F412}
+		{926134D7-C58E-400E-B4A5-1C5AB7D9110E} = {31493EB7-965B-4CE3-AEAA-BD44CA2F857A}
+		{AF0635F5-0693-41C3-AC5D-798548EE77BB} = {31493EB7-965B-4CE3-AEAA-BD44CA2F857A}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2AAD7BA1-CFC5-4B91-8EA5-9C752533FBC0}
+	EndGlobalSection
+EndGlobal

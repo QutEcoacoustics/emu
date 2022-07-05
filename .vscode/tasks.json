@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/MetadataUtility.sln"
+                "${workspaceFolder}/Emu.sln"
             ],
             "problemMatcher": "$msCompile",
             "group": {
