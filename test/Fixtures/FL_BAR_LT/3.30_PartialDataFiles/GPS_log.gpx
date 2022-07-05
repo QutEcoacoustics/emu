@@ -1,0 +1,1339 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.1" creator="Frontier Labs" xmlns:guano="https://guano-md.org"> 
+<metadata> 
+<name>BAR acoustic survey</name>
+<desc>Transect file for BAR recorders</desc>
+<link href="https://www.frontierlabs.com.au"> <text>Frontier Labs</text> </link> 
+<time>2022-04-20T13:59:58+10:00</time>
+</metadata> 
+<wpt lat="-27.618217" lon="+152.781113" > 
+	<name>0:/20220420/-0000001_20220420T124030+1000_Rec.flac</name>
+	<time>2022-04-20T12:40:32+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 01h19m26s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-20T12:40:32+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220420/-0000001_20220420T124030+1000_Rec.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>4762.876</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+<wpt lat="-27.618217" lon="+152.781113" > 
+	<name>0:/20220420_-27.61822+152.78111/-0000001_20220420T140000+1000_Rec_-27.61822+152.78111.flac</name>
+	<time>2022-04-20T14:00:00+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 01h59m55s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-20T14:00:00+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220420_-27.61822+152.78111/-0000001_20220420T140000+1000_Rec_-27.61822+152.78111.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>7194.841</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+<wpt lat="-27.618217" lon="+152.781113" > 
+	<name>0:/20220420_-27.61822+152.78111/-0000001_20220420T160000+1000_Rec_-27.61822+152.78111.flac</name>
+	<time>2022-04-20T16:00:00+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 01h59m55s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-20T16:00:00+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220420_-27.61822+152.78111/-0000001_20220420T160000+1000_Rec_-27.61822+152.78111.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>7194.841</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+<wpt lat="-27.618217" lon="+152.781113" > 
+	<name>0:/20220420_-27.61822+152.78111/-0000001_20220420T180000+1000_Rec_-27.61822+152.78111.flac</name>
+	<time>2022-04-20T18:00:00+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 01h59m55s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-20T18:00:00+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220420_-27.61822+152.78111/-0000001_20220420T180000+1000_Rec_-27.61822+152.78111.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>7194.841</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+<wpt lat="-27.618217" lon="+152.781113" > 
+	<name>0:/20220420_-27.61822+152.78111/-0000001_20220420T200000+1000_Rec_-27.61822+152.78111.flac</name>
+	<time>2022-04-20T20:00:00+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 01h59m55s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-20T20:00:00+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220420_-27.61822+152.78111/-0000001_20220420T200000+1000_Rec_-27.61822+152.78111.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>7194.841</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+<wpt lat="-27.618217" lon="+152.781113" > 
+	<name>0:/20220420_-27.61822+152.78111/-0000001_20220420T220000+1000_Rec_-27.61822+152.78111.flac</name>
+	<time>2022-04-20T22:00:00+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 01h59m55s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-20T22:00:00+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220420_-27.61822+152.78111/-0000001_20220420T220000+1000_Rec_-27.61822+152.78111.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>7194.841</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+<wpt lat="-27.618217" lon="+152.781113" > 
+	<name>0:/20220421_-27.61822+152.78111/-0000001_20220421T000000+1000_Rec_-27.61822+152.78111.flac</name>
+	<time>2022-04-21T00:00:00+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 01h59m55s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-21T00:00:00+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220421_-27.61822+152.78111/-0000001_20220421T000000+1000_Rec_-27.61822+152.78111.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>7194.841</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+<wpt lat="-27.618217" lon="+152.781113" > 
+	<name>0:/20220421_-27.61822+152.78111/-0000001_20220421T020000+1000_Rec_-27.61822+152.78111.flac</name>
+	<time>2022-04-21T02:00:00+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 01h59m55s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-21T02:00:00+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220421_-27.61822+152.78111/-0000001_20220421T020000+1000_Rec_-27.61822+152.78111.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>7194.841</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+<wpt lat="-27.618217" lon="+152.781113" > 
+	<name>0:/20220421_-27.61822+152.78111/-0000001_20220421T040000+1000_Rec_-27.61822+152.78111.flac</name>
+	<time>2022-04-21T04:00:00+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 01h59m55s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-21T04:00:00+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220421_-27.61822+152.78111/-0000001_20220421T040000+1000_Rec_-27.61822+152.78111.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>7194.841</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+<wpt lat="-27.618217" lon="+152.781113" > 
+	<name>0:/20220421_-27.61822+152.78111/-0000001_20220421T060000+1000_Rec_-27.61822+152.78111.flac</name>
+	<time>2022-04-21T06:00:00+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 01h59m55s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-21T06:00:00+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220421_-27.61822+152.78111/-0000001_20220421T060000+1000_Rec_-27.61822+152.78111.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>7194.841</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+<wpt lat="-27.618217" lon="+152.781113" > 
+	<name>0:/20220421_-27.61822+152.78111/-0000001_20220421T080000+1000_Rec_-27.61822+152.78111.flac</name>
+	<time>2022-04-21T08:00:00+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 01h59m55s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-21T08:00:00+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220421_-27.61822+152.78111/-0000001_20220421T080000+1000_Rec_-27.61822+152.78111.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>7194.841</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+<wpt lat="-27.618238" lon="+152.781067" > 
+	<name>0:/20220421/-0000001_20220421T102219+1000_Rec.flac</name>
+	<time>2022-04-21T10:22:17+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 01h37m40s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-21T10:22:17+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220421/-0000001_20220421T102219+1000_Rec.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>5857.743</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+<wpt lat="-27.618238" lon="+152.781067" > 
+	<name>0:/20220421_-27.61824+152.78107/-0000001_20220421T120000+1000_Rec_-27.61824+152.78107.flac</name>
+	<time>2022-04-21T12:00:00+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 01h59m55s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-21T12:00:00+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220421_-27.61824+152.78107/-0000001_20220421T120000+1000_Rec_-27.61824+152.78107.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>7194.841</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+<wpt lat="-27.618238" lon="+152.781067" > 
+	<name>0:/20220421_-27.61824+152.78107/-0000001_20220421T140000+1000_Rec_-27.61824+152.78107.flac</name>
+	<time>2022-04-21T14:00:00+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 01h59m55s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-21T14:00:00+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220421_-27.61824+152.78107/-0000001_20220421T140000+1000_Rec_-27.61824+152.78107.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>7194.841</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+<wpt lat="-27.618238" lon="+152.781067" > 
+	<name>0:/20220421_-27.61824+152.78107/-0000001_20220421T160000+1000_Rec_-27.61824+152.78107.flac</name>
+	<time>2022-04-21T16:00:00+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 01h59m55s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-21T16:00:00+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220421_-27.61824+152.78107/-0000001_20220421T160000+1000_Rec_-27.61824+152.78107.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>7194.841</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+<wpt lat="-27.618107" lon="+152.781006" > 
+	<name>0:/20220421/-0000001_20220421T200741+1000_Rec.flac</name>
+	<time>2022-04-21T20:07:42+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 01h52m15s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-21T20:07:42+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220421/-0000001_20220421T200741+1000_Rec.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>6732.671</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+<wpt lat="-27.618107" lon="+152.781006" > 
+	<name>0:/20220421_-27.61811+152.78101/-0000001_20220421T220000+1000_Rec_-27.61811+152.78101.flac</name>
+	<time>2022-04-21T22:00:00+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 01h59m55s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-21T22:00:00+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220421_-27.61811+152.78101/-0000001_20220421T220000+1000_Rec_-27.61811+152.78101.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>7194.841</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+<wpt lat="-27.618107" lon="+152.781006" > 
+	<name>0:/20220422_-27.61811+152.78101/-0000001_20220422T000000+1000_Rec_-27.61811+152.78101.flac</name>
+	<time>2022-04-22T00:00:00+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 01h59m55s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-22T00:00:00+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220422_-27.61811+152.78101/-0000001_20220422T000000+1000_Rec_-27.61811+152.78101.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>7194.841</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+<wpt lat="-27.618107" lon="+152.781006" > 
+	<name>0:/20220422_-27.61811+152.78101/-0000001_20220422T020000+1000_Rec_-27.61811+152.78101.flac</name>
+	<time>2022-04-22T02:00:02+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 01h59m53s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-22T02:00:02+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220422_-27.61811+152.78101/-0000001_20220422T020000+1000_Rec_-27.61811+152.78101.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>7192.984</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+<wpt lat="-27.618107" lon="+152.781006" > 
+	<name>0:/20220422_-27.61811+152.78101/-0000001_20220422T040000+1000_Rec_-27.61811+152.78101.flac</name>
+	<time>2022-04-22T04:00:00+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 01h59m55s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-22T04:00:00+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220422_-27.61811+152.78101/-0000001_20220422T040000+1000_Rec_-27.61811+152.78101.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>7194.841</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+<wpt lat="-27.618107" lon="+152.781006" > 
+	<name>0:/20220422_-27.61811+152.78101/-0000001_20220422T060000+1000_Rec_-27.61811+152.78101.flac</name>
+	<time>2022-04-22T06:00:00+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 01h59m55s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-22T06:00:00+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220422_-27.61811+152.78101/-0000001_20220422T060000+1000_Rec_-27.61811+152.78101.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>7194.841</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+<wpt lat="-27.618107" lon="+152.781006" > 
+	<name>0:/20220422_-27.61811+152.78101/-0000001_20220422T080000+1000_Rec_-27.61811+152.78101.flac</name>
+	<time>2022-04-22T08:00:00+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 01h59m55s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-22T08:00:00+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220422_-27.61811+152.78101/-0000001_20220422T080000+1000_Rec_-27.61811+152.78101.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>7194.841</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+<wpt lat="-27.618109" lon="+152.781052" > 
+	<name>0:/20220422/-0000001_20220422T103806+1000_Rec.flac</name>
+	<time>2022-04-22T10:38:05+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 01h21m52s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-22T10:38:05+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220422/-0000001_20220422T103806+1000_Rec.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>4909.998</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+<wpt lat="-27.618109" lon="+152.781052" > 
+	<name>0:/20220422_-27.61811+152.78105/-0000001_20220422T120000+1000_Rec_-27.61811+152.78105.flac</name>
+	<time>2022-04-22T12:00:00+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 01h59m56s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-22T12:00:00+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220422_-27.61811+152.78105/-0000001_20220422T120000+1000_Rec_-27.61811+152.78105.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>7194.841</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+<wpt lat="-27.618109" lon="+152.781052" > 
+	<name>0:/20220422_-27.61811+152.78105/-0000001_20220422T140000+1000_Rec_-27.61811+152.78105.flac</name>
+	<time>2022-04-22T14:00:00+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 01h59m55s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-22T14:00:00+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220422_-27.61811+152.78105/-0000001_20220422T140000+1000_Rec_-27.61811+152.78105.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>7194.841</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+<wpt lat="-27.618109" lon="+152.781052" > 
+	<name>0:/20220422_-27.61811+152.78105/-0000001_20220422T160000+1000_Rec_-27.61811+152.78105.flac</name>
+	<time>2022-04-22T16:00:00+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 01h59m55s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-22T16:00:00+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220422_-27.61811+152.78105/-0000001_20220422T160000+1000_Rec_-27.61811+152.78105.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>7194.841</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+<wpt lat="-27.618093" lon="+152.781189" > 
+	<name>0:/20220422/-0000001_20220422T185325+1000_Rec.flac</name>
+	<time>2022-04-22T18:53:25+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 01h06m36s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-22T18:53:25+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220422/-0000001_20220422T185325+1000_Rec.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>3993.831</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+<wpt lat="-27.618093" lon="+152.781189" > 
+	<name>0:/20220422_-27.61809+152.78119/-0000001_20220422T200000+1000_Rec_-27.61809+152.78119.flac</name>
+	<time>2022-04-22T20:00:00+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 01h59m55s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-22T20:00:00+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220422_-27.61809+152.78119/-0000001_20220422T200000+1000_Rec_-27.61809+152.78119.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>7194.841</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+<wpt lat="-27.618093" lon="+152.781189" > 
+	<name>0:/20220422_-27.61809+152.78119/-0000001_20220422T220000+1000_Rec_-27.61809+152.78119.flac</name>
+	<time>2022-04-22T22:00:00+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 01h59m55s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-22T22:00:00+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220422_-27.61809+152.78119/-0000001_20220422T220000+1000_Rec_-27.61809+152.78119.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>7194.841</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+<wpt lat="-27.618093" lon="+152.781189" > 
+	<name>0:/20220423_-27.61809+152.78119/-0000001_20220423T000000+1000_Rec_-27.61809+152.78119.flac</name>
+	<time>2022-04-23T00:00:00+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 01h59m55s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-23T00:00:00+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220423_-27.61809+152.78119/-0000001_20220423T000000+1000_Rec_-27.61809+152.78119.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>7194.841</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+<wpt lat="-27.618093" lon="+152.781189" > 
+	<name>0:/20220423_-27.61809+152.78119/-0000001_20220423T020000+1000_Rec_-27.61809+152.78119.flac</name>
+	<time>2022-04-23T02:00:02+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 01h59m53s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-23T02:00:02+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220423_-27.61809+152.78119/-0000001_20220423T020000+1000_Rec_-27.61809+152.78119.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>7192.984</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+<wpt lat="-27.618093" lon="+152.781189" > 
+	<name>0:/20220423_-27.61809+152.78119/-0000001_20220423T040000+1000_Rec_-27.61809+152.78119.flac</name>
+	<time>2022-04-23T04:00:00+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 01h59m55s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-23T04:00:00+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220423_-27.61809+152.78119/-0000001_20220423T040000+1000_Rec_-27.61809+152.78119.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>7194.841</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+<wpt lat="-27.618093" lon="+152.781189" > 
+	<name>0:/20220423_-27.61809+152.78119/-0000001_20220423T060000+1000_Rec_-27.61809+152.78119.flac</name>
+	<time>2022-04-23T06:00:00+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 01h59m55s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-23T06:00:00+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220423_-27.61809+152.78119/-0000001_20220423T060000+1000_Rec_-27.61809+152.78119.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>7194.841</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+<wpt lat="-27.618093" lon="+152.781189" > 
+	<name>0:/20220423_-27.61809+152.78119/-0000001_20220423T080000+1000_Rec_-27.61809+152.78119.flac</name>
+	<time>2022-04-23T08:00:00+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 01h59m55s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-23T08:00:00+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220423_-27.61809+152.78119/-0000001_20220423T080000+1000_Rec_-27.61809+152.78119.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>7194.841</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+<wpt lat="-27.618093" lon="+152.781189" > 
+	<name>0:/20220423_-27.61809+152.78119/-0000001_20220423T100000+1000_Rec_-27.61809+152.78119.flac</name>
+	<time>2022-04-23T10:00:00+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 01h59m55s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-23T10:00:00+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220423_-27.61809+152.78119/-0000001_20220423T100000+1000_Rec_-27.61809+152.78119.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>7194.841</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+<wpt lat="-27.618093" lon="+152.781189" > 
+	<name>0:/20220423_-27.61809+152.78119/-0000001_20220423T120000+1000_Rec_-27.61809+152.78119.flac</name>
+	<time>2022-04-23T12:00:00+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 01h59m55s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-23T12:00:00+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220423_-27.61809+152.78119/-0000001_20220423T120000+1000_Rec_-27.61809+152.78119.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>7194.841</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+<wpt lat="-27.618093" lon="+152.781189" > 
+	<name>0:/20220423_-27.61809+152.78119/-0000001_20220423T140000+1000_Rec_-27.61809+152.78119.flac</name>
+	<time>2022-04-23T14:00:00+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 01h59m55s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-23T14:00:00+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220423_-27.61809+152.78119/-0000001_20220423T140000+1000_Rec_-27.61809+152.78119.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>7194.841</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+<wpt lat="-27.618093" lon="+152.781189" > 
+	<name>0:/20220423_-27.61809+152.78119/-0000001_20220423T160000+1000_Rec_-27.61809+152.78119.flac</name>
+	<time>2022-04-23T16:00:00+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 01h59m55s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-23T16:00:00+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220423_-27.61809+152.78119/-0000001_20220423T160000+1000_Rec_-27.61809+152.78119.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>7194.841</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+<wpt lat="-27.618153" lon="+152.781113" > 
+	<name>0:/20220423/-0000001_20220423T182609+1000_Rec.flac</name>
+	<time>2022-04-23T18:26:08+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 01h33m49s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-23T18:26:08+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220423/-0000001_20220423T182609+1000_Rec.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>5626.658</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+<wpt lat="-27.618153" lon="+152.781113" > 
+	<name>0:/20220423_-27.61815+152.78111/-0000001_20220423T200000+1000_Rec_-27.61815+152.78111.flac</name>
+	<time>2022-04-23T20:00:00+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 01h59m56s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-23T20:00:00+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220423_-27.61815+152.78111/-0000001_20220423T200000+1000_Rec_-27.61815+152.78111.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>7194.841</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+<wpt lat="-27.618153" lon="+152.781113" > 
+	<name>0:/20220423_-27.61815+152.78111/-0000001_20220423T220000+1000_Rec_-27.61815+152.78111.flac</name>
+	<time>2022-04-23T22:00:00+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 01h59m55s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-23T22:00:00+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220423_-27.61815+152.78111/-0000001_20220423T220000+1000_Rec_-27.61815+152.78111.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>7194.841</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+<wpt lat="-27.618153" lon="+152.781113" > 
+	<name>0:/20220424_-27.61815+152.78111/-0000001_20220424T000000+1000_Rec_-27.61815+152.78111.flac</name>
+	<time>2022-04-24T00:00:00+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 01h59m55s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-24T00:00:00+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220424_-27.61815+152.78111/-0000001_20220424T000000+1000_Rec_-27.61815+152.78111.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>7194.841</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+<wpt lat="-27.618084" lon="+152.781143" > 
+	<name>0:/20220424/-0000001_20220424T033054+1000_Rec.flac</name>
+	<time>2022-04-24T03:30:52+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 00h29m05s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-24T03:30:52+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220424/-0000001_20220424T033054+1000_Rec.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>1742.796</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+<wpt lat="-27.618084" lon="+152.781143" > 
+	<name>0:/20220424_-27.61808+152.78114/-0000001_20220424T040000+1000_Rec_-27.61808+152.78114.flac</name>
+	<time>2022-04-24T04:00:00+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 01h59m55s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-24T04:00:00+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220424_-27.61808+152.78114/-0000001_20220424T040000+1000_Rec_-27.61808+152.78114.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>7194.841</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+<wpt lat="-27.618084" lon="+152.781143" > 
+	<name>0:/20220424_-27.61808+152.78114/-0000001_20220424T060000+1000_Rec_-27.61808+152.78114.flac</name>
+	<time>2022-04-24T06:00:00+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 01h59m55s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-24T06:00:00+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220424_-27.61808+152.78114/-0000001_20220424T060000+1000_Rec_-27.61808+152.78114.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>7194.841</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+<wpt lat="-27.618113" lon="+152.781128" > 
+	<name>0:/20220424/-0000001_20220424T084425+1000_Rec.flac</name>
+	<time>2022-04-24T08:44:25+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 01h15m32s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-24T08:44:25+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220424/-0000001_20220424T084425+1000_Rec.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>4529.934</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+<wpt lat="-27.618113" lon="+152.781128" > 
+	<name>0:/20220424_-27.61811+152.78113/-0000001_20220424T100000+1000_Rec_-27.61811+152.78113.flac</name>
+	<time>2022-04-24T10:00:00+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 01h59m56s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-24T10:00:00+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220424_-27.61811+152.78113/-0000001_20220424T100000+1000_Rec_-27.61811+152.78113.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>7194.841</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+<wpt lat="-27.618242" lon="+152.781097" > 
+	<name>0:/20220424/-0000001_20220424T135040+1000_Rec.flac</name>
+	<time>2022-04-24T13:50:40+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 00h09m16s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-24T13:50:40+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220424/-0000001_20220424T135040+1000_Rec.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>554.677</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+<wpt lat="-27.618126" lon="+152.781052" > 
+	<name>0:/20220424/-0000001_20220424T142500+1000_Rec.flac</name>
+	<time>2022-04-24T14:24:58+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 01h34m59s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-24T14:24:58+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220424/-0000001_20220424T142500+1000_Rec.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>5696.875</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+<wpt lat="-27.618126" lon="+152.781067" > 
+	<name>0:/20220424/-0000001_20220424T174550+1000_Rec.flac</name>
+	<time>2022-04-24T17:45:50+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 00h14m07s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-24T17:45:50+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220424/-0000001_20220424T174550+1000_Rec.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>844.834</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+<wpt lat="-27.618126" lon="+152.781067" > 
+	<name>0:/20220424_-27.61813+152.78107/-0000001_20220424T180000+1000_Rec_-27.61813+152.78107.flac</name>
+	<time>2022-04-24T18:00:00+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 01h59m55s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-24T18:00:00+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220424_-27.61813+152.78107/-0000001_20220424T180000+1000_Rec_-27.61813+152.78107.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>7194.841</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+<wpt lat="-27.618126" lon="+152.781067" > 
+	<name>0:/20220424_-27.61813+152.78107/-0000001_20220424T200000+1000_Rec_-27.61813+152.78107.flac</name>
+	<time>2022-04-24T20:00:00+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 01h59m55s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-24T20:00:00+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220424_-27.61813+152.78107/-0000001_20220424T200000+1000_Rec_-27.61813+152.78107.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>7194.841</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+<wpt lat="-27.618126" lon="+152.781067" > 
+	<name>0:/20220424_-27.61813+152.78107/-0000001_20220424T220000+1000_Rec_-27.61813+152.78107.flac</name>
+	<time>2022-04-24T22:00:00+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 01h59m55s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-24T22:00:00+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220424_-27.61813+152.78107/-0000001_20220424T220000+1000_Rec_-27.61813+152.78107.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>7194.841</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+<wpt lat="-27.618126" lon="+152.781067" > 
+	<name>0:/20220425_-27.61813+152.78107/-0000001_20220425T000000+1000_Rec_-27.61813+152.78107.flac</name>
+	<time>2022-04-25T00:00:00+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 01h59m55s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-25T00:00:00+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220425_-27.61813+152.78107/-0000001_20220425T000000+1000_Rec_-27.61813+152.78107.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>7194.841</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+<wpt lat="-27.618126" lon="+152.781067" > 
+	<name>0:/20220425_-27.61813+152.78107/-0000001_20220425T020000+1000_Rec_-27.61813+152.78107.flac</name>
+	<time>2022-04-25T02:00:01+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 01h59m54s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-25T02:00:01+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220425_-27.61813+152.78107/-0000001_20220425T020000+1000_Rec_-27.61813+152.78107.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>7193.727</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+<wpt lat="-27.618126" lon="+152.781067" > 
+	<name>0:/20220425_-27.61813+152.78107/-0000001_20220425T040000+1000_Rec_-27.61813+152.78107.flac</name>
+	<time>2022-04-25T04:00:00+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 01h59m55s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-25T04:00:00+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220425_-27.61813+152.78107/-0000001_20220425T040000+1000_Rec_-27.61813+152.78107.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>7194.841</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+<wpt lat="-27.618126" lon="+152.781067" > 
+	<name>0:/20220425_-27.61813+152.78107/-0000001_20220425T060000+1000_Rec_-27.61813+152.78107.flac</name>
+	<time>2022-04-25T06:00:00+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 01h59m55s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-25T06:00:00+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220425_-27.61813+152.78107/-0000001_20220425T060000+1000_Rec_-27.61813+152.78107.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>7194.841</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+<wpt lat="-27.618126" lon="+152.781067" > 
+	<name>0:/20220425_-27.61813+152.78107/-0000001_20220425T080000+1000_Rec_-27.61813+152.78107.flac</name>
+	<time>2022-04-25T08:00:00+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 01h59m55s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-25T08:00:00+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220425_-27.61813+152.78107/-0000001_20220425T080000+1000_Rec_-27.61813+152.78107.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>7194.841</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+<wpt lat="-27.618126" lon="+152.781067" > 
+	<name>0:/20220425_-27.61813+152.78107/-0000001_20220425T100000+1000_Rec_-27.61813+152.78107.flac</name>
+	<time>2022-04-25T10:00:00+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 01h59m55s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-25T10:00:00+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220425_-27.61813+152.78107/-0000001_20220425T100000+1000_Rec_-27.61813+152.78107.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>7194.841</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+<wpt lat="-27.618126" lon="+152.781067" > 
+	<name>0:/20220425_-27.61813+152.78107/-0000001_20220425T120000+1000_Rec_-27.61813+152.78107.flac</name>
+	<time>2022-04-25T12:00:00+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 01h59m55s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-25T12:00:00+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220425_-27.61813+152.78107/-0000001_20220425T120000+1000_Rec_-27.61813+152.78107.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>7194.841</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+<wpt lat="-27.618126" lon="+152.781067" > 
+	<name>0:/20220425_-27.61813+152.78107/-0000001_20220425T140000+1000_Rec_-27.61813+152.78107.flac</name>
+	<time>2022-04-25T14:00:00+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 01h59m55s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-25T14:00:00+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220425_-27.61813+152.78107/-0000001_20220425T140000+1000_Rec_-27.61813+152.78107.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>7194.841</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+<wpt lat="-27.618126" lon="+152.781067" > 
+	<name>0:/20220425_-27.61813+152.78107/-0000001_20220425T160000+1000_Rec_-27.61813+152.78107.flac</name>
+	<time>2022-04-25T16:00:00+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 01h59m55s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-25T16:00:00+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220425_-27.61813+152.78107/-0000001_20220425T160000+1000_Rec_-27.61813+152.78107.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>7194.841</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+<wpt lat="-27.618126" lon="+152.781067" > 
+	<name>0:/20220425_-27.61813+152.78107/-0000001_20220425T180000+1000_Rec_-27.61813+152.78107.flac</name>
+	<time>2022-04-25T18:00:00+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 01h59m55s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-25T18:00:00+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220425_-27.61813+152.78107/-0000001_20220425T180000+1000_Rec_-27.61813+152.78107.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>7194.841</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+<wpt lat="-27.618126" lon="+152.781067" > 
+	<name>0:/20220425_-27.61813+152.78107/-0000001_20220425T200000+1000_Rec_-27.61813+152.78107.flac</name>
+	<time>2022-04-25T20:00:00+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 01h59m55s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-25T20:00:00+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220425_-27.61813+152.78107/-0000001_20220425T200000+1000_Rec_-27.61813+152.78107.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>7194.841</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+<wpt lat="-27.618126" lon="+152.781067" > 
+	<name>0:/20220425_-27.61813+152.78107/-0000001_20220425T220000+1000_Rec_-27.61813+152.78107.flac</name>
+	<time>2022-04-25T22:00:00+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 01h59m55s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-25T22:00:00+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220425_-27.61813+152.78107/-0000001_20220425T220000+1000_Rec_-27.61813+152.78107.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>7194.841</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+<wpt lat="-27.618126" lon="+152.781067" > 
+	<name>0:/20220426_-27.61813+152.78107/-0000001_20220426T000000+1000_Rec_-27.61813+152.78107.flac</name>
+	<time>2022-04-26T00:00:00+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 01h59m55s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-26T00:00:00+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220426_-27.61813+152.78107/-0000001_20220426T000000+1000_Rec_-27.61813+152.78107.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>7194.841</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+<wpt lat="-27.618126" lon="+152.781067" > 
+	<name>0:/20220426_-27.61813+152.78107/-0000001_20220426T020000+1000_Rec_-27.61813+152.78107.flac</name>
+	<time>2022-04-26T01:59:54+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 00h00m01s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-26T01:59:54+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220426_-27.61813+152.78107/-0000001_20220426T020000+1000_Rec_-27.61813+152.78107.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>0.742</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+<wpt lat="-27.618126" lon="+152.781067" > 
+	<name>0:/20220426_-27.61813+152.78107/-0000001_20220426T020000+1000_Rec_-27.61813+152.78107.flac</name>
+	<time>2022-04-26T02:00:00+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 01h59m55s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-26T02:00:00+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220426_-27.61813+152.78107/-0000001_20220426T020000+1000_Rec_-27.61813+152.78107.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>7194.841</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+<wpt lat="-27.618170" lon="+152.781128" > 
+	<name>0:/20220426/-0000001_20220426T055500+1000_Rec.flac</name>
+	<time>2022-04-26T05:54:56+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 00h05m00s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-26T05:54:56+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220426/-0000001_20220426T055500+1000_Rec.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>298.701</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+<wpt lat="-27.618052" lon="+152.781067" > 
+	<name>0:/20220426/-0000001_20220426T060149+1000_Rec.flac</name>
+	<time>2022-04-26T06:01:50+10:00</time>
+	<desc>Fs = 22050Hz, Gain(ChA) = 50dB, Duration = 00h35m55s </desc>
+	<src>FRONTIER LABS Bioacoustic Recorder Solar BAR SN: 000000-1</src>
+	<extensions> 
+	<guano:GUANO-Version>1.0</guano:GUANO-Version>
+	<guano:Timestamp>2022-04-26T06:01:50+10:00</guano:Timestamp>
+	<guano:Make>Frontier Labs</guano:Make>
+	<guano:Model>Solar BAR</guano:Model>
+	<guano:Serial>000000-1</guano:Serial>
+	<guano:Firmware_Version>3.30</guano:Firmware_Version>
+	<guano:Original_Filename>0:/20220426/-0000001_20220426T060149+1000_Rec.flac</guano:Original_Filename>
+	<guano:Samplerate>22050</guano:Samplerate>
+	<guano:Length>2152.582</guano:Length>
+	<guano:FLABS-Gain_chA>50</guano:FLABS-Gain_chA>
+	<guano:FLABS-Compression>FLAC</guano:FLABS-Compression>
+	</extensions> 
+</wpt> 
+</gpx>

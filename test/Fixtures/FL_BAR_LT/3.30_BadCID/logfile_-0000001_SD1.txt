@@ -1,0 +1,1932 @@
+
+-----------------------------------------------------------
+ FRONTIER LABS Bioacoustic Audio Recorder 
+ Serial Number: 53373100-38324832-33303330-37353034
+ Config: Mono, Ext-power, Solar-power
+ Firmware: 3.30 (Jul 20 2021 15:54:08)
+-----------------------------------------------------------
+2010-01-01 00:00:41 Software reset after upgrading firmware.
+2010-01-01 00:00:42 GPS enabled
+2010-01-01 00:00:43 Battery at 81% ( 12.52 V )
+2010-01-01 00:00:43 Date and time not set
+2010-01-01 00:00:43 Schedule loaded
+2010-01-01 00:00:43   Name: 
+2010-01-01 00:00:43   Backup GPS location: None found
+2010-01-01 00:00:43   Number of entries: 1
+2010-01-01 00:00:43   1) "Rec" Start at 00:00 on 7/3/2021 and record for 120 mins at 22050 Hz with FLAC compression every 120 mins until 22:00 every day for as many days as possible
+2010-01-01 00:00:43 SD Card detected in slot 1
+2010-01-01 00:00:45 SD Card :
+2010-01-01 00:00:45   Format type      exFAT
+2010-01-01 00:00:45   Manufacturer ID  40
+2010-01-01 00:00:45   OEM ID           BE
+2010-01-01 00:00:45   Product Name     SD256
+2010-01-01 00:00:45   Product Revision 0.2
+2010-01-01 00:00:45   Serial Number    10559357
+2010-01-01 00:00:45   Manufacture Date 2014/06
+2010-01-01 00:00:45   Speed            50
+2010-01-01 00:00:45   Capacity         250412032
+2010-01-01 00:00:45   Wr Current Vmin  3
+2010-01-01 00:00:45   Wr Current Vmax  3
+2010-01-01 00:00:45   Write Bl Size    512
+2010-01-01 00:00:45   Erase Bl Size    65536
+2010-01-01 00:00:47 No card in SD slot 2.
+2010-01-01 00:00:47 No card in SD slot 3.
+2010-01-01 00:00:47 No card in SD slot 4.
+2010-01-01 00:00:47 Waiting for valid clock
+2010-01-01 00:00:59 Clock updated by the user
+2010-01-01 00:01:03 BAR switched OFF (All future recordings disabled)
+2010-01-01 00:01:03 GPS disabled
+2010-01-01 00:01:03 BAR powering down
+
+
+-----------------------------------------------------------
+ FRONTIER LABS Bioacoustic Audio Recorder 
+ Serial Number: 53373100-38324832-33303330-37353034
+ Config: Mono, Ext-power, Solar-power
+ Firmware: 3.30 (Jul 20 2021 15:54:08)
+-----------------------------------------------------------
+2010-01-01 00:21:05 Wakeup from ON/OFF switch
+2010-01-01 00:21:06 GPS enabled
+2010-01-01 00:21:07 Battery at 100% ( 13.02 V )
+2010-01-01 00:21:07 Date and time not set
+2010-01-01 00:21:07 Schedule loaded
+2010-01-01 00:21:07   Name: 
+2010-01-01 00:21:07   Backup GPS location: None found
+2010-01-01 00:21:07   Number of entries: 1
+2010-01-01 00:21:07   1) "Rec" Start at 00:00 on 7/3/2021 and record for 120 mins at 22050 Hz with FLAC compression every 120 mins until 22:00 every day for as many days as possible
+2010-01-01 00:21:07 SD Card detected in slot 1
+2010-01-01 00:21:09 SD Card :
+2010-01-01 00:21:09   Format type      exFAT
+2010-01-01 00:21:09   Manufacturer ID  40
+2010-01-01 00:21:09   OEM ID           BE
+2010-01-01 00:21:09   Product Name     SD256
+2010-01-01 00:21:09   Product Revision 0.2
+2010-01-01 00:21:09   Serial Number    10559357
+2010-01-01 00:21:09   Manufacture Date 2014/06
+2010-01-01 00:21:09   Speed            50
+2010-01-01 00:21:09   Capacity         250412032
+2010-01-01 00:21:09   Wr Current Vmin  3
+2010-01-01 00:21:09   Wr Current Vmax  3
+2010-01-01 00:21:09   Write Bl Size    512
+2010-01-01 00:21:09   Erase Bl Size    65536
+2010-01-01 00:21:11 No card in SD slot 2.
+2010-01-01 00:21:11 No card in SD slot 3.
+2010-01-01 00:21:11 No card in SD slot 4.
+2010-01-01 00:21:11 Microphone attached
+2010-01-01 00:21:11 Waiting for valid clock
+2010-01-01 00:21:34 Updating clock from the GPS to local time 12:40:30 (UTC+10:00)
+2022-04-20 12:40:30 Preparing for a new recording..
+2022-04-20 12:40:30  - This is the first recording since being turned on.
+2022-04-20 12:40:32  - Pre-allocating 200 MB on SD card.
+2022-04-20 12:40:32 -----------------------------------
+2022-04-20 12:40:32 | New recording started: 0:/20220420/-0000001_20220420T124030+1000_Rec.flac
+2022-04-20 12:40:33 | "Rec" --> 01h19m23s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-20 12:40:33 | Battery: 100% ( 12.98 V Charging )
+2022-04-20 12:40:33 | Storage: Card 1 ( 238.5GB free of 238.8GB )
+2022-04-20 12:40:33 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-20 12:40:33 -----------------------------------
+2022-04-20 12:40:41 Lid closed
+2022-04-20 12:40:45 GPS position acquired, waiting to stabilise
+2022-04-20 12:41:15 GPS position lock acquired [-27.61822+152.78111]
+2022-04-20 12:41:15 GPS disabled
+2022-04-20 13:59:58 Recording stopped. 131 MB recorded, 244368 MB remaining on the SD card
+2022-04-20 13:59:58 Total buffer overruns = 0
+2022-04-20 13:59:58 Preparing for a new recording..
+2022-04-20 13:59:59  - Pre-allocating 302 MB on SD card.
+2022-04-20 14:00:00 -----------------------------------
+2022-04-20 14:00:00 | New recording started: 0:/20220420_-27.61822+152.78111/-0000001_20220420T140000+1000_Rec_-27.61822+152.78111.flac
+2022-04-20 14:00:00 | "Rec" --> 01h59m55s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-20 14:00:00 | Battery: 100% ( 13.35 V Charging )
+2022-04-20 14:00:00 | Storage: Card 1 ( 238.3GB free of 238.8GB )
+2022-04-20 14:00:00 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-20 14:00:00 -----------------------------------
+2022-04-20 15:59:56 Recording stopped. 195 MB recorded, 244172 MB remaining on the SD card
+2022-04-20 15:59:56 Total buffer overruns = 0
+2022-04-20 15:59:56 Preparing for a new recording..
+2022-04-20 15:59:56  - Pre-allocating 302 MB on SD card.
+2022-04-20 16:00:00 -----------------------------------
+2022-04-20 16:00:00 | New recording started: 0:/20220420_-27.61822+152.78111/-0000001_20220420T160000+1000_Rec_-27.61822+152.78111.flac
+2022-04-20 16:00:00 | "Rec" --> 01h59m55s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-20 16:00:00 | Battery: 100% ( 13.15 V Charging )
+2022-04-20 16:00:00 | Storage: Card 1 ( 238.1GB free of 238.8GB )
+2022-04-20 16:00:00 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-20 16:00:00 -----------------------------------
+2022-04-20 17:59:56 Recording stopped. 194 MB recorded, 243978 MB remaining on the SD card
+2022-04-20 17:59:56 Total buffer overruns = 0
+2022-04-20 17:59:56 Preparing for a new recording..
+2022-04-20 17:59:57  - Pre-allocating 302 MB on SD card.
+2022-04-20 18:00:00 -----------------------------------
+2022-04-20 18:00:00 | New recording started: 0:/20220420_-27.61822+152.78111/-0000001_20220420T180000+1000_Rec_-27.61822+152.78111.flac
+2022-04-20 18:00:00 | "Rec" --> 01h59m55s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-20 18:00:00 | Battery: 99% ( 12.74 V Not charging )
+2022-04-20 18:00:00 | Storage: Card 1 ( 237.9GB free of 238.8GB )
+2022-04-20 18:00:00 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-20 18:00:00 -----------------------------------
+2022-04-20 19:59:56 Recording stopped. 193 MB recorded, 243784 MB remaining on the SD card
+2022-04-20 19:59:56 Total buffer overruns = 0
+2022-04-20 19:59:56 Preparing for a new recording..
+2022-04-20 19:59:56  - Pre-allocating 302 MB on SD card.
+2022-04-20 20:00:00 -----------------------------------
+2022-04-20 20:00:00 | New recording started: 0:/20220420_-27.61822+152.78111/-0000001_20220420T200000+1000_Rec_-27.61822+152.78111.flac
+2022-04-20 20:00:00 | "Rec" --> 01h59m55s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-20 20:00:00 | Battery: 97% ( 12.71 V Not charging )
+2022-04-20 20:00:00 | Storage: Card 1 ( 237.7GB free of 238.8GB )
+2022-04-20 20:00:00 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-20 20:00:00 -----------------------------------
+2022-04-20 21:59:56 Recording stopped. 176 MB recorded, 243608 MB remaining on the SD card
+2022-04-20 21:59:56 Total buffer overruns = 0
+2022-04-20 21:59:56 Preparing for a new recording..
+2022-04-20 21:59:56  - Pre-allocating 302 MB on SD card.
+2022-04-20 22:00:00 -----------------------------------
+2022-04-20 22:00:00 | New recording started: 0:/20220420_-27.61822+152.78111/-0000001_20220420T220000+1000_Rec_-27.61822+152.78111.flac
+2022-04-20 22:00:00 | "Rec" --> 01h59m55s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-20 22:00:00 | Battery: 95% ( 12.69 V Not charging )
+2022-04-20 22:00:00 | Storage: Card 1 ( 237.5GB free of 238.8GB )
+2022-04-20 22:00:00 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-20 22:00:00 -----------------------------------
+2022-04-20 23:59:56 Recording stopped. 170 MB recorded, 243438 MB remaining on the SD card
+2022-04-20 23:59:56 Total buffer overruns = 0
+2022-04-20 23:59:56 Preparing for a new recording..
+2022-04-20 23:59:57  - Pre-allocating 302 MB on SD card.
+2022-04-21 00:00:00 -----------------------------------
+2022-04-21 00:00:00 | New recording started: 0:/20220421_-27.61822+152.78111/-0000001_20220421T000000+1000_Rec_-27.61822+152.78111.flac
+2022-04-21 00:00:00 | "Rec" --> 01h59m55s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-21 00:00:00 | Battery: 94% ( 12.68 V Not charging )
+2022-04-21 00:00:00 | Storage: Card 1 ( 237.4GB free of 238.8GB )
+2022-04-21 00:00:00 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-21 00:00:00 -----------------------------------
+2022-04-21 01:59:56 Recording stopped. 159 MB recorded, 243278 MB remaining on the SD card
+2022-04-21 01:59:56 Total buffer overruns = 0
+2022-04-21 01:59:56 Preparing for a new recording..
+2022-04-21 01:59:56 Restarting GPS time sync
+2022-04-21 01:59:56 GPS enabled
+2022-04-21 01:59:57  - Pre-allocating 302 MB on SD card.
+2022-04-21 01:59:57 Updating clock from the GPS to local time 01:59:55 (UTC+10:00)
+2022-04-21 01:59:57 GPS disabled
+2022-04-21 02:00:00 -----------------------------------
+2022-04-21 02:00:00 | New recording started: 0:/20220421_-27.61822+152.78111/-0000001_20220421T020000+1000_Rec_-27.61822+152.78111.flac
+2022-04-21 02:00:00 | "Rec" --> 01h59m55s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-21 02:00:00 | Battery: 93% ( 12.66 V Not charging )
+2022-04-21 02:00:00 | Storage: Card 1 ( 237.2GB free of 238.8GB )
+2022-04-21 02:00:00 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-21 02:00:00 -----------------------------------
+2022-04-21 03:59:56 Recording stopped. 156 MB recorded, 243121 MB remaining on the SD card
+2022-04-21 03:59:56 Total buffer overruns = 0
+2022-04-21 03:59:56 Preparing for a new recording..
+2022-04-21 03:59:56  - Pre-allocating 302 MB on SD card.
+2022-04-21 04:00:00 -----------------------------------
+2022-04-21 04:00:00 | New recording started: 0:/20220421_-27.61822+152.78111/-0000001_20220421T040000+1000_Rec_-27.61822+152.78111.flac
+2022-04-21 04:00:00 | "Rec" --> 01h59m55s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-21 04:00:00 | Battery: 91% ( 12.64 V Not charging )
+2022-04-21 04:00:00 | Storage: Card 1 ( 237.1GB free of 238.8GB )
+2022-04-21 04:00:00 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-21 04:00:00 -----------------------------------
+2022-04-21 05:59:56 Recording stopped. 168 MB recorded, 242953 MB remaining on the SD card
+2022-04-21 05:59:56 Total buffer overruns = 0
+2022-04-21 05:59:56 Preparing for a new recording..
+2022-04-21 05:59:56  - Pre-allocating 302 MB on SD card.
+2022-04-21 06:00:00 -----------------------------------
+2022-04-21 06:00:00 | New recording started: 0:/20220421_-27.61822+152.78111/-0000001_20220421T060000+1000_Rec_-27.61822+152.78111.flac
+2022-04-21 06:00:00 | "Rec" --> 01h59m55s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-21 06:00:00 | Battery: 91% ( 12.64 V Not charging )
+2022-04-21 06:00:00 | Storage: Card 1 ( 236.9GB free of 238.8GB )
+2022-04-21 06:00:00 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-21 06:00:00 -----------------------------------
+2022-04-21 07:59:56 Recording stopped. 191 MB recorded, 242761 MB remaining on the SD card
+2022-04-21 07:59:56 Total buffer overruns = 0
+2022-04-21 07:59:56 Preparing for a new recording..
+2022-04-21 07:59:56  - Pre-allocating 302 MB on SD card.
+2022-04-21 08:00:00 -----------------------------------
+2022-04-21 08:00:00 | New recording started: 0:/20220421_-27.61822+152.78111/-0000001_20220421T080000+1000_Rec_-27.61822+152.78111.flac
+2022-04-21 08:00:00 | "Rec" --> 01h59m55s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-21 08:00:00 | Battery: 98% ( 12.73 V Charging )
+2022-04-21 08:00:00 | Storage: Card 1 ( 236.7GB free of 238.8GB )
+2022-04-21 08:00:00 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-21 08:00:00 -----------------------------------
+2022-04-21 09:59:56 Recording stopped. 188 MB recorded, 242572 MB remaining on the SD card
+2022-04-21 09:59:56 Total buffer overruns = 0
+2022-04-21 09:59:56 Preparing for a new recording..
+2022-04-21 09:59:56  - Pre-allocating 302 MB on SD card.
+2022-04-21 10:00:00 -----------------------------------
+2022-04-21 10:00:00 | New recording started: 0:/20220421_-27.61822+152.78111/-0000001_20220421T100000+1000_Rec_-27.61822+152.78111.flac
+2022-04-21 10:00:00 | "Rec" --> 01h59m55s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-21 10:00:00 | Battery: 100% ( 13.65 V Charging )
+2022-04-21 10:00:00 | Storage: Card 1 ( 236.5GB free of 238.8GB )
+2022-04-21 10:00:00 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-21 10:00:00 -----------------------------------
+
+-----------------------------------------------------------
+ FRONTIER LABS Bioacoustic Audio Recorder 
+ Serial Number: 53373100-38324832-33303330-37353034
+ Config: Mono, Ext-power, Solar-power
+ Firmware: 3.30 (Jul 20 2021 15:54:08)
+-----------------------------------------------------------
+2022-04-21 10:22:13 Watchdog recovered from CPU lockup!! Please report this error to Frontier Labs.
+2022-04-21 10:22:14 GPS enabled
+2022-04-21 10:22:15 Battery at 100% ( 14.01 V )
+2022-04-21 10:22:15 Schedule loaded
+2022-04-21 10:22:15   Name: 
+2022-04-21 10:22:15   Backup GPS location: None found
+2022-04-21 10:22:15   Number of entries: 1
+2022-04-21 10:22:15   1) "Rec" Start at 00:00 on 7/3/2021 and record for 120 mins at 22050 Hz with FLAC compression every 120 mins until 22:00 every day for as many days as possible
+2022-04-21 10:22:15 SD Card detected in slot 1
+2022-04-21 10:22:17 SD Card :
+2022-04-21 10:22:17   Format type      exFAT
+2022-04-21 10:22:17   Manufacturer ID  40
+2022-04-21 10:22:17   OEM ID           BE
+2022-04-21 10:22:17   Product Name     SD256
+2022-04-21 10:22:17   Product Revision 0.2
+2022-04-21 10:22:17   Serial Number    10559357
+2022-04-21 10:22:17   Manufacture Date 2014/06
+2022-04-21 10:22:17   Speed            50
+2022-04-21 10:22:17   Capacity         250412032
+2022-04-21 10:22:17   Wr Current Vmin  3
+2022-04-21 10:22:17   Wr Current Vmax  3
+2022-04-21 10:22:17   Write Bl Size    512
+2022-04-21 10:22:17   Erase Bl Size    65536
+2022-04-21 10:22:19 No card in SD slot 2.
+2022-04-21 10:22:19 No card in SD slot 3.
+2022-04-21 10:22:19 No card in SD slot 4.
+2022-04-21 10:22:19 Updating clock from the GPS to local time 10:22:15 (UTC+10:00)
+2022-04-21 10:22:19 Preparing for a new recording..
+2022-04-21 10:22:19  - This is the first recording since being turned on.
+2022-04-21 10:22:17  - Pre-allocating 246 MB on SD card.
+2022-04-21 10:22:17 -----------------------------------
+2022-04-21 10:22:17 | New recording started: 0:/20220421/-0000001_20220421T102219+1000_Rec.flac
+2022-04-21 10:22:17 | "Rec" --> 01h37m38s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-21 10:22:18 | Battery: 100% ( 14.01 V Charging )
+2022-04-21 10:22:18 | Storage: Card 1 ( 236.3GB free of 238.8GB )
+2022-04-21 10:22:18 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-21 10:22:18 -----------------------------------
+2022-04-21 10:22:57 GPS position acquired, waiting to stabilise
+2022-04-21 10:23:27 GPS position lock acquired [-27.61824+152.78107]
+2022-04-21 10:23:27 GPS disabled
+2022-04-21 11:59:58 Recording stopped. 160 MB recorded, 242109 MB remaining on the SD card
+2022-04-21 11:59:58 Total buffer overruns = 0
+2022-04-21 11:59:58 Preparing for a new recording..
+2022-04-21 12:00:00  - Pre-allocating 302 MB on SD card.
+2022-04-21 12:00:00 -----------------------------------
+2022-04-21 12:00:00 | New recording started: 0:/20220421_-27.61824+152.78107/-0000001_20220421T120000+1000_Rec_-27.61824+152.78107.flac
+2022-04-21 12:00:00 | "Rec" --> 01h59m55s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-21 12:00:00 | Battery: 100% ( 13.78 V Charging )
+2022-04-21 12:00:00 | Storage: Card 1 ( 236.1GB free of 238.8GB )
+2022-04-21 12:00:00 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-21 12:00:00 -----------------------------------
+2022-04-21 13:59:56 Recording stopped. 185 MB recorded, 241923 MB remaining on the SD card
+2022-04-21 13:59:56 Total buffer overruns = 0
+2022-04-21 13:59:56 Preparing for a new recording..
+2022-04-21 13:59:57  - Pre-allocating 302 MB on SD card.
+2022-04-21 14:00:00 -----------------------------------
+2022-04-21 14:00:00 | New recording started: 0:/20220421_-27.61824+152.78107/-0000001_20220421T140000+1000_Rec_-27.61824+152.78107.flac
+2022-04-21 14:00:00 | "Rec" --> 01h59m55s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-21 14:00:00 | Battery: 100% ( 13.61 V Charging )
+2022-04-21 14:00:00 | Storage: Card 1 ( 235.9GB free of 238.8GB )
+2022-04-21 14:00:00 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-21 14:00:00 -----------------------------------
+2022-04-21 15:59:56 Recording stopped. 191 MB recorded, 241732 MB remaining on the SD card
+2022-04-21 15:59:56 Total buffer overruns = 0
+2022-04-21 15:59:56 Preparing for a new recording..
+2022-04-21 15:59:56  - Pre-allocating 302 MB on SD card.
+2022-04-21 16:00:00 -----------------------------------
+2022-04-21 16:00:00 | New recording started: 0:/20220421_-27.61824+152.78107/-0000001_20220421T160000+1000_Rec_-27.61824+152.78107.flac
+2022-04-21 16:00:00 | "Rec" --> 01h59m55s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-21 16:00:00 | Battery: 100% ( 13.48 V Charging )
+2022-04-21 16:00:00 | Storage: Card 1 ( 235.7GB free of 238.8GB )
+2022-04-21 16:00:00 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-21 16:00:00 -----------------------------------
+2022-04-21 17:59:56 Recording stopped. 207 MB recorded, 241524 MB remaining on the SD card
+2022-04-21 17:59:56 Total buffer overruns = 0
+2022-04-21 17:59:56 Preparing for a new recording..
+2022-04-21 17:59:56  - Pre-allocating 302 MB on SD card.
+2022-04-21 18:00:00 -----------------------------------
+2022-04-21 18:00:00 | New recording started: 0:/20220421_-27.61824+152.78107/-0000001_20220421T180000+1000_Rec_-27.61824+152.78107.flac
+2022-04-21 18:00:00 | "Rec" --> 01h59m55s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-21 18:00:00 | Battery: 100% ( 12.89 V Not charging )
+2022-04-21 18:00:00 | Storage: Card 1 ( 235.5GB free of 238.8GB )
+2022-04-21 18:00:00 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-21 18:00:00 -----------------------------------
+
+-----------------------------------------------------------
+ FRONTIER LABS Bioacoustic Audio Recorder 
+ Serial Number: 53373100-38324832-33303330-37353034
+ Config: Mono, Ext-power, Solar-power
+ Firmware: 3.30 (Jul 20 2021 15:54:08)
+-----------------------------------------------------------
+2022-04-21 19:58:33 Watchdog recovered from CPU lockup!! Please report this error to Frontier Labs.
+2022-04-21 19:58:33 GPS enabled
+2022-04-21 19:58:35 Battery at 100% ( 12.75 V )
+2022-04-21 19:58:35 Schedule loaded
+2022-04-21 19:58:35   Name: 
+2022-04-21 19:58:35   Backup GPS location: None found
+2022-04-21 19:58:35   Number of entries: 1
+2022-04-21 19:58:35   1) "Rec" Start at 00:00 on 7/3/2021 and record for 120 mins at 22050 Hz with FLAC compression every 120 mins until 22:00 every day for as many days as possible
+2022-04-21 19:58:35 SD Card detected in slot 1
+2022-04-21 19:58:36 SD Card :
+2022-04-21 19:58:36   Format type      exFAT
+2022-04-21 19:58:36   Manufacturer ID  40
+2022-04-21 19:58:36   OEM ID           BE
+2022-04-21 19:58:36   Product Name     SD256
+2022-04-21 19:58:36   Product Revision 0.2
+2022-04-21 19:58:36   Serial Number    10559357
+2022-04-21 19:58:36   Manufacture Date 2014/06
+2022-04-21 19:58:36   Speed            50
+2022-04-21 19:58:36   Capacity         250412032
+2022-04-21 19:58:36   Wr Current Vmin  3
+2022-04-21 19:58:36   Wr Current Vmax  3
+2022-04-21 19:58:36   Write Bl Size    512
+2022-04-21 19:58:37   Erase Bl Size    65536
+2022-04-21 19:58:38 No card in SD slot 2.
+2022-04-21 19:58:38 No card in SD slot 3.
+2022-04-21 19:58:38 No card in SD slot 4.
+2022-04-21 19:58:38 Updating clock from the GPS to local time 19:58:37 (UTC+10:00)
+2022-04-21 19:58:38 Preparing for a new recording..
+2022-04-21 19:58:38  - This is the first recording since being turned on.
+2022-04-21 19:58:38  - Pre-allocating 3 MB on SD card.
+2022-04-21 19:58:38 -----------------------------------
+2022-04-21 19:58:38 | New recording started: 0:/20220421/-0000001_20220421T195838+1000_Rec.flac
+2022-04-21 19:58:38 | "Rec" --> 00h01m17s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-21 19:58:38 | Battery: 100% ( 12.84 V Not charging )
+2022-04-21 19:58:38 | Storage: Card 1 ( 235.5GB free of 238.8GB )
+2022-04-21 19:58:39 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-21 19:58:39 -----------------------------------
+2022-04-21 19:58:37 Updating the current recording to 00:01:18 remaining
+2022-04-21 19:59:55 GPS position acquired, waiting to stabilise
+2022-04-21 19:59:56 Recording stopped. 2 MB recorded, 241220 MB remaining on the SD card
+2022-04-21 19:59:56 Total buffer overruns = 0
+2022-04-21 19:59:56 Preparing for a new recording..
+2022-04-21 19:59:56  - Pre-allocating 302 MB on SD card.
+2022-04-21 20:00:00 -----------------------------------
+2022-04-21 20:00:00 | New recording started: 0:/20220421/-0000001_20220421T200000+1000_Rec.flac
+2022-04-21 20:00:00 | "Rec" --> 01h59m55s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-21 20:00:00 | Battery: 100% ( 12.85 V Not charging )
+2022-04-21 20:00:00 | Storage: Card 1 ( 235.2GB free of 238.8GB )
+2022-04-21 20:00:00 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-21 20:00:00 -----------------------------------
+2022-04-21 20:00:26 GPS position lock acquired [-27.61810+152.78106]
+2022-04-21 20:00:26 GPS disabled
+
+-----------------------------------------------------------
+ FRONTIER LABS Bioacoustic Audio Recorder 
+ Serial Number: 53373100-38324832-33303330-37353034
+ Config: Mono, Ext-power, Solar-power
+ Firmware: 3.30 (Jul 20 2021 15:54:08)
+-----------------------------------------------------------
+2022-04-21 20:02:10 Watchdog recovered from CPU lockup!! Please report this error to Frontier Labs.
+2022-04-21 20:02:10 GPS enabled
+2022-04-21 20:02:11 Battery at 98% ( 12.73 V )
+2022-04-21 20:02:11 Schedule loaded
+2022-04-21 20:02:11   Name: 
+2022-04-21 20:02:11   Backup GPS location: None found
+2022-04-21 20:02:11   Number of entries: 1
+2022-04-21 20:02:11   1) "Rec" Start at 00:00 on 7/3/2021 and record for 120 mins at 22050 Hz with FLAC compression every 120 mins until 22:00 every day for as many days as possible
+2022-04-21 20:02:11 SD Card detected in slot 1
+2022-04-21 20:02:13 SD Card :
+2022-04-21 20:02:13   Format type      exFAT
+2022-04-21 20:02:13   Manufacturer ID  40
+2022-04-21 20:02:13   OEM ID           BE
+2022-04-21 20:02:13   Product Name     SD256
+2022-04-21 20:02:13   Product Revision 0.2
+2022-04-21 20:02:13   Serial Number    10559357
+2022-04-21 20:02:13   Manufacture Date 2014/06
+2022-04-21 20:02:13   Speed            50
+2022-04-21 20:02:13   Capacity         250412032
+2022-04-21 20:02:13   Wr Current Vmin  3
+2022-04-21 20:02:13   Wr Current Vmax  3
+2022-04-21 20:02:13   Write Bl Size    512
+2022-04-21 20:02:13   Erase Bl Size    65536
+2022-04-21 20:02:15 No card in SD slot 2.
+2022-04-21 20:02:15 No card in SD slot 3.
+2022-04-21 20:02:15 No card in SD slot 4.
+2022-04-21 20:02:15 Updating clock from the GPS to local time 20:02:16 (UTC+10:00)
+2022-04-21 20:02:15 GPS position acquired, waiting to stabilise
+2022-04-21 20:02:15 Preparing for a new recording..
+2022-04-21 20:02:15  - This is the first recording since being turned on.
+2022-04-21 20:02:15  - Pre-allocating 296 MB on SD card.
+2022-04-21 20:02:16 -----------------------------------
+2022-04-21 20:02:16 | New recording started: 0:/20220421/-0000001_20220421T200215+1000_Rec.flac
+2022-04-21 20:02:16 | "Rec" --> 01h57m39s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-21 20:02:16 | Battery: 100% ( 12.84 V Not charging )
+2022-04-21 20:02:16 | Storage: Card 1 ( 235.2GB free of 238.8GB )
+2022-04-21 20:02:16 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-21 20:02:16 -----------------------------------
+2022-04-21 20:02:16 Updating the current recording to 01:57:39 remaining
+2022-04-21 20:02:45 GPS position lock acquired [-27.61811+152.78110]
+2022-04-21 20:02:45 GPS disabled
+
+-----------------------------------------------------------
+ FRONTIER LABS Bioacoustic Audio Recorder 
+ Serial Number: 53373100-38324832-33303330-37353034
+ Config: Mono, Ext-power, Solar-power
+ Firmware: 3.30 (Jul 20 2021 15:54:08)
+-----------------------------------------------------------
+2022-04-21 20:04:29 Watchdog recovered from CPU lockup!! Please report this error to Frontier Labs.
+2022-04-21 20:04:29 GPS enabled
+2022-04-21 20:04:30 Battery at 96% ( 12.70 V )
+2022-04-21 20:04:30 Schedule loaded
+2022-04-21 20:04:30   Name: 
+2022-04-21 20:04:30   Backup GPS location: None found
+2022-04-21 20:04:30   Number of entries: 1
+2022-04-21 20:04:30   1) "Rec" Start at 00:00 on 7/3/2021 and record for 120 mins at 22050 Hz with FLAC compression every 120 mins until 22:00 every day for as many days as possible
+2022-04-21 20:04:30 SD Card detected in slot 1
+2022-04-21 20:04:32 SD Card :
+2022-04-21 20:04:32   Format type      exFAT
+2022-04-21 20:04:32   Manufacturer ID  40
+2022-04-21 20:04:32   OEM ID           BE
+2022-04-21 20:04:32   Product Name     SD256
+2022-04-21 20:04:32   Product Revision 0.2
+2022-04-21 20:04:32   Serial Number    10559357
+2022-04-21 20:04:32   Manufacture Date 2014/06
+2022-04-21 20:04:32   Speed            50
+2022-04-21 20:04:32   Capacity         250412032
+2022-04-21 20:04:32   Wr Current Vmin  3
+2022-04-21 20:04:32   Wr Current Vmax  3
+2022-04-21 20:04:32   Write Bl Size    512
+2022-04-21 20:04:32   Erase Bl Size    65536
+2022-04-21 20:04:34 No card in SD slot 2.
+2022-04-21 20:04:34 No card in SD slot 3.
+2022-04-21 20:04:34 No card in SD slot 4.
+2022-04-21 20:04:34 Updating clock from the GPS to local time 20:04:35 (UTC+10:00)
+2022-04-21 20:04:34 GPS position acquired, waiting to stabilise
+2022-04-21 20:04:34 Preparing for a new recording..
+2022-04-21 20:04:34  - This is the first recording since being turned on.
+2022-04-21 20:04:34  - Pre-allocating 291 MB on SD card.
+2022-04-21 20:04:35 -----------------------------------
+2022-04-21 20:04:35 | New recording started: 0:/20220421/-0000001_20220421T200434+1000_Rec.flac
+2022-04-21 20:04:35 | "Rec" --> 01h55m20s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-21 20:04:35 | Battery: 100% ( 12.84 V Not charging )
+2022-04-21 20:04:35 | Storage: Card 1 ( 235.2GB free of 238.8GB )
+2022-04-21 20:04:35 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-21 20:04:35 -----------------------------------
+2022-04-21 20:04:35 Updating the current recording to 01:55:20 remaining
+2022-04-21 20:05:04 GPS position lock acquired [-27.61805+152.78102]
+2022-04-21 20:05:04 GPS disabled
+
+-----------------------------------------------------------
+ FRONTIER LABS Bioacoustic Audio Recorder 
+ Serial Number: 53373100-38324832-33303330-37353034
+ Config: Mono, Ext-power, Solar-power
+ Firmware: 3.30 (Jul 20 2021 15:54:08)
+-----------------------------------------------------------
+2022-04-21 20:07:36 Watchdog recovered from CPU lockup!! Please report this error to Frontier Labs.
+2022-04-21 20:07:37 GPS enabled
+2022-04-21 20:07:38 Battery at 96% ( 12.70 V )
+2022-04-21 20:07:38 Schedule loaded
+2022-04-21 20:07:38   Name: 
+2022-04-21 20:07:38   Backup GPS location: None found
+2022-04-21 20:07:38   Number of entries: 1
+2022-04-21 20:07:38   1) "Rec" Start at 00:00 on 7/3/2021 and record for 120 mins at 22050 Hz with FLAC compression every 120 mins until 22:00 every day for as many days as possible
+2022-04-21 20:07:38 SD Card detected in slot 1
+2022-04-21 20:07:39 SD Card :
+2022-04-21 20:07:39   Format type      exFAT
+2022-04-21 20:07:39   Manufacturer ID  40
+2022-04-21 20:07:39   OEM ID           BE
+2022-04-21 20:07:39   Product Name     SD256
+2022-04-21 20:07:39   Product Revision 0.2
+2022-04-21 20:07:39   Serial Number    10559357
+2022-04-21 20:07:39   Manufacture Date 2014/06
+2022-04-21 20:07:39   Speed            50
+2022-04-21 20:07:40   Capacity         250412032
+2022-04-21 20:07:40   Wr Current Vmin  3
+2022-04-21 20:07:40   Wr Current Vmax  3
+2022-04-21 20:07:40   Write Bl Size    512
+2022-04-21 20:07:40   Erase Bl Size    65536
+2022-04-21 20:07:41 No card in SD slot 2.
+2022-04-21 20:07:41 No card in SD slot 3.
+2022-04-21 20:07:41 No card in SD slot 4.
+2022-04-21 20:07:41 Updating clock from the GPS to local time 20:07:42 (UTC+10:00)
+2022-04-21 20:07:41 Preparing for a new recording..
+2022-04-21 20:07:41  - This is the first recording since being turned on.
+2022-04-21 20:07:41  - Pre-allocating 283 MB on SD card.
+2022-04-21 20:07:42 -----------------------------------
+2022-04-21 20:07:42 | New recording started: 0:/20220421/-0000001_20220421T200741+1000_Rec.flac
+2022-04-21 20:07:42 | "Rec" --> 01h52m13s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-21 20:07:42 | Battery: 100% ( 12.82 V Not charging )
+2022-04-21 20:07:42 | Storage: Card 1 ( 235.2GB free of 238.8GB )
+2022-04-21 20:07:42 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-21 20:07:42 -----------------------------------
+2022-04-21 20:07:43 GPS position acquired, waiting to stabilise
+2022-04-21 20:08:12 GPS position lock acquired [-27.61811+152.78101]
+2022-04-21 20:08:12 GPS disabled
+2022-04-21 21:59:57 Recording stopped. 172 MB recorded, 241047 MB remaining on the SD card
+2022-04-21 21:59:57 Total buffer overruns = 0
+2022-04-21 21:59:57 Preparing for a new recording..
+2022-04-21 21:59:58  - Pre-allocating 302 MB on SD card.
+2022-04-21 22:00:00 -----------------------------------
+2022-04-21 22:00:00 | New recording started: 0:/20220421_-27.61811+152.78101/-0000001_20220421T220000+1000_Rec_-27.61811+152.78101.flac
+2022-04-21 22:00:00 | "Rec" --> 01h59m55s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-21 22:00:00 | Battery: 100% ( 12.84 V Not charging )
+2022-04-21 22:00:00 | Storage: Card 1 ( 235.1GB free of 238.8GB )
+2022-04-21 22:00:00 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-21 22:00:00 -----------------------------------
+2022-04-21 23:59:56 Recording stopped. 253 MB recorded, 240794 MB remaining on the SD card
+2022-04-21 23:59:56 Total buffer overruns = 0
+2022-04-21 23:59:56 Preparing for a new recording..
+2022-04-21 23:59:58  - Pre-allocating 302 MB on SD card.
+2022-04-22 00:00:00 -----------------------------------
+2022-04-22 00:00:00 | New recording started: 0:/20220422_-27.61811+152.78101/-0000001_20220422T000000+1000_Rec_-27.61811+152.78101.flac
+2022-04-22 00:00:00 | "Rec" --> 01h59m55s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-22 00:00:00 | Battery: 100% ( 12.82 V Not charging )
+2022-04-22 00:00:00 | Storage: Card 1 ( 234.8GB free of 238.8GB )
+2022-04-22 00:00:00 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-22 00:00:00 -----------------------------------
+2022-04-22 01:59:56 Recording stopped. 168 MB recorded, 240625 MB remaining on the SD card
+2022-04-22 01:59:56 Total buffer overruns = 0
+2022-04-22 01:59:56 Preparing for a new recording..
+2022-04-22 01:59:57 Restarting GPS time sync
+2022-04-22 01:59:57 GPS enabled
+2022-04-22 01:59:58  - Pre-allocating 302 MB on SD card.
+2022-04-22 01:59:58 Updating clock from the GPS to local time 02:00:02 (UTC+10:00)
+2022-04-22 01:59:58 GPS disabled
+2022-04-22 02:00:02 -----------------------------------
+2022-04-22 02:00:02 | New recording started: 0:/20220422_-27.61811+152.78101/-0000001_20220422T020000+1000_Rec_-27.61811+152.78101.flac
+2022-04-22 02:00:02 | "Rec" --> 01h59m53s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-22 02:00:02 | Battery: 100% ( 12.82 V Not charging )
+2022-04-22 02:00:02 | Storage: Card 1 ( 234.6GB free of 238.8GB )
+2022-04-22 02:00:02 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-22 02:00:02 -----------------------------------
+2022-04-22 03:59:56 Recording stopped. 159 MB recorded, 240465 MB remaining on the SD card
+2022-04-22 03:59:56 Total buffer overruns = 0
+2022-04-22 03:59:56 Preparing for a new recording..
+2022-04-22 03:59:57  - Pre-allocating 302 MB on SD card.
+2022-04-22 04:00:00 -----------------------------------
+2022-04-22 04:00:00 | New recording started: 0:/20220422_-27.61811+152.78101/-0000001_20220422T040000+1000_Rec_-27.61811+152.78101.flac
+2022-04-22 04:00:00 | "Rec" --> 01h59m55s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-22 04:00:00 | Battery: 100% ( 12.81 V Not charging )
+2022-04-22 04:00:00 | Storage: Card 1 ( 234.5GB free of 238.8GB )
+2022-04-22 04:00:00 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-22 04:00:00 -----------------------------------
+2022-04-22 05:59:56 Recording stopped. 167 MB recorded, 240298 MB remaining on the SD card
+2022-04-22 05:59:56 Total buffer overruns = 0
+2022-04-22 05:59:56 Preparing for a new recording..
+2022-04-22 05:59:56  - Pre-allocating 302 MB on SD card.
+2022-04-22 06:00:00 -----------------------------------
+2022-04-22 06:00:00 | New recording started: 0:/20220422_-27.61811+152.78101/-0000001_20220422T060000+1000_Rec_-27.61811+152.78101.flac
+2022-04-22 06:00:00 | "Rec" --> 01h59m55s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-22 06:00:00 | Battery: 100% ( 12.80 V Not charging )
+2022-04-22 06:00:00 | Storage: Card 1 ( 234.3GB free of 238.8GB )
+2022-04-22 06:00:00 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-22 06:00:00 -----------------------------------
+2022-04-22 07:59:56 Recording stopped. 193 MB recorded, 240105 MB remaining on the SD card
+2022-04-22 07:59:56 Total buffer overruns = 0
+2022-04-22 07:59:56 Preparing for a new recording..
+2022-04-22 07:59:56  - Pre-allocating 302 MB on SD card.
+2022-04-22 08:00:00 -----------------------------------
+2022-04-22 08:00:00 | New recording started: 0:/20220422_-27.61811+152.78101/-0000001_20220422T080000+1000_Rec_-27.61811+152.78101.flac
+2022-04-22 08:00:00 | "Rec" --> 01h59m55s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-22 08:00:00 | Battery: 100% ( 13.21 V Charging )
+2022-04-22 08:00:00 | Storage: Card 1 ( 234.1GB free of 238.8GB )
+2022-04-22 08:00:00 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-22 08:00:00 -----------------------------------
+2022-04-22 09:59:56 Recording stopped. 194 MB recorded, 239910 MB remaining on the SD card
+2022-04-22 09:59:56 Total buffer overruns = 0
+2022-04-22 09:59:56 Preparing for a new recording..
+2022-04-22 09:59:56  - Pre-allocating 302 MB on SD card.
+2022-04-22 10:00:00 -----------------------------------
+2022-04-22 10:00:00 | New recording started: 0:/20220422_-27.61811+152.78101/-0000001_20220422T100000+1000_Rec_-27.61811+152.78101.flac
+2022-04-22 10:00:00 | "Rec" --> 01h59m55s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-22 10:00:00 | Battery: 100% ( 13.74 V Charging )
+2022-04-22 10:00:00 | Storage: Card 1 ( 233.9GB free of 238.8GB )
+2022-04-22 10:00:00 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-22 10:00:00 -----------------------------------
+
+-----------------------------------------------------------
+ FRONTIER LABS Bioacoustic Audio Recorder 
+ Serial Number: 53373100-38324832-33303330-37353034
+ Config: Mono, Ext-power, Solar-power
+ Firmware: 3.30 (Jul 20 2021 15:54:08)
+-----------------------------------------------------------
+2022-04-22 10:38:00 Watchdog recovered from CPU lockup!! Please report this error to Frontier Labs.
+2022-04-22 10:38:01 GPS enabled
+2022-04-22 10:38:02 Battery at 100% ( 14.03 V )
+2022-04-22 10:38:02 Schedule loaded
+2022-04-22 10:38:02   Name: 
+2022-04-22 10:38:02   Backup GPS location: None found
+2022-04-22 10:38:02   Number of entries: 1
+2022-04-22 10:38:02   1) "Rec" Start at 00:00 on 7/3/2021 and record for 120 mins at 22050 Hz with FLAC compression every 120 mins until 22:00 every day for as many days as possible
+2022-04-22 10:38:02 SD Card detected in slot 1
+2022-04-22 10:38:04 SD Card :
+2022-04-22 10:38:04   Format type      exFAT
+2022-04-22 10:38:04   Manufacturer ID  40
+2022-04-22 10:38:04   OEM ID           BE
+2022-04-22 10:38:04   Product Name     SD256
+2022-04-22 10:38:04   Product Revision 0.2
+2022-04-22 10:38:04   Serial Number    10559357
+2022-04-22 10:38:04   Manufacture Date 2014/06
+2022-04-22 10:38:04   Speed            50
+2022-04-22 10:38:04   Capacity         250412032
+2022-04-22 10:38:04   Wr Current Vmin  3
+2022-04-22 10:38:04   Wr Current Vmax  3
+2022-04-22 10:38:04   Write Bl Size    512
+2022-04-22 10:38:04   Erase Bl Size    65536
+2022-04-22 10:38:06 No card in SD slot 2.
+2022-04-22 10:38:06 No card in SD slot 3.
+2022-04-22 10:38:06 No card in SD slot 4.
+2022-04-22 10:38:06 Updating clock from the GPS to local time 10:38:05 (UTC+10:00)
+2022-04-22 10:38:06 Preparing for a new recording..
+2022-04-22 10:38:06  - This is the first recording since being turned on.
+2022-04-22 10:38:05  - Pre-allocating 206 MB on SD card.
+2022-04-22 10:38:05 -----------------------------------
+2022-04-22 10:38:05 | New recording started: 0:/20220422/-0000001_20220422T103806+1000_Rec.flac
+2022-04-22 10:38:05 | "Rec" --> 01h21m50s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-22 10:38:05 | Battery: 100% ( 14.03 V Charging )
+2022-04-22 10:38:05 | Storage: Card 1 ( 233.7GB free of 238.8GB )
+2022-04-22 10:38:05 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-22 10:38:05 -----------------------------------
+2022-04-22 10:39:47 GPS position acquired, waiting to stabilise
+2022-04-22 10:40:17 GPS position lock acquired [-27.61811+152.78105]
+2022-04-22 10:40:17 GPS disabled
+2022-04-22 11:59:58 Recording stopped. 140 MB recorded, 239467 MB remaining on the SD card
+2022-04-22 11:59:58 Total buffer overruns = 0
+2022-04-22 11:59:58 Preparing for a new recording..
+2022-04-22 12:00:00  - Pre-allocating 302 MB on SD card.
+2022-04-22 12:00:00 -----------------------------------
+2022-04-22 12:00:00 | New recording started: 0:/20220422_-27.61811+152.78105/-0000001_20220422T120000+1000_Rec_-27.61811+152.78105.flac
+2022-04-22 12:00:00 | "Rec" --> 01h59m55s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-22 12:00:01 | Battery: 100% ( 13.93 V Charging )
+2022-04-22 12:00:01 | Storage: Card 1 ( 233.5GB free of 238.8GB )
+2022-04-22 12:00:01 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-22 12:00:01 -----------------------------------
+2022-04-22 13:59:57 Recording stopped. 205 MB recorded, 239261 MB remaining on the SD card
+2022-04-22 13:59:57 Total buffer overruns = 0
+2022-04-22 13:59:57 Preparing for a new recording..
+2022-04-22 13:59:57  - Pre-allocating 302 MB on SD card.
+2022-04-22 14:00:00 -----------------------------------
+2022-04-22 14:00:00 | New recording started: 0:/20220422_-27.61811+152.78105/-0000001_20220422T140000+1000_Rec_-27.61811+152.78105.flac
+2022-04-22 14:00:00 | "Rec" --> 01h59m55s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-22 14:00:00 | Battery: 100% ( 13.87 V Charging )
+2022-04-22 14:00:00 | Storage: Card 1 ( 233.3GB free of 238.8GB )
+2022-04-22 14:00:00 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-22 14:00:00 -----------------------------------
+2022-04-22 15:59:56 Recording stopped. 206 MB recorded, 239055 MB remaining on the SD card
+2022-04-22 15:59:56 Total buffer overruns = 0
+2022-04-22 15:59:56 Preparing for a new recording..
+2022-04-22 15:59:57  - Pre-allocating 302 MB on SD card.
+2022-04-22 16:00:00 -----------------------------------
+2022-04-22 16:00:00 | New recording started: 0:/20220422_-27.61811+152.78105/-0000001_20220422T160000+1000_Rec_-27.61811+152.78105.flac
+2022-04-22 16:00:00 | "Rec" --> 01h59m55s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-22 16:00:00 | Battery: 100% ( 13.39 V Charging )
+2022-04-22 16:00:00 | Storage: Card 1 ( 233.1GB free of 238.8GB )
+2022-04-22 16:00:00 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-22 16:00:00 -----------------------------------
+2022-04-22 17:59:56 Recording stopped. 200 MB recorded, 238854 MB remaining on the SD card
+2022-04-22 17:59:56 Total buffer overruns = 0
+2022-04-22 17:59:56 Preparing for a new recording..
+2022-04-22 17:59:57  - Pre-allocating 302 MB on SD card.
+2022-04-22 18:00:00 -----------------------------------
+2022-04-22 18:00:00 | New recording started: 0:/20220422_-27.61811+152.78105/-0000001_20220422T180000+1000_Rec_-27.61811+152.78105.flac
+2022-04-22 18:00:00 | "Rec" --> 01h59m55s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-22 18:00:00 | Battery: 100% ( 13.00 V Not charging )
+2022-04-22 18:00:00 | Storage: Card 1 ( 232.9GB free of 238.8GB )
+2022-04-22 18:00:00 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-22 18:00:00 -----------------------------------
+
+-----------------------------------------------------------
+ FRONTIER LABS Bioacoustic Audio Recorder 
+ Serial Number: 53373100-38324832-33303330-37353034
+ Config: Mono, Ext-power, Solar-power
+ Firmware: 3.30 (Jul 20 2021 15:54:08)
+-----------------------------------------------------------
+2022-04-22 18:53:20 Watchdog recovered from CPU lockup!! Please report this error to Frontier Labs.
+2022-04-22 18:53:20 GPS enabled
+2022-04-22 18:53:21 Battery at 100% ( 12.81 V )
+2022-04-22 18:53:21 Schedule loaded
+2022-04-22 18:53:21   Name: 
+2022-04-22 18:53:21   Backup GPS location: None found
+2022-04-22 18:53:21   Number of entries: 1
+2022-04-22 18:53:21   1) "Rec" Start at 00:00 on 7/3/2021 and record for 120 mins at 22050 Hz with FLAC compression every 120 mins until 22:00 every day for as many days as possible
+2022-04-22 18:53:21 SD Card detected in slot 1
+2022-04-22 18:53:23 SD Card :
+2022-04-22 18:53:23   Format type      exFAT
+2022-04-22 18:53:23   Manufacturer ID  40
+2022-04-22 18:53:23   OEM ID           BE
+2022-04-22 18:53:23   Product Name     SD256
+2022-04-22 18:53:23   Product Revision 0.2
+2022-04-22 18:53:23   Serial Number    10559357
+2022-04-22 18:53:23   Manufacture Date 2014/06
+2022-04-22 18:53:23   Speed            50
+2022-04-22 18:53:24   Capacity         250412032
+2022-04-22 18:53:24   Wr Current Vmin  3
+2022-04-22 18:53:24   Wr Current Vmax  3
+2022-04-22 18:53:24   Write Bl Size    512
+2022-04-22 18:53:24   Erase Bl Size    65536
+2022-04-22 18:53:25 No card in SD slot 2.
+2022-04-22 18:53:25 No card in SD slot 3.
+2022-04-22 18:53:25 No card in SD slot 4.
+2022-04-22 18:53:25 Updating clock from the GPS to local time 18:53:21 (UTC+10:00)
+2022-04-22 18:53:25 Preparing for a new recording..
+2022-04-22 18:53:25  - This is the first recording since being turned on.
+2022-04-22 18:53:25  - Pre-allocating 167 MB on SD card.
+2022-04-22 18:53:25 -----------------------------------
+2022-04-22 18:53:25 | New recording started: 0:/20220422/-0000001_20220422T185325+1000_Rec.flac
+2022-04-22 18:53:25 | "Rec" --> 01h06m30s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-22 18:53:26 | Battery: 100% ( 12.97 V Not charging )
+2022-04-22 18:53:26 | Storage: Card 1 ( 232.7GB free of 238.8GB )
+2022-04-22 18:53:26 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-22 18:53:26 -----------------------------------
+2022-04-22 18:53:21 Updating the current recording to 01:06:34 remaining
+2022-04-22 18:53:56 GPS position acquired, waiting to stabilise
+2022-04-22 18:54:26 GPS position lock acquired [-27.61809+152.78119]
+2022-04-22 18:54:26 GPS disabled
+2022-04-22 19:59:57 Recording stopped. 101 MB recorded, 238450 MB remaining on the SD card
+2022-04-22 19:59:57 Total buffer overruns = 0
+2022-04-22 19:59:57 Preparing for a new recording..
+2022-04-22 19:59:58  - Pre-allocating 302 MB on SD card.
+2022-04-22 20:00:00 -----------------------------------
+2022-04-22 20:00:00 | New recording started: 0:/20220422_-27.61809+152.78119/-0000001_20220422T200000+1000_Rec_-27.61809+152.78119.flac
+2022-04-22 20:00:00 | "Rec" --> 01h59m55s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-22 20:00:00 | Battery: 100% ( 12.97 V Not charging )
+2022-04-22 20:00:00 | Storage: Card 1 ( 232.5GB free of 238.8GB )
+2022-04-22 20:00:00 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-22 20:00:00 -----------------------------------
+2022-04-22 21:59:56 Recording stopped. 181 MB recorded, 238268 MB remaining on the SD card
+2022-04-22 21:59:56 Total buffer overruns = 0
+2022-04-22 21:59:56 Preparing for a new recording..
+2022-04-22 21:59:56  - Pre-allocating 302 MB on SD card.
+2022-04-22 22:00:00 -----------------------------------
+2022-04-22 22:00:00 | New recording started: 0:/20220422_-27.61809+152.78119/-0000001_20220422T220000+1000_Rec_-27.61809+152.78119.flac
+2022-04-22 22:00:00 | "Rec" --> 01h59m55s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-22 22:00:00 | Battery: 100% ( 12.94 V Not charging )
+2022-04-22 22:00:00 | Storage: Card 1 ( 232.3GB free of 238.8GB )
+2022-04-22 22:00:00 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-22 22:00:00 -----------------------------------
+2022-04-22 23:59:56 Recording stopped. 173 MB recorded, 238094 MB remaining on the SD card
+2022-04-22 23:59:56 Total buffer overruns = 0
+2022-04-22 23:59:56 Preparing for a new recording..
+2022-04-22 23:59:57  - Pre-allocating 302 MB on SD card.
+2022-04-23 00:00:00 -----------------------------------
+2022-04-23 00:00:00 | New recording started: 0:/20220423_-27.61809+152.78119/-0000001_20220423T000000+1000_Rec_-27.61809+152.78119.flac
+2022-04-23 00:00:00 | "Rec" --> 01h59m55s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-23 00:00:00 | Battery: 100% ( 12.93 V Not charging )
+2022-04-23 00:00:00 | Storage: Card 1 ( 232.2GB free of 238.8GB )
+2022-04-23 00:00:00 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-23 00:00:00 -----------------------------------
+2022-04-23 01:59:56 Recording stopped. 185 MB recorded, 237909 MB remaining on the SD card
+2022-04-23 01:59:56 Total buffer overruns = 0
+2022-04-23 01:59:56 Preparing for a new recording..
+2022-04-23 01:59:56 Restarting GPS time sync
+2022-04-23 01:59:57 GPS enabled
+2022-04-23 01:59:57  - Pre-allocating 302 MB on SD card.
+2022-04-23 01:59:57 Updating clock from the GPS to local time 02:00:02 (UTC+10:00)
+2022-04-23 01:59:57 GPS disabled
+2022-04-23 02:00:02 -----------------------------------
+2022-04-23 02:00:02 | New recording started: 0:/20220423_-27.61809+152.78119/-0000001_20220423T020000+1000_Rec_-27.61809+152.78119.flac
+2022-04-23 02:00:02 | "Rec" --> 01h59m53s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-23 02:00:02 | Battery: 100% ( 12.91 V Not charging )
+2022-04-23 02:00:02 | Storage: Card 1 ( 232GB free of 238.8GB )
+2022-04-23 02:00:02 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-23 02:00:02 -----------------------------------
+2022-04-23 03:59:56 Recording stopped. 183 MB recorded, 237725 MB remaining on the SD card
+2022-04-23 03:59:56 Total buffer overruns = 0
+2022-04-23 03:59:56 Preparing for a new recording..
+2022-04-23 03:59:57  - Pre-allocating 302 MB on SD card.
+2022-04-23 04:00:00 -----------------------------------
+2022-04-23 04:00:00 | New recording started: 0:/20220423_-27.61809+152.78119/-0000001_20220423T040000+1000_Rec_-27.61809+152.78119.flac
+2022-04-23 04:00:00 | "Rec" --> 01h59m55s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-23 04:00:00 | Battery: 100% ( 12.90 V Not charging )
+2022-04-23 04:00:00 | Storage: Card 1 ( 231.8GB free of 238.8GB )
+2022-04-23 04:00:00 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-23 04:00:00 -----------------------------------
+2022-04-23 05:59:56 Recording stopped. 175 MB recorded, 237550 MB remaining on the SD card
+2022-04-23 05:59:56 Total buffer overruns = 0
+2022-04-23 05:59:56 Preparing for a new recording..
+2022-04-23 05:59:56  - Pre-allocating 302 MB on SD card.
+2022-04-23 06:00:00 -----------------------------------
+2022-04-23 06:00:00 | New recording started: 0:/20220423_-27.61809+152.78119/-0000001_20220423T060000+1000_Rec_-27.61809+152.78119.flac
+2022-04-23 06:00:00 | "Rec" --> 01h59m55s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-23 06:00:00 | Battery: 100% ( 12.89 V Not charging )
+2022-04-23 06:00:00 | Storage: Card 1 ( 231.6GB free of 238.8GB )
+2022-04-23 06:00:00 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-23 06:00:00 -----------------------------------
+2022-04-23 07:59:56 Recording stopped. 185 MB recorded, 237364 MB remaining on the SD card
+2022-04-23 07:59:56 Total buffer overruns = 0
+2022-04-23 07:59:56 Preparing for a new recording..
+2022-04-23 07:59:57  - Pre-allocating 302 MB on SD card.
+2022-04-23 08:00:00 -----------------------------------
+2022-04-23 08:00:00 | New recording started: 0:/20220423_-27.61809+152.78119/-0000001_20220423T080000+1000_Rec_-27.61809+152.78119.flac
+2022-04-23 08:00:00 | "Rec" --> 01h59m55s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-23 08:00:00 | Battery: 100% ( 13.17 V Charging )
+2022-04-23 08:00:00 | Storage: Card 1 ( 231.5GB free of 238.8GB )
+2022-04-23 08:00:00 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-23 08:00:00 -----------------------------------
+2022-04-23 09:59:56 Recording stopped. 206 MB recorded, 237157 MB remaining on the SD card
+2022-04-23 09:59:56 Total buffer overruns = 0
+2022-04-23 09:59:56 Preparing for a new recording..
+2022-04-23 09:59:56  - Pre-allocating 302 MB on SD card.
+2022-04-23 10:00:00 -----------------------------------
+2022-04-23 10:00:00 | New recording started: 0:/20220423_-27.61809+152.78119/-0000001_20220423T100000+1000_Rec_-27.61809+152.78119.flac
+2022-04-23 10:00:00 | "Rec" --> 01h59m55s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-23 10:00:00 | Battery: 100% ( 13.85 V Charge complete )
+2022-04-23 10:00:00 | Storage: Card 1 ( 231.3GB free of 238.8GB )
+2022-04-23 10:00:00 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-23 10:00:00 -----------------------------------
+2022-04-23 11:59:56 Recording stopped. 206 MB recorded, 236951 MB remaining on the SD card
+2022-04-23 11:59:56 Total buffer overruns = 0
+2022-04-23 11:59:56 Preparing for a new recording..
+2022-04-23 11:59:56  - Pre-allocating 302 MB on SD card.
+2022-04-23 12:00:00 -----------------------------------
+2022-04-23 12:00:00 | New recording started: 0:/20220423_-27.61809+152.78119/-0000001_20220423T120000+1000_Rec_-27.61809+152.78119.flac
+2022-04-23 12:00:00 | "Rec" --> 01h59m55s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-23 12:00:00 | Battery: 100% ( 14.03 V Charging )
+2022-04-23 12:00:00 | Storage: Card 1 ( 231.1GB free of 238.8GB )
+2022-04-23 12:00:00 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-23 12:00:00 -----------------------------------
+2022-04-23 13:59:56 Recording stopped. 209 MB recorded, 236741 MB remaining on the SD card
+2022-04-23 13:59:56 Total buffer overruns = 0
+2022-04-23 13:59:56 Preparing for a new recording..
+2022-04-23 13:59:56  - Pre-allocating 302 MB on SD card.
+2022-04-23 14:00:00 -----------------------------------
+2022-04-23 14:00:00 | New recording started: 0:/20220423_-27.61809+152.78119/-0000001_20220423T140000+1000_Rec_-27.61809+152.78119.flac
+2022-04-23 14:00:00 | "Rec" --> 01h59m55s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-23 14:00:00 | Battery: 100% ( 14.03 V Charging )
+2022-04-23 14:00:00 | Storage: Card 1 ( 230.8GB free of 238.8GB )
+2022-04-23 14:00:00 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-23 14:00:00 -----------------------------------
+2022-04-23 15:59:56 Recording stopped. 206 MB recorded, 236534 MB remaining on the SD card
+2022-04-23 15:59:56 Total buffer overruns = 0
+2022-04-23 15:59:56 Preparing for a new recording..
+2022-04-23 15:59:56  - Pre-allocating 302 MB on SD card.
+2022-04-23 16:00:00 -----------------------------------
+2022-04-23 16:00:00 | New recording started: 0:/20220423_-27.61809+152.78119/-0000001_20220423T160000+1000_Rec_-27.61809+152.78119.flac
+2022-04-23 16:00:00 | "Rec" --> 01h59m55s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-23 16:00:00 | Battery: 100% ( 13.44 V Charging )
+2022-04-23 16:00:00 | Storage: Card 1 ( 230.6GB free of 238.8GB )
+2022-04-23 16:00:00 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-23 16:00:00 -----------------------------------
+2022-04-23 17:59:56 Recording stopped. 206 MB recorded, 236328 MB remaining on the SD card
+2022-04-23 17:59:56 Total buffer overruns = 0
+2022-04-23 17:59:56 Preparing for a new recording..
+2022-04-23 17:59:56  - Pre-allocating 302 MB on SD card.
+2022-04-23 18:00:00 -----------------------------------
+2022-04-23 18:00:00 | New recording started: 0:/20220423_-27.61809+152.78119/-0000001_20220423T180000+1000_Rec_-27.61809+152.78119.flac
+2022-04-23 18:00:00 | "Rec" --> 01h59m55s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-23 18:00:00 | Battery: 100% ( 13.03 V Not charging )
+2022-04-23 18:00:00 | Storage: Card 1 ( 230.4GB free of 238.8GB )
+2022-04-23 18:00:00 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-23 18:00:00 -----------------------------------
+
+-----------------------------------------------------------
+ FRONTIER LABS Bioacoustic Audio Recorder 
+ Serial Number: 53373100-38324832-33303330-37353034
+ Config: Mono, Ext-power, Solar-power
+ Firmware: 3.30 (Jul 20 2021 15:54:08)
+-----------------------------------------------------------
+2022-04-23 18:19:13 Watchdog recovered from CPU lockup!! Please report this error to Frontier Labs.
+2022-04-23 18:19:14 GPS enabled
+2022-04-23 18:19:15 Battery at 100% ( 12.86 V )
+2022-04-23 18:19:15 Schedule loaded
+2022-04-23 18:19:15   Name: 
+2022-04-23 18:19:15   Backup GPS location: None found
+2022-04-23 18:19:15   Number of entries: 1
+2022-04-23 18:19:15   1) "Rec" Start at 00:00 on 7/3/2021 and record for 120 mins at 22050 Hz with FLAC compression every 120 mins until 22:00 every day for as many days as possible
+2022-04-23 18:19:15 SD Card detected in slot 1
+2022-04-23 18:19:17 SD Card :
+2022-04-23 18:19:17   Format type      exFAT
+2022-04-23 18:19:17   Manufacturer ID  40
+2022-04-23 18:19:17   OEM ID           BE
+2022-04-23 18:19:17   Product Name     SD256
+2022-04-23 18:19:17   Product Revision 0.2
+2022-04-23 18:19:17   Serial Number    10559357
+2022-04-23 18:19:17   Manufacture Date 2014/06
+2022-04-23 18:19:17   Speed            50
+2022-04-23 18:19:17   Capacity         250412032
+2022-04-23 18:19:17   Wr Current Vmin  3
+2022-04-23 18:19:17   Wr Current Vmax  3
+2022-04-23 18:19:17   Write Bl Size    512
+2022-04-23 18:19:17   Erase Bl Size    65536
+2022-04-23 18:19:18 No card in SD slot 2.
+2022-04-23 18:19:18 No card in SD slot 3.
+2022-04-23 18:19:18 No card in SD slot 4.
+2022-04-23 18:19:18 Updating clock from the GPS to local time 18:19:13 (UTC+10:00)
+2022-04-23 18:19:19 Preparing for a new recording..
+2022-04-23 18:19:19  - This is the first recording since being turned on.
+2022-04-23 18:19:14  - Pre-allocating 253 MB on SD card.
+2022-04-23 18:19:14 -----------------------------------
+2022-04-23 18:19:14 | New recording started: 0:/20220423/-0000001_20220423T181919+1000_Rec.flac
+2022-04-23 18:19:14 | "Rec" --> 01h40m41s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-23 18:19:14 | Battery: 100% ( 12.99 V Not charging )
+2022-04-23 18:19:14 | Storage: Card 1 ( 230.2GB free of 238.8GB )
+2022-04-23 18:19:14 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-23 18:19:14 -----------------------------------
+2022-04-23 18:20:15 GPS position acquired, waiting to stabilise
+2022-04-23 18:20:45 GPS position lock acquired [-27.61819+152.78118]
+2022-04-23 18:20:45 GPS disabled
+
+-----------------------------------------------------------
+ FRONTIER LABS Bioacoustic Audio Recorder 
+ Serial Number: 53373100-38324832-33303330-37353034
+ Config: Mono, Ext-power, Solar-power
+ Firmware: 3.30 (Jul 20 2021 15:54:08)
+-----------------------------------------------------------
+2022-04-23 18:26:03 Watchdog recovered from CPU lockup!! Please report this error to Frontier Labs.
+2022-04-23 18:26:04 GPS enabled
+2022-04-23 18:26:05 Battery at 100% ( 12.88 V )
+2022-04-23 18:26:05 Schedule loaded
+2022-04-23 18:26:05   Name: 
+2022-04-23 18:26:05   Backup GPS location: None found
+2022-04-23 18:26:05   Number of entries: 1
+2022-04-23 18:26:05   1) "Rec" Start at 00:00 on 7/3/2021 and record for 120 mins at 22050 Hz with FLAC compression every 120 mins until 22:00 every day for as many days as possible
+2022-04-23 18:26:05 SD Card detected in slot 1
+2022-04-23 18:26:06 SD Card :
+2022-04-23 18:26:06   Format type      exFAT
+2022-04-23 18:26:06   Manufacturer ID  40
+2022-04-23 18:26:06   OEM ID           BE
+2022-04-23 18:26:07   Product Name     SD256
+2022-04-23 18:26:07   Product Revision 0.2
+2022-04-23 18:26:07   Serial Number    10559357
+2022-04-23 18:26:07   Manufacture Date 2014/06
+2022-04-23 18:26:07   Speed            50
+2022-04-23 18:26:07   Capacity         250412032
+2022-04-23 18:26:07   Wr Current Vmin  3
+2022-04-23 18:26:07   Wr Current Vmax  3
+2022-04-23 18:26:07   Write Bl Size    512
+2022-04-23 18:26:07   Erase Bl Size    65536
+2022-04-23 18:26:08 No card in SD slot 2.
+2022-04-23 18:26:08 No card in SD slot 3.
+2022-04-23 18:26:08 No card in SD slot 4.
+2022-04-23 18:26:08 Updating clock from the GPS to local time 18:26:08 (UTC+10:00)
+2022-04-23 18:26:08 GPS position acquired, waiting to stabilise
+2022-04-23 18:26:09 Preparing for a new recording..
+2022-04-23 18:26:09  - This is the first recording since being turned on.
+2022-04-23 18:26:08  - Pre-allocating 236 MB on SD card.
+2022-04-23 18:26:08 -----------------------------------
+2022-04-23 18:26:08 | New recording started: 0:/20220423/-0000001_20220423T182609+1000_Rec.flac
+2022-04-23 18:26:08 | "Rec" --> 01h33m47s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-23 18:26:08 | Battery: 100% ( 12.98 V Not charging )
+2022-04-23 18:26:08 | Storage: Card 1 ( 230.2GB free of 238.8GB )
+2022-04-23 18:26:08 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-23 18:26:08 -----------------------------------
+2022-04-23 18:26:38 GPS position lock acquired [-27.61815+152.78112]
+2022-04-23 18:26:38 GPS disabled
+2022-04-23 19:59:58 Recording stopped. 153 MB recorded, 235872 MB remaining on the SD card
+2022-04-23 19:59:58 Total buffer overruns = 0
+2022-04-23 19:59:58 Preparing for a new recording..
+2022-04-23 20:00:00  - Pre-allocating 302 MB on SD card.
+2022-04-23 20:00:00 -----------------------------------
+2022-04-23 20:00:00 | New recording started: 0:/20220423_-27.61815+152.78111/-0000001_20220423T200000+1000_Rec_-27.61815+152.78111.flac
+2022-04-23 20:00:00 | "Rec" --> 01h59m55s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-23 20:00:00 | Battery: 100% ( 12.96 V Not charging )
+2022-04-23 20:00:00 | Storage: Card 1 ( 230GB free of 238.8GB )
+2022-04-23 20:00:00 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-23 20:00:00 -----------------------------------
+2022-04-23 21:59:56 Recording stopped. 197 MB recorded, 235674 MB remaining on the SD card
+2022-04-23 21:59:56 Total buffer overruns = 0
+2022-04-23 21:59:56 Preparing for a new recording..
+2022-04-23 21:59:56  - Pre-allocating 302 MB on SD card.
+2022-04-23 22:00:00 -----------------------------------
+2022-04-23 22:00:00 | New recording started: 0:/20220423_-27.61815+152.78111/-0000001_20220423T220000+1000_Rec_-27.61815+152.78111.flac
+2022-04-23 22:00:00 | "Rec" --> 01h59m55s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-23 22:00:00 | Battery: 100% ( 12.97 V Not charging )
+2022-04-23 22:00:00 | Storage: Card 1 ( 229.8GB free of 238.8GB )
+2022-04-23 22:00:00 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-23 22:00:00 -----------------------------------
+2022-04-23 23:59:56 Recording stopped. 185 MB recorded, 235489 MB remaining on the SD card
+2022-04-23 23:59:56 Total buffer overruns = 0
+2022-04-23 23:59:56 Preparing for a new recording..
+2022-04-23 23:59:57  - Pre-allocating 302 MB on SD card.
+2022-04-24 00:00:00 -----------------------------------
+2022-04-24 00:00:00 | New recording started: 0:/20220424_-27.61815+152.78111/-0000001_20220424T000000+1000_Rec_-27.61815+152.78111.flac
+2022-04-24 00:00:00 | "Rec" --> 01h59m55s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-24 00:00:00 | Battery: 100% ( 12.94 V Not charging )
+2022-04-24 00:00:00 | Storage: Card 1 ( 229.6GB free of 238.8GB )
+2022-04-24 00:00:00 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-24 00:00:00 -----------------------------------
+2022-04-24 01:59:56 Recording stopped. 183 MB recorded, 235305 MB remaining on the SD card
+2022-04-24 01:59:56 Total buffer overruns = 0
+2022-04-24 01:59:56 Preparing for a new recording..
+2022-04-24 01:59:56 Restarting GPS time sync
+2022-04-24 01:59:57 GPS enabled
+2022-04-24 01:59:57  - Pre-allocating 302 MB on SD card.
+2022-04-24 01:59:57 Updating clock from the GPS to local time 02:00:01 (UTC+10:00)
+2022-04-24 01:59:57 GPS disabled
+2022-04-24 02:00:01 -----------------------------------
+2022-04-24 02:00:01 | New recording started: 0:/20220424_-27.61815+152.78111/-0000001_20220424T020000+1000_Rec_-27.61815+152.78111.flac
+2022-04-24 02:00:01 | "Rec" --> 01h59m54s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-24 02:00:01 | Battery: 100% ( 12.90 V Not charging )
+2022-04-24 02:00:01 | Storage: Card 1 ( 229.4GB free of 238.8GB )
+2022-04-24 02:00:01 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-24 02:00:01 -----------------------------------
+
+-----------------------------------------------------------
+ FRONTIER LABS Bioacoustic Audio Recorder 
+ Serial Number: 53373100-38324832-33303330-37353034
+ Config: Mono, Ext-power, Solar-power
+ Firmware: 3.30 (Jul 20 2021 15:54:08)
+-----------------------------------------------------------
+2022-04-24 03:30:49 Watchdog recovered from CPU lockup!! Please report this error to Frontier Labs.
+2022-04-24 03:30:50 GPS enabled
+2022-04-24 03:30:51 Battery at 99% ( 12.74 V )
+2022-04-24 03:30:51 Schedule loaded
+2022-04-24 03:30:51   Name: 
+2022-04-24 03:30:51   Backup GPS location: None found
+2022-04-24 03:30:51   Number of entries: 1
+2022-04-24 03:30:51   1) "Rec" Start at 00:00 on 7/3/2021 and record for 120 mins at 22050 Hz with FLAC compression every 120 mins until 22:00 every day for as many days as possible
+2022-04-24 03:30:51 SD Card detected in slot 1
+2022-04-24 03:30:53 SD Card :
+2022-04-24 03:30:53   Format type      exFAT
+2022-04-24 03:30:53   Manufacturer ID  40
+2022-04-24 03:30:53   OEM ID           BE
+2022-04-24 03:30:53   Product Name     SD256
+2022-04-24 03:30:53   Product Revision 0.2
+2022-04-24 03:30:53   Serial Number    10559357
+2022-04-24 03:30:53   Manufacture Date 2014/06
+2022-04-24 03:30:53   Speed            50
+2022-04-24 03:30:53   Capacity         250412032
+2022-04-24 03:30:53   Wr Current Vmin  3
+2022-04-24 03:30:53   Wr Current Vmax  3
+2022-04-24 03:30:53   Write Bl Size    512
+2022-04-24 03:30:53   Erase Bl Size    65536
+2022-04-24 03:30:54 No card in SD slot 2.
+2022-04-24 03:30:54 No card in SD slot 3.
+2022-04-24 03:30:54 No card in SD slot 4.
+2022-04-24 03:30:54 Updating clock from the GPS to local time 03:30:51 (UTC+10:00)
+2022-04-24 03:30:54 Preparing for a new recording..
+2022-04-24 03:30:54  - This is the first recording since being turned on.
+2022-04-24 03:30:52  - Pre-allocating 73 MB on SD card.
+2022-04-24 03:30:52 -----------------------------------
+2022-04-24 03:30:52 | New recording started: 0:/20220424/-0000001_20220424T033054+1000_Rec.flac
+2022-04-24 03:30:52 | "Rec" --> 00h29m03s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-24 03:30:52 | Battery: 100% ( 12.88 V Not charging )
+2022-04-24 03:30:52 | Storage: Card 1 ( 229.4GB free of 238.8GB )
+2022-04-24 03:30:52 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-24 03:30:52 -----------------------------------
+2022-04-24 03:31:25 GPS position acquired, waiting to stabilise
+2022-04-24 03:31:56 GPS position lock acquired [-27.61808+152.78114]
+2022-04-24 03:31:56 GPS disabled
+2022-04-24 03:59:57 Recording stopped. 42 MB recorded, 234959 MB remaining on the SD card
+2022-04-24 03:59:57 Total buffer overruns = 0
+2022-04-24 03:59:57 Preparing for a new recording..
+2022-04-24 03:59:59  - Pre-allocating 302 MB on SD card.
+2022-04-24 04:00:00 -----------------------------------
+2022-04-24 04:00:00 | New recording started: 0:/20220424_-27.61808+152.78114/-0000001_20220424T040000+1000_Rec_-27.61808+152.78114.flac
+2022-04-24 04:00:00 | "Rec" --> 01h59m55s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-24 04:00:00 | Battery: 100% ( 12.90 V Not charging )
+2022-04-24 04:00:00 | Storage: Card 1 ( 229.1GB free of 238.8GB )
+2022-04-24 04:00:00 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-24 04:00:00 -----------------------------------
+2022-04-24 05:59:56 Recording stopped. 171 MB recorded, 234788 MB remaining on the SD card
+2022-04-24 05:59:56 Total buffer overruns = 0
+2022-04-24 05:59:56 Preparing for a new recording..
+2022-04-24 05:59:56  - Pre-allocating 302 MB on SD card.
+2022-04-24 06:00:00 -----------------------------------
+2022-04-24 06:00:00 | New recording started: 0:/20220424_-27.61808+152.78114/-0000001_20220424T060000+1000_Rec_-27.61808+152.78114.flac
+2022-04-24 06:00:00 | "Rec" --> 01h59m55s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-24 06:00:00 | Battery: 100% ( 12.89 V Not charging )
+2022-04-24 06:00:00 | Storage: Card 1 ( 228.9GB free of 238.8GB )
+2022-04-24 06:00:00 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-24 06:00:00 -----------------------------------
+2022-04-24 07:59:56 Recording stopped. 190 MB recorded, 234598 MB remaining on the SD card
+2022-04-24 07:59:56 Total buffer overruns = 0
+2022-04-24 07:59:56 Preparing for a new recording..
+2022-04-24 07:59:57  - Pre-allocating 302 MB on SD card.
+2022-04-24 08:00:00 -----------------------------------
+2022-04-24 08:00:00 | New recording started: 0:/20220424_-27.61808+152.78114/-0000001_20220424T080000+1000_Rec_-27.61808+152.78114.flac
+2022-04-24 08:00:00 | "Rec" --> 01h59m55s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-24 08:00:00 | Battery: 100% ( 12.90 V Charging )
+2022-04-24 08:00:00 | Storage: Card 1 ( 228.7GB free of 238.8GB )
+2022-04-24 08:00:00 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-24 08:00:00 -----------------------------------
+
+-----------------------------------------------------------
+ FRONTIER LABS Bioacoustic Audio Recorder 
+ Serial Number: 53373100-38324832-33303330-37353034
+ Config: Mono, Ext-power, Solar-power
+ Firmware: 3.30 (Jul 20 2021 15:54:08)
+-----------------------------------------------------------
+2022-04-24 08:44:19 Watchdog recovered from CPU lockup!! Please report this error to Frontier Labs.
+2022-04-24 08:44:20 GPS enabled
+2022-04-24 08:44:21 Battery at 100% ( 13.46 V )
+2022-04-24 08:44:21 Schedule loaded
+2022-04-24 08:44:21   Name: 
+2022-04-24 08:44:21   Backup GPS location: None found
+2022-04-24 08:44:21   Number of entries: 1
+2022-04-24 08:44:21   1) "Rec" Start at 00:00 on 7/3/2021 and record for 120 mins at 22050 Hz with FLAC compression every 120 mins until 22:00 every day for as many days as possible
+2022-04-24 08:44:21 SD Card detected in slot 1
+2022-04-24 08:44:23 SD Card :
+2022-04-24 08:44:23   Format type      exFAT
+2022-04-24 08:44:23   Manufacturer ID  40
+2022-04-24 08:44:23   OEM ID           BE
+2022-04-24 08:44:23   Product Name     SD256
+2022-04-24 08:44:23   Product Revision 0.2
+2022-04-24 08:44:23   Serial Number    10559357
+2022-04-24 08:44:23   Manufacture Date 2014/06
+2022-04-24 08:44:23   Speed            50
+2022-04-24 08:44:23   Capacity         250412032
+2022-04-24 08:44:23   Wr Current Vmin  3
+2022-04-24 08:44:23   Wr Current Vmax  3
+2022-04-24 08:44:23   Write Bl Size    512
+2022-04-24 08:44:23   Erase Bl Size    65536
+2022-04-24 08:44:25 No card in SD slot 2.
+2022-04-24 08:44:25 No card in SD slot 3.
+2022-04-24 08:44:25 No card in SD slot 4.
+2022-04-24 08:44:25 Updating clock from the GPS to local time 08:44:25 (UTC+10:00)
+2022-04-24 08:44:26 Preparing for a new recording..
+2022-04-24 08:44:26  - This is the first recording since being turned on.
+2022-04-24 08:44:25  - Pre-allocating 190 MB on SD card.
+2022-04-24 08:44:25 -----------------------------------
+2022-04-24 08:44:25 | New recording started: 0:/20220424/-0000001_20220424T084425+1000_Rec.flac
+2022-04-24 08:44:25 | "Rec" --> 01h15m30s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-24 08:44:25 | Battery: 100% ( 13.62 V Charging )
+2022-04-24 08:44:25 | Storage: Card 1 ( 228.6GB free of 238.8GB )
+2022-04-24 08:44:25 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-24 08:44:26 -----------------------------------
+2022-04-24 08:44:55 GPS position acquired, waiting to stabilise
+2022-04-24 08:45:26 GPS position lock acquired [-27.61811+152.78113]
+2022-04-24 08:45:26 GPS disabled
+2022-04-24 09:59:58 Recording stopped. 124 MB recorded, 234170 MB remaining on the SD card
+2022-04-24 09:59:58 Total buffer overruns = 0
+2022-04-24 09:59:58 Preparing for a new recording..
+2022-04-24 10:00:00  - Pre-allocating 302 MB on SD card.
+2022-04-24 10:00:00 -----------------------------------
+2022-04-24 10:00:00 | New recording started: 0:/20220424_-27.61811+152.78113/-0000001_20220424T100000+1000_Rec_-27.61811+152.78113.flac
+2022-04-24 10:00:00 | "Rec" --> 01h59m55s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-24 10:00:00 | Battery: 100% ( 14.03 V Charging )
+2022-04-24 10:00:00 | Storage: Card 1 ( 228.3GB free of 238.8GB )
+2022-04-24 10:00:00 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-24 10:00:00 -----------------------------------
+2022-04-24 11:59:56 Recording stopped. 221 MB recorded, 233949 MB remaining on the SD card
+2022-04-24 11:59:56 Total buffer overruns = 0
+2022-04-24 11:59:56 Preparing for a new recording..
+2022-04-24 11:59:56  - Pre-allocating 302 MB on SD card.
+2022-04-24 12:00:00 -----------------------------------
+2022-04-24 12:00:00 | New recording started: 0:/20220424_-27.61811+152.78113/-0000001_20220424T120000+1000_Rec_-27.61811+152.78113.flac
+2022-04-24 12:00:00 | "Rec" --> 01h59m55s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-24 12:00:00 | Battery: 100% ( 13.74 V Charging )
+2022-04-24 12:00:00 | Storage: Card 1 ( 228.1GB free of 238.8GB )
+2022-04-24 12:00:00 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-24 12:00:00 -----------------------------------
+
+-----------------------------------------------------------
+ FRONTIER LABS Bioacoustic Audio Recorder 
+ Serial Number: 53373100-38324832-33303330-37353034
+ Config: Mono, Ext-power, Solar-power
+ Firmware: 3.30 (Jul 20 2021 15:54:08)
+-----------------------------------------------------------
+2022-04-24 12:48:50 Watchdog recovered from CPU lockup!! Please report this error to Frontier Labs.
+2022-04-24 12:48:51 GPS enabled
+2022-04-24 12:48:52 Battery at 100% ( 14.03 V )
+2022-04-24 12:48:52 Schedule loaded
+2022-04-24 12:48:52   Name: 
+2022-04-24 12:48:52   Backup GPS location: None found
+2022-04-24 12:48:52   Number of entries: 1
+2022-04-24 12:48:52   1) "Rec" Start at 00:00 on 7/3/2021 and record for 120 mins at 22050 Hz with FLAC compression every 120 mins until 22:00 every day for as many days as possible
+2022-04-24 12:48:52 SD Card detected in slot 1
+2022-04-24 12:48:54 SD Card :
+2022-04-24 12:48:54   Format type      exFAT
+2022-04-24 12:48:54   Manufacturer ID  40
+2022-04-24 12:48:54   OEM ID           BE
+2022-04-24 12:48:54   Product Name     SD256
+2022-04-24 12:48:54   Product Revision 0.2
+2022-04-24 12:48:54   Serial Number    10559357
+2022-04-24 12:48:54   Manufacture Date 2014/06
+2022-04-24 12:48:54   Speed            50
+2022-04-24 12:48:54   Capacity         250412032
+2022-04-24 12:48:54   Wr Current Vmin  3
+2022-04-24 12:48:54   Wr Current Vmax  3
+2022-04-24 12:48:54   Write Bl Size    512
+2022-04-24 12:48:54   Erase Bl Size    65536
+2022-04-24 12:48:56 No card in SD slot 2.
+2022-04-24 12:48:56 No card in SD slot 3.
+2022-04-24 12:48:56 No card in SD slot 4.
+2022-04-24 12:48:56 Updating clock from the GPS to local time 12:48:56 (UTC+10:00)
+2022-04-24 12:48:56 Preparing for a new recording..
+2022-04-24 12:48:56  - This is the first recording since being turned on.
+2022-04-24 12:48:56  - Pre-allocating 179 MB on SD card.
+2022-04-24 12:48:56 -----------------------------------
+2022-04-24 12:48:56 | New recording started: 0:/20220424/-0000001_20220424T124900+1000_Rec.flac
+2022-04-24 12:48:57 | "Rec" --> 01h10m59s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-24 12:48:57 | Battery: 100% ( 14.03 V Charging )
+2022-04-24 12:48:57 | Storage: Card 1 ( 227.9GB free of 238.8GB )
+2022-04-24 12:48:56 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-24 12:48:56 -----------------------------------
+2022-04-24 12:48:56 Updating the current recording to 01:10:59 remaining
+2022-04-24 12:50:00 GPS position acquired, waiting to stabilise
+2022-04-24 12:50:30 GPS position lock acquired [-27.61815+152.78113]
+2022-04-24 12:50:30 GPS disabled
+
+-----------------------------------------------------------
+ FRONTIER LABS Bioacoustic Audio Recorder 
+ Serial Number: 53373100-38324832-33303330-37353034
+ Config: Mono, Ext-power, Solar-power
+ Firmware: 3.30 (Jul 20 2021 15:54:08)
+-----------------------------------------------------------
+2022-04-24 12:57:27 Watchdog recovered from CPU lockup!! Please report this error to Frontier Labs.
+2022-04-24 12:57:28 GPS enabled
+2022-04-24 12:57:29 Battery at 100% ( 13.57 V )
+2022-04-24 12:57:29 Schedule loaded
+2022-04-24 12:57:29   Name: 
+2022-04-24 12:57:29   Backup GPS location: None found
+2022-04-24 12:57:29   Number of entries: 1
+2022-04-24 12:57:29   1) "Rec" Start at 00:00 on 7/3/2021 and record for 120 mins at 22050 Hz with FLAC compression every 120 mins until 22:00 every day for as many days as possible
+2022-04-24 12:57:29 SD Card detected in slot 1
+2022-04-24 12:57:30 SD Card :
+2022-04-24 12:57:31   Format type      exFAT
+2022-04-24 12:57:31   Manufacturer ID  40
+2022-04-24 12:57:31   OEM ID           BE
+2022-04-24 12:57:31   Product Name     SD256
+2022-04-24 12:57:31   Product Revision 0.2
+2022-04-24 12:57:31   Serial Number    10559357
+2022-04-24 12:57:31   Manufacture Date 2014/06
+2022-04-24 12:57:31   Speed            50
+2022-04-24 12:57:31   Capacity         250412032
+2022-04-24 12:57:31   Wr Current Vmin  3
+2022-04-24 12:57:31   Wr Current Vmax  3
+2022-04-24 12:57:31   Write Bl Size    512
+2022-04-24 12:57:31   Erase Bl Size    65536
+2022-04-24 12:57:32 No card in SD slot 2.
+2022-04-24 12:57:32 No card in SD slot 3.
+2022-04-24 12:57:32 No card in SD slot 4.
+2022-04-24 12:57:32 Updating clock from the GPS to local time 12:57:34 (UTC+10:00)
+2022-04-24 12:57:33 Preparing for a new recording..
+2022-04-24 12:57:33  - This is the first recording since being turned on.
+2022-04-24 12:57:33  - Pre-allocating 157 MB on SD card.
+2022-04-24 12:57:34 -----------------------------------
+2022-04-24 12:57:34 | New recording started: 0:/20220424/-0000001_20220424T125733+1000_Rec.flac
+2022-04-24 12:57:34 | "Rec" --> 01h02m21s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-24 12:57:34 | Battery: 100% ( 13.71 V Charging )
+2022-04-24 12:57:34 | Storage: Card 1 ( 228GB free of 238.8GB )
+2022-04-24 12:57:34 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-24 12:57:34 -----------------------------------
+2022-04-24 12:57:37 GPS position acquired, waiting to stabilise
+2022-04-24 12:58:09 GPS position lock acquired [-27.61830+152.78114]
+2022-04-24 12:58:09 GPS disabled
+
+-----------------------------------------------------------
+ FRONTIER LABS Bioacoustic Audio Recorder 
+ Serial Number: 53373100-38324832-33303330-37353034
+ Config: Mono, Ext-power, Solar-power
+ Firmware: 3.30 (Jul 20 2021 15:54:08)
+-----------------------------------------------------------
+2022-04-24 13:50:34 Watchdog recovered from CPU lockup!! Please report this error to Frontier Labs.
+2022-04-24 13:50:35 GPS enabled
+2022-04-24 13:50:36 Battery at 100% ( 14.03 V )
+2022-04-24 13:50:36 Schedule loaded
+2022-04-24 13:50:36   Name: 
+2022-04-24 13:50:36   Backup GPS location: None found
+2022-04-24 13:50:36   Number of entries: 1
+2022-04-24 13:50:36   1) "Rec" Start at 00:00 on 7/3/2021 and record for 120 mins at 22050 Hz with FLAC compression every 120 mins until 22:00 every day for as many days as possible
+2022-04-24 13:50:36 SD Card detected in slot 1
+2022-04-24 13:50:38 SD Card :
+2022-04-24 13:50:38   Format type      exFAT
+2022-04-24 13:50:38   Manufacturer ID  40
+2022-04-24 13:50:38   OEM ID           BE
+2022-04-24 13:50:38   Product Name     SD256
+2022-04-24 13:50:38   Product Revision 0.2
+2022-04-24 13:50:38   Serial Number    10559357
+2022-04-24 13:50:38   Manufacture Date 2014/06
+2022-04-24 13:50:38   Speed            50
+2022-04-24 13:50:38   Capacity         250412032
+2022-04-24 13:50:38   Wr Current Vmin  3
+2022-04-24 13:50:38   Wr Current Vmax  3
+2022-04-24 13:50:38   Write Bl Size    512
+2022-04-24 13:50:38   Erase Bl Size    65536
+2022-04-24 13:50:39 No card in SD slot 2.
+2022-04-24 13:50:39 No card in SD slot 3.
+2022-04-24 13:50:39 No card in SD slot 4.
+2022-04-24 13:50:39 Updating clock from the GPS to local time 13:50:40 (UTC+10:00)
+2022-04-24 13:50:39 Preparing for a new recording..
+2022-04-24 13:50:39  - This is the first recording since being turned on.
+2022-04-24 13:50:40  - Pre-allocating 23 MB on SD card.
+2022-04-24 13:50:40 -----------------------------------
+2022-04-24 13:50:40 | New recording started: 0:/20220424/-0000001_20220424T135040+1000_Rec.flac
+2022-04-24 13:50:40 | "Rec" --> 00h09m15s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-24 13:50:40 | Battery: 100% ( 14.03 V Charging )
+2022-04-24 13:50:40 | Storage: Card 1 ( 228.1GB free of 238.8GB )
+2022-04-24 13:50:40 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-24 13:50:40 -----------------------------------
+2022-04-24 13:50:40 Updating the current recording to 00:09:15 remaining
+2022-04-24 13:51:14 GPS position acquired, waiting to stabilise
+2022-04-24 13:51:44 GPS position lock acquired [-27.61824+152.78109]
+2022-04-24 13:51:44 GPS disabled
+2022-04-24 13:59:57 Recording stopped. 16 MB recorded, 233630 MB remaining on the SD card
+2022-04-24 13:59:57 Total buffer overruns = 0
+2022-04-24 13:59:57 Preparing for a new recording..
+2022-04-24 13:59:58  - Pre-allocating 302 MB on SD card.
+2022-04-24 14:00:00 -----------------------------------
+2022-04-24 14:00:00 | New recording started: 0:/20220424_-27.61824+152.78110/-0000001_20220424T140000+1000_Rec_-27.61824+152.78110.flac
+2022-04-24 14:00:00 | "Rec" --> 01h59m55s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-24 14:00:00 | Battery: 100% ( 13.71 V Charge complete )
+2022-04-24 14:00:00 | Storage: Card 1 ( 227.8GB free of 238.8GB )
+2022-04-24 14:00:00 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-24 14:00:00 -----------------------------------
+
+-----------------------------------------------------------
+ FRONTIER LABS Bioacoustic Audio Recorder 
+ Serial Number: 53373100-38324832-33303330-37353034
+ Config: Mono, Ext-power, Solar-power
+ Firmware: 3.30 (Jul 20 2021 15:54:08)
+-----------------------------------------------------------
+2022-04-24 14:16:36 Watchdog recovered from CPU lockup!! Please report this error to Frontier Labs.
+2022-04-24 14:16:37 GPS enabled
+2022-04-24 14:16:38 Battery at 100% ( 13.85 V )
+2022-04-24 14:16:38 Schedule loaded
+2022-04-24 14:16:38   Name: 
+2022-04-24 14:16:38   Backup GPS location: None found
+2022-04-24 14:16:38   Number of entries: 1
+2022-04-24 14:16:38   1) "Rec" Start at 00:00 on 7/3/2021 and record for 120 mins at 22050 Hz with FLAC compression every 120 mins until 22:00 every day for as many days as possible
+2022-04-24 14:16:38 SD Card detected in slot 1
+2022-04-24 14:16:40 SD Card :
+2022-04-24 14:16:40   Format type      exFAT
+2022-04-24 14:16:40   Manufacturer ID  40
+2022-04-24 14:16:40   OEM ID           BE
+2022-04-24 14:16:40   Product Name     SD256
+2022-04-24 14:16:40   Product Revision 0.2
+2022-04-24 14:16:40   Serial Number    10559357
+2022-04-24 14:16:40   Manufacture Date 2014/06
+2022-04-24 14:16:40   Speed            50
+2022-04-24 14:16:40   Capacity         250412032
+2022-04-24 14:16:40   Wr Current Vmin  3
+2022-04-24 14:16:40   Wr Current Vmax  3
+2022-04-24 14:16:40   Write Bl Size    512
+2022-04-24 14:16:40   Erase Bl Size    65536
+2022-04-24 14:16:41 No card in SD slot 2.
+2022-04-24 14:16:41 No card in SD slot 3.
+2022-04-24 14:16:41 No card in SD slot 4.
+2022-04-24 14:16:41 Updating clock from the GPS to local time 14:16:42 (UTC+10:00)
+2022-04-24 14:16:42 Preparing for a new recording..
+2022-04-24 14:16:42  - This is the first recording since being turned on.
+2022-04-24 14:16:42  - Pre-allocating 260 MB on SD card.
+2022-04-24 14:16:42 -----------------------------------
+2022-04-24 14:16:42 | New recording started: 0:/20220424/-0000001_20220424T141642+1000_Rec.flac
+2022-04-24 14:16:42 | "Rec" --> 01h43m13s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-24 14:16:42 | Battery: 100% ( 14.00 V Charging )
+2022-04-24 14:16:42 | Storage: Card 1 ( 227.6GB free of 238.8GB )
+2022-04-24 14:16:42 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-24 14:16:42 -----------------------------------
+2022-04-24 14:16:52 GPS position acquired, waiting to stabilise
+2022-04-24 14:17:22 GPS position lock acquired [-27.61857+152.78127]
+2022-04-24 14:17:22 GPS disabled
+
+-----------------------------------------------------------
+ FRONTIER LABS Bioacoustic Audio Recorder 
+ Serial Number: 53373100-38324832-33303330-37353034
+ Config: Mono, Ext-power, Solar-power
+ Firmware: 3.30 (Jul 20 2021 15:54:08)
+-----------------------------------------------------------
+2022-04-24 14:19:05 Watchdog recovered from CPU lockup!! Please report this error to Frontier Labs.
+2022-04-24 14:19:06 GPS enabled
+2022-04-24 14:19:07 Battery at 100% ( 14.03 V )
+2022-04-24 14:19:07 Schedule loaded
+2022-04-24 14:19:07   Name: 
+2022-04-24 14:19:07   Backup GPS location: None found
+2022-04-24 14:19:07   Number of entries: 1
+2022-04-24 14:19:07   1) "Rec" Start at 00:00 on 7/3/2021 and record for 120 mins at 22050 Hz with FLAC compression every 120 mins until 22:00 every day for as many days as possible
+2022-04-24 14:19:07 SD Card detected in slot 1
+2022-04-24 14:19:09 SD Card :
+2022-04-24 14:19:09   Format type      exFAT
+2022-04-24 14:19:09   Manufacturer ID  40
+2022-04-24 14:19:09   OEM ID           BE
+2022-04-24 14:19:09   Product Name     SD256
+2022-04-24 14:19:09   Product Revision 0.2
+2022-04-24 14:19:09   Serial Number    10559357
+2022-04-24 14:19:09   Manufacture Date 2014/06
+2022-04-24 14:19:09   Speed            50
+2022-04-24 14:19:09   Capacity         250412032
+2022-04-24 14:19:09   Wr Current Vmin  3
+2022-04-24 14:19:09   Wr Current Vmax  3
+2022-04-24 14:19:09   Write Bl Size    512
+2022-04-24 14:19:09   Erase Bl Size    65536
+2022-04-24 14:19:10 No card in SD slot 2.
+2022-04-24 14:19:10 No card in SD slot 3.
+2022-04-24 14:19:10 No card in SD slot 4.
+2022-04-24 14:19:10 Updating clock from the GPS to local time 14:19:11 (UTC+10:00)
+2022-04-24 14:19:11 Preparing for a new recording..
+2022-04-24 14:19:11  - This is the first recording since being turned on.
+2022-04-24 14:19:11  - Pre-allocating 254 MB on SD card.
+2022-04-24 14:19:11 -----------------------------------
+2022-04-24 14:19:11 | New recording started: 0:/20220424/-0000001_20220424T141911+1000_Rec.flac
+2022-04-24 14:19:11 | "Rec" --> 01h40m44s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-24 14:19:11 | Battery: 100% ( 14.03 V Charging )
+2022-04-24 14:19:11 | Storage: Card 1 ( 227.6GB free of 238.8GB )
+2022-04-24 14:19:11 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-24 14:19:11 -----------------------------------
+2022-04-24 14:19:12 GPS position acquired, waiting to stabilise
+2022-04-24 14:19:42 GPS position lock acquired [-27.61858+152.78122]
+2022-04-24 14:19:43 GPS disabled
+
+-----------------------------------------------------------
+ FRONTIER LABS Bioacoustic Audio Recorder 
+ Serial Number: 53373100-38324832-33303330-37353034
+ Config: Mono, Ext-power, Solar-power
+ Firmware: 3.30 (Jul 20 2021 15:54:08)
+-----------------------------------------------------------
+2022-04-24 14:24:52 Watchdog recovered from CPU lockup!! Please report this error to Frontier Labs.
+2022-04-24 14:24:53 GPS enabled
+2022-04-24 14:24:54 Battery at 100% ( 13.77 V )
+2022-04-24 14:24:54 Schedule loaded
+2022-04-24 14:24:54   Name: 
+2022-04-24 14:24:54   Backup GPS location: None found
+2022-04-24 14:24:54   Number of entries: 1
+2022-04-24 14:24:54   1) "Rec" Start at 00:00 on 7/3/2021 and record for 120 mins at 22050 Hz with FLAC compression every 120 mins until 22:00 every day for as many days as possible
+2022-04-24 14:24:54 SD Card detected in slot 1
+2022-04-24 14:24:56 SD Card :
+2022-04-24 14:24:56   Format type      exFAT
+2022-04-24 14:24:56   Manufacturer ID  40
+2022-04-24 14:24:56   OEM ID           BE
+2022-04-24 14:24:56   Product Name     SD256
+2022-04-24 14:24:56   Product Revision 0.2
+2022-04-24 14:24:56   Serial Number    10559357
+2022-04-24 14:24:56   Manufacture Date 2014/06
+2022-04-24 14:24:56   Speed            50
+2022-04-24 14:24:56   Capacity         250412032
+2022-04-24 14:24:56   Wr Current Vmin  3
+2022-04-24 14:24:56   Wr Current Vmax  3
+2022-04-24 14:24:56   Write Bl Size    512
+2022-04-24 14:24:56   Erase Bl Size    65536
+2022-04-24 14:24:57 No card in SD slot 2.
+2022-04-24 14:24:58 No card in SD slot 3.
+2022-04-24 14:24:58 No card in SD slot 4.
+2022-04-24 14:24:58 Updating clock from the GPS to local time 14:24:58 (UTC+10:00)
+2022-04-24 14:24:58 Preparing for a new recording..
+2022-04-24 14:24:58  - This is the first recording since being turned on.
+2022-04-24 14:24:58  - Pre-allocating 239 MB on SD card.
+2022-04-24 14:24:58 -----------------------------------
+2022-04-24 14:24:58 | New recording started: 0:/20220424/-0000001_20220424T142500+1000_Rec.flac
+2022-04-24 14:24:58 | "Rec" --> 01h34m57s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-24 14:24:58 | Battery: 100% ( 13.93 V Charging )
+2022-04-24 14:24:58 | Storage: Card 1 ( 227.6GB free of 238.8GB )
+2022-04-24 14:24:58 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-24 14:24:58 -----------------------------------
+2022-04-24 14:25:00 GPS position acquired, waiting to stabilise
+2022-04-24 14:25:32 GPS position lock acquired [-27.61812+152.78106]
+2022-04-24 14:25:32 GPS disabled
+2022-04-24 15:59:57 Recording stopped. 166 MB recorded, 233161 MB remaining on the SD card
+2022-04-24 15:59:58 Total buffer overruns = 0
+2022-04-24 15:59:58 Preparing for a new recording..
+2022-04-24 15:59:59  - Pre-allocating 302 MB on SD card.
+2022-04-24 16:00:00 -----------------------------------
+2022-04-24 16:00:00 | New recording started: 0:/20220424_-27.61813+152.78105/-0000001_20220424T160000+1000_Rec_-27.61813+152.78105.flac
+2022-04-24 16:00:00 | "Rec" --> 01h59m55s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-24 16:00:00 | Battery: 100% ( 13.54 V Charging )
+2022-04-24 16:00:00 | Storage: Card 1 ( 227.3GB free of 238.8GB )
+2022-04-24 16:00:00 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-24 16:00:00 -----------------------------------
+
+-----------------------------------------------------------
+ FRONTIER LABS Bioacoustic Audio Recorder 
+ Serial Number: 53373100-38324832-33303330-37353034
+ Config: Mono, Ext-power, Solar-power
+ Firmware: 3.30 (Jul 20 2021 15:54:08)
+-----------------------------------------------------------
+2022-04-24 17:30:15 Watchdog recovered from CPU lockup!! Please report this error to Frontier Labs.
+2022-04-24 17:30:15 GPS enabled
+2022-04-24 17:30:17 Battery at 100% ( 12.88 V )
+2022-04-24 17:30:17 Schedule loaded
+2022-04-24 17:30:17   Name: 
+2022-04-24 17:30:17   Backup GPS location: None found
+2022-04-24 17:30:17   Number of entries: 1
+2022-04-24 17:30:17   1) "Rec" Start at 00:00 on 7/3/2021 and record for 120 mins at 22050 Hz with FLAC compression every 120 mins until 22:00 every day for as many days as possible
+2022-04-24 17:30:17 SD Card detected in slot 1
+2022-04-24 17:30:20 SD Card :
+2022-04-24 17:30:20   Format type      exFAT
+2022-04-24 17:30:20   Manufacturer ID  40
+2022-04-24 17:30:20   OEM ID           BE
+2022-04-24 17:30:20   Product Name     SD256
+2022-04-24 17:30:20   Product Revision 0.2
+2022-04-24 17:30:20   Serial Number    10559357
+2022-04-24 17:30:20   Manufacture Date 2014/06
+2022-04-24 17:30:20   Speed            50
+2022-04-24 17:30:20   Capacity         250412032
+2022-04-24 17:30:20   Wr Current Vmin  3
+2022-04-24 17:30:20   Wr Current Vmax  3
+2022-04-24 17:30:20   Write Bl Size    512
+2022-04-24 17:30:20   Erase Bl Size    65536
+2022-04-24 17:30:21 No card in SD slot 2.
+2022-04-24 17:30:22 No card in SD slot 3.
+2022-04-24 17:30:22 No card in SD slot 4.
+2022-04-24 17:30:22 Updating clock from the GPS to local time 17:30:20 (UTC+10:00)
+2022-04-24 17:30:22 Preparing for a new recording..
+2022-04-24 17:30:22  - This is the first recording since being turned on.
+2022-04-24 17:30:22  - Pre-allocating 74 MB on SD card.
+2022-04-24 17:30:20 -----------------------------------
+2022-04-24 17:30:20 | New recording started: 0:/20220424/-0000001_20220424T173022+1000_Rec.flac
+2022-04-24 17:30:20 | "Rec" --> 00h29m35s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-24 17:30:20 | Battery: 100% ( 13.03 V Not charging )
+2022-04-24 17:30:20 | Storage: Card 1 ( 227.3GB free of 238.8GB )
+2022-04-24 17:30:20 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-24 17:30:20 -----------------------------------
+2022-04-24 17:31:49 GPS position acquired, waiting to stabilise
+2022-04-24 17:32:20 GPS position lock acquired [-27.61816+152.78106]
+2022-04-24 17:32:20 GPS disabled
+
+-----------------------------------------------------------
+ FRONTIER LABS Bioacoustic Audio Recorder 
+ Serial Number: 53373100-38324832-33303330-37353034
+ Config: Mono, Ext-power, Solar-power
+ Firmware: 3.30 (Jul 20 2021 15:54:08)
+-----------------------------------------------------------
+2022-04-24 17:38:15 Watchdog recovered from CPU lockup!! Please report this error to Frontier Labs.
+2022-04-24 17:38:16 GPS enabled
+2022-04-24 17:38:17 Battery at 100% ( 12.95 V )
+2022-04-24 17:38:17 Schedule loaded
+2022-04-24 17:38:17   Name: 
+2022-04-24 17:38:17   Backup GPS location: None found
+2022-04-24 17:38:17   Number of entries: 1
+2022-04-24 17:38:17   1) "Rec" Start at 00:00 on 7/3/2021 and record for 120 mins at 22050 Hz with FLAC compression every 120 mins until 22:00 every day for as many days as possible
+2022-04-24 17:38:17 SD Card detected in slot 1
+2022-04-24 17:38:19 SD Card :
+2022-04-24 17:38:19   Format type      exFAT
+2022-04-24 17:38:19   Manufacturer ID  40
+2022-04-24 17:38:19   OEM ID           BE
+2022-04-24 17:38:19   Product Name     SD256
+2022-04-24 17:38:19   Product Revision 0.2
+2022-04-24 17:38:19   Serial Number    10559357
+2022-04-24 17:38:19   Manufacture Date 2014/06
+2022-04-24 17:38:19   Speed            50
+2022-04-24 17:38:19   Capacity         250412032
+2022-04-24 17:38:19   Wr Current Vmin  3
+2022-04-24 17:38:19   Wr Current Vmax  3
+2022-04-24 17:38:19   Write Bl Size    512
+2022-04-24 17:38:19   Erase Bl Size    65536
+2022-04-24 17:38:20 No card in SD slot 2.
+2022-04-24 17:38:20 No card in SD slot 3.
+2022-04-24 17:38:20 No card in SD slot 4.
+2022-04-24 17:38:20 Updating clock from the GPS to local time 17:38:22 (UTC+10:00)
+2022-04-24 17:38:20 GPS position acquired, waiting to stabilise
+2022-04-24 17:38:21 Preparing for a new recording..
+2022-04-24 17:38:21  - This is the first recording since being turned on.
+2022-04-24 17:38:22  - Pre-allocating 54 MB on SD card.
+2022-04-24 17:38:22 -----------------------------------
+2022-04-24 17:38:22 | New recording started: 0:/20220424/-0000001_20220424T173822+1000_Rec.flac
+2022-04-24 17:38:22 | "Rec" --> 00h21m33s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-24 17:38:22 | Battery: 100% ( 13.03 V Not charging )
+2022-04-24 17:38:22 | Storage: Card 1 ( 227.3GB free of 238.8GB )
+2022-04-24 17:38:22 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-24 17:38:22 -----------------------------------
+2022-04-24 17:38:51 GPS position lock acquired [-27.61815+152.78107]
+2022-04-24 17:38:51 GPS disabled
+
+-----------------------------------------------------------
+ FRONTIER LABS Bioacoustic Audio Recorder 
+ Serial Number: 53373100-38324832-33303330-37353034
+ Config: Mono, Ext-power, Solar-power
+ Firmware: 3.30 (Jul 20 2021 15:54:08)
+-----------------------------------------------------------
+2022-04-24 17:45:44 Watchdog recovered from CPU lockup!! Please report this error to Frontier Labs.
+2022-04-24 17:45:45 GPS enabled
+2022-04-24 17:45:46 Battery at 100% ( 12.88 V )
+2022-04-24 17:45:46 Schedule loaded
+2022-04-24 17:45:46   Name: 
+2022-04-24 17:45:46   Backup GPS location: None found
+2022-04-24 17:45:46   Number of entries: 1
+2022-04-24 17:45:46   1) "Rec" Start at 00:00 on 7/3/2021 and record for 120 mins at 22050 Hz with FLAC compression every 120 mins until 22:00 every day for as many days as possible
+2022-04-24 17:45:46 SD Card detected in slot 1
+2022-04-24 17:45:48 SD Card :
+2022-04-24 17:45:48   Format type      exFAT
+2022-04-24 17:45:48   Manufacturer ID  40
+2022-04-24 17:45:48   OEM ID           BE
+2022-04-24 17:45:48   Product Name     SD256
+2022-04-24 17:45:48   Product Revision 0.2
+2022-04-24 17:45:48   Serial Number    10559357
+2022-04-24 17:45:48   Manufacture Date 2014/06
+2022-04-24 17:45:48   Speed            50
+2022-04-24 17:45:48   Capacity         250412032
+2022-04-24 17:45:48   Wr Current Vmin  3
+2022-04-24 17:45:48   Wr Current Vmax  3
+2022-04-24 17:45:48   Write Bl Size    512
+2022-04-24 17:45:48   Erase Bl Size    65536
+2022-04-24 17:45:50 No card in SD slot 2.
+2022-04-24 17:45:50 No card in SD slot 3.
+2022-04-24 17:45:50 No card in SD slot 4.
+2022-04-24 17:45:50 Updating clock from the GPS to local time 17:45:50 (UTC+10:00)
+2022-04-24 17:45:50 Preparing for a new recording..
+2022-04-24 17:45:50  - This is the first recording since being turned on.
+2022-04-24 17:45:50  - Pre-allocating 35 MB on SD card.
+2022-04-24 17:45:50 -----------------------------------
+2022-04-24 17:45:50 | New recording started: 0:/20220424/-0000001_20220424T174550+1000_Rec.flac
+2022-04-24 17:45:50 | "Rec" --> 00h14m05s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-24 17:45:50 | Battery: 100% ( 13.02 V Not charging )
+2022-04-24 17:45:50 | Storage: Card 1 ( 227.3GB free of 238.8GB )
+2022-04-24 17:45:50 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-24 17:45:50 -----------------------------------
+2022-04-24 17:45:50 Updating the current recording to 00:14:05 remaining
+2022-04-24 17:45:51 GPS position acquired, waiting to stabilise
+2022-04-24 17:46:21 GPS position lock acquired [-27.61812+152.78107]
+2022-04-24 17:46:21 GPS disabled
+2022-04-24 17:59:57 Recording stopped. 22 MB recorded, 232835 MB remaining on the SD card
+2022-04-24 17:59:57 Total buffer overruns = 0
+2022-04-24 17:59:57 Preparing for a new recording..
+2022-04-24 17:59:58  - Pre-allocating 302 MB on SD card.
+2022-04-24 18:00:00 -----------------------------------
+2022-04-24 18:00:00 | New recording started: 0:/20220424_-27.61813+152.78107/-0000001_20220424T180000+1000_Rec_-27.61813+152.78107.flac
+2022-04-24 18:00:00 | "Rec" --> 01h59m55s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-24 18:00:00 | Battery: 100% ( 13.03 V Not charging )
+2022-04-24 18:00:00 | Storage: Card 1 ( 227GB free of 238.8GB )
+2022-04-24 18:00:00 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-24 18:00:00 -----------------------------------
+2022-04-24 19:59:56 Recording stopped. 190 MB recorded, 232645 MB remaining on the SD card
+2022-04-24 19:59:56 Total buffer overruns = 0
+2022-04-24 19:59:56 Preparing for a new recording..
+2022-04-24 19:59:56  - Pre-allocating 302 MB on SD card.
+2022-04-24 20:00:00 -----------------------------------
+2022-04-24 20:00:00 | New recording started: 0:/20220424_-27.61813+152.78107/-0000001_20220424T200000+1000_Rec_-27.61813+152.78107.flac
+2022-04-24 20:00:00 | "Rec" --> 01h59m55s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-24 20:00:00 | Battery: 100% ( 12.99 V Not charging )
+2022-04-24 20:00:00 | Storage: Card 1 ( 226.8GB free of 238.8GB )
+2022-04-24 20:00:00 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-24 20:00:00 -----------------------------------
+2022-04-24 21:59:56 Recording stopped. 175 MB recorded, 232470 MB remaining on the SD card
+2022-04-24 21:59:56 Total buffer overruns = 0
+2022-04-24 21:59:56 Preparing for a new recording..
+2022-04-24 21:59:56  - Pre-allocating 302 MB on SD card.
+2022-04-24 22:00:00 -----------------------------------
+2022-04-24 22:00:00 | New recording started: 0:/20220424_-27.61813+152.78107/-0000001_20220424T220000+1000_Rec_-27.61813+152.78107.flac
+2022-04-24 22:00:00 | "Rec" --> 01h59m55s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-24 22:00:00 | Battery: 100% ( 12.97 V Not charging )
+2022-04-24 22:00:00 | Storage: Card 1 ( 226.7GB free of 238.8GB )
+2022-04-24 22:00:00 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-24 22:00:00 -----------------------------------
+2022-04-24 23:59:56 Recording stopped. 175 MB recorded, 232294 MB remaining on the SD card
+2022-04-24 23:59:56 Total buffer overruns = 0
+2022-04-24 23:59:56 Preparing for a new recording..
+2022-04-24 23:59:57  - Pre-allocating 302 MB on SD card.
+2022-04-25 00:00:00 -----------------------------------
+2022-04-25 00:00:00 | New recording started: 0:/20220425_-27.61813+152.78107/-0000001_20220425T000000+1000_Rec_-27.61813+152.78107.flac
+2022-04-25 00:00:00 | "Rec" --> 01h59m55s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-25 00:00:00 | Battery: 100% ( 12.94 V Not charging )
+2022-04-25 00:00:00 | Storage: Card 1 ( 226.5GB free of 238.8GB )
+2022-04-25 00:00:00 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-25 00:00:00 -----------------------------------
+2022-04-25 01:59:56 Recording stopped. 177 MB recorded, 232116 MB remaining on the SD card
+2022-04-25 01:59:56 Total buffer overruns = 0
+2022-04-25 01:59:56 Preparing for a new recording..
+2022-04-25 01:59:56 Restarting GPS time sync
+2022-04-25 01:59:57 GPS enabled
+2022-04-25 01:59:57  - Pre-allocating 302 MB on SD card.
+2022-04-25 01:59:57 Updating clock from the GPS to local time 02:00:01 (UTC+10:00)
+2022-04-25 01:59:57 GPS disabled
+2022-04-25 02:00:01 -----------------------------------
+2022-04-25 02:00:01 | New recording started: 0:/20220425_-27.61813+152.78107/-0000001_20220425T020000+1000_Rec_-27.61813+152.78107.flac
+2022-04-25 02:00:01 | "Rec" --> 01h59m54s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-25 02:00:01 | Battery: 100% ( 12.91 V Not charging )
+2022-04-25 02:00:01 | Storage: Card 1 ( 226.3GB free of 238.8GB )
+2022-04-25 02:00:01 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-25 02:00:01 -----------------------------------
+2022-04-25 03:59:56 Recording stopped. 166 MB recorded, 231949 MB remaining on the SD card
+2022-04-25 03:59:56 Total buffer overruns = 0
+2022-04-25 03:59:56 Preparing for a new recording..
+2022-04-25 03:59:56  - Pre-allocating 302 MB on SD card.
+2022-04-25 04:00:00 -----------------------------------
+2022-04-25 04:00:00 | New recording started: 0:/20220425_-27.61813+152.78107/-0000001_20220425T040000+1000_Rec_-27.61813+152.78107.flac
+2022-04-25 04:00:00 | "Rec" --> 01h59m55s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-25 04:00:00 | Battery: 100% ( 12.90 V Not charging )
+2022-04-25 04:00:00 | Storage: Card 1 ( 226.2GB free of 238.8GB )
+2022-04-25 04:00:00 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-25 04:00:00 -----------------------------------
+2022-04-25 05:59:56 Recording stopped. 172 MB recorded, 231777 MB remaining on the SD card
+2022-04-25 05:59:56 Total buffer overruns = 0
+2022-04-25 05:59:56 Preparing for a new recording..
+2022-04-25 05:59:56  - Pre-allocating 302 MB on SD card.
+2022-04-25 06:00:00 -----------------------------------
+2022-04-25 06:00:00 | New recording started: 0:/20220425_-27.61813+152.78107/-0000001_20220425T060000+1000_Rec_-27.61813+152.78107.flac
+2022-04-25 06:00:00 | "Rec" --> 01h59m55s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-25 06:00:00 | Battery: 100% ( 12.89 V Not charging )
+2022-04-25 06:00:00 | Storage: Card 1 ( 226GB free of 238.8GB )
+2022-04-25 06:00:00 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-25 06:00:00 -----------------------------------
+2022-04-25 07:59:56 Recording stopped. 183 MB recorded, 231593 MB remaining on the SD card
+2022-04-25 07:59:56 Total buffer overruns = 0
+2022-04-25 07:59:56 Preparing for a new recording..
+2022-04-25 07:59:56  - Pre-allocating 302 MB on SD card.
+2022-04-25 08:00:00 -----------------------------------
+2022-04-25 08:00:00 | New recording started: 0:/20220425_-27.61813+152.78107/-0000001_20220425T080000+1000_Rec_-27.61813+152.78107.flac
+2022-04-25 08:00:00 | "Rec" --> 01h59m55s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-25 08:00:00 | Battery: 100% ( 13.14 V Charging )
+2022-04-25 08:00:00 | Storage: Card 1 ( 225.8GB free of 238.8GB )
+2022-04-25 08:00:00 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-25 08:00:00 -----------------------------------
+2022-04-25 09:59:56 Recording stopped. 198 MB recorded, 231394 MB remaining on the SD card
+2022-04-25 09:59:56 Total buffer overruns = 0
+2022-04-25 09:59:56 Preparing for a new recording..
+2022-04-25 09:59:56  - Pre-allocating 302 MB on SD card.
+2022-04-25 10:00:00 -----------------------------------
+2022-04-25 10:00:00 | New recording started: 0:/20220425_-27.61813+152.78107/-0000001_20220425T100000+1000_Rec_-27.61813+152.78107.flac
+2022-04-25 10:00:00 | "Rec" --> 01h59m55s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-25 10:00:00 | Battery: 100% ( 14.03 V Charging )
+2022-04-25 10:00:00 | Storage: Card 1 ( 225.6GB free of 238.8GB )
+2022-04-25 10:00:00 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-25 10:00:00 -----------------------------------
+2022-04-25 11:59:56 Recording stopped. 203 MB recorded, 231191 MB remaining on the SD card
+2022-04-25 11:59:56 Total buffer overruns = 0
+2022-04-25 11:59:56 Preparing for a new recording..
+2022-04-25 11:59:56  - Pre-allocating 302 MB on SD card.
+2022-04-25 12:00:00 -----------------------------------
+2022-04-25 12:00:00 | New recording started: 0:/20220425_-27.61813+152.78107/-0000001_20220425T120000+1000_Rec_-27.61813+152.78107.flac
+2022-04-25 12:00:00 | "Rec" --> 01h59m55s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-25 12:00:00 | Battery: 100% ( 14.03 V Charging )
+2022-04-25 12:00:00 | Storage: Card 1 ( 225.4GB free of 238.8GB )
+2022-04-25 12:00:00 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-25 12:00:00 -----------------------------------
+2022-04-25 13:59:56 Recording stopped. 206 MB recorded, 230985 MB remaining on the SD card
+2022-04-25 13:59:56 Total buffer overruns = 0
+2022-04-25 13:59:56 Preparing for a new recording..
+2022-04-25 13:59:57  - Pre-allocating 302 MB on SD card.
+2022-04-25 14:00:00 -----------------------------------
+2022-04-25 14:00:00 | New recording started: 0:/20220425_-27.61813+152.78107/-0000001_20220425T140000+1000_Rec_-27.61813+152.78107.flac
+2022-04-25 14:00:00 | "Rec" --> 01h59m55s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-25 14:00:00 | Battery: 100% ( 13.90 V Charging )
+2022-04-25 14:00:00 | Storage: Card 1 ( 225.2GB free of 238.8GB )
+2022-04-25 14:00:00 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-25 14:00:00 -----------------------------------
+2022-04-25 15:59:56 Recording stopped. 203 MB recorded, 230781 MB remaining on the SD card
+2022-04-25 15:59:56 Total buffer overruns = 0
+2022-04-25 15:59:56 Preparing for a new recording..
+2022-04-25 15:59:56  - Pre-allocating 302 MB on SD card.
+2022-04-25 16:00:00 -----------------------------------
+2022-04-25 16:00:00 | New recording started: 0:/20220425_-27.61813+152.78107/-0000001_20220425T160000+1000_Rec_-27.61813+152.78107.flac
+2022-04-25 16:00:00 | "Rec" --> 01h59m55s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-25 16:00:00 | Battery: 100% ( 13.42 V Charging )
+2022-04-25 16:00:00 | Storage: Card 1 ( 225GB free of 238.8GB )
+2022-04-25 16:00:00 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-25 16:00:00 -----------------------------------
+2022-04-25 17:59:56 Recording stopped. 194 MB recorded, 230586 MB remaining on the SD card
+2022-04-25 17:59:56 Total buffer overruns = 0
+2022-04-25 17:59:56 Preparing for a new recording..
+2022-04-25 17:59:56  - Pre-allocating 302 MB on SD card.
+2022-04-25 18:00:00 -----------------------------------
+2022-04-25 18:00:00 | New recording started: 0:/20220425_-27.61813+152.78107/-0000001_20220425T180000+1000_Rec_-27.61813+152.78107.flac
+2022-04-25 18:00:00 | "Rec" --> 01h59m55s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-25 18:00:00 | Battery: 100% ( 13.05 V Not charging )
+2022-04-25 18:00:00 | Storage: Card 1 ( 224.8GB free of 238.8GB )
+2022-04-25 18:00:00 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-25 18:00:00 -----------------------------------
+2022-04-25 19:59:56 Recording stopped. 180 MB recorded, 230406 MB remaining on the SD card
+2022-04-25 19:59:56 Total buffer overruns = 0
+2022-04-25 19:59:56 Preparing for a new recording..
+2022-04-25 19:59:56  - Pre-allocating 302 MB on SD card.
+2022-04-25 20:00:00 -----------------------------------
+2022-04-25 20:00:00 | New recording started: 0:/20220425_-27.61813+152.78107/-0000001_20220425T200000+1000_Rec_-27.61813+152.78107.flac
+2022-04-25 20:00:00 | "Rec" --> 01h59m55s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-25 20:00:00 | Battery: 100% ( 13.00 V Not charging )
+2022-04-25 20:00:00 | Storage: Card 1 ( 224.7GB free of 238.8GB )
+2022-04-25 20:00:00 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-25 20:00:00 -----------------------------------
+2022-04-25 21:59:56 Recording stopped. 173 MB recorded, 230232 MB remaining on the SD card
+2022-04-25 21:59:56 Total buffer overruns = 0
+2022-04-25 21:59:56 Preparing for a new recording..
+2022-04-25 21:59:56  - Pre-allocating 302 MB on SD card.
+2022-04-25 22:00:00 -----------------------------------
+2022-04-25 22:00:00 | New recording started: 0:/20220425_-27.61813+152.78107/-0000001_20220425T220000+1000_Rec_-27.61813+152.78107.flac
+2022-04-25 22:00:00 | "Rec" --> 01h59m55s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-25 22:00:00 | Battery: 100% ( 12.98 V Not charging )
+2022-04-25 22:00:00 | Storage: Card 1 ( 224.5GB free of 238.8GB )
+2022-04-25 22:00:00 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-25 22:00:00 -----------------------------------
+2022-04-25 23:59:56 Recording stopped. 163 MB recorded, 230069 MB remaining on the SD card
+2022-04-25 23:59:56 Total buffer overruns = 0
+2022-04-25 23:59:56 Preparing for a new recording..
+2022-04-25 23:59:57  - Pre-allocating 302 MB on SD card.
+2022-04-26 00:00:00 -----------------------------------
+2022-04-26 00:00:00 | New recording started: 0:/20220426_-27.61813+152.78107/-0000001_20220426T000000+1000_Rec_-27.61813+152.78107.flac
+2022-04-26 00:00:00 | "Rec" --> 01h59m55s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-26 00:00:00 | Battery: 100% ( 12.94 V Not charging )
+2022-04-26 00:00:00 | Storage: Card 1 ( 224.3GB free of 238.8GB )
+2022-04-26 00:00:00 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-26 00:00:00 -----------------------------------
+2022-04-26 01:59:56 Recording stopped. 158 MB recorded, 229910 MB remaining on the SD card
+2022-04-26 01:59:56 Total buffer overruns = 0
+2022-04-26 01:59:56 Preparing for a new recording..
+2022-04-26 01:59:56 Restarting GPS time sync
+2022-04-26 01:59:57 GPS enabled
+2022-04-26 01:59:57  - Pre-allocating 302 MB on SD card.
+2022-04-26 01:59:57 Updating clock from the GPS to local time 01:59:54 (UTC+10:00)
+2022-04-26 01:59:57 GPS disabled
+2022-04-26 01:59:54 -----------------------------------
+2022-04-26 01:59:54 | New recording started: 0:/20220426_-27.61813+152.78107/-0000001_20220426T020000+1000_Rec_-27.61813+152.78107.flac
+2022-04-26 01:59:54 | "Rec" --> 00h00m01s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-26 01:59:54 | Battery: 100% ( 12.92 V Not charging )
+2022-04-26 01:59:54 | Storage: Card 1 ( 224.2GB free of 238.8GB )
+2022-04-26 01:59:54 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-26 01:59:54 -----------------------------------
+2022-04-26 01:59:55 Recording stopped. 0 MB recorded, 229910 MB remaining on the SD card
+2022-04-26 01:59:55 Total buffer overruns = 0
+2022-04-26 01:59:55 Preparing for a new recording..
+2022-04-26 01:59:55  - Pre-allocating 302 MB on SD card.
+2022-04-26 02:00:00 -----------------------------------
+2022-04-26 02:00:00 | New recording started: 0:/20220426_-27.61813+152.78107/-0000001_20220426T020000+1000_Rec_-27.61813+152.78107.flac
+2022-04-26 02:00:00 | "Rec" --> 01h59m55s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-26 02:00:00 | Battery: 100% ( 12.92 V Not charging )
+2022-04-26 02:00:00 | Storage: Card 1 ( 224.2GB free of 238.8GB )
+2022-04-26 02:00:00 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-26 02:00:00 -----------------------------------
+2022-04-26 03:59:56 Recording stopped. 0 MB recorded, 229751 MB remaining on the SD card
+2022-04-26 03:59:56 Total buffer overruns = 0
+2022-04-26 03:59:56 Preparing for a new recording..
+2022-04-26 03:59:56  - Pre-allocating 302 MB on SD card.
+2022-04-26 04:00:00 -----------------------------------
+2022-04-26 04:00:00 | New recording started: 0:/20220426_-27.61813+152.78107/-0000001_20220426T040000+1000_Rec_-27.61813+152.78107.flac
+2022-04-26 04:00:00 | "Rec" --> 01h59m55s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-26 04:00:00 | Battery: 100% ( 12.91 V Not charging )
+2022-04-26 04:00:00 | Storage: Card 1 ( 224GB free of 238.8GB )
+2022-04-26 04:00:00 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-26 04:00:00 -----------------------------------
+
+-----------------------------------------------------------
+ FRONTIER LABS Bioacoustic Audio Recorder 
+ Serial Number: 53373100-38324832-33303330-37353034
+ Config: Mono, Ext-power, Solar-power
+ Firmware: 3.30 (Jul 20 2021 15:54:08)
+-----------------------------------------------------------
+2022-04-26 05:54:53 Watchdog recovered from CPU lockup!! Please report this error to Frontier Labs.
+2022-04-26 05:54:54 GPS enabled
+2022-04-26 05:54:55 Battery at 100% ( 12.78 V )
+2022-04-26 05:54:55 Schedule loaded
+2022-04-26 05:54:55   Name: 
+2022-04-26 05:54:55   Backup GPS location: None found
+2022-04-26 05:54:55   Number of entries: 1
+2022-04-26 05:54:55   1) "Rec" Start at 00:00 on 7/3/2021 and record for 120 mins at 22050 Hz with FLAC compression every 120 mins until 22:00 every day for as many days as possible
+2022-04-26 05:54:55 SD Card detected in slot 1
+2022-04-26 05:54:57 SD Card :
+2022-04-26 05:54:57   Format type      exFAT
+2022-04-26 05:54:57   Manufacturer ID  40
+2022-04-26 05:54:57   OEM ID           BE
+2022-04-26 05:54:57   Product Name     SD256
+2022-04-26 05:54:57   Product Revision 0.2
+2022-04-26 05:54:57   Serial Number    10559357
+2022-04-26 05:54:57   Manufacture Date 2014/06
+2022-04-26 05:54:57   Speed            50
+2022-04-26 05:54:57   Capacity         250412032
+2022-04-26 05:54:57   Wr Current Vmin  3
+2022-04-26 05:54:57   Wr Current Vmax  3
+2022-04-26 05:54:57   Write Bl Size    512
+2022-04-26 05:54:57   Erase Bl Size    65536
+2022-04-26 05:54:58 No card in SD slot 2.
+2022-04-26 05:54:58 No card in SD slot 3.
+2022-04-26 05:54:58 No card in SD slot 4.
+2022-04-26 05:54:58 Updating clock from the GPS to local time 05:54:55 (UTC+10:00)
+2022-04-26 05:54:58 Preparing for a new recording..
+2022-04-26 05:54:58  - This is the first recording since being turned on.
+2022-04-26 05:54:56  - Pre-allocating 12 MB on SD card.
+2022-04-26 05:54:56 -----------------------------------
+2022-04-26 05:54:56 | New recording started: 0:/20220426/-0000001_20220426T055500+1000_Rec.flac
+2022-04-26 05:54:56 | "Rec" --> 00h04m59s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-26 05:54:56 | Battery: 100% ( 12.86 V Not charging )
+2022-04-26 05:54:56 | Storage: Card 1 ( 224GB free of 238.8GB )
+2022-04-26 05:54:56 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-26 05:54:56 -----------------------------------
+2022-04-26 05:55:57 GPS position acquired, waiting to stabilise
+2022-04-26 05:56:27 GPS position lock acquired [-27.61817+152.78113]
+2022-04-26 05:56:27 GPS disabled
+2022-04-26 05:59:57 Recording stopped. 7 MB recorded, 229441 MB remaining on the SD card
+2022-04-26 05:59:57 Total buffer overruns = 0
+2022-04-26 05:59:57 Preparing for a new recording..
+2022-04-26 05:59:58  - Pre-allocating 302 MB on SD card.
+2022-04-26 06:00:00 -----------------------------------
+2022-04-26 06:00:00 | New recording started: 0:/20220426_-27.61817+152.78113/-0000001_20220426T060000+1000_Rec_-27.61817+152.78113.flac
+2022-04-26 06:00:00 | "Rec" --> 01h59m55s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-26 06:00:00 | Battery: 100% ( 12.89 V Not charging )
+2022-04-26 06:00:00 | Storage: Card 1 ( 223.7GB free of 238.8GB )
+2022-04-26 06:00:00 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-26 06:00:00 -----------------------------------
+
+-----------------------------------------------------------
+ FRONTIER LABS Bioacoustic Audio Recorder 
+ Serial Number: 53373100-38324832-33303330-37353034
+ Config: Mono, Ext-power, Solar-power
+ Firmware: 3.30 (Jul 20 2021 15:54:08)
+-----------------------------------------------------------
+2022-04-26 06:01:44 Watchdog recovered from CPU lockup!! Please report this error to Frontier Labs.
+2022-04-26 06:01:45 GPS enabled
+2022-04-26 06:01:46 Battery at 100% ( 12.78 V )
+2022-04-26 06:01:46 Schedule loaded
+2022-04-26 06:01:46   Name: 
+2022-04-26 06:01:46   Backup GPS location: None found
+2022-04-26 06:01:46   Number of entries: 1
+2022-04-26 06:01:46   1) "Rec" Start at 00:00 on 7/3/2021 and record for 120 mins at 22050 Hz with FLAC compression every 120 mins until 22:00 every day for as many days as possible
+2022-04-26 06:01:46 SD Card detected in slot 1
+2022-04-26 06:01:47 SD Card :
+2022-04-26 06:01:47   Format type      exFAT
+2022-04-26 06:01:47   Manufacturer ID  40
+2022-04-26 06:01:47   OEM ID           BE
+2022-04-26 06:01:47   Product Name     SD256
+2022-04-26 06:01:48   Product Revision 0.2
+2022-04-26 06:01:48   Serial Number    10559357
+2022-04-26 06:01:48   Manufacture Date 2014/06
+2022-04-26 06:01:48   Speed            50
+2022-04-26 06:01:48   Capacity         250412032
+2022-04-26 06:01:48   Wr Current Vmin  3
+2022-04-26 06:01:48   Wr Current Vmax  3
+2022-04-26 06:01:48   Write Bl Size    512
+2022-04-26 06:01:48   Erase Bl Size    65536
+2022-04-26 06:01:49 No card in SD slot 2.
+2022-04-26 06:01:49 No card in SD slot 3.
+2022-04-26 06:01:49 No card in SD slot 4.
+2022-04-26 06:01:49 Updating clock from the GPS to local time 06:01:50 (UTC+10:00)
+2022-04-26 06:01:49 Preparing for a new recording..
+2022-04-26 06:01:49  - This is the first recording since being turned on.
+2022-04-26 06:01:50  - Pre-allocating 298 MB on SD card.
+2022-04-26 06:01:50 -----------------------------------
+2022-04-26 06:01:50 | New recording started: 0:/20220426/-0000001_20220426T060149+1000_Rec.flac
+2022-04-26 06:01:50 | "Rec" --> 01h58m05s long with 16bit samples at 22050Hz with a gain of 50dB with FLAC compression
+2022-04-26 06:01:50 | Battery: 100% ( 12.85 V Not charging )
+2022-04-26 06:01:50 | Storage: Card 1 ( 223.4GB free of 238.8GB )
+2022-04-26 06:01:50 | Microphone Ch A: 000620 "STD AUDIO MIC" ( 22/02/2019 )  
+2022-04-26 06:01:50 -----------------------------------
+2022-04-26 06:01:50 GPS position acquired, waiting to stabilise
+2022-04-26 06:02:21 GPS position lock acquired [-27.61805+152.78106]
+2022-04-26 06:02:21 GPS disabled
+2022-04-26 06:37:41 Lid opened
+2022-04-26 06:37:45 BAR switched OFF (All future recordings disabled)
+2022-04-26 06:37:45 Recording stopped. 58 MB recorded, 229079 MB remaining on the SD card
+2022-04-26 06:37:45 Total buffer overruns = 0
+2022-04-26 06:37:45 BAR powering down
+
