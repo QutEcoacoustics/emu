@@ -10,7 +10,7 @@ namespace Emu.Fixes.General
     public class FileNameDateStampInvalid : IFixOperation
     {
         public static OperationInfo Metadata => new(
-            WellKnownProblems.InvalidDateStamp,
+            WellKnownProblems.OpenEcoacousticsProblems.InvalidDateStamp,
             Fixable: true,
             Safe: true,
             Automatic: false,
