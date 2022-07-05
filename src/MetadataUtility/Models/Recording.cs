@@ -178,15 +178,6 @@ namespace MetadataUtility.Models
         public OffsetDateTime? EndDate { get; init; }
 
         /// <summary>
-        /// Gets a unique identifier for the memory card
-        /// that this recording was stored on.
-        /// </summary>
-        /// <remarks>
-        /// Such as https://www.cameramemoryspeed.com/sd-memory-card-faq/reading-sd-card-cid-serial-psn-internal-numbers/.
-        /// </remarks>
-        public string StorageCardIdentifier { get; init; }
-
-        /// <summary>
         /// Gets the Expected duration of the recording.
         /// </summary>
         public Duration? ExpectedDurationSeconds { get; init; }
