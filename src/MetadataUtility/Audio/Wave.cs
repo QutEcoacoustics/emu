@@ -24,6 +24,7 @@ namespace MetadataUtility.Audio
         public const string Mime = "audio/wave";
 
         public const int MinimumRiffHeaderLength = 8;
+        public const int FL005ErrorBytes = 44;
 
         public static readonly byte[] RiffMagicNumber = new byte[] { (byte)'R', (byte)'I', (byte)'F', (byte)'F' };
         public static readonly byte[] WaveMagicNumber = new byte[] { (byte)'W', (byte)'A', (byte)'V', (byte)'E' };
@@ -284,13 +285,15 @@ namespace MetadataUtility.Audio
             return bitsPerSample;
         }
 
-        public static uint GetTotalSamples(RangeHelper.Range dataChunk, ushort channels, ushort bitsPerSample)
+        public static ulong GetTotalSamples(RangeHelper.Range dataChunk, ushort channels, ushort bitsPerSample)
         {
             // size of the data chunk
-            var length = (uint)dataChunk.Length;
+            var length = (ulong)dataChunk.Length;
 
-            return length / (uint)(channels * (bitsPerSample / 8));
+            return length / (ulong)(channels * (bitsPerSample / 8));
         }
+
+        public static int FL005Patch(int length) => length - FL005ErrorBytes;
 
         /// <summary>
         /// Scans a container (a range of bytes) for a sub-chunk with the given chunk ID.
@@ -353,7 +356,16 @@ namespace MetadataUtility.Audio
                 // check the chunk length falls within the bounds of the file
                 if (offset + length > stream.Length)
                 {
-                    return InvalidChunk;
+                    // FL005 is detected - decrement length by 44 for an accurate value
+                    // TODO: Fix this problem rather than cover it up
+                    if (offset + length - stream.Length == FL005ErrorBytes)
+                    {
+                        length = FL005Patch(length);
+                    }
+                    else
+                    {
+                        return InvalidChunk;
+                    }
                 }
 
                 // check whether we found our target chunk or not
