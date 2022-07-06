@@ -26,10 +26,11 @@ namespace Emu.Extensions.System.CommandLine
         /// <param name="builder">The command builder instance.</param>
         /// <typeparam name="TCommand">The command to bind to.</typeparam>
         /// <typeparam name="THandler">The handler to invoke.</typeparam>
+        /// <typeparam name="TResult">The type of the results output by the command.</typeparam>
         /// <returns>The same command builder instance.</returns>
-        public static IHostBuilder UseEmuCommand<TCommand, THandler>(this IHostBuilder builder)
+        public static IHostBuilder UseEmuCommand<TCommand, THandler, TResult>(this IHostBuilder builder)
             where TCommand : Command
-            where THandler : EmuCommandHandler
+            where THandler : EmuCommandHandler<TResult>
         {
             // adapted from: https://github.com/dotnet/command-line-api/blob/43be76901630aae866657dd5ec1978a5d48d5b09/src/System.CommandLine.Hosting/HostingExtensions.cs#L85
 
@@ -96,7 +97,7 @@ namespace Emu.Extensions.System.CommandLine
                     collection.AddTransient<THandler>();
 
                     // but also add a alias for the base type
-                    collection.AddTransient<EmuCommandHandler, THandler>();
+                    collection.AddTransient<EmuCommandHandler<TResult>, THandler>();
                 });
             }
 

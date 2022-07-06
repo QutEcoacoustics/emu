@@ -7,6 +7,7 @@ namespace Emu.Cli
     using System.IO.Abstractions;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
+    using Spectre.Console;
 
     public class OutputSink
     {
@@ -22,7 +23,7 @@ namespace Emu.Cli
         }
 
         /// <summary>
-        /// Creates a text writer given an instance of an ouptput sink.
+        /// Creates a text writer given an instance of an output sink.
         /// This method is just glue for the dependency injection system.
         /// </summary>
         public static TextWriter Create(IServiceProvider provider)
@@ -33,7 +34,7 @@ namespace Emu.Cli
         /// <summary>
         /// Create an output sink.
         /// </summary>
-        /// <returns>An open stream that can be writtern to.</returns>
+        /// <returns>An open stream that can be written to.</returns>
         /// <exception cref="InvalidOperationException">
         /// If the output file exists and clobber is not specified in global options.
         /// </exception>
@@ -62,7 +63,7 @@ namespace Emu.Cli
                 {
                     if (this.options.Clobber is true)
                     {
-                        this.logger.LogWarning("Overwriting {ouput} because --clobber was specified", file);
+                        this.logger.LogWarning("Overwriting {output} because --clobber was specified", file);
                         file.Delete();
                     }
                     else

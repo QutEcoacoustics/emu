@@ -18,38 +18,48 @@ namespace Emu.Serialization
             this.logger = logger;
         }
 
+        public TextWriter Writer { get; set; }
+
         /// <inheritdoc />
-        public IDisposable WriteHeader<T>(IDisposable context, TextWriter writer, T record)
+        public IDisposable WriteHeader<T>(IDisposable context, T record)
         {
             if (record is not null)
             {
-                writer.WriteLine(record is string s ? s : record.ToString());
+                this.Writer.WriteLine(record is string s ? s : record.ToString());
             }
 
             return context ?? new DummyContext();
         }
 
         /// <inheritdoc />
-        public virtual IDisposable WriteRecord<T>(IDisposable context, TextWriter writer, T record)
+        public virtual IDisposable WriteRecord<T>(IDisposable context, T record)
         {
-            writer.WriteLine(record.ToString());
+            this.Writer.WriteLine(record.ToString());
 
             return context;
         }
 
         /// <inheritdoc />
-        public IDisposable WriteFooter<T>(IDisposable context, TextWriter writer, T record)
+        public virtual IDisposable WriteMessage<T>(IDisposable context, T message)
+        {
+            // noop
+
+            return context;
+        }
+
+        /// <inheritdoc />
+        public IDisposable WriteFooter<T>(IDisposable context, T record)
         {
             if (record is not null)
             {
-                writer.WriteLine(record is string s ? s : record.ToString());
+                this.Writer.WriteLine(record is string s ? s : record.ToString());
             }
 
             return context;
         }
 
         /// <inheritdoc />
-        public void Dispose(IDisposable context, TextWriter writer)
+        public void Dispose(IDisposable context)
         {
             // noop
         }

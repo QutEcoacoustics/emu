@@ -115,9 +115,10 @@ namespace Emu.Tests.Serialization
             var builder = new StringBuilder();
             using (var writer = new StringWriter(builder))
             {
-                var context = serializer.WriteHeader(null, writer, wrapper);
-                context = serializer.WriteRecord(context, writer, wrapper);
-                serializer.Dispose(context, writer);
+                serializer.Writer = writer;
+                var context = serializer.WriteHeader(null, wrapper);
+                context = serializer.WriteRecord(context, wrapper);
+                serializer.Dispose(context);
             }
 
             return builder;

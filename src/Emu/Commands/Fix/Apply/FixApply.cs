@@ -16,7 +16,7 @@ namespace Emu
     using LanguageExt;
     using Microsoft.Extensions.Logging;
 
-    public class FixApply : EmuCommandHandler
+    public class FixApply : EmuCommandHandler<Emu.FixApply.FixApplyResult>
     {
         private readonly ILogger<FixApply> logger;
         private readonly ILogger<DryRun> dryRunLogger;
@@ -59,8 +59,8 @@ namespace Emu
                 this.fileSystem.Directory.GetCurrentDirectory(),
                 this.Targets);
 
-            this.WriteHeader<FixResult>();
-            this.Write("Looking for targets...");
+            this.WriteHeader();
+            this.WriteMessage("Looking for targets...");
 
             using var dryRun = new DryRun(this.DryRun, this.dryRunLogger);
 
@@ -73,7 +73,7 @@ namespace Emu
 
             if (!any)
             {
-                this.Write($"No files matched targets: {this.Targets.FormatInlineList()}");
+                this.WriteMessage($"No files matched targets: {this.Targets.FormatInlineList()}");
             }
 
             return ExitCodes.Success;
@@ -94,51 +94,25 @@ namespace Emu
             this.Write(new FixApplyResult(file, results));
         }
 
-        protected override object FormatCompact<T>(T record)
+        public override string FormatCompact(FixApplyResult record)
         {
-            if (record is FixApplyResult f)
-            {
-                var summary = string.Join(
-                    ' ',
-                    f.Problems.Select(kvp => kvp.Key.Id + "=" + Status(kvp.Value)));
-                return $"{f.File}\t{summary}";
-            }
-            else if (record is null)
-            {
-                return record;
-            }
-            else if (record is string)
-            {
-                // suppress output
-                return null;
-            }
-
-            return ThrowUnsupported(record);
+            var summary = string.Join(
+                ' ',
+                record.Problems.Select(kvp => kvp.Key.Id + "=" + Status(kvp.Value)));
+            return $"{record.File}\t{summary}";
         }
 
-        protected override object FormatDefault<T>(T record)
+        public override object FormatRecord(FixApplyResult record)
         {
-            if (record is FixApplyResult f)
+            var f = record;
+            StringBuilder builder = new();
+            builder.AppendFormat("File {0}:\n", f.File);
+            foreach (var report in f.Problems)
             {
-                StringBuilder builder = new();
-                builder.AppendFormat("File {0}:\n", f.File);
-                foreach (var report in f.Problems)
-                {
-                    builder.AppendFormat("\t- {0}: {1}. {2}\n", report.Key.Id, report.Value.Status, report.Value.Message);
-                }
-
-                return builder.ToString();
-            }
-            else if (record is null)
-            {
-                return record;
-            }
-            else if (record is string s)
-            {
-                return s;
+                builder.AppendFormat("\t- {0}: {1}. {2}\n", report.Key.Id, report.Value.Status, report.Value.Message);
             }
 
-            return ThrowUnsupported(record);
+            return builder.ToString();
         }
 
         private static string Status(FixResult result) => result.Status switch

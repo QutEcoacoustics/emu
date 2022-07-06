@@ -81,6 +81,7 @@ namespace Emu
                 .AddSingleton<JsonSerializer>()
                 .AddSingleton<JsonLinesSerializer>()
                 .AddSingleton<ToStringFormatter>()
+                .AddSingleton<AnsiConsoleFormatter>()
                 .AddTransient<IRecordFormatter>(OutputRecordWriter.FormatterResolver)
                 .AddSingleton<Lazy<OutputFormat>>(
                     (provider) => new Lazy<OutputFormat>(() => provider.GetRequiredService<EmuGlobalOptions>().Format))
@@ -128,12 +129,12 @@ namespace Emu
         {
             host.ConfigureServices(ConfigureServices());
 
-            host.UseEmuCommand<FixListCommand, FixList>();
-            host.UseEmuCommand<FixCheckCommand, FixCheck>();
-            host.UseEmuCommand<FixApplyCommand, FixApply>();
-            host.UseEmuCommand<RenameCommand, Rename>();
-            host.UseEmuCommand<MetadataCommand, Commands.Metadata.Metadata>();
-            host.UseEmuCommand<VersionCommand, Version>();
+            host.UseEmuCommand<FixListCommand, FixList, OperationInfo>();
+            host.UseEmuCommand<FixCheckCommand, FixCheck, FixCheck.FixCheckResult>();
+            host.UseEmuCommand<FixApplyCommand, FixApply, FixApply.FixApplyResult>();
+            host.UseEmuCommand<RenameCommand, Rename, RenameResult>();
+            host.UseEmuCommand<MetadataCommand, Commands.Metadata.Metadata, Models.Recording>();
+            host.UseEmuCommand<VersionCommand, Version, Version.VersionRecord>();
 
             host.UseSerilog(ConfigureLogging);
         }

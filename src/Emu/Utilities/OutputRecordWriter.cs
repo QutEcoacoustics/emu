@@ -24,6 +24,7 @@ namespace Emu.Utilities
         {
             this.sink = sink;
             this.formatter = formatter;
+            this.formatter.Writer = this.sink;
         }
 
         public static Func<IServiceProvider, IRecordFormatter> FormatterResolver { get; set; } =
@@ -32,8 +33,8 @@ namespace Emu.Utilities
                 var options = provider.GetRequiredService<Lazy<OutputFormat>>();
                 return options.Value switch
                 {
+                    OutputFormat.Default => provider.GetRequiredService<AnsiConsoleFormatter>(),
                     OutputFormat.Compact => provider.GetRequiredService<ToStringFormatter>(),
-                    OutputFormat.Default => provider.GetRequiredService<ToStringFormatter>(),
                     OutputFormat.JSON => provider.GetRequiredService<JsonSerializer>(),
                     OutputFormat.JSONL => provider.GetRequiredService<JsonLinesSerializer>(),
                     OutputFormat.CSV => provider.GetRequiredService<CsvSerializer>(),
@@ -43,7 +44,7 @@ namespace Emu.Utilities
 
         public void WriteHeader<T>(T header)
         {
-            this.formatterContext = this.formatter.WriteHeader<T>(this.formatterContext, this.sink, header);
+            this.formatterContext = this.formatter.WriteHeader<T>(this.formatterContext, header);
         }
 
         /// <summary>
@@ -63,12 +64,17 @@ namespace Emu.Utilities
                 this.WriteHeader(record);
             }
 
-            this.formatterContext = this.formatter.WriteRecord(this.formatterContext, this.sink, record);
+            this.formatterContext = this.formatter.WriteRecord(this.formatterContext, record);
+        }
+
+        public void WriteMessage<T>(T message)
+        {
+            this.formatterContext = this.formatter.WriteMessage(this.formatterContext, message);
         }
 
         public void WriteFooter<T>(T footer)
         {
-            this.formatterContext = this.formatter.WriteFooter<T>(this.formatterContext, this.sink, footer);
+            this.formatterContext = this.formatter.WriteFooter<T>(this.formatterContext, footer);
         }
 
         /// <inheritdoc />
@@ -82,7 +88,7 @@ namespace Emu.Utilities
             // don't write a footer if a header was never written
             if (this.formatterContext != null)
             {
-                this.formatter.Dispose(this.formatterContext, this.sink);
+                this.formatter.Dispose(this.formatterContext);
                 this.formatterContext.Dispose();
             }
 

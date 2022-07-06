@@ -16,7 +16,7 @@ namespace Emu
     using Emu.Utilities;
     using Microsoft.Extensions.Logging;
 
-    public class FixCheck : EmuCommandHandler
+    public class FixCheck : EmuCommandHandler<FixCheck.FixCheckResult>
     {
         private readonly IConsole console;
         private readonly ILogger<FixCheck> logger;
@@ -60,8 +60,8 @@ namespace Emu
 
             this.logger.LogDebug("Input targets: {0}", this.Targets);
 
-            this.WriteHeader<FixCheckResult>();
-            this.Write("Looking for targets...");
+            this.WriteMessage("Looking for targets...");
+            this.WriteHeader();
 
             var files = this.fileMatcher.ExpandMatches(
                 this.fileSystem.Directory.GetCurrentDirectory(),
@@ -83,57 +83,35 @@ namespace Emu
                 this.Write(new FixCheckResult(file, results));
             }
 
+            this.WriteFooter();
+
             if (!any)
             {
-                this.Write($"No files matched targets: {this.Targets.FormatInlineList()}");
+                this.WriteMessage($"No files matched targets: {this.Targets.FormatInlineList()}");
             }
 
             return ExitCodes.Success;
         }
 
-        protected override object FormatCompact<T>(T record)
+        public override string FormatCompact(FixCheck.FixCheckResult record)
         {
-            if (record is FixCheckResult f)
-            {
-                var summary = string.Join(' ', f.Problems.Select(kvp => kvp.Key.Id + "=" + this.Status(kvp.Value)));
-                return $"{f.File}\t{summary}";
-            }
-            else if (record is null)
-            {
-                return record;
-            }
-            else if (record is string)
-            {
-                // suppress output
-                return null;
-            }
-
-            return ThrowUnsupported(record);
+            var f = record;
+            var summary = string.Join(' ', f.Problems.Select(kvp => kvp.Key.Id + "=" + this.Status(kvp.Value)));
+            return $"{f.File}\t{summary}";
         }
 
-        protected override object FormatDefault<T>(T record)
+        public override object FormatRecord(FixCheck.FixCheckResult record)
         {
-            if (record is FixCheckResult f)
-            {
-                StringBuilder builder = new();
-                builder.AppendFormat("File {0}:\n", f.File);
-                foreach (var report in f.Problems)
-                {
-                    builder.AppendFormat("\t- {0}: {1}. {2}\n", report.Key.Id, report.Value.Status, report.Value.Message);
-                }
+            var f = record;
 
-                return builder.ToString();
-            }
-            else if (record is null)
+            StringBuilder builder = new();
+            builder.AppendFormat("File {0}:\n", f.File);
+            foreach (var report in f.Problems)
             {
-                return record;
-            }
-            else if (record is string s)
-            {
-                return s;
+                builder.AppendFormat("\t- {0}: {1}. {2}\n", report.Key.Id, report.Value.Status, report.Value.Message);
             }
 
-            return ThrowUnsupported(record);
+            return builder.ToString();
         }
 
         private string Status(CheckResult result) => result.Status switch

@@ -6,6 +6,7 @@ namespace Emu.Commands.Metadata
 {
     using System.CommandLine.Invocation;
     using System.IO.Abstractions;
+    using System.Text;
     using System.Threading.Tasks;
     using Emu.Cli;
     using Emu.Metadata;
@@ -14,12 +15,14 @@ namespace Emu.Commands.Metadata
     using Emu.Utilities;
     using Microsoft.Extensions.Logging;
 
-    public class Metadata : EmuCommandHandler
+    using static Emu.Cli.SpectreUtils;
+
+    public class Metadata : EmuCommandHandler<Recording>
     {
         private readonly ILogger<Metadata> logger;
         private readonly IFileSystem fileSystem;
         private readonly FileMatcher fileMatcher;
-        private readonly OutputRecordWriter writer;
+
         private readonly MetadataRegister extractorRegister;
 
         public Metadata(
@@ -32,7 +35,7 @@ namespace Emu.Commands.Metadata
             this.logger = logger;
             this.fileSystem = fileSystem;
             this.fileMatcher = fileMatcher;
-            this.writer = writer;
+            this.Writer = writer;
             this.extractorRegister = register;
         }
 
@@ -64,6 +67,8 @@ namespace Emu.Commands.Metadata
                 }
             }
 
+            this.WriteHeader();
+
             // Extract recording information from each target
             foreach ((string directory, List<TargetInformation> targets) in targetDirectories)
             {
@@ -84,11 +89,38 @@ namespace Emu.Commands.Metadata
                         }
                     }
 
-                    this.writer.Write(recording);
+                    this.Write(recording);
                 }
             }
 
+            this.WriteFooter();
+
             return ExitCodes.Success;
+        }
+
+        public override string FormatCompact(Recording record)
+        {
+            var values = new string[]
+            {
+                record.SourcePath,
+                record.MediaType,
+                record.DurationSeconds.ToString(),
+                record.SampleRateHertz.ToString(),
+                record.Channels.ToString(),
+                record.BitDepth.ToString(),
+                record.BitsPerSecond.ToString(),
+                record.Sensor.Name,
+                record.Sensor.Firmware,
+            };
+
+            var formatted = string.Join("\t", values);
+
+            return formatted;
+        }
+
+        public override object FormatRecord(Recording record)
+        {
+            return FormatList<Recording>(record);
         }
 
         private TargetInformation CreateContainer((string Base, string File) target)

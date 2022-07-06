@@ -32,6 +32,8 @@ namespace Emu.Serialization
             //this.configuration.RegisterClassMap<RecordingClassMap>();
         }
 
+        public TextWriter Writer { get; set; }
+
         /// <inheritdoc/>
         public string Serialize<T>(IEnumerable<T> objects)
         {
@@ -51,9 +53,9 @@ namespace Emu.Serialization
         }
 
         /// <inheritdoc/>
-        public IDisposable WriteHeader<T>(IDisposable context, TextWriter writer, T record)
+        public IDisposable WriteHeader<T>(IDisposable context, T record)
         {
-            var csv = new CsvWriter(writer, this.configuration);
+            var csv = new CsvWriter(this.Writer, this.configuration);
             ApplyConverters(csv.Context);
 
             csv.WriteHeader<T>();
@@ -63,7 +65,7 @@ namespace Emu.Serialization
         }
 
         /// <inheritdoc/>
-        public IDisposable WriteRecord<T>(IDisposable context, TextWriter writer, T record)
+        public IDisposable WriteRecord<T>(IDisposable context, T record)
         {
             var csv = (CsvWriter)context;
 
@@ -74,15 +76,25 @@ namespace Emu.Serialization
             return csv;
         }
 
+        /// <inheritdoc />
+        public virtual IDisposable WriteMessage<T>(IDisposable context, T message)
+        {
+            // noop - is there values in writing messages as comments?
+            //var csv = (CsvWriter)context;
+            //csv.WriteComment(message.ToString());
+
+            return context;
+        }
+
         /// <inheritdoc/>
-        public IDisposable WriteFooter<T>(IDisposable context, TextWriter writer, T record)
+        public IDisposable WriteFooter<T>(IDisposable context, T record)
         {
             // csv does not have a footer
             return context;
         }
 
         /// <inheritdoc/>
-        public void Dispose(IDisposable context, TextWriter writer)
+        public void Dispose(IDisposable context)
         {
             // csv does not have a footer
             return;

@@ -32,7 +32,10 @@ namespace Emu.Tests.Commands.Metadata
                 this.TestFiles,
                 new FileMatcher(this.BuildLogger<FileMatcher>(), this.TestFiles),
                 new OutputRecordWriter(this.writer, new JsonLinesSerializer()),
-                new MetadataRegister(this.ServiceProvider));                 // TODO: BROKEN!
+                new MetadataRegister(this.ServiceProvider))
+            {
+                Format = EmuCommand.OutputFormat.JSONL,
+            };
 
             this.command.Targets = "/".AsArray();
         }

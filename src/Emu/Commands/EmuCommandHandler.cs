@@ -8,125 +8,86 @@ namespace Emu
     using System.CommandLine.Invocation;
     using System.Threading.Tasks;
     using Emu.Utilities;
+    using LanguageExt;
     using static Emu.EmuCommand;
 
-    public abstract class EmuCommandHandler : EmuGlobalOptions, ICommandHandler
+    public abstract class EmuCommandHandler<T> : EmuGlobalOptions, ICommandHandler
     {
         // Note to future self:
         //  Formatters massage output into the desired shape
         //  Serializers transform said shape to desired data format
         //
-        // Typically our text formatters do heavy manipulation of the shape, and need no serilization.
+        // Typically our text formatters do heavy manipulation of the shape, and need no serialization.
         // Whereas our formal data types (csv, JSON, JSON-L) need no formatting, and need serialization.
-
-        private static readonly Func<object, object> DefaultFormatter = (x) => x switch
-        {
-            string s => null, //discard
-            _ => x,
-        };
-
-        private static readonly Func<object, object> TextFormatter = (x) =>
-        {
-            if (x is null)
-            {
-                return x;
-            }
-            else if (x is string s)
-            {
-                return s;
-            }
-
-            return ThrowUnsupported(x);
-        };
-
-        private static readonly Func<object, object> SupressMessagesTextFormatter = (x) =>
-        {
-            if (x is null)
-            {
-                return x;
-            }
-            else if (x is string s)
-            {
-                // suppress output
-                return null;
-            }
-
-            return ThrowUnsupported(x);
-        };
-
-        private Func<object, object> formatter;
 
         public EmuCommandHandler()
         {
             // watch out setting things here - CLI options have not yet been bound when constructor runs
         }
 
-        public Func<object, object> Formatter => this.formatter ??= this.Format switch
-        {
-            OutputFormat.Default => this.FormatDefault,
-            OutputFormat.CSV => this.FormatCsv,
-            OutputFormat.JSON => this.FormatJson,
-            OutputFormat.JSONL => this.FormatJsonLines,
-            OutputFormat.Compact => this.FormatCompact,
-            _ => throw new NotImplementedException(),
-        };
-
         public OutputRecordWriter Writer { get; init; }
 
         public abstract Task<int> InvokeAsync(InvocationContext context);
 
-        public void WriteHeader<T>()
+        public void WriteHeader()
         {
-            this.Writer.WriteHeader<T>(default);
-        }
-
-        public void Write<T>(T record)
-        {
-            switch (this.Formatter(record))
+            if (this.Format is OutputFormat.Compact)
             {
-                case null: // noop
-                    break;
-                case T t:
-                    this.Writer.Write(t);
-                    break;
-                case string s:
-                    this.Writer.WriteFooter(s);
-                    break;
-                default:
-                    throw new NotImplementedException();
+                this.Writer.WriteHeader<T>(default);
+            }
+            else if (this.Format is OutputFormat.Default)
+            {
+                this.Writer.WriteHeader(this.FormatHeader(default));
+            }
+            else
+            {
+                this.Writer.WriteHeader<T>(default);
             }
         }
 
-        public void WriteFooter<T>(T record)
+        public void Write(T record)
         {
-            switch (this.Formatter(record))
+            if (this.Format is OutputFormat.Compact)
             {
-                case null: // noop
-                    break;
-                case T t:
-                    this.Writer.WriteFooter(t);
-                    break;
-                case string s:
-                    this.Writer.WriteFooter(s);
-                    break;
-                default:
-                    throw new NotImplementedException();
+                this.Writer.Write(this.FormatCompact(record));
+            }
+            else if (this.Format is OutputFormat.Default)
+            {
+                this.Writer.Write(this.FormatRecord(record));
+            }
+            else
+            {
+                this.Writer.Write<T>(record);
             }
         }
 
-        protected static object ThrowUnsupported(object errorValue)
+        public void WriteFooter()
         {
-            throw new InvalidOperationException($"Formatting not supported for type of {errorValue?.GetType()?.Name}");
+            if (this.Format is OutputFormat.Compact)
+            {
+                this.Writer.WriteFooter<T>(default);
+            }
+            else if (this.Format is OutputFormat.Default)
+            {
+                this.Writer.WriteFooter(this.FormatFooter(default));
+            }
+            else
+            {
+                this.Writer.WriteFooter<T>(default);
+            }
         }
 
-        protected virtual object FormatDefault<T>(T record) => TextFormatter(record);
+        public void WriteMessage<TMessage>(TMessage message)
+        {
+            this.Writer.WriteMessage(message);
+        }
 
-        protected virtual object FormatCompact<T>(T record) => SupressMessagesTextFormatter(record);
+        public virtual object FormatHeader(T record) => null;
 
-        protected virtual object FormatJson<T>(T record) => DefaultFormatter(record);
+        public abstract object FormatRecord(T record);
 
-        protected virtual object FormatJsonLines<T>(T record) => DefaultFormatter(record);
+        public virtual object FormatFooter(T record) => null;
 
-        protected virtual object FormatCsv<T>(T record) => DefaultFormatter(record);
+        public abstract string FormatCompact(T record);
     }
 }

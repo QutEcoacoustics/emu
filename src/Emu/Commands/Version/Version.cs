@@ -6,10 +6,11 @@ namespace Emu.Commands.Version
 {
     using System.CommandLine.Invocation;
     using Emu.Utilities;
+    using static Emu.Cli.SpectreUtils;
     using static ThisAssembly;
     using static ThisAssembly.Git;
 
-    public class Version : EmuCommandHandler
+    public class Version : EmuCommandHandler<Version.VersionRecord>
     {
         public Version(OutputRecordWriter writer)
         {
@@ -29,33 +30,24 @@ namespace Emu.Commands.Version
                 Sha,
                 CommitDate);
 
-            this.WriteHeader<VersionRecord>();
-            this.Write<VersionRecord>(record);
+            this.WriteHeader();
+            this.Write(record);
+            this.WriteFooter();
 
             return Task.FromResult(0);
         }
 
-        protected override object FormatCompact<T>(T record)
+        public override string FormatCompact(Version.VersionRecord record)
         {
-            if (record is VersionRecord v)
-            {
-                return v.Version;
-            }
-
-            return ThrowUnsupported(record);
+            return record.Version;
         }
 
-        protected override object FormatDefault<T>(T record)
+        public override object FormatRecord(Version.VersionRecord record)
         {
-            if (record is VersionRecord v)
-            {
-                return v.Version;
-            }
-
-            return ThrowUnsupported(record);
+            return EmuName + record.Version;
         }
 
-        private record VersionRecord(
+        public record VersionRecord(
             string Version,
             string RepositoryUrl,
             string Major,

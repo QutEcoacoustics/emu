@@ -23,7 +23,7 @@ namespace Emu.Commands.Rename
     /// <summary>
     /// Renames files.
     /// </summary>
-    public class Rename : EmuCommandHandler
+    public class Rename : EmuCommandHandler<RenameResult>
     {
         private static readonly Error NoDateError = Error.New("no timestamp found in filename, cannot give give a new offset");
         private static readonly Error NoOffsetError = Error.New("no offset timestamp found in filename, cannot give give a new offset. Try using --offset to give an initial offset to a local date.");
@@ -66,12 +66,15 @@ namespace Emu.Commands.Rename
 
             var files = this.fileMatcher.ExpandMatches(this.fileSystem.Directory.GetCurrentDirectory(), this.Targets);
 
-            this.WriteHeader<RenameResult>();
-            this.Write("Looking for targets...");
+            this.WriteMessage("Looking for targets...");
+            this.WriteHeader();
 
             using var dryRun = new DryRun(this.DryRun, this.dryRunLogger);
 
             var (renames, failed) = await this.ProcessFiles(files, dryRun);
+
+            this.WriteFooter();
+
             int success = 0, unchanged = 0, fail = 0;
             if (renames.Any())
             {
@@ -100,10 +103,10 @@ namespace Emu.Commands.Rename
             }
             else
             {
-                this.WriteFooter($"No files matched targets: {this.Targets.FormatInlineList()}");
+                this.WriteMessage($"No files matched targets: {this.Targets.FormatInlineList()}");
             }
 
-            this.WriteFooter($"{renames.Length} files, {success} renamed, {unchanged} unchanged, {fail} failed");
+            this.WriteMessage($"{renames.Length} files, {success} renamed, {unchanged} unchanged, {fail} failed");
 
             return ExitCodes.Get(!failed);
         }
@@ -142,53 +145,39 @@ namespace Emu.Commands.Rename
             return (renames, false);
         }
 
-        protected override object FormatCompact<T>(T record)
+        public override string FormatCompact(RenameResult record)
         {
-            return record switch
-            {
-                RenameResult r => Format(r),
-                _ => record,
-            };
+            var r = record;
 
-            string Format(RenameResult r)
+            if (r.NewName is null)
             {
-                if (r.NewName is null)
-                {
-                    return $"{r.OldName}\t{r.NewName}\t{r.Reason}";
-                }
-
-                return $"{r.OldName}\t{r.NewName}\t";
+                return $"{r.OldName}\t{r.NewName}\t{r.Reason}";
             }
+
+            return $"{r.OldName}\t{r.NewName}\t";
         }
 
-        protected override object FormatDefault<T>(T record)
+        public override object FormatRecord(RenameResult record)
         {
-            return record switch
+            var r = record;
+
+            if (r.NewName is null)
             {
-                RenameResult r => Format(r),
-                _ => record,
-            };
-
-            string Format(RenameResult r)
-            {
-                if (r.NewName is null)
-                {
-                    return $"-     Error {r.OldName}\n    because {r.Reason}";
-                }
-
-                if (r.NewName == r.OldName)
-                {
-                    return $"- No change {r.OldName}";
-                }
-
-                var partial = $"-   Renamed {r.OldName}\n         to {r.NewName}";
-                if (r.Reason is not null)
-                {
-                    partial += $"\n      Error {r.Reason}";
-                }
-
-                return partial;
+                return $"-     Error {r.OldName}\n    because {r.Reason}";
             }
+
+            if (r.NewName == r.OldName)
+            {
+                return $"- No change {r.OldName}";
+            }
+
+            var partial = $"-   Renamed {r.OldName}\n         to {r.NewName}";
+            if (r.Reason is not null)
+            {
+                partial += $"\n      Error {r.Reason}";
+            }
+
+            return partial;
         }
 
         private RenameResult ToNewName(FilenameTransform transform)

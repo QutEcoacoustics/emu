@@ -9,68 +9,75 @@ namespace Emu
     using Emu.Cli;
     using Emu.Fixes;
     using Emu.Utilities;
+    using LanguageExt;
+    using Spectre.Console;
+    using static Emu.Cli.SpectreUtils;
+    using static Emu.EmuCommand;
+    using static LanguageExt.Prelude;
 
-    public class FixList : EmuCommandHandler
+    public class FixList : EmuCommandHandler<OperationInfo>
     {
+        private Table table;
+
         public FixList(OutputRecordWriter writer)
         {
             this.Writer = writer;
+            this.table = null;
         }
 
         public override Task<int> InvokeAsync(InvocationContext context)
         {
-            this.WriteHeader<OperationInfo>();
-            this.Write("Problems that can be fixed:");
+            this.WriteHeader();
 
             foreach (var fix in FixRegister.All)
             {
                 this.Write(fix);
             }
 
-            this.WriteFooter(@"
-Use `emu fix apply` to apply a fix to target files:
-
-    emu fix apply --fix XX001 *.wav
-
-Or use `--fix-all` to apply all known fixes:
-
-    emu fix apply --fix-all XX001 *.wav
+            this.WriteFooter();
+            this.WriteMessage($@"
+Use {MarkupCode("emu fix apply")} to apply a fix to target files:
+{MarkupCodeBlock("emu fix apply --fix XX001 *.wav")}
+Or use {MarkupCode("--fix-all")} to apply all known fixes:
+{MarkupCodeBlock("emu fix apply --fix-all XX001 *.wav")}
 ");
+
             return Task.FromResult(ExitCodes.Success);
         }
 
-        protected override object FormatCompact<T>(T record)
+        public override object FormatHeader(OperationInfo record)
         {
-            if (record is OperationInfo fix)
-            {
-                var problem = fix.Problem;
+            this.table = new Table();
+            this.table.AddColumn("ID");
+            this.table.AddColumn("Description");
+            this.table.AddColumn("Fixable");
+            this.table.AddColumn("Safe");
 
-                var line = $"{problem.Id}\t{problem.Title}\tfixable={fix.Fixable}\tsafe={fix.Safe}\tautomatic-fix={fix.Automatic}";
-                return line;
-            }
-            else if (record is string)
-            {
-                // suppress output in compact mode
-                return null;
-            }
-
-            return ThrowUnsupported(record);
+            return MarkupEmu("EMU can fix these problems:");
         }
 
-        protected override object FormatDefault<T>(T record)
+        public override object FormatRecord(OperationInfo record)
         {
-            if (record is OperationInfo fix)
-            {
-                var problem = fix.Problem;
+            var problem = record.Problem;
 
-                return $"\t- {problem.Id} {problem.Title}\tSafe: {fix.Safe}\tAutomatic fix:{fix.Automatic}";
-            }
-            else if (record is string s)
-            {
-                return s;
-            }
+            this.table.AddRow(
+                problem.Id,
+                problem.Title,
+                MarkupBool(record.Fixable),
+                MarkupBool(record.Safe));
 
-            return ThrowUnsupported(record);
+            return null;
+        }
+
+        public override object FormatFooter(OperationInfo record)
+        {
+            return this.table;
+        }
+
+        public override string FormatCompact(OperationInfo record)
+        {
+            var problem = record.Problem;
+            return $"{problem.Id}\tfixable={record.Fixable}\tsafe={record.Safe}\tautomatic-fix={record.Automatic}\t{problem.Title}";
         }
     }
 }

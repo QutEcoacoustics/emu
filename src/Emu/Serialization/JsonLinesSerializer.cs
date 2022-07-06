@@ -32,11 +32,15 @@ namespace Emu.Serialization
                     new StringEnumConverter(),
                     new WellKnownProblemJsonConverter(),
                     new JsonRangeConverter(),
+                    new RationalNullJsonConverter(),
+                    new RationalJsonConverter(),
                 },
             }.ConfigureForNodaTime(DateTimeZoneProviders.Tzdb);
 
             this.serializer = Newtonsoft.Json.JsonSerializer.Create(this.settings);
         }
+
+        public TextWriter Writer { get; set; }
 
         /// <inheritdoc />
         public string Serialize<T>(IEnumerable<T> objects)
@@ -58,9 +62,9 @@ namespace Emu.Serialization
         }
 
         /// <inheritdoc />
-        public IDisposable WriteHeader<T>(IDisposable context, TextWriter writer, T record)
+        public IDisposable WriteHeader<T>(IDisposable context, T record)
         {
-            var json = new JsonTextWriter(writer);
+            var json = new JsonTextWriter(this.Writer);
 
             // noop
 
@@ -68,24 +72,32 @@ namespace Emu.Serialization
         }
 
         /// <inheritdoc />
-        public IDisposable WriteRecord<T>(IDisposable context, TextWriter writer, T record)
+        public IDisposable WriteRecord<T>(IDisposable context, T record)
         {
             var json = (JsonTextWriter)context;
             this.serializer.Serialize(json, record);
-            writer.WriteLine();
+            this.Writer.WriteLine();
 
             return json;
         }
 
+        /// <inheritdoc />
+        public virtual IDisposable WriteMessage<T>(IDisposable context, T message)
+        {
+            // noop
+
+            return context;
+        }
+
         /// <inheritdoc/>
-        public IDisposable WriteFooter<T>(IDisposable context, TextWriter writer, T record)
+        public IDisposable WriteFooter<T>(IDisposable context, T record)
         {
             // json lines does not have a footer
             return context;
         }
 
         /// <inheritdoc/>
-        public void Dispose(IDisposable context, TextWriter writer)
+        public void Dispose(IDisposable context)
         {
             // json lines does not have a footer
             return;
