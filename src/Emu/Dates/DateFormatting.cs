@@ -11,6 +11,7 @@ namespace Emu.Dates
     {
         public static readonly OffsetDateTimePattern OffsetDatePattern = OffsetDateTimePattern.CreateWithInvariantCulture("uuuuMMdd'T'HHmmss;FFFFFFo<Z+HHmm>");
         public static readonly LocalDateTimePattern DatePattern = LocalDateTimePattern.CreateWithInvariantCulture("uuuuMMdd'T'HHmmss;FFFFFF");
+        public static readonly LocalDateTimePattern DatePatternISO8601 = LocalDateTimePattern.CreateWithInvariantCulture("S");
 
         public static string FormatFileName(OffsetDateTime date)
         {

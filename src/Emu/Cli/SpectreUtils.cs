@@ -5,8 +5,10 @@
 namespace Emu.Cli
 {
     using System.ComponentModel;
+    using System.Globalization;
     using System.Text;
     using System.Text.RegularExpressions;
+    using NodaTime;
     using Spectre.Console;
 
     public static class SpectreUtils
@@ -45,8 +47,17 @@ namespace Emu.Cli
             foreach (PropertyDescriptor descriptor in TypeDescriptor.GetProperties(record))
             {
                 string name = descriptor.Name;
-                object value = descriptor.GetValue(record)?.ToString()?.EscapeMarkup();
-                builder.AppendLine($"[yellow]{name}[/] = {value}");
+                object value = descriptor.GetValue(record);
+                string formatted = value switch
+                {
+                    Rationals.Rational r => ((decimal)r).ToString("G"),
+                    LocalDateTime l => Dates.DateFormatting.DatePatternISO8601.Format(l),
+                    IFormattable f => f.ToString(null, CultureInfo.InvariantCulture),
+                    object x => x.ToString(),
+                    null => string.Empty,
+                };
+
+                builder.AppendLine($"[yellow]{name}[/] = {formatted?.EscapeMarkup()}");
             }
 
             return builder.ToString();
