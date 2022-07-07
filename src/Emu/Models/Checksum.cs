@@ -18,5 +18,10 @@ namespace Emu.Models
         /// Gets the value of checksum.
         /// </summary>
         public string Value { get; init; }
+
+        public override string ToString()
+        {
+            return $"{this.Type}::{this.Value}";
+        }
     }
 }

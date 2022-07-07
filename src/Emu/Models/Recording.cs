@@ -123,7 +123,7 @@ namespace Emu.Models
         /// <summary>
         /// Gets the number of bytes in this file.
         /// </summary>
-        public ulong FileLengthBytes { get; init; }
+        public ulong FileSizeBytes { get; init; }
 
         /// <summary>
         /// Gets a <see cref="MemoryCard"/> object

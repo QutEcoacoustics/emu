@@ -32,6 +32,7 @@ namespace Emu.Metadata.FrontierLabs
             var sampleRate = Flac.ReadSampleRate(information.FileStream);
             var channels = Flac.ReadNumChannels(information.FileStream);
             var bitDepth = Flac.ReadBitDepth(information.FileStream);
+            var md5 = Flac.ReadMD5(information.FileStream);
 
             Rational? duration = samples.IsFail || sampleRate.IsFail || (uint)sampleRate == 0 ? null : (new Rational((ulong)samples) / new Rational((uint)sampleRate));
             uint? bitRate = sampleRate.IsFail || bitDepth.IsFail || channels.IsFail ? null : (uint)sampleRate * (uint)bitDepth * (uint)channels;
@@ -44,6 +45,9 @@ namespace Emu.Metadata.FrontierLabs
                 Channels = recording.Channels ?? (channels.IsFail ? null : (byte)channels),
                 BitDepth = recording.BitDepth ?? (bitDepth.IsFail ? null : (byte)bitDepth),
                 BitsPerSecond = recording.BitsPerSecond ?? bitRate,
+                EmbeddedChecksum = recording.EmbeddedChecksum ?? md5.Match(
+                        Succ: x => new Checksum() { Type = "MD5", Value = x.ToHexString() },
+                        Fail: null),
             };
 
             return ValueTask.FromResult(recording);

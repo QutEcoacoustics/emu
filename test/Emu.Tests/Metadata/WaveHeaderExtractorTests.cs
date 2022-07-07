@@ -53,7 +53,6 @@ namespace Emu.Tests.Metadata
                 recording.Channels.Should().Be(expectedRecording.Channels);
                 recording.BitsPerSecond.Should().Be(expectedRecording.BitsPerSecond);
                 recording.BitDepth.Should().Be(expectedRecording.BitDepth);
-                recording.FileLengthBytes.Should().Be(expectedRecording.FileLengthBytes);
             }
         }
     }

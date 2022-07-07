@@ -25,7 +25,7 @@ namespace Emu
         public string Message { get; init; } = Message;
 
         /// <summary>
-        /// Gets a unique idnetifying code for the notice.
+        /// Gets a unique identifying code for the notice.
         /// </summary>
         /// <remarks>
         /// The code is used for well known problems and allows linking to

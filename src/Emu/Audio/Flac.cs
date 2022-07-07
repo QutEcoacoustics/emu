@@ -18,6 +18,8 @@ namespace Emu.Audio
         public const int SampleRateOffset = 18;
         public const int ChannelOffset = 20;
         public const int BlockTypeOffset = 4;
+        public const int MD5Offset = 26; // bytes
+
         public const int MetadataBlockSize = 42;
         public const int VorbisCommentBlockNumber = 4;
         public static readonly byte[] FlacMagicNumber = new byte[] { (byte)'f', (byte)'L', (byte)'a', (byte)'C' };
@@ -120,6 +122,26 @@ namespace Emu.Audio
             }
 
             return (byte)(BinaryHelpers.Read5BitUnsignedBigEndianIgnoringFirstSevenAndLastFourBits(buffer) + 1);
+        }
+
+        /// <summary>
+        /// Returns the embedded MD5 checksum of the file.
+        /// </summary>
+        /// <param name="stream">The FLAC file stream.</param>
+        /// <returns>The MD5 value as bytes.</returns>
+        public static Fin<byte[]> ReadMD5(Stream stream)
+        {
+            long position = stream.Seek(MD5Offset, SeekOrigin.Begin);
+            Debug.Assert(position == 26, $"Expected stream.Seek position to return 26, instead returned {position}");
+
+            Span<byte> buffer = stackalloc byte[16];
+            int bytesRead = stream.Read(buffer);
+            if (bytesRead != buffer.Length)
+            {
+                return FileTooShort;
+            }
+
+            return buffer.ToArray();
         }
 
         public static Fin<Unit> WriteTotalSamples(FileStream stream, ulong sampleCount)

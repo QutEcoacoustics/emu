@@ -10,9 +10,11 @@
             "Arity",
             "cref",
             "datestamp",
+            "Divergic",
             "ecoacoustic",
             "Ecoacoustics",
             "flac",
+            "hasher",
             "inheritdoc",
             "Newtonsoft",
             "Noda",
@@ -29,6 +31,11 @@
             "Xbehave",
             "Xunit"
         ],
+        "[yaml]": {
+            "editor.insertSpaces": true,
+            "editor.tabSize": 2,
+            "editor.defaultFormatter": "redhat.vscode-yaml"
+        },
         "nugetpackagemanagergui.nuget.searchPackage.preRelease": true,
         "workbench.colorCustomizations": {
             "activityBar.activeBackground": "#836d62",

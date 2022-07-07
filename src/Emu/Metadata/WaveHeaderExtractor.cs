@@ -50,9 +50,6 @@ namespace Emu.Metadata
             var channels = Wave.GetChannels(formatSpan);
 
             var samples = dataChunk.Map(d => (ulong?)Wave.GetTotalSamples(d, channels, bitsPerSample));
-            var fileLength = stream.Length;
-
-            // TODO: replace with rational type from master branch
             var duration = samples.Map(s => (Rational?)new Rational((uint)samples!, (uint)sampleRate));
 
             return ValueTask.FromResult(recording with
@@ -63,7 +60,6 @@ namespace Emu.Metadata
                 Channels = (ushort)channels,
                 BitsPerSecond = byteRate * BinaryHelpers.BitsPerByte,
                 BitDepth = (byte)bitsPerSample,
-                FileLengthBytes = (ulong)fileLength,
             });
         }
     }

@@ -11,6 +11,7 @@ namespace Emu.Tests.Metadata
     using FluentAssertions;
     using Xunit;
     using Xunit.Abstractions;
+    using static Emu.Tests.TestHelpers.FixtureHelper;
 
     public class FileNameExtractorTests : TestBase
     {
@@ -59,6 +60,7 @@ namespace Emu.Tests.Metadata
                 recording.StartDate.Should().Be(expectedRecording.StartDate);
                 recording.LocalStartDate.Should().Be(expectedRecording.LocalStartDate);
                 recording.Location.Should().BeEquivalentTo(expectedRecording.Location);
+                recording.FileSizeBytes.Should().Be(expectedRecording.FileSizeBytes);
             }
         }
     }

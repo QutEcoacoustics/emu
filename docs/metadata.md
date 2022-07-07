@@ -31,30 +31,33 @@ Column definitions:
 
 ### FLAC Files
 
-| Name            | Supported | Location(s) | Notes | Field | Units |
-| --------------- | --------- | ----------- | ----- | ----- | ----- |
-| Sample Rate     | ✔️         | Header      |       |       | Hertz |
-| Duration        | ✔️         | Header      |       |       |       |
-| Total Samples   | ✔️         | Header      |       |       |       |
-| Channel Count   | ✔️         | Header      |       |       |       |
-| Bit Depth       | ✔️         | Header      |       |       |       |
-| Bits per Sample | ✔️         | Header      |       |       |       |
-| File Size       | ❌         | File        |       |       |       |
+| Name              | Supported | Location(s) | Notes                 | Field | Units |
+| ----------------- | --------- | ----------- | --------------------- | ----- | ----- |
+| Sample Rate       | ✔️         | Header      |                       |       | Hertz |
+| Duration          | ✔️         | Header      |                       |       |       |
+| Total Samples     | ✔️         | Header      |                       |       |       |
+| Channel Count     | ✔️         | Header      |                       |       |       |
+| Bit Depth         | ✔️         | Header      |                       |       |       |
+| Bits per Sample   | ✔️         | Header      |                       |       |       |
+| File Size         | ✔️         | File        |                       |       |       |
+| Computed Checksum | ✔️         | File        |                       |       |       |
+| Embedded Checksum | ✔️         | Header      | MD5 of unencoded data |       |       |
 
 ### WAVE Files
 
-| Name            | Supported | Location(s) | Notes | Field | Units |
-| --------------- | --------- | ----------- | ----- | ----- | ----- |
-| Sample Rate     | ✔️         | Header      |       |       | Hertz |
-| Duration        | ✔️         | Header      |       |       |       |
-| Total Samples   | ✔️         | Header      |       |       |       |
-| Audio Format    | ✔️         | Header      |       |       |       |
-| Channel Count   | ✔️         | Header      |       |       |       |
-| Byte Rate       | ✔️         | Header      |       |       |       |
-| Block Align     | ✔️         | Header      |       |       |       |
-| Bit Depth       | ✔️         | Header      |       |       |       |
-| Bits per Sample | ✔️         | Header      |       |       |       |
-| File Size       | ✔️         | Header      |       |       |       |
+| Name              | Supported | Location(s) | Notes | Field | Units |
+| ----------------- | --------- | ----------- | ----- | ----- | ----- |
+| Sample Rate       | ✔️         | Header      |       |       | Hertz |
+| Duration          | ✔️         | Header      |       |       |       |
+| Total Samples     | ✔️         | Header      |       |       |       |
+| Audio Format      | ✔️         | Header      |       |       |       |
+| Channel Count     | ✔️         | Header      |       |       |       |
+| Byte Rate         | ✔️         | Header      |       |       |       |
+| Block Align       | ✔️         | Header      |       |       |       |
+| Bit Depth         | ✔️         | Header      |       |       |       |
+| Bits per Sample   | ✔️         | Header      |       |       |       |
+| File Size         | ✔️         | Header      |       |       |       |
+| Computed Checksum | ✔️         | File        |       |       |       |
 
 
 ### Frontier Labs

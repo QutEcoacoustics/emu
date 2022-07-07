@@ -4,6 +4,7 @@
 
 namespace Emu.Tests.Audio
 {
+    using System;
     using Emu.Audio;
     using Emu.Tests.TestHelpers;
     using FluentAssertions;
@@ -11,11 +12,14 @@ namespace Emu.Tests.Audio
     using Xunit;
     using Xunit.Abstractions;
 
-    public class FlacTests : TestBase
+    public class FlacTests : TestBase, IClassFixture<FixtureHelper.FixtureData>
     {
-        public FlacTests(ITestOutputHelper output)
+        private readonly FixtureHelper.FixtureData data;
+
+        public FlacTests(FixtureHelper.FixtureData data, ITestOutputHelper output)
             : base(output)
         {
+            this.data = data;
         }
 
         [Theory]
@@ -64,6 +68,21 @@ namespace Emu.Tests.Audio
                 Assert.True(bitDepth.IsSucc);
                 ((byte)bitDepth).Should().Be(model.Record.BitDepth);
             }
+        }
+
+        [Theory]
+        [InlineData(FixtureModel.NormalFile, "00000000000000000000000000000000")]
+        [InlineData(FixtureModel.ArtificialZeroes, "abeb2a164488788cca9455a132909f02")]
+
+        public void ReadMD5Test(string name, string expectedMd5)
+        {
+            var model = this.data[name];
+            using var stream = this.RealFileSystem.File.OpenRead(model.AbsoluteFixturePath);
+            Fin<byte[]> md5 = Flac.ReadMD5(stream);
+            Assert.True(md5.IsSucc);
+
+            var actualMd5 = ((byte[])md5).ToHexString();
+            actualMd5.Should().Be(expectedMd5);
         }
 
         [Theory]

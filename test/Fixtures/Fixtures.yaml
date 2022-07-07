@@ -1,4 +1,4 @@
-- Name: Short Error File 
+- Name: Short Error File
   Record: &ShortErrorFile
     Extension: .flac
     Stem: 20181101_060000_REC [-27.3866 152.8761]
@@ -7,17 +7,17 @@
     EndDate:
     DurationSeconds: 0
     TotalSamples: 0
-    Channels: 0
+    Channels: 1
     SampleRateHertz: 0
     BitsPerSecond: 0
     BitDepth: 0
-    FileLengthBytes: 44
+    FileSizeBytes: 44
     CalculatedChecksum:
-      Type: SHA-2-256
-      Value: grxftajz7fo6my31
+      Type: SHA256
+      Value: fa7d9b15cee63911d850e23dbb2527ba6ac76d6be89fcb49508ef021f83d6c21
     EmbeddedChecksum:
-      Type:
-      Value:
+      Type: MD5
+      Value: 00000000000000000000000000000000
     MemoryCard:
       FormatType: exFAT
       ManufacturerID: 40
@@ -64,6 +64,73 @@
     FilenameExtractor: ~
     FrontierLabsLogFileExtractor: ~
 
+- Name: Artificial Zeroes
+  Record: &ArtificialZeroes
+    Extension: .flac
+    Stem: 20181101_050000_REC [-27.3866 152.8761]
+    StartDate:
+    LocalStartDate: 2018-11-01T05:00:00
+    EndDate:
+    DurationSeconds: 79239168/22050
+    TotalSamples: 79239168
+    Channels: 1
+    SampleRateHertz: 22050
+    BitsPerSecond: 352800
+    BitDepth: 16
+    FileSizeBytes: 249408
+    CalculatedChecksum:
+      Type: SHA256
+      Value: 4975ab0ec4518a70981d37898fca7202be86b9489fed836dbbbbf08a5c077135
+    EmbeddedChecksum:
+      Type: MD5
+      Value: abeb2a164488788cca9455a132909f02
+    MemoryCard:
+      FormatType: exFAT
+      ManufacturerID: 40
+      OEMID: BE
+      ProductName: SD256
+      ProductRevision: 0.2
+      SerialNumber: 560
+      ManufactureDate: 2015-04
+      Speed: 50
+      Capacity: 250412032
+      WrCurrentVmin: 3
+      WrCurrentVmax: 3
+      WriteBlSize: 512
+      EraseBlSize: 65536
+    Sensor:
+      Name:
+      Firmware: 3.03
+      SerialNumber: 53373100-31334832-34303132-30353031
+      PowerSource: Ext-power
+      Microphones:
+      Gain:
+      Configuration:
+      Voltage:
+      BatteryLevel:
+      Temperature:
+      LastTimeSync:
+    Location:
+      Longitude: 152.8761
+      Latitude: -27.3866
+      Altitude:
+      HorizontalAccuracy:
+      VerticalAccuracy:
+      Speed:
+      Course:
+      SampleDateTime:
+      CoordinateReferenceSystem:
+  BlockAlign:
+  FixturePath: FL_BAR_LT/3.03_OneHour/20181101_050000_REC [-27.3866 152.8761].flac
+  Notes:
+  ValidMetadata: Yes
+  MimeType: audio/flac
+  Vendor: Frontier Labs
+  Process:
+    FilenameExtractor: ~
+    FlacHeaderExtractor: ~
+    FrontierLabsLogFileExtractor: ~
+
 - Name: Metadata Duration Bug
   Record: &MetadataDurationBug
     Extension: .flac
@@ -77,13 +144,13 @@
     SampleRateHertz: 22050
     BitsPerSecond: 352800
     BitDepth: 16
-    FileLengthBytes:
+    FileSizeBytes: 192919080
     CalculatedChecksum:
-      Type:
-      Value:
+      Type: SHA256
+      Value: 3bb32933cd8b9139bea325ef256f07afc4fb4ed53e6a1982dd85947afebce1dd
     EmbeddedChecksum:
-      Type:
-      Value:
+      Type: MD5
+      Value: 00000000000000000000000000000000
     MemoryCard:
       FormatType:
       ManufacturerID: 158
@@ -153,13 +220,13 @@
     SampleRateHertz: 22050
     BitsPerSecond: 352800
     BitDepth: 16
-    FileLengthBytes:
+    FileSizeBytes: 68255744
     CalculatedChecksum:
-      Type:
-      Value:
+      Type: SHA256
+      Value: a5d39757406e20bb46ef336b39750d58c473471ce3f31e7051ecc70d5b7d9690
     EmbeddedChecksum:
-      Type:
-      Value:
+      Type: MD5
+      Value: 00000000000000000000000000000000
     MemoryCard:
       FormatType: exFAT
       ManufacturerID: 40
@@ -220,13 +287,13 @@
     SampleRateHertz: 22050
     BitsPerSecond: 352800
     BitDepth: 16
-    FileLengthBytes:
+    FileSizeBytes: 173873272
     CalculatedChecksum:
-      Type:
-      Value:
+      Type: SHA256
+      Value: ba6fd2b083ddb53a1faf11dcdfae4f311c418257cfd3465e01febd7acdf6affa
     EmbeddedChecksum:
-      Type:
-      Value:
+      Type: MD5
+      Value: 00000000000000000000000000000000
     MemoryCard:
       FormatType:
       ManufacturerID: 158
@@ -298,13 +365,13 @@
     SampleRateHertz: 22050
     BitsPerSecond: 352800
     BitDepth: 16
-    FileLengthBytes:
+    FileSizeBytes: 1406536
     CalculatedChecksum:
-      Type:
-      Value:
+      Type: SHA256
+      Value: 2e9abc7f2df16d0751d6cb90f0283ab384265de11a05d0352afd1f61e781dd67
     EmbeddedChecksum:
-      Type:
-      Value:
+      Type: MD5
+      Value: 00000000000000000000000000000000
     MemoryCard:
       FormatType: exFAT
       ManufacturerID: 158
@@ -366,13 +433,13 @@
       Sensor:
         <<: *GlitchySignalSensor
         Microphones:
-        - Type: STD AUDIO MIC
-          UID: 000610
-          BuildDate: 2019-02-22
-          Gain:
-          Channel:
-          ChannelName:
-          Sensitivity:
+          - Type: STD AUDIO MIC
+            UID: 000610
+            BuildDate: 2019-02-22
+            Gain:
+            Channel:
+            ChannelName:
+            Sensitivity:
     FlacCommentExtractor: ~
 
 - Name: Short File
@@ -388,13 +455,13 @@
     SampleRateHertz: 22050
     BitsPerSecond: 352800
     BitDepth: 16
-    FileLengthBytes:
+    FileSizeBytes: 11540
     CalculatedChecksum:
-      Type:
-      Value:
+      Type: SHA256
+      Value: 9651d33582b3bb0f0e58743137f90916a8ed5edd1fccabd835c95e46b60ea053
     EmbeddedChecksum:
-      Type:
-      Value:
+      Type: MD5
+      Value: 00000000000000000000000000000000
     MemoryCard:
       FormatType: exFAT
       ManufacturerID: 158
@@ -478,13 +545,13 @@
     SampleRateHertz: 0
     BitsPerSecond: 0
     BitDepth: 0
-    FileLengthBytes:
+    FileSizeBytes: 0
     CalculatedChecksum:
-      Type:
-      Value:
+      Type: SHA256
+      Value: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
     EmbeddedChecksum:
-      Type:
-      Value:
+      Type: MD5
+      Value: 00000000000000000000000000000000
     MemoryCard:
       FormatType: exFAT
       ManufacturerID: 3
@@ -544,13 +611,13 @@
     SampleRateHertz: 0
     BitsPerSecond: 0
     BitDepth: 0
-    FileLengthBytes:
+    FileSizeBytes: 0
     CalculatedChecksum:
-      Type:
-      Value:
+      Type: SHA256
+      Value: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
     EmbeddedChecksum:
-      Type:
-      Value:
+      Type: MD5
+      Value: 00000000000000000000000000000000
     MemoryCard:
       FormatType: exFAT
       ManufacturerID: 3
@@ -610,13 +677,13 @@
     SampleRateHertz: 256000
     BitsPerSecond: 4096000
     BitDepth: 16
-    FileLengthBytes: 1030730
+    FileSizeBytes: 1030730
     CalculatedChecksum:
-      Type:
-      Value:
+      Type: SHA256
+      Value: 891ea20811445f7498d7bcf9f93512d186695d728d59c136328ab638af86e28f
     EmbeddedChecksum:
-      Type:
-      Value:
+      Type: MD5
+      Value: 00000000000000000000000000000000
     MemoryCard:
       FormatType:
       ManufacturerID:
@@ -635,7 +702,7 @@
       Name: SM4BAT-FS
       Firmware: 2.2.1
       SerialNumber: S4U09523
-      PowerSource: 
+      PowerSource:
       Microphones:
         - Type: U2
           UID:
@@ -687,13 +754,13 @@
     SampleRateHertz: 256000
     BitsPerSecond: 4096000
     BitDepth: 16
-    FileLengthBytes: 1116746
+    FileSizeBytes: 1116746
     CalculatedChecksum:
-      Type:
-      Value:
+      Type: SHA256
+      Value: 10f3cf5e55871c6bee74fc782e72c3505d283a7f344394f2aa8b00f52f6613ac
     EmbeddedChecksum:
-      Type:
-      Value:
+      Type: MD5
+      Value: 00000000000000000000000000000000
     MemoryCard:
       FormatType:
       ManufacturerID:
@@ -712,7 +779,7 @@
       Name: SM4BAT-FS
       Firmware: 2.2.1
       SerialNumber: S4U09523
-      PowerSource: 
+      PowerSource:
       Microphones:
         - Type: U2
           UID:
@@ -751,8 +818,8 @@
     WaveHeaderExtractor: ~
     WamdExtractor: ~
 
-- Name: Firmware 3.3
-  Record: &Firmware3.3
+- Name: Firmware 3.30
+  Record: &Firmware3.30
     Extension: .flac
     Stem: 00008570_Dartmouth_20220331T094900-0300_Rec
     StartDate: 2022-03-31T09:49:02-03:00
@@ -764,14 +831,14 @@
     SampleRateHertz: 44100
     BitsPerSecond: 705600
     BitDepth: 16
-    FileLengthBytes:
+    FileSizeBytes: 37195844
     CalculatedChecksum:
-      Type:
-      Value:
+      Type: SHA256
+      Value: 3ffdf92176c2529240221bd455c64dd932e7d6a2c347aee6a80ae9680a7c58dd
     EmbeddedChecksum:
-      Type:
-      Value:
-    MemoryCard: &Firmware3.3MemoryCard
+      Type: MD5
+      Value: 00000000000000000000000000000000
+    MemoryCard: &Firmware3.30MemoryCard
       FormatType: exFAT
       ManufacturerID: 3
       OEMID: SD
@@ -785,7 +852,7 @@
       WrCurrentVmax: 5
       WriteBlSize: 512
       EraseBlSize: 65536
-    Sensor: &Firmware3.3Sensor
+    Sensor: &Firmware3.30Sensor
       Name:
       Firmware: 3.30
       SerialNumber: 00008570
@@ -822,27 +889,27 @@
   Vendor: Frontier Labs
   Process:
     FilenameExtractor:
-      <<: *Firmware3.3
+      <<: *Firmware3.30
       StartDate: 2022-03-31T09:49:00-03:00
       LocalStartDate: 2022-03-31T09:49:00
       Location: ~
     FlacHeaderExtractor: ~
     FlacCommentExtractor: ~
     FrontierLabsLogFileExtractor:
-      <<: *Firmware3.3
+      <<: *Firmware3.30
       MemoryCard:
-        <<: *Firmware3.3MemoryCard
+        <<: *Firmware3.30MemoryCard
         SerialNumber: 8041328
       Sensor:
-        <<: *Firmware3.3Sensor
+        <<: *Firmware3.30Sensor
         BatteryLevel: 0.63
         Voltage: 3.75
         Microphones:
-        - Type: STD AUDIO MIC
-          UID: 009966
-          BuildDate: 2019-03-20
-          Gain:
-          Channel: 2
-          ChannelName: B
-          Sensitivity:
+          - Type: STD AUDIO MIC
+            UID: 009966
+            BuildDate: 2019-03-20
+            Gain:
+            Channel: 2
+            ChannelName: B
+            Sensitivity:
     FLCommentAndLogExtractor: ~

@@ -34,7 +34,7 @@ namespace Emu.Tests.TestHelpers.Fakes
                 .RuleFor(x => x.BitsPerSecond, f => f.Random.UInt(22050 * 16, 96000 * 16))
                 .RuleFor(x => x.BitDepth, f => f.PickRandom<byte>(8, 16, 24))
                 .RuleFor(x => x.MediaType, f => f.PickRandom("audio/wave", "audio/flac"))
-                .RuleFor(x => x.FileLengthBytes, f => (ulong)f.Random.Long(2_000_000_000L))
+                .RuleFor(x => x.FileSizeBytes, f => (ulong)f.Random.Long(2_000_000_000L))
                 .RuleFor(
                     x => x.EndDate,
                     (f, x) => x.StartDate + Duration.FromSeconds((double)x.DurationSeconds))

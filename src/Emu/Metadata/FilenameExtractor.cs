@@ -42,6 +42,7 @@ namespace Emu.Metadata
                 StartDate = recording.StartDate ?? result.OffsetDateTime,
                 LocalStartDate = recording.LocalStartDate ?? result.LocalDateTime,
                 Location = recording.Location ?? result.Location,
+                FileSizeBytes = (ulong)information.FileStream.Length,
             };
 
             return ValueTask.FromResult(recording);

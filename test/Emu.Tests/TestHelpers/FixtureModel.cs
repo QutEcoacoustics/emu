@@ -13,6 +13,7 @@ namespace Emu.Tests.TestHelpers
     using Emu.Metadata;
     using Emu.Metadata.SupportFiles;
     using Emu.Models;
+    using Xunit.Abstractions;
 
     public enum ValidMetadata
     {
@@ -24,6 +25,7 @@ namespace Emu.Tests.TestHelpers
     public class FixtureModel
     {
         public const string ShortFile = "Short Error File";
+        public const string ArtificialZeroes = "Artificial Zeroes";
         public const string MetadataDurationBug = "Metadata Duration Bug";
         public const string ZeroDbSamples = "Zero dB Samples";
         public const string NormalFile = "Normal File";
@@ -92,7 +94,7 @@ namespace Emu.Tests.TestHelpers
 
         public override string ToString()
         {
-            return this.Name;
+            return this.Name + " (" + this.FixturePath + ")";
         }
     }
 }
