@@ -22,7 +22,7 @@
     <GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="CsvHelper" Version="27.2.1" />
+    <PackageReference Include="CsvHelper" Version="28.0.0" />
     <PackageReference Include="GitInfo" Version="2.2.0" />
     <PackageReference Include="LanguageExt.Core" Version="4.2.9" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
