@@ -31,11 +31,11 @@ namespace Emu
 
         public void WriteHeader()
         {
-            if (this.Format is OutputFormat.Compact)
+            if (this.Writer.OutputFormat is OutputFormat.Compact)
             {
                 this.Writer.WriteHeader<T>(default);
             }
-            else if (this.Format is OutputFormat.Default)
+            else if (this.Writer.OutputFormat is OutputFormat.Default)
             {
                 this.Writer.WriteHeader(this.FormatHeader(default));
             }
@@ -47,11 +47,11 @@ namespace Emu
 
         public void Write(T record)
         {
-            if (this.Format is OutputFormat.Compact)
+            if (this.Writer.OutputFormat is OutputFormat.Compact)
             {
                 this.Writer.Write(this.FormatCompact(record));
             }
-            else if (this.Format is OutputFormat.Default)
+            else if (this.Writer.OutputFormat is OutputFormat.Default)
             {
                 this.Writer.Write(this.FormatRecord(record));
             }
@@ -63,11 +63,11 @@ namespace Emu
 
         public void WriteFooter()
         {
-            if (this.Format is OutputFormat.Compact)
+            if (this.Writer.OutputFormat is OutputFormat.Compact)
             {
                 this.Writer.WriteFooter<T>(default);
             }
-            else if (this.Format is OutputFormat.Default)
+            else if (this.Writer.OutputFormat is OutputFormat.Default)
             {
                 this.Writer.WriteFooter(this.FormatFooter(default));
             }

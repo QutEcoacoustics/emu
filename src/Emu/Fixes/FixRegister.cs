@@ -20,7 +20,7 @@ namespace Emu.Fixes
         {
             FileNameDateStampInvalid.Metadata,
             MetadataDurationBug.Metadata,
-            PowerFailure.Metadata,
+            PreAllocatedHeader.Metadata,
         };
 
         public IFixOperation Resolve(WellKnownProblem problem)

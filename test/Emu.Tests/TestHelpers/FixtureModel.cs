@@ -24,7 +24,8 @@ namespace Emu.Tests.TestHelpers
 
     public class FixtureModel
     {
-        public const string ShortFile = "Short Error File";
+        public const string PreAllocatedHeader = "Short Error File";
+        public const string PreAllocatedHeader2 = "Preallocated header 153";
         public const string ArtificialZeroes = "Artificial Zeroes";
         public const string MetadataDurationBug = "Metadata Duration Bug";
         public const string ZeroDbSamples = "Zero dB Samples";
@@ -90,6 +91,11 @@ namespace Emu.Tests.TestHelpers
             SupportFile.FindSupportFiles(fileSystem.Path.GetDirectoryName(ti.Path), new List<TargetInformation> { ti }, fileSystem);
 
             return ti;
+        }
+
+        public IFileInfo ToFileInfo(IFileSystem fileSystem)
+        {
+             return fileSystem.FileInfo.FromFileName(this.AbsoluteFixturePath);
         }
 
         public override string ToString()

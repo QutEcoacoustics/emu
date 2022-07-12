@@ -17,6 +17,8 @@ namespace Emu.Tests.Commands.Metadata
     using Xunit;
     using Xunit.Abstractions;
 
+    using static Emu.EmuCommand;
+
     public class MetadataCommandTests : TestBase
     {
         private readonly Metadata command;
@@ -31,10 +33,10 @@ namespace Emu.Tests.Commands.Metadata
                 this.BuildLogger<Metadata>(),
                 this.TestFiles,
                 new FileMatcher(this.BuildLogger<FileMatcher>(), this.TestFiles),
-                new OutputRecordWriter(this.writer, new JsonLinesSerializer()),
+                new OutputRecordWriter(this.writer, new JsonLinesSerializer(), new Lazy<OutputFormat>(OutputFormat.JSONL)),
                 new MetadataRegister(this.ServiceProvider))
             {
-                Format = EmuCommand.OutputFormat.JSONL,
+                Format = OutputFormat.JSONL,
             };
 
             this.command.Targets = "/".AsArray();
@@ -59,7 +61,7 @@ namespace Emu.Tests.Commands.Metadata
         }
 
         [Fact]
-        public async void MetadataCommandOutputsOneRecordPerFile()
+        public async System.Threading.Tasks.Task MetadataCommandOutputsOneRecordPerFile()
         {
             this.TestFiles.AddEmptyFile("/a.WAV");
             this.TestFiles.AddEmptyFile("/b.WAV");

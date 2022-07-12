@@ -1,4 +1,4 @@
-// <copyright file="PowerFailure.cs" company="QutEcoacoustics">
+// <copyright file="PreAllocatedHeader.cs" company="QutEcoacoustics">
 // All code in this file and all associated files are the copyright and property of the QUT Ecoacoustics Research Group.
 // </copyright>
 
@@ -6,34 +6,39 @@ namespace Emu.Fixes.FrontierLabs
 {
     using System.IO.Abstractions;
     using System.Threading.Tasks;
+    using static Emu.Audio.Vendors.FrontierLabs;
 
-    public class PowerFailure : ICheckOperation
+    public class PreAllocatedHeader : ICheckOperation
     {
         private readonly IFileSystem fileSystem;
 
-        public PowerFailure(IFileSystem fileSystem)
+        public PreAllocatedHeader(IFileSystem fileSystem)
         {
             this.fileSystem = fileSystem;
         }
 
         public static OperationInfo Metadata => new(
-            WellKnownProblems.FrontierLabs.StubFile,
+            WellKnownProblems.FrontierLabsProblems.PreAllocatedHeader,
             Fixable: false,
             Safe: true,
-            Automatic: true,
-            typeof(PowerFailure));
+            Automatic: false,
+            typeof(PreAllocatedHeader));
 
-        public async Task<CheckResult> CheckAffectedAsync(string file)
+        public Task<CheckResult> CheckAffectedAsync(string file)
         {
             using var stream = (FileStream)this.fileSystem.File.OpenRead(file);
 
             // we'll use a couple metrics here
             // is it a stub recording?
-            return (await Audio.Vendors.FrontierLabs.IsDefaultStubRecording(stream)) switch
+            var result = IsPreallocatedHeader(stream, file) switch
             {
-                true => new CheckResult(CheckStatus.Affected, Severity.Severe, "The file empty and there is no usable data"),
+                true => new CheckResult(CheckStatus.Affected, Severity.Severe, "The file is a stub and has no usable data"),
+                false when stream.Length == 0 => new CheckResult(CheckStatus.NotApplicable, Severity.None, string.Empty),
                 false => new CheckResult(CheckStatus.Unaffected, Severity.None, string.Empty),
+
             };
+
+            return Task.FromResult(result);
         }
 
         public OperationInfo GetOperationInfo() => Metadata;

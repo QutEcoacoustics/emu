@@ -2,6 +2,10 @@
 // All code in this file and all associated files are the copyright and property of the QUT Ecoacoustics Research Group.
 // </copyright>
 
+#pragma warning disable SA1200 // Using directives should be placed correctly
+global using Microsoft.Extensions.DependencyInjection;
+#pragma warning restore SA1200 // Using directives should be placed correctly
+
 namespace Emu.Tests.TestHelpers
 {
     using System;

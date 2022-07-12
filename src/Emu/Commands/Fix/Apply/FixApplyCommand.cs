@@ -9,8 +9,14 @@ namespace Emu
 
     public class FixApplyCommand : Command
     {
+        public const string Summary = @"
+Apply one or more fixes to a file.
+Automatic fixes are fixed in place.
+Non-fixable problems are ignored unless --rename-unfixable is specified.
+";
+
         public FixApplyCommand()
-            : base("apply", "apply one or more fixes to a file.\nCurrently only supports automatic fixes.")
+            : base("apply", Summary)
         {
             this.AddArgument(Common.Targets);
 
@@ -19,6 +25,8 @@ namespace Emu
             this.AddOption(new Option<bool>(new string[] { "-n", "--dry-run" }, "Do a \"dry run\" by simulating any change that writes data"));
 
             this.AddOption(new Option<bool>(new string[] { "--backup" }, "Backup the original file before writing any changes"));
+
+            this.AddOption(new Option<bool>(new string[] { "--rename-unfixable" }, "For any non-fixable problem append the `.error` suffix to the file name"));
         }
     }
 }

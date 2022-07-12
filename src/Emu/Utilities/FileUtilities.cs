@@ -51,26 +51,36 @@ namespace Emu.Utilities
             return dest;
         }
 
-        [RequiresUnreferencedCode("HashAlgorithm")]
-        public async ValueTask<Checksum> CalculateChecksum(string path, HashAlgorithmName hashName)
+        public string Rename(string path, string newBasename, DryRun dryRun)
         {
-            ArgumentNullException.ThrowIfNull(path, nameof(path));
-            ArgumentNullException.ThrowIfNull(hashName, nameof(hashName));
-
-#pragma warning disable CS8604 // Possible null reference argument.
-            var algorithm = HashAlgorithm.Create(hashName.Name);
-#pragma warning restore CS8604 // Possible null reference argument.
-
-            if (algorithm is null)
+            var newPath = this.fileSystem.Path.Combine(this.fileSystem.Path.GetDirectoryName(path), newBasename);
+            using (this.logger.Measure($"Renamed file from {path} to {newPath}"))
             {
-                throw new ArgumentNullException(nameof(hashName), "hash name not recognized");
+                dryRun.WouldDo(
+                    $"rename file to {newPath}",
+                    () => this.fileSystem.File.Move(path, newPath, overwrite: false));
             }
 
+            return newPath;
+        }
+
+        public async ValueTask<Checksum> CalculateChecksumSha256(string path)
+        {
+            ArgumentNullException.ThrowIfNull(path, nameof(path));
+
             using var stream = this.fileSystem.File.OpenRead(path);
+            return await this.CalculateChecksumSha256(stream);
+        }
 
-            var hash = await algorithm.ComputeHashAsync(stream);
+        public async ValueTask<Checksum> CalculateChecksumSha256(Stream stream)
+        {
+            ArgumentNullException.ThrowIfNull(stream, nameof(stream));
 
-            return new Checksum() { Type = hashName.Name, Value = Convert.ToHexString(hash) };
+            using var hasher = SHA256.Create();
+
+            var hash = await hasher.ComputeHashAsync(stream);
+
+            return new Checksum() { Type = HashAlgorithmName.SHA256.Name, Value = hash.ToHexString() };
         }
     }
 }

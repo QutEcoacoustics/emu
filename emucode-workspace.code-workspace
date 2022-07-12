@@ -26,6 +26,8 @@
             "Shouldly",
             "Succ",
             "typeparam",
+            "unfixable",
+            "unmanaged",
             "Vorbis",
             "Wamd",
             "Xbehave",
@@ -36,6 +38,13 @@
             "editor.tabSize": 2,
             "editor.defaultFormatter": "redhat.vscode-yaml"
         },
+        "omnisharp.autoStart": true,
+        "omnisharp.enableEditorConfigSupport": true,
+        "omnisharp.enableRoslynAnalyzers": true,
+        "omnisharp.organizeImportsOnFormat": true,
+        "omnisharp.enableImportCompletion": true,
+
+        
         "nugetpackagemanagergui.nuget.searchPackage.preRelease": true,
         "workbench.colorCustomizations": {
             "activityBar.activeBackground": "#836d62",
@@ -56,7 +65,7 @@
             "titleBar.inactiveBackground": "#66554c99",
             "titleBar.inactiveForeground": "#e7e7e799"
         },
-        "peacock.color": "#66554C"
+        "peacock.color": "#66554C",
     },
     "launch": {
         "version": "0.2.0",

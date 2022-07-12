@@ -32,7 +32,12 @@ namespace Emu.Audio.Vendors
         public const string UnknownValueString = "unknown";
         public const string LongitudeKey = "Longitude";
         public const string LatitudeKey = "Latitude";
+
         public const int DefaultFileStubLength = 44;
+
+        // based on a statistical sample this is the most common stub length for flac filees
+        public const int DefaultFileStubLength2 = 153;
+
         public static readonly OffsetDateTimePattern[] DatePatterns =
         {
             OffsetDateTimePattern.CreateWithInvariantCulture("yyyy'-'MM'-'dd'T'HH':'mm':'sso<M>"),
@@ -63,6 +68,7 @@ namespace Emu.Audio.Vendors
         public static readonly Func<string, Error> CIDInvalid = x => Error.New($"CID `{x}` can't be parsed");
         public static readonly Func<string, Error> BatteryValuesInvalid = x => Error.New($"Battery values '{x}' can't be parsed");
         public static readonly Func<string, Error> ParsingError = x => Error.New($"Value '{x}' cant' be parsed");
+        public static readonly Error EmptyError = Error.New($"File is empty");
 
         public static async ValueTask<Fin<FirmwareRecord>> ReadFirmwareAsync(FileStream stream)
         {
@@ -112,31 +118,97 @@ namespace Emu.Audio.Vendors
             await stream.WriteAsync(newFirmware);
         }
 
-        public static async ValueTask<bool> IsDefaultStubRecording(FileStream stream)
+        /// <summary>
+        /// Determines whether a given file stream exhibits behaviour of a preallocated header file.
+        /// These files act like wave files, but don't have any meaningful data.
+        /// There are certain traits that identify this problem, not every preallocated header file has them all.
+        /// A scoring system is used to determine whether a file fits the criteria.
+        /// If three or more faults are found, the file is deemed to have the problem.
+        /// </summary>
+        /// <param name="stream">The file stream.</param>
+        /// <param name="path">The path to the current target.</param>
+        /// <returns>
+        /// True for a preallocated header file, false if not.
+        /// </returns>
+        public static bool IsPreallocatedHeader(Stream stream, string path)
         {
-            var isLength = stream.Length == DefaultFileStubLength;
+            int faults = 0;
 
-            if (!isLength)
+            // an empty file is a distinct an different error
+            if (stream.Length == 0)
             {
                 return false;
             }
 
-            var bytes = new byte[DefaultFileStubLength];
-            await stream.ReadAsync(bytes);
-
-            return Check(bytes);
-
-            static bool Check(ReadOnlySpan<byte> buffer)
+            if (stream.Length is DefaultFileStubLength or DefaultFileStubLength2)
             {
-                var dataBlockIndex = buffer.IndexOf(Wave.DataChunkId);
-                if (dataBlockIndex >= 0)
+                faults++;
+            }
+            else if (stream.Length < 200)
+            {
+                // If there are less than 200 bytes in the file, increment faults
+                faults++;
+            }
+
+            var riffChunk = Wave.FindRiffChunk(stream);
+
+            // If there is a riff chunk but a flac extension, increment faults
+            if (Path.GetExtension(path).Equals(Flac.Extension) && riffChunk.IsSucc)
+            {
+                faults++;
+            }
+
+            if (riffChunk.IsFail)
+            {
+                return Judgement();
+            }
+
+            // If the riff chunk size is incorrect, increment faults
+            if (((RangeHelper.Range)riffChunk).End != stream.Length)
+            {
+                faults++;
+            }
+
+            var waveChunk = riffChunk.Bind(r => Wave.FindWaveChunk(stream, r));
+            var dataChunk = waveChunk.Bind(w => Wave.FindDataChunk(stream, w));
+            if (dataChunk.IsFail)
+            {
+                return Judgement();
+            }
+
+            long dataStart = ((RangeHelper.Range)dataChunk).Start;
+            long dataEnd = ((RangeHelper.Range)dataChunk).End;
+
+            // If the data is less than 4 bytes or the first 4 bytes are 0, increment faults
+            if (dataEnd - dataStart < 4)
+            {
+                faults++;
+            }
+            else
+            {
+                Span<byte> dataBuffer = stackalloc byte[4];
+                long position = stream.Seek(dataStart, SeekOrigin.Begin);
+
+                if (position == dataStart)
                 {
-                    var dataChunkSize = BinaryPrimitives.ReadUInt32LittleEndian(buffer.Slice(dataBlockIndex + Wave.DataChunkId.Length));
-                    return dataChunkSize == 0;
-                }
+                    stream.Read(dataBuffer);
 
-                return false;
+                    if (BinaryPrimitives.ReadInt32BigEndian(dataBuffer) == 0)
+                    {
+                        faults++;
+                    }
+                }
             }
+
+            // If the data section is longer than the stream, increment faults
+            if (dataEnd > stream.Length)
+            {
+                faults++;
+            }
+
+            return Judgement();
+
+            bool Judgement() => faults >= 3;
         }
 
         /// <summary>

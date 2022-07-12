@@ -5,6 +5,7 @@
 namespace Emu
 {
     using System.CommandLine.Invocation;
+    using System.Diagnostics;
     using System.IO.Abstractions;
     using System.Linq;
     using System.Text;
@@ -15,6 +16,9 @@ namespace Emu
     using Emu.Utilities;
     using LanguageExt;
     using Microsoft.Extensions.Logging;
+    using Spectre.Console;
+    using static Emu.Cli.SpectreUtils;
+    using static LanguageExt.Prelude;
 
     public class FixApply : EmuCommandHandler<Emu.FixApply.FixApplyResult>
     {
@@ -23,14 +27,23 @@ namespace Emu
         private readonly FileMatcher fileMatcher;
         private readonly FixRegister register;
         private readonly IFileSystem fileSystem;
+        private readonly FileUtilities fileUtils;
 
-        public FixApply(ILogger<FixApply> logger, ILogger<DryRun> dryRunLogger, FileMatcher fileMatcher, FixRegister register, OutputRecordWriter writer, IFileSystem fileSystem)
+        public FixApply(
+            ILogger<FixApply> logger,
+            ILogger<DryRun> dryRunLogger,
+            FileMatcher fileMatcher,
+            FixRegister register,
+            OutputRecordWriter writer,
+            IFileSystem fileSystem,
+            FileUtilities fileUtils)
         {
             this.logger = logger;
             this.dryRunLogger = dryRunLogger;
             this.fileMatcher = fileMatcher;
             this.register = register;
             this.fileSystem = fileSystem;
+            this.fileUtils = fileUtils;
             this.Writer = writer;
         }
 
@@ -42,16 +55,18 @@ namespace Emu
 
         public bool Backup { get; set; }
 
+        public bool NoRename { get; set; }
+
         public override async Task<int> InvokeAsync(InvocationContext context)
         {
             // resolve fixes
-            IFixOperation[] fixes = null;
+            ICheckOperation[] fixes = null;
             if (this.Fix is null or { Length: 0 })
             {
                 throw new Exception("A fix argument must be provided");
             }
 
-            fixes = this.Fix.Select(x => this.register.Resolve(x)).ToArray();
+            fixes = this.Fix.Select(x => this.register.ResolveCheck(x)).ToArray();
 
             this.logger.LogDebug("Input targets: {targets}", this.Targets);
 
@@ -79,19 +94,76 @@ namespace Emu
             return ExitCodes.Success;
         }
 
-        public async ValueTask ProcessFile(string file, DryRun dryRun, IFixOperation[] fixes)
+        public async ValueTask ProcessFile(string file, DryRun dryRun, ICheckOperation[] operations)
         {
-            var results = new Dictionary<WellKnownProblem, FixResult>(fixes.Length);
-            foreach (var fix in fixes)
-            {
-                var fixMetadata = fix.GetOperationInfo();
-                this.logger.LogDebug("Fixing {path} with {fixer}", file, fixMetadata.Problem.Id);
-                var result = await fix.ProcessFileAsync(file, dryRun, this.Backup);
+            async Task<OpAndCheck> Check(ICheckOperation operation) => new(operation, await operation.CheckAffectedAsync(file));
+            var checkResults = await operations.SequenceParallel(Check);
 
-                results[fixMetadata.Problem] = result;
+            // first check for errors
+            var errors = checkResults.Exists(pair => pair.CheckResult.Status == CheckStatus.Error);
+            if (errors)
+            {
+                this.logger.LogWarning("Errors encountered while checking file: {file}", file);
+
+                this.Write(new FixApplyResult(file, AllNoop(checkResults)));
+
+                // early exit!
+                return;
             }
 
-            this.Write(new FixApplyResult(file, results));
+            // then check if any are affected
+            var affected = checkResults.Exists(pair => pair.CheckResult.Status == CheckStatus.Affected);
+            if (!affected)
+            {
+                this.logger.LogDebug("No problems found for file: {file}", file);
+
+                this.Write(new FixApplyResult(file, AllNoop(checkResults)));
+
+                // early exit!
+                return;
+            }
+
+            // check if any are not fixable
+            if (checkResults.Any(IsNotFixable))
+            {
+                this.logger.LogWarning("Some problems are not fixable for file: {file}", file);
+                var firstError = checkResults.First(IsNotFixable);
+                var rest = checkResults.Except(firstError.AsEnumerable());
+
+                Debug.Assert(firstError.CheckResult is { Status: CheckStatus.Affected }, "We should have found a problem that is affected");
+                var result = this.ApplyRename(file, dryRun, firstError.Operation);
+                var renamed = result.IsSome;
+                var newPath = result.IfNone(file);
+
+                var message = renamed ? ("Renamed to: " + newPath) : null;
+
+                var fixResults = AllNoop(rest);
+                fixResults.Add(
+                    firstError.Operation.GetOperationInfo().Problem,
+                    new FixResult(
+                        renamed ? FixStatus.Renamed : FixStatus.NotFixed,
+                        firstError.CheckResult,
+                        message));
+
+                this.Write(new FixApplyResult(newPath, fixResults));
+
+                // early exit!
+                return;
+            }
+
+            // ok we now assume there is some mutation to do!
+            // backup first!
+            var backup = await this.BackupFileAsync(file, dryRun);
+
+            // finally, apply the fixes
+            var results = new Dictionary<WellKnownProblem, FixResult>(operations.Length);
+            foreach (var (operation, checkResult) in checkResults)
+            {
+                var result = await this.ApplyFixAsync(file, dryRun, (IFixOperation)operation, checkResult);
+                results.Add(operation.GetOperationInfo().Problem, result);
+            }
+
+            this.Write(new FixApplyResult(file, results, backup));
         }
 
         public override string FormatCompact(FixApplyResult record)
@@ -106,10 +178,18 @@ namespace Emu
         {
             var f = record;
             StringBuilder builder = new();
-            builder.AppendFormat("File {0}:\n", f.File);
+
+            builder.AppendFormat("File {0}:\n", MarkupPath(f.File));
+            if (f.BackupFile != null)
+            {
+                builder.AppendFormat("\tBacked up to {0}", f.BackupFile.EscapeMarkup());
+            }
+
             foreach (var report in f.Problems)
             {
-                builder.AppendFormat("\t- {0}: {1}. {2}\n", report.Key.Id, report.Value.Status, report.Value.Message);
+                builder.AppendFormat("\t- {0}: ", report.Key.Id);
+                builder.AppendFormat("{0} {1}.\n", report.Value.CheckResult.Status, report.Value.CheckResult.Message.EscapeMarkup());
+                builder.AppendFormat("\t\tAction taken: {0}. {1}\n", report.Value.Status, report.Value.Message.EscapeMarkup());
             }
 
             return builder.ToString();
@@ -119,10 +199,65 @@ namespace Emu
         {
             FixStatus.NotFixed => "ERR",
             FixStatus.Fixed => "FIXED",
+            FixStatus.Renamed => "RENAMED",
             FixStatus.NoOperation => "NOOP",
             _ => "?",
         };
 
-        public partial record FixApplyResult(string File, Dictionary<WellKnownProblem, FixResult> Problems);
+        private static bool IsNotFixable(OpAndCheck pair)
+        {
+            return !(pair.Operation is IFixOperation || pair.CheckResult.Severity <= Severity.Mild);
+        }
+
+        private static Dictionary<WellKnownProblem, FixResult> AllNoop(IEnumerable<OpAndCheck> checkResults)
+        {
+            return checkResults.ToDictionary(
+                x => x.Operation.GetOperationInfo().Problem,
+                x => new FixResult(FixStatus.NoOperation, x.CheckResult, null));
+        }
+
+        private Option<string> ApplyRename(string file, DryRun dryRun, ICheckOperation operation)
+        {
+            if (!this.NoRename)
+            {
+                var id = operation.GetOperationInfo().Problem.Id;
+                var basename = this.fileSystem.Path.GetFileName(file);
+                var newName = $"{basename}.error_{id}";
+                var dest = this.fileUtils.Rename(file, newName, dryRun);
+                this.logger.LogDebug("File renamed up to {destination}", dest);
+                return dest;
+            }
+
+            return None;
+        }
+
+        private async Task<string> BackupFileAsync(string file, DryRun dryRun)
+        {
+            if (this.Backup)
+            {
+                var backup = await this.fileUtils.BackupAsync(file, dryRun);
+                this.logger.LogDebug("File backed up to {backup}", backup);
+                return backup;
+            }
+
+            return null;
+        }
+
+        private async Task<FixResult> ApplyFixAsync(string file, DryRun dryRun, IFixOperation operation, CheckResult checkResult)
+        {
+            if (checkResult is { Status: CheckStatus.Affected })
+            {
+                this.logger.LogDebug("Fixing {path} with {fixer}", file, operation.GetOperationInfo().Problem.Id);
+                return await operation.ProcessFileAsync(file, dryRun);
+            }
+            else
+            {
+                return new FixResult(FixStatus.NoOperation, checkResult, checkResult.Message);
+            }
+        }
+
+        public partial record FixApplyResult(string File, IReadOnlyDictionary<WellKnownProblem, FixResult> Problems, string BackupFile = null);
+
+        private record OpAndCheck(ICheckOperation Operation, CheckResult CheckResult);
     }
 }

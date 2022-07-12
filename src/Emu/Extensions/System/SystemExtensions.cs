@@ -45,25 +45,9 @@ namespace System
         /// <typeparam name="T">The type of the <paramref name="item"/>.</typeparam>
         /// <param name="item">The item to wrap.</param>
         /// <returns>An enumerable with one item.</returns>
-        public static IEnumerable<T> AsSequence<T>(this T item)
+        public static IEnumerable<T> AsEnumerable<T>(this T item)
         {
             yield return item;
-        }
-
-        /// <summary>
-        /// Creates an empty file, and any intermediate directories.
-        /// </summary>
-        /// <param name="path">The file to create.</param>
-        /// <param name="fileSystem">The file system to operate on.</param>
-        public static string Touch(this string path, IFileSystem fileSystem)
-        {
-            ArgumentNullException.ThrowIfNull(path, nameof(path));
-
-            var directory = fileSystem.Path.GetDirectoryName(path);
-            fileSystem.Directory.CreateDirectory(directory);
-            fileSystem.File.Create(path).Close();
-
-            return path;
         }
     }
 }

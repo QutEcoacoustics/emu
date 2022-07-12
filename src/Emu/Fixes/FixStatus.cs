@@ -9,5 +9,6 @@ namespace Emu.Fixes
         NoOperation,
         Fixed,
         NotFixed,
+        Renamed,
     }
 }

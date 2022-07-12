@@ -11,7 +11,7 @@ namespace Emu.Fixes
         bool Fixable,
         bool Safe,
         bool Automatic,
-        [property: JsonIgnore] Type FixClass);
-
-    //public partial record OperationInfo
+        [property: JsonIgnore] Type FixClass)
+    {
+    }
 }

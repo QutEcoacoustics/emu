@@ -31,7 +31,7 @@ namespace Emu.Fixes.FrontierLabs
         }
 
         public static OperationInfo Metadata => new(
-            WellKnownProblems.FrontierLabs.MetadataDurationBug,
+            WellKnownProblems.FrontierLabsProblems.MetadataDurationBug,
             Fixable: true,
             Safe: true,
             Automatic: true,
@@ -46,18 +46,12 @@ namespace Emu.Fixes.FrontierLabs
 
         public OperationInfo GetOperationInfo() => Metadata;
 
-        public async Task<FixResult> ProcessFileAsync(string file, DryRun dryRun, bool backup)
+        public async Task<FixResult> ProcessFileAsync(string file, DryRun dryRun)
         {
             var affected = await this.CheckAffectedAsync(file);
 
             if (affected is { Status: CheckStatus.Affected })
             {
-                if (backup)
-                {
-                    var dest = await this.fileUtils.BackupAsync(file, dryRun);
-                    this.logger.LogDebug("File backed up to {destination}", dest);
-                }
-
                 using var stream = (FileStream)this.fileSystem.File.Open(file, FileMode.Open, dryRun.FileAccess);
                 return await this.FixDuration(stream, affected, dryRun);
             }
