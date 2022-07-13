@@ -7,10 +7,16 @@ namespace Emu.Metadata
     using System.Security.Cryptography;
     using System.Threading.Tasks;
     using Emu.Models;
+    using Emu.Utilities;
 
     public class HashCalculator : IMetadataOperation
     {
-        private static readonly HashAlgorithmName Name = HashAlgorithmName.SHA256;
+        private readonly FileUtilities fileUtilities;
+
+        public HashCalculator(FileUtilities fileUtilities)
+        {
+            this.fileUtilities = fileUtilities;
+        }
 
         public ValueTask<bool> CanProcessAsync(TargetInformation information)
         {
@@ -20,26 +26,11 @@ namespace Emu.Metadata
 
         public async ValueTask<Recording> ProcessFileAsync(TargetInformation information, Recording recording)
         {
-            using var hasher = SHA256.Create();
-
-            ArgumentNullException.ThrowIfNull(hasher, nameof(hasher));
-
-            // using a separate file stream here to avoid conflicting with other readers
-            // using var stream = information.FileSystem.File.Open(
-            //     information.Path,
-            //     FileMode.Open,
-            //     FileAccess.Read,
-            //     FileShare.Read);
-
-            var result = await hasher.ComputeHashAsync(information.FileStream);
+            var result = await this.fileUtilities.CalculateChecksumSha256(information.FileStream);
 
             return recording with
             {
-                CalculatedChecksum = new Checksum()
-                {
-                    Type = Name.ToString(),
-                    Value = result.ToHexString(),
-                },
+                CalculatedChecksum = result,
             };
         }
     }

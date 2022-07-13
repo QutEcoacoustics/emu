@@ -24,7 +24,8 @@ namespace Emu.Tests.TestHelpers
 
     public class FixtureModel
     {
-        public const string ShortFile = "Short Error File";
+        public const string PreAllocatedHeader = "Short Error File";
+        public const string PreAllocatedHeader2 = "Preallocated header 153";
         public const string ArtificialZeroes = "Artificial Zeroes";
         public const string MetadataDurationBug = "Metadata Duration Bug";
         public const string ZeroDbSamples = "Zero dB Samples";
@@ -36,6 +37,7 @@ namespace Emu.Tests.TestHelpers
         public const string FrontierLabsLogFileExtractor = "FrontierLabsLogFileExtractor";
         public const string WamdExtractor = "WamdExtractor";
         public const string FLCommentAndLogExtractor = "FLCommentAndLogExtractor";
+        public const string SpaceInDateStamp = "Space in date stamp";
 
         private string fixturePath;
 
@@ -90,6 +92,25 @@ namespace Emu.Tests.TestHelpers
             SupportFile.FindSupportFiles(fileSystem.Path.GetDirectoryName(ti.Path), new List<TargetInformation> { ti }, fileSystem);
 
             return ti;
+        }
+
+        public IFileInfo ToFileInfo(IFileSystem fileSystem)
+        {
+             return fileSystem.FileInfo.FromFileName(this.AbsoluteFixturePath);
+        }
+
+        public bool ShouldProcess(string processKey, out Recording recording)
+        {
+            recording = null;
+
+            var result = this.Process.ContainsKey(processKey);
+
+            if (result)
+            {
+                recording = this.Process[processKey] ?? this.Record;
+            }
+
+            return result;
         }
 
         public override string ToString()

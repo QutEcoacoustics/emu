@@ -20,18 +20,16 @@ namespace Emu.Fixes.FrontierLabs
         public static readonly (decimal Min, decimal Max) AffectedFirmwares = (3.17m, 3.28m);
 
         private readonly ILogger<MetadataDurationBug> logger;
-        private readonly FileUtilities fileUtils;
         private readonly IFileSystem fileSystem;
 
-        public MetadataDurationBug(ILogger<MetadataDurationBug> logger, FileUtilities fileUtils)
+        public MetadataDurationBug(ILogger<MetadataDurationBug> logger)
         {
             this.logger = logger;
-            this.fileUtils = fileUtils;
             this.fileSystem = new FileSystem();
         }
 
         public static OperationInfo Metadata => new(
-            WellKnownProblems.FrontierLabs.MetadataDurationBug,
+            WellKnownProblems.FrontierLabsProblems.MetadataDurationBug,
             Fixable: true,
             Safe: true,
             Automatic: true,
@@ -46,18 +44,12 @@ namespace Emu.Fixes.FrontierLabs
 
         public OperationInfo GetOperationInfo() => Metadata;
 
-        public async Task<FixResult> ProcessFileAsync(string file, DryRun dryRun, bool backup)
+        public async Task<FixResult> ProcessFileAsync(string file, DryRun dryRun)
         {
             var affected = await this.CheckAffectedAsync(file);
 
             if (affected is { Status: CheckStatus.Affected })
             {
-                if (backup)
-                {
-                    var dest = await this.fileUtils.BackupAsync(file, dryRun);
-                    this.logger.LogDebug("File backed up to {destination}", dest);
-                }
-
                 using var stream = (FileStream)this.fileSystem.File.Open(file, FileMode.Open, dryRun.FileAccess);
                 return await this.FixDuration(stream, affected, dryRun);
             }

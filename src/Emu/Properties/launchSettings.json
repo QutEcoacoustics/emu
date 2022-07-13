@@ -1,11 +1,11 @@
 {
-  "profiles": {
-    "Emu": {
-      "commandName": "Project",
-      "commandLineArgs": "fix -vv fix check C:\\Work\\Github\\metadata-utility\\test\\Fixtures\\FL_BAR_LT\\3.17_Duration\\*.flac -f FL010"
-    },
-    "Docker": {
-      "commandName": "Docker"
+    "profiles": {
+        "Emu": {
+            "commandName": "Project",
+            "commandLineArgs": "fix apply -f FL001 -f FL010 -n \"F:\\tmp\\fixes\\*.flac\"",
+        },
+        "Docker": {
+            "commandName": "Docker"
+        }
     }
-  }
 }

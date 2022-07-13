@@ -35,10 +35,12 @@ namespace Emu.Metadata
         {
             var result = this.parser.Parse(information.Path);
 
+            var stem = this.fileSystem.Path.GetFileNameWithoutExtension(information.Path);
+
             recording = recording with
             {
                 Extension = recording.Extension ?? result.Extension,
-                Stem = recording.Stem ?? result.Prefix + result.DatePart + result.Suffix,
+                Stem = recording.Stem ?? stem,
                 StartDate = recording.StartDate ?? result.OffsetDateTime,
                 LocalStartDate = recording.LocalStartDate ?? result.LocalDateTime,
                 Location = recording.Location ?? result.Location,

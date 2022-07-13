@@ -27,7 +27,7 @@ namespace Emu.Tests.Metadata
 
         [Theory]
         [ClassData(typeof(FixtureHelper.FixtureData))]
-        public async void CanProcessFilesWorks(FixtureModel model)
+        public async System.Threading.Tasks.Task CanProcessFilesWorks(FixtureModel model)
         {
             var result = await this.subject.CanProcessAsync(model.ToTargetInformation(this.RealFileSystem));
 
@@ -38,7 +38,7 @@ namespace Emu.Tests.Metadata
 
         [Theory]
         [ClassData(typeof(FixtureHelper.FixtureData))]
-        public async void ProcessFilesWorks(FixtureModel model)
+        public async System.Threading.Tasks.Task ProcessFilesWorks(FixtureModel model)
         {
             if (model.Process.ContainsKey(FixtureModel.FlacHeaderExtractor))
             {

@@ -4,6 +4,7 @@
 
 namespace Emu.Metadata.SupportFiles.FrontierLabs
 {
+    using System.Linq;
     using System.Text.RegularExpressions;
     using Emu.Models;
     using LanguageExt;
@@ -28,7 +29,7 @@ namespace Emu.Metadata.SupportFiles.FrontierLabs
             LocalDateTimePattern.CreateWithInvariantCulture("yyyy'-'MM'-'dd' 'HH':'mm':'ss"),
             LocalDateTimePattern.CreateWithInvariantCulture("dd'/'MM'/'yyyy' 'HH':'mm':'ss"),
         };
-
+        public static readonly string[] PowerTokens = new[] { "Ext-power", "Solar-power" };
         public static readonly Regex LogFileRegex = new Regex(@".*logfile.*txt");
         public static readonly Regex FirmwareRegex = new Regex(@"V?\d+");
         public static readonly Regex BatteryParsingRegex = new Regex(@"[%V()]");
@@ -315,7 +316,18 @@ namespace Emu.Metadata.SupportFiles.FrontierLabs
                 }
                 else if (line.Contains(ConfigString))
                 {
-                    powerSource = line.Split().Last();
+                    var tokens = line.Split(new char[] { ' ', ',' }, StringSplitOptions.RemoveEmptyEntries);
+
+                    // allow for more specific extraction
+                    var matchedKnownTokens = tokens.Filter(t => PowerTokens.Contains(t));
+                    if (matchedKnownTokens.Any())
+                    {
+                        powerSource = string.Join(", ", matchedKnownTokens);
+                    }
+                    else
+                    {
+                        powerSource = tokens.Last();
+                    }
                 }
             }
 

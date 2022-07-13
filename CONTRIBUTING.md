@@ -59,6 +59,20 @@ Other notes:
     ./docker_build_and_push.ps1
     ```
 
+## Debug notes
+
+Debugging from the commandline can often be useful. To attach a debugger:
+
+1. Set the `EMU_DEBUG` environment variable to any non-empty value.
+2. Ensure your `dotnet run` command includes the `--no-self-contained` switch before the rest of the arguments.
+
+Example:
+
+```powershell
+$env:EMU_DEBUG=$true
+dotnet run --no-self-contained -- fix apply -f FL001 -f FL010 -n "F:\tmp\fixes\*.flac"
+```
+
 ## Docker
 
 [![Docker Image Version (latest semver)](https://img.shields.io/docker/v/qutecoacoustics/emu)](https://hub.docker.com/repository/docker/qutecoacoustics/emu)

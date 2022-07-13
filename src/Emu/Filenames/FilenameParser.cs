@@ -9,6 +9,7 @@ namespace Emu.Filenames
     using System.Linq;
     using System.Text.RegularExpressions;
     using Emu.Dates;
+    using Emu.Fixes.FrontierLabs;
     using Emu.Models;
     using NodaTime;
     using NodaTime.Text;
@@ -157,6 +158,13 @@ namespace Emu.Filenames
         {
             var directory = this.fileSystem.Path.GetDirectoryName(path);
             var filename = this.fileSystem.Path.GetFileName(path);
+
+            // FL008 sees a space where a leading 0 should be for the day segment of a datestamp.
+            // Detect this and match it!
+            if (SpaceInDatestamp.Matcher.Match(filename) is { Success: true } m)
+            {
+                filename = m.Result(SpaceInDatestamp.ReplaceString);
+            }
 
             foreach (var dateVariant in this.offsetDateVariant)
             {

@@ -49,7 +49,7 @@ namespace Emu.Tests.Utilities
                 .Resolve(expectedBase);
 
             var actualPaths = this.matcher
-                .ExpandMatches(this.fileMatcherFixture.TempDir, fullGlob.AsSequence())
+                .ExpandMatches(this.fileMatcherFixture.TempDir, fullGlob.AsEnumerable())
                 .ToArray();
 
             actualPaths.Select(x => x.File).Should().BeEquivalentTo(expectedPaths);
@@ -59,7 +59,7 @@ namespace Emu.Tests.Utilities
         [Fact]
         public void TestNoResults()
         {
-            var actual = this.matcher.ExpandMatches(this.fileMatcherFixture.TempDir, "Z".AsSequence());
+            var actual = this.matcher.ExpandMatches(this.fileMatcherFixture.TempDir, "Z".AsEnumerable());
 
             actual.Should().BeEmpty();
         }

@@ -9,12 +9,22 @@ using System.Runtime.InteropServices;
 
 public static class SpanExtensions
 {
+    /// <summary>
+    /// Converts a byte array to a hexadecimal string representation (lower case).
+    /// </summary>
+    /// <param name="bytes">The bytes to encode.</param>
+    /// <returns>The encoded string.</returns>
     public static string ToHexString(this byte[] bytes)
     {
-        return bytes.AsSpan().ToHexString();
+        return ToHexString((ReadOnlySpan<byte>)bytes);
     }
 
-    public static string ToHexString(this Span<byte> bytes)
+    /// <summary>
+    /// Converts a byte span to a hexadecimal string representation (lower case).
+    /// </summary>
+    /// <param name="bytes">The bytes to encode.</param>
+    /// <returns>The encoded string.</returns>
+    public static string ToHexString(this ReadOnlySpan<byte> bytes)
     {
         Span<char> buffer = stackalloc char[bytes.Length * 2];
 

@@ -22,7 +22,7 @@ namespace Emu.Fixes
         Moderate,
 
         /// <summary>
-        /// The file is affected by the problem and is either corrrupt or has no usable data.
+        /// The file is affected by the problem and is either corrupt or has no usable data.
         /// </summary>
         Severe,
     }

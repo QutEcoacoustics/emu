@@ -5,6 +5,7 @@
 namespace Emu.Tests.Metadata
 {
     using System.Linq;
+    using System.Threading.Tasks;
     using Emu.Metadata;
     using Emu.Models;
     using Emu.Tests.TestHelpers;
@@ -30,7 +31,7 @@ namespace Emu.Tests.Metadata
 
         [Theory]
         [ClassData(typeof(FixtureHelper.FixtureData))]
-        public async void CanProcessFilesWorks(FixtureModel model)
+        public async Task CanProcessFilesWorks(FixtureModel model)
         {
             // we can process all files that have a filename
             var result = await this.subject.CanProcessAsync(model.ToTargetInformation(this.RealFileSystem));
@@ -40,7 +41,7 @@ namespace Emu.Tests.Metadata
 
         [Theory]
         [ClassData(typeof(FixtureHelper.FixtureData))]
-        public async void ProcessFilesWorks(FixtureModel model)
+        public async Task ProcessFilesWorks(FixtureModel model)
         {
             if (model.Process.ContainsKey(FixtureModel.FilenameExtractor))
             {
