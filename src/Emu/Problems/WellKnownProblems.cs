@@ -92,7 +92,7 @@ namespace Emu
         {
             public const string Group = "FL";
 
-            public static WellKnownProblem PreAllocatedHeader => new("Stub file", "This file is only a stub, it has no data in it", "001", Group, MakeUrl(Group, "001"));
+            public static WellKnownProblem PreAllocatedHeader => new("Preallocated header", "This file is only a stub, it has no data in it", "001", Group, MakeUrl(Group, "001"));
 
             public static WellKnownProblem EmptyBlocksOfData => new("Empty blocks of data", "Empty data block found in file ", "002", Group, MakeUrl(Group, "002"));
 

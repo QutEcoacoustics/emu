@@ -18,6 +18,7 @@ namespace Emu
     using Microsoft.Extensions.Logging;
     using Spectre.Console;
     using static Emu.Cli.SpectreUtils;
+    using static Emu.Utilities.DryRun;
     using static LanguageExt.Prelude;
 
     public class FixApply : EmuCommandHandler<Emu.FixApply.FixApplyResult>
@@ -126,7 +127,7 @@ namespace Emu
             // check if any are not fixable
             if (checkResults.Any(IsNotFixable))
             {
-                this.logger.LogWarning("Some problems are not fixable for file: {file}", file);
+                this.logger.LogDebug("Some problems are not fixable for file: {file}", file);
                 var firstError = checkResults.First(IsNotFixable);
                 var rest = checkResults.Except(firstError.AsEnumerable());
 
@@ -187,9 +188,9 @@ namespace Emu
 
             foreach (var report in f.Problems)
             {
-                builder.AppendFormat("\t- {0}: ", report.Key.Id);
+                builder.AppendFormat("\t- {0} is ", report.Key.Id);
                 builder.AppendFormat("{0} {1}.\n", report.Value.CheckResult.Status, report.Value.CheckResult.Message.EscapeMarkup());
-                builder.AppendFormat("\t\tAction taken: {0}. {1}\n", report.Value.Status, report.Value.Message.EscapeMarkup());
+                builder.AppendFormat("\t  Action taken: {0}. {1}\n", report.Value.Status, report.Value.Message.EscapeMarkup());
             }
 
             return builder.ToString();

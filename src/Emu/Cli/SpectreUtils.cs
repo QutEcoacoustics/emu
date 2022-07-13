@@ -46,6 +46,12 @@ namespace Emu.Cli
             return $"[dodgerblue3]{path.EscapeMarkup()}[/]";
         }
 
+        public static string MarkupLink(string url, string title = null)
+        {
+            title ??= url;
+            return $"[blue][link={url.EscapeMarkup()}]{title.EscapeMarkup()}[/][/]";
+        }
+
         public static string FormatList<T>(object record)
         {
             var builder = new StringBuilder();

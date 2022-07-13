@@ -35,12 +35,11 @@ namespace Emu
             }
 
             this.WriteFooter();
-            this.WriteMessage($@"
-Use {MarkupCode("emu fix apply")} to apply a fix to target files:
+            this.WriteMessage(
+$@"Use {MarkupCode("emu fix apply")} to apply a fix to target files:
 {MarkupCodeBlock("emu fix apply --fix XX001 *.wav")}
 Or use {MarkupCode("--fix-all")} to apply all known fixes:
-{MarkupCodeBlock("emu fix apply --fix-all XX001 *.wav")}
-");
+{MarkupCodeBlock("emu fix apply --fix-all XX001 *.wav")}");
 
             return Task.FromResult(ExitCodes.Success);
         }
@@ -52,6 +51,7 @@ Or use {MarkupCode("--fix-all")} to apply all known fixes:
             this.table.AddColumn("Description");
             this.table.AddColumn("Fixable");
             this.table.AddColumn("Safe");
+            this.table.AddColumn("URL");
 
             return MarkupEmu("EMU can fix these problems:");
         }
@@ -64,7 +64,8 @@ Or use {MarkupCode("--fix-all")} to apply all known fixes:
                 problem.Id,
                 problem.Title,
                 MarkupBool(record.Fixable),
-                MarkupBool(record.Safe));
+                MarkupBool(record.Safe),
+                MarkupLink(problem.Url));
 
             return null;
         }

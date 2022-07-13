@@ -12,7 +12,7 @@ namespace Emu
         public const string Summary = @"
 Apply one or more fixes to a file.
 Automatic fixes are fixed in place.
-Non-fixable problems are ignored unless --rename-unfixable is specified.
+Non-fixable problems are renamed unless --no-rename is specified.
 ";
 
         public FixApplyCommand()
@@ -26,7 +26,7 @@ Non-fixable problems are ignored unless --rename-unfixable is specified.
 
             this.AddOption(new Option<bool>(new string[] { "--backup" }, "Backup the original file before writing any changes"));
 
-            this.AddOption(new Option<bool>(new string[] { "--rename-unfixable" }, "For any non-fixable problem append the `.error` suffix to the file name"));
+            this.AddOption(new Option<bool>(new string[] { "--no-rename" }, "Do not rename unfixable files"));
         }
     }
 }
