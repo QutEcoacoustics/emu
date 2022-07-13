@@ -11,6 +11,9 @@ namespace Emu.Metadata.FrontierLabs
 
     public class LogFileExtractor : IMetadataOperation
     {
+        public const int MegabyteConversion = 1048576;
+        public const int KilobyteConversion = 1024;
+
         private readonly ILogger<LogFileExtractor> logger;
 
         public LogFileExtractor(ILogger<LogFileExtractor> logger)
@@ -89,8 +92,8 @@ namespace Emu.Metadata.FrontierLabs
                         ProductRevision = recording.MemoryCard?.ProductRevision ?? memoryCard.ProductRevision,
                         SerialNumber = recording.MemoryCard?.SerialNumber ?? memoryCard.SerialNumber,
                         ManufactureDate = recording.MemoryCard?.ManufactureDate ?? memoryCard.ManufactureDate,
-                        Speed = recording.MemoryCard?.Speed ?? memoryCard.Speed,
-                        Capacity = recording.MemoryCard?.Capacity ?? memoryCard.Capacity,
+                        Speed = recording.MemoryCard?.Speed ?? memoryCard.Speed * MegabyteConversion,
+                        Capacity = recording.MemoryCard?.Capacity ?? memoryCard.Capacity * KilobyteConversion,
                         WrCurrentVmin = recording.MemoryCard?.WrCurrentVmin ?? memoryCard.WrCurrentVmin,
                         WrCurrentVmax = recording.MemoryCard?.WrCurrentVmax ?? memoryCard.WrCurrentVmax,
                         WriteBlSize = recording.MemoryCard?.WriteBlSize ?? memoryCard.WriteBlSize,
