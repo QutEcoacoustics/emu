@@ -41,7 +41,7 @@ namespace Emu.Tests.Fixes.FrontierLabs
             this.target = TempFile.DuplicateExisting(this.fixture.AbsoluteFixturePath);
 
             this.fileUtilities = this.ServiceProvider.GetRequiredService<FileUtilities>();
-            this.fixer = new MetadataDurationBug(Helpers.NullLogger<MetadataDurationBug>(), this.fileUtilities);
+            this.fixer = new MetadataDurationBug(Helpers.NullLogger<MetadataDurationBug>());
 
             this.data = data;
             this.fileSystem = new FileSystem();

@@ -204,7 +204,7 @@ namespace Emu.Tests.Commands.Fix
             var fix = this.serializer.Deserialize<FixApplyResult>(reader).Single();
 
             fix.BackupFile.Should().BeNull();
-            var expected = this.target.Path + ".error_FL001";
+            var expected = this.target.Path;
             fix.File.Should().Be(expected);
             var problem = fix.Problems[WellKnownProblems.FrontierLabsProblems.PreAllocatedHeader];
 
@@ -248,6 +248,46 @@ namespace Emu.Tests.Commands.Fix
 
             var otherProblem = fix.Problems[WellKnownProblems.FrontierLabsProblems.MetadataDurationBug];
             otherProblem.Status.Should().Be(FixStatus.NoOperation);
+
+            this.RealFileSystem.File.Delete(expected);
+        }
+
+        [Fact]
+        public async Task CanProcessMultipleFixesAfterARenameFix()
+        {
+            var fixture = this.data[FixtureModel.SpaceInDateStamp];
+            this.target = TempFile.DuplicateExisting(fixture.AbsoluteFixturePath);
+
+            this.command.NoRename = false;
+            this.command.Targets = new[] { this.target.Path };
+            this.command.Fix = new string[]
+            {
+                WellKnownProblems.FrontierLabsProblems.InvalidDateStampSpaceZero.Id,
+                WellKnownProblems.FrontierLabsProblems.MetadataDurationBug.Id,
+                WellKnownProblems.FrontierLabsProblems.PreAllocatedHeader.Id,
+            };
+
+            var result = await this.command.InvokeAsync(null);
+            result.Should().Be(ExitCodes.Success);
+
+            using var reader = new StringReader(this.AllOutput);
+            var fix = this.serializer.Deserialize<FixApplyResult>(reader).Single();
+
+            fix.BackupFile.Should().BeNull();
+            var expected = this.CurrentFileSystem.Path.Join(this.target.Directory.FullName, "20190607T095935+1000_REC [19.2144 152.8811].flac");
+            fix.File.Should().Be(expected);
+
+            var problem = fix.Problems[WellKnownProblems.FrontierLabsProblems.InvalidDateStampSpaceZero];
+
+            problem.CheckResult.Message.Should().Contain("Space in datestamp detected");
+            problem.Message.Should().Contain("Inserted `0` into datestamp");
+            problem.Status.Should().Be(FixStatus.Fixed);
+
+            var problem2 = fix.Problems[WellKnownProblems.FrontierLabsProblems.PreAllocatedHeader];
+            problem2.Status.Should().Be(FixStatus.NoOperation);
+
+            var problem3 = fix.Problems[WellKnownProblems.FrontierLabsProblems.MetadataDurationBug];
+            problem3.Status.Should().Be(FixStatus.NoOperation);
 
             this.RealFileSystem.File.Delete(expected);
         }

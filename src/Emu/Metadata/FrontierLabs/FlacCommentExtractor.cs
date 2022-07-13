@@ -93,8 +93,9 @@ namespace Emu.Metadata.FrontierLabs
                         SerialNumber = recording.Sensor?.SerialNumber ?? (string)this.ParseComment(FrontierLabs.SensorIdCommentKey, comments),
                         Microphones = recording.Sensor?.Microphones ?? new Microphone[microphones.Length()],
                     },
-                    StartDate = recording.StartDate ?? (OffsetDateTime?)this.ParseComment(FrontierLabs.RecordingStartCommentKey, comments),
-                    EndDate = recording.EndDate ?? (OffsetDateTime?)this.ParseComment(FrontierLabs.RecordingEndCommentKey, comments),
+                    // TODO: 3.08 firmware includes a local time (no offset). In this case we just discard it here
+                    StartDate = recording.StartDate ?? this.ParseComment(FrontierLabs.RecordingStartCommentKey, comments) as OffsetDateTime?,
+                    EndDate = recording.EndDate ?? this.ParseComment(FrontierLabs.RecordingEndCommentKey, comments) as OffsetDateTime?,
                     Location = (recording.Location ?? new Location()) with
                     {
                         Longitude = recording.Location?.Longitude ?? (location != null ? location[FrontierLabs.LongitudeKey] : null),
@@ -131,20 +132,20 @@ namespace Emu.Metadata.FrontierLabs
         /// <param name="key">The comment key.</param>
         /// <param name="comments">Each comment extracted from the file (key and value).</param>
         /// <returns>The parsed comment, or null if something went wrong.</returns>
-        public Fin<object>? ParseComment(string key, Dictionary<string, string> comments)
+        public object ParseComment(string key, Dictionary<string, string> comments)
         {
             if (comments.ContainsKey(key) && !comments[key].Contains(FrontierLabs.UnknownValueString))
             {
                 string value = comments[key];
 
                 // Strip the microphone number if it exists so the comment parser is properly identified
-                key = char.IsDigit(key.Last()) ? key.Substring(0, key.Length() - 1) : key;
+                key = char.IsDigit(key.Last()) ? key[..(key.Length() - 1)] : key;
 
                 var parsedValue = FrontierLabs.CommentParsers[key](value.Trim());
 
                 if (parsedValue.IsSucc)
                 {
-                    return parsedValue;
+                    return parsedValue.ThrowIfFail();
                 }
                 else
                 {

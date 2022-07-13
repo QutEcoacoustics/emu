@@ -37,6 +37,7 @@ namespace Emu.Tests.TestHelpers
         public const string FrontierLabsLogFileExtractor = "FrontierLabsLogFileExtractor";
         public const string WamdExtractor = "WamdExtractor";
         public const string FLCommentAndLogExtractor = "FLCommentAndLogExtractor";
+        public const string SpaceInDateStamp = "Space in date stamp";
 
         private string fixturePath;
 
@@ -96,6 +97,20 @@ namespace Emu.Tests.TestHelpers
         public IFileInfo ToFileInfo(IFileSystem fileSystem)
         {
              return fileSystem.FileInfo.FromFileName(this.AbsoluteFixturePath);
+        }
+
+        public bool ShouldProcess(string processKey, out Recording recording)
+        {
+            recording = null;
+
+            var result = this.Process.ContainsKey(processKey);
+
+            if (result)
+            {
+                recording = this.Process[processKey] ?? this.Record;
+            }
+
+            return result;
         }
 
         public override string ToString()

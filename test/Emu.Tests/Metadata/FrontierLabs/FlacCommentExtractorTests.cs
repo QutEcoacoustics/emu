@@ -4,6 +4,7 @@
 
 namespace Emu.Tests.Metadata
 {
+    using System.Threading.Tasks;
     using Emu.Metadata.FrontierLabs;
     using Emu.Models;
     using Emu.Tests.TestHelpers;
@@ -37,12 +38,10 @@ namespace Emu.Tests.Metadata
 
         [Theory]
         [ClassData(typeof(FixtureHelper.FixtureData))]
-        public async System.Threading.Tasks.Task ProcessFilesWorks(FixtureModel model)
+        public async Task ProcessFilesWorks(FixtureModel model)
         {
-            if (model.Process.ContainsKey(FixtureModel.FlacCommentExtractor))
+            if (model.ShouldProcess(FixtureModel.FlacCommentExtractor, out var expectedRecording))
             {
-                Recording expectedRecording = model.Record;
-
                 var recording = await this.subject.ProcessFileAsync(
                     model.ToTargetInformation(this.RealFileSystem),
                     this.Recording);

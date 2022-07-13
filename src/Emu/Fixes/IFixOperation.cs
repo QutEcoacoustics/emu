@@ -12,5 +12,5 @@ namespace Emu.Fixes
         Task<FixResult> ProcessFileAsync(string file, DryRun dryRun);
     }
 
-    public partial record FixResult(FixStatus Status, CheckResult CheckResult, string Message);
+    public partial record FixResult(FixStatus Status, CheckResult CheckResult, string Message, string NewPath = null);
 }

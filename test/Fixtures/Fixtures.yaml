@@ -970,3 +970,91 @@
             ChannelName: B
             Sensitivity:
     FLCommentAndLogExtractor: ~
+
+- Name: Space in date stamp
+  Record: &SpaceInDatestamp
+    Extension: .flac
+    Stem: 201906 7T095935+1000_REC [19.2144 152.8811]
+    StartDate: 2019-06-07T09:59:35+10:00
+    LocalStartDate: 2019-06-07T09:59:35
+    EndDate:
+    DurationSeconds: 396288/22050
+    TotalSamples: 396288
+    Channels: 1
+    SampleRateHertz: 22050
+    BitsPerSecond: 352800
+    BitDepth: 16
+    FileSizeBytes: 622592
+    CalculatedChecksum:
+      Type: SHA256
+      Value: 5985468e3169bf57cf1210d3043b8c50e7c971135ac84f9acccd61833d57ee77
+    EmbeddedChecksum:
+      Type: MD5
+      Value: 00000000000000000000000000000000
+    MemoryCard:
+      FormatType: exFAT
+      ManufacturerID: 158
+      OEMID: BE
+      ProductName: 512GB
+      ProductRevision: 1
+      SerialNumber: 77
+      ManufactureDate: 2018-11
+      Speed: 50
+      Capacity: 484102144
+      WrCurrentVmin: 3
+      WrCurrentVmax: 3
+      WriteBlSize: 512
+      EraseBlSize: 65536
+    Sensor: &SpaceInDatestamp.Sensor
+      Name:
+      Firmware: 3.08
+      SerialNumber: 000010
+      PowerSource: Ext-power, Solar-power
+      Microphones:
+        - Type: STD AUDIO MIC
+          UID: 000629
+          BuildDate: 2019-02-22
+          Gain: 50
+          Channel: 1
+          ChannelName: A
+          Sensitivity:
+      Gain:
+      Configuration:
+      Voltage: 11.68
+      BatteryLevel: 0.14
+      Temperature:
+      LastTimeSync:
+    Location:
+      Longitude: 152.8811
+      Latitude: 19.2144
+      Altitude:
+      HorizontalAccuracy:
+      VerticalAccuracy:
+      Speed:
+      Course:
+      SampleDateTime: 2019-06-06T23:59:35Z
+      CoordinateReferenceSystem:
+  BlockAlign:
+  FixturePath: FL_BAR_LT/3.08_SpaceInDateStamp/20190607_AAO [19.2144 152.8811]/201906 7T095935+1000_REC [19.2144 152.8811].flac
+  Notes:
+  ValidMetadata: Yes
+  MimeType: audio/flac
+  Vendor: Frontier Labs
+  Process:
+    FilenameExtractor: ~
+    FlacHeaderExtractor: ~
+    FlacCommentExtractor:
+      <<: *SpaceInDatestamp
+      StartDate: ~
+    FrontierLabsLogFileExtractor:
+      <<: *SpaceInDatestamp
+      Sensor:
+        <<: *SpaceInDatestamp.Sensor
+        Microphones:
+          - Type: STD AUDIO MIC
+            UID: 000629
+            BuildDate: 2019-02-22
+            Gain:
+            Channel:
+            ChannelName:
+            Sensitivity:

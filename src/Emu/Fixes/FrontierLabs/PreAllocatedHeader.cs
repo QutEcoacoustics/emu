@@ -28,8 +28,6 @@ namespace Emu.Fixes.FrontierLabs
         {
             using var stream = (FileStream)this.fileSystem.File.OpenRead(file);
 
-            // we'll use a couple metrics here
-            // is it a stub recording?
             var result = IsPreallocatedHeader(stream, file) switch
             {
                 true => new CheckResult(CheckStatus.Affected, Severity.Severe, "The file is a stub and has no usable data"),
