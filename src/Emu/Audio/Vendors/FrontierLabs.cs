@@ -316,7 +316,7 @@ namespace Emu.Audio.Vendors
             // Try parsing the date in each known date format (varies depending on firmware version)
             foreach (OffsetDateTimePattern datePattern in DatePatterns)
             {
-                if (datePattern.Parse(value) is { Success: true} d)
+                if (datePattern.Parse(value) is { Success: true } d)
                 {
                     return d.Value;
                 }

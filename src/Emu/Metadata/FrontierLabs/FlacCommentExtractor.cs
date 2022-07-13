@@ -93,6 +93,7 @@ namespace Emu.Metadata.FrontierLabs
                         SerialNumber = recording.Sensor?.SerialNumber ?? (string)this.ParseComment(FrontierLabs.SensorIdCommentKey, comments),
                         Microphones = recording.Sensor?.Microphones ?? new Microphone[microphones.Length()],
                     },
+
                     // TODO: 3.08 firmware includes a local time (no offset). In this case we just discard it here
                     StartDate = recording.StartDate ?? this.ParseComment(FrontierLabs.RecordingStartCommentKey, comments) as OffsetDateTime?,
                     EndDate = recording.EndDate ?? this.ParseComment(FrontierLabs.RecordingEndCommentKey, comments) as OffsetDateTime?,

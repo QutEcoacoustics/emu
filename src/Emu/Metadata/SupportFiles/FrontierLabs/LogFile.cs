@@ -29,6 +29,7 @@ namespace Emu.Metadata.SupportFiles.FrontierLabs
             LocalDateTimePattern.CreateWithInvariantCulture("yyyy'-'MM'-'dd' 'HH':'mm':'ss"),
             LocalDateTimePattern.CreateWithInvariantCulture("dd'/'MM'/'yyyy' 'HH':'mm':'ss"),
         };
+
         public static readonly string[] PowerTokens = new[] { "Ext-power", "Solar-power" };
         public static readonly Regex LogFileRegex = new Regex(@".*logfile.*txt");
         public static readonly Regex FirmwareRegex = new Regex(@"V?\d+");
