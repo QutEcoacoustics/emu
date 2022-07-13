@@ -8,6 +8,8 @@ namespace Emu.Metadata.FrontierLabs
     using Emu.Metadata.SupportFiles.FrontierLabs;
     using Emu.Models;
     using Microsoft.Extensions.Logging;
+    using NodaTime;
+    using static Emu.Metadata.SupportFiles.FrontierLabs.LogFile;
 
     public class LogFileExtractor : IMetadataOperation
     {
@@ -19,31 +21,55 @@ namespace Emu.Metadata.FrontierLabs
         }
 
         /// <summary>
-        /// Correlates memory card to its corresponding recording.
-        /// Uses item number which keeps track of the relative position of memory cards and recordings in the log file.
+        /// Correlates data to its corresponding recording.
+        /// Uses timestamps taken from each recording and each data record.
         /// </summary>
-        /// <param name="memoryCardLogs">List of all memory cards found in the log file and their relative positions.</param>
-        /// <param name="recordingItemNumber">Relative order of the recording in the log file.</param>
+        /// <param name="dataRecords">Data from log file.</param>
+        /// <param name="recordingRecord">Recording name and timestamp from log file.</param>
+        /// <param name="recording">Recording metadata.</param>
         /// <returns>
-        /// The corresponding memory card.
+        /// Data corresponding to the given recording.
+        /// Used to correlate sensor, memory card and location data from log file to recordings.
         /// </returns>
-        public static MemoryCard CorrelateSD(List<(MemoryCard MemoryCard, int ItemNumber)> memoryCardLogs, int recordingItemNumber)
+        public static object CorrelateRecord(List<DataRecord> dataRecords, RecordingRecord recordingRecord, Recording recording)
         {
-            MemoryCard memoryCard = memoryCardLogs[0].MemoryCard;
+            object data = dataRecords.First().Data;
 
-            foreach ((MemoryCard currentMemoryCard, int itemNumber) in memoryCardLogs)
+            // If there is one distinct record of this data type, correlation using timestamps isn't needed
+            if (dataRecords.Select(s => s.Data).Distinct().Count() == 1)
             {
-                if (itemNumber < recordingItemNumber)
+                return data;
+            }
+
+            LocalDateTime recordingTimeStamp;
+
+            if (recordingRecord != null)
+            {
+                recordingTimeStamp = recordingRecord.TimeStamp;
+            }
+            else if (recording.LocalStartDate != null)
+            {
+                recordingTimeStamp = (LocalDateTime)recording.LocalStartDate;
+            }
+            else
+            {
+                return null;
+            }
+
+            // Correlate data record to recording using timestamps in the log file
+            foreach (DataRecord record in dataRecords)
+            {
+                if (record.TimeStamp > recordingTimeStamp)
                 {
-                    memoryCard = currentMemoryCard;
+                    return data;
                 }
                 else
                 {
-                    return memoryCard;
+                    data = record.Data;
                 }
             }
 
-            return null;
+            return data;
         }
 
         public ValueTask<bool> CanProcessAsync(TargetInformation information)
@@ -55,60 +81,50 @@ namespace Emu.Metadata.FrontierLabs
 
         public ValueTask<Recording> ProcessFileAsync(TargetInformation information, Recording recording)
         {
-            // Retrieve all information parsed from the log file
             LogFile logFile = (LogFile)information.TargetSupportFiles[LogFile.LogFileKey];
-            Sensor sensor = logFile.Sensor;
 
             string filename = information.FileSystem.Path.GetFileName(information.Path);
             var recordingRecord = logFile.RecordingLogs.Where(x => x.Name.Contains(filename)).FirstOrDefault();
 
-            var serialNumbers = logFile.MemoryCardLogs.Select(x => x.MemoryCard?.SerialNumber);
-
-            // Correlate memory card data
+            Sensor sensor = null;
             MemoryCard memoryCard = null;
+            Location location = null;
 
-            if (serialNumbers.Distinct().Count() == 1)
-            {
-                memoryCard = logFile.MemoryCardLogs.First().MemoryCard;
-            }
-            else if (recordingRecord != null)
-            {
-                memoryCard = CorrelateSD(logFile.MemoryCardLogs, recordingRecord.ItemNumber);
-            }
-
-            if (memoryCard != null)
-            {
-                recording = recording with
-                {
-                    MemoryCard = (recording.MemoryCard ?? new MemoryCard()) with
-                    {
-                        FormatType = recording.MemoryCard?.FormatType ?? memoryCard.FormatType,
-                        ManufacturerID = recording.MemoryCard?.ManufacturerID ?? memoryCard.ManufacturerID,
-                        OEMID = recording.MemoryCard?.OEMID ?? memoryCard.OEMID,
-                        ProductName = recording.MemoryCard?.ProductName ?? memoryCard.ProductName,
-                        ProductRevision = recording.MemoryCard?.ProductRevision ?? memoryCard.ProductRevision,
-                        SerialNumber = recording.MemoryCard?.SerialNumber ?? memoryCard.SerialNumber,
-                        ManufactureDate = recording.MemoryCard?.ManufactureDate ?? memoryCard.ManufactureDate,
-                        Speed = recording.MemoryCard?.Speed ?? memoryCard.Speed,
-                        Capacity = recording.MemoryCard?.Capacity ?? memoryCard.Capacity,
-                        WrCurrentVmin = recording.MemoryCard?.WrCurrentVmin ?? memoryCard.WrCurrentVmin,
-                        WrCurrentVmax = recording.MemoryCard?.WrCurrentVmax ?? memoryCard.WrCurrentVmax,
-                        WriteBlSize = recording.MemoryCard?.WriteBlSize ?? memoryCard.WriteBlSize,
-                        EraseBlSize = recording.MemoryCard?.EraseBlSize ?? memoryCard.EraseBlSize,
-                    },
-                };
-            }
+            sensor = logFile.SensorLogs.Length() == 0 ? null : (Sensor)CorrelateRecord(logFile.SensorLogs, recordingRecord, recording);
+            memoryCard = logFile.MemoryCardLogs.Length() == 0 ? null : (MemoryCard)CorrelateRecord(logFile.MemoryCardLogs, recordingRecord, recording);
+            location = logFile.LocationLogs.Length() == 0 ? null : (Location)CorrelateRecord(logFile.LocationLogs, recordingRecord, recording);
 
             recording = recording with
             {
+                MemoryCard = (recording.MemoryCard ?? new MemoryCard()) with
+                {
+                    FormatType = recording.MemoryCard?.FormatType ?? memoryCard?.FormatType,
+                    ManufacturerID = recording.MemoryCard?.ManufacturerID ?? memoryCard?.ManufacturerID,
+                    OEMID = recording.MemoryCard?.OEMID ?? memoryCard?.OEMID,
+                    ProductName = recording.MemoryCard?.ProductName ?? memoryCard?.ProductName,
+                    ProductRevision = recording.MemoryCard?.ProductRevision ?? memoryCard?.ProductRevision,
+                    SerialNumber = recording.MemoryCard?.SerialNumber ?? memoryCard?.SerialNumber,
+                    ManufactureDate = recording.MemoryCard?.ManufactureDate ?? memoryCard?.ManufactureDate,
+                    Speed = recording.MemoryCard?.Speed ?? memoryCard?.Speed,
+                    Capacity = recording.MemoryCard?.Capacity ?? memoryCard?.Capacity,
+                    WrCurrentVmin = recording.MemoryCard?.WrCurrentVmin ?? memoryCard?.WrCurrentVmin,
+                    WrCurrentVmax = recording.MemoryCard?.WrCurrentVmax ?? memoryCard?.WrCurrentVmax,
+                    WriteBlSize = recording.MemoryCard?.WriteBlSize ?? memoryCard?.WriteBlSize,
+                    EraseBlSize = recording.MemoryCard?.EraseBlSize ?? memoryCard?.EraseBlSize,
+                },
                 Sensor = (recording.Sensor ?? new Sensor()) with
                 {
-                    Firmware = recording.Sensor?.Firmware ?? sensor.Firmware,
-                    SerialNumber = recording.Sensor?.SerialNumber ?? sensor.SerialNumber,
-                    PowerSource = recording.Sensor?.PowerSource ?? sensor.PowerSource,
+                    Firmware = recording.Sensor?.Firmware ?? sensor?.Firmware,
+                    SerialNumber = recording.Sensor?.SerialNumber ?? sensor?.SerialNumber,
+                    PowerSource = recording.Sensor?.PowerSource ?? sensor?.PowerSource,
                     BatteryLevel = recording.Sensor?.BatteryLevel ?? recordingRecord?.BatteryLevel,
                     Voltage = recording.Sensor?.BatteryLevel ?? recordingRecord?.Voltage,
                     Microphones = recording.Sensor?.Microphones ?? recordingRecord?.Microphones,
+                },
+                Location = (recording.Location ?? new Location()) with
+                {
+                    Longitude = recording.Location?.Longitude ?? location?.Longitude,
+                    Latitude = recording.Location?.Latitude ?? location?.Latitude,
                 },
             };
 
