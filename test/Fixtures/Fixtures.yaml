@@ -92,8 +92,8 @@
       ProductRevision: 1
       SerialNumber: 309
       ManufactureDate: 2018-11
-      Speed: 50
-      Capacity: 484102144
+      Speed: 52428800
+      Capacity: 1799356416
       WrCurrentVmin: 3
       WrCurrentVmax: 3
       WriteBlSize: 512
@@ -999,8 +999,8 @@
       ProductRevision: 1
       SerialNumber: 77
       ManufactureDate: 2018-11
-      Speed: 50
-      Capacity: 484102144
+      Speed: 52428800
+      Capacity: 1799356416
       WrCurrentVmin: 3
       WrCurrentVmax: 3
       WriteBlSize: 512
