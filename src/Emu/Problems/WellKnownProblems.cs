@@ -35,10 +35,6 @@ namespace Emu
                             .ToDictionary(wkp => wkp.Id, wkp => wkp);
         }
 
-        public static FrontierLabsProblems FrontierLabs { get; } = new();
-
-        public static OpenEcoacousticsProblems OpenEcoacoustics { get; } = new();
-
         public static bool TryLookup(string id, out WellKnownProblem problem)
         {
             return Problems.TryGetValue(id, out problem);
@@ -96,25 +92,25 @@ namespace Emu
         {
             public const string Group = "FL";
 
-            public WellKnownProblem StubFile => new("Stub file", "This file is only a stub, it has no data in it", "001", Group, MakeUrl(Group, "001"));
+            public static WellKnownProblem PreAllocatedHeader => new("Preallocated header", "This file is only a stub, it has no data in it", "001", Group, MakeUrl(Group, "001"));
 
-            public WellKnownProblem EmptyBlocksOfData => new("Empty blocks of data", "Empty data block found in file ", "002", Group, MakeUrl(Group, "002"));
+            public static WellKnownProblem EmptyBlocksOfData => new("Empty blocks of data", "Empty data block found in file ", "002", Group, MakeUrl(Group, "002"));
 
-            public WellKnownProblem CorruptFullSizeFiles => new("Corrupt full size files", "The WAVE header's data chunk size was not correctly encoded", "003", Group, MakeUrl(Group, "003"));
+            public static WellKnownProblem CorruptFullSizeFiles => new("Corrupt full size files", "The WAVE header's data chunk size was not correctly encoded", "003", Group, MakeUrl(Group, "003"));
 
-            public WellKnownProblem SquareBrackets => new("Square brackets in filename", "Square brackets are not allowed in filenames", "004", Group, MakeUrl(Group, "004"));
+            public static WellKnownProblem SquareBrackets => new("Square brackets in filename", "Square brackets are not allowed in filenames", "004", Group, MakeUrl(Group, "004"));
 
-            public WellKnownProblem IncorrectSubChunk2 => new("Incorrect SubChunk2 size", "The WAVE header's data chunk is the size of the file, not the chunk", "005", Group, MakeUrl(Group, "005"));
+            public static WellKnownProblem IncorrectSubChunk2 => new("Incorrect SubChunk2 size", "The WAVE header's data chunk is the size of the file, not the chunk", "005", Group, MakeUrl(Group, "005"));
 
-            public WellKnownProblem ScheduleNamesRandom => new("Random schedule names", "The schedule names in the log files ae incorrect", "006", Group, MakeUrl(Group, "006"));
+            public static WellKnownProblem ScheduleNamesRandom => new("Random schedule names", "The schedule names in the log files ae incorrect", "006", Group, MakeUrl(Group, "006"));
 
-            public WellKnownProblem IncorrectCID => new("Incorrect CID", "The SD Card ID in the CID is incorrectly encoded", "007", Group, MakeUrl(Group, "007"));
+            public static WellKnownProblem IncorrectCID => new("Incorrect CID", "The SD Card ID in the CID is incorrectly encoded", "007", Group, MakeUrl(Group, "007"));
 
-            public WellKnownProblem InvalidDateStampSpaceZero => new("Invalid datestamp (space)", "There is a space character where a zero character should be", "008", Group, MakeUrl(Group, "008"));
+            public static WellKnownProblem InvalidDateStampSpaceZero => new("Invalid datestamp (space)", "There is a space character where a zero character should be", "008", Group, MakeUrl(Group, "008"));
 
-            public WellKnownProblem MetadataDurationBug => new("Metadata Duration Bug", "This file's duration is wrong.", "010", Group, MakeUrl(Group, "010"));
+            public static WellKnownProblem MetadataDurationBug => new("Metadata Duration Bug", "This file's duration is wrong.", "010", Group, MakeUrl(Group, "010"));
 
-            public WellKnownProblem PartialDataFiles => new("Partial file named data", "The data file is incomplete?", "011", Group, MakeUrl(Group, "011"));
+            public static WellKnownProblem PartialDataFiles => new("Partial file named data", "The data file is incomplete?", "011", Group, MakeUrl(Group, "011"));
         }
     }
 }

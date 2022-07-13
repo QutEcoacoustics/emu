@@ -17,13 +17,15 @@ namespace Emu.Utilities
     {
         private readonly TextWriter sink;
         private readonly IRecordFormatter formatter;
+        private readonly OutputFormat outputFormat;
         private IDisposable formatterContext;
         private bool isDisposed;
 
-        public OutputRecordWriter(TextWriter sink, IRecordFormatter formatter)
+        public OutputRecordWriter(TextWriter sink, IRecordFormatter formatter, Lazy<OutputFormat> outputFormat)
         {
             this.sink = sink;
             this.formatter = formatter;
+            this.outputFormat = outputFormat.Value;
             this.formatter.Writer = this.sink;
         }
 
@@ -41,6 +43,8 @@ namespace Emu.Utilities
                     _ => throw new InvalidOperationException(),
                 };
             };
+
+        public OutputFormat OutputFormat => this.outputFormat;
 
         public void WriteHeader<T>(T header)
         {

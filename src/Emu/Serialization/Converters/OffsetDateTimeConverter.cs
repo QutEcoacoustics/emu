@@ -39,7 +39,9 @@ namespace Emu.Serialization
         public override object ConvertFromString(string text, IReaderRow row, MemberMapData memberMapData)
         {
             return text == null
+#pragma warning disable CS8604 // Possible null reference argument.
                 ? base.ConvertFromString(text, row, memberMapData)
+#pragma warning restore CS8604 // Possible null reference argument.
                 : OffsetDateTimePattern.Rfc3339.Parse(text).Value;
         }
     }

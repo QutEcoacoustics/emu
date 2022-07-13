@@ -9,8 +9,8 @@ namespace Emu.Fixes
 
     public interface IFixOperation : ICheckOperation
     {
-        Task<FixResult> ProcessFileAsync(string file, DryRun dryRun, bool backup);
+        Task<FixResult> ProcessFileAsync(string file, DryRun dryRun);
     }
 
-    public record FixResult(FixStatus Status, CheckResult CheckResult, string Message);
+    public partial record FixResult(FixStatus Status, CheckResult CheckResult, string Message, string NewPath = null);
 }

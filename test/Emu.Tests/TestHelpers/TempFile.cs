@@ -11,6 +11,8 @@ namespace Emu.Tests.TestHelpers
 
     public class TempFile : IDisposable
     {
+        private static int counter = 0;
+
         private readonly string directory;
 
         public TempFile(string basename = null, string extension = null)
@@ -19,7 +21,7 @@ namespace Emu.Tests.TestHelpers
             basename ??= IO.Path.GetFileNameWithoutExtension(IO.Path.GetTempFileName());
 
             // minus extension
-            var subDirectory = DateTime.Now.ToString("yyyyMMddTHHmmss");
+            var subDirectory = DateTime.Now.ToString("yyyyMMddTHHmmss") + $"_{counter++}";
 
             this.directory = IO.Path.Join(Helpers.TestTempRoot, subDirectory);
             this.Path = IO.Path.Join(this.directory, basename + extension);
@@ -33,7 +35,7 @@ namespace Emu.Tests.TestHelpers
 
         public string Path { get; private set; }
 
-        public static TempFile FromExisting(string path)
+        public static TempFile DuplicateExisting(string path)
         {
             if (IO.File.Exists(path))
             {

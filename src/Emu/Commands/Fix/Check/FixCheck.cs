@@ -15,6 +15,9 @@ namespace Emu
     using Emu.Fixes;
     using Emu.Utilities;
     using Microsoft.Extensions.Logging;
+    using Spectre.Console;
+
+    using static Emu.Cli.SpectreUtils;
 
     public class FixCheck : EmuCommandHandler<FixCheck.FixCheckResult>
     {
@@ -105,10 +108,10 @@ namespace Emu
             var f = record;
 
             StringBuilder builder = new();
-            builder.AppendFormat("File {0}:\n", f.File);
+            builder.AppendFormat("File {0}:\n", MarkupPath(f.File));
             foreach (var report in f.Problems)
             {
-                builder.AppendFormat("\t- {0}: {1}. {2}\n", report.Key.Id, report.Value.Status, report.Value.Message);
+                builder.AppendFormat("\t- {0}: {1}. {2}\n", report.Key.Id, report.Value.Status, report.Value.Message.EscapeMarkup());
             }
 
             return builder.ToString();

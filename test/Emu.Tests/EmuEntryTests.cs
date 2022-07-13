@@ -12,7 +12,7 @@ namespace Emu.Tests
     public class EmuEntryTests
     {
         [Fact]
-        public async void EmuFixCheckWorks()
+        public async System.Threading.Tasks.Task EmuFixCheckWorks()
         {
             var result = await EmuEntry.Main(
               @"fix check C:\Work\Github\metadata-utility\test\Fixtures\FL_BAR_LT\3.17_Duration\*.flac -f FL010".Split(' '));

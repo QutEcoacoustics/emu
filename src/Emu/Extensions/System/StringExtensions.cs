@@ -35,6 +35,11 @@ public static class StringExtensions
         return builder.ToString();
     }
 
+    public static string[] SplitLines(this string input)
+    {
+        return input.Split(new char[] { '\r', '\n' }, StringSplitOptions.None);
+    }
+
     public static DirectoryInfo ToDirectory(this string directory)
     {
 #pragma warning disable IO0007 // Replace DirectoryInfo class with IFileSystem.DirectoryInfo for improved testability
@@ -45,5 +50,21 @@ public static class StringExtensions
     public static IDirectoryInfo ToDirectory(this string directory, IFileSystem fileSystem)
     {
         return fileSystem.DirectoryInfo.FromDirectoryName(directory);
+    }
+
+    /// <summary>
+    /// Creates an empty file, and any intermediate directories.
+    /// </summary>
+    /// <param name="path">The file to create.</param>
+    /// <param name="fileSystem">The file system to operate on.</param>
+    public static string Touch(this string path, IFileSystem fileSystem)
+    {
+        ArgumentNullException.ThrowIfNull(path, nameof(path));
+
+        var directory = fileSystem.Path.GetDirectoryName(path);
+        fileSystem.Directory.CreateDirectory(directory);
+        fileSystem.File.Create(path).Close();
+
+        return path;
     }
 }

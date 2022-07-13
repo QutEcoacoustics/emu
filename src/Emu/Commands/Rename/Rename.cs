@@ -19,6 +19,7 @@ namespace Emu.Commands.Rename
     using LanguageExt.Common;
     using Microsoft.Extensions.Logging;
     using NodaTime;
+    using static Emu.Utilities.DryRun;
 
     /// <summary>
     /// Renames files.
@@ -28,15 +29,15 @@ namespace Emu.Commands.Rename
         private static readonly Error NoDateError = Error.New("no timestamp found in filename, cannot give give a new offset");
         private static readonly Error NoOffsetError = Error.New("no offset timestamp found in filename, cannot give give a new offset. Try using --offset to give an initial offset to a local date.");
         private readonly ILogger<Rename> logger;
-        private readonly ILogger<DryRun> dryRunLogger;
+        private readonly DryRunFactory dryRunFactory;
         private readonly IFileSystem fileSystem;
         private readonly FileMatcher fileMatcher;
         private readonly FilenameParser parser;
 
-        public Rename(ILogger<Rename> logger, ILogger<DryRun> dryRunLogger, IFileSystem fileSystem, FileMatcher fileMatcher, OutputRecordWriter writer, FilenameParser parser)
+        public Rename(ILogger<Rename> logger, DryRunFactory dryRunFactory, IFileSystem fileSystem, FileMatcher fileMatcher, OutputRecordWriter writer, FilenameParser parser)
         {
             this.logger = logger;
-            this.dryRunLogger = dryRunLogger;
+            this.dryRunFactory = dryRunFactory;
             this.fileSystem = fileSystem;
             this.fileMatcher = fileMatcher;
             this.parser = parser;
@@ -69,7 +70,7 @@ namespace Emu.Commands.Rename
             this.WriteMessage("Looking for targets...");
             this.WriteHeader();
 
-            using var dryRun = new DryRun(this.DryRun, this.dryRunLogger);
+            using var dryRun = this.dryRunFactory(this.DryRun);
 
             var (renames, failed) = await this.ProcessFiles(files, dryRun);
 
