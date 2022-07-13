@@ -17,9 +17,11 @@ namespace Emu.Tests.Fixes.FrontierLabs
     using FluentAssertions;
     using Microsoft.Extensions.Logging;
     using Xunit;
+    using Xunit.Abstractions;
     using static Emu.Audio.Vendors.FrontierLabs;
+    using static Emu.Utilities.DryRun;
 
-    public class MetadataDurationBugTests : IClassFixture<FixtureHelper.FixtureData>, IDisposable
+    public class MetadataDurationBugTests : TestBase, IClassFixture<FixtureHelper.FixtureData>, IDisposable
     {
         private const ulong BeforeFixSamples = 317292544ul;
         private const decimal FirmwareVersion = 3.2m;
@@ -29,19 +31,18 @@ namespace Emu.Tests.Fixes.FrontierLabs
         private readonly TempFile target;
         private readonly FileUtilities fileUtilities;
         private readonly MetadataDurationBug fixer;
-        private readonly ILogger<DryRun> dryRunLogger;
         private readonly FixtureHelper.FixtureData data;
         private readonly FileSystem fileSystem;
 
-        public MetadataDurationBugTests(FixtureHelper.FixtureData data)
+        public MetadataDurationBugTests(ITestOutputHelper output, FixtureHelper.FixtureData data)
+            : base(output, true)
         {
             this.fixture = data[FixtureModel.MetadataDurationBug];
             this.target = TempFile.DuplicateExisting(this.fixture.AbsoluteFixturePath);
 
-            this.fileUtilities = new FileUtilities(Helpers.NullLogger<FileUtilities>(), new FileSystem());
+            this.fileUtilities = this.ServiceProvider.GetRequiredService<FileUtilities>();
             this.fixer = new MetadataDurationBug(Helpers.NullLogger<MetadataDurationBug>(), this.fileUtilities);
 
-            this.dryRunLogger = Helpers.NullLogger<DryRun>();
             this.data = data;
             this.fileSystem = new FileSystem();
         }
@@ -84,7 +85,7 @@ namespace Emu.Tests.Fixes.FrontierLabs
         [Fact]
         public async Task CanRepairFaultyDurations()
         {
-            var dryRun = new DryRun(false, this.dryRunLogger);
+            var dryRun = this.DryRunFactory(false);
 
             await this.AssertMetadata(BeforeFixSamples, FirmwareVersion);
 
@@ -99,7 +100,7 @@ namespace Emu.Tests.Fixes.FrontierLabs
         [Fact]
         public async Task WillDoNothingInADryRun()
         {
-            var dryRun = new DryRun(true, this.dryRunLogger);
+            var dryRun = this.DryRunFactory(true);
 
             var before = await this.fileUtilities.CalculateChecksumSha256(this.target.Path);
             await this.AssertMetadata(BeforeFixSamples, FirmwareVersion);
@@ -118,7 +119,7 @@ namespace Emu.Tests.Fixes.FrontierLabs
         [Fact]
         public async Task IsIdempotant()
         {
-            var dryRun = new DryRun(false, this.dryRunLogger);
+            var dryRun = this.DryRunFactory(false);
 
             await this.AssertMetadata(BeforeFixSamples, FirmwareVersion);
 

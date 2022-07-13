@@ -20,6 +20,7 @@ namespace Emu.Tests.TestHelpers
     using Microsoft.Extensions.Logging;
     using Xunit.Abstractions;
     using static Emu.EmuCommand;
+    using static Emu.Utilities.DryRun;
 
     public class TestBase : IDisposable
     {
@@ -33,7 +34,7 @@ namespace Emu.Tests.TestHelpers
 
         private readonly TestOutputHelperTextWriterAdapter xUnitOutputAdapter;
 
-        private ILogger<DryRun> dryRunLogger;
+        private DryRunFactory dryRunFactory;
 
         static TestBase()
         {
@@ -86,8 +87,8 @@ namespace Emu.Tests.TestHelpers
 
         public List<ICacheLogger> Loggers { get; } = new();
 
-        public ILogger<DryRun> DryRunLogger =>
-            this.dryRunLogger ??= this.BuildLogger<DryRun>();
+        public DryRunFactory DryRunFactory =>
+            this.dryRunFactory ??= this.ServiceProvider.GetRequiredService<DryRunFactory>();
 
         public virtual OutputFormat OutputFormat => this.outputFormat;
 

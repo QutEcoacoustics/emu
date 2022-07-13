@@ -23,7 +23,7 @@ namespace Emu
     public class FixApply : EmuCommandHandler<Emu.FixApply.FixApplyResult>
     {
         private readonly ILogger<FixApply> logger;
-        private readonly ILogger<DryRun> dryRunLogger;
+        private readonly DryRunFactory dryRunFactory;
         private readonly FileMatcher fileMatcher;
         private readonly FixRegister register;
         private readonly IFileSystem fileSystem;
@@ -31,7 +31,7 @@ namespace Emu
 
         public FixApply(
             ILogger<FixApply> logger,
-            ILogger<DryRun> dryRunLogger,
+            DryRunFactory dryRunFactory,
             FileMatcher fileMatcher,
             FixRegister register,
             OutputRecordWriter writer,
@@ -39,7 +39,7 @@ namespace Emu
             FileUtilities fileUtils)
         {
             this.logger = logger;
-            this.dryRunLogger = dryRunLogger;
+            this.dryRunFactory = dryRunFactory;
             this.fileMatcher = fileMatcher;
             this.register = register;
             this.fileSystem = fileSystem;
@@ -77,7 +77,7 @@ namespace Emu
             this.WriteHeader();
             this.WriteMessage("Looking for targets...");
 
-            using var dryRun = new DryRun(this.DryRun, this.dryRunLogger);
+            using var dryRun = this.dryRunFactory(this.DryRun);
 
             bool any = false;
             foreach (var (_, file) in files)

@@ -6,18 +6,30 @@ namespace Emu.Utilities
 {
     using System;
     using System.IO;
+    using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
 
     public class DryRun : IDisposable
     {
-        private readonly bool isDryRun;
-        private readonly ILogger<DryRun> logger;
+        public const string LogCategoryName = "DryRunLogger";
 
-        public DryRun(bool isDryRun, ILogger<DryRun> logger)
+        public static readonly Func<IServiceProvider, DryRunFactory> Factory = (provider) =>
+        {
+            var loggerFactory = provider.GetRequiredService<ILoggerFactory>();
+            var logger = loggerFactory.CreateLogger(LogCategoryName);
+            return (isDryRun) => new DryRun(isDryRun, logger);
+        };
+
+        private readonly bool isDryRun;
+        private readonly ILogger logger;
+
+        private DryRun(bool isDryRun, ILogger logger)
         {
             this.isDryRun = isDryRun;
             this.logger = logger;
         }
+
+        public delegate DryRun DryRunFactory(bool isDryRun);
 
         public bool IsDryRun => this.isDryRun;
 
@@ -27,11 +39,8 @@ namespace Emu.Utilities
         {
             if (this.IsDryRun)
             {
-                using (this.logger.BeginScope("dry run would"))
-                {
-                    this.logger.LogInformation(message);
-                    return dryCallback is null ? default : dryCallback();
-                }
+                this.logger.LogInformation("would " + message);
+                return dryCallback is null ? default : dryCallback();
             }
             else
             {
@@ -43,13 +52,10 @@ namespace Emu.Utilities
         {
             if (this.IsDryRun)
             {
-                using (this.logger.BeginScope("dry run would"))
+                this.logger.LogInformation("would " + message);
+                if (dryCallback is not null)
                 {
-                    this.logger.LogInformation(message);
-                    if (dryCallback is not null)
-                    {
-                        dryCallback();
-                    }
+                    dryCallback();
                 }
             }
             else

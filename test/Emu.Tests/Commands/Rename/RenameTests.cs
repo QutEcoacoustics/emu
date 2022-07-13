@@ -24,7 +24,7 @@ namespace Emu.Tests.Commands.Rename
         {
             this.command = new Rename(
                 this.BuildLogger<Rename>(),
-                this.DryRunLogger,
+                this.DryRunFactory,
                 this.TestFiles,
                 new FileMatcher(this.BuildLogger<FileMatcher>(), this.TestFiles),
                 this.GetOutputRecordWriter(),

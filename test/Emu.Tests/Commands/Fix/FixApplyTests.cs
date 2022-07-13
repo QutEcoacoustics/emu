@@ -36,7 +36,7 @@ namespace Emu.Tests.Commands.Fix
 
             this.command = new FixApply(
                 this.BuildLogger<FixApply>(),
-                this.DryRunLogger,
+                this.DryRunFactory,
                 this.ServiceProvider.GetRequiredService<FileMatcher>(),
                 this.ServiceProvider.GetRequiredService<FixRegister>(),
                 this.GetOutputRecordWriter(),
