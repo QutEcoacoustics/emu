@@ -10,6 +10,7 @@ namespace Emu.Tests.TestHelpers
     using System.IO.Abstractions;
     using System.Linq;
     using Emu.Serialization;
+    using Xunit;
     using YamlDotNet.Core;
     using YamlDotNet.Serialization;
 
@@ -87,25 +88,33 @@ namespace Emu.Tests.TestHelpers
         public class FixtureData : IEnumerable<object[]>
         {
             private const string FixtureFile = "Fixtures.yaml";
-            private readonly Dictionary<string, FixtureModel> fixtureModels;
+            private static readonly Dictionary<string, FixtureModel> FixtureModels;
 
-            public FixtureData()
+            static FixtureData()
             {
                 using var streamReader = RealFileSystem.File.OpenText(ResolvePath(FixtureFile));
 
                 var parser = new MergingParser(new Parser(streamReader));
                 var deserializer = new DeserializerBuilder().Build();
 
-                this.fixtureModels = deserializer
-                    .Deserialize<List<FixtureModel>>(parser)
+                FixtureModels = deserializer
+                    .Deserialize<FixtureModel[]>(parser)
                     .ToDictionary(f => f.Name);
             }
 
-            public FixtureModel this[string key] => this.fixtureModels[key];
+            public FixtureData()
+            {
+            }
+
+            public static IReadOnlyCollection<FixtureModel> All => FixtureModels.Values;
+
+            public FixtureModel this[string key] => FixtureModels[key];
+
+            public static FixtureModel Get(string key) => FixtureModels[key];
 
             public IEnumerator<object[]> GetEnumerator()
             {
-                IEnumerable<object[]> models = this.fixtureModels
+                IEnumerable<object[]> models = FixtureModels
                     .Select(x => new object[] { x.Value })
                     .ToArray();
 

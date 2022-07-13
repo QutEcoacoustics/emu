@@ -76,7 +76,7 @@ public static class PredicateExtensions
             target => Audio.Vendors.FrontierLabs.HasFrontierLabsVorbisComment(target.FileStream).IfFail(false);
 
         public static readonly Func<TargetInformation, bool> IsPreallocatedHeader =
-            target => Wave.IsPreallocatedHeader(target.FileStream).IfFail(false);
+            target => Audio.Vendors.FrontierLabs.IsPreallocatedHeader(target.FileStream, target.Path);
 
         public static readonly Func<TargetInformation, bool> HasVersion1WamdChunk =
             target => Wamd.HasVersion1WamdChunk(target.FileStream).IfFail(false);

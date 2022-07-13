@@ -23,7 +23,7 @@ namespace Emu.Fixes.General
             throw new NotImplementedException();
         }
 
-        public Task<FixResult> ProcessFileAsync(string file, DryRun dryRun, bool backup)
+        public Task<FixResult> ProcessFileAsync(string file, DryRun dryRun)
         {
             throw new NotImplementedException();
         }

@@ -10,25 +10,31 @@ namespace Emu.Tests.TestHelpers
     using System.IO;
     using System.IO.Abstractions;
     using System.IO.Abstractions.TestingHelpers;
+    using System.IO.Pipelines;
     using System.Linq;
     using Divergic.Logging.Xunit;
     using Emu.Filenames;
     using Emu.Serialization;
     using Emu.Utilities;
     using LanguageExt;
-    using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
     using Xunit.Abstractions;
+    using static Emu.EmuCommand;
+    using static Emu.Utilities.DryRun;
 
     public class TestBase : IDisposable
     {
         protected static readonly Func<string, string> NormalizePath = MockUnixSupport.Path;
         private static readonly Parser CliParserValue;
 
-        private readonly ITestOutputHelper output;
-        private ILogger<DryRun> dryRunLogger;
-        private OutputRecordWriter outputRecordWriter;
-        private TestOutputHelperTextWriterAdapter consoleOut;
+        private readonly ITestOutputHelper xUnitOutput;
+        private readonly bool realFileSystem;
+        private readonly OutputFormat outputFormat;
+        private readonly StringWriter cleanOutput;
+
+        private readonly TestOutputHelperTextWriterAdapter xUnitOutputAdapter;
+
+        private DryRunFactory dryRunFactory;
 
         static TestBase()
         {
@@ -36,21 +42,44 @@ namespace Emu.Tests.TestHelpers
         }
 
         public TestBase(ITestOutputHelper output)
+            : this(output, false, OutputFormat.JSONL)
         {
-            this.output = output ?? throw new ArgumentNullException(nameof(output));
+        }
+
+        public TestBase(ITestOutputHelper output, bool realFileSystem, OutputFormat outputFormat = OutputFormat.JSONL)
+        {
+            this.xUnitOutput = output ?? throw new ArgumentNullException(nameof(output));
+            this.realFileSystem = realFileSystem;
+            this.outputFormat = outputFormat;
+
+            // allow writing out output to xunit log
+            this.xUnitOutputAdapter ??= new(this.xUnitOutput);
+
+            // also store a clean copy of the output for use in tests
+            this.cleanOutput = new StringWriter();
+
+            var sink = new MultiStreamWriter(this.xUnitOutputAdapter, this.cleanOutput);
+
             this.TestFiles = new MockFileSystem();
 
             // mock up an entire service stack
             var testServices = new ServiceCollection();
-            var standardServices = EmuEntry.ConfigureServices(this.TestFiles);
+            var standardServices = EmuEntry.ConfigureServices(this.CurrentFileSystem);
             standardServices.Invoke(testServices);
             testServices.AddLogging(builder =>
             {
-                builder.AddXunit(this.output);
+                // send our logs to xunit log
+                builder.AddXunit(this.xUnitOutput);
             });
+
+            // force JSONL output by default
+            testServices.AddSingleton((_) => new Lazy<OutputFormat>(() => this.OutputFormat));
+            testServices.AddSingleton<TextWriter>((_) => sink);
 
             this.ServiceProvider = testServices.BuildServiceProvider();
         }
+
+        public IFileSystem CurrentFileSystem => this.realFileSystem ? this.RealFileSystem : this.TestFiles;
 
         public MockFileSystem TestFiles { get; }
 
@@ -58,18 +87,20 @@ namespace Emu.Tests.TestHelpers
 
         public List<ICacheLogger> Loggers { get; } = new();
 
-        public ILogger<DryRun> DryRunLogger =>
-            this.dryRunLogger ??= this.BuildLogger<DryRun>();
+        public DryRunFactory DryRunFactory =>
+            this.dryRunFactory ??= this.ServiceProvider.GetRequiredService<DryRunFactory>();
 
-        public TextWriter ConsoleOut => this.consoleOut ??= new(this.output);
+        public virtual OutputFormat OutputFormat => this.outputFormat;
+
+        public string AllOutput => this.cleanOutput.ToString();
 
         public FilenameParser FilenameParser => new(this.TestFiles);
 
         public Parser CliParser => CliParserValue;
 
-        public IServiceProvider ServiceProvider { get; }
+        public ServiceProvider ServiceProvider { get; }
 
-        public void Dispose()
+        public virtual void Dispose()
         {
             this.Dispose(true);
             GC.SuppressFinalize(this);
@@ -77,16 +108,14 @@ namespace Emu.Tests.TestHelpers
 
         protected ILogger<T> BuildLogger<T>()
         {
-            var logger = this.output.BuildLoggerFor<T>(LogLevel.Trace);
+            var logger = this.xUnitOutput.BuildLoggerFor<T>(Microsoft.Extensions.Logging.LogLevel.Trace);
             this.Loggers.Add(logger);
             return logger;
         }
 
         protected OutputRecordWriter GetOutputRecordWriter()
         {
-            return this.outputRecordWriter ??= new OutputRecordWriter(
-                this.ConsoleOut,
-                new ToStringFormatter(this.BuildLogger<ToStringFormatter>()));
+            return this.ServiceProvider.GetRequiredService<OutputRecordWriter>();
         }
 
         protected string ResolvePath(string path) => this.TestFiles.Path.GetFullPath(path);

@@ -2,7 +2,7 @@
 // All code in this file and all associated files are the copyright and property of the QUT Ecoacoustics Research Group.
 // </copyright>
 
-namespace Emu.Tests.Fixes.FroniterLabs
+namespace Emu.Tests.Fixes.FrontierLabs
 {
     using System;
     using System.IO;
@@ -17,9 +17,11 @@ namespace Emu.Tests.Fixes.FroniterLabs
     using FluentAssertions;
     using Microsoft.Extensions.Logging;
     using Xunit;
+    using Xunit.Abstractions;
     using static Emu.Audio.Vendors.FrontierLabs;
+    using static Emu.Utilities.DryRun;
 
-    public class MetadataDurationBugTests : IClassFixture<FixtureHelper.FixtureData>, IDisposable
+    public class MetadataDurationBugTests : TestBase, IClassFixture<FixtureHelper.FixtureData>, IDisposable
     {
         private const ulong BeforeFixSamples = 317292544ul;
         private const decimal FirmwareVersion = 3.2m;
@@ -29,19 +31,18 @@ namespace Emu.Tests.Fixes.FroniterLabs
         private readonly TempFile target;
         private readonly FileUtilities fileUtilities;
         private readonly MetadataDurationBug fixer;
-        private readonly ILogger<DryRun> dryRunLogger;
         private readonly FixtureHelper.FixtureData data;
         private readonly FileSystem fileSystem;
 
-        public MetadataDurationBugTests(FixtureHelper.FixtureData data)
+        public MetadataDurationBugTests(ITestOutputHelper output, FixtureHelper.FixtureData data)
+            : base(output, true)
         {
             this.fixture = data[FixtureModel.MetadataDurationBug];
-            this.target = TempFile.FromExisting(this.fixture.AbsoluteFixturePath);
+            this.target = TempFile.DuplicateExisting(this.fixture.AbsoluteFixturePath);
 
-            this.fileUtilities = new FileUtilities(Helpers.NullLogger<FileUtilities>(), new FileSystem());
-            this.fixer = new MetadataDurationBug(Helpers.NullLogger<MetadataDurationBug>(), this.fileUtilities);
+            this.fileUtilities = this.ServiceProvider.GetRequiredService<FileUtilities>();
+            this.fixer = new MetadataDurationBug(Helpers.NullLogger<MetadataDurationBug>());
 
-            this.dryRunLogger = Helpers.NullLogger<DryRun>();
             this.data = data;
             this.fileSystem = new FileSystem();
         }
@@ -52,7 +53,7 @@ namespace Emu.Tests.Fixes.FroniterLabs
         }
 
         [Fact]
-        public async void CanDetectFaultyDurations()
+        public async Task CanDetectFaultyDurations()
         {
             var actual = await this.fixer.CheckAffectedAsync(this.target.Path);
 
@@ -67,7 +68,7 @@ namespace Emu.Tests.Fixes.FroniterLabs
         }
 
         [Fact]
-        public async void WillNotTriggerForFirmwaresNotAffected()
+        public async Task WillNotTriggerForFirmwaresNotAffected()
         {
             var actual = await this.fixer.CheckAffectedAsync(this.data[FixtureModel.NormalFile].AbsoluteFixturePath);
 
@@ -82,13 +83,13 @@ namespace Emu.Tests.Fixes.FroniterLabs
         }
 
         [Fact]
-        public async void CanRepairFaultyDurations()
+        public async Task CanRepairFaultyDurations()
         {
-            var dryRun = new DryRun(false, this.dryRunLogger);
+            var dryRun = this.DryRunFactory(false);
 
             await this.AssertMetadata(BeforeFixSamples, FirmwareVersion);
 
-            var actual = await this.fixer.ProcessFileAsync(this.target.Path, dryRun, false);
+            var actual = await this.fixer.ProcessFileAsync(this.target.Path, dryRun);
 
             Assert.Equal(FixStatus.Fixed, actual.Status);
             Assert.Contains($"Old total samples was", actual.Message);
@@ -97,80 +98,46 @@ namespace Emu.Tests.Fixes.FroniterLabs
         }
 
         [Fact]
-        public async void WillDoNothingInADryRun()
+        public async Task WillDoNothingInADryRun()
         {
-            var dryRun = new DryRun(true, this.dryRunLogger);
+            var dryRun = this.DryRunFactory(true);
 
-            var before = await this.fileUtilities.CalculateChecksum(this.target.Path, HashAlgorithmName.SHA256);
+            var before = await this.fileUtilities.CalculateChecksumSha256(this.target.Path);
             await this.AssertMetadata(BeforeFixSamples, FirmwareVersion);
 
-            var actual = await this.fixer.ProcessFileAsync(this.target.Path, dryRun, false);
+            var actual = await this.fixer.ProcessFileAsync(this.target.Path, dryRun);
 
             Assert.Equal(FixStatus.Fixed, actual.Status);
             Assert.Contains($"Old total samples was", actual.Message);
 
             await this.AssertMetadata(BeforeFixSamples, FirmwareVersion);
-            var after = await this.fileUtilities.CalculateChecksum(this.target.Path, HashAlgorithmName.SHA256);
+            var after = await this.fileUtilities.CalculateChecksumSha256(this.target.Path);
 
             Assert.Equal(before, after);
         }
 
         [Fact]
-        public async void WillBackupIfRequested()
+        public async Task IsIdempotant()
         {
-            var backupPath = this.target.Path + ".bak";
-            var dryRun = new DryRun(false, this.dryRunLogger);
-
-            var before = await this.fileUtilities.CalculateChecksum(this.target.Path, HashAlgorithmName.SHA256);
-            await this.AssertMetadata(BeforeFixSamples, FirmwareVersion);
-
-            var actual = await this.fixer.ProcessFileAsync(this.target.Path, dryRun, true);
-
-            Assert.Equal(FixStatus.Fixed, actual.Status);
-            Assert.Contains($"Old total samples was", actual.Message);
-
-            // modified file
-            await this.AssertMetadata(AfterFixSamples, FirmwareVersion, PatchedTag);
-
-            // backup
-            using (var stream = (FileStream)this.fileSystem.File.OpenRead(backupPath))
-            {
-                var actualSamples = (ulong)Flac.ReadTotalSamples(stream);
-                var actualFirmware = (FirmwareRecord)await ReadFirmwareAsync(stream);
-                Assert.Equal(BeforeFixSamples, actualSamples);
-                Assert.Equal(FirmwareVersion, actualFirmware.Version);
-
-                actualFirmware.Tags.Should().BeEquivalentTo(Array.Empty<string>());
-            }
-
-            var after = await this.fileUtilities.CalculateChecksum(backupPath, HashAlgorithmName.SHA256);
-
-            // the backup file has the same hash as the original
-            Assert.Equal(before, after);
-        }
-
-        [Fact]
-        public async void IsIdempotant()
-        {
-            var dryRun = new DryRun(false, this.dryRunLogger);
+            var dryRun = this.DryRunFactory(false);
 
             await this.AssertMetadata(BeforeFixSamples, FirmwareVersion);
 
-            var actual = await this.fixer.ProcessFileAsync(this.target.Path, dryRun, false);
+            var actual = await this.fixer.ProcessFileAsync(this.target.Path, dryRun);
 
             Assert.Equal(FixStatus.Fixed, actual.Status);
             Assert.Contains($"Old total samples was", actual.Message);
 
             await this.AssertMetadata(AfterFixSamples, FirmwareVersion, PatchedTag);
-            var first = await this.fileUtilities.CalculateChecksum(this.target.Path, HashAlgorithmName.SHA256);
+            var first = await this.fileUtilities.CalculateChecksumSha256(this.target.Path);
 
             // now again!
-            var secondActual = await this.fixer.ProcessFileAsync(this.target.Path, dryRun, false);
+            var secondActual = await this.fixer.ProcessFileAsync(this.target.Path, dryRun);
 
             Assert.Equal(FixStatus.NoOperation, secondActual.Status);
             Assert.Contains($"File has already had it's duration repaired", secondActual.Message);
             Assert.Equal(CheckStatus.Repaired, secondActual.CheckResult.Status);
-            var second = await this.fileUtilities.CalculateChecksum(this.target.Path, HashAlgorithmName.SHA256);
+            var second = await this.fileUtilities.CalculateChecksumSha256(this.target.Path);
 
             Assert.Equal(first, second);
 

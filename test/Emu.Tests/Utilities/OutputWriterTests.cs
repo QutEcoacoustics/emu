@@ -31,7 +31,7 @@ namespace Emu.Tests.Utilities
             using var stringWriter = new StringWriter(stringBuilder);
             var jsonSerializer = new JsonSerializer();
 
-            var output = new OutputRecordWriter(stringWriter, jsonSerializer);
+            var output = new OutputRecordWriter(stringWriter, jsonSerializer, new Lazy<EmuCommand.OutputFormat>(EmuCommand.OutputFormat.JSON));
 
             // generate a fake and write it to the stream
             var a = this.fakes.Recording.Generate();
@@ -66,7 +66,7 @@ namespace Emu.Tests.Utilities
             using var stringWriter = new StringWriter(stringBuilder);
             var csvSerializer = new CsvSerializer();
 
-            var output = new OutputRecordWriter(stringWriter, csvSerializer);
+            var output = new OutputRecordWriter(stringWriter, csvSerializer, new Lazy<EmuCommand.OutputFormat>(EmuCommand.OutputFormat.CSV));
 
             // generate a fake and write it to the stream
             var a = this.fakes.Recording.Generate();

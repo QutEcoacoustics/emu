@@ -14,6 +14,8 @@ namespace Emu.Audio
     public static class Flac
     {
         public const string Mime = "audio/flac";
+        public const string Extension = ".flac";
+
         public const int FlacSamplesOffset = 21;
         public const int SampleRateOffset = 18;
         public const int ChannelOffset = 20;

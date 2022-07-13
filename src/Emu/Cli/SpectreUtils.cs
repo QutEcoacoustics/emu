@@ -41,6 +41,17 @@ namespace Emu.Cli
             return emuRegex.Replace(code, "[orange4_1]$1[/]");
         }
 
+        public static string MarkupPath(string path)
+        {
+            return $"[dodgerblue3]{path.EscapeMarkup()}[/]";
+        }
+
+        public static string MarkupLink(string url, string title = null)
+        {
+            title ??= url;
+            return $"[blue][link={url.EscapeMarkup()}]{title.EscapeMarkup()}[/][/]";
+        }
+
         public static string FormatList<T>(object record)
         {
             var builder = new StringBuilder();

@@ -58,6 +58,8 @@ namespace Emu
         /// <param name="args">The args array received by the executable.</param>
         public static async Task<int> Main(string[] args)
         {
+            WaitForDebugger();
+
             return await BuildCommandLine().InvokeAsync(args);
         }
 
@@ -86,6 +88,7 @@ namespace Emu
                 .AddSingleton<Lazy<OutputFormat>>(
                     (provider) => new Lazy<OutputFormat>(() => provider.GetRequiredService<EmuGlobalOptions>().Format))
                 .AddTransient<OutputRecordWriter>()
+                .AddSingleton<DryRun.DryRunFactory>(DryRun.Factory)
 
                 //.AddTransient<DefaultFormatters>()
                 .AddSingleton<IFileSystem>(_ => fileSystem ?? new FileSystem())
@@ -119,6 +122,21 @@ namespace Emu
             .UseHost(CreateHost, BuildDependencies)
             .UseDefaults()
             .UseHelpBuilder((context) => new EmuHelpBuilder(context.Console));
+
+        private static void WaitForDebugger()
+        {
+#if DEBUG
+            if (!string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("EMU_DEBUG")))
+            {
+                if (!Debugger.IsAttached)
+                {
+                    Debugger.Launch();
+                }
+            }
+#else
+            return;
+#endif
+        }
 
         private static IHostBuilder CreateHost(string[] args)
         {
@@ -157,10 +175,26 @@ namespace Emu
 
                  .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
                  .MinimumLevel.Is(level)
-                 .WriteTo.Console(
-                     theme: AnsiConsoleTheme.Literate,
-                     outputTemplate: "{Timestamp:o} [{Level:u4}] <{ThreadId}> {SourceContext} {Scope} {Message:lj}{NewLine}{Exception}",
-                     standardErrorFromLevel: LogEventLevel.Verbose);
+
+                 // special format for the dry run logger
+                 .WriteTo.Logger(subLogger =>
+                    subLogger
+                    .Filter.ByIncludingOnly(DryRunFilter)
+                    .WriteTo.Console(
+                        theme: AnsiConsoleTheme.Literate,
+                        outputTemplate: "DRY RUN {Message:lj}{NewLine}{Exception}",
+                        standardErrorFromLevel: LogEventLevel.Verbose))
+                 .WriteTo.Logger(mainLogger =>
+                    mainLogger
+                    .Filter.ByExcluding(DryRunFilter)
+                    .WriteTo.Console(
+                        theme: AnsiConsoleTheme.Literate,
+                        outputTemplate: "{Timestamp:o} [{Level:u4}] <{ThreadId}> {SourceContext} {Scope} {Message:lj}{NewLine}{Exception}",
+                        standardErrorFromLevel: LogEventLevel.Verbose));
+
+            static bool DryRunFilter(LogEvent logEvent) =>
+                logEvent.Properties[Serilog.Core.Constants.SourceContextPropertyName] is ScalarValue s
+                && (string)s.Value == DryRun.LogCategoryName;
         }
     }
 }
