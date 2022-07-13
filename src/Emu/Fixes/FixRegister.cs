@@ -18,9 +18,10 @@ namespace Emu.Fixes
 
         public static OperationInfo[] All { get; } = new[]
         {
-            FileNameDateStampInvalid.Metadata,
-            MetadataDurationBug.Metadata,
+            //FileNameDateStampInvalid.Metadata,
             PreAllocatedHeader.Metadata,
+            SpaceInDatestamp.Metadata,
+            MetadataDurationBug.Metadata,
         };
 
         public IFixOperation Resolve(WellKnownProblem problem)

@@ -160,7 +160,22 @@ namespace Emu
             var results = new Dictionary<WellKnownProblem, FixResult>(operations.Length);
             foreach (var (operation, checkResult) in checkResults)
             {
+                if (operation is not IFixOperation)
+                {
+                    Debug.Assert(checkResult.Status is not CheckStatus.Affected, "Unfixable errors should have been dealt with already");
+
+                    results.Add(operation.GetOperationInfo().Problem, new FixResult(FixStatus.NoOperation, checkResult, null));
+                    continue;
+                }
+
                 var result = await this.ApplyFixAsync(file, dryRun, (IFixOperation)operation, checkResult);
+
+                if (result.NewPath != null)
+                {
+                    file = result.NewPath;
+                    Debug.Assert(this.fileSystem.File.Exists(file), "sanity check that we're still pointing to a real file");
+                }
+
                 results.Add(operation.GetOperationInfo().Problem, result);
             }
 

@@ -197,3 +197,24 @@ Looking for targets...
 File 20211004T200000+0000_Rec2_-18.1883+144.5414.flac:
         - FL010: Fixed. Old total samples was 317292544, new total samples is: 158646272
 ```
+
+### Fix the FL008 spaces in datestamp bug
+
+Sometimes we find spaces in datestamps due to [FL008](https://github.com/ecoacoustics/known-problems/blob/main/frontier_labs/FL008.md).
+
+For example, a problem file, a fix with EMU, and the result:
+
+```bash
+$ ls -l
+-rwxr--r-- 1 anthony anthony 622592 Jul 13 23:25 '201906 7T095935+1000_REC [19.2144 152.8811].flac'
+
+$ emu fix apply -f FL008 "201906 7T095935+1000_REC [19.2144 152.8811].flac"
+Looking for targets...
+File F:\tmp\fixes\20190607T095935+1000_REC [19.2144 152.8811].flac:
+        - FL008 is Affected Space in datestamp detected.
+          Action taken: Fixed. Inserted `0` into datestamp
+
+$ ls -l
+-rwxr--r-- 1 anthony anthony 622592 Jul 13 23:25 '20190607T095935+1000_REC [19.2144 152.8811].flac'
+```
+

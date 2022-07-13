@@ -44,6 +44,12 @@ namespace Emu.Audio.Vendors
             OffsetDateTimePattern.CreateWithInvariantCulture("yyyy'-'MM'-'dd'T'HH':'mm':'sso<m>"),
         };
 
+        public static readonly LocalDateTimePattern[] LocalDatePatterns =
+        {
+            // V3.08 firmware used a space as a separator
+            LocalDateTimePattern.CreateWithInvariantCulture("yyyy'-'MM'-'dd' 'HH':'mm':'ss"),
+        };
+
         public static readonly byte[] VendorString = Encoding.ASCII.GetBytes("Frontier Labs");
         public static readonly Dictionary<string, Func<string, Fin<object>>> CommentParsers = new Dictionary<string, Func<string, Fin<object>>>
         {
@@ -307,27 +313,24 @@ namespace Emu.Audio.Vendors
         /// <returns>The parsed date.</returns>
         public static Fin<object> OffsetDateTimeParser(string value)
         {
-            OffsetDateTime? date = null;
-
             // Try parsing the date in each known date format (varies depending on firmware version)
             foreach (OffsetDateTimePattern datePattern in DatePatterns)
             {
-                try
+                if (datePattern.Parse(value) is { Success: true} d)
                 {
-                    date = datePattern.Parse(value).Value;
-                }
-                catch (UnparsableValueException)
-                {
-                    continue;
+                    return d.Value;
                 }
             }
 
-            if (date == null)
+            foreach (var pattern in LocalDatePatterns)
             {
-                return DateInvalid(value);
+                if (pattern.Parse(value) is { Success: true } d)
+                {
+                    return d.Value;
+                }
             }
 
-            return date;
+            return DateInvalid(value);
         }
 
         /// <summary>
