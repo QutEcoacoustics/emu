@@ -96,7 +96,7 @@ DRY RUN This was a dry run, no changes were made
 
 - Use the `--help` option to find out more about the command command
   (`emu fix apply --help`)
-- **INote the use of `--dry-run`**. When dry run is used nothing is changed!
+- **Note the use of `--dry-run`**. When dry run is used nothing is changed!
   This allows you to safely check that the behavior of EMU is as you expect.
 - EMU has a `--backup` option that will create a copy of the original file
   before making changes.
@@ -119,7 +119,7 @@ File F:\tmp\fixes\20191125T000000+1000_REC.flac.error_FL001:
           Action taken: Renamed. Renamed to: F:\tmp\fixes\20191125T000000+1000_REC.flac.error_FL001
 ```
 
-
+---
 
 ## Examples
 
@@ -219,3 +219,20 @@ $ ls -l
 -rwxr--r-- 1 anthony anthony 622592 Jul 13 23:25 '20190607T095935+1000_REC [19.2144 152.8811].flac'
 ```
 
+### Fix the FL005 incorrect data size bug
+
+In firmwares before 3.0, FL sensors sometimes recorded the wrong duration for their files.
+This is the [FL005](https://github.com/ecoacoustics/known-problems/blob/main/frontier_labs/FL005.md) problem.
+
+For example, a problem file, a fix with EMU, and the result:
+
+```bash
+$ ls -l
+-rwxr--r-- 1 anthony anthony 157610028 Jul 15 17:33 '20160809_063108_Dawn _1.4647 116.9136_.wav'
+
+$ emu fix apply -f FL005 "20160809_063108_Dawn _1.4647 116.9136_.wav"
+Looking for targets...
+File F:\tmp\fixes\20160809_063108_Dawn _1.4647 116.9136_.wav:
+        - FL005 is Affected RIFF length and data length are incorrect.
+          Action taken: Fixed. RIFF length set to 157610020 (was 157610064). data length set to 157609984 (was 157610028)
+```
