@@ -52,7 +52,7 @@ namespace Emu.Cli
             return $"[blue][link={url.EscapeMarkup()}]{title.EscapeMarkup()}[/][/]";
         }
 
-        public static string FormatList<T>(object record)
+        public static string FormatList<T>(T record)
         {
             var builder = new StringBuilder();
             foreach (PropertyDescriptor descriptor in TypeDescriptor.GetProperties(record))

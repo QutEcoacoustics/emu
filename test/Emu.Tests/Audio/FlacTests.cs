@@ -100,7 +100,7 @@ namespace Emu.Tests.Audio
         {
             bool hasMetadata = Flac.HasMetadataBlock(model.ToTargetInformation(this.RealFileSystem).FileStream).IfFail(false);
 
-            ((bool)hasMetadata).Should().Be(model.IsFlac && model.ValidMetadata != ValidMetadata.No);
+            hasMetadata.Should().Be(model.IsFlac && model.ValidMetadata != ValidMetadata.No);
         }
     }
 }

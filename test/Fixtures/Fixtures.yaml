@@ -649,7 +649,7 @@
   FixturePath: FL_BAR_LT/3.28_MultiLogFile/8537_20210709T040000-0300_every1d6x4hrs [+44.72053-062.80072].wav
   Notes:
   ValidMetadata: No
-  MimeType: audio/wave
+  MimeType: ~
   Vendor: Frontier Labs
   Process:
     FilenameExtractor: ~
@@ -715,7 +715,7 @@
   FixturePath: FL_BAR_LT/3.28_MultiLogFile/8537_20210622T160000-0300_every1d6x4hrs [+44.72053-062.80072].wav
   Notes:
   ValidMetadata: No
-  MimeType: audio/wave
+  MimeType: ~
   Vendor: Frontier Labs
   Process:
     FilenameExtractor: ~
@@ -1058,3 +1058,54 @@
             Channel:
             ChannelName:
             Sensitivity:
+
+- Name: Incorrect data size
+  Record:
+    Extension: .flac
+    Stem: 20160809_063108_Dawn _1.4647 116.9136_.wav
+    StartDate:
+    LocalStartDate: 2016-08-09T06:31:08
+    EndDate:
+    DurationSeconds: 78804992/44100
+    TotalSamples: 78804992
+    Channels: 1
+    SampleRateHertz: 44100
+    BitsPerSecond: 705600
+    BitDepth: 16
+    FileSizeBytes: 157610028
+    CalculatedChecksum:
+      Type: SHA256
+      Value: 3517d2e4cc731461177aa94931af3ec9eca80163b43fc5e621ec3c77618c6db5
+    EmbeddedChecksum: ~
+    MemoryCard: ~
+    Sensor:
+      Name:
+      Firmware: 2.2
+      SerialNumber: 44203120-37415737-32303420-35323030
+      PowerSource:
+      Microphones: ~
+      Gain: 40
+      Configuration:
+      Voltage:
+      BatteryLevel:
+      Temperature:
+      LastTimeSync:
+    Location:
+      Longitude: 116.9136
+      Latitude: 1.4647
+      Altitude:
+      HorizontalAccuracy:
+      VerticalAccuracy:
+      Speed:
+      Course:
+      SampleDateTime: ~
+      CoordinateReferenceSystem:
+  BlockAlign:
+  FixturePath: FL_BAR/2.02_IncorrectDataSize/20160809_063108_Dawn _1.4647 116.9136_.wav
+  Notes:
+  ValidMetadata: Yes
+  MimeType: audio/wave
+  Vendor: Frontier Labs
+  Process:
+    WaveHeaderExtractor: ~
+    FrontierLabsLogFileExtractor: ~

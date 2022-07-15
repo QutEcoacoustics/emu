@@ -27,13 +27,14 @@ To see what problems EMU knows to check for, use the `emu fix list` command:
 ```bash
 $ emu fix list
 EMU can fix these problems:
-┌───────┬────────────────────────────────┬─────────┬──────┐
-│ ID    │ Description                    │ Fixable │ Safe │
-├───────┼────────────────────────────────┼─────────┼──────┤
-│ OE003 │ Invalid datestamp in file name │ ✓       │ ✓    │
-│ FL010 │ Metadata Duration Bug          │ ✓       │ ✓    │
-│ FL001 │ Stub file                      │ ✗       │ ✓    │
-└───────┴────────────────────────────────┴─────────┴──────┘
+┌───────┬───────────────────────────┬─────────┬──────┬─────────────────────────────────────────────────────────────────────────────────┐
+│ ID    │ Description               │ Fixable │ Safe │ URL                                                                             │
+├───────┼───────────────────────────┼─────────┼──────┼─────────────────────────────────────────────────────────────────────────────────┤
+│ FL001 │ Preallocated header       │ ✗       │ ✓    │ https://github.com/ecoacoustics/known-problems/blob/main/frontier_labs/FL001.md │
+│ FL008 │ Invalid datestamp (space) │ ✓       │ ✓    │ https://github.com/ecoacoustics/known-problems/blob/main/frontier_labs/FL008.md │
+│ FL010 │ Metadata Duration Bug     │ ✓       │ ✓    │ https://github.com/ecoacoustics/known-problems/blob/main/frontier_labs/FL010.md │
+│ FL005 │ Incorrect SubChunk2 size  │ ✓       │ ✓    │ https://github.com/ecoacoustics/known-problems/blob/main/frontier_labs/FL005.md │
+└───────┴───────────────────────────┴─────────┴──────┴─────────────────────────────────────────────────────────────────────────────────┘
 
 Use `emu fix apply` to apply a fix to target files:
 

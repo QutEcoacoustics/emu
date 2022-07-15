@@ -22,6 +22,7 @@ namespace Emu.Fixes
             PreAllocatedHeader.Metadata,
             SpaceInDatestamp.Metadata,
             MetadataDurationBug.Metadata,
+            IncorrectDataSize.Metadata,
         };
 
         public IFixOperation Resolve(WellKnownProblem problem)
