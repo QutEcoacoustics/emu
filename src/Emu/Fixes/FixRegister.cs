@@ -5,7 +5,7 @@
 namespace Emu.Fixes
 {
     using Emu.Fixes.FrontierLabs;
-    using Emu.Fixes.General;
+    using Emu.Fixes.OpenEcoacoustics;
 
     public class FixRegister
     {
@@ -19,6 +19,7 @@ namespace Emu.Fixes
         public static OperationInfo[] All { get; } = new[]
         {
             //FileNameDateStampInvalid.Metadata,
+            EmptyFile.Metadata,
             PreAllocatedHeader.Metadata,
             SpaceInDatestamp.Metadata,
             MetadataDurationBug.Metadata,

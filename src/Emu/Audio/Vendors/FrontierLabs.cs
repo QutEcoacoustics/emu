@@ -148,7 +148,7 @@ namespace Emu.Audio.Vendors
 
             if (stream.Length is DefaultFileStubLength or DefaultFileStubLength2)
             {
-                faults++;
+                faults += 2;
             }
             else if (stream.Length < 200)
             {

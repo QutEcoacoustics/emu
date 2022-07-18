@@ -27,14 +27,15 @@ To see what problems EMU knows to check for, use the `emu fix list` command:
 ```bash
 $ emu fix list
 EMU can fix these problems:
-┌───────┬───────────────────────────┬─────────┬──────┬─────────────────────────────────────────────────────────────────────────────────┐
-│ ID    │ Description               │ Fixable │ Safe │ URL                                                                             │
-├───────┼───────────────────────────┼─────────┼──────┼─────────────────────────────────────────────────────────────────────────────────┤
-│ FL001 │ Preallocated header       │ ✗       │ ✓    │ https://github.com/ecoacoustics/known-problems/blob/main/frontier_labs/FL001.md │
-│ FL008 │ Invalid datestamp (space) │ ✓       │ ✓    │ https://github.com/ecoacoustics/known-problems/blob/main/frontier_labs/FL008.md │
-│ FL010 │ Metadata Duration Bug     │ ✓       │ ✓    │ https://github.com/ecoacoustics/known-problems/blob/main/frontier_labs/FL010.md │
-│ FL005 │ Incorrect SubChunk2 size  │ ✓       │ ✓    │ https://github.com/ecoacoustics/known-problems/blob/main/frontier_labs/FL005.md │
-└───────┴───────────────────────────┴─────────┴──────┴─────────────────────────────────────────────────────────────────────────────────┘
+┌───────┬───────────────────────────┬─────────┬──────┬─────────────────────────────────────────────────────────────────────────────────────┐
+│ ID    │ Description               │ Fixable │ Safe │ URL                                                                                 │
+├───────┼───────────────────────────┼─────────┼──────┼─────────────────────────────────────────────────────────────────────────────────────┤
+│ OE004 │ Empty file                │ ✗       │ ✓    │ https://github.com/ecoacoustics/known-problems/blob/main/open_ecoacoustics/OE004.md │
+│ FL001 │ Preallocated header       │ ✗       │ ✓    │ https://github.com/ecoacoustics/known-problems/blob/main/frontier_labs/FL001.md     │
+│ FL008 │ Invalid datestamp (space) │ ✓       │ ✓    │ https://github.com/ecoacoustics/known-problems/blob/main/frontier_labs/FL008.md     │
+│ FL010 │ Metadata Duration Bug     │ ✓       │ ✓    │ https://github.com/ecoacoustics/known-problems/blob/main/frontier_labs/FL010.md     │
+│ FL005 │ Incorrect SubChunk2 size  │ ✓       │ ✓    │ https://github.com/ecoacoustics/known-problems/blob/main/frontier_labs/FL005.md     │
+└───────┴───────────────────────────┴─────────┴──────┴─────────────────────────────────────────────────────────────────────────────────────┘
 
 Use `emu fix apply` to apply a fix to target files:
 
@@ -164,7 +165,28 @@ $ ls -l
 -rwxr--r-- 1 anthony anthony  153 Feb 10 21:12  20191125T000000+1000_REC.flac.error_FL001
 ```
 
+### Rename empty files (Fix OE004)
 
+Sensors often produce empty audio files. 
+This is problem is known as [OE004](https://github.com/ecoacoustics/known-problems/blob/main/open_ecoacoustics/OE004.md).
+
+To rename any detected files (so they are no longer recognized as audio files) use 
+`fix apply` with fix `OE004`:
+
+``` bash
+$ emu fix apply -f OE004 "**/*.flac"
+```
+
+That command renames (by adding the suffix `.error_empty`) to any FLAC file in 
+any sub-folder of your present working folder. 
+
+You can do it for WAVE and FLAC files at the same time:
+
+``` bash
+$ emu fix apply -f OE004 "**/*.flac" "**/*.wav"
+```
+
+😎
 
 ### Check if a file is affected by the FL010 metadata bug
 

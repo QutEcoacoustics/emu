@@ -9,6 +9,7 @@ namespace Emu
     using System.IO.Abstractions;
     using System.Linq;
     using System.Text;
+    using System.Text.RegularExpressions;
     using System.Threading.Tasks;
     using Emu.Cli;
     using Emu.Extensions.System;
@@ -23,6 +24,8 @@ namespace Emu
 
     public class FixApply : EmuCommandHandler<Emu.FixApply.FixApplyResult>
     {
+        private static readonly Regex ErrorSuffix = new Regex("\\.error_\\w+$");
+
         private readonly ILogger<FixApply> logger;
         private readonly DryRunFactory dryRunFactory;
         private readonly FileMatcher fileMatcher;
@@ -132,11 +135,24 @@ namespace Emu
                 var rest = checkResults.Except(firstError.AsEnumerable());
 
                 Debug.Assert(firstError.CheckResult is { Status: CheckStatus.Affected }, "We should have found a problem that is affected");
-                var result = this.ApplyRename(file, dryRun, firstError.Operation);
-                var renamed = result.IsSome;
-                var newPath = result.IfNone(file);
 
-                var message = renamed ? ("Renamed to: " + newPath) : null;
+                bool renamed;
+                string message;
+                string newPath;
+                if (this.HasFileBeenRenamed(file))
+                {
+                    renamed = false;
+                    message = "Already has been renamed as an error file";
+                    newPath = file;
+                }
+                else
+                {
+                    var result = this.ApplyRename(file, dryRun, firstError.Operation);
+                    renamed = result.IsSome;
+                    newPath = result.IfNone(file);
+
+                    message = renamed ? ("Renamed to: " + newPath) : null;
+                }
 
                 var fixResults = AllNoop(rest);
                 fixResults.Add(
@@ -236,9 +252,10 @@ namespace Emu
         {
             if (!this.NoRename)
             {
-                var id = operation.GetOperationInfo().Problem.Id;
+                var info = operation.GetOperationInfo();
+                var suffix = info.Suffix.IfNone(info.Problem.Id);
                 var basename = this.fileSystem.Path.GetFileName(file);
-                var newName = $"{basename}.error_{id}";
+                var newName = $"{basename}.error_{suffix}";
                 var dest = this.fileUtils.Rename(file, newName, dryRun);
                 this.logger.LogDebug("File renamed up to {destination}", dest);
                 return dest;
@@ -271,6 +288,8 @@ namespace Emu
                 return new FixResult(FixStatus.NoOperation, checkResult, checkResult.Message);
             }
         }
+
+        private bool HasFileBeenRenamed(string path) => ErrorSuffix.IsMatch(path);
 
         public partial record FixApplyResult(string File, IReadOnlyDictionary<WellKnownProblem, FixResult> Problems, string BackupFile = null);
 

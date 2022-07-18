@@ -86,6 +86,13 @@ namespace Emu
                 "003",
                 Group,
                 MakeUrl(Group, "003"));
+
+            public static WellKnownProblem EmptyFile => new(
+                "Empty file",
+                "The file is empty - it has a size of 0 bytes",
+                "004",
+                Group,
+                MakeUrl(Group, "004"));
         }
 
         public class FrontierLabsProblems
