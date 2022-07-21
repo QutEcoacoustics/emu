@@ -1,25 +1,19 @@
-// <copyright file="SpaceIncDateStampTests.cs" company="QutEcoacoustics">
+// <copyright file="SpaceInDatestampTests.cs" company="QutEcoacoustics">
 // All code in this file and all associated files are the copyright and property of the QUT Ecoacoustics Research Group.
 // </copyright>
 
 namespace Emu.Tests.Fixes.FrontierLabs
 {
     using System;
-    using System.IO;
     using System.IO.Abstractions;
-    using System.Security.Cryptography;
     using System.Threading.Tasks;
-    using Emu.Audio;
     using Emu.Fixes;
     using Emu.Fixes.FrontierLabs;
     using Emu.Tests.TestHelpers;
     using Emu.Utilities;
     using FluentAssertions;
-    using Microsoft.Extensions.Logging;
     using Xunit;
     using Xunit.Abstractions;
-    using static Emu.Audio.Vendors.FrontierLabs;
-    using static Emu.Utilities.DryRun;
 
     public class SpaceInDatestampTests : TestBase, IClassFixture<FixtureHelper.FixtureData>, IDisposable
     {
@@ -27,8 +21,6 @@ namespace Emu.Tests.Fixes.FrontierLabs
         private readonly TempFile target;
         private readonly FileUtilities fileUtilities;
         private readonly SpaceInDatestamp fixer;
-        private readonly FixtureHelper.FixtureData data;
-        private readonly FileSystem fileSystem;
 
         public SpaceInDatestampTests(ITestOutputHelper output, FixtureHelper.FixtureData data)
             : base(output, true)
@@ -39,9 +31,6 @@ namespace Emu.Tests.Fixes.FrontierLabs
             this.fileUtilities = this.ServiceProvider.GetRequiredService<FileUtilities>();
 
             this.fixer = new SpaceInDatestamp(this.CurrentFileSystem, this.fileUtilities);
-
-            this.data = data;
-            this.fileSystem = new FileSystem();
         }
 
         void IDisposable.Dispose()

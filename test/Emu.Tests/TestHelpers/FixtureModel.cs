@@ -38,6 +38,8 @@ namespace Emu.Tests.TestHelpers
         public const string WamdExtractor = "WamdExtractor";
         public const string FLCommentAndLogExtractor = "FLCommentAndLogExtractor";
         public const string SpaceInDateStamp = "Space in date stamp";
+        public const string IncorrectDataSize = "Incorrect data size";
+        public const string TwoLogFiles1 = "Two Log Files 1";
 
         private string fixturePath;
 

@@ -106,7 +106,7 @@ namespace Emu.Audio
         {
             var riffChunk = Wave.FindRiffChunk(stream);
             var waveChunk = riffChunk.Bind(r => Wave.FindWaveChunk(stream, r));
-            var wamdChunk = waveChunk.Bind(w => Wave.ScanForChunk(stream, w, WamdChunkId));
+            var wamdChunk = waveChunk.Bind(w => Wave.ScanForChunk(stream, w, WamdChunkId, false));
 
             if (wamdChunk.IsFail)
             {

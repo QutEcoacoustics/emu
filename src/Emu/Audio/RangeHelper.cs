@@ -14,6 +14,11 @@ namespace Emu.Audio
         /// <returns>A span containing the contents of the stream in the range.</returns>
         public static ReadOnlySpan<byte> ReadRange(Stream stream, Range range)
         {
+            if (range.OutOfBounds)
+            {
+                throw new ArgumentException("supplied range cannot have OutOfBounds=true", nameof(range));
+            }
+
             Span<byte> buffer = new byte[range.Length];
 
             if (stream.Seek(range.Start, SeekOrigin.Begin) != range.Start)
@@ -39,6 +44,11 @@ namespace Emu.Audio
         /// <returns>A byte array containing the contents of the stream in the range.</returns>
         public static async ValueTask<byte[]> ReadRangeAsync(Stream stream, Range range)
         {
+            if (range.OutOfBounds)
+            {
+                throw new ArgumentException("supplied range cannot have OutOfBounds=true", nameof(range));
+            }
+
             byte[] buffer = new byte[range.Length];
 
             if (stream.Seek(range.Start, SeekOrigin.Begin) != range.Start)
@@ -56,7 +66,15 @@ namespace Emu.Audio
             return buffer;
         }
 
-        public partial record Range(long Start, long End);
+        /// <summary>
+        /// A helper that allows us to record start and end offsets for range of bytes.
+        /// The OutOfBounds errors allow us to inspect files that have errors when we want
+        /// and allow our ranges to return safe values the rest of the time.
+        /// </summary>
+        /// <param name="Start">The start byte - relative to stream start.</param>
+        /// <param name="End">The end byte - relative to stream start.</param>
+        /// <param name="OutOfBounds">Whether or not this value represents a range that is outside the bounds of the stream.</param>
+        public partial record Range(long Start, long End, bool OutOfBounds = false);
 
         public partial record Range
         {

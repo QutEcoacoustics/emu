@@ -1,13 +1,13 @@
-// <copyright file="PreAllocatedHeaderTests.cs" company="QutEcoacoustics">
+// <copyright file="EmptyFileTests.cs" company="QutEcoacoustics">
 // All code in this file and all associated files are the copyright and property of the QUT Ecoacoustics Research Group.
 // </copyright>
 
-namespace Emu.Tests.Fixes.FrontierLabs
+namespace Emu.Tests.Fixes.OpenEcoacoustics
 {
     using System;
     using System.Threading.Tasks;
     using Emu.Fixes;
-    using Emu.Fixes.FrontierLabs;
+    using Emu.Fixes.OpenEcoacoustics;
     using Emu.Tests.TestHelpers;
     using FluentAssertions;
     using LanguageExt;
@@ -15,15 +15,15 @@ namespace Emu.Tests.Fixes.FrontierLabs
     using Xunit.Abstractions;
     using static LanguageExt.Prelude;
 
-    public class PreAllocatedHeaderTests : TestBase, IClassFixture<FixtureHelper.FixtureData>
+    public class EmptyFileTests : TestBase, IClassFixture<FixtureHelper.FixtureData>
     {
-        private readonly PreAllocatedHeader fixer;
+        private readonly EmptyFile fixer;
         private readonly FixtureHelper.FixtureData data;
 
-        public PreAllocatedHeaderTests(ITestOutputHelper output, FixtureHelper.FixtureData data)
+        public EmptyFileTests(ITestOutputHelper output, FixtureHelper.FixtureData data)
             : base(output, realFileSystem: true)
         {
-            this.fixer = this.ServiceProvider.GetRequiredService<PreAllocatedHeader>();
+            this.fixer = this.ServiceProvider.GetRequiredService<EmptyFile>();
             this.data = data;
         }
 
@@ -35,7 +35,7 @@ namespace Emu.Tests.Fixes.FrontierLabs
             info.Fixable.Should().BeFalse();
             info.Automatic.Should().BeFalse();
             info.Safe.Should().BeTrue();
-            info.Suffix.Should<Option<string>>().Be(Some("stub"));
+            info.Suffix.Should<Option<string>>().Be(Some("empty"));
 
             Assert.False(this.fixer is IFixOperation);
         }
@@ -43,53 +43,23 @@ namespace Emu.Tests.Fixes.FrontierLabs
         [Fact]
         public async Task CanDetectPreAllocatedFiles()
         {
-            var fixture = this.data[FixtureModel.PreAllocatedHeader];
+            var fixture = this.data[FixtureModel.TwoLogFiles1];
 
             var actual = await this.fixer.CheckAffectedAsync(fixture.AbsoluteFixturePath);
 
             Assert.Equal(CheckStatus.Affected, actual.Status);
-            Assert.Contains("The file is a stub and has no usable data", actual.Message);
+            Assert.Contains("The file is empty - it has a size of 0 bytes", actual.Message);
 
             Assert.Null(actual.Data);
 
             Assert.Equal(Severity.Severe, actual.Severity);
-        }
-
-        [Fact]
-        public async Task CanDetectPreAllocatedFiles2()
-        {
-            var fixture = this.data[FixtureModel.PreAllocatedHeader];
-
-            var actual = await this.fixer.CheckAffectedAsync(fixture.AbsoluteFixturePath);
-
-            Assert.Equal(CheckStatus.Affected, actual.Status);
-            Assert.Contains("The file is a stub and has no usable data", actual.Message);
-
-            Assert.Null(actual.Data);
-
-            Assert.Equal(Severity.Severe, actual.Severity);
-        }
-
-        [Fact]
-        public async Task ItDoesNotConsiderEmptyFilesAFault()
-        {
-            using var target = new TempFile();
-
-            target.Path.Touch(this.RealFileSystem);
-
-            var actual = await this.fixer.CheckAffectedAsync(target.Path);
-
-            Assert.Equal(CheckStatus.NotApplicable, actual.Status);
-            Assert.Equal(string.Empty, actual.Message);
-            Assert.Null(actual.Data);
-            Assert.Equal(Severity.None, actual.Severity);
         }
 
         [SkippableTheory]
         [ClassData(typeof(FixtureHelper.FixtureData))]
         public async Task NoOtherFixtureIsDetectedAsAPositive(FixtureModel fixture)
         {
-            Skip.If(fixture.Name is FixtureModel.PreAllocatedHeader or FixtureModel.PreAllocatedHeader2);
+            Skip.If(fixture.Record.FileSizeBytes == 0);
 
             var actual = await this.fixer.CheckAffectedAsync(fixture.AbsoluteFixturePath);
 
