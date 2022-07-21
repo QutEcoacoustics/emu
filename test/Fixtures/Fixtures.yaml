@@ -971,6 +971,111 @@
             Sensitivity:
     FLCommentAndLogExtractor: ~
 
+- Name: FileSizeLimit1
+  Record: &FileSizeLimit1
+    Extension: .wav
+    Stem: 8537_20210614T120000-0300_every1d6x4hrs [+44.72053-062.80072]
+    StartDate: 2021-06-14T12:00:00-03:00
+    LocalStartDate: 2021-06-14T12:00:00
+    EndDate:
+    DurationSeconds: 39353597/44100
+    TotalSamples: 39353597
+    Channels: 2
+    SampleRateHertz: 44100
+    BitsPerSecond: 1411200
+    BitDepth: 16
+    FileSizeBytes: 157414432
+    CalculatedChecksum:
+      Type: SHA256
+      Value: 34c5271dab1848823be1c0f2f431eb277e0915ea7444cade3a13cb36375ddd2c
+    EmbeddedChecksum:
+    MemoryCard:
+      FormatType: exFAT
+      ManufacturerID: 3
+      OEMID: SD
+      ProductName: SD128
+      ProductRevision: 8.5
+      SerialNumber: 4774740
+      ManufactureDate: 2020-08
+      Speed: 50
+      Capacity: 124868608
+      WrCurrentVmin: 5
+      WrCurrentVmax: 5
+      WriteBlSize: 512
+      EraseBlSize: 65536
+    Sensor:
+      Name:
+      Firmware: 3.28
+      SerialNumber: 00008516
+      PowerSource: Ext-power
+      Microphones:
+      Gain:
+      Configuration:
+      Voltage: 4.16
+      BatteryLevel: 0.97
+      Temperature:
+      LastTimeSync:
+    Location:
+      Longitude: -62.80072
+      Latitude: 44.72053
+      Altitude:
+      HorizontalAccuracy:
+      VerticalAccuracy:
+      Speed:
+      Course:
+      SampleDateTime: 2021-06-14T15:00:00Z
+      CoordinateReferenceSystem:
+  BlockAlign:
+  FixturePath: FL_BAR_LT/3.28_FileSizeLimit/8537_20210614T120000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+  Notes:
+  ValidMetadata: Yes
+  MimeType: audio/wave
+  Vendor: Frontier Labs
+  Process:
+    FilenameExtractor: ~
+    WaveHeaderExtractor: ~
+    FrontierLabsLogFileExtractor: ~
+
+- Name: FileSizeLimit2
+  Record: &FileSizeLimit2
+    Extension: .wav
+    Stem: 8537_20210614T152300-0300_every1d6x4hrs [+44.72053-062.80072]
+    StartDate: 2021-06-14T15:23:00-03:00
+    LocalStartDate: 2021-06-14T15:23:00
+    EndDate:
+    DurationSeconds: 39349618/44100
+    TotalSamples: 39349618
+    Channels: 2
+    SampleRateHertz: 44100
+    BitsPerSecond: 1411200
+    BitDepth: 16
+    FileSizeBytes: 157398516
+    CalculatedChecksum:
+      Type: SHA256
+      Value: 83d15e0b6e1a9ddf9e1dc76c2c6b3ea6c7ebdce915446c6ba7ccc4b9791ea135
+    EmbeddedChecksum:
+    MemoryCard:
+    Sensor:
+    Location:
+      Longitude: -62.80072
+      Latitude: 44.72053
+      Altitude:
+      HorizontalAccuracy:
+      VerticalAccuracy:
+      Speed:
+      Course:
+      SampleDateTime: 2021-06-14T18:23:00Z
+      CoordinateReferenceSystem:
+  BlockAlign:
+  FixturePath: FL_BAR_LT/3.28_FileSizeLimit/8537_20210614T152300-0300_every1d6x4hrs [+44.72053-062.80072].wav
+  Notes:
+  ValidMetadata: Yes
+  MimeType: audio/wave
+  Vendor: Frontier Labs
+  Process:
+    FilenameExtractor: ~
+    WaveHeaderExtractor: ~
+
 - Name: Space in date stamp
   Record: &SpaceInDatestamp
     Extension: .flac
