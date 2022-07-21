@@ -11,8 +11,8 @@ namespace Emu.Metadata.FrontierLabs
 
     public class LogFileExtractor : IMetadataOperation
     {
-        public const int MegabyteConversion = 1048576;
-        public const int KilobyteConversion = 1024;
+        public const int MegabyteConversion = 1000000;
+        public const int KilobyteConversion = 1000;
 
         private readonly ILogger<LogFileExtractor> logger;
 
