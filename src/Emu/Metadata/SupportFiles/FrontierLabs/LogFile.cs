@@ -30,6 +30,12 @@ namespace Emu.Metadata.SupportFiles.FrontierLabs
             LocalDateTimePattern.CreateWithInvariantCulture("dd'/'MM'/'yyyy' 'HH':'mm':'ss"),
         };
 
+        public static readonly Regex[] DateMatchers =
+        {
+            new("\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}"),
+            new("\\d{2}/\\d{2}/\\d{4} \\d{2}:\\d{2}:\\d{2}"),
+        };
+
         public static readonly string[] PowerTokens = new[] { "Ext-power", "Solar-power" };
         public static readonly Regex LogFileRegex = new Regex(@".*logfile.*txt");
         public static readonly Regex FirmwareRegex = new Regex(@"V?\d+");
@@ -132,6 +138,33 @@ namespace Emu.Metadata.SupportFiles.FrontierLabs
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// Finds the next date stamp in the log file.
+        /// </summary>
+        /// <param name="reader">Log file stream reader.</param>
+        /// <returns>
+        /// The date string.
+        /// </returns>
+        public static string FindNextDate(StreamReader reader)
+        {
+            string line, date;
+
+            while ((line = reader.ReadLine()) != null)
+            {
+                foreach (Regex matcher in DateMatchers)
+                {
+                    date = string.Join(" ", line.Split(" ").Take(2));
+
+                    if (matcher.IsMatch(date))
+                    {
+                        return date;
+                    }
+                }
+            }
+
+            throw new Exception("Can't find date stamp in log file");
         }
 
         public static LocalDateTime ParseDate(string dateTime)
@@ -325,7 +358,7 @@ namespace Emu.Metadata.SupportFiles.FrontierLabs
                 }
             }
 
-            string dateTime = string.Join(" ", reader.ReadLine()!.Split(" ", StringSplitOptions.RemoveEmptyEntries).Take(2));
+            string dateTime = FindNextDate(reader);
             LocalDateTime timeStamp = ParseDate(dateTime);
 
             Sensor sensor = new Sensor() with

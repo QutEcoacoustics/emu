@@ -96,7 +96,7 @@ namespace Emu.Metadata.FrontierLabs
 
             recording = recording with
             {
-                MemoryCard = (recording.MemoryCard ?? new MemoryCard()) with
+                MemoryCard = recording.MemoryCard == null ? memoryCard : recording.MemoryCard with
                 {
                     FormatType = recording.MemoryCard?.FormatType ?? memoryCard?.FormatType,
                     ManufacturerID = recording.MemoryCard?.ManufacturerID ?? memoryCard?.ManufacturerID,
@@ -121,7 +121,7 @@ namespace Emu.Metadata.FrontierLabs
                     Voltage = recording.Sensor?.BatteryLevel ?? recordingRecord?.Voltage,
                     Microphones = recording.Sensor?.Microphones ?? recordingRecord?.Microphones,
                 },
-                Location = (recording.Location ?? new Location()) with
+                Location = recording.Location == null ? location : recording.Location with
                 {
                     Longitude = recording.Location?.Longitude ?? location?.Longitude,
                     Latitude = recording.Location?.Latitude ?? location?.Latitude,
