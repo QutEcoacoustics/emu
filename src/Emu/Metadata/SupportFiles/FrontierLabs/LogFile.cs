@@ -42,11 +42,11 @@ namespace Emu.Metadata.SupportFiles.FrontierLabs
 
         public List<RecordingRecord> RecordingLogs { get; set; } = new List<RecordingRecord>();
 
-        public List<DataRecord> MemoryCardLogs { get; set; } = new List<DataRecord>();
+        public List<DataRecord<MemoryCard>> MemoryCardLogs { get; set; } = new List<DataRecord<MemoryCard>>();
 
-        public List<DataRecord> SensorLogs { get; set; } = new List<DataRecord>();
+        public List<DataRecord<Sensor>> SensorLogs { get; set; } = new List<DataRecord<Sensor>>();
 
-        public List<DataRecord> LocationLogs { get; set; } = new List<DataRecord>();
+        public List<DataRecord<Location>> LocationLogs { get; set; } = new List<DataRecord<Location>>();
 
         /// <summary>
         /// Searches each potential support file for a log file that correlates with the given recording.
@@ -136,18 +136,11 @@ namespace Emu.Metadata.SupportFiles.FrontierLabs
 
         public static LocalDateTime ParseDate(string dateTime)
         {
-            LocalDateTime timeStamp;
-
             foreach (LocalDateTimePattern datePattern in DatePatterns)
             {
-                try
+                if (datePattern.Parse(dateTime) is { Success: true } d)
                 {
-                    timeStamp = datePattern.Parse(dateTime).Value;
-                    return timeStamp;
-                }
-                catch (UnparsableValueException)
-                {
-                    continue;
+                    return d.Value;
                 }
             }
 
@@ -162,7 +155,7 @@ namespace Emu.Metadata.SupportFiles.FrontierLabs
         /// <returns>
         /// A parsed memory card object.
         /// </returns>
-        public static DataRecord MemoryCardParser(StreamReader reader, string line)
+        public static DataRecord<MemoryCard> MemoryCardParser(StreamReader reader, string line)
         {
             string dateTime = line.Split(SDCardString).First().Trim();
             LocalDateTime timeStamp = ParseDate(dateTime);
@@ -184,7 +177,7 @@ namespace Emu.Metadata.SupportFiles.FrontierLabs
                 EraseBlSize = uint.Parse(reader.ReadLine()!.Split().Last()),
             };
 
-            return new DataRecord(memoryCard, timeStamp);
+            return new DataRecord<MemoryCard>(memoryCard, timeStamp);
         }
 
         /// <summary>
@@ -195,7 +188,7 @@ namespace Emu.Metadata.SupportFiles.FrontierLabs
         /// <returns>
         /// A parsed location object.
         /// </returns>
-        public static DataRecord LocationParser(string line)
+        public static DataRecord<Location> LocationParser(string line)
         {
             double? longitude, latitude;
 
@@ -222,7 +215,7 @@ namespace Emu.Metadata.SupportFiles.FrontierLabs
                 Longitude = longitude,
             };
 
-            return new DataRecord(location, timeStamp);
+            return new DataRecord<Location>(location, timeStamp);
         }
 
         /// <summary>
@@ -297,7 +290,7 @@ namespace Emu.Metadata.SupportFiles.FrontierLabs
         /// <returns>
         /// A parsed file header record.
         /// </returns>
-        public static DataRecord SensorParser(StreamReader reader)
+        public static DataRecord<Sensor> SensorParser(StreamReader reader)
         {
             string line, firmware = null, serialNumber = null, powerSource = null;
 
@@ -332,7 +325,7 @@ namespace Emu.Metadata.SupportFiles.FrontierLabs
                 }
             }
 
-            string dateTime = string.Join(" ", reader.ReadLine()!.Split(" ").Take(2));
+            string dateTime = string.Join(" ", reader.ReadLine()!.Split(" ", StringSplitOptions.RemoveEmptyEntries).Take(2));
             LocalDateTime timeStamp = ParseDate(dateTime);
 
             Sensor sensor = new Sensor() with
@@ -342,7 +335,7 @@ namespace Emu.Metadata.SupportFiles.FrontierLabs
                 PowerSource = powerSource,
             };
 
-            return new DataRecord(sensor, timeStamp);
+            return new DataRecord<Sensor>(sensor, timeStamp);
         }
 
         /// <summary>
@@ -434,6 +427,6 @@ namespace Emu.Metadata.SupportFiles.FrontierLabs
 
         public record RecordingRecord(string Name, double? BatteryLevel, double? Voltage, Microphone[] Microphones, LocalDateTime TimeStamp);
 
-        public record DataRecord(object Data, LocalDateTime TimeStamp);
+        public record DataRecord<T>(T Data, LocalDateTime TimeStamp);
     }
 }

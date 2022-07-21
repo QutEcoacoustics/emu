@@ -31,9 +31,9 @@ namespace Emu.Metadata.FrontierLabs
         /// Data corresponding to the given recording.
         /// Used to correlate sensor, memory card and location data from log file to recordings.
         /// </returns>
-        public static object CorrelateRecord(List<DataRecord> dataRecords, RecordingRecord recordingRecord, Recording recording)
+        public static T CorrelateRecord<T>(List<DataRecord<T>> dataRecords, RecordingRecord recordingRecord, Recording recording)
         {
-            object data = dataRecords.First().Data;
+            T data = dataRecords.First().Data;
 
             // If there is one distinct record of this data type, correlation using timestamps isn't needed
             if (dataRecords.Select(s => s.Data).Distinct().Count() == 1)
@@ -53,11 +53,11 @@ namespace Emu.Metadata.FrontierLabs
             }
             else
             {
-                return null;
+                return default;
             }
 
             // Correlate data record to recording using timestamps in the log file
-            foreach (DataRecord record in dataRecords)
+            foreach (DataRecord<T> record in dataRecords)
             {
                 if (record.TimeStamp > recordingTimeStamp)
                 {
@@ -90,9 +90,9 @@ namespace Emu.Metadata.FrontierLabs
             MemoryCard memoryCard = null;
             Location location = null;
 
-            sensor = logFile.SensorLogs.Length() == 0 ? null : (Sensor)CorrelateRecord(logFile.SensorLogs, recordingRecord, recording);
-            memoryCard = logFile.MemoryCardLogs.Length() == 0 ? null : (MemoryCard)CorrelateRecord(logFile.MemoryCardLogs, recordingRecord, recording);
-            location = logFile.LocationLogs.Length() == 0 ? null : (Location)CorrelateRecord(logFile.LocationLogs, recordingRecord, recording);
+            sensor = logFile.SensorLogs.Length() == 0 ? null : CorrelateRecord(logFile.SensorLogs, recordingRecord, recording);
+            memoryCard = logFile.MemoryCardLogs.Length() == 0 ? null : CorrelateRecord(logFile.MemoryCardLogs, recordingRecord, recording);
+            location = logFile.LocationLogs.Length() == 0 ? null : CorrelateRecord(logFile.LocationLogs, recordingRecord, recording);
 
             recording = recording with
             {
