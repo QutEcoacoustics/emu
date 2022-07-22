@@ -1039,7 +1039,8 @@
     Stem: 8537_20210614T120000-0300_every1d6x4hrs [+44.72053-062.80072]
     StartDate: 2021-06-14T12:00:00-03:00
     LocalStartDate: 2021-06-14T12:00:00
-    EndDate:
+    TrueStartDate:
+    TrueEndDate:
     DurationSeconds: 39353597/44100
     TotalSamples: 39353597
     Channels: 2
@@ -1047,6 +1048,7 @@
     BitsPerSecond: 1411200
     BitDepth: 16
     FileSizeBytes: 157414432
+    MediaType: audio/wave
     CalculatedChecksum:
       Type: SHA256
       Value: 34c5271dab1848823be1c0f2f431eb277e0915ea7444cade3a13cb36375ddd2c
@@ -1059,8 +1061,8 @@
       ProductRevision: 8.5
       SerialNumber: 4774740
       ManufactureDate: 2020-08
-      Speed: 50
-      Capacity: 124868608
+      Speed: 50000000
+      Capacity: 124868608000
       WrCurrentVmin: 5
       WrCurrentVmax: 5
       WriteBlSize: 512
@@ -1079,8 +1081,11 @@
       LastTimeSync:
     Location:
       Longitude: -62.80072
+      LongitudePrecision: 5
       Latitude: 44.72053
+      LatitudePrecision: 5
       Altitude:
+      AltitudePrecision:
       HorizontalAccuracy:
       VerticalAccuracy:
       Speed:
@@ -1104,7 +1109,8 @@
     Stem: 8537_20210614T152300-0300_every1d6x4hrs [+44.72053-062.80072]
     StartDate: 2021-06-14T15:23:00-03:00
     LocalStartDate: 2021-06-14T15:23:00
-    EndDate:
+    TrueStartDate:
+    TrueEndDate:
     DurationSeconds: 39349618/44100
     TotalSamples: 39349618
     Channels: 2
@@ -1112,6 +1118,7 @@
     BitsPerSecond: 1411200
     BitDepth: 16
     FileSizeBytes: 157398516
+    MediaType: audio/wave
     CalculatedChecksum:
       Type: SHA256
       Value: 83d15e0b6e1a9ddf9e1dc76c2c6b3ea6c7ebdce915446c6ba7ccc4b9791ea135
@@ -1120,8 +1127,11 @@
     Sensor:
     Location:
       Longitude: -62.80072
+      LongitudePrecision: 5
       Latitude: 44.72053
+      LatitudePrecision: 5
       Altitude:
+      AltitudePrecision:
       HorizontalAccuracy:
       VerticalAccuracy:
       Speed:

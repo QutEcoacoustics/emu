@@ -10,6 +10,9 @@ namespace Emu.Models
     /// </summary>
     public record MemoryCard
     {
+        public const int MegabyteConversion = 1000000;
+        public const int KilobyteConversion = 1000;
+
         public string FormatType { get; init; }
 
         public byte? ManufacturerID { get; init; }
@@ -24,8 +27,18 @@ namespace Emu.Models
 
         public string ManufactureDate { get; init; }
 
+        /// <summary>
+        /// Gets Speed.
+        /// Note: we encode this as bytes per second!
+        /// The SD card spec records this as a megabytes per second.
+        /// </summary>
         public uint? Speed { get; init; }
 
+        /// <summary>
+        /// Gets Speed.
+        /// Note: we encode this as bytes!
+        /// The SD card spec records this as kilobytes.
+        /// </summary>
         public ulong? Capacity { get; init; }
 
         public uint? WrCurrentVmin { get; init; }

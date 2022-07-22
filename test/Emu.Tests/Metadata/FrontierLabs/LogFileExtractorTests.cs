@@ -4,6 +4,7 @@
 
 namespace Emu.Tests.Metadata
 {
+    using System.Threading.Tasks;
     using Emu.Metadata.FrontierLabs;
     using Emu.Models;
     using Emu.Tests.TestHelpers;
@@ -26,7 +27,7 @@ namespace Emu.Tests.Metadata
 
         [Theory]
         [ClassData(typeof(FixtureHelper.FixtureData))]
-        public async System.Threading.Tasks.Task CanProcessFilesWorks(FixtureModel model)
+        public async Task CanProcessFilesWorks(FixtureModel model)
         {
             var result = await this.subject.CanProcessAsync(model.ToTargetInformation(this.RealFileSystem));
 
@@ -37,7 +38,7 @@ namespace Emu.Tests.Metadata
 
         [Theory]
         [ClassData(typeof(FixtureHelper.FixtureData))]
-        public async System.Threading.Tasks.Task ProcessFilesWorks(FixtureModel model)
+        public async Task ProcessFilesWorks(FixtureModel model)
         {
             if (model.Process.ContainsKey(FixtureModel.FrontierLabsLogFileExtractor))
             {
