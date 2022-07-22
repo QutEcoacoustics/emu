@@ -62,6 +62,15 @@ Column definitions:
 
 ### Frontier Labs
 
+Notes:
+
+ - The datestamps in the file header are more accurate than the filename
+   - FL determined that people preferred nice round dates that adhered to sensor schedules rather than properly accurate dates
+ - FL do not seem to encode metadata in their WAVE files, only in their FLAC files.
+   - Other manufacturers do encode metadata in their WAVE files
+     - WA via their `wamd` chunk
+     - OA do it as well
+
 #### BAR-LT
 
 | Name                     | Supported       | Location(s)           | Notes              | Field         | Units        |

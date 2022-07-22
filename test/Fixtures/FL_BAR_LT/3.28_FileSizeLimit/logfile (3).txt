@@ -1,0 +1,1838 @@
+
+-----------------------------------------------------------
+ FRONTIER LABS Bioacoustic Audio Recorder 
+ Serial Number: 00008516
+ Config: Stereo, Ext-power
+ Firmware: 3.21 (Mar  4 2020 15:05:47)
+-----------------------------------------------------------
+01/01/2010 00:00:00 Wakeup from power being connected
+01/01/2010 00:00:01 GPS enabled
+01/01/2010 00:00:02 Battery at 92% ( 4.10 V )
+01/01/2010 00:00:02 Schedule loaded
+01/01/2010 00:00:02   Name: 2021Test
+01/01/2010 00:00:02   Backup GPS location: 44°39"53'N 63°34"10'W
+01/01/2010 00:00:02   Number of entries: 1
+01/01/2010 00:00:02   1) "test" Start at sunrise -60 mins on 27/4/2021 and record for 360 mins only, at 22050 Hz with no compression every day for as many days as possible
+01/01/2010 00:00:02 SD Card detected in slot 1
+01/01/2010 00:00:03 SD Card :
+01/01/2010 00:00:03   Format type      exFAT
+01/01/2010 00:00:03   Manufacturer ID  3
+01/01/2010 00:00:03   OEM ID           SD
+01/01/2010 00:00:03   Product Name     SD128
+01/01/2010 00:00:03   Product Revision 8.5
+01/01/2010 00:00:03   Serial Number    4774740
+01/01/2010 00:00:03   Manufacture Date 2020/08
+01/01/2010 00:00:03   Speed            50
+01/01/2010 00:00:03   Capacity         124868608
+01/01/2010 00:00:03   Wr Current Vmin  5
+01/01/2010 00:00:03   Wr Current Vmax  5
+01/01/2010 00:00:03   Write Bl Size    512
+01/01/2010 00:00:03   Erase Bl Size    65536
+01/01/2010 00:00:04 No card in SD slot 2.
+01/01/2010 00:00:04 No card in SD slot 3.
+01/01/2010 00:00:04 No card in SD slot 4.
+01/01/2010 00:00:04 Waiting for valid clock
+01/01/2010 00:00:18 BAR switched OFF (All future recordings disabled)
+01/01/2010 00:00:18 BAR powering down
+
+01/01/2010 00:00:18 GPS disabled
+
+-----------------------------------------------------------
+ FRONTIER LABS Bioacoustic Audio Recorder 
+ Serial Number: 00008516
+ Config: Stereo, Ext-power
+ Firmware: 3.21 (Mar  4 2020 15:05:47)
+-----------------------------------------------------------
+01/01/2010 00:00:38 Wakeup from ON/OFF switch
+01/01/2010 00:00:39 GPS enabled
+01/01/2010 00:00:40 Battery at 93% ( 4.12 V )
+01/01/2010 00:00:40 Schedule loaded
+01/01/2010 00:00:40   Name: 2021Test
+01/01/2010 00:00:40   Backup GPS location: 44°39"53'N 63°34"10'W
+01/01/2010 00:00:40   Number of entries: 1
+01/01/2010 00:00:40   1) "test" Start at sunrise -60 mins on 27/4/2021 and record for 360 mins only, at 22050 Hz with no compression every day for as many days as possible
+01/01/2010 00:00:40 SD Card detected in slot 1
+01/01/2010 00:00:41 SD Card :
+01/01/2010 00:00:41   Format type      exFAT
+01/01/2010 00:00:41   Manufacturer ID  3
+01/01/2010 00:00:41   OEM ID           SD
+01/01/2010 00:00:41   Product Name     SD128
+01/01/2010 00:00:41   Product Revision 8.5
+01/01/2010 00:00:41   Serial Number    4774740
+01/01/2010 00:00:41   Manufacture Date 2020/08
+01/01/2010 00:00:41   Speed            50
+01/01/2010 00:00:41   Capacity         124868608
+01/01/2010 00:00:41   Wr Current Vmin  5
+01/01/2010 00:00:41   Wr Current Vmax  5
+01/01/2010 00:00:41   Write Bl Size    512
+01/01/2010 00:00:41   Erase Bl Size    65536
+01/01/2010 00:00:42 No card in SD slot 2.
+01/01/2010 00:00:42 No card in SD slot 3.
+01/01/2010 00:00:42 No card in SD slot 4.
+01/01/2010 00:00:42 BAR switched OFF (All future recordings disabled)
+01/01/2010 00:00:42 BAR powering down
+
+01/01/2010 00:00:42 GPS disabled
+
+-----------------------------------------------------------
+ FRONTIER LABS Bioacoustic Audio Recorder 
+ Serial Number: 00008516
+ Config: Stereo, Ext-power
+ Firmware: 3.21 (Mar  4 2020 15:05:47)
+-----------------------------------------------------------
+01/01/2010 00:01:08 Wakeup from ON/OFF switch
+01/01/2010 00:01:09 GPS enabled
+01/01/2010 00:01:10 Battery at 93% ( 4.12 V )
+01/01/2010 00:01:10 Schedule loaded
+01/01/2010 00:01:10   Name: 2021Test
+01/01/2010 00:01:10   Backup GPS location: 44°39"53'N 63°34"10'W
+01/01/2010 00:01:10   Number of entries: 1
+01/01/2010 00:01:10   1) "test" Start at sunrise -60 mins on 27/4/2021 and record for 360 mins only, at 22050 Hz with no compression every day for as many days as possible
+01/01/2010 00:01:10 SD Card detected in slot 1
+01/01/2010 00:01:11 SD Card :
+01/01/2010 00:01:11   Format type      exFAT
+01/01/2010 00:01:11   Manufacturer ID  3
+01/01/2010 00:01:11   OEM ID           SD
+01/01/2010 00:01:11   Product Name     SD128
+01/01/2010 00:01:11   Product Revision 8.5
+01/01/2010 00:01:11   Serial Number    4774740
+01/01/2010 00:01:11   Manufacture Date 2020/08
+01/01/2010 00:01:11   Speed            50
+01/01/2010 00:01:11   Capacity         124868608
+01/01/2010 00:01:11   Wr Current Vmin  5
+01/01/2010 00:01:11   Wr Current Vmax  5
+01/01/2010 00:01:11   Write Bl Size    512
+01/01/2010 00:01:11   Erase Bl Size    65536
+01/01/2010 00:01:12 No card in SD slot 2.
+01/01/2010 00:01:12 No card in SD slot 3.
+01/01/2010 00:01:12 No card in SD slot 4.
+01/01/2010 00:01:12 BAR switched OFF (All future recordings disabled)
+01/01/2010 00:01:12 BAR powering down
+
+01/01/2010 00:01:12 GPS disabled
+
+-----------------------------------------------------------
+ FRONTIER LABS Bioacoustic Audio Recorder 
+ Serial Number: 00008516
+ Config: Stereo, Ext-power
+ Firmware: 3.21 (Mar  4 2020 15:05:47)
+-----------------------------------------------------------
+01/01/2010 00:01:36 Wakeup from ON/OFF switch
+01/01/2010 00:01:37 GPS enabled
+01/01/2010 00:01:38 Battery at 93% ( 4.12 V )
+01/01/2010 00:01:38 Date and time not set
+01/01/2010 00:01:51 Schedule loaded
+01/01/2010 00:01:51   Name: 2021Test
+01/01/2010 00:01:51   Backup GPS location: 44°39"53'N 63°34"10'W
+01/01/2010 00:01:51   Number of entries: 1
+01/01/2010 00:01:51   1) "test" Start at sunrise -60 mins on 27/4/2021 and record for 360 mins only, at 22050 Hz with no compression every day for as many days as possible
+01/01/2010 00:01:51 SD Card detected in slot 1
+01/01/2010 00:01:52 SD Card :
+01/01/2010 00:01:52   Format type      exFAT
+01/01/2010 00:01:52   Manufacturer ID  3
+01/01/2010 00:01:52   OEM ID           SD
+01/01/2010 00:01:52   Product Name     SD128
+01/01/2010 00:01:52   Product Revision 8.5
+01/01/2010 00:01:52   Serial Number    4774740
+01/01/2010 00:01:52   Manufacture Date 2020/08
+01/01/2010 00:01:52   Speed            50
+01/01/2010 00:01:52   Capacity         124868608
+01/01/2010 00:01:52   Wr Current Vmin  5
+01/01/2010 00:01:52   Wr Current Vmax  5
+01/01/2010 00:01:52   Write Bl Size    512
+01/01/2010 00:01:52   Erase Bl Size    65536
+01/01/2010 00:01:53 No card in SD slot 2.
+01/01/2010 00:01:53 No card in SD slot 3.
+01/01/2010 00:01:53 No card in SD slot 4.
+01/01/2010 00:01:53 Waiting for valid clock
+01/01/2010 00:02:05 Upgrading to new firmware..
+
+-----------------------------------------------------------
+ FRONTIER LABS Bioacoustic Audio Recorder 
+ Serial Number: 00008516
+ Config: Stereo, Ext-power
+ Firmware: 3.28 (May 14 2021 15:35:55)
+-----------------------------------------------------------
+2010-01-01 00:02:27 Software reset after upgrading firmware.
+2010-01-01 00:02:27 GPS enabled
+2010-01-01 00:02:29 Battery at 93% ( 4.12 V )
+2010-01-01 00:02:29 Using backup location from schedule until GPS fix is acquired.
+2010-01-01 00:02:29 Schedule loaded
+2010-01-01 00:02:29   Name: 2021Test
+2010-01-01 00:02:29   Backup GPS location: 44°39"53'N 63°34"10'W
+2010-01-01 00:02:29   Number of entries: 1
+2010-01-01 00:02:29   1) "test" Start at sunrise -60 mins on 27/4/2021 and record for 360 mins only, at 22050 Hz with no compression every day for as many days as possible
+2010-01-01 00:02:29 SD Card detected in slot 1
+2010-01-01 00:02:29 SD Card :
+2010-01-01 00:02:29   Format type      exFAT
+2010-01-01 00:02:30   Manufacturer ID  3
+2010-01-01 00:02:30   OEM ID           SD
+2010-01-01 00:02:30   Product Name     SD128
+2010-01-01 00:02:30   Product Revision 8.5
+2010-01-01 00:02:30   Serial Number    4774740
+2010-01-01 00:02:30   Manufacture Date 2020/08
+2010-01-01 00:02:30   Speed            50
+2010-01-01 00:02:30   Capacity         124868608
+2010-01-01 00:02:30   Wr Current Vmin  5
+2010-01-01 00:02:30   Wr Current Vmax  5
+2010-01-01 00:02:30   Write Bl Size    512
+2010-01-01 00:02:30   Erase Bl Size    65536
+2010-01-01 00:02:30 No card in SD slot 2.
+2010-01-01 00:02:30 No card in SD slot 3.
+2010-01-01 00:02:30 No card in SD slot 4.
+2010-01-01 00:02:31 Waiting for valid clock
+2010-01-01 00:02:34 Lid opened
+2010-01-01 00:03:04 Updating clock from the GPS to local time 16:47:30 (UTC-03:00)
+2021-06-10 16:47:30 Next recording scheduled to start at 04:28:00 11/6/2021
+2021-06-10 16:48:14 Clock updated by the user
+2021-06-10 16:48:10 Next recording scheduled to start at 04:28:00 11/6/2021
+2021-06-10 16:48:30 Saving Schedule file to internal memory
+2021-06-10 16:48:30 Schedule loaded
+2021-06-10 16:48:30 Next recording scheduled to start at 00:00:00 14/6/2021
+2021-06-10 16:49:30 Lid closed
+2021-06-10 16:50:04 Lid opened
+2021-06-10 16:50:07 BAR switched OFF (All future recordings disabled)
+2021-06-10 16:50:08 BAR powering down
+
+2021-06-10 16:50:08 GPS disabled
+
+-----------------------------------------------------------
+ FRONTIER LABS Bioacoustic Audio Recorder 
+ Serial Number: 00008541
+ Config: Stereo, Ext-power
+ Firmware: 3.21 (Mar  4 2020 15:05:47)
+-----------------------------------------------------------
+01/01/2010 00:00:00 Wakeup from power being connected
+01/01/2010 00:00:01 GPS enabled
+01/01/2010 00:00:02 Battery at 71% ( 3.86 V )
+01/01/2010 00:00:02 Schedule loaded
+01/01/2010 00:00:02   Name: 2021Test
+01/01/2010 00:00:02   Backup GPS location: 44°39"53'N 63°34"10'W
+01/01/2010 00:00:02   Number of entries: 1
+01/01/2010 00:00:02   1) "test" Start at sunrise -60 mins on 27/4/2021 and record for 360 mins only, at 22050 Hz with no compression every day for as many days as possible
+01/01/2010 00:00:02 SD Card detected in slot 1
+01/01/2010 00:00:03 SD Card :
+01/01/2010 00:00:03   Format type      exFAT
+01/01/2010 00:00:03   Manufacturer ID  3
+01/01/2010 00:00:03   OEM ID           SD
+01/01/2010 00:00:03   Product Name     SD128
+01/01/2010 00:00:03   Product Revision 8.5
+01/01/2010 00:00:03   Serial Number    4774740
+01/01/2010 00:00:03   Manufacture Date 2020/08
+01/01/2010 00:00:03   Speed            50
+01/01/2010 00:00:03   Capacity         124868608
+01/01/2010 00:00:03   Wr Current Vmin  5
+01/01/2010 00:00:03   Wr Current Vmax  5
+01/01/2010 00:00:03   Write Bl Size    512
+01/01/2010 00:00:03   Erase Bl Size    65536
+01/01/2010 00:00:04 No card in SD slot 2.
+01/01/2010 00:00:04 No card in SD slot 3.
+01/01/2010 00:00:04 No card in SD slot 4.
+01/01/2010 00:00:04 Waiting for valid clock
+01/01/2010 00:00:16 BAR switched OFF (All future recordings disabled)
+01/01/2010 00:00:16 BAR powering down
+
+01/01/2010 00:00:16 GPS disabled
+
+-----------------------------------------------------------
+ FRONTIER LABS Bioacoustic Audio Recorder 
+ Serial Number: 00008541
+ Config: Stereo, Ext-power
+ Firmware: 3.21 (Mar  4 2020 15:05:47)
+-----------------------------------------------------------
+01/01/2010 00:00:00 Wakeup from power being connected
+01/01/2010 00:00:01 GPS enabled
+01/01/2010 00:00:02 Battery at 93% ( 4.11 V )
+01/01/2010 00:00:02 Schedule loaded
+01/01/2010 00:00:02   Name: 2021Test
+01/01/2010 00:00:02   Backup GPS location: 44°39"53'N 63°34"10'W
+01/01/2010 00:00:02   Number of entries: 1
+01/01/2010 00:00:02   1) "test" Start at sunrise -60 mins on 27/4/2021 and record for 360 mins only, at 22050 Hz with no compression every day for as many days as possible
+01/01/2010 00:00:02 SD Card detected in slot 1
+01/01/2010 00:00:03 SD Card :
+01/01/2010 00:00:03   Format type      exFAT
+01/01/2010 00:00:03   Manufacturer ID  3
+01/01/2010 00:00:03   OEM ID           SD
+01/01/2010 00:00:03   Product Name     SD128
+01/01/2010 00:00:03   Product Revision 8.5
+01/01/2010 00:00:03   Serial Number    4774740
+01/01/2010 00:00:03   Manufacture Date 2020/08
+01/01/2010 00:00:03   Speed            50
+01/01/2010 00:00:03   Capacity         124868608
+01/01/2010 00:00:03   Wr Current Vmin  5
+01/01/2010 00:00:03   Wr Current Vmax  5
+01/01/2010 00:00:03   Write Bl Size    512
+01/01/2010 00:00:03   Erase Bl Size    65536
+01/01/2010 00:00:04 No card in SD slot 2.
+01/01/2010 00:00:04 No card in SD slot 3.
+01/01/2010 00:00:04 No card in SD slot 4.
+01/01/2010 00:00:05 Waiting for valid clock
+01/01/2010 00:00:06 BAR switched OFF (All future recordings disabled)
+01/01/2010 00:00:06 BAR powering down
+
+01/01/2010 00:00:06 GPS disabled
+
+-----------------------------------------------------------
+ FRONTIER LABS Bioacoustic Audio Recorder 
+ Serial Number: 00008541
+ Config: Stereo, Ext-power
+ Firmware: 3.21 (Mar  4 2020 15:05:47)
+-----------------------------------------------------------
+01/01/2010 00:00:11 Wakeup from ON/OFF switch
+01/01/2010 00:00:12 GPS enabled
+01/01/2010 00:00:13 Battery at 93% ( 4.12 V )
+01/01/2010 00:00:13 Schedule loaded
+01/01/2010 00:00:13   Name: 2021Test
+01/01/2010 00:00:13   Backup GPS location: 44°39"53'N 63°34"10'W
+01/01/2010 00:00:13   Number of entries: 1
+01/01/2010 00:00:13   1) "test" Start at sunrise -60 mins on 27/4/2021 and record for 360 mins only, at 22050 Hz with no compression every day for as many days as possible
+01/01/2010 00:00:13 SD Card detected in slot 1
+01/01/2010 00:00:14 SD Card :
+01/01/2010 00:00:14   Format type      exFAT
+01/01/2010 00:00:14   Manufacturer ID  3
+01/01/2010 00:00:14   OEM ID           SD
+01/01/2010 00:00:14   Product Name     SD128
+01/01/2010 00:00:14   Product Revision 8.5
+01/01/2010 00:00:14   Serial Number    4774740
+01/01/2010 00:00:14   Manufacture Date 2020/08
+01/01/2010 00:00:14   Speed            50
+01/01/2010 00:00:14   Capacity         124868608
+01/01/2010 00:00:14   Wr Current Vmin  5
+01/01/2010 00:00:14   Wr Current Vmax  5
+01/01/2010 00:00:14   Write Bl Size    512
+01/01/2010 00:00:14   Erase Bl Size    65536
+01/01/2010 00:00:15 No card in SD slot 2.
+01/01/2010 00:00:15 No card in SD slot 3.
+01/01/2010 00:00:15 No card in SD slot 4.
+01/01/2010 00:00:15 Waiting for valid clock
+01/01/2010 00:00:17 BAR switched OFF (All future recordings disabled)
+01/01/2010 00:00:17 BAR powering down
+
+01/01/2010 00:00:17 GPS disabled
+
+-----------------------------------------------------------
+ FRONTIER LABS Bioacoustic Audio Recorder 
+ Serial Number: 00008541
+ Config: Stereo, Ext-power
+ Firmware: 3.21 (Mar  4 2020 15:05:47)
+-----------------------------------------------------------
+01/01/2010 00:00:18 Wakeup from ON/OFF switch
+01/01/2010 00:00:19 GPS enabled
+01/01/2010 00:00:20 Battery at 93% ( 4.11 V )
+01/01/2010 00:00:20 Schedule loaded
+01/01/2010 00:00:20   Name: 2021Test
+01/01/2010 00:00:20   Backup GPS location: 44°39"53'N 63°34"10'W
+01/01/2010 00:00:20   Number of entries: 1
+01/01/2010 00:00:20   1) "test" Start at sunrise -60 mins on 27/4/2021 and record for 360 mins only, at 22050 Hz with no compression every day for as many days as possible
+01/01/2010 00:00:20 SD Card detected in slot 1
+01/01/2010 00:00:21 SD Card :
+01/01/2010 00:00:21   Format type      exFAT
+01/01/2010 00:00:21   Manufacturer ID  3
+01/01/2010 00:00:21   OEM ID           SD
+01/01/2010 00:00:21   Product Name     SD128
+01/01/2010 00:00:21   Product Revision 8.5
+01/01/2010 00:00:21   Serial Number    4774740
+01/01/2010 00:00:21   Manufacture Date 2020/08
+01/01/2010 00:00:21   Speed            50
+01/01/2010 00:00:21   Capacity         124868608
+01/01/2010 00:00:21   Wr Current Vmin  5
+01/01/2010 00:00:21   Wr Current Vmax  5
+01/01/2010 00:00:21   Write Bl Size    512
+01/01/2010 00:00:21   Erase Bl Size    65536
+01/01/2010 00:00:22 No card in SD slot 2.
+01/01/2010 00:00:22 No card in SD slot 3.
+01/01/2010 00:00:22 No card in SD slot 4.
+01/01/2010 00:00:22 BAR switched OFF (All future recordings disabled)
+01/01/2010 00:00:22 BAR powering down
+
+01/01/2010 00:00:22 GPS disabled
+
+-----------------------------------------------------------
+ FRONTIER LABS Bioacoustic Audio Recorder 
+ Serial Number: 00008541
+ Config: Stereo, Ext-power
+ Firmware: 3.21 (Mar  4 2020 15:05:47)
+-----------------------------------------------------------
+01/01/2010 00:00:31 Wakeup from ON/OFF switch
+01/01/2010 00:00:31 GPS enabled
+01/01/2010 00:00:33 Battery at 91% ( 4.09 V )
+01/01/2010 00:00:33 Schedule loaded
+01/01/2010 00:00:33   Name: 2021Test
+01/01/2010 00:00:33   Backup GPS location: 44°39"53'N 63°34"10'W
+01/01/2010 00:00:33   Number of entries: 1
+01/01/2010 00:00:33   1) "test" Start at sunrise -60 mins on 27/4/2021 and record for 360 mins only, at 22050 Hz with no compression every day for as many days as possible
+01/01/2010 00:00:33 SD Card detected in slot 1
+01/01/2010 00:00:33 SD Card :
+01/01/2010 00:00:33   Format type      exFAT
+01/01/2010 00:00:33   Manufacturer ID  3
+01/01/2010 00:00:34   OEM ID           SD
+01/01/2010 00:00:34   Product Name     SD128
+01/01/2010 00:00:34   Product Revision 8.5
+01/01/2010 00:00:34   Serial Number    4774740
+01/01/2010 00:00:34   Manufacture Date 2020/08
+01/01/2010 00:00:34   Speed            50
+01/01/2010 00:00:34   Capacity         124868608
+01/01/2010 00:00:34   Wr Current Vmin  5
+01/01/2010 00:00:34   Wr Current Vmax  5
+01/01/2010 00:00:34   Write Bl Size    512
+01/01/2010 00:00:34   Erase Bl Size    65536
+01/01/2010 00:00:34 No card in SD slot 2.
+01/01/2010 00:00:34 No card in SD slot 3.
+01/01/2010 00:00:34 No card in SD slot 4.
+01/01/2010 00:00:34 Lid opened
+01/01/2010 00:00:35 Waiting for valid clock
+01/01/2010 00:00:37 Lid closed
+01/01/2010 00:00:45 Lid opened
+01/01/2010 00:00:46 Lid closed
+01/01/2010 00:01:05 BAR switched OFF (All future recordings disabled)
+01/01/2010 00:01:05 BAR powering down
+
+01/01/2010 00:01:05 GPS disabled
+
+-----------------------------------------------------------
+ FRONTIER LABS Bioacoustic Audio Recorder 
+ Serial Number: 00008541
+ Config: Stereo, Ext-power
+ Firmware: 3.21 (Mar  4 2020 15:05:47)
+-----------------------------------------------------------
+01/01/2010 00:01:30 Wakeup from ON/OFF switch
+01/01/2010 00:01:31 GPS enabled
+01/01/2010 00:01:32 Battery at 93% ( 4.12 V )
+01/01/2010 00:01:32 Schedule loaded
+01/01/2010 00:01:32   Name: 2021Test
+01/01/2010 00:01:32   Backup GPS location: 44°39"53'N 63°34"10'W
+01/01/2010 00:01:32   Number of entries: 1
+01/01/2010 00:01:32   1) "test" Start at sunrise -60 mins on 27/4/2021 and record for 360 mins only, at 22050 Hz with no compression every day for as many days as possible
+01/01/2010 00:01:32 SD Card detected in slot 1
+01/01/2010 00:01:33 SD Card :
+01/01/2010 00:01:33   Format type      exFAT
+01/01/2010 00:01:33   Manufacturer ID  3
+01/01/2010 00:01:33   OEM ID           SD
+01/01/2010 00:01:33   Product Name     SD128
+01/01/2010 00:01:33   Product Revision 8.5
+01/01/2010 00:01:33   Serial Number    4774740
+01/01/2010 00:01:33   Manufacture Date 2020/08
+01/01/2010 00:01:33   Speed            50
+01/01/2010 00:01:33   Capacity         124868608
+01/01/2010 00:01:33   Wr Current Vmin  5
+01/01/2010 00:01:33   Wr Current Vmax  5
+01/01/2010 00:01:33   Write Bl Size    512
+01/01/2010 00:01:33   Erase Bl Size    65536
+01/01/2010 00:01:34 No card in SD slot 2.
+01/01/2010 00:01:34 No card in SD slot 3.
+01/01/2010 00:01:34 No card in SD slot 4.
+01/01/2010 00:01:35 Waiting for valid clock
+01/01/2010 00:01:41 BAR switched OFF (All future recordings disabled)
+01/01/2010 00:01:41 BAR powering down
+
+01/01/2010 00:01:41 GPS disabled
+
+-----------------------------------------------------------
+ FRONTIER LABS Bioacoustic Audio Recorder 
+ Serial Number: 00008541
+ Config: Stereo, Ext-power
+ Firmware: 3.21 (Mar  4 2020 15:05:47)
+-----------------------------------------------------------
+01/01/2010 00:01:46 Wakeup from ON/OFF switch
+01/01/2010 00:01:47 GPS enabled
+01/01/2010 00:01:48 Battery at 95% ( 4.15 V )
+01/01/2010 00:01:48 Schedule loaded
+01/01/2010 00:01:48   Name: 2021Test
+01/01/2010 00:01:48   Backup GPS location: 44°39"53'N 63°34"10'W
+01/01/2010 00:01:48   Number of entries: 1
+01/01/2010 00:01:48   1) "test" Start at sunrise -60 mins on 27/4/2021 and record for 360 mins only, at 22050 Hz with no compression every day for as many days as possible
+01/01/2010 00:01:48 SD Card detected in slot 1
+01/01/2010 00:01:49 SD Card :
+01/01/2010 00:01:49   Format type      exFAT
+01/01/2010 00:01:49   Manufacturer ID  3
+01/01/2010 00:01:49   OEM ID           SD
+01/01/2010 00:01:49   Product Name     SD128
+01/01/2010 00:01:49   Product Revision 8.5
+01/01/2010 00:01:49   Serial Number    4774740
+01/01/2010 00:01:49   Manufacture Date 2020/08
+01/01/2010 00:01:49   Speed            50
+01/01/2010 00:01:49   Capacity         124868608
+01/01/2010 00:01:49   Wr Current Vmin  5
+01/01/2010 00:01:49   Wr Current Vmax  5
+01/01/2010 00:01:49   Write Bl Size    512
+01/01/2010 00:01:49   Erase Bl Size    65536
+01/01/2010 00:01:50 No card in SD slot 2.
+01/01/2010 00:01:50 No card in SD slot 3.
+01/01/2010 00:01:50 No card in SD slot 4.
+01/01/2010 00:01:51 Waiting for valid clock
+01/01/2010 00:04:12 BAR switched OFF (All future recordings disabled)
+01/01/2010 00:04:12 BAR powering down
+
+01/01/2010 00:04:12 GPS disabled
+
+-----------------------------------------------------------
+ FRONTIER LABS Bioacoustic Audio Recorder 
+ Serial Number: 00008541
+ Config: Stereo, Ext-power
+ Firmware: 3.21 (Mar  4 2020 15:05:47)
+-----------------------------------------------------------
+01/01/2010 00:04:51 Wakeup from ON/OFF switch
+01/01/2010 00:04:52 GPS enabled
+01/01/2010 00:04:53 Battery at 98% ( 4.18 V )
+01/01/2010 00:04:53 Schedule loaded
+01/01/2010 00:04:53   Name: 2021Test
+01/01/2010 00:04:53   Backup GPS location: 44°39"53'N 63°34"10'W
+01/01/2010 00:04:53   Number of entries: 1
+01/01/2010 00:04:53   1) "test" Start at sunrise -60 mins on 27/4/2021 and record for 360 mins only, at 22050 Hz with no compression every day for as many days as possible
+01/01/2010 00:04:53 SD Card detected in slot 1
+01/01/2010 00:04:54 SD Card :
+01/01/2010 00:04:54   Format type      exFAT
+01/01/2010 00:04:54   Manufacturer ID  3
+01/01/2010 00:04:54   OEM ID           SD
+01/01/2010 00:04:54   Product Name     SD128
+01/01/2010 00:04:54   Product Revision 8.5
+01/01/2010 00:04:54   Serial Number    4774740
+01/01/2010 00:04:54   Manufacture Date 2020/08
+01/01/2010 00:04:54   Speed            50
+01/01/2010 00:04:54   Capacity         124868608
+01/01/2010 00:04:54   Wr Current Vmin  5
+01/01/2010 00:04:54   Wr Current Vmax  5
+01/01/2010 00:04:54   Write Bl Size    512
+01/01/2010 00:04:54   Erase Bl Size    65536
+01/01/2010 00:04:55 No card in SD slot 2.
+01/01/2010 00:04:55 No card in SD slot 3.
+01/01/2010 00:04:55 No card in SD slot 4.
+01/01/2010 00:04:55 BAR switched OFF (All future recordings disabled)
+01/01/2010 00:04:55 BAR powering down
+
+01/01/2010 00:04:55 GPS disabled
+
+-----------------------------------------------------------
+ FRONTIER LABS Bioacoustic Audio Recorder 
+ Serial Number: 00008541
+ Config: Stereo, Ext-power
+ Firmware: 3.21 (Mar  4 2020 15:05:47)
+-----------------------------------------------------------
+01/01/2010 00:05:03 Wakeup from ON/OFF switch
+01/01/2010 00:05:03 GPS enabled
+01/01/2010 00:05:05 Battery at 98% ( 4.18 V )
+01/01/2010 00:05:05 Schedule loaded
+01/01/2010 00:05:05   Name: 2021Test
+01/01/2010 00:05:05   Backup GPS location: 44°39"53'N 63°34"10'W
+01/01/2010 00:05:05   Number of entries: 1
+01/01/2010 00:05:05   1) "test" Start at sunrise -60 mins on 27/4/2021 and record for 360 mins only, at 22050 Hz with no compression every day for as many days as possible
+01/01/2010 00:05:05 SD Card detected in slot 1
+01/01/2010 00:05:06 SD Card :
+01/01/2010 00:05:06   Format type      exFAT
+01/01/2010 00:05:06   Manufacturer ID  3
+01/01/2010 00:05:06   OEM ID           SD
+01/01/2010 00:05:06   Product Name     SD128
+01/01/2010 00:05:06   Product Revision 8.5
+01/01/2010 00:05:06   Serial Number    4774740
+01/01/2010 00:05:06   Manufacture Date 2020/08
+01/01/2010 00:05:06   Speed            50
+01/01/2010 00:05:06   Capacity         124868608
+01/01/2010 00:05:06   Wr Current Vmin  5
+01/01/2010 00:05:06   Wr Current Vmax  5
+01/01/2010 00:05:06   Write Bl Size    512
+01/01/2010 00:05:06   Erase Bl Size    65536
+
+-----------------------------------------------------------
+ FRONTIER LABS Bioacoustic Audio Recorder 
+ Serial Number: 00008541
+ Config: Stereo, Ext-power
+ Firmware: 3.21 (Mar  4 2020 15:05:47)
+-----------------------------------------------------------
+01/01/2010 00:05:12 Wakeup from ON/OFF switch
+01/01/2010 00:05:13 GPS enabled
+01/01/2010 00:05:14 Battery at 98% ( 4.18 V )
+01/01/2010 00:05:14 Schedule loaded
+01/01/2010 00:05:14   Name: 2021Test
+01/01/2010 00:05:14   Backup GPS location: 44°39"53'N 63°34"10'W
+01/01/2010 00:05:14   Number of entries: 1
+01/01/2010 00:05:14   1) "test" Start at sunrise -60 mins on 27/4/2021 and record for 360 mins only, at 22050 Hz with no compression every day for as many days as possible
+01/01/2010 00:05:14 SD Card detected in slot 1
+01/01/2010 00:05:15 SD Card :
+01/01/2010 00:05:15   Format type      exFAT
+01/01/2010 00:05:15   Manufacturer ID  3
+01/01/2010 00:05:15   OEM ID           SD
+01/01/2010 00:05:15   Product Name     SD128
+01/01/2010 00:05:15   Product Revision 8.5
+01/01/2010 00:05:15   Serial Number    4774740
+01/01/2010 00:05:15   Manufacture Date 2020/08
+01/01/2010 00:05:15   Speed            50
+01/01/2010 00:05:15   Capacity         124868608
+01/01/2010 00:05:15   Wr Current Vmin  5
+01/01/2010 00:05:15   Wr Current Vmax  5
+01/01/2010 00:05:15   Write Bl Size    512
+01/01/2010 00:05:15   Erase Bl Size    65536
+01/01/2010 00:05:16 No card in SD slot 2.
+01/01/2010 00:05:16 No card in SD slot 3.
+01/01/2010 00:05:16 No card in SD slot 4.
+01/01/2010 00:05:16 Waiting for valid clock
+01/01/2010 00:05:16 BAR switched OFF (All future recordings disabled)
+01/01/2010 00:05:16 BAR powering down
+
+01/01/2010 00:05:16 GPS disabled
+
+-----------------------------------------------------------
+ FRONTIER LABS Bioacoustic Audio Recorder 
+ Serial Number: 00008541
+ Config: Stereo, Ext-power
+ Firmware: 3.21 (Mar  4 2020 15:05:47)
+-----------------------------------------------------------
+01/01/2010 00:05:17 Wakeup from ON/OFF switch
+01/01/2010 00:05:18 GPS enabled
+01/01/2010 00:05:19 Battery at 98% ( 4.18 V )
+01/01/2010 00:05:19 Schedule loaded
+01/01/2010 00:05:19   Name: 2021Test
+01/01/2010 00:05:19   Backup GPS location: 44°39"53'N 63°34"10'W
+01/01/2010 00:05:19   Number of entries: 1
+01/01/2010 00:05:19   1) "test" Start at sunrise -60 mins on 27/4/2021 and record for 360 mins only, at 22050 Hz with no compression every day for as many days as possible
+01/01/2010 00:05:19 SD Card detected in slot 1
+01/01/2010 00:05:19 Lid opened
+01/01/2010 00:05:20 SD Card :
+01/01/2010 00:05:20   Format type      exFAT
+01/01/2010 00:05:20   Manufacturer ID  3
+01/01/2010 00:05:20   OEM ID           SD
+01/01/2010 00:05:20   Product Name     SD128
+01/01/2010 00:05:20   Product Revision 8.5
+01/01/2010 00:05:20   Serial Number    4774740
+01/01/2010 00:05:20   Manufacture Date 2020/08
+01/01/2010 00:05:20   Speed            50
+01/01/2010 00:05:20   Capacity         124868608
+01/01/2010 00:05:20   Wr Current Vmin  5
+01/01/2010 00:05:20   Wr Current Vmax  5
+01/01/2010 00:05:20   Write Bl Size    512
+01/01/2010 00:05:20   Erase Bl Size    65536
+01/01/2010 00:05:21 No card in SD slot 2.
+01/01/2010 00:05:21 No card in SD slot 3.
+01/01/2010 00:05:21 No card in SD slot 4.
+01/01/2010 00:05:21 Waiting for valid clock
+01/01/2010 00:05:33 Upgrading to new firmware..
+
+-----------------------------------------------------------
+ FRONTIER LABS Bioacoustic Audio Recorder 
+ Serial Number: 00008541
+ Config: Stereo, Ext-power
+ Firmware: 3.28 (May 14 2021 15:35:55)
+-----------------------------------------------------------
+2010-01-01 00:05:56 Software reset after upgrading firmware.
+2010-01-01 00:05:57 GPS enabled
+2010-01-01 00:05:58 Battery at 98% ( 4.18 V )
+2010-01-01 00:05:58 Date and time not set
+2010-01-01 00:06:06 Using backup location from schedule until GPS fix is acquired.
+2010-01-01 00:06:06 Schedule loaded
+2010-01-01 00:06:06   Name: 2021Test
+2010-01-01 00:06:06   Backup GPS location: 44°39"53'N 63°34"10'W
+2010-01-01 00:06:06   Number of entries: 1
+2010-01-01 00:06:06   1) "test" Start at sunrise -60 mins on 27/4/2021 and record for 360 mins only, at 22050 Hz with no compression every day for as many days as possible
+2010-01-01 00:06:06 SD Card detected in slot 1
+2010-01-01 00:06:07 SD Card :
+2010-01-01 00:06:07   Format type      exFAT
+2010-01-01 00:06:07   Manufacturer ID  3
+2010-01-01 00:06:07   OEM ID           SD
+2010-01-01 00:06:07   Product Name     SD128
+2010-01-01 00:06:07   Product Revision 8.5
+2010-01-01 00:06:07   Serial Number    4774740
+2010-01-01 00:06:07   Manufacture Date 2020/08
+2010-01-01 00:06:07   Speed            50
+2010-01-01 00:06:07   Capacity         124868608
+2010-01-01 00:06:07   Wr Current Vmin  5
+2010-01-01 00:06:07   Wr Current Vmax  5
+2010-01-01 00:06:07   Write Bl Size    512
+2010-01-01 00:06:07   Erase Bl Size    65536
+2010-01-01 00:06:08 No card in SD slot 2.
+2010-01-01 00:06:08 No card in SD slot 3.
+2010-01-01 00:06:08 No card in SD slot 4.
+2010-01-01 00:06:08 Waiting for valid clock
+2010-01-01 00:06:37 Saving Schedule file to internal memory
+2010-01-01 00:06:38 Schedule loaded
+2010-01-01 00:07:34 Clock updated by the user
+2010-01-01 00:10:50 Updating clock from the GPS to local time 17:02:54 (UTC-03:00)
+2021-06-10 17:02:54 Next recording scheduled to start at 00:00:00 14/6/2021
+2021-06-10 17:27:53 Failed to acquire GPS lock after 30 mins. If sunrise or sunset times are needed, they will be calculated using the location specified in the schedule file
+2021-06-10 17:27:53 GPS disabled
+
+-----------------------------------------------------------
+ FRONTIER LABS Bioacoustic Audio Recorder 
+ Serial Number: 00008541
+ Config: Stereo, Ext-power
+ Firmware: 3.28 (May 14 2021 15:35:55)
+-----------------------------------------------------------
+2021-06-10 17:32:20 Watchdog recovered from CPU lockup!! Please report this error to Frontier Labs.
+2021-06-10 17:32:21 GPS enabled
+2021-06-10 17:32:22 Battery at 97% ( 4.17 V )
+2021-06-10 17:32:22 Using backup location from schedule until GPS fix is acquired.
+2021-06-10 17:32:22 Schedule loaded
+2021-06-10 17:32:22   Name: Continuous
+2021-06-10 17:32:22   Backup GPS location: 44°43"8'N 62°48"12'W
+2021-06-10 17:32:22   Number of entries: 1
+2021-06-10 17:32:22   1) "every2d6x4hrs" Start at 00:00 on 14/6/2021 and record for 240 mins at 44100 Hz with no compression every 240 mins until 20:00 every 2 days for as many days as possible
+2021-06-10 17:32:22 SD Card detected in slot 1
+2021-06-10 17:32:23 SD Card :
+2021-06-10 17:32:23   Format type      exFAT
+2021-06-10 17:32:23   Manufacturer ID  3
+2021-06-10 17:32:23   OEM ID           SD
+2021-06-10 17:32:23   Product Name     SD128
+2021-06-10 17:32:23   Product Revision 8.5
+2021-06-10 17:32:23   Serial Number    4774740
+2021-06-10 17:32:23   Manufacture Date 2020/08
+2021-06-10 17:32:23   Speed            50
+2021-06-10 17:32:23   Capacity         124868608
+2021-06-10 17:32:23   Wr Current Vmin  5
+2021-06-10 17:32:23   Wr Current Vmax  5
+2021-06-10 17:32:23   Write Bl Size    512
+2021-06-10 17:32:23   Erase Bl Size    65536
+2021-06-10 17:32:24 No card in SD slot 2.
+2021-06-10 17:32:24 No card in SD slot 3.
+2021-06-10 17:32:24 No card in SD slot 4.
+2021-06-10 17:32:24 Next recording scheduled to start at 00:00:00 14/6/2021
+2021-06-10 17:33:53 Updating clock from the GPS to local time 17:33:54 (UTC-03:00)
+2021-06-10 17:33:54 Next recording scheduled to start at 00:00:00 14/6/2021
+2021-06-10 17:38:47 Clock updated by the user
+2021-06-10 17:38:44 Next recording scheduled to start at 00:00:00 14/6/2021
+2021-06-10 17:38:59 BAR switched OFF (All future recordings disabled)
+2021-06-10 17:38:59 BAR powering down
+
+2021-06-10 17:38:59 GPS disabled
+
+-----------------------------------------------------------
+ FRONTIER LABS Bioacoustic Audio Recorder 
+ Serial Number: 00008541
+ Config: Stereo, Ext-power
+ Firmware: 3.28 (May 14 2021 15:35:55)
+-----------------------------------------------------------
+2021-06-10 17:39:09 Wakeup from ON/OFF switch
+2021-06-10 17:39:10 GPS enabled
+2021-06-10 17:39:11 Battery at 97% ( 4.16 V )
+2021-06-10 17:39:11 Using backup location from schedule until GPS fix is acquired.
+2021-06-10 17:39:11 Schedule loaded
+2021-06-10 17:39:11   Name: Continuous
+2021-06-10 17:39:11   Backup GPS location: 44°43"8'N 62°48"12'W
+2021-06-10 17:39:11   Number of entries: 1
+2021-06-10 17:39:11   1) "every2d6x4hrs" Start at 00:00 on 14/6/2021 and record for 240 mins at 44100 Hz with no compression every 240 mins until 20:00 every 2 days for as many days as possible
+2021-06-10 17:39:11 SD Card detected in slot 1
+2021-06-10 17:39:12 SD Card :
+2021-06-10 17:39:12   Format type      exFAT
+2021-06-10 17:39:12   Manufacturer ID  3
+2021-06-10 17:39:12   OEM ID           SD
+2021-06-10 17:39:12   Product Name     SD128
+2021-06-10 17:39:12   Product Revision 8.5
+2021-06-10 17:39:12   Serial Number    4774740
+2021-06-10 17:39:12   Manufacture Date 2020/08
+2021-06-10 17:39:12   Speed            50
+2021-06-10 17:39:12   Capacity         124868608
+2021-06-10 17:39:12   Wr Current Vmin  5
+2021-06-10 17:39:12   Wr Current Vmax  5
+2021-06-10 17:39:12   Write Bl Size    512
+2021-06-10 17:39:12   Erase Bl Size    65536
+2021-06-10 17:39:13 No card in SD slot 2.
+2021-06-10 17:39:13 No card in SD slot 3.
+2021-06-10 17:39:13 No card in SD slot 4.
+2021-06-10 17:39:14 Next recording scheduled to start at 00:00:00 14/6/2021
+2021-06-10 17:39:29 BAR switched OFF (All future recordings disabled)
+2021-06-10 17:39:29 BAR powering down
+
+2021-06-10 17:39:29 GPS disabled
+
+-----------------------------------------------------------
+ FRONTIER LABS Bioacoustic Audio Recorder 
+ Serial Number: 00008604
+ Config: Stereo, Ext-power
+ Firmware: 3.21 (Mar  4 2020 15:05:47)
+-----------------------------------------------------------
+01/01/2010 00:00:10 Wakeup from ON/OFF switch
+01/01/2010 00:00:11 GPS enabled
+01/01/2010 00:00:12 Battery at 71% ( 3.85 V )
+01/01/2010 00:00:12 Date and time not set
+01/01/2010 00:00:18 Schedule loaded
+01/01/2010 00:00:18   Name: STUDY
+01/01/2010 00:00:18   Backup GPS location: 27°27"59'S 153°1"0'E
+01/01/2010 00:00:18   Number of entries: 1
+01/01/2010 00:00:18   1) "REC" Start at 00:00 on 1/1/2019 and record for 60 mins at 44100 Hz with no compression every 60 mins until 23:00 every day for as many days as possible
+01/01/2010 00:00:18 SD Card detected in slot 1
+01/01/2010 00:00:19 SD Card :
+01/01/2010 00:00:19   Format type      exFAT
+01/01/2010 00:00:19   Manufacturer ID  3
+01/01/2010 00:00:19   OEM ID           SD
+01/01/2010 00:00:19   Product Name     SD128
+01/01/2010 00:00:19   Product Revision 8.5
+01/01/2010 00:00:19   Serial Number    4774740
+01/01/2010 00:00:19   Manufacture Date 2020/08
+01/01/2010 00:00:19   Speed            50
+01/01/2010 00:00:19   Capacity         124868608
+01/01/2010 00:00:19   Wr Current Vmin  5
+01/01/2010 00:00:19   Wr Current Vmax  5
+01/01/2010 00:00:19   Write Bl Size    512
+01/01/2010 00:00:19   Erase Bl Size    65536
+01/01/2010 00:00:20 No card in SD slot 2.
+01/01/2010 00:00:20 No card in SD slot 3.
+01/01/2010 00:00:20 No card in SD slot 4.
+01/01/2010 00:00:20 Waiting for valid clock
+01/01/2010 00:00:32 Upgrading to new firmware..
+
+-----------------------------------------------------------
+ FRONTIER LABS Bioacoustic Audio Recorder 
+ Serial Number: 00008604
+ Config: Stereo, Ext-power
+ Firmware: 3.28 (May 14 2021 15:35:55)
+-----------------------------------------------------------
+2010-01-01 00:00:54 Software reset after upgrading firmware.
+2010-01-01 00:00:55 GPS enabled
+2010-01-01 00:00:56 Battery at 72% ( 3.86 V )
+2010-01-01 00:00:56 Date and time not set
+2010-01-01 00:08:10 Using backup location from schedule until GPS fix is acquired.
+2010-01-01 00:08:10 Schedule loaded
+2010-01-01 00:08:10   Name: STUDY
+2010-01-01 00:08:10   Backup GPS location: 27°27"59'S 153°1"0'E
+2010-01-01 00:08:10   Number of entries: 1
+2010-01-01 00:08:10   1) "REC" Start at 00:00 on 1/1/2019 and record for 60 mins at 44100 Hz with no compression every 60 mins until 23:00 every day for as many days as possible
+2010-01-01 00:08:10 SD Card detected in slot 1
+2010-01-01 00:08:11 SD Card :
+2010-01-01 00:08:11   Format type      exFAT
+2010-01-01 00:08:11   Manufacturer ID  3
+2010-01-01 00:08:11   OEM ID           SD
+2010-01-01 00:08:11   Product Name     SD128
+2010-01-01 00:08:11   Product Revision 8.5
+2010-01-01 00:08:11   Serial Number    4774740
+2010-01-01 00:08:11   Manufacture Date 2020/08
+2010-01-01 00:08:11   Speed            50
+2010-01-01 00:08:11   Capacity         124868608
+2010-01-01 00:08:11   Wr Current Vmin  5
+2010-01-01 00:08:11   Wr Current Vmax  5
+2010-01-01 00:08:11   Write Bl Size    512
+2010-01-01 00:08:11   Erase Bl Size    65536
+2010-01-01 00:08:12 No card in SD slot 2.
+2010-01-01 00:08:12 No card in SD slot 3.
+2010-01-01 00:08:12 No card in SD slot 4.
+2010-01-01 00:08:12 Waiting for valid clock
+2010-01-01 00:08:12 Updating clock from the GPS to local time 14:21:59 (UTC-03:00)
+2021-06-11 14:21:59 Preparing for a new recording..
+2021-06-11 14:21:59  - This is the first recording since being turned on.
+2021-06-11 14:21:59 Warning: No MIC detected on channel A
+2021-06-11 14:21:59 Warning: No MIC detected on channel B
+2021-06-11 14:22:00 Pre-allocating 382 MB on SD card.
+2021-06-11 14:22:00 -----------------------------------
+2021-06-11 14:22:00 | New recording started: 0:/20210611_STUDY [-27.46667+153.01666]/20210611T142200-0300_REC [-27.46667+153.01666].wav
+2021-06-11 14:22:00 | "REC" --> 00h37m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-11 14:22:00 | Battery: 70% ( 3.84 V )
+2021-06-11 14:22:00 | Storage: Card 1 ( 118.6GB free of 119GB )
+2021-06-11 14:22:00 | Microphone: Unknown
+2021-06-11 14:22:00 -----------------------------------
+2021-06-11 14:44:41 Failed to acquire GPS lock after 30 mins. If sunrise or sunset times are needed, they will be calculated using the location specified in the schedule file
+2021-06-11 14:44:41 GPS disabled
+2021-06-11 14:59:56 Recording stopped. 382 MB recorded, 121525 MB remaining on the SD card
+2021-06-11 14:59:56 Total buffer overruns = 0
+2021-06-11 14:59:56 Preparing for a new recording..
+2021-06-11 14:59:56 Warning: No MIC detected on channel A
+2021-06-11 14:59:56 Warning: No MIC detected on channel B
+2021-06-11 14:59:56 Pre-allocating 604 MB on SD card.
+2021-06-11 15:00:00 -----------------------------------
+2021-06-11 15:00:00 | New recording started: 0:/20210611_STUDY [-27.46667+153.01666]/20210611T150000-0300_REC [-27.46667+153.01666].wav
+2021-06-11 15:00:00 | "REC" --> 00h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-11 15:00:00 | Battery: 73% ( 3.87 V )
+2021-06-11 15:00:00 | Storage: Card 1 ( 118GB free of 119GB )
+2021-06-11 15:00:00 | Microphone: Unknown
+2021-06-11 15:00:00 -----------------------------------
+2021-06-11 15:59:55 Recording stopped. 604 MB recorded, 120920 MB remaining on the SD card
+2021-06-11 15:59:55 Total buffer overruns = 0
+2021-06-11 15:59:55 Preparing for a new recording..
+2021-06-11 15:59:55 Warning: No MIC detected on channel A
+2021-06-11 15:59:55 Warning: No MIC detected on channel B
+2021-06-11 15:59:55 Pre-allocating 604 MB on SD card.
+2021-06-11 16:00:00 -----------------------------------
+2021-06-11 16:00:00 | New recording started: 0:/20210611_STUDY [-27.46667+153.01666]/20210611T160000-0300_REC [-27.46667+153.01666].wav
+2021-06-11 16:00:00 | "REC" --> 00h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-11 16:00:00 | Battery: 72% ( 3.87 V )
+2021-06-11 16:00:00 | Storage: Card 1 ( 117.4GB free of 119GB )
+2021-06-11 16:00:00 | Microphone: Unknown
+2021-06-11 16:00:00 -----------------------------------
+2021-06-11 16:34:42 BAR switched OFF (All future recordings disabled)
+2021-06-11 16:34:42 Recording stopped. 350 MB recorded, 120570 MB remaining on the SD card
+2021-06-11 16:34:42 Total buffer overruns = 0
+2021-06-11 16:34:42 BAR powering down
+
+
+-----------------------------------------------------------
+ FRONTIER LABS Bioacoustic Audio Recorder 
+ Serial Number: 00008537
+ Config: Stereo, Ext-power
+ Firmware: 3.28 (May 14 2021 15:35:55)
+-----------------------------------------------------------
+2021-06-14 10:39:23 Wakeup from ON/OFF switch
+2021-06-14 10:39:24 GPS enabled
+2021-06-14 10:39:25 Battery at 95% ( 4.15 V )
+2021-06-14 10:39:25 Using backup location from schedule until GPS fix is acquired.
+2021-06-14 10:39:25 Schedule loaded
+2021-06-14 10:39:25   Name: every1d6x4hrs
+2021-06-14 10:39:25   Backup GPS location: 44°43"8'N 62°48"12'W
+2021-06-14 10:39:25   Number of entries: 1
+2021-06-14 10:39:25   1) "every1d6x4hrs" Start at 00:00 on 14/6/2021 and record for 240 mins at 44100 Hz with no compression every 240 mins until 20:00 every day for as many days as possible
+2021-06-14 10:39:25 SD Card detected in slot 1
+2021-06-14 10:39:26 SD Card :
+2021-06-14 10:39:26   Format type      exFAT
+2021-06-14 10:39:26   Manufacturer ID  3
+2021-06-14 10:39:26   OEM ID           SD
+2021-06-14 10:39:26   Product Name     SD128
+2021-06-14 10:39:26   Product Revision 8.5
+2021-06-14 10:39:26   Serial Number    4774740
+2021-06-14 10:39:26   Manufacture Date 2020/08
+2021-06-14 10:39:26   Speed            50
+2021-06-14 10:39:26   Capacity         124868608
+2021-06-14 10:39:26   Wr Current Vmin  5
+2021-06-14 10:39:26   Wr Current Vmax  5
+2021-06-14 10:39:26   Write Bl Size    512
+2021-06-14 10:39:26   Erase Bl Size    65536
+2021-06-14 10:39:27 SD Card detected in slot 2
+2021-06-14 10:39:32 Updating clock from the GPS to local time 10:39:33 (UTC-03:00)
+2021-06-14 10:39:32 GPS position acquired, waiting to stabilise
+2021-06-14 10:39:32 Microphone A attached
+2021-06-14 10:39:32 Microphone B attached
+2021-06-14 10:39:33 Preparing for a new recording..
+2021-06-14 10:39:33  - This is the first recording since being turned on.
+2021-06-14 10:39:33 Pre-allocating 811 MB on SD card.
+2021-06-14 10:39:33 -----------------------------------
+2021-06-14 10:39:34 | New recording started: 0:/8537_20210614_every1d6x4hrs [+44.71917-062.80361]/8537_20210614T103933-0300_every1d6x4hrs [+44.71917-062.80361].wav
+2021-06-14 10:39:34 | "every1d6x4hrs" --> 01h20m22s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-14 10:39:34 | Battery: 94% ( 4.13 V )
+2021-06-14 10:39:34 | Storage: Card 1 ( 116.9GB free of 119GB )
+2021-06-14 10:39:34 | Microphone: Unknown
+2021-06-14 10:39:34 -----------------------------------
+2021-06-14 10:39:34 Microphone A removed
+2021-06-14 10:39:35 Microphone A attached
+2021-06-14 10:40:03 GPS position lock acquired [+44.72053-062.80072]
+2021-06-14 10:40:03 GPS disabled
+2021-06-14 10:42:44 Lid closed
+2021-06-14 11:59:56 Recording stopped. 811 MB recorded, 119759 MB remaining on the SD card
+2021-06-14 11:59:56 Total buffer overruns = 0
+2021-06-14 11:59:56 Preparing for a new recording..
+2021-06-14 11:59:57 Pre-allocating 2047 MB on SD card.
+2021-06-14 12:00:00 -----------------------------------
+2021-06-14 12:00:00 | New recording started: 0:/8537_20210614_every1d6x4hrs [+44.72053-062.80072]/8537_20210614T120000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-14 12:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-14 12:00:00 | Battery: 97% ( 4.16 V )
+2021-06-14 12:00:00 | Storage: Card 1 ( 114.9GB free of 119GB )
+2021-06-14 12:00:00 | Microphone: Unknown
+2021-06-14 12:00:00 -----------------------------------
+2021-06-14 15:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-14 15:22:55 Pre-allocating 373 MB on SD card.
+2021-06-14 15:59:56 Recording stopped. 373 MB recorded, 117337 MB remaining on the SD card
+2021-06-14 15:59:56 Total buffer overruns = 0
+2021-06-14 15:59:56 Preparing for a new recording..
+2021-06-14 15:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-14 16:00:00 -----------------------------------
+2021-06-14 16:00:00 | New recording started: 0:/8537_20210614_every1d6x4hrs [+44.72053-062.80072]/8537_20210614T160000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-14 16:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-14 16:00:00 | Battery: 96% ( 4.15 V )
+2021-06-14 16:00:00 | Storage: Card 1 ( 112.5GB free of 119GB )
+2021-06-14 16:00:00 | Microphone: Unknown
+2021-06-14 16:00:00 -----------------------------------
+2021-06-14 19:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-14 19:22:55 Pre-allocating 373 MB on SD card.
+2021-06-14 19:59:56 Recording stopped. 373 MB recorded, 114915 MB remaining on the SD card
+2021-06-14 19:59:56 Total buffer overruns = 0
+2021-06-14 19:59:56 Preparing for a new recording..
+2021-06-14 19:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-14 20:00:00 -----------------------------------
+2021-06-14 20:00:00 | New recording started: 0:/8537_20210614_every1d6x4hrs [+44.72053-062.80072]/8537_20210614T200000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-14 20:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-14 20:00:00 | Battery: 95% ( 4.15 V )
+2021-06-14 20:00:00 | Storage: Card 1 ( 110.2GB free of 119GB )
+2021-06-14 20:00:00 | Microphone: Unknown
+2021-06-14 20:00:00 -----------------------------------
+2021-06-14 23:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-14 23:22:55 Pre-allocating 373 MB on SD card.
+2021-06-14 23:59:56 Recording stopped. 373 MB recorded, 112493 MB remaining on the SD card
+2021-06-14 23:59:56 Total buffer overruns = 0
+2021-06-14 23:59:56 Preparing for a new recording..
+2021-06-14 23:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-15 00:00:00 -----------------------------------
+2021-06-15 00:00:00 | New recording started: 0:/8537_20210615_every1d6x4hrs [+44.72053-062.80072]/8537_20210615T000000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-15 00:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-15 00:00:00 | Battery: 95% ( 4.14 V )
+2021-06-15 00:00:00 | Storage: Card 1 ( 107.8GB free of 119GB )
+2021-06-15 00:00:00 | Microphone: Unknown
+2021-06-15 00:00:00 -----------------------------------
+2021-06-15 03:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-15 03:22:55 Pre-allocating 373 MB on SD card.
+2021-06-15 03:59:56 Recording stopped. 373 MB recorded, 110071 MB remaining on the SD card
+2021-06-15 03:59:56 Total buffer overruns = 0
+2021-06-15 03:59:56 Preparing for a new recording..
+2021-06-15 03:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-15 04:00:00 -----------------------------------
+2021-06-15 04:00:00 | New recording started: 0:/8537_20210615_every1d6x4hrs [+44.72053-062.80072]/8537_20210615T040000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-15 04:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-15 04:00:00 | Battery: 95% ( 4.14 V )
+2021-06-15 04:00:00 | Storage: Card 1 ( 105.4GB free of 119GB )
+2021-06-15 04:00:00 | Microphone: Unknown
+2021-06-15 04:00:00 -----------------------------------
+2021-06-15 07:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-15 07:22:55 Pre-allocating 373 MB on SD card.
+2021-06-15 07:59:56 Recording stopped. 373 MB recorded, 107649 MB remaining on the SD card
+2021-06-15 07:59:56 Total buffer overruns = 0
+2021-06-15 07:59:56 Preparing for a new recording..
+2021-06-15 07:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-15 08:00:00 -----------------------------------
+2021-06-15 08:00:00 | New recording started: 0:/8537_20210615_every1d6x4hrs [+44.72053-062.80072]/8537_20210615T080000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-15 08:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-15 08:00:00 | Battery: 95% ( 4.14 V )
+2021-06-15 08:00:00 | Storage: Card 1 ( 103.1GB free of 119GB )
+2021-06-15 08:00:00 | Microphone: Unknown
+2021-06-15 08:00:00 -----------------------------------
+2021-06-15 11:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-15 11:22:55 Pre-allocating 373 MB on SD card.
+2021-06-15 11:59:56 Recording stopped. 373 MB recorded, 105228 MB remaining on the SD card
+2021-06-15 11:59:56 Total buffer overruns = 0
+2021-06-15 11:59:56 Preparing for a new recording..
+2021-06-15 11:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-15 12:00:00 -----------------------------------
+2021-06-15 12:00:00 | New recording started: 0:/8537_20210615_every1d6x4hrs [+44.72053-062.80072]/8537_20210615T120000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-15 12:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-15 12:00:00 | Battery: 95% ( 4.14 V )
+2021-06-15 12:00:00 | Storage: Card 1 ( 100.7GB free of 119GB )
+2021-06-15 12:00:00 | Microphone: Unknown
+2021-06-15 12:00:00 -----------------------------------
+2021-06-15 15:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-15 15:22:55 Pre-allocating 373 MB on SD card.
+2021-06-15 15:59:56 Recording stopped. 373 MB recorded, 102806 MB remaining on the SD card
+2021-06-15 15:59:56 Total buffer overruns = 0
+2021-06-15 15:59:56 Preparing for a new recording..
+2021-06-15 15:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-15 16:00:00 -----------------------------------
+2021-06-15 16:00:00 | New recording started: 0:/8537_20210615_every1d6x4hrs [+44.72053-062.80072]/8537_20210615T160000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-15 16:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-15 16:00:00 | Battery: 95% ( 4.14 V )
+2021-06-15 16:00:00 | Storage: Card 1 ( 98.3GB free of 119GB )
+2021-06-15 16:00:00 | Microphone: Unknown
+2021-06-15 16:00:00 -----------------------------------
+2021-06-15 19:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-15 19:22:55 Pre-allocating 373 MB on SD card.
+2021-06-15 19:59:56 Recording stopped. 373 MB recorded, 100384 MB remaining on the SD card
+2021-06-15 19:59:56 Total buffer overruns = 0
+2021-06-15 19:59:56 Preparing for a new recording..
+2021-06-15 19:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-15 20:00:00 -----------------------------------
+2021-06-15 20:00:00 | New recording started: 0:/8537_20210615_every1d6x4hrs [+44.72053-062.80072]/8537_20210615T200000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-15 20:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-15 20:00:00 | Battery: 94% ( 4.13 V )
+2021-06-15 20:00:00 | Storage: Card 1 ( 96GB free of 119GB )
+2021-06-15 20:00:00 | Microphone: Unknown
+2021-06-15 20:00:00 -----------------------------------
+2021-06-15 23:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-15 23:22:55 Pre-allocating 373 MB on SD card.
+2021-06-15 23:59:56 Recording stopped. 373 MB recorded, 97962 MB remaining on the SD card
+2021-06-15 23:59:56 Total buffer overruns = 0
+2021-06-15 23:59:56 Preparing for a new recording..
+2021-06-15 23:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-16 00:00:00 -----------------------------------
+2021-06-16 00:00:00 | New recording started: 0:/8537_20210616_every1d6x4hrs [+44.72053-062.80072]/8537_20210616T000000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-16 00:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-16 00:00:00 | Battery: 94% ( 4.13 V )
+2021-06-16 00:00:00 | Storage: Card 1 ( 93.6GB free of 119GB )
+2021-06-16 00:00:00 | Microphone: Unknown
+2021-06-16 00:00:00 -----------------------------------
+2021-06-16 03:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-16 03:22:55 Pre-allocating 373 MB on SD card.
+2021-06-16 03:59:56 Recording stopped. 373 MB recorded, 95541 MB remaining on the SD card
+2021-06-16 03:59:56 Total buffer overruns = 0
+2021-06-16 03:59:56 Preparing for a new recording..
+2021-06-16 03:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-16 04:00:00 -----------------------------------
+2021-06-16 04:00:00 | New recording started: 0:/8537_20210616_every1d6x4hrs [+44.72053-062.80072]/8537_20210616T040000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-16 04:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-16 04:00:00 | Battery: 94% ( 4.13 V )
+2021-06-16 04:00:00 | Storage: Card 1 ( 91.3GB free of 119GB )
+2021-06-16 04:00:00 | Microphone: Unknown
+2021-06-16 04:00:00 -----------------------------------
+2021-06-16 07:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-16 07:22:55 Pre-allocating 373 MB on SD card.
+2021-06-16 07:59:56 Recording stopped. 373 MB recorded, 93119 MB remaining on the SD card
+2021-06-16 07:59:56 Total buffer overruns = 0
+2021-06-16 07:59:56 Preparing for a new recording..
+2021-06-16 07:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-16 08:00:00 -----------------------------------
+2021-06-16 08:00:00 | New recording started: 0:/8537_20210616_every1d6x4hrs [+44.72053-062.80072]/8537_20210616T080000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-16 08:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-16 08:00:00 | Battery: 93% ( 4.12 V )
+2021-06-16 08:00:00 | Storage: Card 1 ( 88.9GB free of 119GB )
+2021-06-16 08:00:00 | Microphone: Unknown
+2021-06-16 08:00:00 -----------------------------------
+2021-06-16 11:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-16 11:22:55 Pre-allocating 373 MB on SD card.
+2021-06-16 11:59:56 Recording stopped. 373 MB recorded, 90697 MB remaining on the SD card
+2021-06-16 11:59:56 Total buffer overruns = 0
+2021-06-16 11:59:56 Preparing for a new recording..
+2021-06-16 11:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-16 12:00:00 -----------------------------------
+2021-06-16 12:00:00 | New recording started: 0:/8537_20210616_every1d6x4hrs [+44.72053-062.80072]/8537_20210616T120000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-16 12:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-16 12:00:00 | Battery: 94% ( 4.12 V )
+2021-06-16 12:00:00 | Storage: Card 1 ( 86.5GB free of 119GB )
+2021-06-16 12:00:00 | Microphone: Unknown
+2021-06-16 12:00:00 -----------------------------------
+2021-06-16 15:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-16 15:22:55 Pre-allocating 373 MB on SD card.
+2021-06-16 15:59:56 Recording stopped. 373 MB recorded, 88275 MB remaining on the SD card
+2021-06-16 15:59:56 Total buffer overruns = 0
+2021-06-16 15:59:56 Preparing for a new recording..
+2021-06-16 15:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-16 16:00:00 -----------------------------------
+2021-06-16 16:00:00 | New recording started: 0:/8537_20210616_every1d6x4hrs [+44.72053-062.80072]/8537_20210616T160000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-16 16:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-16 16:00:00 | Battery: 94% ( 4.12 V )
+2021-06-16 16:00:00 | Storage: Card 1 ( 84.2GB free of 119GB )
+2021-06-16 16:00:00 | Microphone: Unknown
+2021-06-16 16:00:00 -----------------------------------
+2021-06-16 19:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-16 19:22:55 Pre-allocating 373 MB on SD card.
+2021-06-16 19:59:56 Recording stopped. 373 MB recorded, 85854 MB remaining on the SD card
+2021-06-16 19:59:56 Total buffer overruns = 0
+2021-06-16 19:59:56 Preparing for a new recording..
+2021-06-16 19:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-16 20:00:00 -----------------------------------
+2021-06-16 20:00:00 | New recording started: 0:/8537_20210616_every1d6x4hrs [+44.72053-062.80072]/8537_20210616T200000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-16 20:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-16 20:00:00 | Battery: 93% ( 4.12 V )
+2021-06-16 20:00:00 | Storage: Card 1 ( 81.8GB free of 119GB )
+2021-06-16 20:00:00 | Microphone: Unknown
+2021-06-16 20:00:00 -----------------------------------
+2021-06-16 23:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-16 23:22:55 Pre-allocating 373 MB on SD card.
+2021-06-16 23:59:56 Recording stopped. 373 MB recorded, 83432 MB remaining on the SD card
+2021-06-16 23:59:56 Total buffer overruns = 0
+2021-06-16 23:59:56 Preparing for a new recording..
+2021-06-16 23:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-17 00:00:00 -----------------------------------
+2021-06-17 00:00:00 | New recording started: 0:/8537_20210617_every1d6x4hrs [+44.72053-062.80072]/8537_20210617T000000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-17 00:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-17 00:00:00 | Battery: 93% ( 4.11 V )
+2021-06-17 00:00:00 | Storage: Card 1 ( 79.4GB free of 119GB )
+2021-06-17 00:00:00 | Microphone: Unknown
+2021-06-17 00:00:00 -----------------------------------
+2021-06-17 03:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-17 03:22:55 Pre-allocating 373 MB on SD card.
+2021-06-17 03:59:56 Recording stopped. 373 MB recorded, 81010 MB remaining on the SD card
+2021-06-17 03:59:56 Total buffer overruns = 0
+2021-06-17 03:59:56 Preparing for a new recording..
+2021-06-17 03:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-17 04:00:00 -----------------------------------
+2021-06-17 04:00:00 | New recording started: 0:/8537_20210617_every1d6x4hrs [+44.72053-062.80072]/8537_20210617T040000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-17 04:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-17 04:00:00 | Battery: 92% ( 4.11 V )
+2021-06-17 04:00:00 | Storage: Card 1 ( 77.1GB free of 119GB )
+2021-06-17 04:00:00 | Microphone: Unknown
+2021-06-17 04:00:00 -----------------------------------
+2021-06-17 07:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-17 07:22:55 Pre-allocating 373 MB on SD card.
+2021-06-17 07:59:56 Recording stopped. 373 MB recorded, 78588 MB remaining on the SD card
+2021-06-17 07:59:56 Total buffer overruns = 0
+2021-06-17 07:59:56 Preparing for a new recording..
+2021-06-17 07:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-17 08:00:00 -----------------------------------
+2021-06-17 08:00:00 | New recording started: 0:/8537_20210617_every1d6x4hrs [+44.72053-062.80072]/8537_20210617T080000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-17 08:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-17 08:00:00 | Battery: 92% ( 4.10 V )
+2021-06-17 08:00:00 | Storage: Card 1 ( 74.7GB free of 119GB )
+2021-06-17 08:00:00 | Microphone: Unknown
+2021-06-17 08:00:00 -----------------------------------
+2021-06-17 11:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-17 11:22:55 Pre-allocating 373 MB on SD card.
+2021-06-17 11:59:56 Recording stopped. 373 MB recorded, 76166 MB remaining on the SD card
+2021-06-17 11:59:56 Total buffer overruns = 0
+2021-06-17 11:59:56 Preparing for a new recording..
+2021-06-17 11:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-17 12:00:00 -----------------------------------
+2021-06-17 12:00:00 | New recording started: 0:/8537_20210617_every1d6x4hrs [+44.72053-062.80072]/8537_20210617T120000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-17 12:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-17 12:00:00 | Battery: 92% ( 4.11 V )
+2021-06-17 12:00:00 | Storage: Card 1 ( 72.3GB free of 119GB )
+2021-06-17 12:00:00 | Microphone: Unknown
+2021-06-17 12:00:00 -----------------------------------
+2021-06-17 15:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-17 15:22:55 Pre-allocating 373 MB on SD card.
+2021-06-17 15:59:56 Recording stopped. 373 MB recorded, 73745 MB remaining on the SD card
+2021-06-17 15:59:56 Total buffer overruns = 0
+2021-06-17 15:59:56 Preparing for a new recording..
+2021-06-17 15:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-17 16:00:00 -----------------------------------
+2021-06-17 16:00:00 | New recording started: 0:/8537_20210617_every1d6x4hrs [+44.72053-062.80072]/8537_20210617T160000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-17 16:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-17 16:00:00 | Battery: 91% ( 4.10 V )
+2021-06-17 16:00:00 | Storage: Card 1 ( 70GB free of 119GB )
+2021-06-17 16:00:00 | Microphone: Unknown
+2021-06-17 16:00:00 -----------------------------------
+2021-06-17 19:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-17 19:22:55 Pre-allocating 373 MB on SD card.
+2021-06-17 19:59:56 Recording stopped. 373 MB recorded, 71323 MB remaining on the SD card
+2021-06-17 19:59:56 Total buffer overruns = 0
+2021-06-17 19:59:56 Preparing for a new recording..
+2021-06-17 19:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-17 20:00:00 -----------------------------------
+2021-06-17 20:00:00 | New recording started: 0:/8537_20210617_every1d6x4hrs [+44.72053-062.80072]/8537_20210617T200000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-17 20:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-17 20:00:00 | Battery: 91% ( 4.09 V )
+2021-06-17 20:00:00 | Storage: Card 1 ( 67.6GB free of 119GB )
+2021-06-17 20:00:00 | Microphone: Unknown
+2021-06-17 20:00:00 -----------------------------------
+2021-06-17 23:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-17 23:22:55 Pre-allocating 373 MB on SD card.
+2021-06-17 23:59:56 Recording stopped. 373 MB recorded, 68901 MB remaining on the SD card
+2021-06-17 23:59:56 Total buffer overruns = 0
+2021-06-17 23:59:56 Preparing for a new recording..
+2021-06-17 23:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-18 00:00:00 -----------------------------------
+2021-06-18 00:00:00 | New recording started: 0:/8537_20210618_every1d6x4hrs [+44.72053-062.80072]/8537_20210618T000000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-18 00:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-18 00:00:00 | Battery: 90% ( 4.08 V )
+2021-06-18 00:00:00 | Storage: Card 1 ( 65.2GB free of 119GB )
+2021-06-18 00:00:00 | Microphone: Unknown
+2021-06-18 00:00:00 -----------------------------------
+2021-06-18 03:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-18 03:22:55 Pre-allocating 373 MB on SD card.
+2021-06-18 03:59:56 Recording stopped. 373 MB recorded, 66479 MB remaining on the SD card
+2021-06-18 03:59:56 Total buffer overruns = 0
+2021-06-18 03:59:56 Preparing for a new recording..
+2021-06-18 03:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-18 04:00:00 -----------------------------------
+2021-06-18 04:00:00 | New recording started: 0:/8537_20210618_every1d6x4hrs [+44.72053-062.80072]/8537_20210618T040000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-18 04:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-18 04:00:00 | Battery: 89% ( 4.07 V )
+2021-06-18 04:00:00 | Storage: Card 1 ( 62.9GB free of 119GB )
+2021-06-18 04:00:00 | Microphone: Unknown
+2021-06-18 04:00:00 -----------------------------------
+2021-06-18 07:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-18 07:22:55 Pre-allocating 373 MB on SD card.
+2021-06-18 07:59:56 Recording stopped. 373 MB recorded, 64058 MB remaining on the SD card
+2021-06-18 07:59:56 Total buffer overruns = 0
+2021-06-18 07:59:56 Preparing for a new recording..
+2021-06-18 07:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-18 08:00:00 -----------------------------------
+2021-06-18 08:00:00 | New recording started: 0:/8537_20210618_every1d6x4hrs [+44.72053-062.80072]/8537_20210618T080000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-18 08:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-18 08:00:00 | Battery: 89% ( 4.07 V )
+2021-06-18 08:00:00 | Storage: Card 1 ( 60.5GB free of 119GB )
+2021-06-18 08:00:00 | Microphone: Unknown
+2021-06-18 08:00:00 -----------------------------------
+2021-06-18 11:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-18 11:22:55 Pre-allocating 373 MB on SD card.
+2021-06-18 11:59:56 Recording stopped. 373 MB recorded, 61636 MB remaining on the SD card
+2021-06-18 11:59:56 Total buffer overruns = 0
+2021-06-18 11:59:56 Preparing for a new recording..
+2021-06-18 11:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-18 12:00:00 -----------------------------------
+2021-06-18 12:00:00 | New recording started: 0:/8537_20210618_every1d6x4hrs [+44.72053-062.80072]/8537_20210618T120000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-18 12:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-18 12:00:00 | Battery: 89% ( 4.07 V )
+2021-06-18 12:00:00 | Storage: Card 1 ( 58.1GB free of 119GB )
+2021-06-18 12:00:00 | Microphone: Unknown
+2021-06-18 12:00:00 -----------------------------------
+2021-06-18 15:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-18 15:22:55 Pre-allocating 373 MB on SD card.
+2021-06-18 15:59:56 Recording stopped. 373 MB recorded, 59214 MB remaining on the SD card
+2021-06-18 15:59:56 Total buffer overruns = 0
+2021-06-18 15:59:56 Preparing for a new recording..
+2021-06-18 15:59:57 Pre-allocating 2047 MB on SD card.
+2021-06-18 16:00:00 -----------------------------------
+2021-06-18 16:00:00 | New recording started: 0:/8537_20210618_every1d6x4hrs [+44.72053-062.80072]/8537_20210618T160000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-18 16:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-18 16:00:00 | Battery: 89% ( 4.07 V )
+2021-06-18 16:00:00 | Storage: Card 1 ( 55.8GB free of 119GB )
+2021-06-18 16:00:00 | Microphone: Unknown
+2021-06-18 16:00:00 -----------------------------------
+2021-06-18 19:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-18 19:22:55 Pre-allocating 373 MB on SD card.
+2021-06-18 19:59:56 Recording stopped. 373 MB recorded, 56792 MB remaining on the SD card
+2021-06-18 19:59:56 Total buffer overruns = 0
+2021-06-18 19:59:56 Preparing for a new recording..
+2021-06-18 19:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-18 20:00:00 -----------------------------------
+2021-06-18 20:00:00 | New recording started: 0:/8537_20210618_every1d6x4hrs [+44.72053-062.80072]/8537_20210618T200000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-18 20:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-18 20:00:00 | Battery: 88% ( 4.05 V )
+2021-06-18 20:00:00 | Storage: Card 1 ( 53.4GB free of 119GB )
+2021-06-18 20:00:00 | Microphone: Unknown
+2021-06-18 20:00:00 -----------------------------------
+2021-06-18 23:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-18 23:22:55 Pre-allocating 373 MB on SD card.
+2021-06-18 23:59:56 Recording stopped. 373 MB recorded, 54371 MB remaining on the SD card
+2021-06-18 23:59:56 Total buffer overruns = 0
+2021-06-18 23:59:56 Preparing for a new recording..
+2021-06-18 23:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-19 00:00:00 -----------------------------------
+2021-06-19 00:00:00 | New recording started: 0:/8537_20210619_every1d6x4hrs [+44.72053-062.80072]/8537_20210619T000000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-19 00:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-19 00:00:00 | Battery: 87% ( 4.05 V )
+2021-06-19 00:00:00 | Storage: Card 1 ( 51GB free of 119GB )
+2021-06-19 00:00:00 | Microphone: Unknown
+2021-06-19 00:00:00 -----------------------------------
+2021-06-19 03:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-19 03:22:55 Pre-allocating 373 MB on SD card.
+2021-06-19 03:59:56 Recording stopped. 373 MB recorded, 51949 MB remaining on the SD card
+2021-06-19 03:59:56 Total buffer overruns = 0
+2021-06-19 03:59:56 Preparing for a new recording..
+2021-06-19 03:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-19 04:00:00 -----------------------------------
+2021-06-19 04:00:00 | New recording started: 0:/8537_20210619_every1d6x4hrs [+44.72053-062.80072]/8537_20210619T040000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-19 04:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-19 04:00:00 | Battery: 86% ( 4.04 V )
+2021-06-19 04:00:00 | Storage: Card 1 ( 48.7GB free of 119GB )
+2021-06-19 04:00:00 | Microphone: Unknown
+2021-06-19 04:00:00 -----------------------------------
+2021-06-19 07:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-19 07:22:55 Pre-allocating 373 MB on SD card.
+2021-06-19 07:59:56 Recording stopped. 373 MB recorded, 49527 MB remaining on the SD card
+2021-06-19 07:59:56 Total buffer overruns = 0
+2021-06-19 07:59:56 Preparing for a new recording..
+2021-06-19 07:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-19 08:00:00 -----------------------------------
+2021-06-19 08:00:00 | New recording started: 0:/8537_20210619_every1d6x4hrs [+44.72053-062.80072]/8537_20210619T080000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-19 08:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-19 08:00:00 | Battery: 86% ( 4.03 V )
+2021-06-19 08:00:00 | Storage: Card 1 ( 46.3GB free of 119GB )
+2021-06-19 08:00:00 | Microphone: Unknown
+2021-06-19 08:00:00 -----------------------------------
+2021-06-19 11:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-19 11:22:55 Pre-allocating 373 MB on SD card.
+2021-06-19 11:59:56 Recording stopped. 373 MB recorded, 47105 MB remaining on the SD card
+2021-06-19 11:59:56 Total buffer overruns = 0
+2021-06-19 11:59:56 Preparing for a new recording..
+2021-06-19 11:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-19 12:00:00 -----------------------------------
+2021-06-19 12:00:00 | New recording started: 0:/8537_20210619_every1d6x4hrs [+44.72053-062.80072]/8537_20210619T120000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-19 12:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-19 12:00:00 | Battery: 86% ( 4.04 V )
+2021-06-19 12:00:00 | Storage: Card 1 ( 44GB free of 119GB )
+2021-06-19 12:00:00 | Microphone: Unknown
+2021-06-19 12:00:00 -----------------------------------
+2021-06-19 15:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-19 15:22:55 Pre-allocating 373 MB on SD card.
+2021-06-19 15:59:56 Recording stopped. 373 MB recorded, 44683 MB remaining on the SD card
+2021-06-19 15:59:56 Total buffer overruns = 0
+2021-06-19 15:59:56 Preparing for a new recording..
+2021-06-19 15:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-19 16:00:00 -----------------------------------
+2021-06-19 16:00:00 | New recording started: 0:/8537_20210619_every1d6x4hrs [+44.72053-062.80072]/8537_20210619T160000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-19 16:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-19 16:00:00 | Battery: 86% ( 4.03 V )
+2021-06-19 16:00:00 | Storage: Card 1 ( 41.6GB free of 119GB )
+2021-06-19 16:00:00 | Microphone: Unknown
+2021-06-19 16:00:00 -----------------------------------
+2021-06-19 19:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-19 19:22:55 Pre-allocating 373 MB on SD card.
+2021-06-19 19:59:56 Recording stopped. 373 MB recorded, 42262 MB remaining on the SD card
+2021-06-19 19:59:56 Total buffer overruns = 0
+2021-06-19 19:59:56 Preparing for a new recording..
+2021-06-19 19:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-19 20:00:00 -----------------------------------
+2021-06-19 20:00:00 | New recording started: 0:/8537_20210619_every1d6x4hrs [+44.72053-062.80072]/8537_20210619T200000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-19 20:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-19 20:00:00 | Battery: 85% ( 4.02 V )
+2021-06-19 20:00:00 | Storage: Card 1 ( 39.2GB free of 119GB )
+2021-06-19 20:00:00 | Microphone: Unknown
+2021-06-19 20:00:00 -----------------------------------
+2021-06-19 23:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-19 23:22:55 Pre-allocating 373 MB on SD card.
+2021-06-19 23:59:56 Recording stopped. 373 MB recorded, 39840 MB remaining on the SD card
+2021-06-19 23:59:56 Total buffer overruns = 0
+2021-06-19 23:59:56 Preparing for a new recording..
+2021-06-19 23:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-20 00:00:00 -----------------------------------
+2021-06-20 00:00:00 | New recording started: 0:/8537_20210620_every1d6x4hrs [+44.72053-062.80072]/8537_20210620T000000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-20 00:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-20 00:00:00 | Battery: 84% ( 4.01 V )
+2021-06-20 00:00:00 | Storage: Card 1 ( 36.9GB free of 119GB )
+2021-06-20 00:00:00 | Microphone: Unknown
+2021-06-20 00:00:00 -----------------------------------
+2021-06-20 03:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-20 03:22:55 Pre-allocating 373 MB on SD card.
+2021-06-20 03:59:56 Recording stopped. 373 MB recorded, 37418 MB remaining on the SD card
+2021-06-20 03:59:56 Total buffer overruns = 0
+2021-06-20 03:59:56 Preparing for a new recording..
+2021-06-20 03:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-20 04:00:00 -----------------------------------
+2021-06-20 04:00:00 | New recording started: 0:/8537_20210620_every1d6x4hrs [+44.72053-062.80072]/8537_20210620T040000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-20 04:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-20 04:00:00 | Battery: 84% ( 4.00 V )
+2021-06-20 04:00:00 | Storage: Card 1 ( 34.5GB free of 119GB )
+2021-06-20 04:00:00 | Microphone: Unknown
+2021-06-20 04:00:00 -----------------------------------
+2021-06-20 07:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-20 07:22:55 Pre-allocating 373 MB on SD card.
+2021-06-20 07:59:56 Recording stopped. 373 MB recorded, 34996 MB remaining on the SD card
+2021-06-20 07:59:56 Total buffer overruns = 0
+2021-06-20 07:59:56 Preparing for a new recording..
+2021-06-20 07:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-20 08:00:00 -----------------------------------
+2021-06-20 08:00:00 | New recording started: 0:/8537_20210620_every1d6x4hrs [+44.72053-062.80072]/8537_20210620T080000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-20 08:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-20 08:00:00 | Battery: 83% ( 4.00 V )
+2021-06-20 08:00:00 | Storage: Card 1 ( 32.1GB free of 119GB )
+2021-06-20 08:00:00 | Microphone: Unknown
+2021-06-20 08:00:00 -----------------------------------
+2021-06-20 11:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-20 11:22:55 Pre-allocating 373 MB on SD card.
+2021-06-20 11:59:56 Recording stopped. 373 MB recorded, 32575 MB remaining on the SD card
+2021-06-20 11:59:56 Total buffer overruns = 0
+2021-06-20 11:59:56 Preparing for a new recording..
+2021-06-20 11:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-20 12:00:00 -----------------------------------
+2021-06-20 12:00:00 | New recording started: 0:/8537_20210620_every1d6x4hrs [+44.72053-062.80072]/8537_20210620T120000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-20 12:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-20 12:00:00 | Battery: 83% ( 4.00 V )
+2021-06-20 12:00:00 | Storage: Card 1 ( 29.8GB free of 119GB )
+2021-06-20 12:00:00 | Microphone: Unknown
+2021-06-20 12:00:00 -----------------------------------
+2021-06-20 15:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-20 15:22:55 Pre-allocating 373 MB on SD card.
+2021-06-20 15:59:56 Recording stopped. 373 MB recorded, 30153 MB remaining on the SD card
+2021-06-20 15:59:56 Total buffer overruns = 0
+2021-06-20 15:59:56 Preparing for a new recording..
+2021-06-20 15:59:57 Pre-allocating 2047 MB on SD card.
+2021-06-20 16:00:00 -----------------------------------
+2021-06-20 16:00:00 | New recording started: 0:/8537_20210620_every1d6x4hrs [+44.72053-062.80072]/8537_20210620T160000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-20 16:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-20 16:00:00 | Battery: 83% ( 4.00 V )
+2021-06-20 16:00:00 | Storage: Card 1 ( 27.4GB free of 119GB )
+2021-06-20 16:00:00 | Microphone: Unknown
+2021-06-20 16:00:00 -----------------------------------
+2021-06-20 19:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-20 19:22:55 Pre-allocating 373 MB on SD card.
+2021-06-20 19:59:56 Recording stopped. 373 MB recorded, 27731 MB remaining on the SD card
+2021-06-20 19:59:56 Total buffer overruns = 0
+2021-06-20 19:59:56 Preparing for a new recording..
+2021-06-20 19:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-20 20:00:00 -----------------------------------
+2021-06-20 20:00:00 | New recording started: 0:/8537_20210620_every1d6x4hrs [+44.72053-062.80072]/8537_20210620T200000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-20 20:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-20 20:00:00 | Battery: 82% ( 3.99 V )
+2021-06-20 20:00:00 | Storage: Card 1 ( 25GB free of 119GB )
+2021-06-20 20:00:00 | Microphone: Unknown
+2021-06-20 20:00:00 -----------------------------------
+2021-06-20 23:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-20 23:22:55 Pre-allocating 373 MB on SD card.
+2021-06-20 23:59:56 Recording stopped. 373 MB recorded, 25309 MB remaining on the SD card
+2021-06-20 23:59:56 Total buffer overruns = 0
+2021-06-20 23:59:56 Preparing for a new recording..
+2021-06-20 23:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-21 00:00:00 -----------------------------------
+2021-06-21 00:00:00 | New recording started: 0:/8537_20210621_every1d6x4hrs [+44.72053-062.80072]/8537_20210621T000000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-21 00:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-21 00:00:00 | Battery: 82% ( 3.98 V )
+2021-06-21 00:00:00 | Storage: Card 1 ( 22.7GB free of 119GB )
+2021-06-21 00:00:00 | Microphone: Unknown
+2021-06-21 00:00:00 -----------------------------------
+2021-06-21 03:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-21 03:22:55 Pre-allocating 373 MB on SD card.
+2021-06-21 03:59:56 Recording stopped. 373 MB recorded, 22887 MB remaining on the SD card
+2021-06-21 03:59:56 Total buffer overruns = 0
+2021-06-21 03:59:56 Preparing for a new recording..
+2021-06-21 03:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-21 04:00:00 -----------------------------------
+2021-06-21 04:00:00 | New recording started: 0:/8537_20210621_every1d6x4hrs [+44.72053-062.80072]/8537_20210621T040000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-21 04:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-21 04:00:00 | Battery: 81% ( 3.98 V )
+2021-06-21 04:00:00 | Storage: Card 1 ( 20.3GB free of 119GB )
+2021-06-21 04:00:00 | Microphone: Unknown
+2021-06-21 04:00:00 -----------------------------------
+2021-06-21 07:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-21 07:22:55 Pre-allocating 373 MB on SD card.
+2021-06-21 07:59:56 Recording stopped. 373 MB recorded, 20466 MB remaining on the SD card
+2021-06-21 07:59:56 Total buffer overruns = 0
+2021-06-21 07:59:56 Preparing for a new recording..
+2021-06-21 07:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-21 08:00:00 -----------------------------------
+2021-06-21 08:00:00 | New recording started: 0:/8537_20210621_every1d6x4hrs [+44.72053-062.80072]/8537_20210621T080000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-21 08:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-21 08:00:00 | Battery: 81% ( 3.98 V )
+2021-06-21 08:00:00 | Storage: Card 1 ( 17.9GB free of 119GB )
+2021-06-21 08:00:00 | Microphone: Unknown
+2021-06-21 08:00:00 -----------------------------------
+2021-06-21 11:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-21 11:22:55 Pre-allocating 373 MB on SD card.
+2021-06-21 11:59:56 Recording stopped. 373 MB recorded, 18044 MB remaining on the SD card
+2021-06-21 11:59:56 Total buffer overruns = 0
+2021-06-21 11:59:56 Preparing for a new recording..
+2021-06-21 11:59:57 Pre-allocating 2047 MB on SD card.
+2021-06-21 12:00:00 -----------------------------------
+2021-06-21 12:00:00 | New recording started: 0:/8537_20210621_every1d6x4hrs [+44.72053-062.80072]/8537_20210621T120000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-21 12:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-21 12:00:00 | Battery: 81% ( 3.98 V )
+2021-06-21 12:00:00 | Storage: Card 1 ( 15.6GB free of 119GB )
+2021-06-21 12:00:00 | Microphone: Unknown
+2021-06-21 12:00:00 -----------------------------------
+2021-06-21 15:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-21 15:22:55 Pre-allocating 373 MB on SD card.
+2021-06-21 15:59:56 Recording stopped. 373 MB recorded, 15622 MB remaining on the SD card
+2021-06-21 15:59:56 Total buffer overruns = 0
+2021-06-21 15:59:56 Preparing for a new recording..
+2021-06-21 15:59:57 Pre-allocating 2047 MB on SD card.
+2021-06-21 16:00:00 -----------------------------------
+2021-06-21 16:00:00 | New recording started: 0:/8537_20210621_every1d6x4hrs [+44.72053-062.80072]/8537_20210621T160000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-21 16:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-21 16:00:00 | Battery: 81% ( 3.97 V )
+2021-06-21 16:00:00 | Storage: Card 1 ( 13.2GB free of 119GB )
+2021-06-21 16:00:00 | Microphone: Unknown
+2021-06-21 16:00:00 -----------------------------------
+2021-06-21 19:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-21 19:22:55 Pre-allocating 373 MB on SD card.
+2021-06-21 19:59:56 Recording stopped. 373 MB recorded, 13200 MB remaining on the SD card
+2021-06-21 19:59:56 Total buffer overruns = 0
+2021-06-21 19:59:56 Preparing for a new recording..
+2021-06-21 19:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-21 20:00:00 -----------------------------------
+2021-06-21 20:00:00 | New recording started: 0:/8537_20210621_every1d6x4hrs [+44.72053-062.80072]/8537_20210621T200000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-21 20:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-21 20:00:00 | Battery: 80% ( 3.96 V )
+2021-06-21 20:00:00 | Storage: Card 1 ( 10.8GB free of 119GB )
+2021-06-21 20:00:00 | Microphone: Unknown
+2021-06-21 20:00:00 -----------------------------------
+2021-06-21 23:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-21 23:22:55 Pre-allocating 373 MB on SD card.
+2021-06-21 23:59:56 Recording stopped. 373 MB recorded, 10779 MB remaining on the SD card
+2021-06-21 23:59:56 Total buffer overruns = 0
+2021-06-21 23:59:56 Preparing for a new recording..
+2021-06-21 23:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-22 00:00:00 -----------------------------------
+2021-06-22 00:00:00 | New recording started: 0:/8537_20210622_every1d6x4hrs [+44.72053-062.80072]/8537_20210622T000000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-22 00:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-22 00:00:00 | Battery: 80% ( 3.96 V )
+2021-06-22 00:00:00 | Storage: Card 1 ( 8.5GB free of 119GB )
+2021-06-22 00:00:00 | Microphone: Unknown
+2021-06-22 00:00:00 -----------------------------------
+2021-06-22 03:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-22 03:22:55 Pre-allocating 373 MB on SD card.
+2021-06-22 03:59:56 Recording stopped. 373 MB recorded, 8357 MB remaining on the SD card
+2021-06-22 03:59:56 Total buffer overruns = 0
+2021-06-22 03:59:56 Preparing for a new recording..
+2021-06-22 03:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-22 04:00:00 -----------------------------------
+2021-06-22 04:00:00 | New recording started: 0:/8537_20210622_every1d6x4hrs [+44.72053-062.80072]/8537_20210622T040000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-22 04:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-22 04:00:00 | Battery: 79% ( 3.95 V )
+2021-06-22 04:00:00 | Storage: Card 1 ( 6.1GB free of 119GB )
+2021-06-22 04:00:00 | Microphone: Unknown
+2021-06-22 04:00:00 -----------------------------------
+2021-06-22 07:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-22 07:22:55 Pre-allocating 373 MB on SD card.
+2021-06-22 07:59:56 Recording stopped. 373 MB recorded, 5935 MB remaining on the SD card
+2021-06-22 07:59:56 Total buffer overruns = 0
+2021-06-22 07:59:56 Preparing for a new recording..
+2021-06-22 07:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-22 08:00:00 -----------------------------------
+2021-06-22 08:00:00 | New recording started: 0:/8537_20210622_every1d6x4hrs [+44.72053-062.80072]/8537_20210622T080000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-22 08:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-22 08:00:00 | Battery: 79% ( 3.95 V )
+2021-06-22 08:00:00 | Storage: Card 1 ( 3.7GB free of 119GB )
+2021-06-22 08:00:00 | Microphone: Unknown
+2021-06-22 08:00:00 -----------------------------------
+2021-06-22 11:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-22 11:22:55 Pre-allocating 373 MB on SD card.
+2021-06-22 11:59:56 Recording stopped. 373 MB recorded, 3513 MB remaining on the SD card
+2021-06-22 11:59:56 Total buffer overruns = 0
+2021-06-22 11:59:56 Preparing for a new recording..
+2021-06-22 11:59:56 Pre-allocating 2047 MB on SD card.
+2021-06-22 12:00:00 -----------------------------------
+2021-06-22 12:00:00 | New recording started: 0:/8537_20210622_every1d6x4hrs [+44.72053-062.80072]/8537_20210622T120000-0300_every1d6x4hrs [+44.72053-062.80072].wav
+2021-06-22 12:00:00 | "every1d6x4hrs" --> 03h59m55s long with 16bit samples at 44100Hz with a gain of 40dB on channel A and 40dB on channel B with no compression
+2021-06-22 12:00:00 | Battery: 79% ( 3.94 V )
+2021-06-22 12:00:00 | Storage: Card 1 ( 1.4GB free of 119GB )
+2021-06-22 12:00:00 | Microphone: Unknown
+2021-06-22 12:00:00 -----------------------------------
+2021-06-22 15:22:54 WAV exceeding 2Gb limit, creating new file.
+2021-06-22 15:22:55 Pre-allocating 373 MB on SD card.
+2021-06-22 15:59:56 Recording stopped. 373 MB recorded, 1092 MB remaining on the SD card
+2021-06-22 15:59:56 Total buffer overruns = 0
+2021-06-22 15:59:56 Preparing for a new recording..
+2021-08-09 11:46:27 Wakeup from lid opening
+2021-08-09 11:46:28 Battery at 2% ( 3.02 V )
+2021-08-09 11:46:28 Schedule loaded
+2021-08-09 11:46:28 SD Card detected in slot 1
+2021-08-09 11:46:29 SD Card detected in slot 2
+2021-08-09 11:46:35 Wakeup from lid opening
+2021-08-09 11:46:36 Battery at 2% ( 3.03 V )
+2021-08-09 11:46:36 Schedule loaded
+2021-08-09 11:46:36 SD Card detected in slot 1
+2021-08-09 11:46:38 SD Card detected in slot 2
+2021-08-09 11:46:44 Wakeup from lid opening
+2021-08-09 11:46:45 Battery at 2% ( 3.03 V )
+2021-08-09 11:46:45 Schedule loaded
+2021-08-09 11:46:45 SD Card detected in slot 1
+2021-08-09 11:46:46 SD Card detected in slot 2
+2021-08-09 11:46:52 Wakeup from lid opening
+2021-08-09 11:46:53 Battery at 2% ( 3.02 V )
+2021-08-09 11:46:53 Schedule loaded
+2021-08-09 11:46:53 SD Card detected in slot 1
+2021-08-09 11:46:55 SD Card detected in slot 2
+2021-08-09 11:47:00 Wakeup from lid opening
+2021-08-09 11:47:02 Battery at 2% ( 3.03 V )
+2021-08-09 11:47:02 Schedule loaded
+2021-08-09 11:47:02 SD Card detected in slot 1
+2021-08-09 11:47:03 SD Card detected in slot 2
+2021-08-09 11:47:09 Wakeup from lid opening
+2021-08-09 11:47:10 Battery at 2% ( 3.03 V )
+2021-08-09 11:47:10 Schedule loaded
+2021-08-09 11:47:10 SD Card detected in slot 1
+2021-08-09 11:47:12 SD Card detected in slot 2
+2021-08-09 11:47:17 Wakeup from lid opening
+2021-08-09 11:47:18 Battery at 2% ( 3.02 V )
+2021-08-09 11:47:18 Schedule loaded
+2021-08-09 11:47:18 SD Card detected in slot 1
+2021-08-09 11:47:20 SD Card detected in slot 2
+2021-08-09 11:47:26 Wakeup from lid opening
+2021-08-09 11:47:27 Battery at 2% ( 3.02 V )
+2021-08-09 11:47:27 Schedule loaded
+2021-08-09 11:47:27 SD Card detected in slot 1
+2021-08-09 11:47:28 SD Card detected in slot 2
+2021-08-09 11:47:34 Wakeup from lid opening
+2021-08-09 11:47:35 Battery at 2% ( 3.02 V )
+2021-08-09 11:47:35 Schedule loaded
+2021-08-09 11:47:35 SD Card detected in slot 1
+2021-08-09 11:47:37 SD Card detected in slot 2
+2021-08-09 11:47:42 Wakeup from lid opening
+2021-08-09 11:47:43 Battery at 2% ( 3.02 V )
+2021-08-09 11:47:44 Schedule loaded
+2021-08-09 11:47:44 SD Card detected in slot 1
+2021-08-09 11:47:45 SD Card detected in slot 2
+2021-08-09 11:48:06 Wakeup from lid opening
+2021-08-09 11:48:08 Battery at 2% ( 3.02 V )
+2021-08-09 11:48:08 Schedule loaded
+2021-08-09 11:48:08 SD Card detected in slot 1
+2021-08-09 11:48:08 Lid closed
+2021-08-09 11:48:09 SD Card detected in slot 2
+2021-08-09 11:48:15 Wakeup from lid opening
+2021-08-09 11:48:16 Battery at 2% ( 3.02 V )
+2021-08-09 11:48:16 Schedule loaded
+2021-08-09 11:48:16 SD Card detected in slot 1
+2021-08-09 11:48:16 Lid closed
+2021-08-09 11:48:18 SD Card detected in slot 2
+2021-08-09 11:48:23 Wakeup from lid opening
+2021-08-09 11:48:24 Battery at 2% ( 3.03 V )
+2021-08-09 11:48:24 Schedule loaded
+2021-08-09 11:48:24 SD Card detected in slot 1
+2021-08-09 11:48:26 SD Card detected in slot 2
+2021-08-09 11:48:32 Wakeup from lid opening
+2021-08-09 11:48:33 Battery at 2% ( 3.02 V )
+2021-08-09 11:48:33 Schedule loaded
+2021-08-09 11:48:33 SD Card detected in slot 1
+2021-08-09 11:48:34 SD Card detected in slot 2
+2021-08-09 11:48:40 Wakeup from lid opening
+2021-08-09 11:48:41 Battery at 2% ( 3.03 V )
+2021-08-09 11:48:41 Schedule loaded
+2021-08-09 11:48:41 SD Card detected in slot 1
+2021-08-09 11:48:43 SD Card detected in slot 2
+2021-08-09 11:48:48 Wakeup from lid opening
+2021-08-09 11:48:50 Battery at 2% ( 3.02 V )
+2021-08-09 11:48:50 Schedule loaded
+2021-08-09 11:48:50 SD Card detected in slot 1
+2021-08-09 11:48:51 SD Card detected in slot 2
+2021-08-09 11:48:57 Wakeup from lid opening
+2021-08-09 11:48:58 Battery at 2% ( 3.02 V )
+2021-08-09 11:48:58 Schedule loaded
+2021-08-09 11:48:58 SD Card detected in slot 1
+2021-08-09 11:49:00 SD Card detected in slot 2
+2021-08-09 11:49:05 Wakeup from lid opening
+2021-08-09 11:49:06 Battery at 2% ( 3.03 V )
+2021-08-09 11:49:06 Schedule loaded
+2021-08-09 11:49:06 SD Card detected in slot 1
+2021-08-09 11:49:08 SD Card detected in slot 2
+2021-08-09 11:49:14 Wakeup from lid opening
+2021-08-09 11:49:15 Battery at 2% ( 3.03 V )
+2021-08-09 11:49:15 Schedule loaded
+2021-08-09 11:49:15 SD Card detected in slot 1
+2021-08-09 11:49:16 SD Card detected in slot 2
+2021-08-09 11:49:22 Wakeup from lid opening
+2021-08-09 11:49:23 Battery at 2% ( 3.02 V )
+2021-08-09 11:49:23 Schedule loaded
+2021-08-09 11:49:23 SD Card detected in slot 1
+2021-08-09 11:49:25 SD Card detected in slot 2
+2021-08-09 11:49:31 Wakeup from lid opening
+2021-08-09 11:49:32 Battery at 2% ( 3.03 V )
+2021-08-09 11:49:32 Schedule loaded
+2021-08-09 11:49:32 SD Card detected in slot 1
+2021-08-09 11:49:33 SD Card detected in slot 2
+2021-08-09 11:49:39 Wakeup from lid opening
+2021-08-09 11:49:40 Battery at 2% ( 3.03 V )
+2021-08-09 11:49:40 Schedule loaded
+2021-08-09 11:49:40 SD Card detected in slot 1
+2021-08-09 11:49:42 SD Card detected in slot 2
+2021-08-09 11:49:47 Wakeup from lid opening
+2021-08-09 11:49:48 Battery at 2% ( 3.02 V )
+2021-08-09 11:49:48 Schedule loaded
+2021-08-09 11:49:48 SD Card detected in slot 1
+2021-08-09 11:49:50 SD Card detected in slot 2
+2021-08-09 11:49:56 Wakeup from lid opening
+2021-08-09 11:49:57 Battery at 2% ( 3.03 V )
+2021-08-09 11:49:57 Schedule loaded
+2021-08-09 11:49:57 SD Card detected in slot 1
+2021-08-09 11:49:58 SD Card detected in slot 2
+2021-08-09 11:50:04 Wakeup from lid opening
+2021-08-09 11:50:05 Battery at 2% ( 3.02 V )
+2021-08-09 11:50:05 Schedule loaded
+2021-08-09 11:50:05 SD Card detected in slot 1
+2021-08-09 11:50:07 SD Card detected in slot 2
+2021-08-09 11:50:13 Wakeup from lid opening
+2021-08-09 11:50:14 Battery at 2% ( 3.02 V )
+2021-08-09 11:50:14 Schedule loaded
+2021-08-09 11:50:14 SD Card detected in slot 1
+2021-08-09 11:50:15 SD Card detected in slot 2
+2021-08-09 11:50:21 Wakeup from lid opening
+2021-08-09 11:50:22 Battery at 2% ( 3.03 V )
+2021-08-09 11:50:22 Schedule loaded
+2021-08-09 11:50:22 SD Card detected in slot 1
+2021-08-09 11:50:24 SD Card detected in slot 2
+2021-08-09 11:50:29 Wakeup from lid opening
+2021-08-09 11:50:30 Battery at 2% ( 3.03 V )
+2021-08-09 11:50:30 Schedule loaded
+2021-08-09 11:50:30 SD Card detected in slot 1
+2021-08-09 11:50:32 SD Card detected in slot 2
+2021-08-09 11:50:38 Wakeup from lid opening
+2021-08-09 11:50:39 Battery at 2% ( 3.03 V )
+2021-08-09 11:50:39 Schedule loaded
+2021-08-09 11:50:39 SD Card detected in slot 1
+2021-08-09 11:50:40 SD Card detected in slot 2
+2021-08-09 11:50:46 Wakeup from lid opening
+2021-08-09 11:50:47 Battery at 2% ( 3.03 V )
+2021-08-09 11:50:47 Schedule loaded
+2021-08-09 11:50:47 SD Card detected in slot 1
+2021-08-09 11:50:49 SD Card detected in slot 2
+2021-08-09 11:50:54 Wakeup from lid opening
+2021-08-09 11:50:56 Battery at 2% ( 3.03 V )
+2021-08-09 11:50:56 Schedule loaded
+2021-08-09 11:50:56 SD Card detected in slot 1
+2021-08-09 11:50:57 SD Card detected in slot 2
+2021-08-09 11:51:03 Wakeup from lid opening
+2021-08-09 11:51:04 Battery at 2% ( 3.03 V )
+2021-08-09 11:51:04 Schedule loaded
+2021-08-09 11:51:04 SD Card detected in slot 1
+2021-08-09 11:51:06 SD Card detected in slot 2
+2021-08-09 11:51:11 Wakeup from lid opening
+2021-08-09 11:51:12 Battery at 2% ( 3.02 V )
+2021-08-09 11:51:12 Schedule loaded
+2021-08-09 11:51:12 SD Card detected in slot 1
+2021-08-09 11:51:14 SD Card detected in slot 2
+2021-08-09 11:51:20 Wakeup from lid opening
+2021-08-09 11:51:21 Battery at 2% ( 3.03 V )
+2021-08-09 11:51:21 Schedule loaded
+2021-08-09 11:51:21 SD Card detected in slot 1
+2021-08-09 11:51:22 SD Card detected in slot 2
+2021-08-09 11:51:28 Wakeup from lid opening
+2021-08-09 11:51:29 Battery at 2% ( 3.03 V )
+2021-08-09 11:51:29 Schedule loaded
+2021-08-09 11:51:29 SD Card detected in slot 1
+2021-08-09 11:51:31 SD Card detected in slot 2
+2021-08-09 11:51:36 Wakeup from lid opening
+2021-08-09 11:51:37 Battery at 2% ( 3.03 V )
+2021-08-09 11:51:37 Schedule loaded
+2021-08-09 11:51:37 SD Card detected in slot 1
+2021-08-09 11:51:39 SD Card detected in slot 2
+2021-08-09 11:51:45 Wakeup from lid opening
+2021-08-09 11:51:46 Battery at 2% ( 3.03 V )
+2021-08-09 11:51:46 Schedule loaded
+2021-08-09 11:51:46 SD Card detected in slot 1
+2021-08-09 11:51:47 SD Card detected in slot 2
+2021-08-09 11:51:53 Wakeup from lid opening
+2021-08-09 11:51:54 Battery at 2% ( 3.03 V )
+2021-08-09 11:51:54 Schedule loaded
+2021-08-09 11:51:54 SD Card detected in slot 1
+2021-08-09 11:51:56 SD Card detected in slot 2
+2021-08-09 11:52:01 Wakeup from lid opening
+2021-08-09 11:52:03 Battery at 2% ( 3.03 V )
+2021-08-09 11:52:03 Schedule loaded
+2021-08-09 11:52:03 SD Card detected in slot 1
+2021-08-09 11:52:04 SD Card detected in slot 2
+2021-08-09 11:52:10 Wakeup from lid opening
+2021-08-09 11:52:11 Battery at 2% ( 3.03 V )
+2021-08-09 11:52:11 Schedule loaded
+2021-08-09 11:52:11 SD Card detected in slot 1
+2021-08-09 11:52:13 SD Card detected in slot 2
+2021-08-09 11:52:18 Wakeup from lid opening
+2021-08-09 11:52:19 Battery at 2% ( 3.03 V )
+2021-08-09 11:52:19 Schedule loaded
+2021-08-09 11:52:19 SD Card detected in slot 1
+2021-08-09 11:52:21 SD Card detected in slot 2
+2021-08-09 11:52:27 Wakeup from lid opening
+2021-08-09 11:52:28 Battery at 2% ( 3.03 V )
+2021-08-09 11:52:28 Schedule loaded
+2021-08-09 11:52:28 SD Card detected in slot 1
+2021-08-09 11:52:29 SD Card detected in slot 2
+2021-08-09 11:52:35 Wakeup from lid opening
+2021-08-09 11:52:36 Battery at 2% ( 3.03 V )
+2021-08-09 11:52:36 Schedule loaded
+2021-08-09 11:52:36 SD Card detected in slot 1
+2021-08-09 11:52:38 SD Card detected in slot 2
+2021-08-09 11:52:43 Wakeup from lid opening
+2021-08-09 11:52:44 Battery at 2% ( 3.03 V )
+2021-08-09 11:52:44 Schedule loaded
+2021-08-09 11:52:44 SD Card detected in slot 1
+2021-08-09 11:52:46 SD Card detected in slot 2
+2021-08-09 11:52:52 Wakeup from lid opening
+2021-08-09 11:52:53 Battery at 2% ( 3.02 V )
+2021-08-09 11:52:53 Schedule loaded
+2021-08-09 11:52:53 SD Card detected in slot 1
+2021-08-09 11:52:54 SD Card detected in slot 2
+2021-08-09 11:53:00 Wakeup from lid opening
+2021-08-09 11:53:01 Battery at 2% ( 3.03 V )
+2021-08-09 11:53:01 Schedule loaded
+2021-08-09 11:53:01 SD Card detected in slot 1
+2021-08-09 11:53:03 SD Card detected in slot 2
+2021-08-09 11:53:08 Wakeup from lid opening
+2021-08-09 11:53:09 Battery at 3% ( 3.03 V )
+2021-08-09 11:53:09 Schedule loaded
+2021-08-09 11:53:10 SD Card detected in slot 1
+2021-08-09 11:53:11 SD Card detected in slot 2
+2021-08-09 11:53:17 Wakeup from lid opening
+2021-08-09 11:53:18 Battery at 2% ( 3.03 V )
+2021-08-09 11:53:18 Schedule loaded
+2021-08-09 11:53:18 SD Card detected in slot 1
+2021-08-09 11:53:19 SD Card detected in slot 2
+2021-08-09 11:53:25 Wakeup from lid opening
+2021-08-09 11:53:26 Battery at 2% ( 3.02 V )
+2021-08-09 11:53:26 Schedule loaded
+2021-08-09 11:53:26 SD Card detected in slot 1
+2021-08-09 11:53:28 SD Card detected in slot 2
+2021-08-09 11:53:34 Wakeup from lid opening
+2021-08-09 11:53:35 Battery at 2% ( 3.03 V )
+2021-08-09 11:53:35 Schedule loaded
+2021-08-09 11:53:35 SD Card detected in slot 1
+2021-08-09 11:53:36 SD Card detected in slot 2
+2021-08-09 11:53:42 Wakeup from lid opening
+2021-08-09 11:53:43 Battery at 2% ( 3.03 V )
+2021-08-09 11:53:43 Schedule loaded
+2021-08-09 11:53:43 SD Card detected in slot 1
+2021-08-09 11:53:45 SD Card detected in slot 2
+2021-08-09 11:53:51 Wakeup from lid opening
+2021-08-09 11:53:52 Battery at 2% ( 3.03 V )
+2021-08-09 11:53:52 Schedule loaded
+2021-08-09 11:53:52 SD Card detected in slot 1
+2021-08-09 11:53:53 SD Card detected in slot 2
+2021-08-09 11:53:59 Wakeup from lid opening
+2021-08-09 11:54:00 Battery at 2% ( 3.03 V )
+2021-08-09 11:54:00 Schedule loaded
+2021-08-09 11:54:00 SD Card detected in slot 1
+2021-08-09 11:54:02 SD Card detected in slot 2
+2021-08-09 11:54:07 Wakeup from lid opening
+2021-08-09 11:54:09 Battery at 2% ( 3.03 V )
+2021-08-09 11:54:09 Schedule loaded
+2021-08-09 11:54:09 SD Card detected in slot 1
+2021-08-09 11:54:10 SD Card detected in slot 2
+2021-08-09 11:54:16 Wakeup from lid opening
+2021-08-09 11:54:17 Battery at 2% ( 3.03 V )
+2021-08-09 11:54:17 Schedule loaded
+2021-08-09 11:54:17 SD Card detected in slot 1
+2021-08-09 11:54:19 SD Card detected in slot 2
+2021-08-09 11:54:24 Wakeup from lid opening
+2021-08-09 11:54:25 Battery at 2% ( 3.03 V )
+2021-08-09 11:54:25 Schedule loaded
+2021-08-09 11:54:25 SD Card detected in slot 1
+2021-08-09 11:54:27 SD Card detected in slot 2
+2021-08-09 11:54:33 Wakeup from lid opening
+2021-08-09 11:54:34 Battery at 2% ( 3.03 V )
+2021-08-09 11:54:34 Schedule loaded
+2021-08-09 11:54:34 SD Card detected in slot 1
+2021-08-09 11:54:36 SD Card detected in slot 2
+2021-08-09 11:54:41 Wakeup from lid opening
+2021-08-09 11:54:42 Battery at 2% ( 3.03 V )
+2021-08-09 11:54:42 Schedule loaded
+2021-08-09 11:54:42 SD Card detected in slot 1
+2021-08-09 11:54:44 SD Card detected in slot 2
+2021-08-09 11:54:50 Wakeup from lid opening
+2021-08-09 11:54:51 Battery at 2% ( 3.03 V )
+2021-08-09 11:54:51 Schedule loaded
+2021-08-09 11:54:51 SD Card detected in slot 1
+2021-08-09 11:54:52 SD Card detected in slot 2
