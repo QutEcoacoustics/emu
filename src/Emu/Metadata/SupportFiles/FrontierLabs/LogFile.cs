@@ -37,9 +37,9 @@ namespace Emu.Metadata.SupportFiles.FrontierLabs
         };
 
         public static readonly string[] PowerTokens = new[] { "Ext-power", "Solar-power" };
-        public static readonly Regex LogFileRegex = new Regex(@".*logfile.*txt");
-        public static readonly Regex FirmwareRegex = new Regex(@"V?\d+");
-        public static readonly Regex BatteryParsingRegex = new Regex(@"[%V()]");
+        public static readonly Regex LogFileRegex = new(@".*logfile.*txt");
+        public static readonly Regex FirmwareRegex = new(@"V?\d+");
+        public static readonly Regex BatteryParsingRegex = new(@"[%V()]");
 
         public LogFile(string filePath)
         {
@@ -203,7 +203,7 @@ namespace Emu.Metadata.SupportFiles.FrontierLabs
                 SerialNumber = uint.Parse(reader.ReadLine()!.Split().Last()),
                 ManufactureDate = reader.ReadLine()?.Split().Last().Replace('/', '-'),
                 Speed = uint.Parse(reader.ReadLine()!.Split().Last()),
-                Capacity = uint.Parse(reader.ReadLine()!.Split().Last()),
+                Capacity = ulong.Parse(reader.ReadLine()!.Split().Last()),
                 WrCurrentVmin = uint.Parse(reader.ReadLine()!.Split().Last()),
                 WrCurrentVmax = uint.Parse(reader.ReadLine()!.Split().Last()),
                 WriteBlSize = uint.Parse(reader.ReadLine()!.Split().Last()),

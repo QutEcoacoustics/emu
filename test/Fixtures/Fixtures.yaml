@@ -4,7 +4,8 @@
     Stem: 20181101_060000_REC [-27.3866 152.8761]
     StartDate:
     LocalStartDate: 2018-11-01T06:00:00
-    EndDate:
+    TrueStartDate:
+    TrueEndDate:
     DurationSeconds: 0
     TotalSamples: 0
     Channels: 1
@@ -12,6 +13,7 @@
     BitsPerSecond: 0
     BitDepth: 0
     FileSizeBytes: 44
+    MediaType: audio/wave
     CalculatedChecksum:
       Type: SHA256
       Value: fa7d9b15cee63911d850e23dbb2527ba6ac76d6be89fcb49508ef021f83d6c21
@@ -26,8 +28,8 @@
       ProductRevision: 0.2
       SerialNumber: 560
       ManufactureDate: 2015-04
-      Speed: 50
-      Capacity: 250412032
+      Speed: 50000000
+      Capacity: 250412032000
       WrCurrentVmin: 3
       WrCurrentVmax: 3
       WriteBlSize: 512
@@ -46,8 +48,11 @@
       LastTimeSync:
     Location:
       Longitude: 152.8761
+      LongitudePrecision: 4
       Latitude: -27.3866
+      LatitudePrecision: 4
       Altitude:
+      AltitudePrecision:
       HorizontalAccuracy:
       VerticalAccuracy:
       Speed:
@@ -70,7 +75,8 @@
     Stem: 20191125T000000+1000_REC
     StartDate: 2019-11-25T00:00:00+10:00
     LocalStartDate: 2019-11-25T00:00:00
-    EndDate:
+    TrueStartDate:
+    TrueEndDate:
     DurationSeconds: 0
     TotalSamples: 0
     Channels: 1
@@ -78,6 +84,7 @@
     BitsPerSecond: 0
     BitDepth: 0
     FileSizeBytes: 153
+    MediaType: audio/wave
     CalculatedChecksum:
       Type: SHA256
       Value: 26c532e8b1b52bfcfc39a01a6a58b3900e5f741c87a810251e9133f37680bc16
@@ -92,8 +99,8 @@
       ProductRevision: 1
       SerialNumber: 309
       ManufactureDate: 2018-11
-      Speed: 50
-      Capacity: 484102144
+      Speed: 50000000
+      Capacity: 484102144000
       WrCurrentVmin: 3
       WrCurrentVmax: 3
       WriteBlSize: 512
@@ -127,7 +134,8 @@
     Stem: 20181101_050000_REC [-27.3866 152.8761]
     StartDate:
     LocalStartDate: 2018-11-01T05:00:00
-    EndDate:
+    TrueStartDate:
+    TrueEndDate:
     DurationSeconds: 79239168/22050
     TotalSamples: 79239168
     Channels: 1
@@ -135,6 +143,7 @@
     BitsPerSecond: 352800
     BitDepth: 16
     FileSizeBytes: 249408
+    MediaType: audio/flac
     CalculatedChecksum:
       Type: SHA256
       Value: 4975ab0ec4518a70981d37898fca7202be86b9489fed836dbbbbf08a5c077135
@@ -149,8 +158,8 @@
       ProductRevision: 0.2
       SerialNumber: 560
       ManufactureDate: 2015-04
-      Speed: 50
-      Capacity: 250412032
+      Speed: 50000000
+      Capacity: 250412032000
       WrCurrentVmin: 3
       WrCurrentVmax: 3
       WriteBlSize: 512
@@ -169,8 +178,11 @@
       LastTimeSync:
     Location:
       Longitude: 152.8761
+      LongitudePrecision: 4
       Latitude: -27.3866
+      LatitudePrecision: 4
       Altitude:
+      AltitudePrecision:
       HorizontalAccuracy:
       VerticalAccuracy:
       Speed:
@@ -194,7 +206,8 @@
     Stem: 20200801T000000+1000_REC
     StartDate: 2020-08-01T00:00:00+10:00
     LocalStartDate: 2020-08-01T00:00:00
-    EndDate: 2020-08-01T01:59:55+10:00
+    TrueStartDate: 2020-08-01T00:00:00+10:00
+    TrueEndDate: 2020-08-01T01:59:55+10:00
     DurationSeconds: 317292544/22050
     TotalSamples: 317292544
     Channels: 1
@@ -202,6 +215,7 @@
     BitsPerSecond: 352800
     BitDepth: 16
     FileSizeBytes: 192919080
+    MediaType: audio/flac
     CalculatedChecksum:
       Type: SHA256
       Value: 3bb32933cd8b9139bea325ef256f07afc4fb4ed53e6a1982dd85947afebce1dd
@@ -243,8 +257,11 @@
       LastTimeSync: 2020-07-31T09:11:30+10:00
     Location:
       Longitude: 152.8811
+      LongitudePrecision: 4
       Latitude: -27.3886
+      LatitudePrecision: 4
       Altitude:
+      AltitudePrecision:
       HorizontalAccuracy:
       VerticalAccuracy:
       Speed:
@@ -270,7 +287,8 @@
     Stem: 20181101_000006_REC [-27.3866 152.8761]
     StartDate:
     LocalStartDate: 2018-11-01T00:00:06
-    EndDate:
+    TrueStartDate:
+    TrueEndDate:
     DurationSeconds: 79110144/22050
     TotalSamples: 79110144
     Channels: 1
@@ -278,6 +296,7 @@
     BitsPerSecond: 352800
     BitDepth: 16
     FileSizeBytes: 68255744
+    MediaType: audio/flac
     CalculatedChecksum:
       Type: SHA256
       Value: a5d39757406e20bb46ef336b39750d58c473471ce3f31e7051ecc70d5b7d9690
@@ -292,8 +311,8 @@
       ProductRevision: 0.2
       SerialNumber: 560
       ManufactureDate: 2015-04
-      Speed: 50
-      Capacity: 250412032
+      Speed: 50000000
+      Capacity: 250412032000
       WrCurrentVmin: 3
       WrCurrentVmax: 3
       WriteBlSize: 512
@@ -312,8 +331,11 @@
       LastTimeSync:
     Location:
       Longitude: 152.8761
+      LongitudePrecision: 4
       Latitude: -27.3866
+      LatitudePrecision: 4
       Altitude:
+      AltitudePrecision:
       HorizontalAccuracy:
       VerticalAccuracy:
       Speed:
@@ -337,7 +359,8 @@
     Stem: 20191026T000000+1000_REC
     StartDate: 2019-10-26T00:00:01+10:00
     LocalStartDate: 2019-10-26T00:00:01
-    EndDate: 2019-10-26T01:59:56+10:00
+    TrueStartDate: 2019-10-26T00:00:01+10:00
+    TrueEndDate: 2019-10-26T01:59:56+10:00
     DurationSeconds: 158644224/22050
     TotalSamples: 158644224
     Channels: 1
@@ -345,6 +368,7 @@
     BitsPerSecond: 352800
     BitDepth: 16
     FileSizeBytes: 173873272
+    MediaType: audio/flac
     CalculatedChecksum:
       Type: SHA256
       Value: ba6fd2b083ddb53a1faf11dcdfae4f311c418257cfd3465e01febd7acdf6affa
@@ -386,8 +410,11 @@
       LastTimeSync: 2019-10-25T22:05:49+10:00
     Location:
       Longitude: 151.7763
+      LongitudePrecision: 4
       Latitude: -30.0905
+      LatitudePrecision: 4
       Altitude:
+      AltitudePrecision:
       HorizontalAccuracy:
       VerticalAccuracy:
       Speed:
@@ -415,7 +442,8 @@
     Stem: 20191125T235900+1000_REC
     StartDate: 2019-11-25T23:59:06+10:00
     LocalStartDate: 2019-11-25T23:59:06
-    EndDate: 2019-11-25T23:59:56+10:00
+    TrueStartDate: 2019-11-25T23:59:06+10:00
+    TrueEndDate: 2019-11-25T23:59:56+10:00
     DurationSeconds: 1096704/22050
     TotalSamples: 1096704
     Channels: 1
@@ -423,6 +451,7 @@
     BitsPerSecond: 352800
     BitDepth: 16
     FileSizeBytes: 1406536
+    MediaType: audio/flac
     CalculatedChecksum:
       Type: SHA256
       Value: 2e9abc7f2df16d0751d6cb90f0283ab384265de11a05d0352afd1f61e781dd67
@@ -437,8 +466,8 @@
       ProductRevision: 1
       SerialNumber: 309
       ManufactureDate: 2018-11
-      Speed: 50
-      Capacity: 484102144
+      Speed: 50000000
+      Capacity: 484102144000
       WrCurrentVmin: 3
       WrCurrentVmax: 3
       WriteBlSize: 512
@@ -464,8 +493,11 @@
       LastTimeSync: 2019-11-23T01:59:55+10:00
     Location:
       Longitude:
+      LongitudePrecision: 4
       Latitude:
+      LatitudePrecision: 4
       Altitude:
+      AltitudePrecision:
       HorizontalAccuracy:
       VerticalAccuracy:
       Speed:
@@ -505,7 +537,8 @@
     Stem: 20191104T020000+1000_REC
     StartDate: 2019-11-04T01:59:55+10:00
     LocalStartDate: 2019-11-04T01:59:55
-    EndDate: 2019-11-04T01:59:55+10:00
+    TrueStartDate: 2019-11-04T01:59:55+10:00
+    TrueEndDate: 2019-11-04T01:59:55+10:00
     DurationSeconds: 9216/22050
     TotalSamples: 9216
     Channels: 1
@@ -513,6 +546,7 @@
     BitsPerSecond: 352800
     BitDepth: 16
     FileSizeBytes: 11540
+    MediaType: audio/flac
     CalculatedChecksum:
       Type: SHA256
       Value: 9651d33582b3bb0f0e58743137f90916a8ed5edd1fccabd835c95e46b60ea053
@@ -527,8 +561,8 @@
       ProductRevision: 1
       SerialNumber: 309
       ManufactureDate: 2018-11
-      Speed: 50
-      Capacity: 484102144
+      Speed: 50000000
+      Capacity: 484102144000
       WrCurrentVmin: 3
       WrCurrentVmax: 3
       WriteBlSize: 512
@@ -554,8 +588,11 @@
       LastTimeSync: 2019-11-04T01:59:54+10:00
     Location:
       Longitude:
+      LongitudePrecision: 4
       Latitude:
+      LatitudePrecision: 4
       Altitude:
+      AltitudePrecision:
       HorizontalAccuracy:
       VerticalAccuracy:
       Speed:
@@ -595,7 +632,8 @@
     Stem: 8537_20210709T040000-0300_every1d6x4hrs [+44.72053-062.80072]
     StartDate: 2021-07-09T04:00:00-03:00
     LocalStartDate: 2021-07-09T04:00:00
-    EndDate:
+    TrueStartDate:
+    TrueEndDate:
     DurationSeconds: 0
     TotalSamples: 0
     Channels: 0
@@ -603,6 +641,7 @@
     BitsPerSecond: 0
     BitDepth: 0
     FileSizeBytes: 0
+    MediaType:
     CalculatedChecksum:
       Type: SHA256
       Value: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
@@ -617,8 +656,8 @@
       ProductRevision: 8.5
       SerialNumber: 11184608
       ManufactureDate: 2020-08
-      Speed: 50
-      Capacity: 124868608
+      Speed: 50000000
+      Capacity: 124868608000
       WrCurrentVmin: 5
       WrCurrentVmax: 5
       WriteBlSize: 512
@@ -637,8 +676,11 @@
       LastTimeSync:
     Location:
       Longitude: -62.80072
+      LongitudePrecision: 5
       Latitude: 44.72053
+      LatitudePrecision: 5
       Altitude:
+      AltitudePrecision:
       HorizontalAccuracy:
       VerticalAccuracy:
       Speed:
@@ -661,7 +703,8 @@
     Stem: 8537_20210622T160000-0300_every1d6x4hrs [+44.72053-062.80072]
     StartDate: 2021-06-22T16:00:00-03:00
     LocalStartDate: 2021-06-22T16:00:00
-    EndDate:
+    TrueStartDate:
+    TrueEndDate:
     DurationSeconds: 0
     TotalSamples: 0
     Channels: 0
@@ -669,6 +712,7 @@
     BitsPerSecond: 0
     BitDepth: 0
     FileSizeBytes: 0
+    MediaType:
     CalculatedChecksum:
       Type: SHA256
       Value: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
@@ -683,8 +727,8 @@
       ProductRevision: 8.5
       SerialNumber: 13281763
       ManufactureDate: 2020-08
-      Speed: 50
-      Capacity: 124868608
+      Speed: 50000000
+      Capacity: 124868608000
       WrCurrentVmin: 5
       WrCurrentVmax: 5
       WriteBlSize: 512
@@ -703,8 +747,11 @@
       LastTimeSync:
     Location:
       Longitude: -62.80072
+      LongitudePrecision: 5
       Latitude: 44.72053
+      LatitudePrecision: 5
       Altitude:
+      AltitudePrecision:
       HorizontalAccuracy:
       VerticalAccuracy:
       Speed:
@@ -727,7 +774,8 @@
     Stem: S4U09523_20210621_205706
     StartDate: 2021-06-21T20:57:06-03:00
     LocalStartDate: 2021-06-21T20:57:06
-    EndDate:
+    TrueStartDate: 2021-06-21T20:57:06-03:00
+    TrueEndDate:
     DurationSeconds: 514048/256000
     TotalSamples: 514048
     Channels: 1
@@ -735,6 +783,7 @@
     BitsPerSecond: 4096000
     BitDepth: 16
     FileSizeBytes: 1030730
+    MediaType: audio/wave
     CalculatedChecksum:
       Type: SHA256
       Value: 891ea20811445f7498d7bcf9f93512d186695d728d59c136328ab638af86e28f
@@ -776,8 +825,11 @@
       LastTimeSync:
     Location:
       Longitude: -64.23352
+      LongitudePrecision: 4
       Latitude: 45.7835
+      LatitudePrecision: 4
       Altitude:
+      AltitudePrecision:
       HorizontalAccuracy:
       VerticalAccuracy:
       Speed:
@@ -804,7 +856,8 @@
     Stem: S4U09523_20210621_212111
     StartDate: 2021-06-21T21:21:11-03:00
     LocalStartDate: 2021-06-21T21:21:11
-    EndDate:
+    TrueStartDate: 2021-06-21T21:21:11-03:00
+    TrueEndDate:
     DurationSeconds: 557056/256000
     TotalSamples: 557056
     Channels: 1
@@ -812,6 +865,7 @@
     BitsPerSecond: 4096000
     BitDepth: 16
     FileSizeBytes: 1116746
+    MediaType: audio/wave
     CalculatedChecksum:
       Type: SHA256
       Value: 10f3cf5e55871c6bee74fc782e72c3505d283a7f344394f2aa8b00f52f6613ac
@@ -853,8 +907,11 @@
       LastTimeSync:
     Location:
       Longitude: -64.23352
+      LongitudePrecision: 4
       Latitude: 45.7835
+      LatitudePrecision: 4
       Altitude:
+      AltitudePrecision:
       HorizontalAccuracy:
       VerticalAccuracy:
       Speed:
@@ -881,7 +938,8 @@
     Stem: 00008570_Dartmouth_20220331T094900-0300_Rec
     StartDate: 2022-03-31T09:49:02-03:00
     LocalStartDate: 2022-03-31T09:49:02
-    EndDate: 2022-03-31T10:01:02-03:00
+    TrueStartDate: 2022-03-31T09:49:02-03:00
+    TrueEndDate: 2022-03-31T10:01:02-03:00
     DurationSeconds: 31703040/44100
     TotalSamples: 31703040
     Channels: 1
@@ -889,6 +947,7 @@
     BitsPerSecond: 705600
     BitDepth: 16
     FileSizeBytes: 37195844
+    MediaType: audio/flac
     CalculatedChecksum:
       Type: SHA256
       Value: 3ffdf92176c2529240221bd455c64dd932e7d6a2c347aee6a80ae9680a7c58dd
@@ -903,8 +962,8 @@
       ProductRevision: 8.5
       SerialNumber: 1132114800
       ManufactureDate: 2020-08
-      Speed: 50
-      Capacity: 124868608
+      Speed: 50000000
+      Capacity: 124868608000
       WrCurrentVmin: 5
       WrCurrentVmax: 5
       WriteBlSize: 512
@@ -930,8 +989,11 @@
       LastTimeSync: 2022-03-31T09:48:40-03:00
     Location:
       Longitude: -65.95084
+      LongitudePrecision: 4
       Latitude: 43.70444
+      LatitudePrecision: 4
       Altitude:
+      AltitudePrecision:
       HorizontalAccuracy:
       VerticalAccuracy:
       Speed:
@@ -1082,7 +1144,8 @@
     Stem: 201906 7T095935+1000_REC [19.2144 152.8811]
     StartDate: 2019-06-07T09:59:35+10:00
     LocalStartDate: 2019-06-07T09:59:35
-    EndDate:
+    TrueStartDate:
+    TrueEndDate:
     DurationSeconds: 396288/22050
     TotalSamples: 396288
     Channels: 1
@@ -1090,6 +1153,7 @@
     BitsPerSecond: 352800
     BitDepth: 16
     FileSizeBytes: 622592
+    MediaType: audio/flac
     CalculatedChecksum:
       Type: SHA256
       Value: 5985468e3169bf57cf1210d3043b8c50e7c971135ac84f9acccd61833d57ee77
@@ -1104,8 +1168,8 @@
       ProductRevision: 1
       SerialNumber: 77
       ManufactureDate: 2018-11
-      Speed: 50
-      Capacity: 484102144
+      Speed: 50000000
+      Capacity: 484102144000
       WrCurrentVmin: 3
       WrCurrentVmax: 3
       WriteBlSize: 512
@@ -1131,8 +1195,11 @@
       LastTimeSync:
     Location:
       Longitude: 152.8811
+      LongitudePrecision: 4
       Latitude: 19.2144
+      LatitudePrecision: 4
       Altitude:
+      AltitudePrecision:
       HorizontalAccuracy:
       VerticalAccuracy:
       Speed:
@@ -1170,7 +1237,8 @@
     Stem: 20160809_063108_Dawn _1.4647 116.9136_.wav
     StartDate:
     LocalStartDate: 2016-08-09T06:31:08
-    EndDate:
+    TrueStartDate:
+    TrueEndDate:
     DurationSeconds: 78804992/44100
     TotalSamples: 78804992
     Channels: 1
@@ -1178,6 +1246,7 @@
     BitsPerSecond: 705600
     BitDepth: 16
     FileSizeBytes: 157610028
+    MediaType: audio/wave
     CalculatedChecksum:
       Type: SHA256
       Value: 3517d2e4cc731461177aa94931af3ec9eca80163b43fc5e621ec3c77618c6db5
@@ -1197,8 +1266,11 @@
       LastTimeSync:
     Location:
       Longitude: 116.9136
+      LongitudePrecision: 4
       Latitude: 1.4647
+      LatitudePrecision: 4
       Altitude:
+      AltitudePrecision:
       HorizontalAccuracy:
       VerticalAccuracy:
       Speed:

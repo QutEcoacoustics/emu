@@ -88,6 +88,10 @@ namespace Emu.Metadata
                 Channels = (ushort)channels,
                 BitsPerSecond = byteRate * BinaryHelpers.BitsPerByte,
                 BitDepth = (byte)bitsPerSample,
+                MediaType = Wave.Mime,
+
+                // in cases where no filename extension was available, we can backfill a recommended extension
+                Extension = recording.Extension ?? Wave.Extension,
             };
         }
     }

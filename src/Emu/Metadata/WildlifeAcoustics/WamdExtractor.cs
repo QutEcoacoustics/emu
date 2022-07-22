@@ -43,6 +43,7 @@ namespace Emu.Metadata.WildlifeAcoustics
                 recording = recording with
                 {
                     StartDate = recording.StartDate ?? (wamdData.StartDate.IsLeft ? (OffsetDateTime?)wamdData.StartDate : null),
+                    TrueStartDate = recording.TrueStartDate ?? (wamdData.StartDate.IsLeft ? (OffsetDateTime?)wamdData.StartDate : null),
                     LocalStartDate = recording.LocalStartDate ?? (wamdData.StartDate.IsRight ? (LocalDateTime?)wamdData.StartDate : null),
                     Sensor = (recording.Sensor ?? new Sensor()) with
                     {

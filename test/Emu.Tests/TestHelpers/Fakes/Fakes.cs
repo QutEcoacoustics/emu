@@ -36,7 +36,7 @@ namespace Emu.Tests.TestHelpers.Fakes
                 .RuleFor(x => x.MediaType, f => f.PickRandom("audio/wave", "audio/flac"))
                 .RuleFor(x => x.FileSizeBytes, f => (ulong)f.Random.Long(2_000_000_000L))
                 .RuleFor(
-                    x => x.EndDate,
+                    x => x.TrueEndDate,
                     (f, x) => x.StartDate + Duration.FromSeconds((double)x.DurationSeconds))
 
                 //(f, x) => Provenance.Calculated.Wrap(x.StartDate?.Value + x.DurationSeconds))

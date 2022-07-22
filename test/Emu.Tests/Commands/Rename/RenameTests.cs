@@ -8,6 +8,8 @@ namespace Emu.Tests.Commands.Rename
     using System.Linq;
     using System.Threading.Tasks;
     using Emu.Commands.Rename;
+    using Emu.Filenames;
+    using Emu.Metadata;
     using Emu.Tests.TestHelpers;
     using Emu.Utilities;
     using FluentAssertions;
@@ -28,7 +30,9 @@ namespace Emu.Tests.Commands.Rename
                 this.TestFiles,
                 new FileMatcher(this.BuildLogger<FileMatcher>(), this.TestFiles),
                 this.GetOutputRecordWriter(),
-                this.FilenameParser);
+                this.FilenameParser,
+                this.ServiceProvider.GetRequiredService<MetadataRegister>(),
+                this.ServiceProvider.GetRequiredService<FilenameGenerator>());
 
             this.command.Targets = "/".AsArray();
         }
@@ -68,7 +72,7 @@ namespace Emu.Tests.Commands.Rename
         }
 
         [Fact]
-        public async Task AddOffsetToLocalDatestamp()
+        public async Task AddOffsetToLocalStartDatestamp()
         {
             this.TestFiles.AddEmptyFile("/PILLIGA_20121204_234600.wav");
 
@@ -236,6 +240,207 @@ namespace Emu.Tests.Commands.Rename
                        "/a/PILLIGA_20121204_234600.wav",
                        "/a/b/PILLIGA_20121204_234600.wav",
                        "/z/PILLIGA_20121204_234600.wav"));
+        }
+
+        [Fact]
+        public async Task CanDrawMetadataFromFileHeaderFrontierLabs()
+        {
+            var fixture = FixtureHelper.FixtureData.Get(FixtureModel.ShortFile);
+
+            // simulate loss of filename
+            this.TestFiles.AddFile("/F1234567890", fixture.ToMockFileData());
+
+            this.command.Targets = new string[] { "F*" };
+            this.command.Template = "{StartDate}{Extension}";
+            this.command.ScanMetadata = true;
+
+            var result = await this.command.InvokeAsync(null);
+
+            result.Should().Be(0);
+
+            // original file not modified
+            this.TestFiles.AllFiles
+                .Select(NormalizePath)
+                .Should()
+                .BeEquivalentTo(
+                    this.ResolvePaths(
+                       "/20191104T015955+1000.flac"));
+        }
+
+        [Fact]
+        public async Task CanDrawMetadataFromFileHeaderWildlifeAcoustics()
+        {
+            var fixture = FixtureHelper.FixtureData.Get(FixtureModel.SM4BatNormal1);
+
+            // simulate loss of filename
+            this.TestFiles.AddFile("/F1234567890", fixture.ToMockFileData());
+
+            this.command.Targets = new string[] { "F*" };
+            this.command.Template = "{StartDate}{Extension}";
+            this.command.ScanMetadata = true;
+
+            var result = await this.command.InvokeAsync(null);
+
+            result.Should().Be(0);
+
+            // original file not modified
+            this.TestFiles.AllFiles
+                .Select(NormalizePath)
+                .Should()
+                .BeEquivalentTo(
+                    this.ResolvePaths(
+                       "/20210621T205706-0300.wav"));
+        }
+
+        [Fact]
+        public async Task TemplateCanForceLocalStartDate()
+        {
+            this.TestFiles.AddEmptyFile("/PILLIGA_20121204_234600.wav");
+
+            this.command.Template = "{LocalStartDate}{Extension}";
+
+            var result = await this.command.InvokeAsync(null);
+
+            result.Should().Be(0);
+
+            this.TestFiles.AllFiles
+                .Select(NormalizePath)
+                .Should()
+                .BeEquivalentTo(
+                    this.ResolvePaths("/20121204T234600.wav"));
+        }
+
+        [Fact]
+        public async Task TemplateWillErrorIfUsingAnUnknownToken()
+        {
+            this.TestFiles.AddEmptyFile("/PILLIGA_20121204_234600.wav");
+
+            // property BirdCount does not exist on Recording
+            this.command.Template = "{BirdCount}{Extension}";
+
+            var result = await this.command.InvokeAsync(null);
+
+            result.Should().Be(0);
+
+            this.TestFiles.AllFiles
+                .Select(NormalizePath)
+                .Should()
+                .BeEquivalentTo(
+                    this.ResolvePaths("/PILLIGA_20121204_234600.wav"));
+
+            this.AllOutput.Should().Contain("Unknown field `BirdCount` in the template `{BirdCount}{Extension}`.");
+        }
+
+        [Fact]
+        public async Task TemplateCanUseDuration()
+        {
+            var fixture = FixtureHelper.FixtureData.Get(FixtureModel.SM4BatNormal1);
+
+            this.TestFiles.AddFile("/PILLIGA_20121204_234600.wav", fixture.ToMockFileData());
+
+            this.command.Template = "{LocalStartDate}_{DurationSeconds}{Extension}";
+            this.command.ScanMetadata = true;
+
+            var result = await this.command.InvokeAsync(null);
+
+            result.Should().Be(0);
+
+            this.TestFiles.AllFiles
+                .Select(NormalizePath)
+                .Should()
+                .BeEquivalentTo(
+                    this.ResolvePaths("/20121204T234600_2.008.wav"));
+        }
+
+        [Fact]
+        public async Task TemplateWillOmitTokensIfTheyAreEmpty()
+        {
+            this.TestFiles.AddEmptyFile("/PILLIGA_20121204_234600.wav");
+
+            this.command.Template = "{LocalStartDate}_{Location}{Extension}";
+
+            var result = await this.command.InvokeAsync(null);
+
+            result.Should().Be(0);
+
+            this.TestFiles.AllFiles
+                .Select(NormalizePath)
+                .Should()
+                .BeEquivalentTo(
+                    this.ResolvePaths("/20121204T234600_.wav"));
+        }
+
+        [Fact]
+        public async Task TemplateCanCustomizeResultForEmptyTokens()
+        {
+            this.TestFiles.AddEmptyFile("/PILLIGA_20121204_234600.wav");
+
+            this.command.Template = "{LocalStartDate}_{Location:ifempty:unknown}{Extension}";
+
+            var result = await this.command.InvokeAsync(null);
+
+            result.Should().Be(0);
+
+            this.TestFiles.AllFiles
+                .Select(NormalizePath)
+                .Should()
+                .BeEquivalentTo(
+                    this.ResolvePaths("/20121204T234600_unknown.wav"));
+        }
+
+        [Fact]
+        public async Task TemplateWillNotEmitEmptyTokenPlaceholderWhenValueIsPresent()
+        {
+            this.TestFiles.AddEmptyFile("/PILLIGA_20121204_234600_+13-090.wav");
+
+            this.command.Template = "{LocalStartDate}_{Location:ifempty:unknown}{Extension}";
+
+            var result = await this.command.InvokeAsync(null);
+
+            result.Should().Be(0);
+
+            this.TestFiles.AllFiles
+                .Select(NormalizePath)
+                .Should()
+                .BeEquivalentTo(
+                    this.ResolvePaths("/20121204T234600_+13-090.wav"));
+        }
+
+        [Fact]
+        public async Task WillParseAFormatStringOnwardsForIsEmpty()
+        {
+            var fixture = FixtureHelper.FixtureData.Get(FixtureModel.SM4BatNormal1);
+
+            this.TestFiles.AddFile("/PILLIGA_20121204_234600.wav", fixture.ToMockFileData());
+
+            this.command.ScanMetadata = true;
+            this.command.Template = "{LocalStartDate}_{DurationSeconds:ifempty:unknown|{:F6}}{Extension}";
+
+            var result = await this.command.InvokeAsync(null);
+
+            result.Should().Be(0);
+
+            this.TestFiles.AllFiles
+                .Select(NormalizePath)
+                .Should()
+                .BeEquivalentTo(
+                    this.ResolvePaths("/20121204T234600_2.008000.wav"));
+        }
+
+        [Fact]
+        public async Task AutomaticallyStripBadCharactersFromFilenames()
+        {
+            this.TestFiles.AddEmptyFile("/20180525_120000Z[hello].WAV");
+
+            var result = await this.command.InvokeAsync(null);
+
+            result.Should().Be(0);
+
+            this.TestFiles.AllFiles
+                .Select(NormalizePath)
+                .Should()
+                .BeEquivalentTo(
+                    this.ResolvePaths("/20180525T120000Z_hello.WAV"));
         }
     }
 }

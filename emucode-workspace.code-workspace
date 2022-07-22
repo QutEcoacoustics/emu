@@ -25,6 +25,7 @@
             "Serilog",
             "Shouldly",
             "Succ",
+            "Templating",
             "typeparam",
             "unfixable",
             "unmanaged",

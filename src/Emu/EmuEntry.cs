@@ -15,6 +15,7 @@ namespace Emu
 {
     using System.CommandLine;
     using System.CommandLine.Builder;
+    using System.CommandLine.Help;
     using System.CommandLine.Hosting;
     using System.CommandLine.Parsing;
     using System.Diagnostics;
@@ -93,9 +94,11 @@ namespace Emu
                 //.AddTransient<DefaultFormatters>()
                 .AddSingleton<IFileSystem>(_ => fileSystem ?? new FileSystem())
                 .AddSingleton<FileMatcher>()
+                .AddSingleton<FilenameGenerator>()
                 .AddSingleton<FileUtilities>()
-                .AddSingleton<FilenameSuggester>()
-                .AddSingleton(provider => new FilenameParser(provider.GetRequiredService<IFileSystem>()));
+                .AddSingleton(provider => new FilenameParser(
+                    provider.GetRequiredService<IFileSystem>(),
+                    provider.GetRequiredService<FilenameGenerator>()));
 
                 services.BindOptions<EmuGlobalOptions>();
 
@@ -121,7 +124,9 @@ namespace Emu
             new CommandLineBuilder(RootCommand)
             .UseHost(CreateHost, BuildDependencies)
             .UseDefaults()
-            .UseHelpBuilder((context) => new EmuHelpBuilder(context.Console));
+            .UseHelpBuilder((context) => new EmuHelpBuilder(
+                context.Console,
+                Console.IsOutputRedirected ? 80 : Console.WindowWidth));
 
         private static void WaitForDebugger()
         {
