@@ -37,17 +37,29 @@ namespace Emu.Metadata
 
             var stem = this.fileSystem.Path.GetFileNameWithoutExtension(information.Path);
 
-            recording = recording with
-            {
-                Extension = recording.Extension ?? result.Extension,
-                Stem = recording.Stem ?? stem,
-                StartDate = recording.StartDate ?? result.OffsetDateTime,
-                LocalStartDate = recording.LocalStartDate ?? result.LocalDateTime,
-                Location = recording.Location ?? result.Location,
-                FileSizeBytes = (ulong)information.FileStream.Length,
-            };
+            recording = this.ApplyValues(recording, result, stem, (ulong)information.FileStream.Length);
 
             return ValueTask.FromResult(recording);
+        }
+
+        public Recording ApplyValues(Recording recording, ParsedFilename parsedFilename, string stem, ulong size)
+        {
+            // sometimes extensions aren't available
+            // in that case other metadata extractors have the chance to update
+            // the extension when they scan the media type in the files
+            // Thus we ensure no extension (empty string) is forced to null
+            // so other extractors can use the famililar ?? update style assignment.
+            var extension = string.IsNullOrEmpty(parsedFilename.Extension) ? null : parsedFilename.Extension;
+
+            return recording with
+            {
+                Extension = recording.Extension ?? extension,
+                Stem = recording.Stem ?? stem,
+                StartDate = recording.StartDate ?? parsedFilename.StartDate,
+                LocalStartDate = recording.LocalStartDate ?? parsedFilename.LocalStartDate,
+                Location = recording.Location ?? parsedFilename.Location,
+                FileSizeBytes = size,
+            };
         }
     }
 }

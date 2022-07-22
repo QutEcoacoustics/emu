@@ -67,4 +67,9 @@ public static class StringExtensions
 
         return path;
     }
+
+    public static string AsToken(this string input)
+    {
+        return $"{{{input}}}";
+    }
 }

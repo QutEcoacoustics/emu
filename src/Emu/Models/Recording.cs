@@ -6,6 +6,7 @@ namespace Emu.Models
 {
     using System.Collections.Generic;
     using System.IO;
+    using CsvHelper.Configuration.Attributes;
     using Newtonsoft.Json;
     using NodaTime;
     using Rationals;
@@ -15,7 +16,8 @@ namespace Emu.Models
     /// </summary>
     public record Recording
     {
-        private string sourcePath;
+        private readonly string sourcePath;
+        private readonly string directory;
 
         /// <summary>
         /// Gets the path to the filename as read by the program.
@@ -27,7 +29,7 @@ namespace Emu.Models
             {
                 this.sourcePath = value;
 #pragma warning disable IO0006 // Replace Path class with IFileSystem.Path for improved testability
-                this.Directory = Path.GetDirectoryName(this.sourcePath);
+                this.directory = Path.GetDirectoryName(this.sourcePath);
 #pragma warning restore IO0006 // Replace Path class with IFileSystem.Path for improved testability
             }
         }
@@ -36,7 +38,20 @@ namespace Emu.Models
         /// Gets the directory of the recording. Used internally.
         /// </summary>
         [JsonIgnore]
-        public string Directory { get; private init; }
+        [Ignore]
+        public string Directory
+        {
+            get => this.directory;
+            init
+            {
+                this.directory = value;
+#pragma warning disable IO0006 // Replace Path class with IFileSystem.Path for improved testability
+                this.sourcePath = Path.Combine(
+                    this.directory,
+                    Path.GetFileName(this.sourcePath));
+#pragma warning restore IO0006 // Replace Path class with IFileSystem.Path for improved testability
+            }
+        }
 
         /// <summary>
         /// Gets the file extension as read by the program.
@@ -68,7 +83,6 @@ namespace Emu.Models
         /// This is extracted either from the filename or from the metadata
         /// included in the recording.
         /// </summary>
-        //public MetadataSource<OffsetDateTime>? StartDate { get; init; }
         public OffsetDateTime? StartDate { get; init; }
 
         /// <summary>
@@ -170,12 +184,24 @@ namespace Emu.Models
         /// <summary>
         /// Gets the date on the sensor for which this
         /// recording ended.
+        /// Some high precisions sensors record the time the buffer first started recording.
         /// </summary>
         /// <remarks>
         /// This field is useful for calculating drift in the sensor
         /// clock during recording.
         /// </remarks>
-        public OffsetDateTime? EndDate { get; init; }
+        public OffsetDateTime? TrueEndDate { get; init; }
+
+        /// <summary>
+        /// Gets the date on the sensor for which this
+        /// recording ended.
+        /// Some high precisions sensors record the time the buffer stopped recording.
+        /// </summary>
+        /// <remarks>
+        /// This field is useful for calculating drift in the sensor
+        /// clock during recording.
+        /// </remarks>
+        public OffsetDateTime? TrueStartDate { get; init; }
 
         /// <summary>
         /// Gets the Expected duration of the recording.

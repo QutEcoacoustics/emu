@@ -19,18 +19,12 @@ namespace Emu.Tests.FilenameParsing
 
     public class FilenameParserTests : TestBase
     {
-        private FilenameParser parser;
+        private readonly FilenameGenerator generator;
 
         public FilenameParserTests(ITestOutputHelper output)
             : base(output)
         {
-        }
-
-        [Background]
-        public void Background()
-        {
-            $"Given a {nameof(Filenames.FilenameParser)} using the default formats"
-                .x(() => this.parser = this.FilenameParser);
+            this.generator = this.ServiceProvider.GetRequiredService<FilenameGenerator>();
         }
 
         [Scenario]
@@ -40,12 +34,12 @@ namespace Emu.Tests.FilenameParsing
             $"Given {test}".x(Nop);
 
             ParsedFilename actual = null;
-            "When I parse the filename".x(() => actual = this.parser.Parse(test.Filename));
+            "When I parse the filename".x(() => actual = this.FilenameParser.Parse(test.Filename));
 
             if (test.ExpectedDateTime.HasValue)
             {
                 $"Then local date should have the value {test.ExpectedDateTime}"
-                    .x(() => actual.LocalDateTime.ShouldBe(test.ExpectedDateTime, $"{test.ExpectedDateTime:o} ≠ {actual.LocalDateTime:o}"));
+                    .x(() => actual.LocalStartDate.ShouldBe(test.ExpectedDateTime, $"{test.ExpectedDateTime:o} ≠ {actual.LocalStartDate:o}"));
 
                 if (test.ExpectedTzOffset.HasValue)
                 {
@@ -54,18 +48,18 @@ namespace Emu.Tests.FilenameParsing
                         .x(() => date = test.ExpectedDateTime?.WithOffset(test.ExpectedTzOffset.Value));
 
                     $"Then the offset date should have the expected value {test.ExpectedDateTime}{test.ExpectedTzOffset}"
-                        .x(() => actual.OffsetDateTime.ShouldBe(date, $"{date:o} ≠ {actual.OffsetDateTime:o}"));
+                        .x(() => actual.StartDate.ShouldBe(date, $"{date:o} ≠ {actual.StartDate:o}"));
                 }
                 else
                 {
                     "But the offset date should NOT have a value"
-                        .x(() => Assert.Null(actual.OffsetDateTime));
+                        .x(() => Assert.Null(actual.StartDate));
                 }
             }
             else
             {
                 "Then local date should NOT have a value"
-                    .x(() => Assert.Null(actual.LocalDateTime));
+                    .x(() => Assert.Null(actual.LocalStartDate));
             }
 
             if (test.ExpectedLongitude.HasValue)
@@ -77,7 +71,7 @@ namespace Emu.Tests.FilenameParsing
                     .x(() => Assert.Equal(test.ExpectedLongitude.Value, (double)actual.Location.Longitude, Wgs84Epsilon));
 
                 "and the location sample date should be set"
-                    .x(() => Assert.Equal(actual.OffsetDateTime?.ToInstant(), actual.Location.SampleDateTime));
+                    .x(() => Assert.Equal(actual.StartDate?.ToInstant(), actual.Location.SampleDateTime));
             }
             else
             {
@@ -85,55 +79,35 @@ namespace Emu.Tests.FilenameParsing
                     .x(() => Assert.Null(actual.Location));
             }
 
-            "And the prefix should be set"
-                .x(() => Assert.Equal(test.Prefix, actual.Prefix));
-
-            "Along with the suffix"
-                .x(() => Assert.Equal(test.Suffix, actual.Suffix));
-
             "And the extension field should be set"
                 .x(() => Assert.Equal(test.Extension, actual.Extension));
+        }
 
-            string datePart = string.Empty;
-            "Now given what we expect the date part to be"
-                .x(() => datePart = !test.ExpectedDateTime.HasValue ?
-                    string.Empty :
-                    test.Filename
-                        .AsSpan(test.Prefix.Length)
-                        .Slice(
-                            0,
-                            test.Filename.Length - test.Prefix.Length - test.Suffix.Length - test.Extension.Length)
-                        .ToString());
+        [Theory]
+        [ClassData(typeof(FixtureHelper.FilenameParsingFixtureData))]
+        public void ParsesTokenizedNameCorrectly(FilenameParsingFixtureModel test)
+        {
+            var actual = this.FilenameParser.Parse(test.Filename);
 
-            "then the DatePart should have the remainder of the string"
-                .x(() => Assert.Equal(datePart, actual.DatePart));
+            actual.TokenizedName.Should().Be(test.TokenizedName);
         }
 
         [Theory]
         [ClassData(typeof(FixtureHelper.FilenameParsingFixtureData))]
         public void CanReconstructTheFileName(FilenameParsingFixtureModel test)
         {
-            this.parser = this.FilenameParser;
-            var parsed = this.parser.Parse(test.Filename);
+            var parsed = this.FilenameParser.Parse(test.Filename);
 
-            var actual = parsed.Reconstruct(this.TestFiles);
+            var actual = this.generator.Reconstruct(parsed);
 
-            var expectedDate = (test.ExpectedTzOffset, test.ExpectedDateTime) switch
-            {
-                (null, not null) => DateFormatting.FormatFileName(test.ExpectedDateTime.Value),
-                (not null, not null) => DateFormatting.FormatFileName(
-                    test.ExpectedDateTime.Value.WithOffset(test.ExpectedTzOffset.Value)),
-                (null, null) => string.Empty,
-            };
-
-            actual.Should().Be($"{test.Prefix}{expectedDate}{test.Suffix}{test.Extension}");
+            actual.Should().Be(test.NormalizedName);
         }
 
         [Fact]
         public void WillThrowIfConstructedWithNulls()
         {
             var exception = Assert.Throws<ArgumentException>(
-                () => new FilenameParser(this.TestFiles, null, null));
+                () => new FilenameParser(this.TestFiles, this.generator, null, null));
 
             Assert.Equal("No date variants were given to filename parser", exception.Message);
         }
@@ -144,6 +118,7 @@ namespace Emu.Tests.FilenameParsing
             var exception = Assert.Throws<ArgumentException>(
                 () => new FilenameParser(
                     this.TestFiles,
+                    this.generator,
                     Array.Empty<DateVariant<LocalDateTime>>(),
                     Array.Empty<DateVariant<OffsetDateTime>>()));
 

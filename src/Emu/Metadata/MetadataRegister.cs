@@ -38,5 +38,11 @@ namespace Emu.Metadata
                 return this.resolved;
             }
         }
+
+        public T Get<T>()
+        {
+            var type = KnownOperations.First(x => typeof(T) == x);
+            return (T)this.provider.GetService(type);
+        }
     }
 }

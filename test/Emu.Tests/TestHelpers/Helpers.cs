@@ -9,11 +9,17 @@ global using Microsoft.Extensions.DependencyInjection;
 namespace Emu.Tests.TestHelpers
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.IO.Abstractions;
     using System.Reflection;
+    using Emu.Serialization.Converters;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Logging.Abstractions;
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Converters;
+    using NodaTime;
+    using NodaTime.Serialization.JsonNet;
 
     public static class Helpers
     {
@@ -29,6 +35,27 @@ namespace Emu.Tests.TestHelpers
         public static readonly Action Nop = () => { };
 
         private static readonly NullLoggerFactory NullLoggerFactory = new();
+
+        private static JsonSerializerSettings jsonSettings;
+
+        public static JsonSerializerSettings JsonSettings
+        {
+            get
+            {
+                return jsonSettings ??= new JsonSerializerSettings()
+                {
+                    Formatting = Formatting.Indented,
+                    Converters = new List<JsonConverter>
+                    {
+                        new StringEnumConverter(),
+                        new WellKnownProblemJsonConverter(),
+                        new JsonRangeConverter(),
+                        new RationalNullJsonConverter(serializeAsString: true),
+                        new RationalJsonConverter(serializeAsString: true),
+                    },
+                }.ConfigureForNodaTime(DateTimeZoneProviders.Tzdb);
+            }
+        }
 
         public static IFileSystem RealFileSystem { get; } = new FileSystem();
 

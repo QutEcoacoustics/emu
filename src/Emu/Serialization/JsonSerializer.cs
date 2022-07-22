@@ -24,20 +24,28 @@ namespace Emu.Serialization
         /// </summary>
         public JsonSerializer()
         {
-            this.settings = new JsonSerializerSettings()
-            {
-                Formatting = Formatting.Indented,
-                Converters = new List<JsonConverter>
-                {
-                    new StringEnumConverter(),
-                    new WellKnownProblemJsonConverter(),
-                    new JsonRangeConverter(),
-                    new RationalNullJsonConverter(),
-                    new RationalJsonConverter(),
-                },
-            }.ConfigureForNodaTime(DateTimeZoneProviders.Tzdb);
+            this.settings = Settings;
 
             this.serializer = Newtonsoft.Json.JsonSerializer.Create(this.settings);
+        }
+
+        public static JsonSerializerSettings Settings
+        {
+            get
+            {
+                return new JsonSerializerSettings()
+                {
+                    Formatting = Formatting.Indented,
+                    Converters = new List<JsonConverter>
+                    {
+                        new StringEnumConverter(),
+                        new WellKnownProblemJsonConverter(),
+                        new JsonRangeConverter(),
+                        new RationalNullJsonConverter(),
+                        new RationalJsonConverter(),
+                    },
+                }.ConfigureForNodaTime(DateTimeZoneProviders.Tzdb);
+            }
         }
 
         public TextWriter Writer { get; set; }

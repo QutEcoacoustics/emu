@@ -9,11 +9,9 @@ namespace Emu
 
     public class FixApplyCommand : Command
     {
-        public const string Summary = @"
-Apply one or more fixes to a file.
+        public const string Summary = @"Apply one or more fixes to a file.
 Automatic fixes are fixed in place.
-Non-fixable problems are renamed unless --no-rename is specified.
-";
+Non-fixable problems are renamed unless --no-rename is set.";
 
         public FixApplyCommand()
             : base("apply", Summary)

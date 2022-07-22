@@ -7,12 +7,16 @@ namespace Emu.Filenames
     using System.Collections.Generic;
     using System.IO.Abstractions;
     using System.Linq;
+    using System.Text;
     using System.Text.RegularExpressions;
     using Emu.Dates;
     using Emu.Fixes.FrontierLabs;
     using Emu.Models;
+    using LanguageExt;
+    using MoreLinq;
     using NodaTime;
     using NodaTime.Text;
+    using static LanguageExt.Prelude;
 
     /// <summary>
     /// Parses information from filenames.
@@ -92,18 +96,18 @@ namespace Emu.Filenames
         {
             // The FL format
             // valid: ...[27.2819 90.1361]..., ...[-27.2819 -90.1361]...
-            @".*\[(?<Latitude>-?\d{1,2}(?:\.\d+)) (?<Longitude>-?\d{1,3}(?:\.\d+))].*",
+            @".*(?<Location>\[(?<Latitude>-?\d{1,2}(?:\.\d+)) (?<Longitude>-?\d{1,3}(?:\.\d+))\]).*",
 
             // A char-safe variant of the FL labs format
             // valid: ..._27.2819 90.1361_..., ..._-27.2819 -90.1361_...
-            @".*_(?<Latitude>-?\d{1,2}(?:\.\d+)) (?<Longitude>-?\d{1,3}(?:\.\d+))_.*",
+            @".*(?<Location>_(?<Latitude>-?\d{1,2}(?:\.\d+)) (?<Longitude>-?\d{1,3}(?:\.\d+))_).*",
 
             // A ISO6709:H format (decimal degrees only)
             // We indicate the trailing slash (the solidus in the spec) is optional because it
             // cannot legally exist in windows filenames
             // valid: +40.20361-075.00417CRSWGS_84, -40.20361-075.00417, N40.20361E075.00417
             // valid: S40.20361W075.00417, +40.1213-075.0015+2.79CRSWGS_84, +40.20361-075.00417CRSWGS_84
-            $@".*{Latitude}{Longitude}(?<Altitude>[-+][\.\d]+)?(?:CRS(?<Crs>[\w_]+))?\/?.*",
+            $@".*(?<Location>{Latitude}{Longitude}(?<Altitude>[-+][\.\d]+)?(?:CRS(?<Crs>[\w_]+))?\/?).*",
         }.Select(x => new Regex(x, RegexOptions.Compiled)).ToArray();
 
         private const string Prefix = @"^(?<Prefix>.*)";
@@ -118,17 +122,18 @@ namespace Emu.Filenames
         private const string TimeFractional = @"(?<Time>\d{6}\.\d{1,6})";
         private const string Offset = @"(?<Offset>[-+][\d:]{2,5}|Z)";
         private const string NoOffset = @"(?![-+\d:]{1,6}|Z)";
-        private const string Latitude = @"(?<Latitude>[-+NS]\d{2}(?:\.\d+))";
-        private const string Longitude = @"(?<Longitude>[-+NS]\d{3}(?:\.\d+))";
+        private const string Latitude = @"(?<Latitude>[-+NS]\d{2}(?:\.\d+)?)";
+        private const string Longitude = @"(?<Longitude>[-+NS]\d{3}(?:\.\d+)?)";
         private readonly IFileSystem fileSystem;
+        private readonly FilenameGenerator filenameGenerator;
         private readonly IEnumerable<DateVariant<LocalDateTime>> localDateVariants;
         private readonly IEnumerable<DateVariant<OffsetDateTime>> offsetDateVariant;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FilenameParser"/> class.
         /// </summary>
-        public FilenameParser(IFileSystem fileSystem)
-            : this(fileSystem, PossibleLocalVariants, PossibleOffsetVariants)
+        public FilenameParser(IFileSystem fileSystem, FilenameGenerator filenameGenerator)
+            : this(fileSystem, filenameGenerator, PossibleLocalVariants, PossibleOffsetVariants)
         {
         }
 
@@ -136,11 +141,13 @@ namespace Emu.Filenames
         /// Initializes a new instance of the <see cref="FilenameParser"/> class.
         /// </summary>
         /// <param name="fileSystem">The filesystem to use.</param>
+        /// <param name="filenameGenerator">The filename generator to use.</param>
         /// <param name="localDateVariants">The possible local date strings to parse.</param>
         /// <param name="offsetDateVariant">The possible date with timezone strings to parse.</param>
-        public FilenameParser(IFileSystem fileSystem, IEnumerable<DateVariant<LocalDateTime>> localDateVariants, IEnumerable<DateVariant<OffsetDateTime>> offsetDateVariant)
+        public FilenameParser(IFileSystem fileSystem, FilenameGenerator filenameGenerator, IEnumerable<DateVariant<LocalDateTime>> localDateVariants, IEnumerable<DateVariant<OffsetDateTime>> offsetDateVariant)
         {
             this.fileSystem = fileSystem;
+            this.filenameGenerator = filenameGenerator;
             this.localDateVariants = localDateVariants;
             this.offsetDateVariant = offsetDateVariant;
             if (((localDateVariants?.Count() ?? 0) + (offsetDateVariant?.Count() ?? 0)) == 0)
@@ -166,110 +173,184 @@ namespace Emu.Filenames
                 filename = m.Result(SpaceInDatestamp.ReplaceString);
             }
 
+            var extension = this.ParseExtension(filename, out var extensionRange);
+            var location = ParseLocation(filename, out var locationRange);
+
             foreach (var dateVariant in this.offsetDateVariant)
             {
-                if (this.TryParse(filename, dateVariant, out var value, out var parsedFilename))
+                if (TryParse(filename, dateVariant, out var value, out var valueLocation))
                 {
-                    if (parsedFilename.Location != null)
+                    return new ParsedFilename()
                     {
-                        parsedFilename = parsedFilename with
+                        Extension = extension,
+                        LocalStartDate = value.LocalDateTime,
+                        StartDate = value,
+                        Location = location is null ? null : location with
                         {
-                            Location = parsedFilename.Location with
-                            {
-                                SampleDateTime = value.ToInstant(),
-                            },
-                        };
-                    }
-
-                    return parsedFilename with
-                    {
-                        LocalDateTime = value.LocalDateTime,
-                        OffsetDateTime = value,
+                            SampleDateTime = value.ToInstant(),
+                        },
                         Directory = directory,
+                        TokenizedName = this.ContructTokenizedName(filename, valueLocation, None, locationRange, extensionRange),
                     };
                 }
             }
 
             foreach (var dateVariant in this.localDateVariants)
             {
-                if (this.TryParse(filename, dateVariant, out var value, out var parsedFilename))
+                if (TryParse(filename, dateVariant, out var value, out var valueLocation))
                 {
-                    return parsedFilename with { LocalDateTime = value, Directory = directory };
+                    return new ParsedFilename()
+                    {
+                        Extension = extension,
+                        LocalStartDate = value,
+                        Location = location,
+                        Directory = directory,
+                        TokenizedName = this.ContructTokenizedName(filename, None, valueLocation, locationRange, extensionRange),
+                    };
                 }
             }
 
             // finally, if no date can be found return minimal information
-            var stem = this.fileSystem.Path.GetFileNameWithoutExtension(filename);
             return new ParsedFilename()
             {
-                Extension = this.fileSystem.Path.GetExtension(filename),
-                LocalDateTime = null,
-                Location = this.ParseLocation(stem),
-                OffsetDateTime = null,
-                Prefix = stem,
-                DatePart = string.Empty,
-                Suffix = string.Empty,
+                Extension = extension,
+                LocalStartDate = null,
+                Location = location,
+                StartDate = null,
+                TokenizedName = this.ContructTokenizedName(filename, None, None, locationRange, extensionRange),
                 Directory = directory,
             };
         }
 
-        private bool TryParse<T>(string filename, DateVariant<T> dateVariant, out T value, out ParsedFilename result)
+        private static bool TryParse<T>(string filename, DateVariant<T> dateVariant, out T value, out Range location)
         {
             var match = dateVariant.Regex.Match(filename);
             if (match.Success)
             {
-                var timePart = match.Groups[nameof(Time)].Value + match.Groups[nameof(Offset)].Value;
-                var parseString = match.Groups[nameof(Date)]
-                                  + (timePart == string.Empty ? timePart : InvariantDateTimeSeparator + timePart);
+                var time = match.Groups[nameof(Time)];
+                var offset = match.Groups[nameof(Offset)];
+                var date = match.Groups[nameof(Date)];
+
+                var timePart = time.Value + offset.Value;
+                var parseString = date.Value + (timePart == string.Empty ? timePart : InvariantDateTimeSeparator + timePart);
 
                 var parseResult = dateVariant.ParseFormat.Parse(parseString);
 
                 if (parseResult.Success)
                 {
-                    var location = this.ParseLocation(match.Groups[nameof(Suffix)].Value);
-                    result = new ParsedFilename()
-                    {
-                        Extension = match.Groups[nameof(Extension)].Value,
-                        Location = location,
-                        Prefix = match.Groups[nameof(Prefix)].Value,
-                        DatePart = ReconstructDatePart(),
-                        Suffix = match.Groups[nameof(Suffix)].Value,
-                    };
                     value = parseResult.Value;
+                    location = Seq(time, offset, date).Select(g => g.AsRange()).Somes().MinMax();
                     return true;
                 }
             }
 
             value = default;
-            result = null;
+            location = default;
             return false;
-
-            string ReconstructDatePart()
-            {
-                return new[] { nameof(Date), nameof(Separator), nameof(Time), nameof(Offset) }
-                    .Select(s => match.Groups[s])
-                    .OrderBy(g => g.Index)
-                    .Aggregate(string.Empty, (seed, group) => seed + group.Value);
-            }
         }
 
-        private Location ParseLocation(string target)
+        private static Location ParseLocation(string target, out Option<Range> range)
         {
             foreach (var locationVariant in LocationVariants)
             {
                 var match = locationVariant.Match(target);
                 if (match.Success)
                 {
+                    var location = match.Groups["Location"];
                     var latitude = match.Groups[nameof(Latitude)];
                     var longitude = match.Groups[nameof(Longitude)];
                     var altitude = match.Groups["Altitude"];
                     var crs = match.Groups["CRS"];
 
+                    range = location.AsRange();
                     return new Location(latitude.Value, longitude.Value, altitude.Value, crs.Value);
                 }
             }
 
+            range = None;
             return null;
+        }
+
+        private string ParseExtension(string filename, out Option<Range> range)
+        {
+            var extension = this.fileSystem.Path.GetExtension(filename);
+            range = new Range(filename.Length - extension.Length, filename.Length);
+
+            return extension;
+        }
+
+        private string ContructTokenizedName(
+            string filename,
+            Option<Range> datestamp,
+            Option<Range> localDatestamp,
+            Option<Range> location,
+            Option<Range> extension)
+        {
+            Option<(Range Range, string Token)> Bind(Option<Range> range, string name) => range.Case switch
+            {
+                Range r => (r, name.AsToken()),
+                _ => None,
+            };
+
+            var all = Seq(
+                Bind(datestamp, nameof(Recording.StartDate)),
+                Bind(localDatestamp, nameof(Recording.LocalStartDate)),
+                Bind(location, nameof(Recording.Location)));
+
+            var result = Lst<string>.Empty;
+            Index previousIndex = 0;
+
+            // filter out nones
+            // sort by index
+            // collect fragements of the strings and tokens
+            foreach (var (range, token) in all.Somes().OrderBy(x => x.Range.Start.Value))
+            {
+                var slice = previousIndex..range.Start;
+                AppendLiteral(slice);
+
+                result = result.Add(token);
+
+                previousIndex = range.End;
+            }
+
+            // add on any trailing segment
+            string extensionToken = null;
+            if (Bind(extension, nameof(Recording.Extension)).Case is (Range extRange, string extToken))
+            {
+                var slice = previousIndex..extRange.Start;
+                AppendLiteral(slice);
+                extensionToken = extToken;
+                result += extToken;
+            }
+            else
+            {
+                AppendLiteral(previousIndex..);
+            }
+
+            return result.Aggregate(new StringBuilder(filename.Length * 2), Join).ToString();
+
+            StringBuilder Join(StringBuilder builder, string current)
+            {
+                if (builder.Length > 0 && !current.StartsWith(".") && current != extensionToken)
+                {
+                    builder.Append(FilenameGenerator.Delimitter);
+                }
+
+                builder.Append(current);
+                return builder;
+            }
+
+            void AppendLiteral(Range slice)
+            {
+                if (slice.Length(filename.Length) > 0)
+                {
+                    var cleaned = this.filenameGenerator.CleanSegment(filename[slice]);
+                    if (cleaned.Length > 0)
+                    {
+                        result += cleaned;
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -289,8 +370,6 @@ namespace Emu.Filenames
                 this.Regex = new Regex(regex, RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.CultureInvariant);
 
                 this.ParseFormat = parseFormat;
-
-                //this.HelpHints = helpHints;
             }
 
             /// <summary>
@@ -304,8 +383,6 @@ namespace Emu.Filenames
             /// string extracted by the <see cref="Regex"/>.
             /// </summary>
             public IPattern<T> ParseFormat { get; }
-
-            //public string[] HelpHints { get; }
         }
     }
 }

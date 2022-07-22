@@ -1,5 +1,44 @@
 # Renaming
 
+Consistency in filenames is important! Our rename command can make your files 
+adhere to standards based naming conventions.
+
+The rename command can pull metadata out from files! This means any information
+the [EMU metadata](../docs/metadata.md) has access to, you can whack right into
+the filename!
+
+## Templating
+
+EMU will normalize file names with it's standard rename. That is it will keep
+largely the same parts in the same order and just remove problematic portions.
+See the examples below.
+
+But you can also fully customize the template used for file name using  the `--template` option.
+Use any field output by the `metadata` command as a template placeholder.
+
+We recommend using the `--scan-metadata` option to scan the file contents for extra metadata when using a template.
+
+You can mix place holders and literal text. Wrap placeholders in curly braces ({{, }}).
+For example, the template  `--template="MyNewName_{StartDate}_{DurationSeconds}{Extension}"`
+would rename any files to the format:
+
+- `MyNewName_`
+- Then the start date of the file
+- `_`
+- Then the duration of the audio file (if that tickles your fancy)
+- Then the extension of the file.
+
+To see what metadata is available for any given file run the `metadata` command on it first!
+See [metadata](./metadata.md).
+
+See below for more examples!
+
+## Safety
+
+The `rename` command has a `--dry-run` option that will simulate the effects of the rename
+without actually changing anything. We **strongly** recommend you try every command
+first with `--dry-run`.
+
 ## Examples
 
 ### Rename your files: AudioMoth
@@ -90,3 +129,92 @@ Looking for targets...
          to PILLIGA_20121204T224600+1000.wav
 4 files, 2 renamed, 2 unchanged, 0 failed
 ```
+
+### Recovering filenames
+
+Here is a not theoretical scenario: A SD card is corrupted.
+The data is still on the card and can be recovered using a file recovery tool.
+Unfortunately the recovery process often only recovers the file contents, but not the name of the files!
+
+We experienced this problem and had 2.5K files of useable data that we couldn't process!
+
+![Example missing filenames](media/example_missing_filenames.png)
+
+Enter EMU! On a smaller demo set of data (including FL and WA files):
+
+```bash
+$ ls -l
+total 37336
+-rwxr--r-- 1 anthony anthony 37195844 Jun  6 16:10 F4622343428908
+-rwxr--r-- 1 anthony anthony  1030730 Mar 28 14:46 F4623864286243
+
+$ emu rename --template "{StartDate}{Extension}" --scan-metadata **/F*
+Looking for targets...
+-   Renamed /mnt/f/tmp/fixes/renames/F4622343428908
+         to /mnt/f/tmp/fixes/renames/20220331T094902-0300.flac
+-   Renamed /mnt/f/tmp/fixes/renames/F4623864286243
+         to /mnt/f/tmp/fixes/renames/20210621T205706-0300.wav
+2 files, 2 renamed, 0 unchanged, 0 failed
+
+$ ls -l
+total 37336
+-rwxr--r-- 1 anthony anthony  1030730 Mar 28 14:46 20210621T205706-0300.wav
+-rwxr--r-- 1 anthony anthony 37195844 Jun  6 16:10 20220331T094902-0300.flac
+```
+
+
+The command finds each file in any sub-folder that has the name `F*` 
+(`F` followed by any number of any characters),
+scan the metadata from _inside_ the files, and then gives each file a 
+new name consisting of the start date of the recording followed by it's extension.
+
+### Including a file's sample rate in the file name
+
+Maybe you need to filter files by their quality?
+
+```
+$ ls -l
+total 37336
+-rwxr--r-- 1 anthony anthony  1030730 Mar 28 14:46 20210621T205706-0300.wav
+-rwxr--r-- 1 anthony anthony 37195844 Jun  6 16:10 20220331T094902-0300.flac
+
+$ emu rename --template "{StartDate}_{SampleRateHertz}{Extension}" --scan-metadata --dry-run
+Looking for targets...
+-   Renamed /mnt/f/tmp/fixes/renames/20210621T205706-0300.wav
+         to /mnt/f/tmp/fixes/renames/20210621T205706-0300_256000.wav
+-   Renamed /mnt/f/tmp/fixes/renames/20220331T094902-0300.flac
+         to /mnt/f/tmp/fixes/renames/20220331T094902-0300_44100.flac
+
+$ ls -l
+total 37336
+-rwxr--r-- 1 anthony anthony  1030730 Mar 28 14:46 20210621T205706-0300_256000.wav
+-rwxr--r-- 1 anthony anthony 37195844 Jun  6 16:10 20220331T094902-0300_44100.flac
+```
+
+That'd do the trick. Not sure why you would want to, but you could...
+
+### Including a sensor's serial number
+
+OK that last example was a bit silly! Let's fix it!
+
+```
+$ ls -l
+total 37336
+-rwxr--r-- 1 anthony anthony  1030730 Mar 28 14:46 20210621T205706-0300_256000.wav
+-rwxr--r-- 1 anthony anthony 37195844 Jun  6 16:10 20220331T094902-0300_44100.flac
+
+> emu rename --template "{Sensor.SerialNumber}_{StartDate}{Extension}" --scan-metadata
+Looking for targets...
+-   Renamed /mnt/f/tmp/fixes/renames/20210621T205706-0300_256000.wav
+         to /mnt/f/tmp/fixes/renames/S4U09523_20210621T205706-0300.wav
+-   Renamed /mnt/f/tmp/fixes/renames/20220331T094902-0300_44100.flac
+         to /mnt/f/tmp/fixes/renames/00008570_20220331T094902-0300.flac
+2 files, 2 renamed, 0 unchanged, 0 failed
+
+ ls -l
+total 37336
+-rwxr--r-- 1 anthony anthony 37195844 Jun  6 16:10 00008570_20220331T094902-0300.flac
+-rwxr--r-- 1 anthony anthony  1030730 Mar 28 14:46 S4U09523_20210621T205706-0300.wav
+```
+
+Cool 😎.

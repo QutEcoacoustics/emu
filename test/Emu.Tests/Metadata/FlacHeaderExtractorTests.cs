@@ -4,6 +4,7 @@
 
 namespace Emu.Tests.Metadata
 {
+    using System.Threading.Tasks;
     using Emu.Audio;
     using Emu.Metadata.FrontierLabs;
     using Emu.Models;
@@ -23,11 +24,9 @@ namespace Emu.Tests.Metadata
                 this.BuildLogger<FlacHeaderExtractor>());
         }
 
-        public Recording Recording => new();
-
         [Theory]
         [ClassData(typeof(FixtureHelper.FixtureData))]
-        public async System.Threading.Tasks.Task CanProcessFilesWorks(FixtureModel model)
+        public async Task CanProcessFilesWorks(FixtureModel model)
         {
             var result = await this.subject.CanProcessAsync(model.ToTargetInformation(this.RealFileSystem));
 
@@ -36,25 +35,23 @@ namespace Emu.Tests.Metadata
             Assert.Equal(expected, result);
         }
 
-        [Theory]
+        [SkippableTheory]
         [ClassData(typeof(FixtureHelper.FixtureData))]
-        public async System.Threading.Tasks.Task ProcessFilesWorks(FixtureModel model)
+        public async Task ProcessFilesWorks(FixtureModel model)
         {
-            if (model.Process.ContainsKey(FixtureModel.FlacHeaderExtractor))
-            {
-                Recording expectedRecording = model.Record;
+            Skip.IfNot(model.ShouldProcess(FixtureModel.FlacHeaderExtractor, out var expectedRecording));
 
-                var recording = await this.subject.ProcessFileAsync(
-                    model.ToTargetInformation(this.RealFileSystem),
-                    this.Recording);
+            var recording = await this.subject.ProcessFileAsync(
+                model.ToTargetInformation(this.RealFileSystem),
+                new());
 
-                recording.DurationSeconds.Should().Be(expectedRecording.DurationSeconds);
-                recording.SampleRateHertz.Should().Be(expectedRecording.SampleRateHertz);
-                recording.Channels.Should().Be(expectedRecording.Channels);
-                recording.BitDepth.Should().Be(expectedRecording.BitDepth);
-                recording.BitsPerSecond.Should().Be(expectedRecording.BitsPerSecond);
-                recording.EmbeddedChecksum.Should().Be(expectedRecording.EmbeddedChecksum);
-            }
+            recording.DurationSeconds.Should().Be(expectedRecording.DurationSeconds);
+            recording.SampleRateHertz.Should().Be(expectedRecording.SampleRateHertz);
+            recording.Channels.Should().Be(expectedRecording.Channels);
+            recording.BitDepth.Should().Be(expectedRecording.BitDepth);
+            recording.BitsPerSecond.Should().Be(expectedRecording.BitsPerSecond);
+            recording.EmbeddedChecksum.Should().Be(expectedRecording.EmbeddedChecksum);
+            recording.MediaType.Should().Be(expectedRecording.MediaType);
         }
     }
 }

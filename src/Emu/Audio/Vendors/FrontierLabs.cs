@@ -51,7 +51,7 @@ namespace Emu.Audio.Vendors
         };
 
         public static readonly byte[] VendorString = Encoding.ASCII.GetBytes("Frontier Labs");
-        public static readonly Dictionary<string, Func<string, Fin<object>>> CommentParsers = new Dictionary<string, Func<string, Fin<object>>>
+        public static readonly Dictionary<string, Func<string, Fin<object>>> CommentParsers = new()
         {
             { FirmwareCommentKey, FirmwareParser },
             { RecordingStartCommentKey, OffsetDateTimeParser },

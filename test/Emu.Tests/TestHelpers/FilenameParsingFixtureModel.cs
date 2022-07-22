@@ -18,17 +18,11 @@ namespace Emu.Tests.TestHelpers
 
         public double? ExpectedLongitude { get; set; }
 
-        public string Prefix { get; set; }
-
-        public string Suffix { get; set; }
-
         public string Extension { get; set; }
 
-        //public string SuggestedFilename { get; set; }
+        public string TokenizedName { get; set; }
 
-        //public string SensorType { get; set; }
-
-        //public double? SensorTypeEstimate { get; set; }
+        public string NormalizedName { get; set; }
 
         public override string ToString()
         {

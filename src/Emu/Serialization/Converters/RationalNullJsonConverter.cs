@@ -12,6 +12,13 @@ namespace Emu
     // and use a core converter inside ＼（〇_ｏ）／
     public class RationalNullJsonConverter : JsonConverter<Rational?>
     {
+        private readonly bool serializeAsString;
+
+        public RationalNullJsonConverter(bool serializeAsString = false)
+        {
+            this.serializeAsString = serializeAsString;
+        }
+
         public override bool CanWrite => true;
 
         public override bool CanRead => true;
@@ -24,7 +31,14 @@ namespace Emu
                 return;
             }
 
-            writer.WriteValue((decimal)value);
+            if (this.serializeAsString)
+            {
+                writer.WriteValue(value.ToString());
+            }
+            else
+            {
+                writer.WriteValue((decimal)value);
+            }
         }
 
         public override Rational? ReadJson(JsonReader reader, Type objectType, Rational? existingValue, bool hasExistingValue, JsonSerializer serializer)

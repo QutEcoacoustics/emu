@@ -10,13 +10,27 @@ namespace Emu
 
     public class RationalJsonConverter : JsonConverter<Rational>
     {
+        private readonly bool serializeAsString;
+
+        public RationalJsonConverter(bool serializeAsString = false)
+        {
+            this.serializeAsString = serializeAsString;
+        }
+
         public override bool CanWrite => true;
 
         public override bool CanRead => true;
 
         public override void WriteJson(JsonWriter writer, Rational value, JsonSerializer serializer)
         {
-            writer.WriteValue((decimal)value);
+            if (this.serializeAsString)
+            {
+                writer.WriteValue(value.ToString());
+            }
+            else
+            {
+                writer.WriteValue((decimal)value);
+            }
         }
 
         public override Rational ReadJson(JsonReader reader, Type objectType, Rational existingValue, bool hasExistingValue, JsonSerializer serializer)

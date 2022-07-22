@@ -22,6 +22,8 @@ namespace Emu.Audio
     public static class Wave
     {
         public const string Mime = "audio/wave";
+        public const string Extension = ".wav";
+
         public const int RiffLengthOffset = 4;
         public const int MinimumRiffHeaderLength = 8;
         public const int FL005ErrorBytes = 44;

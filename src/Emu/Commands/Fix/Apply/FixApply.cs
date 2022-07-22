@@ -24,7 +24,7 @@ namespace Emu
 
     public class FixApply : EmuCommandHandler<Emu.FixApply.FixApplyResult>
     {
-        private static readonly Regex ErrorSuffix = new Regex("\\.error_\\w+$");
+        private static readonly Regex ErrorSuffix = new("\\.error_\\w+$");
 
         private readonly ILogger<FixApply> logger;
         private readonly DryRunFactory dryRunFactory;
