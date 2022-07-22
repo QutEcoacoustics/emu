@@ -26,7 +26,7 @@ namespace Emu.Models
 
         public uint? Speed { get; init; }
 
-        public uint? Capacity { get; init; }
+        public ulong? Capacity { get; init; }
 
         public uint? WrCurrentVmin { get; init; }
 

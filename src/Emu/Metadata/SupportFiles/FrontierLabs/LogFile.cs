@@ -147,7 +147,7 @@ namespace Emu.Metadata.SupportFiles.FrontierLabs
                 SerialNumber = uint.Parse(reader.ReadLine()!.Split().Last()),
                 ManufactureDate = reader.ReadLine()?.Split().Last().Replace('/', '-'),
                 Speed = uint.Parse(reader.ReadLine()!.Split().Last()),
-                Capacity = uint.Parse(reader.ReadLine()!.Split().Last()),
+                Capacity = ulong.Parse(reader.ReadLine()!.Split().Last()),
                 WrCurrentVmin = uint.Parse(reader.ReadLine()!.Split().Last()),
                 WrCurrentVmax = uint.Parse(reader.ReadLine()!.Split().Last()),
                 WriteBlSize = uint.Parse(reader.ReadLine()!.Split().Last()),

@@ -28,8 +28,8 @@
       ProductRevision: 0.2
       SerialNumber: 560
       ManufactureDate: 2015-04
-      Speed: 50
-      Capacity: 250412032
+      Speed: 50000000
+      Capacity: 250412032000
       WrCurrentVmin: 3
       WrCurrentVmax: 3
       WriteBlSize: 512
@@ -99,8 +99,8 @@
       ProductRevision: 1
       SerialNumber: 309
       ManufactureDate: 2018-11
-      Speed: 50
-      Capacity: 484102144
+      Speed: 50000000
+      Capacity: 484102144000
       WrCurrentVmin: 3
       WrCurrentVmax: 3
       WriteBlSize: 512
@@ -158,8 +158,8 @@
       ProductRevision: 0.2
       SerialNumber: 560
       ManufactureDate: 2015-04
-      Speed: 50
-      Capacity: 250412032
+      Speed: 50000000
+      Capacity: 250412032000
       WrCurrentVmin: 3
       WrCurrentVmax: 3
       WriteBlSize: 512
@@ -311,8 +311,8 @@
       ProductRevision: 0.2
       SerialNumber: 560
       ManufactureDate: 2015-04
-      Speed: 50
-      Capacity: 250412032
+      Speed: 50000000
+      Capacity: 250412032000
       WrCurrentVmin: 3
       WrCurrentVmax: 3
       WriteBlSize: 512
@@ -466,8 +466,8 @@
       ProductRevision: 1
       SerialNumber: 309
       ManufactureDate: 2018-11
-      Speed: 50
-      Capacity: 484102144
+      Speed: 50000000
+      Capacity: 484102144000
       WrCurrentVmin: 3
       WrCurrentVmax: 3
       WriteBlSize: 512
@@ -561,8 +561,8 @@
       ProductRevision: 1
       SerialNumber: 309
       ManufactureDate: 2018-11
-      Speed: 50
-      Capacity: 484102144
+      Speed: 50000000
+      Capacity: 484102144000
       WrCurrentVmin: 3
       WrCurrentVmax: 3
       WriteBlSize: 512
@@ -656,8 +656,8 @@
       ProductRevision: 8.5
       SerialNumber: 11184608
       ManufactureDate: 2020-08
-      Speed: 50
-      Capacity: 124868608
+      Speed: 50000000
+      Capacity: 124868608000
       WrCurrentVmin: 5
       WrCurrentVmax: 5
       WriteBlSize: 512
@@ -727,8 +727,8 @@
       ProductRevision: 8.5
       SerialNumber: 13281763
       ManufactureDate: 2020-08
-      Speed: 50
-      Capacity: 124868608
+      Speed: 50000000
+      Capacity: 124868608000
       WrCurrentVmin: 5
       WrCurrentVmax: 5
       WriteBlSize: 512
@@ -962,8 +962,8 @@
       ProductRevision: 8.5
       SerialNumber: 1132114800
       ManufactureDate: 2020-08
-      Speed: 50
-      Capacity: 124868608
+      Speed: 50000000
+      Capacity: 124868608000
       WrCurrentVmin: 5
       WrCurrentVmax: 5
       WriteBlSize: 512
@@ -1063,8 +1063,8 @@
       ProductRevision: 1
       SerialNumber: 77
       ManufactureDate: 2018-11
-      Speed: 50
-      Capacity: 484102144
+      Speed: 50000000
+      Capacity: 484102144000
       WrCurrentVmin: 3
       WrCurrentVmax: 3
       WriteBlSize: 512
