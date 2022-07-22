@@ -64,39 +64,43 @@ Column definitions:
 
 #### BAR-LT
 
-| Name                     | Supported       | Location(s)           | Notes            | Field | Units   |
-| ------------------------ | --------------- | --------------------- | ---------------- | ----- | ------- |
-| Date Time                | ✔️               | Name, Header, Support | Reclog           |       |         |
-| UTC Offset               | ✔️               | Name, Header, Support | Reclog           |       |         |
-| Serial Number            | ✔️               | Header, Support       | Log file         |       |         |
-| Microphone Type          | ✔️               | Header, Support       | Log file, Reclog |       |         |
-| Microphone ID            | ✔️               | Header, Support       | Log file, Reclog |       |         |
-| Microphone Build Date    | ✔️               | Header, Support       | Log file, Reclog |       |         |
-| Microphone Channel       | ✔️               | Header, Support       | Log file         |       |         |
-| Longitude                | ✔️(Header, Name) | Header, Name, Support | GPS_log.csv      |       |         |
-| Latitude                 | ✔️(Header, Name) | Header, Name, Support | GPS_log.csv      |       |         |
-| Gain                     | ✔️(Header)       | Header, Support       | Log file, Reclog |       | dB      |
-| Battery Voltage          | ✔️               | Header, Support       | Log file, Reclog |       |         |
-| Card Slot Number         | ❌               | Header, Support       | Log file, Reclog |       |         |
-| Battery Percentage       | ✔️               | Header, Support       | Log file, Reclog |       |         |
-| Device Type              | ❌               | Header, Support       | Log file         |       |         |
-| Power Type               | ✔️               | Support               | Log file         |       |         |
-| Last Time Sync           | ✔️               | Header                |                  |       |         |
-| ARU Firmware             | ✔️               | Header, Support       | Log file         |       |         |
-| SD Capacity              | ✔️               | Support               | Log file, Reclog |       | bytes   |
-| SD Free Space            | ❌               | Support               | Log file, Reclog |       |         |
-| SD Card Serial           | ✔️               | Header, Support       | Log file, Reclog |       |         |
-| SD Card Manufacture Date | ✔️               | Header, Support       | Log file, Reclog |       |         |
-| SD Card Speed            | ✔️               | Support               | Log file         |       | bytes/s |
-| SD Card Product Name     | ✔️               | Header, Support       | Log file, Reclog |       |         |
-| SD Format Type           | ✔️               | Support               | Log file         |       |         |
-| SD Card Manufacture ID   | ✔️               | Header, Support       | Log file, Reclog |       |         |
-| SD Card OemID            | ✔️               | Header, Support       | Log file, Reclog |       |         |
-| SD Card Product Revision | ✔️               | Header, Support       | Log file, Reclog |       |         |
-| SD Write Current Vmin    | ✔️               | Support               | Log file         |       |         |
-| SD Write Current Vmax    | ✔️               | Support               | Log file         |       |         |
-| SD Write Bl Size         | ✔️               | Support               | Log file         |       |         |
-| SD Erase Bl Size         | ✔️               | Support               | Log file         |       |         |
+| Name                     | Supported       | Location(s)           | Notes              | Field         | Units        |
+| ------------------------ | --------------- | --------------------- | ------------------ | ------------- | ------------ |
+| Date Time                | ✔️               | Name, Header, Support | Reclog             | StartDate     |              |
+| RecordingStart           | ✔️               | Header                | First buffer write | TrueStartDate |              |
+| RecordingEnd             | ✔️               | Header                | Last buffer write  | TrueEndDate   |              |
+| UTC Offset               | ✔️               | Name, Header, Support |                    |               |              |
+| Serial Number            | ✔️               | Header, Support       | Log file           |               |              |
+| Microphone Type          | ✔️               | Header, Support       | Log file           |               |              |
+| Microphone ID            | ✔️(Header, Name) | Header, Name, Support | Log file, Reclog   |               |              |
+| Microphone Build Date    | ✔️               | Header, Support       | Log file, Reclog   |               |              |
+| Microphone Channel       | ✔️               | Header, Support       | Log file           |               |              |
+| Longitude                | ✔️(Header, Name) | Header, Name, Support | GPS_log.csv        |               |              |
+| Latitude                 | ✔️(Header, Name) | Header, Name, Support | GPS_log.csv        |               |              |
+| Gain                     | ✔️(Header)       | Header, Name, Support | Log file, Reclog   |               | dB           |
+| Battery Voltage          | ✔️               | Header, Support       | Log file, Reclog   |               |              |
+| Card Slot Number         | ❌               | Header, Support       | Log file, Reclog   |               |              |
+| Battery Percentage       | ✔️               | Header, Support       | Log file, Reclog   |               |              |
+| Device Type              | ❌               | Header, Support       | Log file           |               |              |
+| Power Type               | ✔️               | Support               | Log file           |               |              |
+| Last Time Sync           | ✔️               | Header                |                    |               |              |
+| ARU Firmware             | ✔️               | Header, Support       | Log file           |               |              |
+| ARU Manufacture Date     | ❌               | Header, Support       | Log file           |               |              |
+| SD Capacity (GB)         | ✔️               | Support               | Log file, Reclog   |               | bytes        |
+| SD Free Space (GB)       | ❌               | Support               | Log file, Reclog   |               |              |
+| SD Card Serial           | ✔️               | Header, Support       | Log file, Reclog   |               |              |
+| SD Card Manufacture Date | ✔️               | Header, Support       | Log file, Reclog   |               |              |
+| SD Card Speed            | ✔️               | Support               | Log file           |               | bytes/second |
+| SD Card Product Name     | ✔️               | Header, Support       | Log file, Reclog   |               |              |
+| SD Format Type           | ✔️               | Support               | Log file           |               |              |
+| SD Card Manufacture ID   | ✔️               | Header, Support       | Log file, Reclog   |               |              |
+| SD Card OemID            | ✔️               | Header, Support       | Log file, Reclog   |               |              |
+| SD Card Product Revision | ✔️               | Header, Support       | Log file, Reclog   |               |              |
+| SD Write Current Vmin    | ✔️               | Support               | Log file           |               |              |
+| SD Write Current Vmax    | ✔️               | Support               | Log file           |               |              |
+| SD Write Bl Size         | ✔️               | Support               | Log file           |               |              |
+| SD Erase Bl Size         | ✔️               | Support               | Log file           |               |              |
+
 
 #### BAR
 
@@ -106,8 +110,8 @@ Column definitions:
 
 | Name            | Supported | Location(s) | Notes       | Field | Units |
 | --------------- | --------- | ----------- | ----------- | ----- | ----- |
-| Date Time       | ❌         | Name        |             |       |       |
-| UTC Offset      | ❌         | Support     | Config file |       |       |
+| Date Time       | ✔️         | Name        |             |       |       |
+| UTC Offset      | ✔️         | Support     | Config file |       |       |
 | Serial Number   | ❌         | Support     | Config file |       |       |
 | Gain            | ❌         | Header      |             |       |       |
 | Battery Voltage | ❌         | Header      |             |       |       |
@@ -117,16 +121,18 @@ Column definitions:
 
 #### Song Meter SM4BAT
 
-| Name            | Supported | Location(s) | Notes        | Field | Units |
-| --------------- | --------- | ----------- | ------------ | ----- | ----- |
-| Date Time       | ✔️         | Name        |              |       |       |
-| Sensor Name     | ✔️         | Header      |              |       |       |
-| Firmware        | ✔️         | Header      |              |       |       |
-| Serial Number   | ✔️         | Header      |              |       |       |
-| Longitude       | ✔️         | Header      |              |       |       |
-| Latitude        | ✔️         | Header      |              |       |       |
-| Temperature     | ✔️         | Header      |              |       | °C    |
-| Battery Voltage | ❌         | Support     | Summary file |       |       |
+| Name            | Supported | Location(s)  | Notes        | Field     | Units |
+| --------------- | --------- | ------------ | ------------ | --------- | ----- |
+| Date Time       | ✔️         | Name, Header |              | StartDate |       |
+| Start Date      | ✔️         | Name, Header |              | StartDate |       |
+| Sensor Name     | ✔️         | Header       |              |           |       |
+| Firmware        | ✔️         | Header       |              |           |       |
+| Serial Number   | ✔️         | Header       |              |           |       |
+| Longitude       | ✔️         | Header       |              |           |       |
+| Latitude        | ✔️         | Header       |              |           |       |
+| Temperature     | ✔️         | Header       |              |           | °C    |
+| Battery Voltage | ❌         | Support      | Summary file |           |       |
+
 
 #### Song Meter SM4
 

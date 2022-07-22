@@ -51,7 +51,7 @@ namespace Emu.Audio.Vendors
         };
 
         public static readonly byte[] VendorString = Encoding.ASCII.GetBytes("Frontier Labs");
-        public static readonly Dictionary<string, Func<string, Fin<object>>> CommentParsers = new Dictionary<string, Func<string, Fin<object>>>
+        public static readonly Dictionary<string, Func<string, Fin<object>>> CommentParsers = new()
         {
             { FirmwareCommentKey, FirmwareParser },
             { RecordingStartCommentKey, OffsetDateTimeParser },
@@ -148,7 +148,7 @@ namespace Emu.Audio.Vendors
 
             if (stream.Length is DefaultFileStubLength or DefaultFileStubLength2)
             {
-                faults++;
+                faults += 2;
             }
             else if (stream.Length < 200)
             {
@@ -316,7 +316,7 @@ namespace Emu.Audio.Vendors
             // Try parsing the date in each known date format (varies depending on firmware version)
             foreach (OffsetDateTimePattern datePattern in DatePatterns)
             {
-                if (datePattern.Parse(value) is { Success: true} d)
+                if (datePattern.Parse(value) is { Success: true } d)
                 {
                     return d.Value;
                 }

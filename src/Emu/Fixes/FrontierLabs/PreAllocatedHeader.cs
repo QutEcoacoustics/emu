@@ -22,7 +22,8 @@ namespace Emu.Fixes.FrontierLabs
             Fixable: false,
             Safe: true,
             Automatic: false,
-            typeof(PreAllocatedHeader));
+            typeof(PreAllocatedHeader),
+            Suffix: "stub");
 
         public Task<CheckResult> CheckAffectedAsync(string file)
         {

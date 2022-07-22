@@ -25,9 +25,9 @@ namespace Emu.Metadata.SupportFiles.FrontierLabs
         public const string MicrophoneString = "Microphone";
         public const string EndRecordingSection = "--------";
         public static readonly string[] PowerTokens = new[] { "Ext-power", "Solar-power" };
-        public static readonly Regex LogFileRegex = new Regex(@".*logfile.*txt");
-        public static readonly Regex FirmwareRegex = new Regex(@"V?\d+");
-        public static readonly Regex BatteryParsingRegex = new Regex(@"[%V()]");
+        public static readonly Regex LogFileRegex = new(@".*logfile.*txt");
+        public static readonly Regex FirmwareRegex = new(@"V?\d+");
+        public static readonly Regex BatteryParsingRegex = new(@"[%V()]");
 
         public LogFile(string filePath)
         {

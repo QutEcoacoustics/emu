@@ -5,6 +5,7 @@
 namespace Emu.Cli
 {
     using System.ComponentModel;
+    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.Text;
     using System.Text.RegularExpressions;
@@ -15,7 +16,7 @@ namespace Emu.Cli
     {
         public static readonly string EmuName = "[orange4_1]EMU[/]";
 
-        private static Regex emuRegex = new Regex(@"(emu)", RegexOptions.IgnoreCase);
+        private static Regex emuRegex = new(@"(emu)", RegexOptions.IgnoreCase);
 
         public static string MarkupBool(bool value)
         {
@@ -52,7 +53,8 @@ namespace Emu.Cli
             return $"[blue][link={url.EscapeMarkup()}]{title.EscapeMarkup()}[/][/]";
         }
 
-        public static string FormatList<T>(object record)
+        [RequiresUnreferencedCode("Prints objects via their properties. If only domain objects are printed, then this is safe.")]
+        public static string FormatList<T>(T record)
         {
             var builder = new StringBuilder();
             foreach (PropertyDescriptor descriptor in TypeDescriptor.GetProperties(record))

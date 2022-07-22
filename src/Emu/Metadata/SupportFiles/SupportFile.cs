@@ -35,7 +35,7 @@ namespace Emu.Metadata.SupportFiles
 
         public string FilePath { get; set; }
 
-        public static void FindSupportFiles(string directory, List<TargetInformation> targets, IFileSystem fileSystem)
+        public static void FindSupportFiles(string directory, IEnumerable<TargetInformation> targets, IFileSystem fileSystem)
         {
             List<string> supportFiles = new List<string>();
             string searchDirectory = directory;

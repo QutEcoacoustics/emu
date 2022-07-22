@@ -15,7 +15,7 @@ namespace Emu
     public class EmuCommand : RootCommand
     {
         public EmuCommand()
-            : base("EMU - Ecoacoustic Metadata Utility")
+            : base("Ecoacoustic Metadata Utility")
         {
             this.AddGlobalOption(VerboseOption);
             this.AddGlobalOption(VeryVerboseOption);
@@ -58,22 +58,22 @@ namespace Emu
             new[] { "-vv", "--very-verbose" },
             "Log very verbosely - equivalent to log level trace");
 
-        public static Option<LogLevel> LogLevelOption { get; } = new Option<LogLevel>(
+        public static Option<short> LogLevelOption { get; } = new Option<short>(
             new string[] { "-l", "--log-level" },
-            () => LogLevel.Info,
-            "Set the log level");
+            () => (short)LogLevel.Info,
+            "Set the log level. 0..6=None,Crit,Error,Warn,Info,Debug,Trace");
 
         public static Option<OutputFormat> FormatOption { get; } = new Option<OutputFormat>(
             new string[] { "--format", "-F" },
             () => OutputFormat.Default,
-            "Which format to ouput results in.");
+            "Which format to output results in.");
 
         public static Option<string> OutOption { get; } = new Option<string>(
             new string[] { "--output", "-O" },
             () => null,
             "Where to output data. Defaults to stdout if not supplied")
             .LegalFilePathsOnly()
-            .WithValidator(OutputValidiator);
+            .WithValidator(OutputValidator);
 
         public static Option<bool> ClobberOption { get; } = new Option<bool>(
             new string[] { "--clobber", "-C" },
@@ -91,9 +91,9 @@ namespace Emu
                 true => LogLevel.Trace,
                 _ => LogLevel.None,
             };
-            var logLevel = parseResult.FindResultFor(LogLevelOption)!.GetValueOrDefault<LogLevel>();
+            var logLevel = parseResult.FindResultFor(LogLevelOption)!.GetValueOrDefault<short>();
 
-            var level = new[] { (int)logLevel, (int)verbose, (int)veryVerbose }.Max();
+            var level = new[] { logLevel, (int)verbose, (int)veryVerbose }.Max();
 
             return (LogLevel)level;
         }
@@ -102,7 +102,7 @@ namespace Emu
             "System.IO.Abstractions",
             "IO0002:Replace File class with IFileSystem.File for improved testability",
             Justification = "We can't inject IFileSystem at this stage.")]
-        private static string OutputValidiator(OptionResult optionResult)
+        private static string OutputValidator(OptionResult optionResult)
         {
             ArgumentNullException.ThrowIfNull(optionResult);
 

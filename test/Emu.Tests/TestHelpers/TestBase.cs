@@ -94,7 +94,9 @@ namespace Emu.Tests.TestHelpers
 
         public string AllOutput => this.cleanOutput.ToString();
 
-        public FilenameParser FilenameParser => new(this.TestFiles);
+        public FilenameParser FilenameParser => new(
+            this.TestFiles,
+            this.ServiceProvider.GetRequiredService<FilenameGenerator>());
 
         public Parser CliParser => CliParserValue;
 

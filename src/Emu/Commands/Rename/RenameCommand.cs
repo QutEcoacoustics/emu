@@ -9,7 +9,7 @@ namespace Emu
     using Emu.Commands;
     using NodaTime;
 
-    public class RenameCommand : Command
+    public class RenameCommand : Command, IHelpPostScript
     {
         public RenameCommand()
             : base("rename", "rename one or more files.")
@@ -18,9 +18,13 @@ namespace Emu
 
             this.AddOption(Common.DryRun);
 
-            this.AddOption(new Option<DirectoryInfo>(new string[] { "--copy-to" }, "Create copies of the original files and move them to this directory"));
+            this.AddOption(new Option<string>(
+                new string[] { "-t", "--template" },
+                "Provide a template for the rename. You can template any field that is output from the metadata command."));
 
-            this.AddOption(new Option<bool>(new string[] { "--flatten" }, "Flattens files so all files in folders are moved up to the target directory"));
+            this.AddOption(new Option<DirectoryInfo>(new string[] { "--copy-to" }, "Create copies of the files and move them to this directory."));
+
+            this.AddOption(new Option<bool>(new string[] { "--flatten" }, "Flattens (removes directories) files into the target directory."));
 
             this.AddOption(
                 new Option<Offset?>(
@@ -35,6 +39,25 @@ namespace Emu
                     UtcOffsetOption.Parser,
                     description: "Adds a UTC offset to the datestamp. Only affects local datestamps without an offset. Use this convert a local date to a global date.")
                 .ValidUtcOffset());
+
+            this.AddOption(new Option<bool>(
+                new string[] { "-m", "--scan-metadata" },
+                "Scan the files contents (and surrounding directories) for extra metadata, not just the file name. This makes the rename slower."));
+        }
+
+        public string PostScript
+        {
+            get
+            {
+                var example = "--template=\"MyNewName_{StartDate}_{DurationSeconds}{Extension}\"";
+                return $@"
+The `--template` option allows you to customize the naming of the file.
+Use any field output by the `metadata` command as a template placeholder.
+We recommend using the `--scan-metadata` option to scan the file contents for extra metadata when using a template.
+You can mix place holders and literal text. Wrap placeholders in curly braces ({{, }}).
+E.g. `{example}`
+";
+            }
         }
     }
 }

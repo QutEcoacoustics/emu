@@ -48,6 +48,10 @@ namespace Emu.Metadata.FrontierLabs
                 EmbeddedChecksum = recording.EmbeddedChecksum ?? md5.Match(
                         Succ: x => new Checksum() { Type = "MD5", Value = x.ToHexString() },
                         Fail: null),
+                MediaType = Flac.Mime,
+
+                // in cases where no filename extension was available, we can backfill a recommended extension
+                Extension = recording.Extension ?? Flac.Extension,
             };
 
             return ValueTask.FromResult(recording);

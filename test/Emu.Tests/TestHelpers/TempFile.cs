@@ -35,12 +35,13 @@ namespace Emu.Tests.TestHelpers
 
         public string Path { get; private set; }
 
-        public static TempFile DuplicateExisting(string path)
+        public static TempFile DuplicateExisting(string path, string newName = null)
         {
             if (IO.File.Exists(path))
             {
-                var basename = IO.Path.GetFileNameWithoutExtension(path);
-                var extension = IO.Path.GetExtension(path);
+                var basename = IO.Path.GetFileNameWithoutExtension(newName ?? path);
+                var extension = IO.Path.GetExtension(newName ?? path);
+
                 var temp = new TempFile(basename, extension);
 
                 IO.File.Copy(path, temp.Path);

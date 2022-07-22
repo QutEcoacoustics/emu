@@ -146,7 +146,7 @@ namespace Emu.Tests.Commands.Fix
             var fix = this.serializer.Deserialize<FixApplyResult>(reader).Single();
 
             fix.BackupFile.Should().BeNull();
-            var expected = this.target.Path + ".error_FL001";
+            var expected = this.target.Path + ".error_stub";
             fix.File.Should().Be(expected);
             var problem = fix.Problems[WellKnownProblems.FrontierLabsProblems.PreAllocatedHeader];
 
@@ -238,7 +238,7 @@ namespace Emu.Tests.Commands.Fix
             var fix = this.serializer.Deserialize<FixApplyResult>(reader).Single();
 
             fix.BackupFile.Should().BeNull();
-            var expected = this.target.Path + ".error_FL001";
+            var expected = this.target.Path + ".error_stub";
             fix.File.Should().Be(expected);
             var problem = fix.Problems[WellKnownProblems.FrontierLabsProblems.PreAllocatedHeader];
 
@@ -250,6 +250,40 @@ namespace Emu.Tests.Commands.Fix
             otherProblem.Status.Should().Be(FixStatus.NoOperation);
 
             this.RealFileSystem.File.Delete(expected);
+        }
+
+        [Fact]
+        public async Task WillNotProcessAFileWithTheErrorSuffix()
+        {
+            var fixture = this.data[FixtureModel.PreAllocatedHeader];
+            this.target = TempFile.DuplicateExisting(fixture.AbsoluteFixturePath, fixture.ToFileInfo(this.CurrentFileSystem).Name + ".error_empty");
+
+            this.command.Targets = new[] { this.target.Path };
+            this.command.Fix = new string[]
+            {
+                WellKnownProblems.FrontierLabsProblems.MetadataDurationBug.Id,
+                WellKnownProblems.FrontierLabsProblems.PreAllocatedHeader.Id,
+            };
+
+            var result = await this.command.InvokeAsync(null);
+            result.Should().Be(ExitCodes.Success);
+
+            using var reader = new StringReader(this.AllOutput);
+            var fix = this.serializer.Deserialize<FixApplyResult>(reader).Single();
+
+            fix.BackupFile.Should().BeNull();
+
+            // target path should be unchanged
+            var expected = this.target.Path;
+            fix.File.Should().Be(expected);
+
+            var problem = fix.Problems[WellKnownProblems.FrontierLabsProblems.PreAllocatedHeader];
+            problem.CheckResult.Message.Should().Contain("The file is a stub and has no usable data");
+            problem.Message.Should().Contain("Already has been renamed as an error file");
+            problem.Status.Should().Be(FixStatus.NotFixed);
+
+            var otherProblem = fix.Problems[WellKnownProblems.FrontierLabsProblems.MetadataDurationBug];
+            otherProblem.Status.Should().Be(FixStatus.NoOperation);
         }
 
         [Fact]

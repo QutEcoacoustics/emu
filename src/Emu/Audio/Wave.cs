@@ -22,7 +22,9 @@ namespace Emu.Audio
     public static class Wave
     {
         public const string Mime = "audio/wave";
+        public const string Extension = ".wav";
 
+        public const int RiffLengthOffset = 4;
         public const int MinimumRiffHeaderLength = 8;
         public const int FL005ErrorBytes = 44;
 
@@ -70,14 +72,16 @@ namespace Emu.Audio
                 return FileTooShortRiff;
             }
 
-            if (!buffer.Slice(0, 4).SequenceEqual(RiffMagicNumber))
+            if (!buffer[..4].SequenceEqual(RiffMagicNumber))
             {
                 return InvalidFileData;
             }
 
-            var length = BinaryPrimitives.ReadInt32LittleEndian(buffer.Slice(4));
+            var length = BinaryPrimitives.ReadInt32LittleEndian(buffer[4..]);
 
-            return new RangeHelper.Range(offset, offset + length);
+            var outOfBounds = length > stream.Length;
+
+            return new RangeHelper.Range(offset, offset + length, outOfBounds);
         }
 
         public static Fin<RangeHelper.Range> FindWaveChunk(Stream stream, RangeHelper.Range riffChunk)
@@ -117,14 +121,14 @@ namespace Emu.Audio
             return new RangeHelper.Range(offset, riffChunk.End);
         }
 
-        public static Fin<RangeHelper.Range> FindFormatChunk(Stream stream, RangeHelper.Range waveChunk)
+        public static Fin<RangeHelper.Range> FindFormatChunk(Stream stream, RangeHelper.Range waveChunk, bool allowOutOfBounds = false)
         {
-            return ScanForChunk(stream, waveChunk, FormatChunkId);
+            return ScanForChunk(stream, waveChunk, FormatChunkId, allowOutOfBounds);
         }
 
-        public static Fin<RangeHelper.Range> FindDataChunk(Stream stream, RangeHelper.Range waveChunk)
+        public static Fin<RangeHelper.Range> FindDataChunk(Stream stream, RangeHelper.Range waveChunk, bool allowOutOfBounds = false)
         {
-            return ScanForChunk(stream, waveChunk, DataChunkId);
+            return ScanForChunk(stream, waveChunk, DataChunkId, allowOutOfBounds);
         }
 
         public static Fin<bool> IsWaveFile(Stream stream)
@@ -142,7 +146,7 @@ namespace Emu.Audio
 
             var waveChunk = riffChunk.Bind(r => FindWaveChunk(stream, r));
 
-            var formatChunk = waveChunk.Bind(w => Wave.FindFormatChunk(stream, w));
+            var formatChunk = waveChunk.Bind(w => FindFormatChunk(stream, w));
             if (formatChunk.IsFail)
             {
                 return (Error)formatChunk;
@@ -150,7 +154,7 @@ namespace Emu.Audio
 
             var formatSpan = RangeHelper.ReadRange(stream, (RangeHelper.Range)formatChunk);
 
-            var format = Wave.GetAudioFormat(formatSpan);
+            var format = GetAudioFormat(formatSpan);
 
             return format == Format.Pcm;
         }
@@ -211,8 +215,6 @@ namespace Emu.Audio
             return length / (ulong)(channels * (bitsPerSample / 8));
         }
 
-        public static int FL005Patch(int length) => length - FL005ErrorBytes;
-
         /// <summary>
         /// Scans a container (a range of bytes) for a sub-chunk with the given chunk ID.
         /// The target chunk may be in any position within it's siblings.
@@ -222,8 +224,13 @@ namespace Emu.Audio
         /// <param name="stream">The stream to read.</param>
         /// <param name="container">The subset of the stream to read from.</param>
         /// <param name="targetChunkId">The target chunk to look for.</param>
+        /// <param name="allowOutOfBounds">Set to <c>true</c> if you want out of bounds ranges to be returned. Normally the method will return Errors in out of bounds cases.</param>
         /// <returns>An error if the chunk was not found, or a Range of the target chunk if it was found.</returns>
-        public static Fin<RangeHelper.Range> ScanForChunk(Stream stream, RangeHelper.Range container, ReadOnlySpan<byte> targetChunkId)
+        public static Fin<RangeHelper.Range> ScanForChunk(
+            Stream stream,
+            RangeHelper.Range container,
+            ReadOnlySpan<byte> targetChunkId,
+            bool allowOutOfBounds)
         {
             const int ChunkIdLength = 4;
             const int ChunkLengthLength = 4;
@@ -272,15 +279,16 @@ namespace Emu.Audio
                 offset += read;
 
                 // check the chunk length falls within the bounds of the file
+                bool outOfBounds = false;
                 if (offset + length > stream.Length)
                 {
-                    // FL005 is detected - decrement length by 44 for an accurate value
-                    // TODO: Fix this problem rather than cover it up
-                    if (offset + length - stream.Length == FL005ErrorBytes)
+                    // FL005 for example would trigger this branch
+                    if ((offset + length) > stream.Length)
                     {
-                        length = FL005Patch(length);
+                        outOfBounds = true;
                     }
-                    else
+
+                    if (!allowOutOfBounds)
                     {
                         return InvalidChunk;
                     }
@@ -290,7 +298,7 @@ namespace Emu.Audio
                 if (targetChunkId.SequenceEqual(chunkId))
                 {
                     // success, stop here and return the range of the chunk
-                    return new RangeHelper.Range(offset, offset + length);
+                    return new RangeHelper.Range(offset, offset + length, outOfBounds);
                 }
 
                 // advance our offset counter by the length of the chunk to look for the next sibling

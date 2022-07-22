@@ -7,12 +7,14 @@ namespace Emu.Tests.TestHelpers
     using System;
     using System.Collections.Generic;
     using System.IO.Abstractions;
+    using System.IO.Abstractions.TestingHelpers;
     using System.Reflection;
     using CsvHelper.Configuration.Attributes;
     using Emu.Audio;
     using Emu.Metadata;
     using Emu.Metadata.SupportFiles;
     using Emu.Models;
+    using Newtonsoft.Json;
     using Xunit.Abstractions;
 
     public enum ValidMetadata
@@ -22,7 +24,7 @@ namespace Emu.Tests.TestHelpers
         Yes,
     }
 
-    public class FixtureModel
+    public class FixtureModel : IXunitSerializable
     {
         public const string PreAllocatedHeader = "Short Error File";
         public const string PreAllocatedHeader2 = "Preallocated header 153";
@@ -38,6 +40,9 @@ namespace Emu.Tests.TestHelpers
         public const string WamdExtractor = "WamdExtractor";
         public const string FLCommentAndLogExtractor = "FLCommentAndLogExtractor";
         public const string SpaceInDateStamp = "Space in date stamp";
+        public const string IncorrectDataSize = "Incorrect data size";
+        public const string TwoLogFiles1 = "Two Log Files 1";
+        public const string ShortFile = "Short File";
 
         private string fixturePath;
 
@@ -99,6 +104,12 @@ namespace Emu.Tests.TestHelpers
              return fileSystem.FileInfo.FromFileName(this.AbsoluteFixturePath);
         }
 
+        public MockFileData ToMockFileData()
+        {
+            var bytes = FixtureHelper.RealFileSystem.File.ReadAllBytes(this.AbsoluteFixturePath);
+            return new MockFileData(bytes);
+        }
+
         public bool ShouldProcess(string processKey, out Recording recording)
         {
             recording = null;
@@ -116,6 +127,18 @@ namespace Emu.Tests.TestHelpers
         public override string ToString()
         {
             return this.Name + " (" + this.FixturePath + ")";
+        }
+
+        public void Deserialize(IXunitSerializationInfo info)
+        {
+            var text = info.GetValue<string>("Value");
+            JsonConvert.PopulateObject(text, this, Helpers.JsonSettings);
+        }
+
+        public void Serialize(IXunitSerializationInfo info)
+        {
+            var json = JsonConvert.SerializeObject(this, Helpers.JsonSettings);
+            info.AddValue("Value", json);
         }
     }
 }

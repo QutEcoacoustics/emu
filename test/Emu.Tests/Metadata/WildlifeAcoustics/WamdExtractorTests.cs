@@ -35,27 +35,27 @@ namespace Emu.Tests.Metadata
             Assert.Equal(expected, result);
         }
 
-        [Theory]
+        [SkippableTheory]
         [ClassData(typeof(FixtureHelper.FixtureData))]
         public async System.Threading.Tasks.Task ProcessFilesWorks(FixtureModel model)
         {
-            if (model.Process.ContainsKey(FixtureModel.WamdExtractor))
-            {
-                Recording expectedRecording = model.Record;
+            Skip.IfNot(model.ShouldProcess(FixtureModel.WamdExtractor, out var expectedRecording));
 
-                var recording = await this.subject.ProcessFileAsync(
-                    model.ToTargetInformation(this.RealFileSystem),
-                    this.Recording);
+            var recording = await this.subject.ProcessFileAsync(
+                model.ToTargetInformation(this.RealFileSystem),
+                this.Recording);
 
-                recording.StartDate.Should().Be(expectedRecording.StartDate);
-                recording.Sensor.Name.Should().Be(expectedRecording.Sensor.Name);
-                recording.Sensor.SerialNumber.Should().Be(expectedRecording.Sensor.SerialNumber);
-                recording.Sensor.Firmware.Should().Be(expectedRecording.Sensor.Firmware);
-                recording.Sensor.Temperature.Should().Be(expectedRecording.Sensor.Temperature);
-                recording.Sensor.Microphones.Should().BeEquivalentTo(expectedRecording.Sensor.Microphones);
-                recording.Location.Latitude.Should().Be(expectedRecording.Location.Latitude);
-                recording.Location.Longitude.Should().Be(expectedRecording.Location.Longitude);
-            }
+            recording.StartDate.Should().Be(expectedRecording.StartDate);
+            recording.Sensor.Name.Should().Be(expectedRecording.Sensor.Name);
+            recording.Sensor.SerialNumber.Should().Be(expectedRecording.Sensor.SerialNumber);
+            recording.Sensor.Firmware.Should().Be(expectedRecording.Sensor.Firmware);
+            recording.Sensor.Temperature.Should().Be(expectedRecording.Sensor.Temperature);
+            recording.Sensor.Microphones.Should().BeEquivalentTo(expectedRecording.Sensor.Microphones);
+            recording.Location.Latitude.Should().Be(expectedRecording.Location.Latitude);
+            recording.Location.Longitude.Should().Be(expectedRecording.Location.Longitude);
+
+            recording.TrueStartDate.Should().Be(expectedRecording.TrueStartDate);
+            recording.TrueEndDate.Should().Be(expectedRecording.TrueEndDate);
         }
     }
 }

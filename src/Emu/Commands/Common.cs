@@ -11,17 +11,17 @@ namespace Emu.Commands
     {
         public static Argument<string[]> Targets { get; } = new(
             "targets",
-            "One more glob patterns for files to process. E.g. '**/*.mp3'")
+            "One more glob patterns for files to process. E.g. '**/*.mp3'.")
         { Arity = ArgumentArity.OneOrMore };
 
         public static Option<bool> DryRun { get; } = new(
             new string[] { "-n", "--dry-run" },
-            "Do a \"dry run\" by simulating any change that writes data");
+            "Do a \"dry run\" by simulating any change that writes data.");
 
         public static Option<string[]> Fixes { get; } = new Option<string[]>(
             "--fix",
             CommandLineExtensions.SplitOnComma<string>(),
-            description: "The ID of a well known problem to check for. See `emu fix list`")
+            description: "The ID of a well known problem to check for. See `emu fix list`.")
         {
             Arity = ArgumentArity.OneOrMore,
             AllowMultipleArgumentsPerToken = false,

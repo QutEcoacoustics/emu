@@ -30,7 +30,7 @@ namespace Emu.Audio
         public static readonly Error WamdVersionError = Error.New("Error reading wamd version");
         public static readonly OffsetDateTimePattern OffsetDatePattern = OffsetDateTimePattern.CreateWithInvariantCulture("yyyy'-'MM'-'dd' 'HH':'mm':'sso<m>");
         public static readonly LocalDateTimePattern LocalDatePattern = LocalDateTimePattern.CreateWithInvariantCulture("yyyy'-'MM'-'dd' 'HH':'mm':'ss");
-        public static readonly Dictionary<int, Action<Wamd, string>> Setters = new Dictionary<int, Action<Wamd, string>>
+        public static readonly Dictionary<int, Action<Wamd, string>> Setters = new()
         {
             { ModelNameChunkId, (wamdData, value) => wamdData.Name = value },
             { ModelSerialNumberChunkId, (wamdData, value) => wamdData.SerialNumber = value },
@@ -106,7 +106,7 @@ namespace Emu.Audio
         {
             var riffChunk = Wave.FindRiffChunk(stream);
             var waveChunk = riffChunk.Bind(r => Wave.FindWaveChunk(stream, r));
-            var wamdChunk = waveChunk.Bind(w => Wave.ScanForChunk(stream, w, WamdChunkId));
+            var wamdChunk = waveChunk.Bind(w => Wave.ScanForChunk(stream, w, WamdChunkId, false));
 
             if (wamdChunk.IsFail)
             {

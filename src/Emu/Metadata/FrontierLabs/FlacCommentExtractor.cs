@@ -93,9 +93,20 @@ namespace Emu.Metadata.FrontierLabs
                         SerialNumber = recording.Sensor?.SerialNumber ?? (string)this.ParseComment(FrontierLabs.SensorIdCommentKey, comments),
                         Microphones = recording.Sensor?.Microphones ?? new Microphone[microphones.Length()],
                     },
+
                     // TODO: 3.08 firmware includes a local time (no offset). In this case we just discard it here
+                    // TrueStartDate is the ideal field to update here, but if we're missing the date in the filename, update normal start date as well
                     StartDate = recording.StartDate ?? this.ParseComment(FrontierLabs.RecordingStartCommentKey, comments) as OffsetDateTime?,
-                    EndDate = recording.EndDate ?? this.ParseComment(FrontierLabs.RecordingEndCommentKey, comments) as OffsetDateTime?,
+
+                    // From FL:
+                    // The info in the FLAC header is when the first buffer is being written to the file, so it’s the “more accurate” figure.
+                    // The filename timestamp is the basically what the schedule says the start time should be.
+                    // People said they preferred that as it made more sense to them and they didn’t care too much about the “absolute time”
+                    // or seconds differences since critters aren’t much for schedules and the clocks can drift over a long deployment
+                    // anyway and the.The AAO boxes update their clocks once a day but everything is still +/ -1 second accuracy
+                    // anyway(unless you’re running the acoustic localisation firmware).
+                    TrueStartDate = recording.StartDate ?? this.ParseComment(FrontierLabs.RecordingStartCommentKey, comments) as OffsetDateTime?,
+                    TrueEndDate = recording.TrueEndDate ?? this.ParseComment(FrontierLabs.RecordingEndCommentKey, comments) as OffsetDateTime?,
                     Location = (recording.Location ?? new Location()) with
                     {
                         Longitude = recording.Location?.Longitude ?? (location != null ? location[FrontierLabs.LongitudeKey] : null),

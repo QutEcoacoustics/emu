@@ -4,6 +4,8 @@
 
 namespace Emu.Tests.Metadata
 {
+    using System.Threading.Tasks;
+    using Emu.Fixes.FrontierLabs;
     using Emu.Metadata;
     using Emu.Models;
     using Emu.Tests.TestHelpers;
@@ -16,17 +18,18 @@ namespace Emu.Tests.Metadata
         private readonly WaveHeaderExtractor subject;
 
         public WaveHeaderExtractorTests(ITestOutputHelper output)
-            : base(output)
+            : base(output, realFileSystem: true)
         {
             this.subject = new WaveHeaderExtractor(
-                this.BuildLogger<WaveHeaderExtractor>());
+                this.BuildLogger<WaveHeaderExtractor>(),
+                this.ServiceProvider.GetRequiredService<IncorrectDataSize>());
         }
 
         public Recording Recording => new();
 
         [Theory]
         [ClassData(typeof(FixtureHelper.FixtureData))]
-        public async System.Threading.Tasks.Task CanProcessFilesWorks(FixtureModel model)
+        public async Task CanProcessFilesWorks(FixtureModel model)
         {
             var result = await this.subject.CanProcessAsync(model.ToTargetInformation(this.RealFileSystem));
 
@@ -35,25 +38,25 @@ namespace Emu.Tests.Metadata
             Assert.Equal(expected, result);
         }
 
-        [Theory]
+        [SkippableTheory]
         [ClassData(typeof(FixtureHelper.FixtureData))]
-        public async System.Threading.Tasks.Task ProcessFilesWorks(FixtureModel model)
+        public async Task ProcessFilesWorks(FixtureModel model)
         {
-            if (model.IsWave && model.ValidMetadata == ValidMetadata.Yes)
-            {
-                Recording expectedRecording = model.Record;
+            Skip.IfNot(model.IsWave && model.ValidMetadata == ValidMetadata.Yes);
 
-                var recording = await this.subject.ProcessFileAsync(
-                    model.ToTargetInformation(this.RealFileSystem),
-                    this.Recording);
+            Recording expectedRecording = model.Record;
 
-                recording.DurationSeconds?.Should().Be(expectedRecording.DurationSeconds);
-                recording.TotalSamples.Should().Be(expectedRecording.TotalSamples);
-                recording.SampleRateHertz.Should().Be(expectedRecording.SampleRateHertz);
-                recording.Channels.Should().Be(expectedRecording.Channels);
-                recording.BitsPerSecond.Should().Be(expectedRecording.BitsPerSecond);
-                recording.BitDepth.Should().Be(expectedRecording.BitDepth);
-            }
+            var recording = await this.subject.ProcessFileAsync(
+                model.ToTargetInformation(this.RealFileSystem),
+                this.Recording);
+
+            recording.DurationSeconds?.Should().Be(expectedRecording.DurationSeconds);
+            recording.TotalSamples.Should().Be(expectedRecording.TotalSamples);
+            recording.SampleRateHertz.Should().Be(expectedRecording.SampleRateHertz);
+            recording.Channels.Should().Be(expectedRecording.Channels);
+            recording.BitsPerSecond.Should().Be(expectedRecording.BitsPerSecond);
+            recording.BitDepth.Should().Be(expectedRecording.BitDepth);
+            recording.MediaType.Should().Be(expectedRecording.MediaType);
         }
     }
 }

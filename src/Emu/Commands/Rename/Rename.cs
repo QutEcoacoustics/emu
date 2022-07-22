@@ -10,16 +10,22 @@ namespace Emu.Commands.Rename
     using System.IO;
     using System.IO.Abstractions;
     using System.Linq;
+    using System.Text.RegularExpressions;
     using System.Threading.Tasks;
     using Emu.Cli;
     using Emu.Extensions.System;
     using Emu.Filenames;
+    using Emu.Metadata;
+    using Emu.Metadata.SupportFiles;
+    using Emu.Models;
     using Emu.Utilities;
     using LanguageExt;
     using LanguageExt.Common;
     using Microsoft.Extensions.Logging;
     using NodaTime;
     using static Emu.Utilities.DryRun;
+    using static LanguageExt.Prelude;
+    using Error = LanguageExt.Common.Error;
 
     /// <summary>
     /// Renames files.
@@ -28,22 +34,33 @@ namespace Emu.Commands.Rename
     {
         private static readonly Error NoDateError = Error.New("no timestamp found in filename, cannot give give a new offset");
         private static readonly Error NoOffsetError = Error.New("no offset timestamp found in filename, cannot give give a new offset. Try using --offset to give an initial offset to a local date.");
+
+        private static readonly Regex LocalDateTokenRegex = new($"{nameof(Recording.LocalStartDate).AsToken()}");
+
         private readonly ILogger<Rename> logger;
         private readonly DryRunFactory dryRunFactory;
         private readonly IFileSystem fileSystem;
+        private readonly FilenameExtractor filenameExtractor;
         private readonly FileMatcher fileMatcher;
         private readonly FilenameParser parser;
+        private readonly MetadataRegister extractorRegister;
+        private readonly FilenameGenerator generator;
+        private IEnumerable<IMetadataOperation> allExtractors;
 
-        public Rename(ILogger<Rename> logger, DryRunFactory dryRunFactory, IFileSystem fileSystem, FileMatcher fileMatcher, OutputRecordWriter writer, FilenameParser parser)
+        public Rename(ILogger<Rename> logger, DryRunFactory dryRunFactory, IFileSystem fileSystem, FileMatcher fileMatcher, OutputRecordWriter writer, FilenameParser parser, MetadataRegister extractorRegister, FilenameGenerator generator)
         {
             this.logger = logger;
             this.dryRunFactory = dryRunFactory;
             this.fileSystem = fileSystem;
             this.fileMatcher = fileMatcher;
             this.parser = parser;
+            this.extractorRegister = extractorRegister;
+            this.generator = generator;
             this.Writer = writer;
             this.fileSystem = fileSystem;
             this.fileSystem = fileSystem;
+
+            this.filenameExtractor = this.extractorRegister.Get<FilenameExtractor>();
         }
 
         public string[] Targets { get; set; }
@@ -57,6 +74,15 @@ namespace Emu.Commands.Rename
         public Offset? Offset { get; set; }
 
         public Offset? NewOffset { get; set; }
+
+        public bool ScanMetadata { get; set; }
+
+        public string Template { get; set; }
+
+        // lazy generate a list of extractors
+        // lazy because generation will do service resolution
+        // don't include filename extractor because that operation is done by default
+        private IEnumerable<IMetadataOperation> AllExtractors => this.allExtractors ??= this.extractorRegister.All.Where(t => t is not FilenameExtractor);
 
         public override async Task<int> InvokeAsync(InvocationContext context)
         {
@@ -115,15 +141,7 @@ namespace Emu.Commands.Rename
         public async ValueTask<(RenameResult[] Results, bool Failed)> ProcessFiles(IEnumerable<(string Base, string File)> files, DryRun dryRun)
         {
             // parse file names, apply rename transforms
-            var renames = files
-                .ToSeq()
-                .Map(this.Parse)
-                .Map(this.ApplyOffset)
-                .Map(this.ApplyNewOffset)
-                .Map(this.ApplyFlatten)
-                .Map(this.ApplyMove)
-                .Map(this.ToNewName)
-                .ToArray();
+            var renames = await this.ApplyOperations(files).ToArrayAsync();
 
             // check if any of the new names will have issues
             var conflicts = this.CheckNewPaths(renames);
@@ -181,18 +199,48 @@ namespace Emu.Commands.Rename
             return partial;
         }
 
-        private RenameResult ToNewName(FilenameTransform transform)
+        private async IAsyncEnumerable<RenameResult> ApplyOperations(IEnumerable<(string Base, string File)> files)
         {
-            var old = transform.Old;
-
-            this.logger.LogDebug("Filename transform: is error? {error}, {transform}", transform.New.IsFail, transform.New);
-
-            return transform.New.Case switch
+            foreach (var file in files)
             {
-                Error error => new RenameResult(old, default, error.ToString()),
-                ParsedFilename newFragments => new RenameResult(old, newFragments.Reconstruct(this.fileSystem), default),
+                var parse = this.Parse(file);
+
+                var moreMetadata = await this.ExtractMetadata(parse);
+
+                var transformed = moreMetadata
+                    .Bind(this.ForceOffsetDate)
+                    .Bind(this.ApplyTemplate)
+                    .Bind(this.ApplyOffset)
+                    .Bind(this.ApplyNewOffset)
+                    .Bind(this.ApplyFlatten)
+                    .Bind(this.ApplyMove);
+
+                yield return this.ToNewName(transformed, parse.Old);
+            }
+        }
+
+        private RenameResult ToNewName(Fin<FilenameTransform> transform, string oldPath)
+        {
+            this.logger.LogDebug("Filename transform: is error? {error}", transform.IsFail ? (Error)transform : default);
+            this.logger.LogTrace("Filename transform: {transform}", transform.IfFail(null));
+
+            return transform.Case switch
+            {
+                Error error => new RenameResult(oldPath, default, error.ToString()),
+                FilenameTransform t => Generate(t),
                 _ => throw new NotImplementedException(),
             };
+
+            RenameResult Generate(FilenameTransform t)
+            {
+                var newName = this.generator
+                    .Reconstruct(t.TokenTemplate, t.Data)
+                    .Map(n => this.fileSystem.Path.Combine(t.Data.Directory, n));
+
+                return newName.Match(
+                    Succ: name => new RenameResult(t.Old, name, default),
+                    Fail: error => new RenameResult(oldPath, default, error.ToString()));
+            }
         }
 
         private ValueTask ApplyRename(RenameResult rename, DryRun dryRun)
@@ -246,44 +294,77 @@ namespace Emu.Commands.Rename
         private FilenameTransform Parse((string Base, string File) result)
         {
             var fragments = this.parser.Parse(result.File);
-            return new(result.Base, result.File, fragments, fragments);
+            var stem = this.fileSystem.Path.GetFileNameWithoutExtension(result.File);
+            var size = this.fileSystem.FileInfo.FromFileName(result.File).Length;
+
+            var recording = this.filenameExtractor.ApplyValues(
+                new Recording
+                {
+                    SourcePath = result.File,
+                },
+                fragments,
+                stem,
+                (ulong)size);
+
+            return new FilenameTransform(result.Base, result.File, fragments, recording, fragments.TokenizedName);
         }
 
-        private FilenameTransform ApplyFlatten(FilenameTransform transform)
+        private async ValueTask<Fin<FilenameTransform>> ExtractMetadata(FilenameTransform transform)
+        {
+            if (!this.ScanMetadata)
+            {
+                this.logger.LogDebug("Skipping extended metadata scan");
+                return transform;
+            }
+
+            this.logger.LogDebug("Doing extended metadata scan");
+
+            var target = new TargetInformation(this.fileSystem)
+            {
+                Base = transform.Base,
+                Path = transform.Data.SourcePath,
+            };
+
+            SupportFile.FindSupportFiles(transform.Base, target.AsEnumerable(), this.fileSystem);
+
+            Recording recording = transform.Data;
+            foreach (var extractor in this.AllExtractors)
+            {
+                if (await extractor.CanProcessAsync(target))
+                {
+                    this.logger.LogTrace("Extracting metadata with {extractor}", extractor.GetType().Name);
+                    recording = await extractor.ProcessFileAsync(target, recording);
+                }
+            }
+
+            return transform with { Data = recording };
+        }
+
+        private Fin<FilenameTransform> ApplyFlatten(FilenameTransform transform)
         {
             if (!this.Flatten)
             {
                 return transform;
             }
 
-            if (transform.New.IsFail)
-            {
-                return transform;
-            }
+            return transform with { Data = FlattenDirectory(transform.Data) };
 
-            return transform with { New = FlattenDirectory((ParsedFilename)transform.New) };
-
-            ParsedFilename FlattenDirectory(ParsedFilename fragments)
+            Recording FlattenDirectory(Recording fragments)
             {
                 return fragments with { Directory = transform.Base };
             }
         }
 
-        private FilenameTransform ApplyMove(FilenameTransform transform)
+        private Fin<FilenameTransform> ApplyMove(FilenameTransform transform)
         {
             if (this.CopyTo == null)
             {
                 return transform;
             }
 
-            if (transform.New.IsFail)
-            {
-                return transform;
-            }
+            return transform with { Data = RelativeDirectory(transform.Data) };
 
-            return transform with { New = RelativeDirectory((ParsedFilename)transform.New) };
-
-            ParsedFilename RelativeDirectory(ParsedFilename fragments)
+            Recording RelativeDirectory(Recording fragments)
             {
                 var basePath = transform.Base;
                 var relativeFragment = this.fileSystem.Path.GetRelativePath(basePath, fragments.Directory);
@@ -294,15 +375,40 @@ namespace Emu.Commands.Rename
             }
         }
 
-        private FilenameTransform ApplyOffset(FilenameTransform transform)
+        private Fin<FilenameTransform> ForceOffsetDate(FilenameTransform transform)
         {
-            if (transform.New.IsFail)
+            var match = LocalDateTokenRegex.Match(transform.TokenTemplate);
+
+            if (!match.Success)
             {
                 return transform;
             }
 
-            var newFragments = (ParsedFilename)transform.New;
+            this.logger.LogDebug("Substituting local date for offset date in rename template");
 
+            return transform with
+            {
+                TokenTemplate = match.Result($"$`{nameof(Recording.StartDate).AsToken()}$'"),
+            };
+        }
+
+        private Fin<FilenameTransform> ApplyTemplate(FilenameTransform transform)
+        {
+            if (string.IsNullOrEmpty(this.Template))
+            {
+                return transform;
+            }
+
+            this.logger.LogDebug("Applying template {template}", this.Template);
+
+            return transform with
+            {
+                TokenTemplate = this.Template,
+            };
+        }
+
+        private Fin<FilenameTransform> ApplyOffset(FilenameTransform transform)
+        {
             if (this.Offset is null)
             {
                 return transform;
@@ -310,30 +416,23 @@ namespace Emu.Commands.Rename
 
             var offset = this.Offset.Value;
 
-            return newFragments switch
+            return transform.Data switch
             {
                 // this needs to come first to short-ciruit the switch
-                { OffsetDateTime: not null } => transform,
-                { LocalDateTime: not null } => transform with
+                { StartDate: not null } => transform,
+                { LocalStartDate: not null } => transform with
                 {
-                    New = newFragments with
+                    Data = transform.Data with
                     {
-                        OffsetDateTime = newFragments.LocalDateTime.Value.WithOffset(offset),
+                        StartDate = transform.Data.LocalStartDate.Value.WithOffset(offset),
                     },
                 },
-                _ => transform with { New = NoDateError },
+                _ => NoDateError,
             };
         }
 
-        private FilenameTransform ApplyNewOffset(FilenameTransform transform)
+        private Fin<FilenameTransform> ApplyNewOffset(FilenameTransform transform)
         {
-            if (transform.New.IsFail)
-            {
-                return transform;
-            }
-
-            var newFragments = (ParsedFilename)transform.New;
-
             if (this.NewOffset is null)
             {
                 return transform;
@@ -341,17 +440,17 @@ namespace Emu.Commands.Rename
 
             var offset = this.NewOffset.Value;
 
-            return newFragments switch
+            return transform.Data switch
             {
-                { OffsetDateTime: not null } => transform with
+                { StartDate: not null } => transform with
                 {
-                    New = newFragments with
+                    Data = transform.Data with
                     {
-                        OffsetDateTime = newFragments.OffsetDateTime.Value.WithOffset(offset),
+                        StartDate = transform.Data.StartDate.Value.WithOffset(offset),
                     },
                 },
-                { LocalDateTime: not null } => transform with { New = NoOffsetError },
-                _ => transform with { New = NoDateError },
+                { LocalStartDate: not null } => NoOffsetError,
+                _ => NoDateError,
             };
         }
 
@@ -403,6 +502,11 @@ namespace Emu.Commands.Rename
             return conflicts;
         }
 
-        private record FilenameTransform(string Base, string Old, ParsedFilename Fragments, Fin<ParsedFilename> New);
+        private record FilenameTransform(
+            string Base,
+            string Old,
+            ParsedFilename Fragments,
+            Recording Data,
+            string TokenTemplate);
     }
 }

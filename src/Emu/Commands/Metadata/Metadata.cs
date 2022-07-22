@@ -4,6 +4,7 @@
 
 namespace Emu.Commands.Metadata
 {
+    using System.Collections.Generic;
     using System.CommandLine.Invocation;
     using System.IO.Abstractions;
     using System.Text;
@@ -24,6 +25,7 @@ namespace Emu.Commands.Metadata
         private readonly FileMatcher fileMatcher;
 
         private readonly MetadataRegister extractorRegister;
+        private readonly IEnumerable<IMetadataOperation> allExtractors;
 
         public Metadata(
             ILogger<Metadata> logger,
@@ -37,6 +39,7 @@ namespace Emu.Commands.Metadata
             this.fileMatcher = fileMatcher;
             this.Writer = writer;
             this.extractorRegister = register;
+            this.allExtractors = register.All;
         }
 
         public string[] Targets { get; set; }
@@ -81,7 +84,7 @@ namespace Emu.Commands.Metadata
                         SourcePath = target.Path,
                     };
 
-                    foreach (var extractor in this.extractorRegister.All)
+                    foreach (var extractor in this.allExtractors)
                     {
                         if (await extractor.CanProcessAsync(target))
                         {
@@ -120,7 +123,9 @@ namespace Emu.Commands.Metadata
 
         public override object FormatRecord(Recording record)
         {
+#pragma warning disable IL2026 // Members annotated with 'RequiresUnreferencedCodeAttribute' require dynamic access otherwise can break functionality when trimming application code
             return FormatList<Recording>(record);
+#pragma warning restore IL2026 // Members annotated with 'RequiresUnreferencedCodeAttribute' require dynamic access otherwise can break functionality when trimming application code
         }
 
         private TargetInformation CreateContainer((string Base, string File) target)

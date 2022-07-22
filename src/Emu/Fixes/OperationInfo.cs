@@ -4,14 +4,17 @@
 
 namespace Emu.Fixes
 {
+    using LanguageExt;
     using Newtonsoft.Json;
+    using static LanguageExt.Prelude;
 
     public partial record OperationInfo(
         WellKnownProblem Problem,
         bool Fixable,
         bool Safe,
         bool Automatic,
-        [property: JsonIgnore] Type FixClass)
+        [property: JsonIgnore] Type FixClass,
+        Option<string> Suffix = default)
     {
     }
 }

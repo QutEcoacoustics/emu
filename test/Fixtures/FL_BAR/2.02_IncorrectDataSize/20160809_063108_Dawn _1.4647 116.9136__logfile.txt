@@ -1,0 +1,31 @@
+-----------------------------------------------------------
+ FRONTIER LABS Bioacoustic Audio Recorder 
+ Serial Number: 44203120-37415737-32303420-35323030
+ Firmware: V2.2
+-----------------------------------------------------------
+DD/MM/YYYY HH:MM:SS
+-----------------------------------------------------------
+
+09/08/2016 06:00:55 Wakeup from clock alarm
+09/08/2016 06:00:55 Battery at 100% ( 4.50 V )
+09/08/2016 06:00:55 Lid closed
+09/08/2016 06:00:57 SD Card initialised
+09/08/2016 06:00:57 Schedule loaded
+09/08/2016 06:00:57 Preparing for a new recording..
+09/08/2016 06:00:58 Pre-allocating 150 MB for wav file.
+09/08/2016 06:01:00 Recording "Dawn" started: 00h29m55s long with 16bit samples at 44100Hz with a gain of 40dB
+09/08/2016 06:31:07 Recording stopped. 150 MB recorded, 121172 MB remaining on the SD card
+09/08/2016 06:31:07 Preparing for a new recording..
+09/08/2016 06:31:08 Pre-allocating 150 MB for wav file.
+09/08/2016 06:31:08 Recording "Dawn" started: 00h29m47s long with 16bit samples at 44100Hz with a gain of 40dB
+09/08/2016 07:01:09 Recording stopped. 150 MB recorded, 121021 MB remaining on the SD card
+09/08/2016 07:01:09 Preparing for a new recording..
+09/08/2016 07:01:09 Pre-allocating 150 MB for wav file.
+09/08/2016 07:01:10 Recording "Dawn" started: 00h29m45s long with 16bit samples at 44100Hz with a gain of 40dB
+09/08/2016 07:31:07 Recording stopped. 150 MB recorded, 120871 MB remaining on the SD card
+09/08/2016 07:31:07 Preparing for a new recording..
+09/08/2016 07:31:07 Pre-allocating 150 MB for wav file.
+09/08/2016 07:31:08 Recording "Dawn" started: 00h29m47s long with 16bit samples at 44100Hz with a gain of 40dB
+09/08/2016 08:01:07 Recording stopped. 150 MB recorded, 120721 MB remaining on the SD card
+09/08/2016 08:01:07 Next recording scheduled to start at 06:01:00 11/8/2016
+09/08/2016 08:01:08 BAR powering down
