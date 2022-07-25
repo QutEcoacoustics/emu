@@ -55,7 +55,7 @@ We want to support more files and formats. If you need one not covered here, the
 However, _EMU_ is being actively used in large-scale automated ecoacoustics pipelines to validate and repair faulty audio recordings.
 
 -   EMU runs on Windows, Linux, and Mac\*
--   A docker container is provided (see [Docker](#docker))
+-   A docker container is provided (see Docker Hub [![Docker Image Version (latest semver)](https://img.shields.io/docker/v/qutecoacoustics/emu)](https://hub.docker.com/repository/docker/qutecoacoustics/emu))
 -   The metadata extraction is quite good now
 -   There are several fixes implemented, but several more are in the backlog
 
