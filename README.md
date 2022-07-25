@@ -42,7 +42,16 @@ For example usage, please:
 
 ## Status
 
-It's still early days. _EMU_ is an _alpha-level_ product and we have a lot more fixes and utilities we want to add to it.
+EMU has progressed to be a _beta-level_ product.
+
+EMU supports:
+
+- Frontier Labs sensors (for FLAC and WAVE files)
+- Wildlife Acoustics sensors (only test for SM4BAT files)
+- Open Acoustics devices (only basic WAVE metadata gathering)
+
+We want to support more files and formats. If you need one not covered here, then get in touch!
+
 However, _EMU_ is being actively used in large-scale automated ecoacoustics pipelines to validate and repair faulty audio recordings.
 
 -   EMU runs on Windows, Linux, and Mac\*

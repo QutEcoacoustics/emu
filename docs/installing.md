@@ -14,7 +14,7 @@ For example:
  - They could extract EMU in the downloads folder
  - In that case emu could be run with:
 
-```sh
+```powershell
 C:\Users\Anthony\Downloads\win-x64\emu.exe
 ```
 
@@ -41,4 +41,4 @@ C:\Users\Anthony\Downloads\win-x64\emu.exe
 ## Latest versions
 
 The latest changed may not yet be released. To get the very-latest version, clone the repo and build EMU yourself.
- See [CONTRIBUTING](../CONTRIBUTING.md) for instructions.
+See [CONTRIBUTING](../CONTRIBUTING.md) for instructions.
