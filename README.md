@@ -56,8 +56,8 @@ However, _EMU_ is being actively used in large-scale automated ecoacoustics pipe
 
 -   EMU runs on Windows, Linux, and Mac\*
 -   A docker container is provided (see [Docker](#docker))
--   The metadata extraction and date recognition features are currently a work in progress
--   There is one Fix that works well: `FL010` - the Frontier Labs metadata duration bug can be repaired automatically
+-   The metadata extraction is quite good now
+-   There are several fixes implemented, but several more are in the backlog
 
 <small>\*EMU needs to be compiled from source on Macs</small>
 
