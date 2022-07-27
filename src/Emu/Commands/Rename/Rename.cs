@@ -82,7 +82,7 @@ namespace Emu.Commands.Rename
         // lazy generate a list of extractors
         // lazy because generation will do service resolution
         // don't include filename extractor because that operation is done by default
-        private IEnumerable<IMetadataOperation> AllExtractors => this.allExtractors ??= this.extractorRegister.All.Where(t => t is not FilenameExtractor);
+        private IEnumerable<IMetadataOperation> AllExtractors => this.allExtractors ??= this.extractorRegister.All.Where(t => t is not FilenameExtractor or HashCalculator);
 
         public override async Task<int> InvokeAsync(InvocationContext context)
         {
