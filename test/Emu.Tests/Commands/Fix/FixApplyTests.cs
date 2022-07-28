@@ -210,6 +210,7 @@ namespace Emu.Tests.Commands.Fix
 
             problem.CheckResult.Message.Should().Contain("The file is a stub and has no usable data");
             problem.Message.Should().Contain("Renamed");
+            problem.NewPath.Should().Be(expected);
 
             problem.Status.Should().Be(FixStatus.Renamed);
 
@@ -245,6 +246,7 @@ namespace Emu.Tests.Commands.Fix
             problem.CheckResult.Message.Should().Contain("The file is a stub and has no usable data");
             problem.Message.Should().Contain("Renamed");
             problem.Status.Should().Be(FixStatus.Renamed);
+            problem.NewPath.Should().Be(expected);
 
             var otherProblem = fix.Problems[WellKnownProblems.FrontierLabsProblems.MetadataDurationBug];
             otherProblem.Status.Should().Be(FixStatus.NoOperation);
@@ -281,6 +283,7 @@ namespace Emu.Tests.Commands.Fix
             problem.CheckResult.Message.Should().Contain("The file is a stub and has no usable data");
             problem.Message.Should().Contain("Already has been renamed as an error file");
             problem.Status.Should().Be(FixStatus.NotFixed);
+            problem.NewPath.Should().Be(null);
 
             var otherProblem = fix.Problems[WellKnownProblems.FrontierLabsProblems.MetadataDurationBug];
             otherProblem.Status.Should().Be(FixStatus.NoOperation);
@@ -316,12 +319,15 @@ namespace Emu.Tests.Commands.Fix
             problem.CheckResult.Message.Should().Contain("Space in datestamp detected");
             problem.Message.Should().Contain("Inserted `0` into datestamp");
             problem.Status.Should().Be(FixStatus.Fixed);
+            problem.NewPath.Should().Be(expected);
 
             var problem2 = fix.Problems[WellKnownProblems.FrontierLabsProblems.PreAllocatedHeader];
             problem2.Status.Should().Be(FixStatus.NoOperation);
+            problem2.NewPath.Should().Be(null);
 
             var problem3 = fix.Problems[WellKnownProblems.FrontierLabsProblems.MetadataDurationBug];
             problem3.Status.Should().Be(FixStatus.NoOperation);
+            problem3.NewPath.Should().Be(null);
 
             this.RealFileSystem.File.Delete(expected);
         }

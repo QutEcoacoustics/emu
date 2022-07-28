@@ -139,17 +139,20 @@ namespace Emu
                 bool renamed;
                 string message;
                 string newPath;
+                string reportedPath;
                 if (this.HasFileBeenRenamed(file))
                 {
                     renamed = false;
                     message = "Already has been renamed as an error file";
-                    newPath = file;
+                    reportedPath = file;
+                    newPath = null;
                 }
                 else
                 {
                     var result = this.ApplyRename(file, dryRun, firstError.Operation);
                     renamed = result.IsSome;
                     newPath = result.IfNone(file);
+                    reportedPath = newPath;
 
                     message = renamed ? ("Renamed to: " + newPath) : null;
                 }
@@ -160,9 +163,10 @@ namespace Emu
                     new FixResult(
                         renamed ? FixStatus.Renamed : FixStatus.NotFixed,
                         firstError.CheckResult,
-                        message));
+                        message,
+                        newPath));
 
-                this.Write(new FixApplyResult(newPath, fixResults));
+                this.Write(new FixApplyResult(reportedPath, fixResults));
 
                 // early exit!
                 return;

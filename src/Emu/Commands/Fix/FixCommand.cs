@@ -9,7 +9,7 @@ namespace Emu
     public class FixCommand : Command
     {
         public FixCommand()
-           : base("fix", "fix audio files")
+           : base("fix", "fix or check for problems in one or more files")
         {
             this.AddCommand(new FixListCommand());
             this.AddCommand(new FixCheckCommand());
