@@ -163,15 +163,16 @@ namespace Emu.Models
         /// </summary>
         public IList<Location> AllLocations { get; init; }
 
-        /// <summary>
-        /// Gets a list of errors found in this audio file.
-        /// </summary>
-        public IList<Error> Errors { get; init; } = new List<Error>();
+        // Currently not used and just make the output messy
+        // /// <summary>
+        // /// Gets a list of errors found in this audio file.
+        // /// </summary>
+        // public IList<Error> Errors { get; init; } = new List<Error>();
 
-        /// <summary>
-        /// Gets a list of errors found in this audio file.
-        /// </summary>
-        public IList<Warning> Warnings { get; init; } = new List<Warning>();
+        // /// <summary>
+        // /// Gets a list of errors found in this audio file.
+        // /// </summary>
+        // public IList<Warning> Warnings { get; init; } = new List<Warning>();
 
         /// <summary>
         /// Gets a Checksum calculated for the file.

@@ -7,6 +7,7 @@ namespace Emu.Tests.Fixes.FrontierLabs
     using System;
     using System.Threading.Tasks;
     using Emu.Audio;
+    using Emu.Audio.WAVE;
     using Emu.Fixes;
     using Emu.Fixes.FrontierLabs;
     using Emu.Tests.TestHelpers;

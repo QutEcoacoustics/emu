@@ -15,6 +15,7 @@ namespace Emu.Fixes.FrontierLabs
     using System.Text.RegularExpressions;
     using System.Threading.Tasks;
     using Emu.Audio;
+    using Emu.Audio.WAVE;
     using Emu.Utilities;
     using Range = Emu.Audio.RangeHelper.Range;
 

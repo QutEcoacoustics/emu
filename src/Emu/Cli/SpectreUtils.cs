@@ -23,6 +23,11 @@ namespace Emu.Cli
             return value ? "[lime]✓[/]" : "[red]✗[/]";
         }
 
+        public static string MarkupNumber(string value)
+        {
+            return $"[aqua]{value}[/]";
+        }
+
         public static string MarkupCode(string code)
         {
             var emuHighlighted = MarkupEmu(code);

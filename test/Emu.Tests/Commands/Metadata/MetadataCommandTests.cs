@@ -8,6 +8,7 @@ namespace Emu.Tests.Commands.Metadata
     using System.CommandLine.Parsing;
     using System.IO;
     using System.Linq;
+    using System.Threading.Tasks;
     using Emu.Commands.Metadata;
     using Emu.Metadata;
     using Emu.Serialization;
@@ -61,7 +62,7 @@ namespace Emu.Tests.Commands.Metadata
         }
 
         [Fact]
-        public async System.Threading.Tasks.Task MetadataCommandOutputsOneRecordPerFile()
+        public async Task MetadataCommandOutputsOneRecordPerFile()
         {
             this.TestFiles.AddEmptyFile("/a.WAV");
             this.TestFiles.AddEmptyFile("/b.WAV");

@@ -4,7 +4,9 @@
 
 namespace Emu.Tests.Audio
 {
+    using System.Collections.Generic;
     using Emu.Audio;
+    using Emu.Audio.WAVE;
     using Emu.Tests.TestHelpers;
     using FluentAssertions;
     using LanguageExt;
@@ -126,6 +128,45 @@ namespace Emu.Tests.Audio
             Assert.True(isWave.IsSucc);
 
             ((bool)isWave).Should().Be(model.IsWave);
+        }
+
+        [Fact]
+        public void CanReadCuesTest()
+        {
+            var model = this.data[FixtureModel.WaveWithCues];
+            using var stream = model.ToTargetInformation(this.RealFileSystem).FileStream;
+
+            var waveChunk = Wave.FindRiffChunk(stream).Bind(r => Wave.FindWaveChunk(stream, r));
+            var result = Wave.FindAndParseCuePoints(stream, (RangeHelper.Range)waveChunk);
+
+            Assert.True(result.IsSucc);
+            result.IfFail(null).Should().BeEquivalentTo(new Cue[]
+            {
+                new Cue(925632, null, null, null),
+                new Cue(1241088, null, null, null),
+                new Cue(1609728, null, null, null),
+                new Cue(1941504, null, null, null),
+            });
+        }
+
+        [Fact]
+        public void CanReadCuesWithLabelsTest()
+        {
+            var model = this.data[FixtureModel.WaveWithCuesAndLabels];
+            using var stream = model.ToTargetInformation(this.RealFileSystem).FileStream;
+
+            var waveChunk = Wave.FindRiffChunk(stream).Bind(r => Wave.FindWaveChunk(stream, r));
+            var result = Wave.FindAndParseCuePoints(stream, (RangeHelper.Range)waveChunk);
+
+            Assert.True(result.IsSucc);
+            result.IfFail(null).Should().BeEquivalentTo(new Cue[]
+            {
+                new Cue(2178432, "MARK_01", null, null),
+                new Cue(3095424, "MARK_02", null, null),
+                new Cue(3146112, "MARK_03", null, null),
+                new Cue(3795840, "MARK_04", null, null),
+                new Cue(4569984, "MARK_05", null, null),
+            });
         }
 
         private (byte[] FormatChunk, RangeHelper.Range DataChunk) ReadChunkRanges(FixtureModel model)

@@ -9,6 +9,7 @@ namespace Emu.Audio.Vendors
     using System.Diagnostics.CodeAnalysis;
     using System.Text;
     using Emu.Audio;
+    using Emu.Audio.WAVE;
     using Emu.Extensions.System;
     using LanguageExt;
     using LanguageExt.Common;

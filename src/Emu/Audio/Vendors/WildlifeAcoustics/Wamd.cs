@@ -8,6 +8,7 @@ namespace Emu.Audio
     using System.Buffers.Binary;
     using System.Diagnostics;
     using System.Text;
+    using Emu.Audio.WAVE;
     using LanguageExt;
     using LanguageExt.Common;
     using NodaTime;

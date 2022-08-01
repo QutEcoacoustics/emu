@@ -5,6 +5,7 @@
 namespace Emu.Metadata;
 
 using Emu.Audio;
+using Emu.Audio.WAVE;
 using Emu.Metadata.SupportFiles.FrontierLabs;
 
 public static class PredicateExtensions

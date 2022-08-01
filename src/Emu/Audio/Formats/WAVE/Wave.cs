@@ -2,9 +2,11 @@
 // All code in this file and all associated files are the copyright and property of the QUT Ecoacoustics Research Group.
 // </copyright>
 
-namespace Emu.Audio
+namespace Emu.Audio.WAVE
 {
     using System.Buffers.Binary;
+    using System.Diagnostics;
+    using System.Runtime.InteropServices;
     using System.Text;
     using LanguageExt;
     using LanguageExt.Common;
@@ -27,17 +29,26 @@ namespace Emu.Audio
         public const int RiffLengthOffset = 4;
         public const int MinimumRiffHeaderLength = 8;
         public const int FL005ErrorBytes = 44;
+        public const int ChunkIdLength = 4;
 
         public static readonly byte[] RiffMagicNumber = new byte[] { (byte)'R', (byte)'I', (byte)'F', (byte)'F' };
         public static readonly byte[] WaveMagicNumber = new byte[] { (byte)'W', (byte)'A', (byte)'V', (byte)'E' };
         public static readonly byte[] FormatChunkId = new byte[] { (byte)'f', (byte)'m', (byte)'t', (byte)' ' };
         public static readonly byte[] DataChunkId = new byte[] { (byte)'d', (byte)'a', (byte)'t', (byte)'a' };
+        public static readonly byte[] CueChunkId = new byte[] { (byte)'c', (byte)'u', (byte)'e', (byte)' ' };
+        public static readonly byte[] InfoChunkId = new byte[] { (byte)'I', (byte)'N', (byte)'F', (byte)'O' };
+        public static readonly byte[] ListChunkId = new byte[] { (byte)'L', (byte)'I', (byte)'S', (byte)'T' };
+        public static readonly byte[] LabelChunkId = new byte[] { (byte)'l', (byte)'a', (byte)'b', (byte)'l' };
+        public static readonly byte[] NoteChunkId = new byte[] { (byte)'n', (byte)'o', (byte)'t', (byte)'e' };
+        public static readonly byte[] LabelledTextChunkId = new byte[] { (byte)'l', (byte)'t', (byte)'x', (byte)'t' };
+        public static readonly byte[] AssociatedDataListChunkId = new byte[] { (byte)'a', (byte)'d', (byte)'t', (byte)'l' };
 
         public static readonly Error FileTooShortRiff = Error.New("Error reading file: file is not long enough to have RIFF/WAVE header");
         public static readonly Error FileNotWave = Error.New("Error reading file: file is not a RIFF/WAVE file");
         public static readonly Error InvalidFileData = Error.New("Error reading file: no valid file data was found");
         public static readonly Error InvalidOffset = Error.New("Error reading file: an invalid offset was found");
         public static readonly Error InvalidChunk = Error.New("Error reading chunk: chunk size exceeds file size");
+        public static readonly Error NoCueChunk = Error.New(" No `cue ` chunk found");
 
         public enum Format : ushort
         {
@@ -131,6 +142,16 @@ namespace Emu.Audio
             return ScanForChunk(stream, waveChunk, DataChunkId, allowOutOfBounds);
         }
 
+        public static Fin<RangeHelper.Range> FindCueChunk(Stream stream, RangeHelper.Range waveChunk)
+        {
+            return ScanForChunk(stream, waveChunk, CueChunkId, false);
+        }
+
+        public static Fin<RangeHelper.Range> FindListChunk(Stream stream, RangeHelper.Range waveChunk)
+        {
+            return ScanForChunk(stream, waveChunk, ListChunkId, false);
+        }
+
         public static Fin<bool> IsWaveFile(Stream stream)
         {
             var riffChunk = FindRiffChunk(stream);
@@ -215,6 +236,105 @@ namespace Emu.Audio
             return length / (ulong)(channels * (bitsPerSample / 8));
         }
 
+        public static Fin<IReadOnlyCollection<Cue>> FindAndParseCuePoints(Stream stream, RangeHelper.Range waveChunk)
+        {
+            var cueChunk = FindCueChunk(stream, waveChunk);
+
+            var listChunk = FindListChunk(stream, waveChunk);
+
+            return cueChunk.Map(c => ParseCueChunk(stream, c, listChunk));
+        }
+
+        public static IReadOnlyCollection<Cue> ParseCueChunk(Stream stream, RangeHelper.Range cueRange, Fin<RangeHelper.Range> listRange)
+        {
+            var data = RangeHelper.ReadRange(stream, cueRange);
+            uint cueCount = BinaryPrimitives.ReadUInt32LittleEndian(data);
+            Debug.Assert((cueCount * Marshal.SizeOf<CuePoint>()) + sizeof(uint) == data.Length, "The cue count should be correct");
+
+            var cues = MemoryMarshal.Cast<byte, CuePoint>(data[sizeof(uint)..]);
+
+            var notes = listRange.Case switch
+            {
+                RangeHelper.Range l => ParseAssociatedDataList(RangeHelper.ReadRange(stream, l)),
+                _ => Array.Empty<ICueWithText>(),
+            };
+
+            // now associate everthing
+            var result = new Cue[cues.Length];
+            for (int i = 0; i < cues.Length; i++)
+            {
+                var cue = cues[i];
+
+                var matching = notes.Where(note => note.CuePointId == cue.ID);
+                var label = matching.FirstOrDefault(x => x is LabelChunk)?.Text;
+                var note = matching.FirstOrDefault(x => x is NoteChunk)?.Text;
+                var text = matching.FirstOrDefault(x => x is LabelledTextChunk)?.Text;
+
+                result[i] = new Cue(cue.SampleOffset, label, note, text);
+            }
+
+            return result.ToArray();
+        }
+
+        public static IReadOnlyCollection<ICueWithText> ParseAssociatedDataList(ReadOnlySpan<byte> bytes)
+        {
+            // List type should always be `adtl`
+            if (!bytes[0..ChunkIdLength].SequenceEqual(AssociatedDataListChunkId))
+            {
+                return Array.Empty<ICueWithText>();
+            }
+
+            int index = ChunkIdLength;
+            var result = new List<ICueWithText>();
+            do
+            {
+                var chunkId = bytes[index..(index + ChunkIdLength)];
+                index += ChunkIdLength;
+                var length = BinaryPrimitives.ReadUInt32LittleEndian(bytes[index..]);
+                index += sizeof(uint);
+
+                if (chunkId.SequenceEqual(LabelChunkId))
+                {
+                    var cuePointId = BinaryPrimitives.ReadUInt32LittleEndian(bytes[index..]);
+                    index += sizeof(uint);
+                    var textRun = length - sizeof(uint);
+                    var text = ParseString(bytes[index..(index + (int)textRun)]);
+                    result.Add(new LabelChunk(cuePointId, text));
+
+                    index += (int)textRun;
+                }
+                else if (chunkId.SequenceEqual(NoteChunkId))
+                {
+                    var cuePointId = BinaryPrimitives.ReadUInt32LittleEndian(bytes[index..]);
+                    index += sizeof(uint);
+                    var textRun = length - sizeof(uint);
+                    var text = ParseString(bytes[index..(index + (int)textRun)]);
+                    result.Add(new NoteChunk(cuePointId, text));
+
+                    index += (int)textRun;
+                }
+                else if (chunkId.SequenceEqual(LabelledTextChunkId))
+                {
+                    var chunk = MemoryMarshal.Read<LabelledTextChunk>(bytes[index..(int)length]);
+
+                    result.Add(chunk);
+                    index += (int)length;
+                }
+                else
+                {
+                    // unsupported chunk
+                }
+            }
+            while (index < bytes.Length);
+
+            return result;
+
+            string ParseString(ReadOnlySpan<byte> bytes)
+            {
+                return Encoding.ASCII.GetString(bytes).TrimEnd('\0');
+            }
+        }
+
         /// <summary>
         /// Scans a container (a range of bytes) for a sub-chunk with the given chunk ID.
         /// The target chunk may be in any position within it's siblings.
@@ -232,7 +352,6 @@ namespace Emu.Audio
             ReadOnlySpan<byte> targetChunkId,
             bool allowOutOfBounds)
         {
-            const int ChunkIdLength = 4;
             const int ChunkLengthLength = 4;
 
             /*
@@ -273,7 +392,7 @@ namespace Emu.Audio
                 }
 
                 var chunkId = buffer[..ChunkIdLength];
-                var length = BinaryPrimitives.ReadInt32LittleEndian(buffer[ChunkIdLength..]);
+                var length = BinaryPrimitives.ReadUInt32LittleEndian(buffer[ChunkIdLength..]);
 
                 // advance our offset counter by the 8 bytes we just read
                 offset += read;

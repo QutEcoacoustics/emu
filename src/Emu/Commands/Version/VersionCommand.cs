@@ -8,8 +8,7 @@ namespace Emu.Commands.Version
 
     public class VersionCommand : Command
     {
-        public const string Summary = @"Show EMU's version.
-Same as --version but honours output format selection.";
+        public const string Summary = @"Show EMU's version. Same as --version but honours --format selection.";
 
         public VersionCommand()
             : base("version", Summary)

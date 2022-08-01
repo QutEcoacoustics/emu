@@ -6,6 +6,7 @@ namespace Emu.Metadata
 {
     using System.Threading.Tasks;
     using Emu.Audio;
+    using Emu.Audio.WAVE;
     using Emu.Fixes.FrontierLabs;
     using Emu.Models;
     using Emu.Utilities;

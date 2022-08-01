@@ -1296,3 +1296,74 @@
   Process:
     WaveHeaderExtractor: ~
     FrontierLabsLogFileExtractor: ~
+
+- Name: Generic WAVE with cue chunk
+  Record:
+    SourcePath: F:\Work\GitHub\emu\test\Fixtures\Generic\Sony\220728_01 Sony pcm-m10.WAV
+    Extension: ".WAV"
+    Stem: 220728_01 Sony pcm-m10
+    RecommendedName:
+    StartDate:
+    LocalStartDate:
+    CalculatedChecksum:
+      Type: SHA256
+      Value: d7bd2255cf281d3abf1751d4b38c3dee1158e16dec5c91c0013bfaba0a74dcf2
+    DurationSeconds: 2177024/96000
+    Channels: 2
+    SampleRateHertz: 96000
+    BitsPerSecond: 4608000
+    BitDepth: 24
+    MediaType: audio/wave
+    TotalSamples: 2177024
+    FileSizeBytes: 13066240
+    MemoryCard:
+    Sensor:
+    Location:
+    AllLocations:
+    EmbeddedChecksum:
+    TrueEndDate:
+    TrueStartDate:
+    ExpectedDurationSeconds:
+    OtherFields:
+  FixturePath: Generic/Sony/220728_01 Sony pcm-m10.WAV
+  Notes:
+  ValidMetadata: Yes
+  MimeType: audio/wave
+  Vendor: Sony
+  Process:
+    WaveHeaderExtractor: ~
+
+- Name: Generic WAVE with cue and label chunks
+  Record:
+    Extension: ".wav"
+    Stem: 220728_0744 Tascam dr-100 mk3
+    RecommendedName:
+    StartDate:
+    LocalStartDate: "2022-07-28T07:44:00"
+    CalculatedChecksum:
+      Type: SHA256
+      Value: 4cd699a62c8f71baabc7b80ed8756010290208ed3f5c4c280a2f6cdf30534d94
+    DurationSeconds: 5307264/192000
+    Channels: 2
+    SampleRateHertz: 192000
+    BitsPerSecond: 9216000
+    BitDepth: 24
+    MediaType: audio/wave
+    TotalSamples: 5307264
+    FileSizeBytes: 31844996
+    MemoryCard:
+    Sensor:
+    Location:
+    AllLocations:
+    EmbeddedChecksum:
+    TrueEndDate:
+    TrueStartDate:
+    ExpectedDurationSeconds:
+    OtherFields:
+  FixturePath: Generic/Tascam/220728_0744 Tascam dr-100 mk3.wav
+  Notes:
+  ValidMetadata: Yes
+  MimeType: audio/wave
+  Vendor: Tascam
+  Process:
+    WaveHeaderExtractor: ~

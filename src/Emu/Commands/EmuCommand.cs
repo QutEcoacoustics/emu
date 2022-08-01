@@ -8,6 +8,7 @@ namespace Emu
     using System.CommandLine.Parsing;
     using System.Diagnostics.CodeAnalysis;
     using System.IO.Abstractions;
+    using Emu.Commands.Cues;
     using Emu.Commands.Metadata;
     using Emu.Commands.Version;
     using Emu.Extensions.System.CommandLine;
@@ -27,6 +28,7 @@ namespace Emu
             this.Add(new MetadataCommand());
             this.Add(new RenameCommand());
             this.Add(new FixCommand());
+            this.Add(new CuesCommand());
             this.Add(new VersionCommand());
         }
 

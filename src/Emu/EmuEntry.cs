@@ -22,6 +22,7 @@ namespace Emu
     using System.IO.Abstractions;
     using System.Runtime.CompilerServices;
     using Emu.Cli;
+    using Emu.Commands.Cues;
     using Emu.Commands.Metadata;
     using Emu.Commands.Rename;
     using Emu.Commands.Version;
@@ -157,6 +158,7 @@ namespace Emu
             host.UseEmuCommand<FixApplyCommand, FixApply, FixApply.FixApplyResult>();
             host.UseEmuCommand<RenameCommand, Rename, RenameResult>();
             host.UseEmuCommand<MetadataCommand, Commands.Metadata.Metadata, Models.Recording>();
+            host.UseEmuCommand<CuesCommand, Cues, CueResult>();
             host.UseEmuCommand<VersionCommand, Version, Version.VersionRecord>();
 
             host.UseSerilog(ConfigureLogging);

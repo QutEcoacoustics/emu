@@ -11,6 +11,7 @@ namespace Emu.Tests.TestHelpers
     using System.Reflection;
     using CsvHelper.Configuration.Attributes;
     using Emu.Audio;
+    using Emu.Audio.WAVE;
     using Emu.Metadata;
     using Emu.Metadata.SupportFiles;
     using Emu.Models;
@@ -43,6 +44,8 @@ namespace Emu.Tests.TestHelpers
         public const string IncorrectDataSize = "Incorrect data size";
         public const string TwoLogFiles1 = "Two Log Files 1";
         public const string ShortFile = "Short File";
+        public const string WaveWithCues = "Generic WAVE with cue chunk";
+        public const string WaveWithCuesAndLabels = "Generic WAVE with cue and label chunks";
 
         private string fixturePath;
 
