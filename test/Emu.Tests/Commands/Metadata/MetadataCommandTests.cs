@@ -8,6 +8,7 @@ namespace Emu.Tests.Commands.Metadata
     using System.CommandLine.Parsing;
     using System.IO;
     using System.Linq;
+    using System.Text.RegularExpressions;
     using System.Threading.Tasks;
     using Emu.Commands.Metadata;
     using Emu.Metadata;
@@ -109,7 +110,7 @@ namespace Emu.Tests.Commands.Metadata
                 var output = this.AllOutput;
 
                 output.Split(Environment.NewLine).Length.Should().BeGreaterThan(20);
-                output.Should().Contain("DurationSeconds = 7194.749387755102");
+                output.Should().MatchRegex(new Regex(".*DurationSeconds.*= 7194.749387755102.*"));
             }
         }
     }
