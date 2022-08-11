@@ -79,5 +79,38 @@ namespace Emu.Tests.Commands.Metadata
             Assert.Contains("b.WAV", lines[1]);
             Assert.Contains("c.WAV", lines[2]);
         }
+
+        public class SmokeTest : TestBase
+        {
+            private readonly Metadata command;
+
+            public SmokeTest(ITestOutputHelper output)
+                : base(output, true, OutputFormat.Default)
+            {
+                this.command = new Metadata(
+                   this.BuildLogger<Metadata>(),
+                   this.CurrentFileSystem,
+                   new FileMatcher(this.BuildLogger<FileMatcher>(), this.CurrentFileSystem),
+                   this.GetOutputRecordWriter(),
+                   new MetadataRegister(this.ServiceProvider))
+                {
+                };
+            }
+
+            [Fact]
+            public async Task TheDefaultFormatterWorks()
+            {
+                this.command.Targets = FixtureHelper.FixtureData.Get(FixtureModel.NormalFile).AbsoluteFixturePath.AsArray();
+
+                var result = await this.command.InvokeAsync(null);
+
+                result.Should().Be(0);
+
+                var output = this.AllOutput;
+
+                output.Split(Environment.NewLine).Length.Should().BeGreaterThan(20);
+                output.Should().Contain("DurationSeconds = 7194.749387755102");
+            }
+        }
     }
 }

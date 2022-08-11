@@ -8,7 +8,7 @@ namespace Emu.Fixes
 
     public interface ICheckOperation
     {
-        static abstract OperationInfo Metadata { get; }
+        static OperationInfo Metadata { get; }
 
         Task<CheckResult> CheckAffectedAsync(string file);
 

@@ -193,7 +193,10 @@ namespace Emu.Models
 
                 // non-standard filename safe variant (omits solidus at end)
                 "h" => $"{lat}{lon}{alt}{FormatCrs()}",
-                _ => throw new ArgumentException($"format `{format}` unsupported"),
+
+                // sames as "H"
+                "" or null => $"{lat}{lon}{alt}{FormatCrs()}/",
+                _ => throw new ArgumentException($"Location format string `{format}` unsupported"),
             };
 
             string FormatCoordinate(double? coordinate, string numberFormat)

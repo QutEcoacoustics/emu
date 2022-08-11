@@ -15,6 +15,11 @@ namespace Emu.Tests.TestHelpers
             fileSystem.AddFile(path, string.Empty);
         }
 
+        public static void AddFixtureFile(this MockFileSystem fileSystem, FixtureModel model)
+        {
+            fileSystem.AddFile(model.FixturePath, model.ToMockFileData());
+        }
+
         public static string NormalizeLineEndings(this string str, string token = null)
         {
             token ??= Environment.NewLine;
