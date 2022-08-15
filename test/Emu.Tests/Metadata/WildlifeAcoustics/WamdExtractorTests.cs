@@ -4,6 +4,7 @@
 
 namespace Emu.Tests.Metadata
 {
+    using System.Threading.Tasks;
     using Emu.Metadata.WildlifeAcoustics;
     using Emu.Models;
     using Emu.Tests.TestHelpers;
@@ -26,18 +27,18 @@ namespace Emu.Tests.Metadata
 
         [Theory]
         [ClassData(typeof(FixtureHelper.FixtureData))]
-        public async System.Threading.Tasks.Task CanProcessFilesWorks(FixtureModel model)
+        public async Task CanProcessFilesWorks(FixtureModel model)
         {
             var result = await this.subject.CanProcessAsync(model.ToTargetInformation(this.RealFileSystem));
 
-            // we can process any file that is Frontier Labs and FLAC
+            // we can process any file that is Wildlife Acoustics
             var expected = model.Process.ContainsKey(FixtureModel.WamdExtractor);
             Assert.Equal(expected, result);
         }
 
         [SkippableTheory]
         [ClassData(typeof(FixtureHelper.FixtureData))]
-        public async System.Threading.Tasks.Task ProcessFilesWorks(FixtureModel model)
+        public async Task ProcessFilesWorks(FixtureModel model)
         {
             Skip.IfNot(model.ShouldProcess(FixtureModel.WamdExtractor, out var expectedRecording));
 
@@ -51,8 +52,8 @@ namespace Emu.Tests.Metadata
             recording.Sensor.Firmware.Should().Be(expectedRecording.Sensor.Firmware);
             recording.Sensor.Temperature.Should().Be(expectedRecording.Sensor.Temperature);
             recording.Sensor.Microphones.Should().BeEquivalentTo(expectedRecording.Sensor.Microphones);
-            recording.Location.Latitude.Should().Be(expectedRecording.Location.Latitude);
-            recording.Location.Longitude.Should().Be(expectedRecording.Location.Longitude);
+
+            recording.Location.Should().BeEquivalentTo(expectedRecording.Location);
 
             recording.TrueStartDate.Should().Be(expectedRecording.TrueStartDate);
             recording.TrueEndDate.Should().Be(expectedRecording.TrueEndDate);

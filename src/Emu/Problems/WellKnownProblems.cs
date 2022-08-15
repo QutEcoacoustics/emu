@@ -48,6 +48,7 @@ namespace Emu
             {
                 OpenEcoacousticsProblems.Group => "open_ecoacoustics",
                 FrontierLabsProblems.Group => "frontier_labs",
+                WildlifeAcoustics.Group => "wildlife_acoustics",
                 _ => throw new ArgumentException($"Unknown group {group}"),
             };
 
@@ -118,6 +119,18 @@ namespace Emu
             public static WellKnownProblem MetadataDurationBug => new("Metadata Duration Bug", "This file's duration is wrong.", "010", Group, MakeUrl(Group, "010"));
 
             public static WellKnownProblem PartialDataFiles => new("Partial file named data", "The data file is incomplete?", "011", Group, MakeUrl(Group, "011"));
+        }
+
+        public class WildlifeAcoustics
+        {
+            public const string Group = "WA";
+
+            public static WellKnownProblem NoData => new(
+                "No data in file",
+                "This file is only a stub, it has no data in it",
+                "002",
+                Group,
+                MakeUrl(Group, "002"));
         }
     }
 }

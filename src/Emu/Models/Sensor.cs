@@ -13,6 +13,11 @@ namespace Emu.Models
     public record Sensor
     {
         /// <summary>
+        /// Gets the common name used to refer to the Vendor.
+        /// </summary>
+        public string Vendor { get; init; }
+
+        /// <summary>
         /// Gets the common name used to refer to the sensor.
         /// </summary>
         public string Name { get; init; }

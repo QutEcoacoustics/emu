@@ -39,6 +39,12 @@ namespace Emu.Metadata.WildlifeAcoustics
 
                 int numMicrophones = wamdData.MicrophoneType.Length;
 
+                var location = recording.Location;
+                if (wamdData.Location is not null)
+                {
+                    location = wamdData.Location;
+                }
+
                 // Update recording information with wamd metadata
                 recording = recording with
                 {
@@ -53,12 +59,7 @@ namespace Emu.Metadata.WildlifeAcoustics
                         Temperature = recording.Sensor?.Temperature ?? wamdData.Temperature,
                         Microphones = recording.Sensor?.Microphones ?? new Microphone[numMicrophones],
                     },
-                    Location = (recording.Location ?? new Location()) with
-                    {
-                        Longitude = recording.Location?.Longitude ?? wamdData.Longitude,
-                        Latitude = recording.Location?.Latitude ?? wamdData.Latitude,
-                        Altitude = recording.Location?.Altitude ?? wamdData.Altitude,
-                    },
+                    Location = location,
                 };
 
                 // Update recording microphone information

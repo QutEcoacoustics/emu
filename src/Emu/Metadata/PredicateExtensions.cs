@@ -25,11 +25,6 @@ public static class PredicateExtensions
         return target.CheckPredicate(Predicates.IsPcmWaveFile);
     }
 
-    public static bool HasMetadataBlock(this TargetInformation target)
-    {
-        return target.CheckPredicate(Predicates.HasMetadataBlock);
-    }
-
     public static bool HasFrontierLabsVorbisComment(this TargetInformation target)
     {
         return target.CheckPredicate(Predicates.HasFrontierLabsVorbisComment);
@@ -66,9 +61,6 @@ public static class PredicateExtensions
 
         public static readonly Func<TargetInformation, bool> IsPcmWaveFile =
             target => Wave.IsPcmWaveFile(target.FileStream).IsSucc;
-
-        public static readonly Func<TargetInformation, bool> HasMetadataBlock =
-            target => Flac.HasMetadataBlock(target.FileStream).IfFail(false);
 
         public static readonly Func<TargetInformation, bool> HasBarltLogFile =
             target => target.TargetSupportFiles.ContainsKey(LogFile.LogFileKey);

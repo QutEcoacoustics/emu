@@ -21,7 +21,7 @@ namespace Emu.Metadata.FrontierLabs
 
         public ValueTask<bool> CanProcessAsync(TargetInformation information)
         {
-            var result = information.IsFlacFile() && information.HasMetadataBlock();
+            var result = information.IsFlacFile();
 
             return ValueTask.FromResult(result);
         }

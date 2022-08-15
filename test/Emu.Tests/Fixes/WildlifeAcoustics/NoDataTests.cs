@@ -1,13 +1,13 @@
-// <copyright file="PreAllocatedHeaderTests.cs" company="QutEcoacoustics">
+// <copyright file="NoDataTests.cs" company="QutEcoacoustics">
 // All code in this file and all associated files are the copyright and property of the QUT Ecoacoustics Research Group.
 // </copyright>
 
-namespace Emu.Tests.Fixes.FrontierLabs
+namespace Emu.Tests.Fixes.WildlifeAcoustics
 {
     using System;
     using System.Threading.Tasks;
     using Emu.Fixes;
-    using Emu.Fixes.FrontierLabs;
+    using Emu.Fixes.WildlifeAcoustics;
     using Emu.Tests.TestHelpers;
     using FluentAssertions;
     using LanguageExt;
@@ -15,15 +15,15 @@ namespace Emu.Tests.Fixes.FrontierLabs
     using Xunit.Abstractions;
     using static LanguageExt.Prelude;
 
-    public class PreAllocatedHeaderTests : TestBase, IClassFixture<FixtureHelper.FixtureData>
+    public class NoDataTests : TestBase, IClassFixture<FixtureHelper.FixtureData>
     {
-        private readonly PreAllocatedHeader fixer;
+        private readonly NoData fixer;
         private readonly FixtureHelper.FixtureData data;
 
-        public PreAllocatedHeaderTests(ITestOutputHelper output, FixtureHelper.FixtureData data)
+        public NoDataTests(ITestOutputHelper output, FixtureHelper.FixtureData data)
             : base(output, realFileSystem: true)
         {
-            this.fixer = this.ServiceProvider.GetRequiredService<PreAllocatedHeader>();
+            this.fixer = this.ServiceProvider.GetRequiredService<NoData>();
             this.data = data;
         }
 
@@ -35,20 +35,20 @@ namespace Emu.Tests.Fixes.FrontierLabs
             info.Fixable.Should().BeFalse();
             info.Automatic.Should().BeFalse();
             info.Safe.Should().BeTrue();
-            info.Suffix.Should<Option<string>>().Be(Some("stub"));
+            info.Suffix.Should<Option<string>>().Be(Some("empty"));
 
             Assert.False(this.fixer is IFixOperation);
         }
 
         [Fact]
-        public async Task CanDetectPreAllocatedFiles()
+        public async Task CanDetectNoDataFiles()
         {
-            var fixture = this.data[FixtureModel.PreAllocatedHeader];
+            var fixture = this.data[FixtureModel.NoDataHeader];
 
             var actual = await this.fixer.CheckAffectedAsync(fixture.AbsoluteFixturePath);
 
             Assert.Equal(CheckStatus.Affected, actual.Status);
-            Assert.Contains("The file is a stub and has no usable data", actual.Message);
+            Assert.Contains("The file has only null bytes and has no usable data.", actual.Message);
 
             Assert.Null(actual.Data);
 
@@ -56,14 +56,14 @@ namespace Emu.Tests.Fixes.FrontierLabs
         }
 
         [Fact]
-        public async Task CanDetectPreAllocatedFiles2()
+        public async Task CanDetectNoDataFiles2()
         {
-            var fixture = this.data[FixtureModel.PreAllocatedHeader2];
+            var fixture = this.data[FixtureModel.NoDataHeader2];
 
             var actual = await this.fixer.CheckAffectedAsync(fixture.AbsoluteFixturePath);
 
             Assert.Equal(CheckStatus.Affected, actual.Status);
-            Assert.Contains("The file is a stub and has no usable data", actual.Message);
+            Assert.Contains("The file has only null bytes and has no usable data.", actual.Message);
 
             Assert.Null(actual.Data);
 
@@ -79,7 +79,7 @@ namespace Emu.Tests.Fixes.FrontierLabs
 
             var actual = await this.fixer.CheckAffectedAsync(target.Path);
 
-            Assert.Equal(CheckStatus.NotApplicable, actual.Status);
+            Assert.Equal(CheckStatus.Unaffected, actual.Status);
             Assert.Equal(string.Empty, actual.Message);
             Assert.Null(actual.Data);
             Assert.Equal(Severity.None, actual.Severity);
@@ -89,19 +89,11 @@ namespace Emu.Tests.Fixes.FrontierLabs
         [ClassData(typeof(FixtureHelper.FixtureData))]
         public async Task NoOtherFixtureIsDetectedAsAPositive(FixtureModel fixture)
         {
-            Skip.If(fixture.Name is FixtureModel.PreAllocatedHeader or FixtureModel.PreAllocatedHeader2);
+            Skip.If(fixture.Name is FixtureModel.NoDataHeader or FixtureModel.NoDataHeader2);
 
             var actual = await this.fixer.CheckAffectedAsync(fixture.AbsoluteFixturePath);
 
-            if (fixture.ToFileInfo(this.RealFileSystem).Length == 0)
-            {
-                Assert.Equal(CheckStatus.NotApplicable, actual.Status);
-            }
-            else
-            {
-                Assert.Equal(CheckStatus.Unaffected, actual.Status);
-            }
-
+            Assert.Equal(CheckStatus.Unaffected, actual.Status);
             Assert.Equal(string.Empty, actual.Message);
             Assert.Null(actual.Data);
             Assert.Equal(Severity.None, actual.Severity);

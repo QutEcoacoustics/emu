@@ -93,14 +93,5 @@ namespace Emu.Tests.Audio
 
             isFlac.Should().Be(model.IsFlac);
         }
-
-        [Theory]
-        [ClassData(typeof(FixtureHelper.FixtureData))]
-        public void HasMetadataBlockTest(FixtureModel model)
-        {
-            bool hasMetadata = Flac.HasMetadataBlock(model.ToTargetInformation(this.RealFileSystem).FileStream).IfFail(false);
-
-            hasMetadata.Should().Be(model.IsFlac && model.ValidMetadata != ValidMetadata.No);
-        }
     }
 }

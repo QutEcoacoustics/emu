@@ -15,27 +15,37 @@ namespace Emu.Tests.Audio
 
     public class WamdTests : TestBase, IClassFixture<FixtureHelper.FixtureData>
     {
+        private readonly FixtureHelper.FixtureData data;
+
         public WamdTests(ITestOutputHelper output, FixtureHelper.FixtureData data)
             : base(output)
         {
+            this.data = data;
         }
 
         [Fact]
         public void HasVersion1WamdChunkTest()
         {
-            Stream wamdFile = this.RealFileSystem.File.Open(Helpers.FixturesRoot + "/WA_SM4BAT/2.2.1_Normal/S4U09523_20210621_205706.wav", FileMode.Open, FileAccess.Read, FileShare.Read);
+            var fixture = this.data[FixtureModel.SM4BatNormal1];
+            var wamdFile = this.RealFileSystem.File.OpenRead(fixture.AbsoluteFixturePath);
             bool hasWamd = Wamd.HasVersion1WamdChunk(wamdFile).IfFail(false);
             Assert.True(hasWamd);
+        }
 
-            Stream noWamdFile = this.RealFileSystem.File.Open(Helpers.FixturesRoot + "/FL_BAR_LT/3.14_Normal/20191026T000000+1000_REC.flac", FileMode.Open, FileAccess.Read, FileShare.Read);
-            hasWamd = Wamd.HasVersion1WamdChunk(noWamdFile).IfFail(false);
+        [Fact]
+        public void DoesNotHaveVersion1WamdChunkTest()
+        {
+            var fixture = this.data[FixtureModel.NormalFile];
+            var noWamdFile = this.RealFileSystem.File.OpenRead(fixture.AbsoluteFixturePath);
+            var hasWamd = Wamd.HasVersion1WamdChunk(noWamdFile).IfFail(false);
             Assert.False(hasWamd);
         }
 
         [Fact]
         public void ExtractMetadataTest()
         {
-            Stream stream = this.RealFileSystem.File.Open(Helpers.FixturesRoot + "/WA_SM4BAT/2.2.1_Normal/S4U09523_20210621_205706.wav", FileMode.Open, FileAccess.Read, FileShare.Read);
+            var fixture = this.data[FixtureModel.SM4BatNormal1];
+            var stream = this.RealFileSystem.File.OpenRead(fixture.AbsoluteFixturePath);
 
             var tryWamdData = Wamd.ExtractMetadata(stream);
 
@@ -50,8 +60,8 @@ namespace Emu.Tests.Audio
             wamdData.Temperature.Should().Be(24.25);
             wamdData.MicrophoneType.Should().AllBe("U2");
             wamdData.MicrophoneSensitivity.Should().AllBeEquivalentTo(13.0);
-            wamdData.Latitude.Should().Be(45.7835);
-            wamdData.Longitude.Should().Be(-64.23352);
+            wamdData.Location.Latitude.Should().Be(45.7835);
+            wamdData.Location.Longitude.Should().Be(64.23352);
         }
     }
 }

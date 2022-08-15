@@ -6,6 +6,8 @@ namespace Emu.Utilities
 {
     using System.Diagnostics.CodeAnalysis;
     using System.IO.Abstractions;
+    using System.Numerics;
+    using System.Runtime.Intrinsics.X86;
     using System.Security.Cryptography;
     using Emu.Extensions.Microsoft.Extensions;
     using Emu.Models;
@@ -81,6 +83,55 @@ namespace Emu.Utilities
             var hash = await hasher.ComputeHashAsync(stream);
 
             return new Checksum() { Type = HashAlgorithmName.SHA256.Name, Value = hash.ToHexString() };
+        }
+
+        public async ValueTask<bool> CheckForContinuousValue(Stream stream, int offset = 0, int? count = null, Vector<byte> target = default)
+        {
+            if (offset < 0) {
+                throw new ArgumentException("must be greater than 0", nameof(offset));
+            }
+
+            if (count is not null and < 0)
+            {
+                throw new ArgumentException("must be greater than 0", nameof(count));
+            }
+
+            var position = stream.Seek(offset, SeekOrigin.Begin);
+            if (position != offset)
+            {
+                throw new InvalidOperationException("Cannot seek to offset");
+            }
+
+            var buffer = new byte[4096];
+            var end = count is null ? stream.Length : position + count;
+
+            while (position < end)
+            {
+                // the buffer could potentially be filled beyond the end of the range we're scanning
+                // if so only read up to the end of our limit
+                var limit = Math.Min(buffer.Length, (int)(end - position));
+                int read = await stream.ReadAsync(buffer, 0, limit);
+                position += read;
+
+                if (read > end)
+                {
+                    read = (int)end;
+                }
+
+                for (int i = 0; i < read; i += Vector<byte>.Count)
+                {
+                    var upper = Math.Min(read - i, Vector<byte>.Count);
+                    var v = new Vector<byte>(buffer.AsSpan(i, upper));
+
+                    var equal = v == target;
+                    if (!equal)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
         }
     }
 }

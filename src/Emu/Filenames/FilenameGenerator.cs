@@ -102,7 +102,10 @@ namespace Emu.Filenames
             // ok: this is pretty hacky but I don't like periods at the end
             // of metadata segments. Prefixed; ok: they're like extensions.
             // trailing? Doesn't make sense. So TrimEnd only for '.'
-            return InvalidCharRegex.Replace(segment, Replacement).Trim(TrimChars).TrimEnd('.');
+            return InvalidCharRegex
+                .Replace(segment, Replacement)
+                .Trim(TrimChars)
+                .TrimEnd('.');
         }
 
         private class FileNameFormatter : IFormatter

@@ -27,15 +27,16 @@ To see what problems EMU knows to check for, use the `emu fix list` command:
 ```bash
 $ emu fix list
 EMU can fix these problems:
-┌───────┬───────────────────────────┬─────────┬──────┬─────────────────────────────────────────────────────────────────────────────────────┐
-│ ID    │ Description               │ Fixable │ Safe │ URL                                                                                 │
-├───────┼───────────────────────────┼─────────┼──────┼─────────────────────────────────────────────────────────────────────────────────────┤
-│ OE004 │ Empty file                │ ✗       │ ✓    │ https://github.com/ecoacoustics/known-problems/blob/main/open_ecoacoustics/OE004.md │
-│ FL001 │ Preallocated header       │ ✗       │ ✓    │ https://github.com/ecoacoustics/known-problems/blob/main/frontier_labs/FL001.md     │
-│ FL008 │ Invalid datestamp (space) │ ✓       │ ✓    │ https://github.com/ecoacoustics/known-problems/blob/main/frontier_labs/FL008.md     │
-│ FL010 │ Metadata Duration Bug     │ ✓       │ ✓    │ https://github.com/ecoacoustics/known-problems/blob/main/frontier_labs/FL010.md     │
-│ FL005 │ Incorrect SubChunk2 size  │ ✓       │ ✓    │ https://github.com/ecoacoustics/known-problems/blob/main/frontier_labs/FL005.md     │
-└───────┴───────────────────────────┴─────────┴──────┴─────────────────────────────────────────────────────────────────────────────────────┘
+┌───────┬───────────────────────────┬─────────┬──────┬──────────────────────────────────────────────────────────────────────────────────────┐
+│ ID    │ Description               │ Fixable │ Safe │ URL                                                                                  │
+├───────┼───────────────────────────┼─────────┼──────┼──────────────────────────────────────────────────────────────────────────────────────┤
+│ OE004 │ Empty file                │ ✗       │ ✓    │ https://github.com/ecoacoustics/known-problems/blob/main/open_ecoacoustics/OE004.md  │
+│ FL001 │ Preallocated header       │ ✗       │ ✓    │ https://github.com/ecoacoustics/known-problems/blob/main/frontier_labs/FL001.md      │
+│ FL008 │ Invalid datestamp (space) │ ✓       │ ✓    │ https://github.com/ecoacoustics/known-problems/blob/main/frontier_labs/FL008.md      │
+│ FL010 │ Metadata Duration Bug     │ ✓       │ ✓    │ https://github.com/ecoacoustics/known-problems/blob/main/frontier_labs/FL010.md      │
+│ FL005 │ Incorrect SubChunk2 size  │ ✓       │ ✓    │ https://github.com/ecoacoustics/known-problems/blob/main/frontier_labs/FL005.md      │
+│ WA002 │ No data in file           │ ✗       │ ✓    │ https://github.com/ecoacoustics/known-problems/blob/main/wildlife_acoustics/WA002.md │
+└───────┴───────────────────────────┴─────────┴──────┴──────────────────────────────────────────────────────────────────────────────────────┘
 
 Use `emu fix apply` to apply a fix to target files:
 

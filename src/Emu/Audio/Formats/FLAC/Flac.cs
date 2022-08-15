@@ -186,31 +186,11 @@ namespace Emu.Audio
                 return FileTooShortFlac;
             }
 
-            return buffer.StartsWith(FlacMagicNumber);
-        }
-
-        /// <summary>
-        /// Determines whether a file header has and is large enough to store a FLAC metadata block.
-        /// The block type is stored in bits 33-39 of the file stream, the first is of type "STREAMINFO".
-        /// This block type corresponds to a value of 0.
-        /// More information: https://xiph.org/flac/format.html#metadata_block_streaminfo.
-        /// </summary>
-        /// <param name="stream">The flac file stream.</param>
-        /// <returns>Boolean indicating whether the file has a valid metadata block.</returns>
-        public static Fin<bool> HasMetadataBlock(Stream stream)
-        {
-            long position = stream.Seek(BlockTypeOffset, SeekOrigin.Begin);
-            Debug.Assert(position == 4, $"Expected stream.Seek position to return 4, instead returned {position}");
-
-            Span<byte> buffer = stackalloc byte[1];
-            var bytesRead = stream.Read(buffer);
-
-            if (bytesRead < buffer.Length)
+            return buffer.StartsWith(FlacMagicNumber) switch
             {
-                return FileTooShortFlac;
-            }
-
-            return stream.Length > MetadataBlockSize && BinaryHelpers.Read7BitUnsignedBigEndianIgnoringFirstBit(buffer) == 0;
+                false => false,
+                true => HasMetadataBlock(stream),
+            };
         }
 
         /// <summary>
@@ -329,6 +309,35 @@ namespace Emu.Audio
             string vendor = Encoding.UTF8.GetString(buffer[offset..(offset + vendorLength)]);
 
             return vendor;
+        }
+
+        /// <summary>
+        /// Determines whether a file header has and is large enough to store a FLAC metadata block.
+        /// The block type is stored in bits 33-39 of the file stream, the first is of type "STREAMINFO".
+        /// This block type corresponds to a value of 0.
+        /// More information: https://xiph.org/flac/format.html#metadata_block_streaminfo.
+        /// </summary>
+        /// <param name="stream">The flac file stream.</param>
+        /// <returns>Boolean indicating whether the file has a valid metadata block.</returns>
+        private static Fin<bool> HasMetadataBlock(Stream stream)
+        {
+            // AT 2022: This is basically just a check for a 0 at index 4 which can be
+            // extremely common. This leads to false positives for other sample files.
+            // Made this method private and included it into IsFlacFile because the two definitions
+            // are inseperable anyway.
+
+            long position = stream.Seek(BlockTypeOffset, SeekOrigin.Begin);
+            Debug.Assert(position == 4, $"Expected stream.Seek position to return 4, instead returned {position}");
+
+            Span<byte> buffer = stackalloc byte[1];
+            var bytesRead = stream.Read(buffer);
+
+            if (bytesRead < buffer.Length)
+            {
+                return FileTooShortFlac;
+            }
+
+            return stream.Length > MetadataBlockSize && BinaryHelpers.Read7BitUnsignedBigEndianIgnoringFirstBit(buffer) == 0;
         }
     }
 }

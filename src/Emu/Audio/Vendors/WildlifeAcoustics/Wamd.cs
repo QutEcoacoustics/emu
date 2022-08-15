@@ -9,10 +9,12 @@ namespace Emu.Audio
     using System.Diagnostics;
     using System.Text;
     using Emu.Audio.WAVE;
+    using Emu.Models;
     using LanguageExt;
     using LanguageExt.Common;
     using NodaTime;
     using NodaTime.Text;
+    using Error = LanguageExt.Common.Error;
 
     public class Wamd
     {
@@ -42,10 +44,8 @@ namespace Emu.Audio
             {
                 LocationChunkId, (wamdData, value) =>
                 {
-                    Dictionary<string, double> location = LocationParser(value);
-                    wamdData.Latitude = location[LatitudeKey];
-                    wamdData.Longitude = location[LongitudeKey];
-                    wamdData.Altitude = location.ContainsKey(AltitudeKey) ? location[AltitudeKey] : null;
+                    var location = LocationParser(value);
+                    wamdData.Location = location;
                 }
             },
             { TemperatureChunkId, (wamdData, value) => wamdData.Temperature = double.Parse(value.Where(c => char.IsDigit(c) || (new char[] { '.', '-' }).Contains(c)).ToArray()) },
@@ -65,11 +65,7 @@ namespace Emu.Audio
 
         public double[] MicrophoneSensitivity { get; set; }
 
-        public double? Longitude { get; set; }
-
-        public double? Latitude { get; set; }
-
-        public double? Altitude { get; set; }
+        public Location Location { get; set; }
 
         /// <summary>
         /// Check if file has version 1 wamd chunk.
@@ -171,7 +167,7 @@ namespace Emu.Audio
         /// </summary>
         /// <param name="value">The location to parse.</param>
         /// <returns>Dictionary representing the parsed location data.</returns>
-        public static Dictionary<string, double> LocationParser(string value)
+        public static Location LocationParser(string value)
         {
             Dictionary<string, double> location = new Dictionary<string, double>();
 
@@ -180,22 +176,18 @@ namespace Emu.Audio
             // First element (WGS84) is assumed to be empty, if not location format could be unpredictable
             Debug.Assert(string.IsNullOrEmpty(locationInfo[0]), $"Expected empty WGS84, instead found {locationInfo[0]}");
 
-            double latitude = double.Parse(locationInfo[1]);
+            string latitude = locationInfo[1];
             string latitudeDirection = locationInfo[2];
 
-            double longitude = double.Parse(locationInfo[3]);
+            string longitude = locationInfo[3];
             string longitudeDirection = locationInfo[4];
 
-            location[LatitudeKey] = latitudeDirection.Equals("N") ? latitude : latitude * -1;
-            location[LongitudeKey] = latitudeDirection.Equals("E") ? longitude : longitude * -1;
-
             // If location contains an altitude information, parse that as well
-            if (locationInfo.Length > 5)
-            {
-                location[AltitudeKey] = double.Parse(locationInfo[5]);
-            }
-
-            return location;
+            return new Location(
+                    latitudeDirection + latitude,
+                    longitudeDirection + longitude,
+                    locationInfo.Length > 5 ? locationInfo[5] : null,
+                    locationInfo[0]);
         }
 
         /// <summary>

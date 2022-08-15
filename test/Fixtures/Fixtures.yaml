@@ -824,10 +824,10 @@
       Temperature: 24.25
       LastTimeSync:
     Location:
-      Longitude: -64.23352
-      LongitudePrecision: 4
+      Longitude: 64.23352
+      LongitudePrecision: 5
       Latitude: 45.7835
-      LatitudePrecision: 4
+      LatitudePrecision: 5
       Altitude:
       AltitudePrecision:
       HorizontalAccuracy:
@@ -906,10 +906,10 @@
       Temperature: 23.25
       LastTimeSync:
     Location:
-      Longitude: -64.23352
-      LongitudePrecision: 4
+      Longitude: 64.23352
+      LongitudePrecision: 5
       Latitude: 45.7835
-      LatitudePrecision: 4
+      LatitudePrecision: 5
       Altitude:
       AltitudePrecision:
       HorizontalAccuracy:
@@ -1367,3 +1367,193 @@
   Vendor: Tascam
   Process:
     WaveHeaderExtractor: ~
+
+- Name: Normal SM3
+  Record: &NormalSM3
+    Extension: .wav
+    Stem: SM304290_0+1_20211001_120004
+    StartDate: 2021-10-01T12:00:04+10:00
+    LocalStartDate: 2021-10-01T12:00:04
+    TrueStartDate: 2021-10-01T12:00:04+10:00
+    TrueEndDate:
+    DurationSeconds: 86304000/24000
+    TotalSamples: 86304000
+    Channels: 2
+    SampleRateHertz: 24000
+    BitsPerSecond: 768000
+    BitDepth: 16
+    FileSizeBytes: 345218040
+    MediaType: audio/wave
+    CalculatedChecksum:
+      Type: SHA256
+      Value: bdf6f583f7eed35858baa98bca33abe017a6fd8d70af10598c13543a63dd0ccb
+    EmbeddedChecksum: ~
+    MemoryCard: ~
+    Sensor:
+      Vendor: Wildlife Acoustics
+      Name: SM3
+      Firmware: 1.35A
+      SerialNumber: SM304290
+      PowerSource:
+      Microphones:
+        - Type: NA
+          UID:
+          BuildDate:
+          Gain:
+          Channel:
+          ChannelName:
+          Sensitivity: 23.9
+        - Type: NA
+          UID:
+          BuildDate:
+          Gain:
+          Channel:
+          ChannelName:
+          Sensitivity: 23.9
+      Gain:
+      Configuration:
+      Voltage:
+      BatteryLevel:
+      Temperature:
+      LastTimeSync:
+    Location: ~
+  BlockAlign: 2
+  FixturePath: WA_SM3/1.35A/MedeasCove-Cemetary-SM304246_20211001_Data/SM304290_0+1_20211001_120004.wav
+  Notes:
+  ValidMetadata: Yes
+  MimeType: audio/wave
+  Vendor: Wildlife Acoustics
+  Process:
+    FilenameExtractor:
+      <<: *NormalSM3
+      StartDate: ~
+    WaveHeaderExtractor: ~
+    WamdExtractor: ~
+
+- Name: SM3 No Data
+  Record:
+    Extension: .wav
+    Stem: SM304290_0+1_20211001_130001
+    StartDate: ~
+    LocalStartDate: 2021-10-01T13:00:01
+    TrueStartDate: ~
+    TrueEndDate:
+    DurationSeconds: ~
+    TotalSamples: ~
+    Channels: ~
+    SampleRateHertz: ~
+    BitsPerSecond: ~
+    BitDepth: ~
+    FileSizeBytes: 131072
+    MediaType: audio/wave
+    CalculatedChecksum:
+      Type: SHA256
+      Value: fa43239bcee7b97ca62f007cc68487560a39e19f74f3dde7486db3f98df8e471
+    EmbeddedChecksum: ~
+    MemoryCard: ~
+    Sensor: ~
+    Location: ~
+  BlockAlign: ~
+  FixturePath: WA_SM3/1.35A/MedeasCove-Cemetary-SM304246_20211001_Data/SM304290_0+1_20211001_130001.wav
+  Notes:
+  ValidMetadata: No
+  MimeType:
+  Vendor: Wildlife Acoustics
+  Process:
+    FilenameExtractor: ~
+    WaveHeaderExtractor: ~
+
+- Name: SM3 No Data 2
+  Record:
+    Extension: .wav
+    Stem: SM304246_0+1_20211023_230001
+    StartDate: ~
+    LocalStartDate: 2021-10-23T23:00:01
+    TrueStartDate: ~
+    TrueEndDate:
+    DurationSeconds: ~
+    TotalSamples: ~
+    Channels: ~
+    SampleRateHertz: ~
+    BitsPerSecond: ~
+    BitDepth: ~
+    FileSizeBytes: 131072
+    MediaType: audio/wave
+    CalculatedChecksum:
+      Type: SHA256
+      Value: fa43239bcee7b97ca62f007cc68487560a39e19f74f3dde7486db3f98df8e471
+    EmbeddedChecksum: ~
+    MemoryCard: ~
+    Sensor: ~
+    Location: ~
+  BlockAlign: ~
+  FixturePath: WA_SM3/1.35A/MedeasCove-Cemetary-SM304246_20211013_Data/SM304246_0+1_20211023_230001.wav
+  Notes:
+  ValidMetadata: No
+  MimeType:
+  Vendor: Wildlife Acoustics
+  Process:
+    FilenameExtractor: ~
+    WaveHeaderExtractor: ~
+
+- Name: Normal SM3 2
+  Record: &NormalSM32
+    Extension: .wav
+    Stem: SM304246_0+1_20211024_002617
+    StartDate: 2021-10-24T00:26:17+10:00
+    LocalStartDate: 2021-10-24T00:26:17
+    TrueStartDate: 2021-10-24T00:26:17+10:00
+    TrueEndDate:
+    DurationSeconds: 48551936/24000
+    TotalSamples: 48551936
+    Channels: 2
+    SampleRateHertz: 24000
+    BitsPerSecond: 768000
+    BitDepth: 16
+    FileSizeBytes: 194209784
+    MediaType: audio/wave
+    CalculatedChecksum:
+      Type: SHA256
+      Value: 18bfe6bb8f663ce34de6e707f2f652e2e9c3ee27fcc90a87ad16ee5c7f57bd0b
+    EmbeddedChecksum: ~
+    MemoryCard: ~
+    Sensor:
+      Vendor: Wildlife Acoustics
+      Name: SM3
+      Firmware: 1.35A
+      SerialNumber: SM304246
+      PowerSource:
+      Microphones:
+        - Type: NA
+          UID:
+          BuildDate:
+          Gain:
+          Channel:
+          ChannelName:
+          Sensitivity: 23.9
+        - Type: NA
+          UID:
+          BuildDate:
+          Gain:
+          Channel:
+          ChannelName:
+          Sensitivity: 23.9
+      Gain:
+      Configuration:
+      Voltage:
+      BatteryLevel:
+      Temperature:
+      LastTimeSync:
+    Location: ~
+  BlockAlign: 2
+  FixturePath: WA_SM3/1.35A/MedeasCove-Cemetary-SM304246_20211013_Data/SM304246_0+1_20211024_002617.wav
+  Notes:
+  ValidMetadata: Yes
+  MimeType: audio/wave
+  Vendor: Wildlife Acoustics
+  Process:
+    FilenameExtractor:
+      <<: *NormalSM32
+      StartDate: ~
+    WaveHeaderExtractor: ~
+    WamdExtractor: ~

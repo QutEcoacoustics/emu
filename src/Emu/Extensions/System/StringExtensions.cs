@@ -72,4 +72,32 @@ public static class StringExtensions
     {
         return $"{{{input}}}";
     }
+
+    public static byte[] FromHexString(this string hex)
+    {
+        var bytes = new byte[hex.Length / 2];
+        for (int i = 0; i < bytes.Length; i++)
+        {
+            int offset = i * 2;
+            bytes[i] = FromHex(hex[offset], hex[offset + 1]);
+        }
+
+        return bytes;
+
+        static byte FromHex(char a, char b)
+        {
+            byte high = FromOctet(a);
+            byte low = FromOctet(b);
+
+            return (byte)((high << 4) | low);
+        }
+
+        static byte FromOctet(char c) => c switch
+        {
+            >= '0' and <= '9' => (byte)(c - '0'),
+            >= 'a' and <= 'z' => (byte)(c - 'a' + 10),
+            >= 'A' and <= 'Z' => (byte)(c - 'A' + 10),
+            _ => throw new InvalidDataException($"Unknown hex character `{c}`"),
+        };
+    }
 }

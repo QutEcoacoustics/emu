@@ -6,6 +6,7 @@ namespace Emu.Fixes
 {
     using Emu.Fixes.FrontierLabs;
     using Emu.Fixes.OpenEcoacoustics;
+    using Emu.Fixes.WildlifeAcoustics;
 
     public class FixRegister
     {
@@ -24,6 +25,7 @@ namespace Emu.Fixes
             SpaceInDatestamp.Metadata,
             MetadataDurationBug.Metadata,
             IncorrectDataSize.Metadata,
+            NoData.Metadata,
         };
 
         public IFixOperation Resolve(WellKnownProblem problem)

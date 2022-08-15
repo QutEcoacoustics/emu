@@ -4,6 +4,7 @@
 
 namespace Emu.Tests.Extensions.System
 {
+    using FluentAssertions;
     using global::System;
     using Xunit;
 
@@ -17,6 +18,9 @@ namespace Emu.Tests.Extensions.System
         {
             var actual = bytes.ToHexString();
             Assert.Equal(expected, actual);
+
+            var reversed = actual.FromHexString();
+            reversed.Should().BeEquivalentTo(bytes);
         }
     }
 }

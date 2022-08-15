@@ -47,6 +47,9 @@ namespace Emu.Tests.TestHelpers
         public const string WaveWithCues = "Generic WAVE with cue chunk";
         public const string WaveWithCuesAndLabels = "Generic WAVE with cue and label chunks";
 
+        public const string NoDataHeader = "SM3 No Data";
+        public const string NoDataHeader2 = "SM3 No Data 2";
+
         private string fixturePath;
 
         public Recording Record { get; set; }
