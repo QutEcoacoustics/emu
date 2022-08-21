@@ -162,7 +162,7 @@ namespace Emu.Fixes.FrontierLabs
                 $"update firmware tag with {EmuPatched}",
                 () => WriteFirmware(stream, firmware, EmuPatched));
 
-            return new FixResult(FixStatus.Fixed, check, $"Old total samples was {totalSamples}, new total samples is: {totalSamples}");
+            return new FixResult(FixStatus.Fixed, check, $"Old total samples was {totalSamples}, new total samples is: {countedSamples}");
         }
 
         public record MetadaDurationBugData(FirmwareRecord Firmware, ulong HeaderSamples, ulong CountedSamples);

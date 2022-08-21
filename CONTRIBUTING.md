@@ -52,6 +52,7 @@ Other notes:
     ```powershell
     dotnet test
     git tag -a -m "Version x.x.x" x.x.x
+    Remove-Item .\publish\*
     $rids = ("win-x64", "linux-x64", "osx-x64", "osx-arm64", "linux-arm", "linux-arm64")
     $rids | ForEach-Object { dotnet publish .\src\Emu\ -c Release -o ./publish/$_ --self-contained -r $_  }
     Get-ChildItem ./publish/ -Directory | % { Compress-Archive -Path $_ -DestinationPath ('./publish/' + $_.Name + ".zip") }
