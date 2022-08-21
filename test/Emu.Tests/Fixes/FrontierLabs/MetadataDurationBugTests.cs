@@ -121,7 +121,7 @@ namespace Emu.Tests.Fixes.FrontierLabs
         [Fact]
         public async Task WillNotTriggerForNonFLFiles()
         {
-            var path = FixtureHelper.ResolvePath("Generic\\Audacity\\hello.flac");
+            var path = FixtureHelper.ResolvePath("Generic/Audacity/hello.flac");
             var actual = await this.fixer.CheckAffectedAsync(path);
 
             Assert.Equal(CheckStatus.Unaffected, actual.Status);

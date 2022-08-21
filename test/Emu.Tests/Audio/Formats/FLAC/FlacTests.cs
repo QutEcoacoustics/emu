@@ -114,7 +114,7 @@ namespace Emu.Tests.Audio.Formats.FLAC
         public async Task EnumerateFramesWorks()
         {
             // 52 frames
-            var path = FixtureHelper.ResolvePath("Generic\\Audacity\\hello.flac");
+            var path = FixtureHelper.ResolvePath("Generic/Audacity/hello.flac");
             using var stream = this.RealFileSystem.File.OpenRead(path);
 
             Flac.IsFlacFile(stream).ThrowIfFail().Should().BeTrue();
@@ -231,7 +231,7 @@ namespace Emu.Tests.Audio.Formats.FLAC
         [Fact]
         public async Task CanCountSamples2()
         {
-            var path = FixtureHelper.ResolvePath("Generic\\Audacity\\hello.flac");
+            var path = FixtureHelper.ResolvePath("Generic/Audacity/hello.flac");
             using var stream = this.RealFileSystem.File.OpenRead(path);
 
             var expected = Flac.ReadTotalSamples(stream);
@@ -247,7 +247,6 @@ namespace Emu.Tests.Audio.Formats.FLAC
             var fixture = this.data[FixtureModel.SpaceInDateStamp];
             using var stream = this.RealFileSystem.File.OpenRead(fixture.AbsoluteFixturePath);
 
-
             var expected = Flac.ReadTotalSamples(stream);
             var actual = await Flac.CountSamplesAsync(stream);
 
@@ -258,7 +257,7 @@ namespace Emu.Tests.Audio.Formats.FLAC
         [Fact]
         public void CanReadBlockSizes()
         {
-            var path = FixtureHelper.ResolvePath("Generic\\Audacity\\hello.flac");
+            var path = FixtureHelper.ResolvePath("Generic/Audacity/hello.flac");
             using var stream = this.RealFileSystem.File.OpenRead(path);
 
             var actual = Flac.ReadBlockSizes(stream);
@@ -268,7 +267,7 @@ namespace Emu.Tests.Audio.Formats.FLAC
         [Fact]
         public void CanReadFrameSizes()
         {
-            var path = FixtureHelper.ResolvePath("Generic\\Audacity\\hello.flac");
+            var path = FixtureHelper.ResolvePath("Generic/Audacity/hello.flac");
             using var stream = this.RealFileSystem.File.OpenRead(path);
 
             var actual = Flac.ReadFrameSizes(stream);
