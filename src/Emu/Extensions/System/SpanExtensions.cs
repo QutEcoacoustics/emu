@@ -41,4 +41,18 @@ public static class SpanExtensions
             return (char)(b < 10 ? '0' + b : 'a' + (b - 10));
         }
     }
+
+    public static byte ReadByte(this ReadOnlySpan<byte> bytes, ref int offset)
+    {
+        var value = bytes[offset];
+        offset++;
+        return value;
+    }
+
+    public static ushort ReadUInt16BigEndian(this ReadOnlySpan<byte> bytes, ref int offset)
+    {
+        var value = BinaryPrimitives.ReadUInt16BigEndian(bytes[offset..]);
+        offset += sizeof(ushort);
+        return value;
+    }
 }

@@ -4,33 +4,42 @@
 
 namespace Emu.Audio
 {
+    using System.Buffers;
     using System.Buffers.Binary;
     using System.Diagnostics;
+    using System.IO.Pipelines;
     using System.Text;
     using Emu.Utilities;
     using LanguageExt;
     using LanguageExt.Common;
 
-    public static class Flac
+    public static partial class Flac
     {
         public const string Mime = "audio/flac";
         public const string Extension = ".flac";
 
         public const int FlacSamplesOffset = 21;
         public const int SampleRateOffset = 18;
+        public const int BlockSizeOffset = 8;
+        public const int FrameSizeOffset = 12;
         public const int ChannelOffset = 20;
         public const int BlockTypeOffset = 4;
         public const int MD5Offset = 26; // bytes
 
         public const int MetadataBlockSize = 42;
         public const int VorbisCommentBlockNumber = 4;
+
         public static readonly byte[] FlacMagicNumber = new byte[] { (byte)'f', (byte)'L', (byte)'a', (byte)'C' };
 
-        public static readonly Error FileTooShort = Error.New("Error reading file: file is not long enough to have a duration header");
+        public static readonly Error FileTooShort = Error.New("Error reading file: file is not long enough to read metadata");
         public static readonly Error FileTooShortFlac = Error.New("Error reading file: file is not long enough to have a fLaC header");
         public static readonly Error VendorStringNotFound = Error.New("Error reading file: could not find vendor string Frontier Labs in file header");
         public static readonly Error InvalidOffset = Error.New("Error reading file: an invalid offset was found");
-        public static readonly Func<byte, Error> ChunkNotFound = x => Error.New($"Chunk with ID `{x}` was not found");
+        public static readonly Func<MetadataBlockType, Error> ChunkNotFound = x => Error.New($"Chunk with ID `{x}` was not found");
+        public static readonly Error BadMetadataSeek = Error.New("Could not seek to the next metadata block");
+        public static readonly Error BadFrameSeek = Error.New("Could not seek to the required position while scanning for frames");
+        public static readonly Error CountSamplesBlockSize = Error.New("CountSamples only works on files that have a fixed block size");
+        public static readonly Error CountSamplesNotEnoughFrames = Error.New("Could not find enough frames to count samples for");
 
         /// <summary>
         /// The total samples in the stream are read from the flac header here.
@@ -53,6 +62,133 @@ namespace Emu.Audio
             }
 
             return BinaryHelpers.Read36BitUnsignedBigEndianIgnoringFirstNibble(buffer);
+        }
+
+        /// <summary>
+        /// Scans through a FLAC file counting the number of samples in each frame.
+        /// </summary>
+        /// <remarks>
+        /// This method is useful when dealing with a file that as an invalid number
+        /// of samples encoded in the STREAMINFO block.
+        /// See https://xiph.org/flac/format.html#metadata_block_streaminfo.
+        /// </remarks>
+        /// <param name="stream">The flac file stream.</param>
+        /// <returns>The count of samples.</returns>
+        public static async Task<Fin<ulong>> CountSamplesAsync(Stream stream)
+        {
+            var blockSizes = ReadBlockSizes(stream).Bind(CheckBlockSize);
+            if (blockSizes.IsFail)
+            {
+                return (Error)blockSizes;
+            }
+
+            var frameSizes = ReadFrameSizes(stream);
+
+            if (frameSizes.IsFail)
+            {
+                return (Error)frameSizes;
+            }
+
+            var sampleRate = ReadSampleRate(stream);
+
+            if (sampleRate.IsFail)
+            {
+                return (Error)sampleRate;
+            }
+
+            var sampleSize = ReadBitDepth(stream);
+
+            if (sampleSize.IsFail)
+            {
+                return (Error)sampleSize;
+            }
+
+            // OK, here's the theory:
+            // Get the last two frames in the file.
+            // Assuming a fixed blocksize (validated above) the last frame will
+            // have the frame number we can use to calculate all previous samples.
+            // The last frame will have the remaining fragemnt.
+            // We're going to scan near the end of the file, by at least two of the
+            // largest frames according to the metadata. Doing it this way means
+            // we'll avoid scanning most of the file.
+
+            var largest = frameSizes.ThrowIfFail().Maximum;
+
+            // some encoders do not set the block size, so if this is zero guess at a larger value
+            if (largest == 0)
+            {
+                // largest possible block size in samples;
+                largest = 32_768;
+            }
+
+            var offset = stream.Length - (largest * 3);
+
+            var frames = await EnumerateFrames(stream, sampleRate.ThrowIfFail(), sampleSize.ThrowIfFail(), offset).ToArrayAsync();
+
+            if (frames.Length < 2)
+            {
+                return CountSamplesNotEnoughFrames;
+            }
+
+            var penultimate = frames[^2];
+            var ultimate = frames[^1];
+
+            var result = from pu in penultimate
+                         from u in ultimate
+                         select ((ulong)(GetFrameNumber(pu) + 1) * pu.Header.BlockSize) + u.Header.BlockSize;
+
+            return result;
+
+            Fin<(ushort Minimum, ushort Maximum)> CheckBlockSize((ushort Minimum, ushort Maximum) b)
+            {
+                return b.Minimum != b.Maximum ? CountSamplesBlockSize : b;
+            }
+
+            uint GetFrameNumber(Frame f) => f.Header.FrameNumber ?? throw new NotSupportedException("This check is not support for FLAC files with variable size blocks. File a bug report on the emu repository.");
+        }
+
+        /// <summary>
+        /// The block sizes extracted from bits 64-96 of the stream.
+        /// More information: https://xiph.org/flac/format.html#metadata_block_streaminfo.
+        /// </summary>
+        /// <param name="stream">The flac file stream.</param>
+        /// <returns>The minimum and maximum block sizes in samples.</returns>
+        public static Fin<(ushort Minimum, ushort Maximum)> ReadBlockSizes(Stream stream)
+        {
+            long position = stream.Seek(BlockSizeOffset, SeekOrigin.Begin);
+            Debug.Assert(position == BlockSizeOffset, $"Expected stream.Seek position to return {BlockSizeOffset}, instead returned {position}");
+
+            Span<byte> buffer = stackalloc byte[4];
+            int bytesRead = stream.Read(buffer);
+
+            if (bytesRead != buffer.Length)
+            {
+                return FileTooShort;
+            }
+
+            return (BinaryPrimitives.ReadUInt16BigEndian(buffer), BinaryPrimitives.ReadUInt16BigEndian(buffer[2..]));
+        }
+
+        /// <summary>
+        /// The frame sizes extracted from bits 96-144 of the stream.
+        /// More information: https://xiph.org/flac/format.html#metadata_block_streaminfo.
+        /// </summary>
+        /// <param name="stream">The flac file stream.</param>
+        /// <returns>The minimum and maximum frame sizes in bytes.</returns>
+        public static Fin<(uint Minimum, uint Maximum)> ReadFrameSizes(Stream stream)
+        {
+            long position = stream.Seek(FrameSizeOffset, SeekOrigin.Begin);
+            Debug.Assert(position == FrameSizeOffset, $"Expected stream.Seek position to return {FrameSizeOffset}, instead returned {position}");
+
+            Span<byte> buffer = stackalloc byte[6];
+            int bytesRead = stream.Read(buffer);
+
+            if (bytesRead != buffer.Length)
+            {
+                return FileTooShort;
+            }
+
+            return (BinaryHelpers.Read24bitUnsignedBigEndian(buffer), BinaryHelpers.Read24bitUnsignedBigEndian(buffer[3..]));
         }
 
         /// <summary>
@@ -85,7 +221,7 @@ namespace Emu.Audio
         /// </summary>
         /// <param name="stream">The flac file stream.</param>
         /// <returns>The number of channels.</returns>
-        public static Fin<byte> ReadNumChannels(Stream stream)
+        public static Fin<byte> ReadNumberChannels(Stream stream)
         {
             long position = stream.Seek(ChannelOffset, SeekOrigin.Begin);
             Debug.Assert(position == 20, $"Expected stream.Seek position to return 20, instead returned {position}");
@@ -200,16 +336,47 @@ namespace Emu.Audio
         /// <param name="stream">The flac file stream.</param>
         /// <param name="targetBlockType">The block being searched for.</param>
         /// <returns>Range indicating the position of the block in the file stream.</returns>
-        public static Fin<RangeHelper.Range> ScanForChunk(Stream stream, byte targetBlockType)
+        public static Fin<RangeHelper.Range> ScanForChunk(Stream stream, MetadataBlockType targetBlockType)
+        {
+            foreach (var block in EnumerateMetadataBlocks(stream))
+            {
+                if (block.Case is MetadataBlock m && m.Type == targetBlockType)
+                {
+                    return new RangeHelper.Range(m.Offset, m.Offset + m.Length);
+                }
+                else if (block.IsFail)
+                {
+                    return (Error)block;
+                }
+            }
+
+            return ChunkNotFound(targetBlockType);
+        }
+
+        /// <summary>
+        /// Finds the offset of the first byte of the first FRAME structure.
+        /// Assumes stream is already validated as a FLAC file.
+        /// </summary>
+        /// <param name="stream">The stream to scan.</param>
+        /// <returns>The offset of the first byte of the first FRAME.</returns>
+        public static Fin<long> FindFrameStart(Stream stream)
+        {
+            var last = EnumerateMetadataBlocks(stream).Last();
+
+            Debug.Assert(!last.IsSucc || last.ThrowIfFail().Last, "Last metadata block should have last flag set");
+
+            return last.Map(b => b.Offset + b.Length);
+        }
+
+        public static IEnumerable<Fin<MetadataBlock>> EnumerateMetadataBlocks(Stream stream)
         {
             const int BlockTypeLength = 1, BlockLengthLength = 3;
 
             int offset = BlockTypeOffset;
-            uint length = 0;
             byte blockType;
             bool lastBlock = false;
 
-            Span<byte> buffer = stackalloc byte[BlockTypeLength + BlockLengthLength];
+            var buffer = new byte[BlockTypeLength + BlockLengthLength];
 
             while (!lastBlock)
             {
@@ -217,30 +384,162 @@ namespace Emu.Audio
 
                 if (newOffset != offset)
                 {
-                    return InvalidOffset;
+                    yield return InvalidOffset;
+                    yield break;
                 }
 
                 var read = stream.Read(buffer);
+                offset += read;
 
                 if (read != (BlockTypeLength + BlockLengthLength))
                 {
-                    return ChunkNotFound(targetBlockType);
+                    yield return BadMetadataSeek;
+                    yield break;
                 }
 
                 lastBlock = (buffer[0] >> 7) == 1;
                 blockType = BinaryHelpers.Read7BitUnsignedBigEndianIgnoringFirstBit(buffer[..BlockTypeLength]);
-                length = BinaryHelpers.Read24bitUnsignedBigEndian(buffer[BlockTypeLength..]);
-                offset += read;
+                var length = BinaryHelpers.Read24bitUnsignedBigEndian(buffer[BlockTypeLength..]);
 
-                if (blockType == targetBlockType)
-                {
-                    return new RangeHelper.Range(offset, offset + length);
-                }
+                yield return new MetadataBlock(
+                    (MetadataBlockType)blockType,
+                    lastBlock,
+                    offset,
+                    length);
 
                 offset += (int)length;
             }
+        }
 
-            return ChunkNotFound(targetBlockType);
+        /// <summary>
+        /// Scans the file for FRAME_HEADER sync codes and returns a <see cref="FrameHeader" /> each time
+        /// a frame is found.
+        /// </summary>
+        /// <param name="stream">The stream of the flac file.</param>
+        /// <param name="streamInfoSampleRate">The sample rate as in the STREAMINFO block.</param>
+        /// <param name="streamInfoSampleSize">The sample size as in the STREAMINFO block.</param>
+        /// <param name="offset">
+        /// An optional offset to start scanning from.
+        /// If <value>null</value> the scan will start from the first frame that occurs after the metadata blocks.
+        /// </param>
+        /// <returns>A lazyily generated list of FrameHeaders if any are found.</returns>
+        public static async IAsyncEnumerable<Fin<Frame>> EnumerateFrames(Stream stream, uint streamInfoSampleRate, byte streamInfoSampleSize, long? offset = null)
+        {
+            long start;
+            if (offset is null)
+            {
+                var frameStart = FindFrameStart(stream);
+                if (frameStart.IsFail)
+                {
+                    yield return (Error)frameStart;
+                    yield break;
+                }
+
+                start = (long)frameStart;
+            }
+            else
+            {
+                start = offset.Value;
+            }
+
+            var position = stream.Seek(start, SeekOrigin.Begin);
+            if (position != start)
+            {
+                yield return BadFrameSeek;
+                yield break;
+            }
+
+            var pipe = PipeReader.Create(stream, new StreamPipeReaderOptions(leaveOpen: true));
+
+            ReadResult result;
+            uint frameCounter = 0;
+            long streamOffset = start;
+            while (true)
+            {
+                result = await pipe.ReadAsync();
+
+                if (result.IsCompleted || result.IsCanceled)
+                {
+                    break;
+                }
+
+                var frames = ScanBuffer(result.Buffer, out var consumed, out var examined, ref frameCounter);
+                foreach (var frame in frames)
+                {
+                    yield return frame;
+                }
+
+                streamOffset += result.Buffer.GetSequenceOffset(consumed);
+                pipe.AdvanceTo(consumed, examined);
+            }
+
+            yield break;
+
+            IEnumerable<Frame> ScanBuffer(ReadOnlySequence<byte> buffer, out SequencePosition consumed, out SequencePosition examined, ref uint frameCounter)
+            {
+                var reader = new SequenceReader<byte>(buffer);
+                Span<byte> frameBytes = stackalloc byte[FrameHeader.FrameHeaderMaxSize];
+                var result = Seq<Frame>.Empty;
+
+                while (!reader.End)
+                {
+                    var found = reader.TryAdvanceTo(FrameHeader.SyncCodeByteOne, false);
+                    if (found)
+                    {
+                        if (reader.Remaining < FrameHeader.FrameHeaderMaxSize)
+                        {
+                            // our frame is (potentially) split over a buffer
+                            // break early but mark consumed as not the entire buffer. The next pipe.ReadAsync should include
+                            // our remaining span prepended onto the next buffer
+                            break;
+                        }
+
+                        var peek = reader.TryPeek(1, out var second);
+                        Debug.Assert(peek, "Peeking should always work");
+                        if (second == FrameHeader.SyncCodeByteTwoA || second == FrameHeader.SyncCodeByteTwoB)
+                        {
+                            reader.UnreadSequence.Slice(0, FrameHeader.FrameHeaderMaxSize).CopyTo(frameBytes);
+
+                            var header = FrameHeader.Parse(frameBytes, streamInfoSampleRate, streamInfoSampleSize, out int frameSize);
+
+                            // discard any frame that does not pass muster - the crc check in particular is useful for weeding out
+                            // byte sequences from subframes that fool the sync code.
+                            var offset = streamOffset + buffer.GetSequenceOffset(reader.Position);
+                            if (header.IsSucc)
+                            {
+                                var frame = new Frame(frameCounter++, offset, (FrameHeader)header);
+                                result = result.Add(frame);
+                            }
+#if DEBUG
+                            else
+                            {
+                                Debug.WriteLine($"Frame discarded: offset:{offset},index:{frameCounter}, {header}");
+                            }
+#endif
+                            reader.Advance(frameSize);
+                        }
+                        else if (second == FrameHeader.SyncCodeByteOne)
+                        {
+                            // the next byte is the first sync byte, don't move past it!
+                            reader.Advance(1);
+                        }
+                        else
+                        {
+                            // the 0xFF byte and the second byte which failed the second check
+                            reader.Advance(2);
+                        }
+                    }
+                    else
+                    {
+                        // delimitter not found within buffer, advance to end
+                        reader.Advance(reader.Remaining);
+                    }
+                }
+
+                consumed = reader.Position;
+                examined = buffer.End;
+                return result;
+            }
         }
 
         /// <summary>
@@ -252,7 +551,7 @@ namespace Emu.Audio
         {
             Dictionary<string, string> comments = new Dictionary<string, string>();
 
-            var vorbisChunk = Flac.ScanForChunk(stream, VorbisCommentBlockNumber);
+            var vorbisChunk = ScanForChunk(stream, MetadataBlockType.VorbisComment);
 
             if (vorbisChunk.IsFail)
             {
@@ -339,5 +638,7 @@ namespace Emu.Audio
 
             return stream.Length > MetadataBlockSize && BinaryHelpers.Read7BitUnsignedBigEndianIgnoringFirstBit(buffer) == 0;
         }
+
+        public record struct MetadataBlock(MetadataBlockType Type, bool Last, long Offset, uint Length);
     }
 }

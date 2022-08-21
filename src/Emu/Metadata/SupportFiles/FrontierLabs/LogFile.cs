@@ -40,6 +40,7 @@ namespace Emu.Metadata.SupportFiles.FrontierLabs
         public static readonly Regex LogFileRegex = new(@".*logfile.*txt");
         public static readonly Regex FirmwareRegex = new(@"V?\d+");
         public static readonly Regex BatteryParsingRegex = new(@"[%V()]");
+        private static readonly Regex GainRegex = new("(\\d+)dB on channel ([A-Z])");
 
         public LogFile(string filePath)
         {
@@ -275,10 +276,11 @@ namespace Emu.Metadata.SupportFiles.FrontierLabs
         /// Example microphone data format: <c>Ch A: 006277 "STD AUDIO MIC" ( 16/01/2020 )</c>.
         /// </summary>
         /// <param name="microphoneData">The unparsed microphone data.</param>
+        /// <param name="arrowLine">The log line containing the `-->` token.</param>
         /// <returns>
         /// A parsed microphone object.
         /// </returns>
-        public static Microphone MicrophoneParser(string microphoneData)
+        public static Microphone MicrophoneParser(string microphoneData, string arrowLine)
         {
             // Microphone data may be unknown
             if (microphoneData.Contains("Unknown"))
@@ -306,6 +308,26 @@ namespace Emu.Metadata.SupportFiles.FrontierLabs
             LocalDate buildDate = LocalDatePattern.CreateWithInvariantCulture("dd'/'MM'/'yyyy")
                 .Parse(stringBuildDate).Value;
 
+            double? gain = null;
+            if (arrowLine is not null)
+            {
+                // gain is contained in the arrow line for some versions
+                var matches = GainRegex.Matches(arrowLine);
+                foreach (Match match in matches)
+                {
+                    if (match.Success)
+                    {
+                        var gainText = match.Groups[1].Value;
+                        var channelText = match.Groups[2].Value;
+
+                        if (channelName.ToString() == channelText)
+                        {
+                            gain = double.Parse(gainText);
+                        }
+                    }
+                }
+            }
+
             return new Microphone() with
             {
                 Channel = channel,
@@ -313,6 +335,7 @@ namespace Emu.Metadata.SupportFiles.FrontierLabs
                 UID = uid,
                 Type = type,
                 BuildDate = buildDate,
+                Gain = gain,
             };
         }
 
@@ -390,9 +413,16 @@ namespace Emu.Metadata.SupportFiles.FrontierLabs
 
             (double?, double?)? batteryData = null;
             List<Microphone> microphones = null;
+            string arrowString = null;
 
             while ((line = reader.ReadLine()) != null && !line.Contains(EndSection))
             {
+                if (line.Contains("-->"))
+                {
+                    // extra information sometimes contained in this string
+                    arrowString = line;
+                }
+
                 if (line.Contains(BatteryString))
                 {
                     batteryData = BatteryParser(line.Split(BatteryString).Last());
@@ -400,7 +430,7 @@ namespace Emu.Metadata.SupportFiles.FrontierLabs
 
                 if (line.Contains(MicrophoneString))
                 {
-                    var microphone = MicrophoneParser(line.Split(MicrophoneString).Last());
+                    var microphone = MicrophoneParser(line.Split(MicrophoneString).Last(), arrowString);
 
                     if (microphone != null)
                     {

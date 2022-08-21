@@ -2,7 +2,7 @@
 // All code in this file and all associated files are the copyright and property of the QUT Ecoacoustics Research Group.
 // </copyright>
 
-namespace Emu.Tests.Audio
+namespace Emu.Tests.Audio.Formats.WAVE
 {
     using System.Collections.Generic;
     using Emu.Audio;
@@ -32,7 +32,7 @@ namespace Emu.Tests.Audio
             var bitsPerSample = Wave.GetBitsPerSample(format);
             var channels = Wave.GetChannels(format);
 
-            var totalSamples = (ulong)Wave.GetTotalSamples(dataRange, channels, bitsPerSample);
+            var totalSamples = Wave.GetTotalSamples(dataRange, channels, bitsPerSample);
             totalSamples.Should().Be(model.Record.TotalSamples);
         }
 
@@ -109,7 +109,7 @@ namespace Emu.Tests.Audio
             var model = this.data[FixtureModel.SM4BatNormal1];
             using var stream = model.ToTargetInformation(this.RealFileSystem).FileStream;
 
-            Fin<bool> isWave = Wave.IsWaveFile(stream);
+            var isWave = Wave.IsWaveFile(stream);
 
             Assert.True(isWave.IsSucc);
 
@@ -123,7 +123,7 @@ namespace Emu.Tests.Audio
             var model = this.data[FixtureModel.SM4BatNormal1];
             using var stream = model.ToTargetInformation(this.RealFileSystem).FileStream;
 
-            Fin<bool> isWave = Wave.IsPcmWaveFile(stream);
+            var isWave = Wave.IsPcmWaveFile(stream);
 
             Assert.True(isWave.IsSucc);
 

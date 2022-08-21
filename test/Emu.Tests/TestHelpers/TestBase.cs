@@ -16,6 +16,7 @@ namespace Emu.Tests.TestHelpers
     using Emu.Filenames;
     using Emu.Serialization;
     using Emu.Utilities;
+    using FluentAssertions.Equivalency.Tracing;
     using LanguageExt;
     using Microsoft.Extensions.Logging;
     using Xunit.Abstractions;
@@ -33,7 +34,7 @@ namespace Emu.Tests.TestHelpers
         private readonly StringWriter cleanOutput;
 
         private readonly TestOutputHelperTextWriterAdapter xUnitOutputAdapter;
-
+        private readonly TestOutputHelperITraceWriterAdapter xUnitTraceAdapter;
         private DryRunFactory dryRunFactory;
 
         static TestBase()
@@ -54,6 +55,7 @@ namespace Emu.Tests.TestHelpers
 
             // allow writing out output to xunit log
             this.xUnitOutputAdapter ??= new(this.xUnitOutput);
+            this.xUnitTraceAdapter ??= new(this.xUnitOutput);
 
             // also store a clean copy of the output for use in tests
             this.cleanOutput = new StringWriter();
@@ -78,6 +80,10 @@ namespace Emu.Tests.TestHelpers
 
             this.ServiceProvider = testServices.BuildServiceProvider();
         }
+
+        public TestOutputHelperTextWriterAdapter TestOutput => this.xUnitOutputAdapter;
+
+        public ITraceWriter TestTraceOutput => this.xUnitTraceAdapter;
 
         public IFileSystem CurrentFileSystem => this.realFileSystem ? this.RealFileSystem : this.TestFiles;
 

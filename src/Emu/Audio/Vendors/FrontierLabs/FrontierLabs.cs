@@ -79,7 +79,7 @@ namespace Emu.Audio.Vendors
 
         public static async ValueTask<Fin<FirmwareRecord>> ReadFirmwareAsync(FileStream stream)
         {
-            var vorbisChunk = Flac.ScanForChunk(stream, Flac.VorbisCommentBlockNumber);
+            var vorbisChunk = Flac.ScanForChunk(stream, Flac.MetadataBlockType.VorbisComment);
 
             if (vorbisChunk.IsFail)
             {
@@ -228,7 +228,7 @@ namespace Emu.Audio.Vendors
             long position = stream.Seek(0, SeekOrigin.Begin);
             Debug.Assert(position == 0, $"Expected stream.Seek position to return 0, instead returned {position}");
 
-            var vorbisChunk = Flac.ScanForChunk(stream, Flac.VorbisCommentBlockNumber);
+            var vorbisChunk = Flac.ScanForChunk(stream, Flac.MetadataBlockType.VorbisComment);
 
             if (vorbisChunk.IsFail)
             {

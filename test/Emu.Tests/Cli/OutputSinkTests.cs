@@ -21,7 +21,7 @@ namespace Emu.Tests.Cli
         }
 
         [Fact]
-        public void TestOutput()
+        public void TestOutputSink()
         {
             this.TestFiles.AddDirectory("/abc");
             this.TestFiles.Directory.SetCurrentDirectory(this.ResolvePath("/abc"));

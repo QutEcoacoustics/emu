@@ -87,7 +87,8 @@ namespace Emu.Utilities
 
         public async ValueTask<bool> CheckForContinuousValue(Stream stream, int offset = 0, int? count = null, Vector<byte> target = default)
         {
-            if (offset < 0) {
+            if (offset < 0)
+            {
                 throw new ArgumentException("must be greater than 0", nameof(offset));
             }
 

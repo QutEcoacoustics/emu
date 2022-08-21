@@ -30,7 +30,7 @@ namespace Emu.Metadata.FrontierLabs
         {
             var samples = Flac.ReadTotalSamples(information.FileStream);
             var sampleRate = Flac.ReadSampleRate(information.FileStream);
-            var channels = Flac.ReadNumChannels(information.FileStream);
+            var channels = Flac.ReadNumberChannels(information.FileStream);
             var bitDepth = Flac.ReadBitDepth(information.FileStream);
             var md5 = Flac.ReadMD5(information.FileStream);
 

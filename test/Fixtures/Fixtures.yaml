@@ -1023,14 +1023,6 @@
         <<: *Firmware3.30Sensor
         BatteryLevel: 0.63
         Voltage: 3.75
-        Microphones:
-          - Type: STD AUDIO MIC
-            UID: 009966
-            BuildDate: 2019-03-20
-            Gain:
-            Channel: 2
-            ChannelName: B
-            Sensitivity:
     FLCommentAndLogExtractor: ~
 
 - Name: FileSizeLimit1
@@ -1218,7 +1210,7 @@
       CoordinateReferenceSystem:
   BlockAlign:
   FixturePath: FL_BAR_LT/3.08_SpaceInDateStamp/20190607_AAO [19.2144 152.8811]/201906 7T095935+1000_REC [19.2144 152.8811].flac
-  Notes:
+  Notes: "The header sample count is incorrect! This is not FL010 though. Reported: 396288, Actual: 404352"
   ValidMetadata: Yes
   MimeType: audio/flac
   Vendor: Frontier Labs
@@ -1557,3 +1549,104 @@
       StartDate: ~
     WaveHeaderExtractor: ~
     WamdExtractor: ~
+
+- Name: Metadata Duration Bug 2
+  Record: &MetadataDurationBug2
+    Extension: .flac
+    Stem: 8488_20220529T050000-0300_continuousPeases [+43.63055-066.03199]
+    StartDate: 2022-05-29T05:00:00-03:00
+    LocalStartDate: 2022-05-29T05:00:00
+    TrueStartDate: 2022-05-29T05:00:00-03:00
+    TrueEndDate: 2022-05-29T05:59:55-03:00
+    DurationSeconds: 317071360/44100
+    TotalSamples: 317071360
+    Channels: 2
+    SampleRateHertz: 44100
+    BitsPerSecond: 1411200
+    BitDepth: 16
+    FileSizeBytes: 297793100
+    MediaType: audio/flac
+    CalculatedChecksum:
+      Type: SHA256
+      Value: e9e7d219d829161a0076da5f9d42678327143046717c9417050a933de293b12f
+    EmbeddedChecksum:
+      Type: MD5
+      Value: 00000000000000000000000000000000
+    MemoryCard:
+      FormatType: exFAT
+      ManufacturerID: 3
+      OEMID: SD
+      ProductName: SD128
+      ProductRevision: 8.5
+      SerialNumber: 1135260532
+      ManufactureDate: 2020-08
+      Speed: 50000000
+      Capacity: 124868608000
+      WrCurrentVmin: 5
+      WrCurrentVmax: 5
+      WriteBlSize: 512
+      EraseBlSize: 65536
+    Sensor:
+      Name:
+      Firmware: 3.30
+      SerialNumber: 00008488
+      PowerSource: Ext-power
+      Microphones:
+        - Type: STD AUDIO MIC
+          UID: 006259
+          BuildDate: 2020-01-16
+          Gain: 40
+          Channel: 1
+          ChannelName: A
+          Sensitivity:
+        - Type: STD AUDIO MIC
+          UID: 006260
+          BuildDate: 2020-01-16
+          Gain: 40
+          Channel: 2
+          ChannelName: B
+          Sensitivity:
+      Gain:
+      Configuration:
+      Voltage: 3.91
+      BatteryLevel: 0.75
+      Temperature:
+      LastTimeSync: 2022-05-25T06:42:24-03:00
+    Location:
+      Longitude: -66.03199
+      LongitudePrecision: 5
+      Latitude: 43.63055
+      LatitudePrecision: 5
+      Altitude:
+      AltitudePrecision:
+      HorizontalAccuracy:
+      VerticalAccuracy:
+      Speed:
+      Course:
+      SampleDateTime:
+      CoordinateReferenceSystem:
+  BlockAlign:
+  FixturePath: FL_BAR_LT/3.30_Duration/8488_20220529T050000-0300_continuousPeases [+43.63055-066.03199].flac
+  Notes: Affected by FL010 & FL007
+  ValidMetadata: Partial
+  MimeType: audio/flac
+  Vendor: Frontier Labs
+  Process:
+    FlacHeaderExtractor: ~
+    FlacCommentExtractor: ~
+    FrontierLabsLogFileExtractor:
+      <<: *MetadataDurationBug2
+      MemoryCard:
+        FormatType: exFAT
+        ManufacturerID: 3
+        OEMID: SD
+        ProductName: SD128
+        ProductRevision: 8.5
+        SerialNumber: 11187060
+        ManufactureDate: 2020-08
+        Speed: 50000000
+        Capacity: 124868608000
+        WrCurrentVmin: 5
+        WrCurrentVmax: 5
+        WriteBlSize: 512
+        EraseBlSize: 65536
