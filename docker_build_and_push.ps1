@@ -22,17 +22,21 @@ function script:exec {
 }
 
 $short = exec { git describe }
-$long =  exec { git describe --long }
+$long = exec { git describe --long }
 
 Write-Output "Building docker file"
 exec {
-  docker build `
-   --label version=$long `
-   --tag qutecoacoustics/emu:latest --tag qutecoacoustics/emu:$short `
-   .
+    docker build `
+        --label version=$long `
+        --tag qutecoacoustics/emu:latest --tag qutecoacoustics/emu:$short `
+        .
 }
 
 Write-Output "Pushing dockerfile"
 exec {
-  docker push -a qutecoacoustics/emu
+    docker push qutecoacoustics/emu:$short 
+}
+
+exec {
+    docker push qutecoacoustics/emu:latest 
 }

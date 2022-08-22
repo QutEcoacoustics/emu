@@ -7,7 +7,9 @@ RUN dotnet restore ./src/Emu/Emu.csproj
 
 # Copy everything else and build
 COPY ./ ./
-RUN dotnet publish -r linux-x64 --self-contained -o publish ./src/Emu/Emu.csproj
+# Mount git so the build can infer version number
+RUN --mount=type=bind,source=./git,target=./git \
+    dotnet publish -r linux-x64 --self-contained -o publish ./src/Emu/Emu.csproj
 
 
 FROM debian:buster-slim
