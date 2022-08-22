@@ -420,7 +420,7 @@ namespace Emu.Audio
         /// <param name="stream">The stream of the flac file.</param>
         /// <param name="streamInfoSampleRate">The sample rate as in the STREAMINFO block.</param>
         /// <param name="streamInfoSampleSize">The sample size as in the STREAMINFO block.</param>
-        /// <param name="fixedBlockSize">The fixed block size if known</param>
+        /// <param name="fixedBlockSize">The fixed block size if known.</param>
         /// <param name="offset">
         /// An optional offset to start scanning from.
         /// If <value>null</value> the scan will start from the first frame that occurs after the metadata blocks.

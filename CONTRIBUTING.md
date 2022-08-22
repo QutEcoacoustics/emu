@@ -51,11 +51,11 @@ Other notes:
 
     ```powershell
     dotnet test
-    git tag -a -m "Version x.x.x" x.x.x
+    $version = "x.x.x"
+    git tag -a -m "Version $version" $version
     Remove-Item .\publish\*
     $rids = ("win-x64", "linux-x64", "osx-x64", "osx-arm64", "linux-arm", "linux-arm64")
     $rids | ForEach-Object { dotnet publish .\src\Emu\ -c Release -o ./publish/$_ --self-contained -r $_  }
-    $version = git describe
     Get-ChildItem ./publish/ -Directory | % { Compress-Archive -Path $_/* -DestinationPath ("./publish/emu_${version}_$($_.Name).zip") }
     git push --tags
     ./docker_build_and_push.ps1

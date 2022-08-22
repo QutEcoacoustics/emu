@@ -5,4 +5,6 @@ TestResults/
 test/
 temp/
 publish/
-.git/
+# git info is needed for docker build when auto generating version
+# however lfs objects are huge
+.git/lfs*
