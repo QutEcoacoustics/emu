@@ -32,6 +32,7 @@ namespace Emu.Tests.TestHelpers
         public const string ArtificialZeroes = "Artificial Zeroes";
         public const string MetadataDurationBug = "Metadata Duration Bug";
         public const string MetadataDurationBug2 = "Metadata Duration Bug 2";
+        public const string MetadataDurationBug3 = "Metadata Duration Bug 3";
         public const string ZeroDbSamples = "Zero dB Samples";
         public const string NormalFile = "Normal File";
         public const string SM4BatNormal1 = "SM4 Bat Normal 1";

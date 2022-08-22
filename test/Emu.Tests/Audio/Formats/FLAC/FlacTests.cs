@@ -119,13 +119,14 @@ namespace Emu.Tests.Audio.Formats.FLAC
 
             Flac.IsFlacFile(stream).ThrowIfFail().Should().BeTrue();
 
+            var blockSize = Flac.ReadBlockSizes(stream).ThrowIfFail();
             var sampleRate = Flac.ReadSampleRate(stream).ThrowIfFail();
             var sampleSize = Flac.ReadBitDepth(stream).ThrowIfFail();
 
             Flac.FindFrameStart(stream).ThrowIfFail().Should().Be(0x56);
 
             List<Frame> frames = new(53);
-            await foreach (var frame in Flac.EnumerateFrames(stream, sampleRate, sampleSize))
+            await foreach (var frame in Flac.EnumerateFrames(stream, sampleRate, sampleSize, blockSize.Minimum))
             {
                 frames.Add(frame.ThrowIfFail());
             }
@@ -216,6 +217,39 @@ namespace Emu.Tests.Audio.Formats.FLAC
         }
 
         [Fact]
+        public async Task FrameDetectionMoreStrictChecks()
+        {
+            // 77464 frames
+            var fixture = this.data[FixtureModel.MetadataDurationBug3];
+            using var stream = this.RealFileSystem.File.OpenRead(fixture.AbsoluteFixturePath);
+
+            Flac.IsFlacFile(stream).ThrowIfFail().Should().BeTrue();
+
+            var blockSize = Flac.ReadBlockSizes(stream).ThrowIfFail();
+            var sampleRate = Flac.ReadSampleRate(stream).ThrowIfFail();
+            var sampleSize = Flac.ReadBitDepth(stream).ThrowIfFail();
+
+            Flac.FindFrameStart(stream).ThrowIfFail().Should().Be(0x2a7);
+
+            // this file produces several valid frame headers that are not
+            // actually frame headers in the subframes.
+            // The correct interpretation of this file has frames that all have the same
+            // sample rate and channel layout. Thus we test for those factors.
+            await foreach (var result in Flac.EnumerateFrames(stream, sampleRate, sampleSize, blockSize.Minimum))
+            {
+                if (result.IsFail)
+                {
+                    continue;
+                }
+
+                var frame = (Frame)result;
+                frame.Header.SampleRate.Should().Be(22050);
+                frame.Header.ChannelAssignment.Should().Be(FrameChannelAssignment.Mono);
+                frame.Header.FrameNumber.Should().Be(frame.Index);
+            }
+        }
+
+        [Fact]
         public async Task CanCountSamples()
         {
             var fixture = this.data[FixtureModel.NormalFile];
@@ -252,6 +286,19 @@ namespace Emu.Tests.Audio.Formats.FLAC
 
             expected.ThrowIfFail().Should().Be(396288UL);
             actual.ThrowIfFail().Should().Be(404352UL);
+        }
+
+        [Fact]
+        public async Task CanCountSamples4()
+        {
+            var fixture = this.data[FixtureModel.MetadataDurationBug3];
+            using var stream = this.RealFileSystem.File.OpenRead(fixture.AbsoluteFixturePath);
+
+            var expected = Flac.ReadTotalSamples(stream);
+            var actual = await Flac.CountSamplesAsync(stream);
+
+            expected.ThrowIfFail().Should().Be(317292544UL);
+            actual.ThrowIfFail().Should().Be(158646272UL);
         }
 
         [Fact]

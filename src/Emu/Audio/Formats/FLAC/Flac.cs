@@ -40,6 +40,8 @@ namespace Emu.Audio
         public static readonly Error BadFrameSeek = Error.New("Could not seek to the required position while scanning for frames");
         public static readonly Error CountSamplesBlockSize = Error.New("CountSamples only works on files that have a fixed block size");
         public static readonly Error CountSamplesNotEnoughFrames = Error.New("Could not find enough frames to count samples for");
+        public static readonly Error CountSamplesNotFixed = Error.New("Found a mix of fixed and variable size frames; this is not allowed");
+        public static readonly Error CountSamplesNotConsecutive = Error.New("Found non-consecutive frame");
 
         /// <summary>
         /// The total samples in the stream are read from the flac header here.
@@ -123,7 +125,7 @@ namespace Emu.Audio
 
             var offset = stream.Length - (largest * 3);
 
-            var frames = await EnumerateFrames(stream, sampleRate.ThrowIfFail(), sampleSize.ThrowIfFail(), offset).ToArrayAsync();
+            var frames = await EnumerateFrames(stream, sampleRate.ThrowIfFail(), sampleSize.ThrowIfFail(), blockSizes.ThrowIfFail().Minimum, offset).ToArrayAsync();
 
             if (frames.Length < 2)
             {
@@ -418,12 +420,13 @@ namespace Emu.Audio
         /// <param name="stream">The stream of the flac file.</param>
         /// <param name="streamInfoSampleRate">The sample rate as in the STREAMINFO block.</param>
         /// <param name="streamInfoSampleSize">The sample size as in the STREAMINFO block.</param>
+        /// <param name="fixedBlockSize">The fixed block size if known</param>
         /// <param name="offset">
         /// An optional offset to start scanning from.
         /// If <value>null</value> the scan will start from the first frame that occurs after the metadata blocks.
         /// </param>
         /// <returns>A lazyily generated list of FrameHeaders if any are found.</returns>
-        public static async IAsyncEnumerable<Fin<Frame>> EnumerateFrames(Stream stream, uint streamInfoSampleRate, byte streamInfoSampleSize, long? offset = null)
+        public static async IAsyncEnumerable<Fin<Frame>> EnumerateFrames(Stream stream, uint streamInfoSampleRate, byte streamInfoSampleSize, ushort? fixedBlockSize, long? offset = null)
         {
             long start;
             if (offset is null)
@@ -454,6 +457,7 @@ namespace Emu.Audio
             ReadResult result;
             uint frameCounter = 0;
             long streamOffset = start;
+            Frame lastFrame = default;
             while (true)
             {
                 result = await pipe.ReadAsync();
@@ -502,13 +506,20 @@ namespace Emu.Audio
 
                             var header = FrameHeader.Parse(frameBytes, streamInfoSampleRate, streamInfoSampleSize, out int frameSize);
 
+                            header = header.Bind(CheckConsecutive);
+
                             // discard any frame that does not pass muster - the crc check in particular is useful for weeding out
                             // byte sequences from subframes that fool the sync code.
                             var offset = streamOffset + buffer.GetSequenceOffset(reader.Position);
                             if (header.IsSucc)
                             {
-                                var frame = new Frame(frameCounter++, offset, (FrameHeader)header);
+                                var frameHeader = (FrameHeader)header;
+
+                                // if we start seeking midway through the file set the index to to the frame number
+                                frameCounter = frameCounter == 0 ? (frameHeader.FrameNumber ?? frameCounter + 1) : frameCounter + 1;
+                                var frame = new Frame(frameCounter, offset, frameHeader);
                                 result = result.Add(frame);
+                                lastFrame = frame;
                             }
 #if DEBUG
                             else
@@ -539,6 +550,34 @@ namespace Emu.Audio
                 consumed = reader.Position;
                 examined = buffer.End;
                 return result;
+            }
+
+            Fin<FrameHeader> CheckConsecutive(FrameHeader h)
+            {
+                if (lastFrame == default)
+                {
+                    // skip;
+                    return h;
+                }
+
+                if (lastFrame.Header.BlockingStrategy == FrameBlockingStrategy.Fixed)
+                {
+                    if (h.BlockingStrategy != FrameBlockingStrategy.Fixed)
+                    {
+                        return CountSamplesNotFixed;
+                    }
+
+                    if (lastFrame.Header.FrameNumber + 1 != h.FrameNumber)
+                    {
+                        return CountSamplesNotConsecutive;
+                    }
+                }
+                else if (lastFrame.Header.StartingSample > h.StartingSample)
+                {
+                    return CountSamplesNotConsecutive;
+                }
+
+                return h;
             }
         }
 
