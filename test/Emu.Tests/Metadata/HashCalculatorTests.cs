@@ -4,7 +4,6 @@
 
 namespace Emu.Tests.Metadata
 {
-    using System.Linq;
     using System.Threading.Tasks;
     using Emu.Metadata;
     using Emu.Models;
@@ -18,12 +17,24 @@ namespace Emu.Tests.Metadata
     public class HashCalculatorTests : TestBase
     {
         private readonly HashCalculator subject;
+        private readonly HashCalculator noChecksumSubject;
 
         public HashCalculatorTests(ITestOutputHelper output)
             : base(output, true)
         {
             var fileUtilities = this.ServiceProvider.GetRequiredService<FileUtilities>();
-            this.subject = new HashCalculator(fileUtilities);
+            this.subject = new HashCalculator(
+                fileUtilities,
+                new EmuGlobalOptions()
+                {
+                    NoChecksum = false,
+                });
+            this.noChecksumSubject = new HashCalculator(
+                fileUtilities,
+                new EmuGlobalOptions()
+                {
+                    NoChecksum = true,
+                });
         }
 
         public Recording Recording => new();
@@ -49,6 +60,15 @@ namespace Emu.Tests.Metadata
                 this.Recording);
 
             recording.CalculatedChecksum.Should().Be(expectedRecording.CalculatedChecksum);
+        }
+
+        [Theory]
+        [ClassData(typeof(FixtureHelper.FixtureData))]
+        public async Task NoChecksumWorks(FixtureModel model)
+        {
+            var result = await this.noChecksumSubject.CanProcessAsync(model.ToTargetInformation(this.RealFileSystem));
+
+            Assert.False(result);
         }
     }
 }
