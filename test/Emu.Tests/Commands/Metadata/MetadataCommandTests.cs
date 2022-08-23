@@ -12,10 +12,12 @@ namespace Emu.Tests.Commands.Metadata
     using System.Threading.Tasks;
     using Emu.Commands.Metadata;
     using Emu.Metadata;
+    using Emu.Models;
     using Emu.Serialization;
     using Emu.Tests.TestHelpers;
     using Emu.Utilities;
     using FluentAssertions;
+    using Newtonsoft.Json;
     using Xunit;
     using Xunit.Abstractions;
 
@@ -73,12 +75,30 @@ namespace Emu.Tests.Commands.Metadata
 
             result.Should().Be(0);
 
-            string[] lines = this.writer.ToString().Split("\n").Where(s => (s.Length() > 0 && s[0] == '{')).ToArray();
+            string[] lines = this.writer.ToString().Split("\n").Where(s => s.Length() > 0 && s[0] == '{').ToArray();
 
             Assert.Equal(3, lines.Length());
             Assert.Contains("a.WAV", lines[0]);
             Assert.Contains("b.WAV", lines[1]);
             Assert.Contains("c.WAV", lines[2]);
+        }
+
+        [Fact]
+        public async Task NoChecksumWorks()
+        {
+            this.TestFiles.AddEmptyFile("/a.WAV");
+            this.TestFiles.AddEmptyFile("/b.WAV");
+
+            this.command.NoChecksum = true;
+            await this.command.InvokeAsync(null);
+
+            string[] lines = this.writer.ToString().Split("\n").Where(s => s.Length() > 0 && s[0] == '{').ToArray();
+
+            foreach (string line in lines)
+            {
+                Recording recording = JsonConvert.DeserializeObject<Recording>(line);
+                Assert.Null(recording.CalculatedChecksum);
+            }
         }
 
         public class SmokeTest : TestBase

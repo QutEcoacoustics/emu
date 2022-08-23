@@ -81,7 +81,7 @@ namespace Emu
             "Overwrites output file, used in junction with --output. No effect for standard out");
 
         public static Option<bool> NoChecksumOption { get; } = new Option<bool>(
-            new string[] { "--no-checksum", "-N" },
+            new string[] { "--no-checksum" },
             "Doesn't calculate checksum, important for archiving purposes but computationally expensive");
 
         public static LogLevel GetLogLevel(ParseResult parseResult)

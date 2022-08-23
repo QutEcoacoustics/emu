@@ -12,18 +12,16 @@ namespace Emu.Metadata
     public class HashCalculator : IMetadataOperation
     {
         private readonly FileUtilities fileUtilities;
-        private readonly EmuGlobalOptions options;
 
-        public HashCalculator(FileUtilities fileUtilities, EmuGlobalOptions options)
+        public HashCalculator(FileUtilities fileUtilities)
         {
             this.fileUtilities = fileUtilities;
-            this.options = options;
         }
 
         public ValueTask<bool> CanProcessAsync(TargetInformation information)
         {
-            // Calculate the hash unless the user specifies otherwise
-            return ValueTask.FromResult(!this.options.NoChecksum);
+            // as long as the file exists, we can calculate a hash.
+            return ValueTask.FromResult(true);
         }
 
         public async ValueTask<Recording> ProcessFileAsync(TargetInformation information, Recording recording)
