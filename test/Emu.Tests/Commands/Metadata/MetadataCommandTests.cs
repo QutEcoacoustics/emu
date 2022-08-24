@@ -12,10 +12,12 @@ namespace Emu.Tests.Commands.Metadata
     using System.Threading.Tasks;
     using Emu.Commands.Metadata;
     using Emu.Metadata;
+    using Emu.Models;
     using Emu.Serialization;
     using Emu.Tests.TestHelpers;
     using Emu.Utilities;
     using FluentAssertions;
+    using Newtonsoft.Json;
     using Xunit;
     using Xunit.Abstractions;
 
@@ -25,23 +27,21 @@ namespace Emu.Tests.Commands.Metadata
     {
         private readonly Metadata command;
         private StringWriter writer;
+        private JsonLinesSerializer serializer;
 
         public MetadataCommandTests(ITestOutputHelper output)
-            : base(output)
+            : base(output, realFileSystem: false, outputFormat: OutputFormat.JSONL)
         {
-            this.writer = new StringWriter();
-
             this.command = new Metadata(
                 this.BuildLogger<Metadata>(),
                 this.TestFiles,
                 new FileMatcher(this.BuildLogger<FileMatcher>(), this.TestFiles),
-                new OutputRecordWriter(this.writer, new JsonLinesSerializer(), new Lazy<OutputFormat>(OutputFormat.JSONL)),
-                new MetadataRegister(this.ServiceProvider))
-            {
-                Format = OutputFormat.JSONL,
-            };
+                this.GetOutputRecordWriter(),
+                new MetadataRegister(this.ServiceProvider));
 
             this.command.Targets = "/".AsArray();
+
+            this.serializer = this.ServiceProvider.GetRequiredService<JsonLinesSerializer>();
         }
 
         [Fact]
@@ -73,12 +73,29 @@ namespace Emu.Tests.Commands.Metadata
 
             result.Should().Be(0);
 
-            string[] lines = this.writer.ToString().Split("\n").Where(s => (s.Length() > 0 && s[0] == '{')).ToArray();
+            var recordings = this.serializer.Deserialize<Recording>(this.GetAllOutputReader()).ToArray();
 
-            Assert.Equal(3, lines.Length());
-            Assert.Contains("a.WAV", lines[0]);
-            Assert.Contains("b.WAV", lines[1]);
-            Assert.Contains("c.WAV", lines[2]);
+            Assert.Equal(3, recordings.Length());
+            Assert.Contains("a.WAV", recordings[0].Name);
+            Assert.Contains("b.WAV", recordings[1].Name);
+            Assert.Contains("c.WAV", recordings[2].Name);
+        }
+
+        [Fact]
+        public async Task NoChecksumWorks()
+        {
+            this.TestFiles.AddEmptyFile("/a.WAV");
+            this.TestFiles.AddEmptyFile("/b.WAV");
+
+            this.command.NoChecksum = true;
+            await this.command.InvokeAsync(null);
+
+            var recordings = this.serializer.Deserialize<Recording>(this.GetAllOutputReader());
+
+            foreach (var recording in recordings)
+            {
+                Assert.Null(recording.CalculatedChecksum);
+            }
         }
 
         public class SmokeTest : TestBase

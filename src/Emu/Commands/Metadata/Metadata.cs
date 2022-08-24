@@ -48,6 +48,9 @@ namespace Emu.Commands.Metadata
 
         public override async Task<int> InvokeAsync(InvocationContext invocationContext)
         {
+            // Filter out HashCalculator if no checksum option is
+            var filteredExtractors = this.NoChecksum ? this.allExtractors.Where(x => x is not HashCalculator) : this.allExtractors;
+
             var paths = this.fileMatcher.ExpandMatches(this.fileSystem.Directory.GetCurrentDirectory(), this.Targets);
 
             Dictionary<string, List<TargetInformation>> targetDirectories = new Dictionary<string, List<TargetInformation>>();
@@ -84,7 +87,7 @@ namespace Emu.Commands.Metadata
                         SourcePath = target.Path,
                     };
 
-                    foreach (var extractor in this.allExtractors)
+                    foreach (var extractor in filteredExtractors)
                     {
                         if (await extractor.CanProcessAsync(target))
                         {

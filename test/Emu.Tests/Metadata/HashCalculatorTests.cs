@@ -4,7 +4,6 @@
 
 namespace Emu.Tests.Metadata
 {
-    using System.Linq;
     using System.Threading.Tasks;
     using Emu.Metadata;
     using Emu.Models;

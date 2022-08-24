@@ -100,6 +100,8 @@ namespace Emu.Tests.TestHelpers
 
         public string AllOutput => this.cleanOutput.ToString();
 
+        public TextReader GetAllOutputReader() => new StringReader(this.AllOutput);
+
         public FilenameParser FilenameParser => new(
             this.TestFiles,
             this.ServiceProvider.GetRequiredService<FilenameGenerator>());
