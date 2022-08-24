@@ -27,23 +27,21 @@ namespace Emu.Tests.Commands.Metadata
     {
         private readonly Metadata command;
         private StringWriter writer;
+        private JsonLinesSerializer serializer;
 
         public MetadataCommandTests(ITestOutputHelper output)
-            : base(output)
+            : base(output, realFileSystem: false, outputFormat: OutputFormat.JSONL)
         {
-            this.writer = new StringWriter();
-
             this.command = new Metadata(
                 this.BuildLogger<Metadata>(),
                 this.TestFiles,
                 new FileMatcher(this.BuildLogger<FileMatcher>(), this.TestFiles),
-                new OutputRecordWriter(this.writer, new JsonLinesSerializer(), new Lazy<OutputFormat>(OutputFormat.JSONL)),
-                new MetadataRegister(this.ServiceProvider))
-            {
-                Format = OutputFormat.JSONL,
-            };
+                this.GetOutputRecordWriter(),
+                new MetadataRegister(this.ServiceProvider));
 
             this.command.Targets = "/".AsArray();
+
+            this.serializer = this.ServiceProvider.GetRequiredService<JsonLinesSerializer>();
         }
 
         [Fact]
@@ -75,12 +73,12 @@ namespace Emu.Tests.Commands.Metadata
 
             result.Should().Be(0);
 
-            string[] lines = this.writer.ToString().Split("\n").Where(s => s.Length() > 0 && s[0] == '{').ToArray();
+            var recordings = this.serializer.Deserialize<Recording>(this.GetAllOutputReader()).ToArray();
 
-            Assert.Equal(3, lines.Length());
-            Assert.Contains("a.WAV", lines[0]);
-            Assert.Contains("b.WAV", lines[1]);
-            Assert.Contains("c.WAV", lines[2]);
+            Assert.Equal(3, recordings.Length());
+            Assert.Contains("a.WAV", recordings[0].Name);
+            Assert.Contains("b.WAV", recordings[1].Name);
+            Assert.Contains("c.WAV", recordings[2].Name);
         }
 
         [Fact]
@@ -92,11 +90,10 @@ namespace Emu.Tests.Commands.Metadata
             this.command.NoChecksum = true;
             await this.command.InvokeAsync(null);
 
-            string[] lines = this.writer.ToString().Split("\n").Where(s => s.Length() > 0 && s[0] == '{').ToArray();
+            var recordings = this.serializer.Deserialize<Recording>(this.GetAllOutputReader());
 
-            foreach (string line in lines)
+            foreach (var recording in recordings)
             {
-                Recording recording = JsonConvert.DeserializeObject<Recording>(line);
                 Assert.Null(recording.CalculatedChecksum);
             }
         }

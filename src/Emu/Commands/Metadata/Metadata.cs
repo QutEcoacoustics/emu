@@ -25,7 +25,7 @@ namespace Emu.Commands.Metadata
         private readonly FileMatcher fileMatcher;
 
         private readonly MetadataRegister extractorRegister;
-        private IEnumerable<IMetadataOperation> allExtractors;
+        private readonly IEnumerable<IMetadataOperation> allExtractors;
 
         public Metadata(
             ILogger<Metadata> logger,
@@ -49,7 +49,7 @@ namespace Emu.Commands.Metadata
         public override async Task<int> InvokeAsync(InvocationContext invocationContext)
         {
             // Filter out HashCalculator if no checksum option is
-            this.allExtractors = this.NoChecksum ? this.allExtractors.Where(x => x is not HashCalculator) : this.allExtractors;
+            var filteredExtractors = this.NoChecksum ? this.allExtractors.Where(x => x is not HashCalculator) : this.allExtractors;
 
             var paths = this.fileMatcher.ExpandMatches(this.fileSystem.Directory.GetCurrentDirectory(), this.Targets);
 
@@ -87,7 +87,7 @@ namespace Emu.Commands.Metadata
                         SourcePath = target.Path,
                     };
 
-                    foreach (var extractor in this.allExtractors)
+                    foreach (var extractor in filteredExtractors)
                     {
                         if (await extractor.CanProcessAsync(target))
                         {
