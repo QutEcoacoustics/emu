@@ -63,7 +63,7 @@ namespace Emu.Utilities
                     () => this.fileSystem.File.Move(path, newPath, overwrite: false));
             }
 
-            return dryRun.IsDryRun ? path : newPath;
+            return newPath;
         }
 
         public async ValueTask<Checksum> CalculateChecksumSha256(string path)

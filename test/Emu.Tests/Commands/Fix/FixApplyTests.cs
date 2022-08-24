@@ -181,7 +181,7 @@ namespace Emu.Tests.Commands.Fix
 
             problem.CheckResult.Message.Should().Contain("The file is a stub and has no usable data");
             problem.Message.Should().NotContain("Renamed");
-
+            problem.NewPath.Should().Be(null);
             problem.Status.Should().Be(FixStatus.NotFixed);
         }
 
@@ -204,7 +204,7 @@ namespace Emu.Tests.Commands.Fix
             var fix = this.serializer.Deserialize<FixApplyResult>(reader).Single();
 
             fix.BackupFile.Should().BeNull();
-            var expected = this.target.Path;
+            var expected = this.target.Path + ".error_stub";
             fix.File.Should().Be(expected);
             var problem = fix.Problems[WellKnownProblems.FrontierLabsProblems.PreAllocatedHeader];
 

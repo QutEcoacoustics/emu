@@ -151,8 +151,8 @@ namespace Emu
                 {
                     var result = this.ApplyRename(file, dryRun, firstError.Operation);
                     renamed = result.IsSome;
-                    newPath = result.IfNone(file);
-                    reportedPath = newPath;
+                    newPath = result.IfNoneUnsafe((string)null);
+                    reportedPath = result.IfNone(file);
 
                     message = renamed ? ("Renamed to: " + newPath) : null;
                 }

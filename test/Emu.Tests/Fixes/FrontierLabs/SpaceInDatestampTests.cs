@@ -108,7 +108,7 @@ namespace Emu.Tests.Fixes.FrontierLabs
             Assert.NotNull(actual.NewPath);
 
             var basename = this.RealFileSystem.Path.GetFileName(actual.NewPath);
-            Assert.Matches(SpaceInDatestamp.Matcher, basename);
+            Assert.DoesNotMatch(SpaceInDatestamp.Matcher, basename);
 
             // file was NOT renamed
             this.target.File.Refresh();
