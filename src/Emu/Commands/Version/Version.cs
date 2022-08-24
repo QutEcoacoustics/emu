@@ -44,7 +44,7 @@ namespace Emu.Commands.Version
 
         public override object FormatRecord(Version.VersionRecord record)
         {
-            return EmuName + record.Version;
+            return EmuName + " " + record.Version;
         }
 
         public record VersionRecord(

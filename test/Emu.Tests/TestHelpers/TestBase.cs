@@ -93,6 +93,8 @@ namespace Emu.Tests.TestHelpers
 
         public List<ICacheLogger> Loggers { get; } = new();
 
+        public ServiceProvider ServiceProvider { get; }
+
         public DryRunFactory DryRunFactory =>
             this.dryRunFactory ??= this.ServiceProvider.GetRequiredService<DryRunFactory>();
 
@@ -100,15 +102,13 @@ namespace Emu.Tests.TestHelpers
 
         public string AllOutput => this.cleanOutput.ToString();
 
-        public TextReader GetAllOutputReader() => new StringReader(this.AllOutput);
-
         public FilenameParser FilenameParser => new(
             this.TestFiles,
             this.ServiceProvider.GetRequiredService<FilenameGenerator>());
 
         public Parser CliParser => CliParserValue;
 
-        public ServiceProvider ServiceProvider { get; }
+        public TextReader GetAllOutputReader() => new StringReader(this.AllOutput);
 
         public virtual void Dispose()
         {

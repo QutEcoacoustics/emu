@@ -26,7 +26,6 @@ namespace Emu.Tests.Commands.Metadata
     public class MetadataCommandTests : TestBase
     {
         private readonly Metadata command;
-        private StringWriter writer;
         private JsonLinesSerializer serializer;
 
         public MetadataCommandTests(ITestOutputHelper output)

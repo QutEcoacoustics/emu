@@ -12,7 +12,7 @@ using System.Reflection;
 
 internal partial class ThisAssembly
 {
-    public const string InformationalVersion = $"{Git.SemVer.Major}.{Git.SemVer.Minor}.{Git.Commits}-{Git.Branch}+{Git.Commit}";
+    public const string InformationalVersion = $"{Git.SemVer.Major}.{Git.SemVer.Minor}.{Git.SemVer.Patch}-{Git.Commits}+g{Git.Commit}";
 
     public const string AssemblyVersion = $"{Git.SemVer.Major}.{Git.SemVer.Minor}.{Git.SemVer.Patch}";
 }
