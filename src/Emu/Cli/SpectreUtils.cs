@@ -58,6 +58,11 @@ namespace Emu.Cli
             return $"[blue][link={url.EscapeMarkup()}]{title.EscapeMarkup()}[/][/]";
         }
 
+        public static Rule MarkupRule(string text)
+        {
+            return new Rule($"[green]{text}[/]").Alignment(Justify.Left);
+        }
+
         [RequiresUnreferencedCode("Prints objects via their properties. If only domain objects are printed, then this is safe.")]
         public static string FormatList<T>(T record)
         {

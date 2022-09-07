@@ -14,22 +14,24 @@ namespace Emu
     using Emu.Extensions.System;
     using Emu.Fixes;
     using Emu.Utilities;
+    using LanguageExt;
     using Microsoft.Extensions.Logging;
+    using MoreLinq.Extensions;
     using Spectre.Console;
-
     using static Emu.Cli.SpectreUtils;
+    using static Emu.Fixes.CheckStatus;
 
     public class FixCheck : EmuCommandHandler<FixCheck.FixCheckResult>
     {
-        private readonly IConsole console;
+        private const string TotalsRow = "Totals";
+
         private readonly ILogger<FixCheck> logger;
         private readonly FileMatcher fileMatcher;
         private readonly FixRegister register;
         private readonly IFileSystem fileSystem;
 
-        public FixCheck(IConsole console, ILogger<FixCheck> logger, FileMatcher fileMatcher, FixRegister register, OutputRecordWriter writer, IFileSystem fileSystem)
+        public FixCheck(ILogger<FixCheck> logger, FileMatcher fileMatcher, FixRegister register, OutputRecordWriter writer, IFileSystem fileSystem)
         {
-            this.console = console;
             this.logger = logger;
             this.fileMatcher = fileMatcher;
             this.register = register;
@@ -71,6 +73,8 @@ namespace Emu
                 this.Targets);
 
             bool any = false;
+            Map<string, Map<CheckStatus, int>> stats = default;
+            int count = 0;
             foreach (var (_, file) in files)
             {
                 any = true;
@@ -81,12 +85,21 @@ namespace Emu
                     this.logger.LogDebug("Checking {path} with {fixer}", file, fixMetadata.Problem.Id);
                     var result = await fix.CheckAffectedAsync(file);
                     results[fixMetadata.Problem] = result;
+
+                    stats = stats
+                        .AddOrUpdate(fixMetadata.Problem.Id, result.Status, Some, None)
+                        .AddOrUpdate(TotalsRow, result.Status, Some, None);
                 }
+
+                count++;
 
                 this.Write(new FixCheckResult(file, results));
             }
 
             this.WriteFooter();
+
+            this.WriteMessage(MarkupRule($"Summary for {MarkupNumber(count.ToString())} files"));
+            this.WriteMessage(this.CreateSummaryTable(stats));
 
             if (!any)
             {
@@ -94,6 +107,9 @@ namespace Emu
             }
 
             return ExitCodes.Success;
+
+            static int Some(int previous) => previous + 1;
+            static int None() => 1;
         }
 
         public override string FormatCompact(FixCheck.FixCheckResult record)
@@ -117,12 +133,49 @@ namespace Emu
             return builder.ToString();
         }
 
+        public Table CreateSummaryTable(Map<string, Map<CheckStatus, int>> stats)
+        {
+            if (stats.Count == 0)
+            {
+                return null;
+            }
+
+            var totals = stats[TotalsRow];
+            stats = stats.Remove(TotalsRow);
+
+            var table = new Table();
+            table.AddColumn("ID", x => x.Footer(TotalsRow));
+            table.AddColumn(nameof(Affected), Footer(Affected));
+            table.AddColumn(nameof(Unaffected), Footer(Unaffected));
+            table.AddColumn(nameof(NotApplicable), Footer(NotApplicable));
+            table.AddColumn(nameof(Repaired), Footer(Repaired));
+            table.AddColumn(nameof(Error), Footer(Error));
+
+            foreach (var (key, value) in stats)
+            {
+                table.AddRow(
+                    key,
+                    FormatValue(value, Affected),
+                    FormatValue(value, Unaffected),
+                    FormatValue(value, NotApplicable),
+                    FormatValue(value, Repaired),
+                    FormatValue(value, Error));
+            }
+
+            return table;
+
+            string FormatValue(Map<CheckStatus, int> map, CheckStatus status)
+                => MarkupNumber(map.Find(status).IfNone(0).ToString());
+            Action<TableColumn> Footer(CheckStatus status) => (TableColumn column) => column.Footer(
+                FormatValue(totals, status));
+        }
+
         private string Status(CheckResult result) => result.Status switch
         {
-            CheckStatus.Affected => "BAD",
-            CheckStatus.Error => "ERR",
-            CheckStatus.NotApplicable => "NA",
-            CheckStatus.Unaffected => "GOOD",
+            Affected => "BAD",
+            Error => "ERR",
+            NotApplicable => "NA",
+            Unaffected => "GOOD",
             _ => "?",
         };
 

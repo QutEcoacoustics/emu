@@ -11,6 +11,7 @@ namespace Emu.Tests.Commands.Fix
     using System.Threading.Tasks;
     using Emu.Cli;
     using Emu.Fixes;
+    using Emu.Metadata;
     using Emu.Serialization;
     using Emu.Tests.TestHelpers;
     using Emu.Utilities;
@@ -330,6 +331,71 @@ namespace Emu.Tests.Commands.Fix
             problem3.NewPath.Should().Be(null);
 
             this.RealFileSystem.File.Delete(expected);
+        }
+
+        public class DefaultFormatTests : TestBase
+        {
+            private readonly FixApply command;
+
+            public DefaultFormatTests(ITestOutputHelper output)
+                : base(output, true, Emu.EmuCommand.OutputFormat.Default)
+            {
+                this.command = new FixApply(
+                  this.BuildLogger<FixApply>(),
+                  this.DryRunFactory,
+                  this.ServiceProvider.GetRequiredService<FileMatcher>(),
+                  this.ServiceProvider.GetRequiredService<FixRegister>(),
+                  this.GetOutputRecordWriter(),
+                  this.CurrentFileSystem,
+                  this.ServiceProvider.GetRequiredService<FileUtilities>())
+                {
+                };
+            }
+
+            [Fact]
+            public async Task DefaultFormatEmitsASummaryTable()
+            {
+                var fixture = FixtureHelper.FixtureData.Get(FixtureModel.SpaceInDateStamp);
+
+                this.command.DryRun = true;
+                this.command.NoRename = false;
+                this.command.Targets = new[] { fixture.AbsoluteFixturePath };
+                this.command.Fix = new string[]
+                {
+                    WellKnownProblems.FrontierLabsProblems.InvalidDateStampSpaceZero.Id,
+                    WellKnownProblems.FrontierLabsProblems.MetadataDurationBug.Id,
+                    WellKnownProblems.FrontierLabsProblems.PreAllocatedHeader.Id,
+                };
+
+                var result = await this.command.InvokeAsync(null);
+                result.Should().Be(ExitCodes.Success);
+
+                this.AllOutput.Should().Contain("│ ID     │ NoOperation │ Fixed │ NotFixed │ Renamed │");
+                this.AllOutput.Should().Contain("│ FL008  │ 0           │ 1     │ 0        │ 0       │");
+                this.AllOutput.Should().Contain("│ FL010  │ 1           │ 0     │ 0        │ 0       │");
+                this.AllOutput.Should().Contain("│ FL001  │ 1           │ 0     │ 0        │ 0       │");
+                this.AllOutput.Should().Contain("│ Totals │ 2           │ 1     │ 0        │ 0       │");
+            }
+
+            [Fact]
+            public async Task DefaultHandlesNoTargets()
+            {
+                this.command.DryRun = true;
+                this.command.NoRename = false;
+                this.command.Targets = new string[] { };
+                this.command.Fix = new string[]
+                {
+                    WellKnownProblems.FrontierLabsProblems.InvalidDateStampSpaceZero.Id,
+                    WellKnownProblems.FrontierLabsProblems.MetadataDurationBug.Id,
+                    WellKnownProblems.FrontierLabsProblems.PreAllocatedHeader.Id,
+                };
+
+                var result = await this.command.InvokeAsync(null);
+                result.Should().Be(ExitCodes.Success);
+
+                this.AllOutput.Should().Contain("── Summary for 0 files ──");
+                this.AllOutput.Should().Contain("No files matched targets: ");
+            }
         }
     }
 }

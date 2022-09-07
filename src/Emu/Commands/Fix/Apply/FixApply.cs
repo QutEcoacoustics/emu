@@ -17,13 +17,17 @@ namespace Emu
     using Emu.Utilities;
     using LanguageExt;
     using Microsoft.Extensions.Logging;
+    using Newtonsoft.Json;
     using Spectre.Console;
     using static Emu.Cli.SpectreUtils;
+    using static Emu.Fixes.FixStatus;
     using static Emu.Utilities.DryRun;
     using static LanguageExt.Prelude;
 
     public class FixApply : EmuCommandHandler<Emu.FixApply.FixApplyResult>
     {
+        private const string TotalsRow = "Totals";
+
         private static readonly Regex ErrorSuffix = new("\\.error_\\w+$");
 
         private readonly ILogger<FixApply> logger;
@@ -84,11 +88,26 @@ namespace Emu
             using var dryRun = this.dryRunFactory(this.DryRun);
 
             bool any = false;
+            Map<string, Map<FixStatus, int>> stats = default;
+            int count = 0;
             foreach (var (_, file) in files)
             {
                 any = true;
-                await this.ProcessFile(file, dryRun, fixes);
+                var result = await this.ProcessFile(file, dryRun, fixes);
+
+                this.Write(result);
+
+                stats = result.Problems.Aggregate(
+                    stats,
+                    (stats, kvp) => stats
+                        .AddOrUpdate(kvp.Key.Id, kvp.Value.Status, Some, None)
+                        .AddOrUpdate(TotalsRow, kvp.Value.Status, Some, None));
+
+                count++;
             }
+
+            this.WriteMessage(MarkupRule($"Summary for {MarkupNumber(count.ToString())} files"));
+            this.WriteMessage(this.CreateSummaryTable(stats));
 
             if (!any)
             {
@@ -96,9 +115,12 @@ namespace Emu
             }
 
             return ExitCodes.Success;
+
+            static int Some(int previous) => previous + 1;
+            static int None() => 1;
         }
 
-        public async ValueTask ProcessFile(string file, DryRun dryRun, ICheckOperation[] operations)
+        public async ValueTask<FixApplyResult> ProcessFile(string file, DryRun dryRun, ICheckOperation[] operations)
         {
             async Task<OpAndCheck> Check(ICheckOperation operation) => new(operation, await operation.CheckAffectedAsync(file));
             var checkResults = await operations.SequenceParallel(Check);
@@ -109,10 +131,8 @@ namespace Emu
             {
                 this.logger.LogWarning("Errors encountered while checking file: {file}", file);
 
-                this.Write(new FixApplyResult(file, AllNoop(checkResults)));
-
                 // early exit!
-                return;
+                return new FixApplyResult(file, AllNoop(checkResults));
             }
 
             // then check if any are affected
@@ -121,10 +141,8 @@ namespace Emu
             {
                 this.logger.LogDebug("No problems found for file: {file}", file);
 
-                this.Write(new FixApplyResult(file, AllNoop(checkResults)));
-
                 // early exit!
-                return;
+                return new FixApplyResult(file, AllNoop(checkResults));
             }
 
             // check if any are not fixable
@@ -166,10 +184,8 @@ namespace Emu
                         message,
                         newPath));
 
-                this.Write(new FixApplyResult(reportedPath, fixResults));
-
                 // early exit!
-                return;
+                return new FixApplyResult(reportedPath, fixResults);
             }
 
             // ok we now assume there is some mutation to do!
@@ -192,14 +208,14 @@ namespace Emu
 
                 if (result.NewPath != null)
                 {
-                    file = result.NewPath;
+                    file = dryRun.IsDryRun ? file : result.NewPath;
                     Debug.Assert(this.fileSystem.File.Exists(file), "sanity check that we're still pointing to a real file");
                 }
 
                 results.Add(operation.GetOperationInfo().Problem, result);
             }
 
-            this.Write(new FixApplyResult(file, results, backup));
+            return new FixApplyResult(file, results, backup);
         }
 
         public override string FormatCompact(FixApplyResult record)
@@ -224,11 +240,50 @@ namespace Emu
             foreach (var report in f.Problems)
             {
                 builder.AppendFormat("\t- {0} is ", report.Key.Id);
-                builder.AppendFormat("{0} {1}.\n", report.Value.CheckResult.Status, report.Value.CheckResult.Message.EscapeMarkup());
+                builder.AppendFormat(
+                    "{0}{2}{1}.\n",
+                    report.Value.CheckResult.Status,
+                    report.Value.CheckResult.Message.EscapeMarkup(),
+                    string.IsNullOrEmpty(report.Value.CheckResult.Message) ? string.Empty : ": ");
                 builder.AppendFormat("\t  Action taken: {0}. {1}\n", report.Value.Status, report.Value.Message.EscapeMarkup());
             }
 
             return builder.ToString();
+        }
+
+        public Table CreateSummaryTable(Map<string, Map<FixStatus, int>> stats)
+        {
+            if (stats.Count == 0)
+            {
+                return null;
+            }
+
+            var totals = stats[TotalsRow];
+            stats = stats.Remove(TotalsRow);
+
+            var table = new Table();
+            table.AddColumn("ID", x => x.Footer(TotalsRow));
+            table.AddColumn(nameof(NoOperation), Footer(NoOperation));
+            table.AddColumn(nameof(Fixed), Footer(Fixed));
+            table.AddColumn(nameof(NotFixed), Footer(NotFixed));
+            table.AddColumn(nameof(Renamed), Footer(Renamed));
+
+            foreach (var (key, value) in stats)
+            {
+                table.AddRow(
+                    key,
+                    FormatValue(value, NoOperation),
+                    FormatValue(value, Fixed),
+                    FormatValue(value, NotFixed),
+                    FormatValue(value, Renamed));
+            }
+
+            return table;
+
+            string FormatValue(Map<FixStatus, int> map, FixStatus status)
+                => MarkupNumber(map.Find(status).IfNone(0).ToString());
+            Action<TableColumn> Footer(FixStatus status) => (TableColumn column) => column.Footer(
+                FormatValue(totals, status));
         }
 
         private static string Status(FixResult result) => result.Status switch
