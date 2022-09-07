@@ -14,8 +14,10 @@ namespace Emu.Serialization
     public class AnsiConsoleFormatter : IRecordFormatter
     {
         private readonly ILogger<AnsiConsoleFormatter> logger;
+
         private TextWriter writer;
         private IAnsiConsole ansiConsole;
+        private ColorSystemSupport colorSystemSupport = ColorSystemSupport.Detect;
 
         public AnsiConsoleFormatter(ILogger<AnsiConsoleFormatter> logger)
         {
@@ -32,6 +34,20 @@ namespace Emu.Serialization
             set
             {
                 this.writer = value;
+                this.UpdateAnsiConsole();
+            }
+        }
+
+        public ColorSystemSupport ColorSystemSupport
+        {
+            get
+            {
+                return this.colorSystemSupport;
+            }
+
+            set
+            {
+                this.colorSystemSupport = value;
                 this.UpdateAnsiConsole();
             }
         }
@@ -104,6 +120,7 @@ namespace Emu.Serialization
         {
             this.ansiConsole = AnsiConsole.Create(new AnsiConsoleSettings()
             {
+                ColorSystem = this.ColorSystemSupport,          
                 Out = new AnsiConsoleOutput(this.writer),
             });
         }
