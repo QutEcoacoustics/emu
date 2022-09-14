@@ -27,7 +27,7 @@ namespace Emu.Tests.Metadata
 
         [Theory]
         [ClassData(typeof(FixtureHelper.FixtureData))]
-        public async System.Threading.Tasks.Task CanProcessFilesWorks(FixtureModel model)
+        public async Task CanProcessFilesWorks(FixtureModel model)
         {
             var result = await this.subject.CanProcessAsync(model.ToTargetInformation(this.RealFileSystem));
 

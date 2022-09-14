@@ -135,7 +135,7 @@ namespace Emu.Fixes.FrontierLabs
             return (result.IsFail ? (Error)result : (Error)isSamplesMismatched) switch
             {
                 Error error when error == FirmwareNotFound => new CheckResult(Unaffected, Severity.None, error.Message),
-                Error error => new CheckResult(CheckStatus.Error, Severity.None, ((Error)result).Message),
+                Error error => new CheckResult(CheckStatus.Error, Severity.None, error.Message),
             };
         }
 

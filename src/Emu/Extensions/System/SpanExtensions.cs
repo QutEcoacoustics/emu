@@ -55,4 +55,10 @@ public static class SpanExtensions
         offset += sizeof(ushort);
         return value;
     }
+
+    public static ReadOnlySpan<byte> Unshift(this ReadOnlySpan<byte> bytes, out byte value)
+    {
+        value = bytes[0];
+        return bytes[1..];
+    }
 }

@@ -9,6 +9,7 @@ namespace Emu.Audio
     using System.Collections.Specialized;
     using System.Runtime.InteropServices;
     using System.Text;
+    using Emu.Audio.Formats.FLAC;
     using InvertedTomato.IO;
     using LanguageExt;
     using LanguageExt.Common;
@@ -63,7 +64,7 @@ namespace Emu.Audio
         private static readonly Section SampleSizeMask = CreateSection(3, ChannelAssignmentMask);
         private static readonly Section NextReservedMask = CreateSection(1, SampleSizeMask);
 
-        private static readonly Error BadRune = Error.New("Invalid Frame Header: UTF-8 coded number cannot be read");
+        private static readonly Error BadUTF8Number = Error.New("Invalid Frame Header: UTF-8 coded number cannot be read");
         private static readonly Func<byte, byte, Error> BadCrc = (calculated, crc) => Error.New($"Invalid Frame Header: CRC8 did not match. Calculated 0x{calculated:X}, Embedded 0x{crc:X}");
         private static readonly Error BadSyncCode = Error.New("Invalid Frame Header: Sync code not found at start of span");
         private static readonly Error BadFrameBlockSize0 = Error.New("Invalid Frame Header: Block size 0 is reserved");
@@ -84,14 +85,15 @@ namespace Emu.Audio
             // See https://stackoverflow.com/a/11145067/224512
             var one = slice[consumed++];
             var two = slice[consumed++];
-            var three = slice[consumed++];
-            var four = slice[consumed++];
 
             var syncCode = (one << 8 | (two & 0b11111100)) >> 2;
             if (syncCode != SyncCodeConstant)
             {
                 return BadSyncCode;
             }
+
+            var three = slice[consumed++];
+            var four = slice[consumed++];
 
             var blockingStrategy = (FrameBlockingStrategy)(two & 0b00000001);
             var blockSizeCode = (three & 0b11110000) >> 4;
@@ -110,13 +112,13 @@ namespace Emu.Audio
                 return (Error)sampleSize;
             }
 
-            var status = Rune.DecodeFromUtf8(slice[consumed..], out var sampleOrFrameNumber, out var runeConsumed);
-            if (status != OperationStatus.Done)
+            var sampleOrFrameNumber = FlacUTF8Coding.Utf8Decode(slice[consumed..], out var utf8Consumed);
+            if (sampleOrFrameNumber.IsFail)
             {
-                return BadRune;
+                return BadUTF8Number;
             }
 
-            consumed += runeConsumed;
+            consumed += utf8Consumed;
 
             var blockSize = ParseBlockSize(blockSizeCode, slice, ref consumed);
 
@@ -145,10 +147,10 @@ namespace Emu.Audio
             }
 
             // "UTF-8" coded frame number
-            uint? frameNumber = blockingStrategy == FrameBlockingStrategy.Fixed ? (uint)sampleOrFrameNumber.Value : null;
+            uint? frameNumber = blockingStrategy == FrameBlockingStrategy.Fixed ? (uint)sampleOrFrameNumber.ThrowIfFail() : null;
 
             // "UTF-8" coded sample number
-            ulong? sampleNumber = blockingStrategy == FrameBlockingStrategy.Variable ? (ulong)sampleOrFrameNumber.Value : null;
+            ulong? sampleNumber = blockingStrategy == FrameBlockingStrategy.Variable ? (ulong)sampleOrFrameNumber.ThrowIfFail() : null;
 
             return new FrameHeader(
                 blockingStrategy,

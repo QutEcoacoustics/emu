@@ -120,7 +120,7 @@ namespace Emu.Serialization
         {
             this.ansiConsole = AnsiConsole.Create(new AnsiConsoleSettings()
             {
-                ColorSystem = this.ColorSystemSupport,          
+                ColorSystem = this.ColorSystemSupport,
                 Out = new AnsiConsoleOutput(this.writer),
             });
         }

@@ -35,6 +35,7 @@ namespace Emu.Tests.TestHelpers
         public const string MetadataDurationBug3 = "Metadata Duration Bug 3";
         public const string ZeroDbSamples = "Zero dB Samples";
         public const string NormalFile = "Normal File";
+        public const string Normal308File = "Normal File 3.08";
         public const string SM4BatNormal1 = "SM4 Bat Normal 1";
         public const string FilenameExtractor = "FilenameExtractor";
         public const string FlacHeaderExtractor = "FlacHeaderExtractor";

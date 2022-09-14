@@ -250,6 +250,47 @@ namespace Emu.Tests.Audio.Formats.FLAC
         }
 
         [Fact]
+        public async Task FrameDetectionForFramesStartingInAnotherInvalidFrame()
+        {
+            // 137695 frames acording to flac decoder, actually 137706 frames
+            var fixture = this.data[FixtureModel.Normal308File];
+            using var stream = this.RealFileSystem.File.OpenRead(fixture.AbsoluteFixturePath);
+
+            Flac.IsFlacFile(stream).ThrowIfFail().Should().BeTrue();
+
+            var blockSize = Flac.ReadBlockSizes(stream).ThrowIfFail();
+            var sampleRate = Flac.ReadSampleRate(stream).ThrowIfFail();
+            var sampleSize = Flac.ReadBitDepth(stream).ThrowIfFail();
+
+            Flac.FindFrameStart(stream).ThrowIfFail().Should().Be(637L);
+
+            var frames = await Flac.EnumerateFrames(stream, sampleRate, sampleSize, blockSize.Minimum).ToArrayAsync();
+
+            var f0 = (Frame)frames[57343];
+            f0.Index.Should().Be(57343);
+            f0.Offset.Should().Be(80223311L);
+
+            var f1 = (Frame)frames[137663];
+            f1.Index.Should().Be(137663);
+            f1.Offset.Should().Be(190956985L);
+
+            var f2 = (Frame)frames[137664];
+            f2.Index.Should().Be(137664);
+            f2.Offset.Should().Be(190959215L);
+
+            var f3 = (Frame)frames[137695];
+            f3.Index.Should().Be(137695);
+            f3.Offset.Should().Be(191028200L);
+
+            // the flac decoder stops working at frame 137695 but ffmpeg can decode more
+            var f4 = (Frame)frames[137705];
+            f4.Index.Should().Be(137705);
+            f4.Offset.Should().Be(191050784L);
+
+            Assert.Equal(137707, frames.Length);
+        }
+
+        [Fact]
         public async Task CanCountSamples()
         {
             var fixture = this.data[FixtureModel.NormalFile];
@@ -299,6 +340,21 @@ namespace Emu.Tests.Audio.Formats.FLAC
 
             expected.ThrowIfFail().Should().Be(317292544UL);
             actual.ThrowIfFail().Should().Be(158646272UL);
+        }
+
+        [Fact]
+        public async Task CanCountSamples5()
+        {
+            var fixture = this.data[FixtureModel.Normal308File];
+            using var stream = this.RealFileSystem.File.OpenRead(fixture.AbsoluteFixturePath);
+
+            var expected = Flac.ReadTotalSamples(stream);
+            var actual = await Flac.CountSamplesAsync(stream);
+
+            expected.ThrowIfFail().Should().Be(158625792UL);
+
+            // the flac decoder stops working at frame 137695 but ffmpeg and we can decode more
+            actual.ThrowIfFail().Should().Be(158638464UL);
         }
 
         [Fact]

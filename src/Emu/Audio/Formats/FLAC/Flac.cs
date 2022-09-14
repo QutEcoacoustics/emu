@@ -119,11 +119,26 @@ namespace Emu.Audio
             // some encoders do not set the block size, so if this is zero guess at a larger value
             if (largest == 0)
             {
-                // largest possible block size in samples;
-                largest = 32_768;
+                // largest possible block size in samples * a random bit depth (16 bits is 2 bytes);
+                // this is a huge overestimate but it caters for raw encodings of chunks of the largest frame size
+                largest = 32_768 * 2;
             }
 
             var offset = stream.Length - (largest * 3);
+
+            // ensure offset is in a range that makes sense
+            var frameStart = FindFrameStart(stream);
+            if (frameStart.Case is long f)
+            {
+                if (offset < f)
+                {
+                    offset = f;
+                }
+            }
+            else
+            {
+                return (Error)frameStart;
+            }
 
             var frames = await EnumerateFrames(stream, sampleRate.ThrowIfFail(), sampleSize.ThrowIfFail(), blockSizes.ThrowIfFail().Minimum, offset).ToArrayAsync();
 
@@ -520,14 +535,19 @@ namespace Emu.Audio
                                 var frame = new Frame(frameCounter, offset, frameHeader);
                                 result = result.Add(frame);
                                 lastFrame = frame;
+
+                                reader.Advance(frameSize);
                             }
-#if DEBUG
                             else
                             {
+#if DEBUG
                                 Debug.WriteLine($"Frame discarded: offset:{offset},index:{frameCounter}, {header}");
-                            }
 #endif
-                            reader.Advance(frameSize);
+
+                                // only advance the two scanned bytes. There still exists the potential for
+                                // a frame to exist within this header.
+                                reader.Advance(2);
+                            }
                         }
                         else if (second == FrameHeader.SyncCodeByteOne)
                         {

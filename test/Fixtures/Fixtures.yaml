@@ -1728,3 +1728,84 @@
   Process:
     FlacHeaderExtractor: ~
     FlacCommentExtractor: ~
+
+- Name: Normal File 3.08
+  Record: &NormalFile308
+    Extension: .flac
+    Stem: "20190422T200000+1000_REC [19.2144 152.8811]"
+    StartDate: 2019-04-22T20:00:00+10:00
+    LocalStartDate: 2019-04-22T20:00:00
+    TrueStartDate:
+    TrueEndDate:
+    DurationSeconds: 158625792/22050
+    TotalSamples: 158625792
+    Channels: 1
+    SampleRateHertz: 22050
+    BitsPerSecond: 352800
+    BitDepth: 16
+    FileSizeBytes: 191053824
+    MediaType: audio/flac
+    CalculatedChecksum:
+      Type: SHA256
+      Value: a025d12c33a8fb5d05c6359b7e0d6bf75698095b843072c936a4d10f0e09c6f7
+    EmbeddedChecksum:
+      Type: MD5
+      Value: 00000000000000000000000000000000
+    MemoryCard:
+      FormatType:
+      ManufacturerID: 158
+      OEMID: BE
+      ProductName: 512GB
+      ProductRevision: 1.0
+      SerialNumber: 77
+      ManufactureDate: 2018-11
+      Speed:
+      Capacity:
+      WrCurrentVmin:
+      WrCurrentVmax:
+      WriteBlSize:
+      EraseBlSize:
+    Sensor:
+      Name:
+      Firmware: 3.08
+      SerialNumber: 000010
+      PowerSource:
+      Microphones:
+        - Type: STD AUDIO MIC
+          UID: 000629
+          BuildDate: 2019-02-22
+          Gain: 50
+          Channel: 1
+          ChannelName: A
+          Sensitivity:
+      Gain:
+      Configuration:
+      Voltage: 12.7
+      BatteryLevel: 0.96
+      Temperature:
+      LastTimeSync:
+    Location:
+      Longitude: 152.8811
+      LongitudePrecision: 4
+      Latitude: 19.2144
+      LatitudePrecision: 4
+      Altitude:
+      AltitudePrecision:
+      HorizontalAccuracy:
+      VerticalAccuracy:
+      Speed:
+      Course:
+      SampleDateTime:
+      CoordinateReferenceSystem:
+  BlockAlign:
+  FixturePath: FL_BAR_LT/3.08_Normal/20190422T200000+1000_REC [19.2144 152.8811].flac
+  Notes: No problems but it triggers an edge case in our FLAC detector. It's total samples is also incorrect! ffmpeg will decode almost 400ms extra of samples
+  ValidMetadata: Yes
+  MimeType: audio/flac
+  Vendor: Frontier Labs
+  Process:
+    FlacHeaderExtractor: ~
+    FlacCommentExtractor:
+      <<: *NormalFile308
+      StartDate: null
+      LocalStartDate: null
