@@ -71,6 +71,21 @@ namespace Emu.Tests.Fixes.FrontierLabs
         }
 
         [Fact]
+        public async Task CanDetectPreAllocatedFiles3()
+        {
+            var path = FixtureHelper.ResolvePath("FL_BAR_LT/3.08_PreallocatedHeader/20190309_AAO [19.2052 152.8719]/20190309T020000+1000_REC [19.2052 152.8719].flac");
+
+            var actual = await this.fixer.CheckAffectedAsync(path);
+
+            Assert.Equal(CheckStatus.Affected, actual.Status);
+            Assert.Contains("The file is a stub and has no usable data", actual.Message);
+
+            Assert.Null(actual.Data);
+
+            Assert.Equal(Severity.Severe, actual.Severity);
+        }
+
+        [Fact]
         public async Task ItDoesNotConsiderEmptyFilesAFault()
         {
             using var target = new TempFile();

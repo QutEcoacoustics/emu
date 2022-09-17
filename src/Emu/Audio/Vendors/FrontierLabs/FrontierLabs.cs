@@ -167,6 +167,15 @@ namespace Emu.Audio.Vendors
 
             if (riffChunk.IsFail)
             {
+                // some edge cases have no RIFF magic number
+                stream.Position = 0;
+                Span<byte> buffer = stackalloc byte[sizeof(uint)];
+                stream.Read(buffer);
+                if (BinaryPrimitives.ReadUInt32LittleEndian(buffer) == 0)
+                {
+                    faults++;
+                }
+
                 return Judgement();
             }
 
