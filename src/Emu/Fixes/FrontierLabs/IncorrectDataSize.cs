@@ -8,6 +8,7 @@ namespace Emu.Fixes.FrontierLabs
     using System.Buffers.Binary;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.IO;
     using System.IO.Abstractions;
     using System.Linq;
     using System.Runtime.InteropServices;
@@ -19,23 +20,14 @@ namespace Emu.Fixes.FrontierLabs
     using Emu.Utilities;
     using Range = Emu.Audio.RangeHelper.Range;
 
-    public class IncorrectDataSize : IFixOperation
+    public abstract partial class IncorrectDataSize : IFixOperation
     {
-        public const int ErrorAmount = 44;
-
         private readonly IFileSystem fileSystem;
 
         public IncorrectDataSize(IFileSystem fileSystem)
         {
             this.fileSystem = fileSystem;
         }
-
-        public static OperationInfo Metadata => new(
-            WellKnownProblems.FrontierLabsProblems.IncorrectSubChunk2,
-            Fixable: true,
-            Safe: true,
-            Automatic: true,
-            typeof(IncorrectDataSize));
 
         public Task<CheckResult> CheckAffectedAsync(string file)
         {
@@ -48,18 +40,13 @@ namespace Emu.Fixes.FrontierLabs
                     new CheckResult(CheckStatus.NotApplicable, Severity.None, null));
             }
 
-            // the first 8 bytes aren't counted in the total
-            var expectedRiffLength = stream.Length - Wave.MinimumRiffHeaderLength;
-
             var riffChunk = Wave.FindRiffChunk(stream);
             var waveChunk = riffChunk.Bind(r => Wave.FindWaveChunk(stream, r));
             var formatChunk = waveChunk.Bind(w => Wave.FindFormatChunk(stream, w));
             var dataChunk = waveChunk.Bind(w => Wave.FindDataChunk(stream, w, allowOutOfBounds: true));
 
-            // we're affected if the RIFF header is 44 bytes off
-            // or if the data header is 44 bytes off.
-            var badRiffLength = riffChunk.Bind<bool>(r => (r.Length - expectedRiffLength) == ErrorAmount).IfFail(false);
-            var badDataLength = dataChunk.Bind<bool>(d => (d.End - stream.Length) == ErrorAmount).IfFail(false);
+            var badRiffLength = riffChunk.Bind<bool>(r => this.CheckIfRiffSizeBad(r, stream.Length)).IfFail(false);
+            var badDataLength = dataChunk.Bind<bool>(d => this.CheckIfDataSizeBad(d, stream.Length)).IfFail(false);
 
             // this problem targets files produced by older firmwares
             // unfortunately this means there's no space in file
@@ -78,7 +65,7 @@ namespace Emu.Fixes.FrontierLabs
             return Task.FromResult(result);
         }
 
-        public OperationInfo GetOperationInfo() => Metadata;
+        public abstract OperationInfo GetOperationInfo();
 
         public async Task<FixResult> ProcessFileAsync(string file, DryRun dryRun)
         {
@@ -98,28 +85,25 @@ namespace Emu.Fixes.FrontierLabs
             }
         }
 
-        public Range ModifyDataRange(Range range)
-        {
-            return range with
-            {
-                End = range.End - ErrorAmount,
-            };
-        }
+        protected abstract bool CheckIfDataSizeBad(Range dataRange, long streamLength);
+
+        protected abstract bool CheckIfRiffSizeBad(Range riffRange, long streamLength);
 
         private string ApplyFix(Stream stream, ChunkData chunkData, DryRun dryRun)
         {
             var (riff, format, data) = chunkData;
 
             uint newRiffLength = (uint)stream.Length - Wave.MinimumRiffHeaderLength;
-            uint newDataLength = (uint)data.Length - ErrorAmount;
 
-            // sanity check
-
-            //var formatData = ReadRange(stream, format);
-            //var channels = Wave.GetChannels(formatData);
-            //var bytesPerSample = Wave.GetBitsPerSample(formatData) / 8;
-            var expectedDataLength = stream.Length - data.Start;
-            Debug.Assert(newDataLength == expectedDataLength, "Amount remaining should be accurate");
+            // this invariant could be false if there were chunks after the start of data
+            // but
+            // FL files don't include additional chunks (for which this problem occurs)
+            // and we have no way to detect such chunks without scanning for a known list of them.
+            //
+            // Note:
+            // We are relying on strong check detection to prevent unnecessary modification of files that
+            // do not match our problem criteria.
+            uint newDataLength = (uint)(stream.Length - data.Start);
 
             // finally write the changes
             var position = stream.Seek(Wave.RiffLengthOffset, SeekOrigin.Begin);

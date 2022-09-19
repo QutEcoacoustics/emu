@@ -119,6 +119,8 @@ namespace Emu
             public static WellKnownProblem MetadataDurationBug => new("Metadata Duration Bug", "This file's duration is wrong.", "010", Group, MakeUrl(Group, "010"));
 
             public static WellKnownProblem PartialDataFiles => new("Partial file named data", "The data file is incomplete?", "011", Group, MakeUrl(Group, "011"));
+
+            public static WellKnownProblem DataSize0 => new("Data chunk size is 0", "The WAVE header's data chunk sie is 0 even though the file is much larger", "012", Group, MakeUrl(Group, "012"));
         }
 
         public class WildlifeAcoustics

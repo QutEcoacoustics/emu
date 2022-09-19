@@ -36,10 +36,10 @@ namespace Emu
 
             this.WriteFooter();
             this.WriteMessage(
-$@"Use {MarkupCode("emu fix apply")} to apply a fix to target files:
-{MarkupCodeBlock("emu fix apply --fix XX001 *.wav")}
-Or use {MarkupCode("--fix-all")} to apply all known fixes:
-{MarkupCodeBlock("emu fix apply --fix-all XX001 *.wav")}");
+$@"Use {MarkupCode("emu fix check")} or {MarkupCode("emu fix check --all")} to check all known fixes:
+{MarkupCodeBlock("emu fix check --fix XX001 *.wav")}
+Use {MarkupCode("emu fix apply")} to apply a fix to target files:
+{MarkupCodeBlock("emu fix apply --fix XX001 *.wav")}");
 
             return Task.FromResult(ExitCodes.Success);
         }

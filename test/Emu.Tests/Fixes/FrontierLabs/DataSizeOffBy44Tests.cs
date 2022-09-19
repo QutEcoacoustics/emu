@@ -1,4 +1,4 @@
-// <copyright file="IncorrectDataSizeTests.cs" company="QutEcoacoustics">
+// <copyright file="DataSizeOffBy44Tests.cs" company="QutEcoacoustics">
 // All code in this file and all associated files are the copyright and property of the QUT Ecoacoustics Research Group.
 // </copyright>
 
@@ -11,12 +11,11 @@ namespace Emu.Tests.Fixes.FrontierLabs
     using Emu.Fixes;
     using Emu.Fixes.FrontierLabs;
     using Emu.Tests.TestHelpers;
-    using Emu.Utilities;
     using FluentAssertions;
     using Xunit;
     using Xunit.Abstractions;
 
-    public class IncorrectDataSizeTests : TestBase, IClassFixture<FixtureHelper.FixtureData>, IDisposable
+    public class DataSizeOffBy44Tests : TestBase, IClassFixture<FixtureHelper.FixtureData>, IDisposable
     {
         private const uint BeforeDataSize = 157610028u;
         private const uint AfterDataSize = 157609984u;
@@ -29,18 +28,18 @@ namespace Emu.Tests.Fixes.FrontierLabs
         private const uint AfterSamples = AfterDataSize / 2;
 
         private readonly TempFile target;
-        private readonly IncorrectDataSize fixer;
+        private readonly DataSizeOffBy44 fixer;
 
         private readonly long beforeSize;
 
-        public IncorrectDataSizeTests(ITestOutputHelper output, FixtureHelper.FixtureData data)
+        public DataSizeOffBy44Tests(ITestOutputHelper output, FixtureHelper.FixtureData data)
             : base(output, true)
         {
-            var fixture = data[FixtureModel.IncorrectDataSize];
+            var fixture = data[FixtureModel.DataSizeOffBy44];
             this.target = TempFile.DuplicateExisting(fixture.AbsoluteFixturePath);
             this.beforeSize = this.target.File.Length;
 
-            this.fixer = new IncorrectDataSize(this.CurrentFileSystem);
+            this.fixer = new DataSizeOffBy44(this.CurrentFileSystem);
         }
 
         void IDisposable.Dispose()
@@ -55,7 +54,7 @@ namespace Emu.Tests.Fixes.FrontierLabs
 
             info.Fixable.Should().BeTrue();
             info.Automatic.Should().BeTrue();
-            info.Safe.Should().BeTrue();
+            info.Safe.Should().BeFalse();
 
             Assert.True(this.fixer is IFixOperation);
         }
@@ -75,7 +74,7 @@ namespace Emu.Tests.Fixes.FrontierLabs
         [ClassData(typeof(FixtureHelper.FixtureData))]
         public async Task NoOtherFixtureIsDetectedAsAPositive(FixtureModel fixture)
         {
-            Skip.If(fixture.Name is FixtureModel.IncorrectDataSize);
+            Skip.If(fixture.Name is FixtureModel.DataSizeOffBy44);
 
             var actual = await this.fixer.CheckAffectedAsync(fixture.AbsoluteFixturePath);
 

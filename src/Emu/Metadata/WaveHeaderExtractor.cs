@@ -17,9 +17,9 @@ namespace Emu.Metadata
     public class WaveHeaderExtractor : IMetadataOperation
     {
         private readonly ILogger<WaveHeaderExtractor> logger;
-        private readonly IncorrectDataSize fl008;
+        private readonly DataSizeOffBy44 fl008;
 
-        public WaveHeaderExtractor(ILogger<WaveHeaderExtractor> logger, IncorrectDataSize fl008)
+        public WaveHeaderExtractor(ILogger<WaveHeaderExtractor> logger, DataSizeOffBy44 fl008)
         {
             this.logger = logger;
             this.fl008 = fl008;

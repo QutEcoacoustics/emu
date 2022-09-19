@@ -664,9 +664,15 @@ namespace Emu.Audio
 
             offset += 4;
 
-            string vendor = Encoding.UTF8.GetString(buffer[offset..(offset + vendorLength)]);
-
-            return vendor;
+            try
+            {
+                string vendor = Encoding.UTF8.GetString(buffer[offset..(offset + vendorLength)]);
+                return vendor;
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                return Error.New("Invalid UTF8 string", (Exception)ex);
+            }
         }
 
         /// <summary>

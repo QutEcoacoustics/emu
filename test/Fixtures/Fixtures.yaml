@@ -1235,8 +1235,8 @@
 
 - Name: Incorrect data size
   Record:
-    Extension: .flac
-    Stem: 20160809_063108_Dawn _1.4647 116.9136_.wav
+    Extension: .wav
+    Stem: 20160809_063108_Dawn _1.4647 116.9136_
     StartDate:
     LocalStartDate: 2016-08-09T06:31:08
     TrueStartDate:
@@ -1288,6 +1288,40 @@
   Process:
     WaveHeaderExtractor: ~
     FrontierLabsLogFileExtractor: ~
+    FilenameExtractor: ~
+
+- Name: Data Size 0
+  Record:
+    Extension: .wav
+    Stem: 20220817_060000_REC
+    StartDate:
+    LocalStartDate: 2022-08-17T06:00:00
+    TrueStartDate:
+    TrueEndDate:
+    DurationSeconds: 0/22050
+    TotalSamples: 0
+    Channels: 1
+    SampleRateHertz: 22050
+    BitsPerSecond: 352800
+    BitDepth: 16
+    FileSizeBytes: 158535680
+    MediaType: audio/wave
+    CalculatedChecksum:
+      Type: SHA256
+      Value: 41fcd03db1de785cea2aba8b104eec2ac5f220e8d58049cd686c75f9fb6e2d2b
+    EmbeddedChecksum: ~
+    MemoryCard: ~
+    Sensor: ~
+    Location: ~
+  BlockAlign:
+  FixturePath: FL_BAR/3.01_DataSize0/20220817_060000_REC.wav
+  Notes:
+  ValidMetadata: Yes
+  MimeType: audio/wave
+  Vendor: Frontier Labs
+  Process:
+    WaveHeaderExtractor: ~
+    FilenameExtractor: ~
 
 - Name: Generic WAVE with cue chunk
   Record:

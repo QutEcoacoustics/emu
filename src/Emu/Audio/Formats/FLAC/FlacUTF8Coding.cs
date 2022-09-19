@@ -33,6 +33,7 @@ namespace Emu.Audio.Formats.FLAC
 
             int left;
             ulong value;
+
             // how utf8 coding works: https://en.wikipedia.org/wiki/UTF-8#Encoding
             switch (b0)
             {

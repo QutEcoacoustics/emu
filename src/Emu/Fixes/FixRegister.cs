@@ -24,7 +24,8 @@ namespace Emu.Fixes
             PreAllocatedHeader.Metadata,
             SpaceInDatestamp.Metadata,
             MetadataDurationBug.Metadata,
-            IncorrectDataSize.Metadata,
+            DataSizeOffBy44.Metadata,
+            DataSize0.Metadata,
             NoData.Metadata,
         };
 

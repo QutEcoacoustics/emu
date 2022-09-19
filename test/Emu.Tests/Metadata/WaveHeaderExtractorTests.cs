@@ -22,7 +22,7 @@ namespace Emu.Tests.Metadata
         {
             this.subject = new WaveHeaderExtractor(
                 this.BuildLogger<WaveHeaderExtractor>(),
-                this.ServiceProvider.GetRequiredService<IncorrectDataSize>());
+                this.ServiceProvider.GetRequiredService<DataSizeOffBy44>());
         }
 
         public Recording Recording => new();

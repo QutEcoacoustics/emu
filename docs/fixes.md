@@ -34,17 +34,18 @@ EMU can fix these problems:
 │ FL001 │ Preallocated header       │ ✗       │ ✓    │ https://github.com/ecoacoustics/known-problems/blob/main/frontier_labs/FL001.md      │
 │ FL008 │ Invalid datestamp (space) │ ✓       │ ✓    │ https://github.com/ecoacoustics/known-problems/blob/main/frontier_labs/FL008.md      │
 │ FL010 │ Metadata Duration Bug     │ ✓       │ ✓    │ https://github.com/ecoacoustics/known-problems/blob/main/frontier_labs/FL010.md      │
-│ FL005 │ Incorrect SubChunk2 size  │ ✓       │ ✓    │ https://github.com/ecoacoustics/known-problems/blob/main/frontier_labs/FL005.md      │
+│ FL005 │ Incorrect SubChunk2 size  │ ✓       │ ✗    │ https://github.com/ecoacoustics/known-problems/blob/main/frontier_labs/FL005.md      │
+│ FL012 │ Data chunk size is 0      │ ✓       │ ✗    │ https://github.com/ecoacoustics/known-problems/blob/main/frontier_labs/FL012.md      │
 │ WA002 │ No data in file           │ ✗       │ ✓    │ https://github.com/ecoacoustics/known-problems/blob/main/wildlife_acoustics/WA002.md │
 └───────┴───────────────────────────┴─────────┴──────┴──────────────────────────────────────────────────────────────────────────────────────┘
+
+Use `emu fix check` or `emu fix check --all` to check all known fixes:
+
+emu fix check --fix XX001 *.wav
 
 Use `emu fix apply` to apply a fix to target files:
 
 emu fix apply --fix XX001 *.wav
-
-Or use `--fix-all` to apply all known fixes:
-
-emu fix apply --fix-all XX001 *.wav
 ```
 
 ## Checking files for problems
