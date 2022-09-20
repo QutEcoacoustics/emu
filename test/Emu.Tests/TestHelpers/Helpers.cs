@@ -53,6 +53,7 @@ namespace Emu.Tests.TestHelpers
                         new RationalNullJsonConverter(serializeAsString: true),
                         new RationalJsonConverter(serializeAsString: true),
                     },
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
                 }.ConfigureForNodaTime(DateTimeZoneProviders.Tzdb);
             }
         }

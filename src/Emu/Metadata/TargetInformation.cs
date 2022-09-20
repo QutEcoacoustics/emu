@@ -29,11 +29,13 @@ namespace Emu.Metadata
     {
         private readonly IFileSystem fileSystem;
 
-        private FileStream stream = null;
+        private Stream stream = null;
 
-        public TargetInformation(IFileSystem fileSystem)
+        public TargetInformation(IFileSystem fileSystem, string @base, string path)
         {
             this.fileSystem = fileSystem;
+            this.Base = @base;
+            this.Path = path;
         }
 
         /// <summary>
@@ -60,7 +62,9 @@ namespace Emu.Metadata
         {
             get
             {
-                return this.stream ?? this.FileSystem.File.Open(this.Path, FileMode.Open, FileAccess.Read, FileShare.Read);
+                this.stream ??= this.FileSystem.File.Open(this.Path, FileMode.Open, FileAccess.Read, FileShare.Read);
+
+                return this.stream;
             }
         }
 

@@ -48,6 +48,26 @@ namespace Emu.Utilities
             }
         }
 
+        public async ValueTask<T> WouldDoAsync<T>(string message, Func<Task<T>> callback, Func<Task<T>> dryCallback = default)
+        {
+            if (this.IsDryRun)
+            {
+                this.logger.LogInformation("would " + message);
+                if (dryCallback is null)
+                {
+                    return default;
+                }
+                else
+                {
+                    return await dryCallback();
+                }
+            }
+            else
+            {
+                return await callback();
+            }
+        }
+
         public void WouldDo(string message, Action callback, Action dryCallback = default)
         {
             if (this.IsDryRun)
@@ -61,6 +81,22 @@ namespace Emu.Utilities
             else
             {
                 callback();
+            }
+        }
+
+        public async ValueTask WouldDoAsync(string message, Func<Task> callback, Func<Task> dryCallback = default)
+        {
+            if (this.IsDryRun)
+            {
+                this.logger.LogInformation("would " + message);
+                if (dryCallback is not null)
+                {
+                    await dryCallback();
+                }
+            }
+            else
+            {
+                await callback();
             }
         }
 

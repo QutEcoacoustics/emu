@@ -217,7 +217,7 @@ namespace Emu.Audio
                 0b1100 => (uint)(bytes.ReadByte(ref offset) * 1000),
 
                 // get 16 bit sample rate (in Hz) from end of header
-                0b1101 => (uint)bytes.ReadUInt16BigEndian(ref offset),
+                0b1101 => bytes.ReadUInt16BigEndian(ref offset),
 
                 //  get 16 bit sample rate (in tens of Hz) from end of header
                 0b1110 => (uint)(bytes.ReadUInt16BigEndian(ref offset) * 10),

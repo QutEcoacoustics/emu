@@ -31,7 +31,9 @@ namespace Emu.Tests.Metadata
             var result = await this.subject.CanProcessAsync(model.ToTargetInformation(this.RealFileSystem));
 
             // we can process any file that is Frontier Labs and FLAC
-            var expected = model.IsVendor(Vendor.FrontierLabs) && model.IsFlac;
+            var expected = model.IsVendor(Vendor.FrontierLabs)
+                && model.IsFlac
+                && model.ToFileInfo(this.RealFileSystem).Length > 0;
             Assert.Equal(expected, result);
         }
 

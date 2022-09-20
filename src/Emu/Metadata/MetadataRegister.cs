@@ -19,6 +19,7 @@ namespace Emu.Metadata
             typeof(WamdExtractor),
             typeof(LogFileExtractor),
             typeof(HashCalculator),
+            typeof(ExtensionInferer),
         };
 
         private readonly IServiceProvider provider;

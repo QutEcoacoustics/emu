@@ -22,9 +22,10 @@ namespace Emu.Fixes
             //FileNameDateStampInvalid.Metadata,
             EmptyFile.Metadata,
             PreAllocatedHeader.Metadata,
+            DataSizeOffBy44.Metadata,
             SpaceInDatestamp.Metadata,
             MetadataDurationBug.Metadata,
-            DataSizeOffBy44.Metadata,
+            PartialFileRepair.Metadata,
             DataSize0.Metadata,
             NoData.Metadata,
         };

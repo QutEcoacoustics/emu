@@ -31,17 +31,18 @@ namespace Emu.Audio
 
         public static readonly byte[] FlacMagicNumber = new byte[] { (byte)'f', (byte)'L', (byte)'a', (byte)'C' };
 
+        public static readonly Error NotFlac = Error.New("File is not a FLAC file");
         public static readonly Error FileTooShort = Error.New("Error reading file: file is not long enough to read metadata");
         public static readonly Error FileTooShortFlac = Error.New("Error reading file: file is not long enough to have a fLaC header");
-        public static readonly Error VendorStringNotFound = Error.New("Error reading file: could not find vendor string Frontier Labs in file header");
+
         public static readonly Error InvalidOffset = Error.New("Error reading file: an invalid offset was found");
         public static readonly Func<MetadataBlockType, Error> ChunkNotFound = x => Error.New($"Chunk with ID `{x}` was not found");
         public static readonly Error BadMetadataSeek = Error.New("Could not seek to the next metadata block");
         public static readonly Error BadFrameSeek = Error.New("Could not seek to the required position while scanning for frames");
-        public static readonly Error CountSamplesBlockSize = Error.New("CountSamples only works on files that have a fixed block size");
+        public static readonly Error ErrorCountSamplesBlockSize = Error.New("CountSamples only works on files that have a fixed block size");
         public static readonly Error CountSamplesNotEnoughFrames = Error.New("Could not find enough frames to count samples for");
         public static readonly Error CountSamplesNotFixed = Error.New("Found a mix of fixed and variable size frames; this is not allowed");
-        public static readonly Error CountSamplesNotConsecutive = Error.New("Found non-consecutive frame");
+        public static readonly Error CountSamplesNotConsecutive = Error.New("DESYNC: Found non-consecutive frame");
 
         /// <summary>
         /// The total samples in the stream are read from the flac header here.
@@ -78,6 +79,23 @@ namespace Emu.Audio
         /// <returns>The count of samples.</returns>
         public static async Task<Fin<ulong>> CountSamplesAsync(Stream stream)
         {
+            var frames = await FindFramesAsync(stream);
+
+            return frames.Bind(CalculateSampleCountFromFrameList);
+        }
+
+        /// <summary>
+        /// Finds all FRAMES in a stream.
+        /// Like EnumerateFrames but takes care of wrapper code.
+        /// </summary>
+        /// <param name="stream">The stream to scan.</param>
+        /// <param name="fullScan">
+        /// If set to <value>true</value>, fully scans the file for frames from the start of the file.
+        /// If set to <value>false</value> then scans from the end of the file. Much quicker.
+        /// </param>
+        /// <returns>A list of frames found.</returns>
+        public static async Task<Fin<IReadOnlyList<Frame>>> FindFramesAsync(Stream stream, bool fullScan = false)
+        {
             var blockSizes = ReadBlockSizes(stream).Bind(CheckBlockSize);
             if (blockSizes.IsFail)
             {
@@ -105,34 +123,38 @@ namespace Emu.Audio
                 return (Error)sampleSize;
             }
 
-            // OK, here's the theory:
-            // Get the last two frames in the file.
-            // Assuming a fixed blocksize (validated above) the last frame will
-            // have the frame number we can use to calculate all previous samples.
-            // The last frame will have the remaining fragemnt.
-            // We're going to scan near the end of the file, by at least two of the
-            // largest frames according to the metadata. Doing it this way means
-            // we'll avoid scanning most of the file.
-
-            var largest = frameSizes.ThrowIfFail().Maximum;
-
-            // some encoders do not set the block size, so if this is zero guess at a larger value
-            if (largest == 0)
+            long offset = 0;
+            if (!fullScan)
             {
-                // largest possible block size in samples * a random bit depth (16 bits is 2 bytes);
-                // this is a huge overestimate but it caters for raw encodings of chunks of the largest frame size
-                largest = 32_768 * 2;
-            }
+                // OK, here's the theory:
+                // Get the last two frames in the file.
+                // Assuming a fixed blocksize (validated above) the last frame will
+                // have the frame number we can use to calculate all previous samples.
+                // The last frame will have the remaining fragemnt.
+                // We're going to scan near the end of the file, by at least two of the
+                // largest frames according to the metadata. Doing it this way means
+                // we'll avoid scanning most of the file.
 
-            var offset = stream.Length - (largest * 3);
+                var largest = frameSizes.ThrowIfFail().Maximum;
+
+                // some encoders do not set the block size, so if this is zero guess at a larger value
+                if (largest == 0)
+                {
+                    // largest possible block size in samples * a random bit depth (16 bits is 2 bytes);
+                    // this is a huge overestimate but it caters for raw encodings of chunks of the largest frame size
+                    largest = 32_768 * 2;
+                }
+
+                offset = stream.Length - (largest * 3);
+            }
 
             // ensure offset is in a range that makes sense
             var frameStart = FindFrameStart(stream);
-            if (frameStart.Case is long f)
+            if (frameStart.Case is long s)
             {
-                if (offset < f)
+                if (offset < s)
                 {
-                    offset = f;
+                    offset = s;
                 }
             }
             else
@@ -140,9 +162,45 @@ namespace Emu.Audio
                 return (Error)frameStart;
             }
 
-            var frames = await EnumerateFrames(stream, sampleRate.ThrowIfFail(), sampleSize.ThrowIfFail(), blockSizes.ThrowIfFail().Minimum, offset).ToArrayAsync();
+            var frames = new List<Frame>();
+            var enumerator = EnumerateFrames(
+                stream,
+                sampleRate.ThrowIfFail(),
+                sampleSize.ThrowIfFail(),
+                blockSizes.ThrowIfFail().Minimum,
+                offset);
 
-            if (frames.Length < 2)
+            await foreach (var frame in enumerator)
+            {
+                if (frame.Case is Frame f)
+                {
+                    frames.Add(f);
+                }
+                else
+                {
+                    // this will only occur if we're given a bad offset
+                    // normal frame errors are discarded
+                    return (Error)frame;
+                }
+            }
+
+            return frames;
+
+            static Fin<(ushort Minimum, ushort Maximum)> CheckBlockSize((ushort Minimum, ushort Maximum) b)
+            {
+                return b.Minimum != b.Maximum ? ErrorCountSamplesBlockSize : b;
+            }
+        }
+
+        /// <summary>
+        /// Estimates sample count from the last two frames of a series of frames.
+        /// </summary>
+        /// <param name="frames">A collection of Frames found within the FLAC stream.</param>
+        /// <returns>A Fin wrapped sample count.</returns>
+        /// <exception cref="NotSupportedException">If frames with variable size blocks are included.</exception>
+        public static Fin<ulong> CalculateSampleCountFromFrameList(IReadOnlyList<Frame> frames)
+        {
+            if (frames.Count < 2)
             {
                 return CountSamplesNotEnoughFrames;
             }
@@ -150,18 +208,16 @@ namespace Emu.Audio
             var penultimate = frames[^2];
             var ultimate = frames[^1];
 
-            var result = from pu in penultimate
-                         from u in ultimate
-                         select ((ulong)(GetFrameNumber(pu) + 1) * pu.Header.BlockSize) + u.Header.BlockSize;
+            var result = ((ulong)(GetFrameNumber(penultimate) + 1) * penultimate.Header.BlockSize) + ultimate.Header.BlockSize;
 
             return result;
 
-            Fin<(ushort Minimum, ushort Maximum)> CheckBlockSize((ushort Minimum, ushort Maximum) b)
+            static uint GetFrameNumber(Frame f)
             {
-                return b.Minimum != b.Maximum ? CountSamplesBlockSize : b;
+                return f.Header.FrameNumber
+                    ?? throw new NotSupportedException(
+                        "This check is not support for FLAC files with variable size blocks. File a bug report on the emu repository.");
             }
-
-            uint GetFrameNumber(Frame f) => f.Header.FrameNumber ?? throw new NotSupportedException("This check is not support for FLAC files with variable size blocks. File a bug report on the emu repository.");
         }
 
         /// <summary>
@@ -299,7 +355,7 @@ namespace Emu.Audio
             return buffer.ToArray();
         }
 
-        public static Fin<Unit> WriteTotalSamples(FileStream stream, ulong sampleCount)
+        public static Fin<Unit> WriteTotalSamples(Stream stream, ulong sampleCount)
         {
             stream.Seek(FlacSamplesOffset, SeekOrigin.Begin);
 

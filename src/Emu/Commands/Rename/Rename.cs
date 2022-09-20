@@ -12,6 +12,8 @@ namespace Emu.Commands.Rename
     using System.Linq;
     using System.Text.RegularExpressions;
     using System.Threading.Tasks;
+    using Emu.Audio;
+    using Emu.Audio.WAVE;
     using Emu.Cli;
     using Emu.Extensions.System;
     using Emu.Filenames;
@@ -82,7 +84,8 @@ namespace Emu.Commands.Rename
         // lazy generate a list of extractors
         // lazy because generation will do service resolution
         // don't include filename extractor because that operation is done by default
-        private IEnumerable<IMetadataOperation> AllExtractors => this.allExtractors ??= this.extractorRegister.All.Where(t => t is not FilenameExtractor or HashCalculator);
+        private IEnumerable<IMetadataOperation> AllExtractors =>
+            this.allExtractors ??= this.extractorRegister.All.Where(t => t is not FilenameExtractor or HashCalculator);
 
         public override async Task<int> InvokeAsync(InvocationContext context)
         {
@@ -319,11 +322,7 @@ namespace Emu.Commands.Rename
 
             this.logger.LogDebug("Doing extended metadata scan");
 
-            var target = new TargetInformation(this.fileSystem)
-            {
-                Base = transform.Base,
-                Path = transform.Data.SourcePath,
-            };
+            var target = new TargetInformation(this.fileSystem, transform.Base, transform.Data.SourcePath);
 
             SupportFile.FindSupportFiles(transform.Base, target.AsEnumerable(), this.fileSystem);
 

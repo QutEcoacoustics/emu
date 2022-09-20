@@ -30,7 +30,7 @@ namespace Emu.Tests.Audio.Formats.FLAC
         [ClassData(typeof(FixtureHelper.FixtureData))]
         public void ReadTotalSamplesTest(FixtureModel model)
         {
-            if (model.Process.ContainsKey(FixtureModel.FlacHeaderExtractor))
+            if (model.Process.ContainsKey(FixtureModel.FlacHeaderExtractor) && model.IsFlac)
             {
                 var totalSamples = Flac.ReadTotalSamples(model.ToTargetInformation(this.RealFileSystem).FileStream);
                 Assert.True(totalSamples.IsSucc);
@@ -42,7 +42,7 @@ namespace Emu.Tests.Audio.Formats.FLAC
         [ClassData(typeof(FixtureHelper.FixtureData))]
         public void ReadSampleRateTest(FixtureModel model)
         {
-            if (model.Process.ContainsKey(FixtureModel.FlacHeaderExtractor))
+            if (model.Process.ContainsKey(FixtureModel.FlacHeaderExtractor) && model.IsFlac)
             {
                 var sampleRate = Flac.ReadSampleRate(model.ToTargetInformation(this.RealFileSystem).FileStream);
                 Assert.True(sampleRate.IsSucc);
@@ -54,7 +54,7 @@ namespace Emu.Tests.Audio.Formats.FLAC
         [ClassData(typeof(FixtureHelper.FixtureData))]
         public void ReadNumChannelsTest(FixtureModel model)
         {
-            if (model.Process.ContainsKey(FixtureModel.FlacHeaderExtractor))
+            if (model.Process.ContainsKey(FixtureModel.FlacHeaderExtractor) && model.IsFlac)
             {
                 var channels = Flac.ReadNumberChannels(model.ToTargetInformation(this.RealFileSystem).FileStream);
                 Assert.True(channels.IsSucc);
@@ -66,7 +66,7 @@ namespace Emu.Tests.Audio.Formats.FLAC
         [ClassData(typeof(FixtureHelper.FixtureData))]
         public void ReadBitDepthTest(FixtureModel model)
         {
-            if (model.Process.ContainsKey(FixtureModel.FlacHeaderExtractor))
+            if (model.Process.ContainsKey(FixtureModel.FlacHeaderExtractor) && model.IsFlac)
             {
                 var bitDepth = Flac.ReadBitDepth(model.ToTargetInformation(this.RealFileSystem).FileStream);
                 Assert.True(bitDepth.IsSucc);
@@ -288,6 +288,35 @@ namespace Emu.Tests.Audio.Formats.FLAC
             f4.Offset.Should().Be(191050784L);
 
             Assert.Equal(137707, frames.Length);
+        }
+
+        [Fact]
+        public async Task FailsLikeFlacForAFileWithProblems()
+        {
+            // the last valid frame found by the FLAC decoder
+            // frame=35661     offset=99822006 bits=23096      blocksize=2048  sample_rate=22050       channels=1      channel_assignment=INDEPENDENT
+            var fixture = this.data[FixtureModel.PartialRobsonDryAConflict];
+            using var stream = this.RealFileSystem.File.OpenRead(fixture.AbsoluteFixturePath);
+
+            Flac.IsFlacFile(stream).ThrowIfFail().Should().BeTrue();
+
+            var blockSize = Flac.ReadBlockSizes(stream).ThrowIfFail();
+            var sampleRate = Flac.ReadSampleRate(stream).ThrowIfFail();
+            var sampleSize = Flac.ReadBitDepth(stream).ThrowIfFail();
+
+            Flac.FindFrameStart(stream).ThrowIfFail().Should().Be(679L);
+
+            var frames = await Flac.EnumerateFrames(stream, sampleRate, sampleSize, blockSize.Minimum).ToArrayAsync();
+
+            var f0 = (Frame)frames[35661];
+            f0.Index.Should().Be(35661);
+            f0.Offset.Should().Be(99822006L);
+
+            var f1 = (Frame)frames[35662];
+            f1.Index.Should().Be(35662);
+            f1.Offset.Should().Be(99824893L);
+
+            Assert.Equal(35663, frames.Length);
         }
 
         [Fact]

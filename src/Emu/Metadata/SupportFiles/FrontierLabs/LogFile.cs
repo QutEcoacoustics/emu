@@ -28,6 +28,10 @@ namespace Emu.Metadata.SupportFiles.FrontierLabs
         {
             LocalDateTimePattern.CreateWithInvariantCulture("yyyy'-'MM'-'dd' 'HH':'mm':'ss"),
             LocalDateTimePattern.CreateWithInvariantCulture("dd'/'MM'/'yyyy' 'HH':'mm':'ss"),
+
+            // some log files emit single digit days, e.g.
+            // 1/01/2010 00:00:22
+            LocalDateTimePattern.CreateWithInvariantCulture("d'/'MM'/'yyyy' 'HH':'mm':'ss"),
         };
 
         public static readonly Regex[] DateMatchers =

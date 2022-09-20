@@ -4,7 +4,9 @@
 
 namespace Emu.Utilities
 {
+    using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
+    using System.IO;
     using System.IO.Abstractions;
     using System.Numerics;
     using System.Runtime.Intrinsics.X86;
@@ -64,6 +66,77 @@ namespace Emu.Utilities
             }
 
             return newPath;
+        }
+
+        public long Truncate(Stream stream, long newLength, DryRun dryRun)
+        {
+            ArgumentNullException.ThrowIfNull(stream, nameof(stream));
+
+            if (newLength < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(newLength), "Cannot truncate a file to a negative length");
+            }
+
+            if (newLength > stream.Length)
+            {
+                throw new ArgumentOutOfRangeException($"Cannot truncate a file when new length ({newLength}) is longer than current length ({stream.Length})");
+            }
+
+            dryRun.WouldDo(
+                $"Truncated file to {newLength} bytes (was {stream.Length} bytes)",
+                () =>
+                {
+                    if (!(stream.CanWrite && stream.CanSeek))
+                    {
+                        throw new NotSupportedException("Stream must support writing and seeking for truncation");
+                    }
+
+                    stream.SetLength(newLength);
+                });
+
+            return stream.Length;
+        }
+
+        public async Task TruncateSplitAsync(Stream source, Stream destination, long splitPoint, DryRun dryRun)
+        {
+            if (splitPoint < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(splitPoint), "Cannot truncate a file to a negative length");
+            }
+
+            if (splitPoint > source.Length)
+            {
+                throw new ArgumentOutOfRangeException($"Cannot truncate a file when new length ({splitPoint}) is longer than current length ({source.Length})");
+            }
+
+            await dryRun.WouldDoAsync(
+                $"Split file at {splitPoint} bytes (was {source.Length} bytes)",
+                DoIt);
+
+            async Task DoIt()
+            {
+                CheckStream(source, nameof(source));
+                CheckStream(destination, nameof(destination));
+
+                source.Position = splitPoint;
+                Debug.Assert(source.Position == splitPoint, "Position should be set");
+
+                await source.CopyToAsync(destination);
+
+                await destination.FlushAsync();
+
+                source.SetLength(splitPoint);
+            }
+
+            void CheckStream(Stream stream, string name)
+            {
+                ArgumentNullException.ThrowIfNull(stream, nameof(name));
+
+                if (!(stream.CanWrite && stream.CanSeek))
+                {
+                    throw new NotSupportedException("Stream must support writing and seeking for truncation");
+                }
+            }
         }
 
         public async ValueTask<Checksum> CalculateChecksumSha256(string path)

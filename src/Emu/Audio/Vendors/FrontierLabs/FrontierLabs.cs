@@ -15,6 +15,7 @@ namespace Emu.Audio.Vendors
     using LanguageExt.Common;
     using NodaTime;
     using NodaTime.Text;
+    using static LanguageExt.Prelude;
 
     public static class FrontierLabs
     {
@@ -77,8 +78,14 @@ namespace Emu.Audio.Vendors
         public static readonly Func<string, Error> ParsingError = x => Error.New($"Value '{x}' cant' be parsed");
         public static readonly Error EmptyError = Error.New($"File is empty");
 
-        public static async ValueTask<Fin<FirmwareRecord>> ReadFirmwareAsync(FileStream stream)
+        public static async ValueTask<Fin<FirmwareRecord>> ReadFirmwareAsync(Stream stream)
         {
+            var isFlac = Flac.IsFlacFile(stream);
+            if (!isFlac.IfFail(false))
+            {
+                return isFlac.IsFail ? (Error)isFlac : Flac.NotFlac;
+            }
+
             var vorbisChunk = Flac.ScanForChunk(stream, Flac.MetadataBlockType.VorbisComment);
 
             if (vorbisChunk.IsFail)
@@ -100,7 +107,7 @@ namespace Emu.Audio.Vendors
 
             if (decimal.TryParse((string)firmware, out var version))
             {
-                return new FirmwareRecord(comment, version, offset, rest);
+                return new FirmwareRecord(comment, version, offset, Seq(rest));
             }
             else
             {
@@ -108,17 +115,19 @@ namespace Emu.Audio.Vendors
             }
         }
 
-        public static async ValueTask WriteFirmware(FileStream stream, FirmwareRecord original, string addendum)
+        public static async ValueTask WriteFirmware(Stream stream, FirmwareRecord original)
         {
             var old = original.Comment;
 
             // there's trailing space at the end of the comment, verify there's enough space for our addendum
             var trimmed = old.TrimEnd();
 
-            var newFirmware = Encoding.UTF8.GetBytes(trimmed + ' ' + addendum);
+            var newFirmware = Encoding.UTF8.GetBytes(trimmed + ' ' + string.Join(" ", original.Tags));
             if (newFirmware.Length > original.FoundAt.Length())
             {
-                throw new ArgumentException("addendum must be short enough to fit within existing firmware header", nameof(addendum));
+                throw new ArgumentException(
+                    "tags must be short enough to fit within existing firmware header",
+                    nameof(original));
             }
 
             stream.Seek(original.FoundAt.Start.Value, SeekOrigin.Begin);
@@ -407,6 +416,11 @@ namespace Emu.Audio.Vendors
         [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1008:OpeningParenthesisMustBeSpacedCorrectly", Justification = "Parentheses are valid when calculating absolute range.")]
         private static Fin<FirmwareRecord> FindInBufferFirmware(ReadOnlySpan<byte> buffer, long absoluteOffset)
         {
+            if (buffer.Length < 12)
+            {
+                return FirmwareNotFound;
+            }
+
             int offset = 0;
             int vendorLength = BinaryPrimitives.ReadInt32LittleEndian(buffer);
 
@@ -443,6 +457,6 @@ namespace Emu.Audio.Vendors
             return FirmwareNotFound;
         }
 
-        public record FirmwareRecord(string Comment, decimal Version, Range FoundAt, string[] Tags);
+        public record FirmwareRecord(string Comment, decimal Version, Range FoundAt, Seq<string> Tags);
     }
 }

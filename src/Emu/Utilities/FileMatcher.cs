@@ -17,11 +17,12 @@ namespace Emu.Utilities
     /// </summary>
     public class FileMatcher
     {
-        public const string DefaultPatternString = "**/*.flac **/*.wav **/*.mp3";
+        public const string DefaultPatternString = "**/*.flac **/*.wav **/*.mp3 **/data";
         public static readonly Matcher DefaultPattern = new Matcher()
             .AddInclude("**/*.flac")
             .AddInclude("**/*.wav")
-            .AddInclude("**/*.mp3");
+            .AddInclude("**/*.mp3")
+            .AddInclude("**/data");
 
         private readonly ILogger<FileMatcher> logger;
         private readonly IFileSystem fileSystem;

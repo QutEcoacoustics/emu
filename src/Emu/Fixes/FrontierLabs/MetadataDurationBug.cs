@@ -15,8 +15,6 @@ namespace Emu.Fixes.FrontierLabs
     using static Emu.Fixes.CheckStatus;
     using static LanguageExt.Prelude;
 
-    //public record DurationBugRecord(FirmwareRecord Firmware, DurationBugStatus Status);
-
     public class MetadataDurationBug : IFixOperation
     {
         public static readonly string EmuPatched = WellKnownProblems.PatchString(Metadata.Problem);
@@ -25,10 +23,10 @@ namespace Emu.Fixes.FrontierLabs
         private readonly ILogger<MetadataDurationBug> logger;
         private readonly IFileSystem fileSystem;
 
-        public MetadataDurationBug(ILogger<MetadataDurationBug> logger)
+        public MetadataDurationBug(ILogger<MetadataDurationBug> logger, IFileSystem fileSystem)
         {
             this.logger = logger;
-            this.fileSystem = new FileSystem();
+            this.fileSystem = fileSystem;
         }
 
         public static OperationInfo Metadata => new(
@@ -42,7 +40,7 @@ namespace Emu.Fixes.FrontierLabs
         {
             using var stream = (FileStream)this.fileSystem.File.OpenRead(file);
 
-            return await this.IsAffected(stream);
+            return await this.IsAffectedAsync(stream);
         }
 
         public OperationInfo GetOperationInfo() => Metadata;
@@ -62,39 +60,7 @@ namespace Emu.Fixes.FrontierLabs
             }
         }
 
-        private static Fin<(FirmwareRecord Firmware, CheckStatus Status)> IsAffectedFirmwareVersion(FirmwareRecord record)
-        {
-            var version = record.Version;
-
-            var affected = true switch
-            {
-                _ when version < AffectedFirmwares.Min => Unaffected,
-                _ when version >= AffectedFirmwares.Max => Unaffected,
-                _ when record.Tags is null => Affected,
-                _ when record.Tags.Contains(EmuPatched) => Repaired,
-                _ => Affected,
-            };
-
-            return (record, affected);
-        }
-
-        private static Fin<CheckStatus> IsAffected(Fin<ulong> headerTotalSamples, Fin<ulong> countedSamples)
-        {
-            // only report true for cases where the difference is exactly double
-            Fin<bool> result = from h in headerTotalSamples
-                   from c in countedSamples
-                   select h != c && (h / c == 2.0);
-
-            return result.Case switch
-            {
-                Error e => e,
-                true => Affected,
-                false => Unaffected,
-                _ => throw new InvalidOperationException(),
-            };
-        }
-
-        private async Task<CheckResult> IsAffected(FileStream stream)
+        internal async Task<CheckResult> IsAffectedAsync(Stream stream)
         {
             switch (Flac.IsFlacFile(stream).Case)
             {
@@ -139,6 +105,38 @@ namespace Emu.Fixes.FrontierLabs
             };
         }
 
+        private static Fin<(FirmwareRecord Firmware, CheckStatus Status)> IsAffectedFirmwareVersion(FirmwareRecord record)
+        {
+            var version = record.Version;
+
+            var affected = true switch
+            {
+                _ when version < AffectedFirmwares.Min => Unaffected,
+                _ when version >= AffectedFirmwares.Max => Unaffected,
+                _ when record.Tags.IsEmpty => Affected,
+                _ when record.Tags.Contains(EmuPatched) => Repaired,
+                _ => Affected,
+            };
+
+            return (record, affected);
+        }
+
+        private static Fin<CheckStatus> IsAffected(Fin<ulong> headerTotalSamples, Fin<ulong> countedSamples)
+        {
+            // only report true for cases where the difference is exactly double
+            Fin<bool> result = from h in headerTotalSamples
+                               from c in countedSamples
+                               select h != c && (h / c == 2.0);
+
+            return result.Case switch
+            {
+                Error e => e,
+                true => Affected,
+                false => Unaffected,
+                _ => throw new InvalidOperationException(),
+            };
+        }
+
         private async Task<FixResult> FixDuration(FileStream stream, CheckResult check, DryRun dryRun)
         {
             var (firmware, totalSamples, countedSamples) = (MetadaDurationBugData)check.Data;
@@ -146,7 +144,7 @@ namespace Emu.Fixes.FrontierLabs
             var newDuration = totalSamples / 2UL;
             Debug.Assert(newDuration == countedSamples, "Halfing total samples should equal real count of samples");
 
-            this.logger.LogDebug("Changing duration from {old} to {new}", totalSamples, totalSamples);
+            this.logger.LogDebug("Changing duration from {old} to {new}", totalSamples, countedSamples);
 
             var success = dryRun.WouldDo(
                 $"write total samples {countedSamples}",
@@ -160,7 +158,7 @@ namespace Emu.Fixes.FrontierLabs
 
             await dryRun.WouldDo(
                 $"update firmware tag with {EmuPatched}",
-                () => WriteFirmware(stream, firmware, EmuPatched));
+                () => WriteFirmware(stream, firmware with { Tags = firmware.Tags.Add(EmuPatched) }));
 
             return new FixResult(FixStatus.Fixed, check, $"Old total samples was {totalSamples}, new total samples is: {countedSamples}");
         }

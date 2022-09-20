@@ -58,6 +58,7 @@ namespace Emu.Tests.Metadata
 
                 recording.Extension.Should().Be(expectedRecording.Extension);
                 recording.Stem.Should().Be(expectedRecording.Stem);
+                recording.Name.Should().Be(expectedRecording.Stem + expectedRecording.Extension);
                 recording.StartDate.Should().Be(expectedRecording.StartDate);
                 recording.LocalStartDate.Should().Be(expectedRecording.LocalStartDate);
                 recording.Location.Should().BeEquivalentTo(expectedRecording.Location);

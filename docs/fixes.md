@@ -32,9 +32,10 @@ EMU can fix these problems:
 ├───────┼───────────────────────────┼─────────┼──────┼──────────────────────────────────────────────────────────────────────────────────────┤
 │ OE004 │ Empty file                │ ✗       │ ✓    │ https://github.com/ecoacoustics/known-problems/blob/main/open_ecoacoustics/OE004.md  │
 │ FL001 │ Preallocated header       │ ✗       │ ✓    │ https://github.com/ecoacoustics/known-problems/blob/main/frontier_labs/FL001.md      │
+│ FL005 │ Incorrect SubChunk2 size  │ ✓       │ ✗    │ https://github.com/ecoacoustics/known-problems/blob/main/frontier_labs/FL005.md      │
 │ FL008 │ Invalid datestamp (space) │ ✓       │ ✓    │ https://github.com/ecoacoustics/known-problems/blob/main/frontier_labs/FL008.md      │
 │ FL010 │ Metadata Duration Bug     │ ✓       │ ✓    │ https://github.com/ecoacoustics/known-problems/blob/main/frontier_labs/FL010.md      │
-│ FL005 │ Incorrect SubChunk2 size  │ ✓       │ ✗    │ https://github.com/ecoacoustics/known-problems/blob/main/frontier_labs/FL005.md      │
+│ FL011 │ Partial file named data   │ ✓       │ ✗    │ https://github.com/ecoacoustics/known-problems/blob/main/frontier_labs/FL011.md      │
 │ FL012 │ Data chunk size is 0      │ ✓       │ ✗    │ https://github.com/ecoacoustics/known-problems/blob/main/frontier_labs/FL012.md      │
 │ WA002 │ No data in file           │ ✗       │ ✓    │ https://github.com/ecoacoustics/known-problems/blob/main/wildlife_acoustics/WA002.md │
 └───────┴───────────────────────────┴─────────┴──────┴──────────────────────────────────────────────────────────────────────────────────────┘
@@ -260,3 +261,88 @@ File F:\tmp\fixes\20160809_063108_Dawn _1.4647 116.9136_.wav:
         - FL005 is Affected RIFF length and data length are incorrect.
           Action taken: Fixed. RIFF length set to 157610020 (was 157610064). data length set to 157609984 (was 157610028)
 ```
+
+### Fixing partial `data` files (FL011)
+
+When FL sensors have trouble writing files they will abandon writing the file
+and instead just leave a partial file behind named only `data` (with no extension).
+
+This is the [FL011](https://github.com/ecoacoustics/known-problems/blob/main/frontier_labs/FL011.md).
+
+This is a very complex fix; there are lots of different problems that have to be dealt with, but generally these are the following steps that occur:
+
+1. Each `data` file is inspected
+2. If it has no size (is `0` bytes in length) it will be renamed to `data.error_empty` and the process ends
+3. If the file is not a FLAC file an error is raised
+4. If the file has a valid FLAC header, then that information is extracted
+5. The vendor information included by Frontier Labs is extracted
+6. We then scan the file for valid data
+7. The file is split into two parts
+   1. All the valid data
+   2. And everything afterwards
+8. The vendor data is used to rename segments and those segments are saved to separate files
+   1. The valid part will have a name like `<date>_recovered.flac`
+   2. The invalid part will have a name like `<date>_recovered.flac.truncated_part`
+
+We keep the truncated part so that no data is deleted. You can remove the truncated parts after
+a successful operation.
+
+Let's see an example:
+
+```bash
+$ ls -lAR */
+20200426_STUDY/:
+total 212072
+-rwxr--r-- 1 anthony anthony     26852 Sep 14 19:02 20200426T020000+0000_REC.flac
+-rwxr--r-- 1 anthony anthony 217129512 May 14  2021 data
+
+20210416_STUDY/:
+total 0
+-rwxr--r-- 1 anthony anthony 0 May 14  2021 data
+```
+
+This is a subset of files from a deployment. There are two `data` partial files that were produced.
+Note on of the files is empty (has `0` bytes) and the other is not.
+
+Let's fix them:
+
+```bash
+$ emu fix apply -f FL011 
+
+Looking for targets...
+2022-09-28T01:55:05.8702803+10:00 [INFO] <1> Emu.Utilities.FileMatcher  No wild card was provided, using the default **/*.flac **/*.wav **/*.mp3 **/data
+File F:\tmp\fixes\3.17_PartialDataFiles\Robson-Creek-Dry-A_201\20200426_STUDY\20200426T020000+0000_REC.flac:
+        - FL011 is NotApplicable: File is not named `data`.
+          Action taken: NoOperation.
+
+File F:\tmp\fixes\3.17_PartialDataFiles\Robson-Creek-Dry-A_201\20200426_STUDY\20200426T020000Z_recovered.flac:
+        - FL011 is Affected: Partial file detected.
+          Action taken: Fixed. Partial file repaired. New name is 20200426T020000Z_recovered.flac. Samples count was 317292544, new samples count is: 73035776. File truncated at 99824893.
+
+File F:\tmp\fixes\3.17_PartialDataFiles\Robson-Creek-Dry-A_201\20210416_STUDY\data.error_empty:
+        - FL011 is Affected: Partial file detected.
+          Action taken: Renamed. Partial file was empty
+```
+
+And the resulting files afterwards:
+
+```bash
+ls -lAR */
+20200426_STUDY/:
+total 212072
+-rwxr--r-- 1 anthony anthony     26852 Sep 14 19:02 20200426T020000+0000_REC.flac
+-rwxr--r-- 1 anthony anthony  99824893 Sep 28 01:55 20200426T020000Z_recovered.flac
+-rwxr--r-- 1 anthony anthony 117304619 Sep 28 01:55 20200426T020000Z_recovered.flac.truncated_part
+
+20210416_STUDY/:
+total 0
+-rwxr--r-- 1 anthony anthony 0 May 14  2021 data.error_empty
+```
+
+Note:
+
+1. The truncated file part that was removed from the first `data` file
+2. The proper datestamp in the first repaired file
+3. The empty file was renamed to `data.error_empty`
+
+This fix is new and complicated. The use of the `--backup` option is strongly recommended!

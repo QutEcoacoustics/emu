@@ -39,7 +39,10 @@ namespace Emu.Commands.Metadata
             this.fileMatcher = fileMatcher;
             this.Writer = writer;
             this.extractorRegister = register;
-            this.allExtractors = register.All;
+
+            // the extension inferer is useful in the rename and repair scenarios
+            // but not as useful in the metadata command where we want accurate output of data
+            this.allExtractors = register.All.Where(r => r.GetType() != typeof(ExtensionInferer));
         }
 
         public string[] Targets { get; set; }
@@ -133,11 +136,7 @@ namespace Emu.Commands.Metadata
 
         private TargetInformation CreateContainer((string Base, string File) target)
         {
-            return new TargetInformation(this.fileSystem)
-            {
-                Base = target.Base,
-                Path = target.File,
-            };
+            return new TargetInformation(this.fileSystem, target.Base, target.File);
         }
     }
 }

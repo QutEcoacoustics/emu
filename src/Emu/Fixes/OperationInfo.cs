@@ -4,6 +4,7 @@
 
 namespace Emu.Fixes
 {
+    using System.IO.Abstractions;
     using LanguageExt;
     using Newtonsoft.Json;
     using static LanguageExt.Prelude;
@@ -16,5 +17,11 @@ namespace Emu.Fixes
         [property: JsonIgnore] Type FixClass,
         Option<string> Suffix = default)
     {
+        public string GetErrorName(IFileSystem fileSystem, string path)
+        {
+            var suffix = this.Suffix.IfNone(this.Problem.Id);
+            var basename = fileSystem.Path.GetFileName(path);
+            return $"{basename}.error_{suffix}";
+        }
     }
 }

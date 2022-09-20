@@ -54,11 +54,7 @@ namespace Emu.Commands.Cues
             // Extract recording information from each target
             foreach (var (@base, file) in paths)
             {
-                using var target = new TargetInformation(this.fileSystem)
-                {
-                    Base = @base,
-                    Path = @file,
-                };
+                using var target = new TargetInformation(this.fileSystem, @base, file);
 
                 if (target.IsPcmWaveFile() && !target.IsPreallocatedHeader())
                 {

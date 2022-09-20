@@ -6,6 +6,7 @@ namespace Emu.Tests.TestHelpers
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
+    using System.IO;
     using System.Linq;
     using IO = System.IO;
 
@@ -52,19 +53,50 @@ namespace Emu.Tests.TestHelpers
             throw new ArgumentException("path must exist", nameof(path));
         }
 
+        public static TempFile DuplicateExistingDirectory(string path)
+        {
+            var temp = DuplicateExisting(path);
+
+            var fixtureDirectory = IO.Path.GetDirectoryName(path);
+            var files = IO.Directory.EnumerateFiles(fixtureDirectory);
+
+            foreach (var file in files)
+            {
+                if (file == path)
+                {
+                    // don't copy the source file which was already copied
+                    // in DuplicateExisting
+                    continue;
+                }
+
+                var dest = IO.Path.Combine(temp.directory, IO.Path.GetFileName(file));
+                IO.File.Copy(file, dest);
+            }
+
+            return temp;
+        }
+
         public void Dispose()
         {
             try
             {
                 IO.File.Delete(this.Path);
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine("TEMP FILE DISPOSE: " + ex.ToString());
+            }
+
+            try
+            {
                 if (!IO.Directory.EnumerateFiles(this.Path).Any())
                 {
                     IO.Directory.Delete(this.directory);
                 }
             }
-            catch (IO.DirectoryNotFoundException dnf)
+            catch (Exception ex)
             {
-                Console.Error.WriteLine(dnf.ToString());
+                Console.Error.WriteLine("TEMP FILE DISPOSE: " + ex.ToString());
             }
         }
     }

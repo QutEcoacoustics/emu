@@ -71,7 +71,7 @@ namespace Emu
             ICheckOperation[] fixes = null;
             if (this.Fix is null or { Length: 0 })
             {
-                throw new Exception("A fix argument must be provided");
+                throw new ArgumentException("A fix argument must be provided");
             }
 
             fixes = this.Fix.Select(x => this.register.ResolveCheck(x)).ToArray();
@@ -311,10 +311,7 @@ namespace Emu
         {
             if (!this.NoRename)
             {
-                var info = operation.GetOperationInfo();
-                var suffix = info.Suffix.IfNone(info.Problem.Id);
-                var basename = this.fileSystem.Path.GetFileName(file);
-                var newName = $"{basename}.error_{suffix}";
+                var newName = operation.GetOperationInfo().GetErrorName(this.fileSystem, file);
                 var dest = this.fileUtils.Rename(file, newName, dryRun);
                 this.logger.LogDebug("File renamed up to {destination}", dest);
                 return dest;

@@ -47,7 +47,7 @@ namespace Emu.Tests.Fixes.FrontierLabs
             : base(output, true)
         {
             this.fileUtilities = this.ServiceProvider.GetRequiredService<FileUtilities>();
-            this.fixer = new MetadataDurationBug(Helpers.NullLogger<MetadataDurationBug>());
+            this.fixer = new MetadataDurationBug(Helpers.NullLogger<MetadataDurationBug>(), this.CurrentFileSystem);
 
             this.data = data;
             this.fileSystem = new FileSystem();

@@ -14,8 +14,10 @@ namespace Emu.Tests.Utilities
     using Emu.Tests.TestHelpers;
     using Emu.Utilities;
     using FluentAssertions;
+    using Shouldly;
     using Xunit;
     using Xunit.Abstractions;
+    using static Emu.Utilities.DryRun;
 
     public class FileUtilitiesTests : TestBase
     {
@@ -80,6 +82,84 @@ namespace Emu.Tests.Utilities
         {
             var actual = await this.fileUtilities.CheckForContinuousValue(this.testStream, 1000, 200, new Vector<byte>(0));
             actual.Should().BeFalse();
+        }
+
+        [Fact]
+        public void CanTruncate()
+        {
+            var dryRun = this.ServiceProvider.GetRequiredService<DryRunFactory>();
+
+            var newLength = this.fileUtilities.Truncate(this.testStream, 1024, dryRun(false));
+
+            newLength.Should().Be(1024);
+        }
+
+        [Fact]
+        public void TruncateDoesNothingOnADryRun()
+        {
+            var dryRun = this.ServiceProvider.GetRequiredService<DryRunFactory>();
+
+            var newLength = this.fileUtilities.Truncate(this.testStream, 3072, dryRun(true));
+
+            newLength.Should().Be(1024 * 3);
+        }
+
+        [Fact]
+        public void TruncateCannotExtendAFile()
+        {
+            var dryRun = this.ServiceProvider.GetRequiredService<DryRunFactory>();
+
+            var ex = Assert.Throws<ArgumentOutOfRangeException>(() =>
+                this.fileUtilities.Truncate(this.testStream, 6000, dryRun(true)));
+
+            ex.Message.Should().Contain("Cannot truncate a file when new length (6000) is longer than current length (3072)");
+        }
+
+        [Fact]
+        public async Task CanTruncateSplitAsync()
+        {
+            var dryRun = this.ServiceProvider.GetRequiredService<DryRunFactory>();
+            using var dest = new MemoryStream();
+
+            await this.fileUtilities.TruncateSplitAsync(this.testStream,  dest, 1024, dryRun(false));
+
+            var buffer = new byte[1024];
+
+            this.testStream.Position = 0;
+            this.testStream.Length.Should().Be(1024);
+            await this.testStream.ReadAsync(buffer);
+            buffer.Should().AllBeEquivalentTo(1);
+
+            dest.Position = 0;
+            dest.Length.Should().Be(2048);
+            await dest.ReadAsync(buffer);
+            buffer.Should().AllBeEquivalentTo(0);
+            await dest.ReadAsync(buffer);
+            buffer.Should().AllBeEquivalentTo(2);
+        }
+
+        [Fact]
+        public async Task TruncateSplitAsyncDoesNothingOnADryRun()
+        {
+            var dryRun = this.ServiceProvider.GetRequiredService<DryRunFactory>();
+            using var dest = new MemoryStream();
+
+            await this.fileUtilities.TruncateSplitAsync(this.testStream, dest, 1024, dryRun(true));
+
+            this.testStream.Length.Should().Be(3072);
+            dest.Length.Should().Be(0);
+        }
+
+        [Fact]
+        public async Task TruncateSplitAsyncCannotExtendAFile()
+        {
+            var dryRun = this.ServiceProvider.GetRequiredService<DryRunFactory>();
+            using var dest = new MemoryStream();
+
+            var ex = await Assert.ThrowsAsync<ArgumentOutOfRangeException>(() =>
+                this.fileUtilities.TruncateSplitAsync(this.testStream, dest, 6000, dryRun(true)));
+
+            ex.Message.Should().Contain("Cannot truncate a file when new length (6000) is longer than current length (3072)");
         }
     }
 }

@@ -6,8 +6,10 @@ namespace Emu.Tests.TestHelpers
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.IO.Abstractions;
     using System.IO.Abstractions.TestingHelpers;
+    using System.Linq;
     using System.Reflection;
     using CsvHelper.Configuration.Attributes;
     using Emu.Audio;
@@ -54,6 +56,12 @@ namespace Emu.Tests.TestHelpers
         public const string NoDataHeader = "SM3 No Data";
         public const string NoDataHeader2 = "SM3 No Data 2";
 
+        public const string PartialRobsonDryAConflict = "Robson Dry A partial with conflict";
+        public const string PartialRobsonDryAEmpty = "Robson Dry A empty partial";
+        public const string PartialRobsonDryBConflict = "Robson Dry B partial with conflict";
+        public const string PartialTestPartial0400 = "Test 3.30 partial 04:00";
+        public const string PartialTestPartial0600 = "Test 3.30 partial 06:00";
+
         private string fixturePath;
 
         public Recording Record { get; set; }
@@ -67,6 +75,8 @@ namespace Emu.Tests.TestHelpers
         public string MimeType { get; set; }
 
         public Dictionary<string, Recording> Process { get; set; }
+
+        public string[] Problems { get; set; }
 
         public bool IsFlac => this.MimeType == Flac.Mime;
 
@@ -88,6 +98,9 @@ namespace Emu.Tests.TestHelpers
         [Ignore]
         public string AbsoluteFixturePath { get; set; }
 
+        [Ignore]
+        public string AbsoluteFixtureDirectory => Path.GetDirectoryName(this.AbsoluteFixturePath);
+
         public string Notes { get; set; }
 
         public bool IsVendor(Vendor vendor) => Enum
@@ -98,11 +111,10 @@ namespace Emu.Tests.TestHelpers
 
         public TargetInformation ToTargetInformation(IFileSystem fileSystem)
         {
-            TargetInformation ti = new TargetInformation(fileSystem) with
-            {
-                Path = this.AbsoluteFixturePath,
-                Base = FixtureHelper.ResolveFirstDirectory(this.FixturePath),
-            };
+            TargetInformation ti = new TargetInformation(
+                fileSystem,
+                FixtureHelper.ResolveFirstDirectory(this.FixturePath),
+                this.AbsoluteFixturePath);
 
             SupportFile.FindSupportFiles(fileSystem.Path.GetDirectoryName(ti.Path), new List<TargetInformation> { ti }, fileSystem);
 
@@ -111,7 +123,7 @@ namespace Emu.Tests.TestHelpers
 
         public IFileInfo ToFileInfo(IFileSystem fileSystem)
         {
-             return fileSystem.FileInfo.FromFileName(this.AbsoluteFixturePath);
+            return fileSystem.FileInfo.FromFileName(this.AbsoluteFixturePath);
         }
 
         public MockFileData ToMockFileData()
@@ -132,6 +144,11 @@ namespace Emu.Tests.TestHelpers
             }
 
             return result;
+        }
+
+        public bool IsAffectedByProblem(WellKnownProblem problem)
+        {
+            return this.Problems.Contains(problem.Id);
         }
 
         public override string ToString()

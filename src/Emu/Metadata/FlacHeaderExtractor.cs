@@ -28,6 +28,7 @@ namespace Emu.Metadata.FrontierLabs
 
         public ValueTask<Recording> ProcessFileAsync(TargetInformation information, Recording recording)
         {
+            var isFlac = information.IsFlacFile();
             var samples = Flac.ReadTotalSamples(information.FileStream);
             var sampleRate = Flac.ReadSampleRate(information.FileStream);
             var channels = Flac.ReadNumberChannels(information.FileStream);
@@ -45,13 +46,9 @@ namespace Emu.Metadata.FrontierLabs
                 Channels = recording.Channels ?? (channels.IsFail ? null : (byte)channels),
                 BitDepth = recording.BitDepth ?? (bitDepth.IsFail ? null : (byte)bitDepth),
                 BitsPerSecond = recording.BitsPerSecond ?? bitRate,
-                EmbeddedChecksum = recording.EmbeddedChecksum ?? md5.Match(
-                        Succ: x => new Checksum() { Type = "MD5", Value = x.ToHexString() },
-                        Fail: null),
-                MediaType = Flac.Mime,
-
-                // in cases where no filename extension was available, we can backfill a recommended extension
-                Extension = recording.Extension ?? Flac.Extension,
+                EmbeddedChecksum = recording.EmbeddedChecksum ??
+                    (md5.IsFail ? null : new Checksum() { Type = "MD5", Value = md5.ThrowIfFail().ToHexString() }),
+                MediaType = isFlac ? Flac.Mime : null,
             };
 
             return ValueTask.FromResult(recording);
