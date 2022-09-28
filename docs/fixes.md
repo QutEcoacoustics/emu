@@ -267,7 +267,7 @@ File F:\tmp\fixes\20160809_063108_Dawn _1.4647 116.9136_.wav:
 When FL sensors have trouble writing files they will abandon writing the file
 and instead just leave a partial file behind named only `data` (with no extension).
 
-This is the [FL011](https://github.com/ecoacoustics/known-problems/blob/main/frontier_labs/FL011.md).
+This is [FL011](https://github.com/ecoacoustics/known-problems/blob/main/frontier_labs/FL011.md).
 
 This is a very complex fix; there are lots of different problems that have to be dealt with, but generally these are the following steps that occur:
 
@@ -302,7 +302,7 @@ total 0
 ```
 
 This is a subset of files from a deployment. There are two `data` partial files that were produced.
-Note on of the files is empty (has `0` bytes) and the other is not.
+Note one of the files is empty (has `0` bytes) and the other is not.
 
 Let's fix them:
 
