@@ -387,6 +387,23 @@ namespace Emu.Tests.Audio.Formats.FLAC
         }
 
         [Fact]
+        public async Task RescansIfMixedFramesFoundInCountSamples()
+        {
+            // when counting samples the quick method fails because
+            // it finds a desync frame. This test failed before
+            // our fix of doing a full scan after a quick tail scan finishes.
+            var fixture = this.data[FixtureModel.MetadataDurationBug4];
+            using var stream = this.RealFileSystem.File.OpenRead(fixture.AbsoluteFixturePath);
+
+            Flac.IsFlacFile(stream).ThrowIfFail().Should().BeTrue();
+
+            var samples = await Flac.CountSamplesAsync(stream);
+
+            // affected by FL010 so divide samples by 2
+            samples.ThrowIfFail().Should().Be(fixture.Record.TotalSamples / 2);
+        }
+
+        [Fact]
         public void CanReadBlockSizes()
         {
             var path = FixtureHelper.ResolvePath("Generic/Audacity/hello.flac");

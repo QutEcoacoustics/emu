@@ -35,6 +35,7 @@ namespace Emu.Tests.TestHelpers
         public const string MetadataDurationBug = "Metadata Duration Bug";
         public const string MetadataDurationBug2 = "Metadata Duration Bug 2";
         public const string MetadataDurationBug3 = "Metadata Duration Bug 3";
+        public const string MetadataDurationBug4 = "Metadata Duration Bug 4";
         public const string ZeroDbSamples = "Zero dB Samples";
         public const string NormalFile = "Normal File";
         public const string Normal308File = "Normal File 3.08";
@@ -99,7 +100,9 @@ namespace Emu.Tests.TestHelpers
         public string AbsoluteFixturePath { get; set; }
 
         [Ignore]
+#pragma warning disable IO0006 // Replace Path class with IFileSystem.Path for improved testability
         public string AbsoluteFixtureDirectory => Path.GetDirectoryName(this.AbsoluteFixturePath);
+#pragma warning restore IO0006 // Replace Path class with IFileSystem.Path for improved testability
 
         public string Notes { get; set; }
 

@@ -527,18 +527,7 @@
       LocalStartDate: 2019-11-25T23:59:00
       Location: ~
     FlacHeaderExtractor: ~
-    FrontierLabsLogFileExtractor:
-      <<: *GlitchySignal
-      Sensor:
-        <<: *GlitchySignalSensor
-        Microphones:
-          - Type: STD AUDIO MIC
-            UID: 000610
-            BuildDate: 2019-02-22
-            Gain:
-            Channel:
-            ChannelName:
-            Sensitivity:
+    FrontierLabsLogFileExtractor: ~
     FlacCommentExtractor: ~
 
 - Name: Short File
@@ -623,18 +612,7 @@
       LocalStartDate: 2019-11-04T02:00:00
       Location: ~
     FlacHeaderExtractor: ~
-    FrontierLabsLogFileExtractor:
-      <<: *ShortFile
-      Sensor:
-        <<: *ShortFileSensor
-        Microphones:
-          - Type: STD AUDIO MIC
-            UID: 000610
-            BuildDate: 2019-02-22
-            Gain:
-            Channel:
-            ChannelName:
-            Sensitivity:
+    FrontierLabsLogFileExtractor: ~
     FlacCommentExtractor: ~
 
 - Name: Two Log Files 1
@@ -1240,18 +1218,7 @@
     FlacCommentExtractor:
       <<: *SpaceInDatestamp
       StartDate: ~
-    FrontierLabsLogFileExtractor:
-      <<: *SpaceInDatestamp
-      Sensor:
-        <<: *SpaceInDatestamp.Sensor
-        Microphones:
-          - Type: STD AUDIO MIC
-            UID: 000629
-            BuildDate: 2019-02-22
-            Gain:
-            Channel:
-            ChannelName:
-            Sensitivity:
+    FrontierLabsLogFileExtractor: ~
 
 - Name: Incorrect data size
   Record:
@@ -1787,7 +1754,7 @@
       SampleDateTime:
       CoordinateReferenceSystem:
   BlockAlign:
-  FixturePath: FL_BAR_LT/3.20_Duration/20220619T020000+1000_REC.flac
+  FixturePath: FL_BAR_LT/3.20_Duration/Wambina Wet A/20220619T020000+1000_REC.flac
   Notes: Affected by FL010. Also includes examples of our standard FLAC frame detection failing.
   ValidMetadata: Partial
   MimeType: audio/flac
@@ -1797,6 +1764,87 @@
   Process:
     FlacHeaderExtractor: ~
     FlacCommentExtractor: ~
+
+- Name: Metadata Duration Bug 4
+  Record: &MetadataDurationBug4
+    Extension: .flac
+    Stem: 20201230T180000+1000_REC
+    StartDate: 2020-12-30T18:00:00+10:00
+    LocalStartDate: 2020-12-30T18:00:00
+    TrueStartDate: 2020-12-30T18:00:00+10:00
+    TrueEndDate: 2020-12-30T19:59:55+10:00
+    DurationSeconds: 317292544/22050
+    TotalSamples: 317292544
+    Channels: 1
+    SampleRateHertz: 22050
+    BitsPerSecond: 352800
+    BitDepth: 16
+    FileSizeBytes: 272961164
+    MediaType: audio/flac
+    CalculatedChecksum:
+      Type: SHA256
+      Value: f9847b1454a2e9e229a34e598854db02cfc4368f12d4d2d2c6f8b8fc6a36bde6
+    EmbeddedChecksum:
+      Type: MD5
+      Value: 00000000000000000000000000000000
+    MemoryCard:
+      FormatType: exFAT
+      ManufacturerID: 158
+      OEMID: BE
+      ProductName: 512GB
+      ProductRevision: 0.2
+      SerialNumber: 229
+      ManufactureDate: 2018-10
+      Speed: 50000000
+      Capacity: 500825088000
+      WrCurrentVmin: 7
+      WrCurrentVmax: 7
+      WriteBlSize: 512
+      EraseBlSize: 65536
+    Sensor:
+      Name:
+      Firmware: 3.20
+      SerialNumber: 00001953
+      PowerSource: Ext-power, Solar-power
+      Microphones:
+        - Type: STD AUDIO MIC
+          UID: 001958
+          BuildDate: 2019-07-05
+          Gain: 50
+          Channel: 1
+          ChannelName: A
+          Sensitivity:
+      Gain:
+      Configuration:
+      Voltage: 12.81
+      BatteryLevel: 1.0
+      Temperature:
+      LastTimeSync: 2020-12-30T01:59:57+10:00
+    Location:
+      Longitude: 146.1011
+      LongitudePrecision: 4
+      Latitude: -20.5306
+      LatitudePrecision: 4
+      Altitude:
+      AltitudePrecision:
+      HorizontalAccuracy:
+      VerticalAccuracy:
+      Speed:
+      Course:
+      SampleDateTime:
+      CoordinateReferenceSystem:
+  BlockAlign:
+  FixturePath: FL_BAR_LT/3.20_Duration/Wambina Wet B/20201230_AAO/20201230T180000+1000_REC.flac
+  Notes: Affected by FL010. Also includes examples of our standard FLAC fast sample count failing due to a frame desync.
+  ValidMetadata: Partial
+  MimeType: audio/flac
+  Vendor: Frontier Labs
+  Problems:
+    - FL010
+  Process:
+    FlacHeaderExtractor: ~
+    FlacCommentExtractor: ~
+    FrontierLabsLogFileExtractor: ~
 
 - Name: Normal File 3.08
   Record: &NormalFile308

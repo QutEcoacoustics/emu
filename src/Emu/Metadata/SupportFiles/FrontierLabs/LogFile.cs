@@ -24,6 +24,7 @@ namespace Emu.Metadata.SupportFiles.FrontierLabs
         public const string BatteryString = "Battery:";
         public const string MicrophoneString = "Microphone";
         public const string EndSection = "--------";
+        public static readonly LocalDatePattern MicrophoneBuildDateParser = LocalDatePattern.CreateWithInvariantCulture("dd'/'MM'/'yyyy");
         public static readonly LocalDateTimePattern[] DatePatterns =
         {
             LocalDateTimePattern.CreateWithInvariantCulture("yyyy'-'MM'-'dd' 'HH':'mm':'ss"),
@@ -45,6 +46,10 @@ namespace Emu.Metadata.SupportFiles.FrontierLabs
         public static readonly Regex FirmwareRegex = new(@"V?\d+");
         public static readonly Regex BatteryParsingRegex = new(@"[%V()]");
         private static readonly Regex GainRegex = new("(\\d+)dB on channel ([A-Z])");
+        private static readonly Regex GainRegexOlder = new("with a gain of (\\d+)dB with");
+
+        // matches: Microphone: 001958 "STD AUDIO MIC" ( 05/07/2019 )
+        private static readonly Regex MicrophoneLineRegex = new(@": (\d+) ""(.*)"" \( ([\d/]+) \)");
 
         public LogFile(string filePath)
         {
@@ -306,28 +311,59 @@ namespace Emu.Metadata.SupportFiles.FrontierLabs
             string[] micValues = microphoneData.Split("\"").Select(x => x.Trim()).ToArray();
 
             // Parse each value
-            string uid = micValues[0].Split(" ").Last();
-            string type = micValues[1];
-            string stringBuildDate = micValues[2].Replace("(", string.Empty).Replace(")", string.Empty).Split(" ", StringSplitOptions.RemoveEmptyEntries).First();
-            LocalDate buildDate = LocalDatePattern.CreateWithInvariantCulture("dd'/'MM'/'yyyy")
-                .Parse(stringBuildDate).Value;
+            string uid;
+            string type;
+            string stringBuildDate;
+
+            var microphoneLineMatch = MicrophoneLineRegex.Match(microphoneData);
+            if (microphoneLineMatch.Success)
+            {
+                uid = microphoneLineMatch.Groups[1].Value;
+                type = microphoneLineMatch.Groups[2].Value;
+                stringBuildDate = microphoneLineMatch.Groups[3].Value;
+            }
+            else
+            {
+                uid = micValues[0].Split(" ").Last();
+                type = micValues[1];
+                stringBuildDate = micValues[2]
+                    .Replace("(", string.Empty).Replace(")", string.Empty)
+                    .Split(" ", StringSplitOptions.RemoveEmptyEntries).First();
+            }
+
+            var buildDate = MicrophoneBuildDateParser.Parse(stringBuildDate).Value;
 
             double? gain = null;
             if (arrowLine is not null)
             {
                 // gain is contained in the arrow line for some versions
                 var matches = GainRegex.Matches(arrowLine);
-                foreach (Match match in matches)
+                if (matches.Any())
                 {
-                    if (match.Success)
+                    foreach (Match match in matches)
                     {
-                        var gainText = match.Groups[1].Value;
-                        var channelText = match.Groups[2].Value;
-
-                        if (channelName.ToString() == channelText)
+                        if (match.Success)
                         {
-                            gain = double.Parse(gainText);
+                            var gainText = match.Groups[1].Value;
+                            var channelText = match.Groups[2].Value;
+
+                            if (channelName.ToString() == channelText)
+                            {
+                                gain = double.Parse(gainText);
+                            }
                         }
+                    }
+                }
+                else
+                {
+                    var oldGainMatch = GainRegexOlder.Match(arrowLine);
+                    if (oldGainMatch.Success)
+                    {
+                        gain = double.Parse(oldGainMatch.Groups[1].Value);
+
+                        // this case only happens with one mic
+                        channelName = 'A';
+                        channel = 1;
                     }
                 }
             }

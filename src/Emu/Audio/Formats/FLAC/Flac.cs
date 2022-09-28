@@ -39,6 +39,7 @@ namespace Emu.Audio
         public static readonly Func<MetadataBlockType, Error> ChunkNotFound = x => Error.New($"Chunk with ID `{x}` was not found");
         public static readonly Error BadMetadataSeek = Error.New("Could not seek to the next metadata block");
         public static readonly Error BadFrameSeek = Error.New("Could not seek to the required position while scanning for frames");
+        public static readonly Error MixedFrameTypes = Error.New("Found a mix of variable and fixed frame types. This is not supported.");
         public static readonly Error ErrorCountSamplesBlockSize = Error.New("CountSamples only works on files that have a fixed block size");
         public static readonly Error CountSamplesNotEnoughFrames = Error.New("Could not find enough frames to count samples for");
         public static readonly Error CountSamplesNotFixed = Error.New("Found a mix of fixed and variable size frames; this is not allowed");
@@ -81,7 +82,20 @@ namespace Emu.Audio
         {
             var frames = await FindFramesAsync(stream);
 
-            return frames.Bind(CalculateSampleCountFromFrameList);
+            var count = frames.Bind(CalculateSampleCountFromFrameList);
+
+            // jumping into the end of the stream can produce errors
+            // if we have variable and fixed size blocks mixed together,
+            // that's a good indication that we have a bad sync.
+            // So try again using a slower full scan...
+            if (count.IsFail && ((Error)count == MixedFrameTypes))
+            {
+                frames = await FindFramesAsync(stream, fullScan: true);
+
+                count = frames.Bind(CalculateSampleCountFromFrameList);
+            }
+
+            return count;
         }
 
         /// <summary>
@@ -208,6 +222,11 @@ namespace Emu.Audio
             var penultimate = frames[^2];
             var ultimate = frames[^1];
 
+            if (penultimate.Header.BlockingStrategy != ultimate.Header.BlockingStrategy)
+            {
+                return MixedFrameTypes;
+            }
+
             var result = ((ulong)(GetFrameNumber(penultimate) + 1) * penultimate.Header.BlockSize) + ultimate.Header.BlockSize;
 
             return result;
@@ -216,7 +235,7 @@ namespace Emu.Audio
             {
                 return f.Header.FrameNumber
                     ?? throw new NotSupportedException(
-                        "This check is not support for FLAC files with variable size blocks. File a bug report on the emu repository.");
+                        "This check is not supported for FLAC files with variable size blocks. File a bug report on the emu repository.");
             }
         }
 

@@ -36,6 +36,10 @@ namespace Emu.Tests.Fixes.FrontierLabs
         private const ulong BeforeFixSamples3 = 317292544ul;
         private const ulong AfterFixSamples3 = 158646272ul;
 
+        private const decimal FirmwareVersion4 = 3.2m;
+        private const ulong BeforeFixSamples4 = 317292544ul;
+        private const ulong AfterFixSamples4 = 158646272ul;
+
         private const string PatchedTag = "EMU+FL010";
 
         private readonly FileUtilities fileUtilities;
@@ -105,6 +109,24 @@ namespace Emu.Tests.Fixes.FrontierLabs
             Assert.Equal(new Range(207, 267), record.Firmware.FoundAt);
 
             await this.AssertMetadata(BeforeFixSamples3, FirmwareVersion3, target.Path);
+        }
+
+        [Fact]
+        public async Task CanDetectFaultyDurations4()
+        {
+            var fixture = this.data[FixtureModel.MetadataDurationBug4];
+            using var target = TempFile.DuplicateExisting(fixture.AbsoluteFixturePath);
+
+            var actual = await this.fixer.CheckAffectedAsync(target.Path);
+
+            Assert.Equal(CheckStatus.Affected, actual.Status);
+            Assert.Contains("File's duration is wrong", actual.Message);
+
+            var record = Assert.IsType<MetadaDurationBugData>(actual.Data);
+
+            Assert.Equal(new Range(207, 267), record.Firmware.FoundAt);
+
+            await this.AssertMetadata(BeforeFixSamples4, FirmwareVersion3, target.Path);
         }
 
         [Fact]
@@ -206,6 +228,24 @@ namespace Emu.Tests.Fixes.FrontierLabs
             Assert.Contains($"Old total samples was", actual.Message);
 
             await this.AssertMetadata(AfterFixSamples3, FirmwareVersion3, target.Path, PatchedTag);
+        }
+
+        [Fact]
+        public async Task CanRepairFaultyDuration4()
+        {
+            var fixture = this.data[FixtureModel.MetadataDurationBug4];
+            using var target = TempFile.DuplicateExisting(fixture.AbsoluteFixturePath);
+
+            var dryRun = this.DryRunFactory(false);
+
+            await this.AssertMetadata(BeforeFixSamples4, FirmwareVersion4, target.Path);
+
+            var actual = await this.fixer.ProcessFileAsync(target.Path, dryRun);
+
+            Assert.Equal(FixStatus.Fixed, actual.Status);
+            Assert.Contains($"Old total samples was", actual.Message);
+
+            await this.AssertMetadata(AfterFixSamples4, FirmwareVersion4, target.Path, PatchedTag);
         }
 
         [Fact]
