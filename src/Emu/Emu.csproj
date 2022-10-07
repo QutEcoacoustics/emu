@@ -21,7 +21,7 @@
     <GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="CsvHelper" Version="28.0.1" />
+    <PackageReference Include="CsvHelper" Version="29.0.0" />
     <PackageReference Include="GitInfo" Version="2.2.0" />
     <PackageReference Include="InvertedTomato.Crc" Version="1.2.0" />
     <PackageReference Include="LanguageExt.Core" Version="4.2.9" />
