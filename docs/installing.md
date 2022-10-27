@@ -23,11 +23,13 @@ C:\Users\Anthony\Downloads\win-x64\emu.exe
 ### Windows
 
 - You should unblock the zip file after you download it, but _before_ you extract it
+- A good install spot is `C:\emu\`
 
 ### Linux
 
 - After extraction check the `emu` file has the execute permission.
   If needed apply the execute permission with `chmod u+x emu` inside the emu folder.
+- A good install spot is `/emu`
 
 ### MacOS
 
