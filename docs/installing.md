@@ -9,13 +9,13 @@ run the program from that spot.
 
 For example:
 
- - a Windows user (`Anthony` for example) would download the `win-x64.zip` file.
+ - a Windows user (`Anthony` for example) would download the `emu_6.0.0_win-x64.zip` file.
  - They would unblock the zip file
  - They could extract EMU in the downloads folder
  - In that case emu could be run with:
 
 ```powershell
-C:\Users\Anthony\Downloads\win-x64\emu.exe
+C:\Users\Anthony\Downloads\emu_6.0.0_win-x64\emu.exe
 ```
 
 ## Platform specific tips
