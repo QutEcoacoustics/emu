@@ -28,7 +28,7 @@ C:\Users\Anthony\Downloads\emu_6.0.0_win-x64\emu.exe
 ### Linux
 
 - After extraction check the `emu` file has the execute permission.
-  If needed apply the execute permission with `chmod u+x emu` inside the emu folder.
+- If needed apply the execute permission with `chmod u+x emu` inside the emu folder.
 - A good install spot is `/emu`
 
 ### MacOS
@@ -39,6 +39,7 @@ C:\Users\Anthony\Downloads\emu_6.0.0_win-x64\emu.exe
   2. Clone this repository and build EMU yourself
     - Programs you make on your own computer are exempt from the security policy
     - See [CONTRIBUTING](../CONTRIBUTING.md) for instructions
+- If needed apply the execute permission with `chmod u+x emu` inside the emu folder.
 
 ## Latest versions
 
