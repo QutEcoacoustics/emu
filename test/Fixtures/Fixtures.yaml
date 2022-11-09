@@ -2397,3 +2397,64 @@
       Sensor: ~
       Location: ~
       MemoryCard: ~
+
+- Name: Normal File 3.00
+  Record: &NormalFile300
+    Extension: .wav
+    Stem: 20221002_080000_Rec
+    StartDate: 2022-10-02T08:00:00+10:00
+    LocalStartDate: 2022-10-02T08:00:00
+    TrueStartDate:
+    TrueEndDate:
+    DurationSeconds: 79267818/22050
+    TotalSamples: 79267818
+    Channels: 1
+    SampleRateHertz: 22050
+    BitsPerSecond: 352800
+    BitDepth: 16
+    FileSizeBytes: 158535680
+    MediaType: audio/wave
+    CalculatedChecksum:
+      Type: SHA256
+      Value: e14cd4c4486eb0d3893b83b9775ecd247d78ff19079d82fe5e0155490036f4a6
+    EmbeddedChecksum: ~
+    MemoryCard:
+      FormatType: exFAT
+      ManufacturerID: 3
+      OEMID: SD
+      ProductName: ACLCF
+      ProductRevision: 8.0
+      SerialNumber: 15435216
+      ManufactureDate: 2017-03
+      Speed: 50000000
+      Capacity: 124868608000
+      WrCurrentVmin: 5
+      WrCurrentVmax: 5
+      WriteBlSize: 512
+      EraseBlSize: 65536
+    Sensor:
+      Name:
+      Firmware: 3.00
+      SerialNumber: 51203220-4B483552-30303131-31323038
+      PowerSource:
+      Microphones: ~
+      Gain:
+      Configuration:
+      Voltage:
+      BatteryLevel:
+      Temperature:
+      LastTimeSync: 2022-10-02T07:53:55+10:00
+    Location: ~
+  BlockAlign:
+  FixturePath: FL_BAR_LT/3.00_Normal/20221002_STUDY/20221002_080000_Rec.wav
+  Notes:
+  ValidMetadata: Yes
+  MimeType: audio/wave
+  Vendor: Frontier Labs
+  Problems: []
+  Process:
+    FilenameExtractor:
+      <<: *NormalFile300
+      StartDate: ~
+      LocalStartDate: 2022-10-02T08:00:00
+    FrontierLabsLogFileExtractor:

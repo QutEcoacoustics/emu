@@ -4,16 +4,27 @@
 
 namespace Emu.Tests.Metadata.SupportFiles
 {
+    using System;
+    using System.Linq;
+    using System.Security.Cryptography;
     using Emu.Metadata;
+    using Emu.Metadata.FrontierLabs;
+    using Emu.Metadata.SupportFiles;
     using Emu.Metadata.SupportFiles.FrontierLabs;
+    using Emu.Models;
     using Emu.Tests.TestHelpers;
+    using FluentAssertions;
+    using LanguageExt.TypeClasses;
+    using Microsoft.VisualBasic;
+    using NodaTime;
+    using NodaTime.Text;
     using Xunit;
     using Xunit.Abstractions;
 
     public class LogFileTests : TestBase
     {
         public LogFileTests(ITestOutputHelper output)
-            : base(output)
+            : base(output, realFileSystem: true)
         {
         }
 
@@ -23,10 +34,43 @@ namespace Emu.Tests.Metadata.SupportFiles
         {
             if (model.Process.ContainsKey(FixtureModel.FrontierLabsLogFileExtractor))
             {
-                TargetInformation ti = model.ToTargetInformation(this.RealFileSystem);
+                var target = model.ToTargetInformation(this.CurrentFileSystem);
 
-                Assert.True(ti.TargetSupportFiles.ContainsKey(LogFile.LogFileKey));
+                Assert.True(target.TargetSupportFiles.ContainsKey(LogFile.LogFileKey));
             }
+        }
+
+        [Fact]
+        public void CanDealWith300Oddities()
+        {
+            var model = FixtureHelper.FixtureData.Get(FixtureModel.Normal300File);
+
+            // support files are added automatically with out helper
+            var target = model.ToTargetInformation(this.CurrentFileSystem);
+
+            LogFile logFile = (LogFile)target.TargetSupportFiles[LogFile.LogFileKey];
+
+            var record = logFile.MemoryCardLogs.First();
+
+            record.TimeStamp.Should().Be(new LocalDateTime(2022, 10, 02, 07, 53, 56));
+            var memoryCard = record.Data;
+
+            memoryCard.Should().BeEquivalentTo(new MemoryCard()
+            {
+                FormatType = "exFAT",
+                ManufacturerID = 3,
+                OEMID = "SD",
+                ProductName = "ACLCF",
+                ProductRevision = 8.0f,
+                SerialNumber = 15435216,
+                ManufactureDate = "2017-03",
+                Speed = 50_000_000,
+                Capacity = 124_868_608_000,
+                WrCurrentVmin = 5,
+                WrCurrentVmax = 5,
+                WriteBlSize = 512,
+                EraseBlSize = 65536,
+            });
         }
     }
 }

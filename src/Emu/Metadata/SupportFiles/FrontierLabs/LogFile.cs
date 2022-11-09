@@ -8,8 +8,11 @@ namespace Emu.Metadata.SupportFiles.FrontierLabs
     using System.Text.RegularExpressions;
     using Emu.Models;
     using LanguageExt;
+    using LanguageExt.ClassInstances;
+    using LanguageExt.TypeClasses;
     using NodaTime;
     using NodaTime.Text;
+    using static LanguageExt.Prelude;
 
     public class LogFile : SupportFile
     {
@@ -38,7 +41,10 @@ namespace Emu.Metadata.SupportFiles.FrontierLabs
         public static readonly Regex[] DateMatchers =
         {
             new("\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}"),
-            new("\\d{2}/\\d{2}/\\d{4} \\d{2}:\\d{2}:\\d{2}"),
+
+            // some log files emit single digit days, e.g.
+            // 1/01/2010 00:00:22
+            new("\\d{1,2}/\\d{2}/\\d{4} \\d{2}:\\d{2}:\\d{2}"),
         };
 
         public static readonly string[] PowerTokens = new[] { "Ext-power", "Solar-power" };
@@ -203,24 +209,140 @@ namespace Emu.Metadata.SupportFiles.FrontierLabs
             string dateTime = line.Split(SDCardString).First().Trim();
             LocalDateTime timeStamp = ParseDate(dateTime);
 
+            // determine which date format is used in this log
+            var dateFormat = DateMatchers.Single(regex => regex.Match(dateTime).Success);
+            var indentMatch = new Regex($"{dateFormat}   ");
+
+            // Formats:
+            // - Version 3.00, note the weird double line (looks like a one time fault), and the trailing format type
+            //
+            // 02/10/2022 07:53:56   Manufacturer ID  3
+            // 02/10/2022 07:53:56   OEM ID           SD
+            // 02/10/2022 07:53:56   Product Name     ACLCF
+            // 02/10/2022 07:53:56   Product Revision 8.0
+            // 02/10/2022 07:53:56   Serial Number    15435216
+            // 02/10/2022 07:53:56   Manufacture Date 2017 / 03
+            // 02/10/2022 07:53:56   Speed            50
+            // 02/10/2022 07:53:56   Capacity         124868608
+            // 02/10/2022 07:53:56   Wr Current Vmin  5
+            // 02/10/2022 07:53:56   Wr Current Vmax  502/10/2022 07:53:56   Write Bl Size    512
+            // 02/10/2022 07:53:56   Erase Bl Size    65536
+            // 02/10/2022 07:53:56 SD Card format type exFAT
+
+            // - Version 3.30
+            // 2022-03-31 09:48:39 SD Card :
+            // 2022-03-31 09:48:39   Format type      exFAT
+            // 2022-03-31 09:48:39   Manufacturer ID  3
+            // 2022-03-31 09:48:39   OEM ID           SD
+            // 2022-03-31 09:48:39   Product Name     SD128
+            // 2022-03-31 09:48:39   Product Revision 8.5
+            // 2022-03-31 09:48:39   Serial Number    8041328
+            // 2022-03-31 09:48:39   Manufacture Date 2020/08
+            // 2022-03-31 09:48:39   Speed            50
+            // 2022-03-31 09:48:39   Capacity         124868608
+            // 2022-03-31 09:48:39   Wr Current Vmin  5
+            // 2022-03-31 09:48:39   Wr Current Vmax  5
+            // 2022-03-31 09:48:39   Write Bl Size    512
+            // 2022-03-31 09:48:39   Erase Bl Size    65536
+
+            // read lines until deindent detected
+            // also remove date prefixes and wrap lines that have a faulty line break;
+            var lines = new List<string>(20);
+            while (true)
+            {
+                line = reader.ReadLine();
+                var shouldContinue = CleanLine(line);
+
+                if (!shouldContinue)
+                {
+                    break;
+                }
+            }
+
+            var format = Parse("Format type");
+            var manufacturer = parseByte(Parse("Manufacturer ID"));
+            var oem = Parse("OEM ID");
+            var product = Parse("Product Name");
+            var revision = parseFloat(Parse("Product Revision"));
+            var serial = parseUInt(Parse("Serial Number"));
+            var date = Parse("Manufacture Date")?.Replace('/', '-');
+            var speed = parseUInt(Parse("Speed")).Map(x => x * MemoryCard.MegabyteConversion);
+            var capacity = parseULong(Parse("Capacity")).Map(x => x * MemoryCard.KilobyteConversion);
+            var vmin = parseUInt(Parse("Wr Current Vmin"));
+            var vmax = parseUInt(Parse("Wr Current Vmax"));
+            var write = parseUInt(Parse("Write Bl Size"));
+            var erase = parseUInt(Parse("Erase Bl Size"));
+
+            // the format follows the block in the v3.00 format
+            if (line?.Contains("SD Card format type") ?? false)
+            {
+                format = line?.Split(' ').Last();
+            }
+
             MemoryCard memoryCard = new MemoryCard() with
             {
-                FormatType = reader.ReadLine()?.Split().Last(),
-                ManufacturerID = byte.Parse(reader.ReadLine()!.Split().Last()),
-                OEMID = reader.ReadLine()?.Split().Last(),
-                ProductName = reader.ReadLine()?.Split().Last(),
-                ProductRevision = float.Parse(reader.ReadLine()!.Split().Last()),
-                SerialNumber = uint.Parse(reader.ReadLine()!.Split().Last()),
-                ManufactureDate = reader.ReadLine()?.Split().Last().Replace('/', '-'),
-                Speed = uint.Parse(reader.ReadLine()!.Split().Last()) * MemoryCard.MegabyteConversion,
-                Capacity = ulong.Parse(reader.ReadLine()!.Split().Last()) * MemoryCard.KilobyteConversion,
-                WrCurrentVmin = uint.Parse(reader.ReadLine()!.Split().Last()),
-                WrCurrentVmax = uint.Parse(reader.ReadLine()!.Split().Last()),
-                WriteBlSize = uint.Parse(reader.ReadLine()!.Split().Last()),
-                EraseBlSize = uint.Parse(reader.ReadLine()!.Split().Last()),
+                FormatType = format,
+                ManufacturerID = manufacturer.ToNullable(),
+                OEMID = oem,
+                ProductName = product,
+                ProductRevision = revision.ToNullable(),
+                SerialNumber = serial.ToNullable(),
+                ManufactureDate = date,
+                Speed = speed.ToNullable(),
+                Capacity = capacity.ToNullable(),
+                WrCurrentVmin = vmin.ToNullable(),
+                WrCurrentVmax = vmax.ToNullable(),
+                WriteBlSize = write.ToNullable(),
+                EraseBlSize = erase.ToNullable(),
             };
 
             return new DataRecord<MemoryCard>(memoryCard, timeStamp);
+
+            string Parse(string key)
+            {
+                foreach (var line in lines)
+                {
+                    if (line.StartsWith(key))
+                    {
+                        return line[key.Length..].Trim();
+                    }
+                }
+
+                return null;
+            }
+
+            bool CleanLine(string line)
+            {
+                if (line is null)
+                {
+                    return false;
+                }
+
+                var match = indentMatch.Match(line);
+
+                if (match.Success)
+                {
+                    var matchEnd = match.Index + match.Length;
+                    var trimmed = line[matchEnd..];
+
+                    // check if there's a date stamp within the line,
+                    // and split the line if so
+                    var secondDate = dateFormat.Match(trimmed);
+                    if (secondDate.Success)
+                    {
+                        var secondMatchEnd = secondDate.Index + secondDate.Length;
+                        var secondLine = trimmed[secondMatchEnd..].Trim();
+
+                        lines.Add(secondLine);
+
+                        trimmed = trimmed[0..secondDate.Index];
+                    }
+
+                    lines.Add(trimmed);
+                }
+
+                return match.Success;
+            }
         }
 
         /// <summary>
@@ -414,7 +536,7 @@ namespace Emu.Metadata.SupportFiles.FrontierLabs
                     {
                         powerSource = string.Join(", ", matchedKnownTokens);
                     }
-                    else
+                    else if (tokens.Length > 2)
                     {
                         powerSource = tokens.Last();
                     }

@@ -39,6 +39,7 @@ namespace Emu.Tests.TestHelpers
         public const string ZeroDbSamples = "Zero dB Samples";
         public const string NormalFile = "Normal File";
         public const string Normal308File = "Normal File 3.08";
+        public const string Normal300File = "Normal File 3.00";
         public const string SM4BatNormal1 = "SM4 Bat Normal 1";
         public const string FilenameExtractor = "FilenameExtractor";
         public const string FlacHeaderExtractor = "FlacHeaderExtractor";

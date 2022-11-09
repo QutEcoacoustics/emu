@@ -59,7 +59,7 @@ namespace Emu.Metadata.SupportFiles
 
                 searchDirectory = fileSystem.Directory.GetParent(searchDirectory)?.FullName;
 
-                //return if root directory is reached before any support files are found
+                // return if root directory is reached before any support files are found
                 if (searchDirectory == null)
                 {
                     return;
