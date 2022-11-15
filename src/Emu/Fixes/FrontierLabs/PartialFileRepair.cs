@@ -71,12 +71,20 @@ namespace Emu.Fixes.FrontierLabs
 
             using var stream = this.fileSystem.File.OpenRead(file);
 
-            // preicates
+            // predicates
             var filenameMatches = filename == ProblemFileName;
             var isEmpty = stream.Length == 0;
             var isFlac = Flac.IsFlacFile(stream);
             var firmware = await ReadFirmwareAsync(stream);
             var wasRepaired = firmware.Map(HasBeenRepaired).IfFail(false);
+
+            bool isPreallocatedWaveFile = false;
+            if (!isFlac.IfFail(false))
+            {
+                isPreallocatedWaveFile = (await IsPreallocatedFile(stream, this.fileUtilities)).IfFail(false);
+            }
+
+            var data = new Data(isEmpty, isFlac.IfFail(false), isPreallocatedWaveFile, firmware);
 
             return filenameMatches switch
             {
@@ -85,13 +93,21 @@ namespace Emu.Fixes.FrontierLabs
 
                 // there is a case where sometimes the partial files are empty
                 // we take care of those too
-                true when isEmpty => new CheckResult(Affected, Severity.Moderate, "Partial file detected"),
-                true when isFlac.IfFail(false) == false => new CheckResult(CheckStatus.Error, Severity.None, "Audio recording is not a FLAC file"),
+                true when data.IsEmpty => new CheckResult(Affected, Severity.Severe, "Partial file detected", data),
+
+                true when data.IsPreallocatedFile =>
+                    new CheckResult(Affected, Severity.Severe, "Partial file detected: " + PreAllocatedHeader.Message, data),
+
+                true when data.IsFlac == false =>
+                    new CheckResult(
+                        CheckStatus.Error,
+                        Severity.None,
+                        "Unsupported format. Please send this example to the EMU repository so we can code for this case."),
 
                 // and that's it... a file named data and it is a FLAC file.
                 // the data files can have errors, but since they're already marked as error files we'll work with those
                 // in the next stage.
-                true => new CheckResult(Affected, Severity.Moderate, "Partial file detected"),
+                true => new CheckResult(Affected, Severity.Moderate, "Partial file detected", data),
             };
 
             static bool HasBeenRepaired(FirmwareRecord firmwareRecord) => firmwareRecord.Tags.Contains(EmuPatched);
@@ -105,7 +121,8 @@ namespace Emu.Fixes.FrontierLabs
 
             if (affected is { Status: Affected })
             {
-                return await this.FixFile(file, affected, dryRun);
+                var data = (Data)affected.Data;
+                return await this.FixFile(file, affected, data, dryRun);
             }
             else
             {
@@ -113,7 +130,7 @@ namespace Emu.Fixes.FrontierLabs
             }
         }
 
-        private async Task<FixResult> FixFile(string file, CheckResult affected, DryRun dryRun)
+        private async Task<FixResult> FixFile(string file, CheckResult affected, Data data, DryRun dryRun)
         {
             string newBasename = null;
             FixStatus fixStatus = default;
@@ -127,12 +144,22 @@ namespace Emu.Fixes.FrontierLabs
             using (var target = new TargetInformation(this.fileSystem, directory, file))
             {
                 // special case empty partial files
-                if (target.FileStream.Length == 0)
+                if (data.IsEmpty)
                 {
                     fail = true;
                     this.logger.LogDebug("File is empty, renaming, halting");
                     newBasename = EmptyFile.Metadata.GetErrorName(this.fileSystem, file);
                     message = "Partial file was empty";
+                    fixStatus = FixStatus.Renamed;
+                }
+
+                // special case preallcoated partial files
+                if (data.IsPreallocatedFile)
+                {
+                    fail = true;
+                    this.logger.LogDebug("File is a stub, renaming, halting");
+                    newBasename = PreAllocatedHeader.Metadata.GetErrorName(this.fileSystem, file);
+                    message = "Partial file was a stub and has no useable data";
                     fixStatus = FixStatus.Renamed;
                 }
 
@@ -289,5 +316,7 @@ namespace Emu.Fixes.FrontierLabs
             this.logger.LogDebug("New filename: {name}", newBasename);
             return newBasename;
         }
+
+        private record Data(bool IsEmpty, bool IsFlac, bool IsPreallocatedFile, Fin<FirmwareRecord> Firmware);
     }
 }

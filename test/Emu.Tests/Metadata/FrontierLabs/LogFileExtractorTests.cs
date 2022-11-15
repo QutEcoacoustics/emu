@@ -23,8 +23,6 @@ namespace Emu.Tests.Metadata
                 this.BuildLogger<LogFileExtractor>());
         }
 
-        public Recording Recording => new();
-
         [Theory]
         [ClassData(typeof(FixtureHelper.FixtureData))]
         public async Task CanProcessFilesWorks(FixtureModel model)
@@ -49,9 +47,11 @@ namespace Emu.Tests.Metadata
                     expectedRecording = model.Process[FixtureModel.FrontierLabsLogFileExtractor];
                 }
 
-                var recording = await this.subject.ProcessFileAsync(
+                Recording recording = new();
+
+                recording = await this.subject.ProcessFileAsync(
                     model.ToTargetInformation(this.RealFileSystem),
-                    this.Recording);
+                    recording);
 
                 recording.MemoryCard.Should().BeEquivalentTo(expectedRecording.MemoryCard);
                 recording.Sensor.Firmware.Should().Be(expectedRecording.Sensor.Firmware);

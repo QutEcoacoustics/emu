@@ -158,7 +158,7 @@ namespace Emu.Utilities
             return new Checksum() { Type = HashAlgorithmName.SHA256.Name, Value = hash.ToHexString() };
         }
 
-        public async ValueTask<bool> CheckForContinuousValue(Stream stream, int offset = 0, int? count = null, Vector<byte> target = default)
+        public async ValueTask<bool> CheckForContinuousValue(Stream stream, long offset = 0, long? count = null, Vector<byte> target = default)
         {
             if (offset < 0)
             {
@@ -177,7 +177,11 @@ namespace Emu.Utilities
             }
 
             var buffer = new byte[4096];
-            var end = count is null ? stream.Length : position + count;
+            var end = count switch
+            {
+                null => stream.Length,
+                long i => Math.Min(stream.Length, position + i),
+            };
 
             while (position < end)
             {
@@ -194,7 +198,7 @@ namespace Emu.Utilities
 
                 for (int i = 0; i < read; i += Vector<byte>.Count)
                 {
-                    var upper = Math.Min(read - i, Vector<byte>.Count);
+                    int upper = Math.Min(read - i, Vector<byte>.Count);
                     var v = new Vector<byte>(buffer.AsSpan(i, upper));
 
                     var equal = v == target;

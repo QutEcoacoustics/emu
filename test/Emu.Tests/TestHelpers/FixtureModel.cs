@@ -63,8 +63,12 @@ namespace Emu.Tests.TestHelpers
         public const string PartialRobsonDryBConflict = "Robson Dry B partial with conflict";
         public const string PartialTestPartial0400 = "Test 3.30 partial 04:00";
         public const string PartialTestPartial0600 = "Test 3.30 partial 06:00";
+        public const string PartialEmpty314 = "Partial file 3.14 - empty";
+        public const string PartialEmpty312A = "Partial file 3.12 - empty A";
+        public const string PartialEmpty312B = "Partial file 3.12 - empty B";
 
         private string fixturePath;
+        private Dictionary<string, Recording> process;
 
         public Recording Record { get; set; }
 
@@ -76,7 +80,11 @@ namespace Emu.Tests.TestHelpers
 
         public string MimeType { get; set; }
 
-        public Dictionary<string, Recording> Process { get; set; }
+        public Dictionary<string, Recording> Process
+        {
+            get => this.process;
+            set => this.process = value is null ? new() : value;
+        }
 
         public string[] Problems { get; set; }
 

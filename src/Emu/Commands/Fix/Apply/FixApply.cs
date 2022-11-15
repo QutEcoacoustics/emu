@@ -179,7 +179,7 @@ namespace Emu
                 fixResults.Add(
                     firstError.Operation.GetOperationInfo().Problem,
                     new FixResult(
-                        renamed ? FixStatus.Renamed : FixStatus.NotFixed,
+                        renamed ? Renamed : NotFixed,
                         firstError.CheckResult,
                         message,
                         newPath));

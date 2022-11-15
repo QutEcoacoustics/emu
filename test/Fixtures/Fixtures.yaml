@@ -2458,3 +2458,170 @@
       StartDate: ~
       LocalStartDate: 2022-10-02T08:00:00
     FrontierLabsLogFileExtractor:
+
+- Name: "Partial file 3.14 - empty"
+  Record:
+    Extension:
+    Stem: data
+    StartDate:
+    LocalStartDate:
+    TrueStartDate:
+    TrueEndDate:
+    # this is a faulty file FL011 wrapping FL003
+    DurationSeconds: 22/22050
+    TotalSamples: 22
+    Channels: 1
+    SampleRateHertz: 22050
+    BitsPerSecond: 352800
+    BitDepth: 16
+    FileSizeBytes: 317292588
+    MediaType: audio/wave
+    CalculatedChecksum:
+      Type: SHA256
+      Value: 6ee5c3a021f562ef654b8c564aad0307b818e50fb91f35adf62065720e47c896
+    EmbeddedChecksum: ~
+    MemoryCard: ~
+    Sensor:
+      Name:
+      Firmware:
+      SerialNumber:
+      PowerSource:
+      Microphones:
+      Gain:
+      Configuration:
+      Voltage:
+      BatteryLevel:
+      Temperature:
+      LastTimeSync:
+    Location: ~
+  BlockAlign:
+  FixturePath: FL_BAR_LT/3.14_PartialDataFiles/Victorian-Dry-Eucalypt-Wombat-Wet-A_246/555/20211225_AAO/data
+  Notes: Partial data file that is empty other than a WAVE header
+  ValidMetadata: Yes
+  MimeType: audio/wave
+  Vendor: Frontier Labs
+  Problems:
+    - FL011
+    - FL003
+  Process:
+    FrontierLabsLogFileExtractor:
+
+- Name: "Partial file 3.12 - empty A"
+  Record:
+    Extension:
+    Stem: data
+    StartDate:
+    LocalStartDate:
+    TrueStartDate:
+    TrueEndDate:
+    # this is a faulty file FL011 wrapping FL003
+    DurationSeconds: 22/22050
+    TotalSamples: 22
+    Channels: 1
+    SampleRateHertz: 22050
+    BitsPerSecond: 352800
+    BitDepth: 16
+    FileSizeBytes: 316858412
+    MediaType: audio/wave
+    CalculatedChecksum:
+      Type: SHA256
+      Value: 4e4b7701f31fdb5f2cf78e8c41cf6cbccd1bfc56ab06929768137e833fc4e019
+    EmbeddedChecksum: ~
+    MemoryCard:
+      FormatType: exFAT
+      ManufacturerID: 158
+      OEMID: BE
+      ProductName: 512GB
+      ProductRevision: 0.2
+      SerialNumber: 295
+      ManufactureDate: 2018-10
+      Speed: 50000000
+      Capacity: 500825088000
+      WrCurrentVmin: 7
+      WrCurrentVmax: 7
+      WriteBlSize: 512
+      EraseBlSize: 65536
+    Sensor:
+      Name:
+      Firmware:
+      SerialNumber:
+      PowerSource:
+      Microphones:
+      Gain:
+      Configuration:
+      Voltage:
+      BatteryLevel:
+      Temperature:
+      LastTimeSync:
+    Location: ~
+  BlockAlign:
+  FixturePath: FL_BAR_LT/3.12_PartialDataFiles/Toorale-National-Park-Dry-B_323/267/20210105_-30.2647+145.3586/data
+  Notes: Partial data file that is empty other than a WAVE header
+  ValidMetadata: Yes
+  MimeType: audio/wave
+  Vendor: Frontier Labs
+  Problems:
+    - FL011
+    - FL003
+  Process:
+    FrontierLabsLogFileExtractor:
+
+- Name: "Partial file 3.12 - empty B"
+  Record:
+    Extension:
+    Stem:
+    StartDate:
+    LocalStartDate:
+    TrueStartDate:
+    TrueEndDate:
+    # this is a faulty file FL011 wrapping FL003
+    DurationSeconds: 22/22050
+    TotalSamples: 22
+    Channels: 1
+    SampleRateHertz: 22050
+    BitsPerSecond: 352800
+    BitDepth: 16
+    FileSizeBytes: 316858412
+    MediaType: audio/wave
+    CalculatedChecksum:
+      Type: SHA256
+      Value: 4e4b7701f31fdb5f2cf78e8c41cf6cbccd1bfc56ab06929768137e833fc4e019
+    EmbeddedChecksum: ~
+    MemoryCard:
+      FormatType: exFAT
+      ManufacturerID: 158
+      OEMID: BE
+      ProductName: 512GB
+      ProductRevision: 0.2
+      SerialNumber: 295
+      ManufactureDate: 2018-10
+      Speed: 50000000
+      Capacity: 500825088000
+      WrCurrentVmin: 7
+      WrCurrentVmax: 7
+      WriteBlSize: 512
+      EraseBlSize: 65536
+    Sensor:
+      Name:
+      Firmware:
+      SerialNumber:
+      PowerSource:
+      Microphones:
+      Gain:
+      Configuration:
+      Voltage:
+      BatteryLevel:
+      Temperature:
+      LastTimeSync:
+    Location: ~
+  BlockAlign:
+  FixturePath: FL_BAR_LT/3.12_PartialDataFiles/Toorale-National-Park-Dry-B_323/267/20210218_-30.2644+145.3586/data
+  Notes: Partial data file that is empty other than a WAVE header
+  ValidMetadata: Yes
+  MimeType: audio/wave
+  Vendor: Frontier Labs
+  Problems:
+    - FL011
+    - FL003
+  Process:
+    FrontierLabsLogFileExtractor:

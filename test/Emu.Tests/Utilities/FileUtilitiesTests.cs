@@ -85,6 +85,13 @@ namespace Emu.Tests.Utilities
         }
 
         [Fact]
+        public async Task CheckForContinousValueWorks_WithLengthLongerThanStream()
+        {
+            var actual = await this.fileUtilities.CheckForContinuousValue(this.testStream, 2048, 99999, new Vector<byte>(2));
+            actual.Should().BeTrue();
+        }
+
+        [Fact]
         public void CanTruncate()
         {
             var dryRun = this.ServiceProvider.GetRequiredService<DryRunFactory>();

@@ -10,6 +10,7 @@ namespace Emu.Fixes.FrontierLabs
 
     public class PreAllocatedHeader : ICheckOperation
     {
+        public const string Message = "The file is a stub and has no usable data";
         private readonly IFileSystem fileSystem;
 
         public PreAllocatedHeader(IFileSystem fileSystem)
@@ -31,7 +32,7 @@ namespace Emu.Fixes.FrontierLabs
 
             var result = IsPreallocatedHeader(stream, file) switch
             {
-                true => new CheckResult(CheckStatus.Affected, Severity.Severe, "The file is a stub and has no usable data"),
+                true => new CheckResult(CheckStatus.Affected, Severity.Severe, Message),
                 false when stream.Length == 0 => new CheckResult(CheckStatus.NotApplicable, Severity.None, string.Empty),
                 false => new CheckResult(CheckStatus.Unaffected, Severity.None, string.Empty),
 
