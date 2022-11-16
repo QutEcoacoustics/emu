@@ -278,7 +278,8 @@ namespace Emu.Tests.Fixes.FrontierLabs
             {
                 Assert.Equal(Flac.FileTooShort, actualFirmware);
             }
-            else if (testCase.ExpectNoFirmware) {
+            else if (testCase.ExpectNoFirmware) 
+            {
                 actualFirmware.IsFail.Should().BeTrue();
             }
             else
