@@ -89,10 +89,11 @@ namespace Emu.Tests.TestHelpers
 
             try
             {
-                if (!IO.Directory.EnumerateFiles(this.Path).Any())
-                {
-                    IO.Directory.Delete(this.directory);
-                }
+                // this is important - especially on our CI server where space matters.
+                // this will clean up any extra files in the directory and the directory itself.
+                // TODO: myabe this was useful for local debugging? Maybe a keep tempp files switch
+                // might be useful?
+                IO.Directory.Delete(this.directory, recursive: true);
             }
             catch (Exception ex)
             {
