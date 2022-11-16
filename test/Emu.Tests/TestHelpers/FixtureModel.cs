@@ -63,9 +63,8 @@ namespace Emu.Tests.TestHelpers
         public const string PartialRobsonDryBConflict = "Robson Dry B partial with conflict";
         public const string PartialTestPartial0400 = "Test 3.30 partial 04:00";
         public const string PartialTestPartial0600 = "Test 3.30 partial 06:00";
-        public const string PartialEmpty314 = "Partial file 3.14 - empty";
-        public const string PartialEmpty312A = "Partial file 3.12 - empty A";
-        public const string PartialEmpty312B = "Partial file 3.12 - empty B";
+        public const string PartialEmpty314 = "Partial file 3.14 - full preallocated";
+        public const string PartialEmpty312 = "Partial file 3.12 - full preallocated";
 
         private string fixturePath;
         private Dictionary<string, Recording> process;

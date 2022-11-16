@@ -87,12 +87,7 @@ namespace Emu.Tests.Fixes.FrontierLabs
             // caused by a full-size preallocated file which has a WAVE header
             // sensor crashed from
             //  Watchdog recovered from CPU lockup!! Please report this error to Frontier Labs.
-            new TestCase(PartialEmpty312A, FixStatus.Renamed, "data.error_stub", 16786006, 16786006, 316858412, 316858412, expectNoFirmware: true).AsArray(),
-
-            // caused by a full-size preallocated file which has a WAVE header
-            // sensor crashed from
-            //  Watchdog recovered from CPU lockup!! Please report this error to Frontier Labs.
-            new TestCase(PartialEmpty312B, FixStatus.Renamed, "data.error_stub", 16786006, 16786006, 316858412, 316858412, expectNoFirmware: true).AsArray(),
+            new TestCase(PartialEmpty312, FixStatus.Renamed, "data.error_stub", 16786006, 16786006, 316858412, 316858412, expectNoFirmware: true).AsArray(),
         };
 
         [Theory]
@@ -278,7 +273,8 @@ namespace Emu.Tests.Fixes.FrontierLabs
             {
                 Assert.Equal(Flac.FileTooShort, actualFirmware);
             }
-            else if (testCase.ExpectNoFirmware) {
+            else if (testCase.ExpectNoFirmware)
+            {
                 actualFirmware.IsFail.Should().BeTrue();
             }
             else
