@@ -7,10 +7,13 @@ namespace Emu.Audio.Vendors
     using System.Buffers.Binary;
     using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
+    using System.IO;
     using System.Text;
     using Emu.Audio;
     using Emu.Audio.WAVE;
     using Emu.Extensions.System;
+    using Emu.Fixes.FrontierLabs;
+    using Emu.Utilities;
     using LanguageExt;
     using LanguageExt.Common;
     using NodaTime;
@@ -36,6 +39,8 @@ namespace Emu.Audio.Vendors
         public const string LatitudeKey = "Latitude";
 
         public const int DefaultFileStubLength = 44;
+
+        public const int DefaultStubDataLength = 44;
 
         // based on a statistical sample this is the most common stub length for flac filees
         public const int DefaultFileStubLength2 = 153;
@@ -234,6 +239,39 @@ namespace Emu.Audio.Vendors
             return Judgement();
 
             bool Judgement() => faults >= 3;
+        }
+
+        /// <summary>
+        /// Check if a file is pre-allocated and wholly empty.
+        /// This scenario happens when FL allocate space for a file but never write any samples into it.
+        /// This is a slightly different situation than a pre-allocated header (<see cref="IsPreallocatedHeader"/>)
+        /// which is one of these pre-allocated files that did not finish writing the file.
+        /// Works only for RIFF WAVE files.
+        /// </summary>
+        /// <param name="stream">The file stream to search for.</param>
+        /// <param name="utilities">An instance of <see cref="FileUtilities"/> to use.</param>
+        /// <returns>True if the file matches the criteria.</returns>
+        public static async Task<Fin<bool>> IsPreallocatedFile(Stream stream, FileUtilities utilities)
+        {
+            var riffChunk = Wave.FindRiffChunk(stream);
+            var waveChunk = riffChunk.Bind(r => Wave.FindWaveChunk(stream, r));
+
+            var dataChunk = waveChunk.Bind(w => Wave.FindDataChunk(stream, w, allowOutOfBounds: true));
+
+            if (dataChunk.Case is RangeHelper.Range r)
+            {
+                if (r.Length != DefaultStubDataLength)
+                {
+                    return false;
+                }
+
+                // scan the rest of the file to see if it's full of null bytes
+                return await utilities.CheckForContinuousValue(stream, r.Start);
+            }
+            else
+            {
+                return (Error)dataChunk;
+            }
         }
 
         /// <summary>

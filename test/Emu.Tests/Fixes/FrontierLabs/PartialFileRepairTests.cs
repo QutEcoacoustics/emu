@@ -78,6 +78,16 @@ namespace Emu.Tests.Fixes.FrontierLabs
             // caused due to a crash on the device that failed to cleanup the end of the file
             // part of the file is encoded as flac - the rest is (?) WAVE data that is to be discarded
             new TestCase(PartialTestPartial0600, FixStatus.Fixed, "20220426T060000+1000_recovered.flac", 0, 2_281_472, 317292588, 2833099, "EMU+FL011").AsArray(),
+
+            // caused by a full-size preallocated file which has a WAVE header
+            // sensor crashed some unknown error, an excerpt from the log file:
+            //  Watchdog recovered from CPU lockup!! Please report this error to Frontier Labs.
+            new TestCase(PartialEmpty314, FixStatus.Renamed, "data.error_stub", 16786006, 16786006, 317292588, 317292588, expectNoFirmware: true).AsArray(),
+
+            // caused by a full-size preallocated file which has a WAVE header
+            // sensor crashed some unknown error, an excerpt from the log file:
+            //  Watchdog recovered from CPU lockup!! Please report this error to Frontier Labs.
+            new TestCase(PartialEmpty312, FixStatus.Renamed, "data.error_stub", 16786006, 16786006, 316858412, 316858412, expectNoFirmware: true).AsArray(),
         };
 
         [Theory]
@@ -91,7 +101,7 @@ namespace Emu.Tests.Fixes.FrontierLabs
             Assert.Equal(CheckStatus.Affected, actual.Status);
             Assert.Contains("Partial file detected", actual.Message);
 
-            Assert.Null(actual.Data);
+            Assert.NotNull(actual.Data);
 
             await this.AssertMetadataBefore(test, fixture.AbsoluteFixturePath);
         }
@@ -134,13 +144,19 @@ namespace Emu.Tests.Fixes.FrontierLabs
             }
             else
             {
-                Assert.Contains("Partial file was empty", actual.Message);
+                // one of the following two cases
+                if (actual.Message.Contains("empty"))
+                {
+                    Assert.Contains("Partial file was empty", actual.Message);
+                }
+                else
+                {
+                    Assert.Contains("Partial file was a stub and has no useable data", actual.Message);
+                }
             }
 
             this.CurrentFileSystem.File.Exists(target.Path).Should().BeFalse();
             await this.AssertMetadataAfter(test, actual.NewPath);
-
-            Console.WriteLine("break");
         }
 
         [Theory]
@@ -166,7 +182,15 @@ namespace Emu.Tests.Fixes.FrontierLabs
             }
             else
             {
-                Assert.Contains("Partial file was empty", actual.Message);
+                // one of the following two cases
+                if (actual.Message.Contains("empty"))
+                {
+                    Assert.Contains("Partial file was empty", actual.Message);
+                }
+                else
+                {
+                    Assert.Contains("Partial file was a stub and has no useable data", actual.Message);
+                }
             }
 
             await this.AssertMetadataBefore(test, target.Path);
@@ -195,7 +219,15 @@ namespace Emu.Tests.Fixes.FrontierLabs
             }
             else
             {
-                Assert.Contains("Partial file was empty", actual.Message);
+                // one of the following two cases
+                if (actual.Message.Contains("empty"))
+                {
+                    Assert.Contains("Partial file was empty", actual.Message);
+                }
+                else
+                {
+                    Assert.Contains("Partial file was a stub and has no useable data", actual.Message);
+                }
             }
 
             path = actual.NewPath;
@@ -207,7 +239,7 @@ namespace Emu.Tests.Fixes.FrontierLabs
             var secondActual = await this.fixer.ProcessFileAsync(path, dryRun);
 
             Assert.Equal(FixStatus.NoOperation, secondActual.Status);
-            if (test.OldSize == 0)
+            if (test.NewName.Contains("error"))
             {
                 Assert.Equal(CheckStatus.NotApplicable, secondActual.CheckResult.Status);
                 Assert.Contains($"File is not named `data`", secondActual.Message);
@@ -241,6 +273,10 @@ namespace Emu.Tests.Fixes.FrontierLabs
             {
                 Assert.Equal(Flac.FileTooShort, actualFirmware);
             }
+            else if (testCase.ExpectNoFirmware)
+            {
+                actualFirmware.IsFail.Should().BeTrue();
+            }
             else
             {
                 actualFirmware.ThrowIfFail().Tags.Should().BeEquivalentTo(Array.Empty<string>());
@@ -271,6 +307,10 @@ namespace Emu.Tests.Fixes.FrontierLabs
             {
                 Assert.Equal(Flac.FileTooShort, actualFirmware);
             }
+            else if (testCase.ExpectNoFirmware)
+            {
+                actualFirmware.IsFail.Should().BeTrue();
+            }
             else
             {
                 actualFirmware.ThrowIfFail().Tags.Should().BeEquivalentTo(testCase.FirmwareTags);
@@ -284,7 +324,15 @@ namespace Emu.Tests.Fixes.FrontierLabs
             {
             }
 
-            public TestCase(string fixtureName, FixStatus expectedStatus, string newName, Fin<ulong> oldSamples, Fin<ulong> newSamples, long oldSize, long newSize, params string[] firmwareTags)
+            public TestCase(
+                string fixtureName,
+                FixStatus expectedStatus,
+                string newName,
+                Fin<ulong> oldSamples,
+                Fin<ulong> newSamples,
+                long oldSize,
+                long newSize,
+                params string[] firmwareTags)
             {
                 this.FixtureName = fixtureName;
                 this.ExpectedStatus = expectedStatus;
@@ -294,6 +342,28 @@ namespace Emu.Tests.Fixes.FrontierLabs
                 this.OldSize = oldSize;
                 this.NewSize = newSize;
                 this.FirmwareTags = firmwareTags;
+                this.ExpectNoFirmware = false;
+            }
+
+            public TestCase(
+                string fixtureName,
+                FixStatus expectedStatus,
+                string newName,
+                Fin<ulong> oldSamples,
+                Fin<ulong> newSamples,
+                long oldSize,
+                long newSize,
+                bool expectNoFirmware = false)
+            {
+                this.FixtureName = fixtureName;
+                this.ExpectedStatus = expectedStatus;
+                this.NewName = newName;
+                this.OldSamples = oldSamples.ToEither();
+                this.NewSamples = newSamples.ToEither();
+                this.OldSize = oldSize;
+                this.NewSize = newSize;
+                this.FirmwareTags = Array.Empty<string>();
+                this.ExpectNoFirmware = expectNoFirmware;
             }
 
             public string FixtureName { get; set; }
@@ -311,6 +381,8 @@ namespace Emu.Tests.Fixes.FrontierLabs
             public long NewSize { get; set; }
 
             public string[] FirmwareTags { get; set; }
+
+            public bool ExpectNoFirmware { get; set; }
 
             public override string ToString()
             {
