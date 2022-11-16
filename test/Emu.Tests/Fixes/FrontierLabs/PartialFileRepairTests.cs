@@ -80,12 +80,12 @@ namespace Emu.Tests.Fixes.FrontierLabs
             new TestCase(PartialTestPartial0600, FixStatus.Fixed, "20220426T060000+1000_recovered.flac", 0, 2_281_472, 317292588, 2833099, "EMU+FL011").AsArray(),
 
             // caused by a full-size preallocated file which has a WAVE header
-            // sensor crashed from
+            // sensor crashed some unknown error, an excerpt from the log file:
             //  Watchdog recovered from CPU lockup!! Please report this error to Frontier Labs.
             new TestCase(PartialEmpty314, FixStatus.Renamed, "data.error_stub", 16786006, 16786006, 317292588, 317292588, expectNoFirmware: true).AsArray(),
 
             // caused by a full-size preallocated file which has a WAVE header
-            // sensor crashed from
+            // sensor crashed some unknown error, an excerpt from the log file:
             //  Watchdog recovered from CPU lockup!! Please report this error to Frontier Labs.
             new TestCase(PartialEmpty312, FixStatus.Renamed, "data.error_stub", 16786006, 16786006, 316858412, 316858412, expectNoFirmware: true).AsArray(),
         };
