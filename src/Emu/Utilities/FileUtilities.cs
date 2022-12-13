@@ -153,6 +153,11 @@ namespace Emu.Utilities
 
             using var hasher = SHA256.Create();
 
+            if (stream.Position != 0)
+            {
+                stream.Seek(0, SeekOrigin.Begin);
+            }
+
             var hash = await hasher.ComputeHashAsync(stream);
 
             return new Checksum() { Type = HashAlgorithmName.SHA256.Name, Value = hash.ToHexString() };
