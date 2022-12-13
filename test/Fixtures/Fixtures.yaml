@@ -2565,3 +2565,84 @@
     - FL003
   Process:
     FrontierLabsLogFileExtractor:
+
+- Name: "Partial file 3.20 - empty battery"
+  Record: &PartialFileShort320
+    Extension:
+    Stem: data
+    StartDate: 2021-03-28T00:00:11+10:00
+    LocalStartDate: 2021-03-28T00:00:11
+    TrueStartDate: 2021-03-28T00:00:11+10:00
+    TrueEndDate: 2021-03-28T00:00:14+10:00
+    # this is a faulty file FL011 wrapping FL003
+    DurationSeconds: 8192/22050
+    TotalSamples: 8192
+    Channels: 1
+    SampleRateHertz: 22050
+    BitsPerSecond: 352800
+    BitDepth: 16
+    FileSizeBytes: 3776
+    MediaType: audio/flac
+    CalculatedChecksum:
+      Type: SHA256
+      Value: 399e68eabaa75711f5d70abb6ad03e4b5cb0478c34419a5e3dd5cf99c77a0210
+    EmbeddedChecksum:
+      Type: MD5
+      Value: 00000000000000000000000000000000
+    MemoryCard:
+      FormatType: exFAT
+      ManufacturerID: 158
+      OEMID: BE
+      ProductName: 512GB
+      ProductRevision: 1
+      SerialNumber: 117
+      ManufactureDate: 2018-11
+      Speed: 50000000
+      Capacity: 484102144000
+      WrCurrentVmin: 3
+      WrCurrentVmax: 3
+      WriteBlSize: 512
+      EraseBlSize: 65536
+    Sensor: &PartialFileShort320Sensor
+      Name:
+      Firmware: 3.20
+      SerialNumber: 00002822
+      PowerSource: Ext-power, Solar-power
+      Microphones: []
+      Gain:
+      Configuration:
+      Voltage: 1
+      BatteryLevel: 1
+      Temperature:
+      LastTimeSync: 2021-02-10T08:00:19+10:00
+    Location:
+      Longitude:
+      LongitudePrecision:
+      Latitude:
+      LatitudePrecision:
+      Altitude:
+      AltitudePrecision:
+      HorizontalAccuracy:
+      VerticalAccuracy:
+      Speed:
+      Course:
+      SampleDateTime:
+      CoordinateReferenceSystem:
+  BlockAlign:
+  FixturePath: FL_BAR_LT/3.20_PartialDataFiles/20210328_AAO/data
+  Notes: Partial data file that has content but is very short
+  ValidMetadata: Yes
+  MimeType: audio/flac
+  Vendor: Frontier Labs
+  Problems:
+    - FL011
+  Process:
+    FrontierLabsLogFileExtractor:
+      <<: *PartialFileShort320
+      Sensor:
+        <<: *PartialFileShort320Sensor
+        BatteryLevel: ~
+        Voltage: ~
+        Microphones: ~
+    FlacHeaderExtractor:
+    FlacCommentExtractor:

@@ -11,7 +11,7 @@ namespace System.IO
     {
         public static readonly Error SeekFailed = Error.New("Failed to seek stream");
 
-        public static Fin<long> SeekSafe(this Stream stream, long position, Error? error = null)
+        public static Fin<long> SeekSafe(this Stream stream, long position, Error error = null)
         {
             ArgumentNullException.ThrowIfNull(stream, nameof(stream));
 

@@ -29,6 +29,8 @@ namespace Emu.Fixes.FrontierLabs
 
         public static readonly string EmuPatched = WellKnownProblems.PatchString(Metadata.Problem);
 
+        public static readonly Error TooShort = Error.New("The file is to short to repair. At least three frames are needed.");
+
         private readonly ILogger<PartialFileRepair> logger;
         private readonly IFileSystem fileSystem;
         private readonly FileUtilities fileUtilities;
@@ -207,6 +209,14 @@ namespace Emu.Fixes.FrontierLabs
                     fixStatus = FixStatus.Fixed;
                     message = $"Partial file repaired. New name is {newBasename}. Samples count was {oldSamples}, new samples count is: {newSamples}. File truncated at {truncated}.";
                 }
+                else if (durationResults == TooShort)
+                {
+                    // fail: the file is too short to repair
+                    fail = true;
+                    newBasename = Metadata.GetErrorName(this.fileSystem, file);
+                    fixStatus = FixStatus.Renamed;
+                    message = "Error while checking duration: " + ((Error)durationResults).Message;
+                }
                 else
                 {
                     // fail: the file is corrupt in some other manner
@@ -257,6 +267,12 @@ namespace Emu.Fixes.FrontierLabs
             // step back one frame and truncate a little bit earlier.
             // one frame in a typical recording is 5 milliseconds. Not much in the scheme of things.
             var all = frames.ThrowIfFail();
+
+            if (all.Count < 3)
+            {
+                return TooShort;
+            }
+
             var last = all[^1];
 
             newSamples = Flac.CalculateSampleCountFromFrameList(new[] { all[^3], all[^2] }).ThrowIfFail();

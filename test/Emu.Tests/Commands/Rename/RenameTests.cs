@@ -34,9 +34,10 @@ namespace Emu.Tests.Commands.Rename
                 this.GetOutputRecordWriter(),
                 this.FilenameParser,
                 this.ServiceProvider.GetRequiredService<MetadataRegister>(),
-                this.ServiceProvider.GetRequiredService<FilenameGenerator>());
-
-            this.command.Targets = "/".AsArray();
+                this.ServiceProvider.GetRequiredService<FilenameGenerator>())
+            {
+                Targets = "/".AsArray(),
+            };
         }
 
         [Fact]
@@ -460,13 +461,13 @@ namespace Emu.Tests.Commands.Rename
                 new OutputRecordWriter(
                     this.ServiceProvider.GetRequiredService<TextWriter>(),
                     new AnsiConsoleFormatter(this.BuildLogger<AnsiConsoleFormatter>()),
-                    new Lazy<EmuCommand.OutputFormat>(EmuCommand.OutputFormat.Default)
-                    ),
+                    new Lazy<EmuCommand.OutputFormat>(EmuCommand.OutputFormat.Default)),
                 this.FilenameParser,
                 this.ServiceProvider.GetRequiredService<MetadataRegister>(),
-                this.ServiceProvider.GetRequiredService<FilenameGenerator>());
-
-            command.Targets = "/".AsArray();
+                this.ServiceProvider.GetRequiredService<FilenameGenerator>())
+            {
+                Targets = "/".AsArray(),
+            };
 
             var result = await command.InvokeAsync(null);
 

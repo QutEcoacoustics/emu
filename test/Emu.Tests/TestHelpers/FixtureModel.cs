@@ -65,6 +65,7 @@ namespace Emu.Tests.TestHelpers
         public const string PartialTestPartial0600 = "Test 3.30 partial 06:00";
         public const string PartialEmpty314 = "Partial file 3.14 - full preallocated";
         public const string PartialEmpty312 = "Partial file 3.12 - full preallocated";
+        public const string PartialShort320 = "Partial file 3.20 - empty battery";
 
         private string fixturePath;
         private Dictionary<string, Recording> process;

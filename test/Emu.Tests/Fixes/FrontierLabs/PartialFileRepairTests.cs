@@ -63,7 +63,7 @@ namespace Emu.Tests.Fixes.FrontierLabs
             //   35662 frames * 2048 blocksize = 73,035,776
             new TestCase(PartialRobsonDryAConflict, FixStatus.Fixed, "20200426T020000Z_recovered.flac", 317_292_544, 73_035_776, 217129512, 99824893, "EMU+FL010", "EMU+FL011").AsArray(),
 
-            new TestCase(PartialRobsonDryAEmpty, FixStatus.Renamed, "data.error_empty", Flac.FileTooShort, Flac.FileTooShort, 0, 0).AsArray(),
+            new TestCase(PartialRobsonDryAEmpty, FixStatus.Renamed, "data.error_empty", Flac.FileTooShort.Message, Flac.FileTooShort.Message, 0, 0).AsArray(),
 
             // caused due to a duplicate file name after sensor sync
             //   This file has some kind of conflict after frame 10980 (1,019.820408163265 seconds).
@@ -88,6 +88,11 @@ namespace Emu.Tests.Fixes.FrontierLabs
             // sensor crashed some unknown error, an excerpt from the log file:
             //  Watchdog recovered from CPU lockup!! Please report this error to Frontier Labs.
             new TestCase(PartialEmpty312, FixStatus.Renamed, "data.error_stub", 16786006, 16786006, 316858412, 316858412, expectNoFirmware: true).AsArray(),
+
+            // a very short file created when the battery ran out
+            // An excerpt from the log file:
+            //   28/03/2021 00:00:11 Battery empty! 0% ( 5.57 V )
+            new TestCase(PartialShort320, FixStatus.Renamed, "data.error_partial", 8192, 8192, 3776, 3776).AsArray(),
         };
 
         [Theory]
@@ -149,6 +154,10 @@ namespace Emu.Tests.Fixes.FrontierLabs
                 {
                     Assert.Contains("Partial file was empty", actual.Message);
                 }
+                else if (actual.Message.Contains("short"))
+                {
+                    Assert.Contains("The file is to short to repair. At least three frames are needed.", actual.Message);
+                }
                 else
                 {
                     Assert.Contains("Partial file was a stub and has no useable data", actual.Message);
@@ -187,6 +196,10 @@ namespace Emu.Tests.Fixes.FrontierLabs
                 {
                     Assert.Contains("Partial file was empty", actual.Message);
                 }
+                else if (actual.Message.Contains("short"))
+                {
+                    Assert.Contains("The file is to short to repair. At least three frames are needed.", actual.Message);
+                }
                 else
                 {
                     Assert.Contains("Partial file was a stub and has no useable data", actual.Message);
@@ -223,6 +236,10 @@ namespace Emu.Tests.Fixes.FrontierLabs
                 if (actual.Message.Contains("empty"))
                 {
                     Assert.Contains("Partial file was empty", actual.Message);
+                }
+                else if (actual.Message.Contains("short"))
+                {
+                    Assert.Contains("The file is to short to repair. At least three frames are needed.", actual.Message);
                 }
                 else
                 {
@@ -265,7 +282,7 @@ namespace Emu.Tests.Fixes.FrontierLabs
             using var stream = this.CurrentFileSystem.File.OpenRead(path);
             Assert.Equal(testCase.OldSize, stream.Length);
 
-            var actualSamples = await Flac.ReadTotalSamples(stream).ToEitherAsync();
+            var actualSamples = await Flac.ReadTotalSamples(stream).ToEitherAsync().MapLeft(e => e.Message);
             Assert.Equal(testCase.OldSamples, actualSamples);
 
             var actualFirmware = await ReadFirmwareAsync(stream);
@@ -299,7 +316,7 @@ namespace Emu.Tests.Fixes.FrontierLabs
                 this.CurrentFileSystem.FileInfo.FromFileName(fragment).Length.Should().Be(fileSizeDelta);
             }
 
-            var actualSamples = await Flac.ReadTotalSamples(stream).ToEitherAsync();
+            var actualSamples = await Flac.ReadTotalSamples(stream).ToEitherAsync().MapLeft(e => e.Message);
             Assert.Equal(testCase.NewSamples, actualSamples);
 
             var actualFirmware = await ReadFirmwareAsync(stream);
@@ -328,8 +345,8 @@ namespace Emu.Tests.Fixes.FrontierLabs
                 string fixtureName,
                 FixStatus expectedStatus,
                 string newName,
-                Fin<ulong> oldSamples,
-                Fin<ulong> newSamples,
+                Either<string, ulong> oldSamples,
+                Either<string, ulong> newSamples,
                 long oldSize,
                 long newSize,
                 params string[] firmwareTags)
@@ -337,8 +354,8 @@ namespace Emu.Tests.Fixes.FrontierLabs
                 this.FixtureName = fixtureName;
                 this.ExpectedStatus = expectedStatus;
                 this.NewName = newName;
-                this.OldSamples = oldSamples.ToEither();
-                this.NewSamples = newSamples.ToEither();
+                this.OldSamples = oldSamples;
+                this.NewSamples = newSamples;
                 this.OldSize = oldSize;
                 this.NewSize = newSize;
                 this.FirmwareTags = firmwareTags;
@@ -349,8 +366,8 @@ namespace Emu.Tests.Fixes.FrontierLabs
                 string fixtureName,
                 FixStatus expectedStatus,
                 string newName,
-                Fin<ulong> oldSamples,
-                Fin<ulong> newSamples,
+                Either<string, ulong> oldSamples,
+                Either<string, ulong> newSamples,
                 long oldSize,
                 long newSize,
                 bool expectNoFirmware = false)
@@ -358,8 +375,8 @@ namespace Emu.Tests.Fixes.FrontierLabs
                 this.FixtureName = fixtureName;
                 this.ExpectedStatus = expectedStatus;
                 this.NewName = newName;
-                this.OldSamples = oldSamples.ToEither();
-                this.NewSamples = newSamples.ToEither();
+                this.OldSamples = oldSamples;
+                this.NewSamples = newSamples;
                 this.OldSize = oldSize;
                 this.NewSize = newSize;
                 this.FirmwareTags = Array.Empty<string>();
@@ -372,9 +389,9 @@ namespace Emu.Tests.Fixes.FrontierLabs
 
             public string NewName { get; set; }
 
-            public Either<Error, ulong> OldSamples { get; set; }
+            public Either<string, ulong> OldSamples { get; set; }
 
-            public Either<Error, ulong> NewSamples { get; set; }
+            public Either<string, ulong> NewSamples { get; set; }
 
             public long OldSize { get; set; }
 
