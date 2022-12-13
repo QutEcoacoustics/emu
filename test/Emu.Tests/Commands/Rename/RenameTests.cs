@@ -5,11 +5,13 @@
 namespace Emu.Tests.Commands.Rename
 {
     using System;
+    using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
     using Emu.Commands.Rename;
     using Emu.Filenames;
     using Emu.Metadata;
+    using Emu.Serialization;
     using Emu.Tests.TestHelpers;
     using Emu.Utilities;
     using FluentAssertions;
@@ -441,6 +443,40 @@ namespace Emu.Tests.Commands.Rename
                 .Should()
                 .BeEquivalentTo(
                     this.ResolvePaths("/20180525T120000Z_hello.WAV"));
+        }
+
+        [Fact]
+        public async Task AutomaticallyStripBadCharactersFromFilenames2()
+        {
+            this.TestFiles.AddEmptyFile("/20221010T010000+0000_REC [-38.36231+145.31787].wav");
+
+            // we had a bug with the rename command failing to format file names with square brackets
+            // so force use ansi output
+            var command = new Rename(
+                this.BuildLogger<Rename>(),
+                this.DryRunFactory,
+                this.TestFiles,
+                new FileMatcher(this.BuildLogger<FileMatcher>(), this.TestFiles),
+                new OutputRecordWriter(
+                    this.ServiceProvider.GetRequiredService<TextWriter>(),
+                    new AnsiConsoleFormatter(this.BuildLogger<AnsiConsoleFormatter>()),
+                    new Lazy<EmuCommand.OutputFormat>(EmuCommand.OutputFormat.Default)
+                    ),
+                this.FilenameParser,
+                this.ServiceProvider.GetRequiredService<MetadataRegister>(),
+                this.ServiceProvider.GetRequiredService<FilenameGenerator>());
+
+            command.Targets = "/".AsArray();
+
+            var result = await command.InvokeAsync(null);
+
+            result.Should().Be(0);
+
+            this.TestFiles.AllFiles
+                .Select(NormalizePath)
+                .Should()
+                .BeEquivalentTo(
+                    this.ResolvePaths("/20221010T010000Z_REC_-38.36231+145.31787.wav"));
         }
     }
 }

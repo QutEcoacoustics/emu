@@ -25,6 +25,7 @@ namespace Emu.Commands.Rename
     using LanguageExt.Common;
     using Microsoft.Extensions.Logging;
     using NodaTime;
+    using static Emu.Cli.SpectreUtils;
     using static Emu.Utilities.DryRun;
     using static LanguageExt.Prelude;
     using Error = LanguageExt.Common.Error;
@@ -185,15 +186,15 @@ namespace Emu.Commands.Rename
 
             if (r.NewName is null)
             {
-                return $"-     Error {r.OldName}\n    because {r.Reason}";
+                return $"-     Error {MarkupPath(r.OldName)}\n    because {r.Reason}";
             }
 
             if (r.NewName == r.OldName)
             {
-                return $"- No change {r.OldName}";
+                return $"- No change {MarkupPath(r.OldName)}";
             }
 
-            var partial = $"-   Renamed {r.OldName}\n         to {r.NewName}";
+            var partial = $"-   Renamed {MarkupPath(r.OldName)}\n         to {MarkupPath(r.NewName)}";
             if (r.Reason is not null)
             {
                 partial += $"\n      Error {r.Reason}";
