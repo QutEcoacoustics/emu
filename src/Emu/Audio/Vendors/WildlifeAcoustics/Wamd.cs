@@ -29,7 +29,7 @@ namespace Emu.Audio
         public const string LatitudeKey = "Latitude";
         public const string LongitudeKey = "Longitude";
         public const string AltitudeKey = "Altitude";
-        public static readonly byte[] WamdChunkId = new byte[] { (byte)'w', (byte)'a', (byte)'m', (byte)'d' };
+        public static readonly byte[] WamdChunkId = "wamd"u8.ToArray();
         public static readonly Error WamdVersionError = Error.New("Error reading wamd version");
         public static readonly OffsetDateTimePattern OffsetDatePattern = OffsetDateTimePattern.CreateWithInvariantCulture("yyyy'-'MM'-'dd' 'HH':'mm':'sso<m>");
         public static readonly LocalDateTimePattern LocalDatePattern = LocalDateTimePattern.CreateWithInvariantCulture("yyyy'-'MM'-'dd' 'HH':'mm':'ss");

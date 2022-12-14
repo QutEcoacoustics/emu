@@ -29,7 +29,7 @@ namespace Emu.Audio
         public const int MetadataBlockSize = 42;
         public const int VorbisCommentBlockNumber = 4;
 
-        public static readonly byte[] FlacMagicNumber = new byte[] { (byte)'f', (byte)'L', (byte)'a', (byte)'C' };
+        public static readonly byte[] FlacMagicNumber = "fLaC"u8.ToArray();
 
         public static readonly Error NotFlac = Error.New("File is not a FLAC file");
         public static readonly Error FileTooShort = Error.New("Error reading file: file is not long enough to read metadata");

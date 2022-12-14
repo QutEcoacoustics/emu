@@ -19,6 +19,7 @@ namespace Emu
         "StyleCop.CSharp.DocumentationRules",
         "SA1623:Property summary documentation should match accessors",
         Justification = "These are not ordinary properties")]
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)]
     public static class WellKnownProblems
     {
         private static readonly IReadOnlyDictionary<string, WellKnownProblem> Problems;
@@ -28,7 +29,7 @@ namespace Emu
             Problems = typeof(WellKnownProblems)
                             .GetNestedTypes()
                             .Prepend(typeof(WellKnownProblems))
-                            .SelectMany(t => t.GetProperties(BindingFlags.Static | BindingFlags.Public))
+                            .SelectMany(([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] t) => t.GetProperties(BindingFlags.Static | BindingFlags.Public))
                             .Where(p => p.PropertyType == typeof(WellKnownProblem))
                             .Select(p => p.GetValue(null))
                             .Cast<WellKnownProblem>()

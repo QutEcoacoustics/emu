@@ -45,7 +45,7 @@ namespace Emu.Tests.Audio.Formats.FLAC
         public void TestDecodeNotEnoughBytes()
         {
             Assert.Throws<ArgumentException>(
-                () => FlacUTF8Coding.Utf8Decode(new byte[] { }, out var _));
+                () => FlacUTF8Coding.Utf8Decode(""u8.ToArray(), out var _));
         }
 
         [Fact]

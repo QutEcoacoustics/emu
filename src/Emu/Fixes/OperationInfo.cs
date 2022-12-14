@@ -4,6 +4,7 @@
 
 namespace Emu.Fixes
 {
+    using System.Diagnostics.CodeAnalysis;
     using System.IO.Abstractions;
     using LanguageExt;
     using Newtonsoft.Json;
@@ -14,7 +15,9 @@ namespace Emu.Fixes
         bool Fixable,
         bool Safe,
         bool Automatic,
-        [property: JsonIgnore] Type FixClass,
+        [property: JsonIgnore]
+        [property: DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)]
+        Type FixClass,
         Option<string> Suffix = default)
     {
         public string GetErrorName(IFileSystem fileSystem, string path)

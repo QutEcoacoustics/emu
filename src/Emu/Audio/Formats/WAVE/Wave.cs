@@ -31,17 +31,17 @@ namespace Emu.Audio.WAVE
         public const int FL005ErrorBytes = 44;
         public const int ChunkIdLength = 4;
 
-        public static readonly byte[] RiffMagicNumber = new byte[] { (byte)'R', (byte)'I', (byte)'F', (byte)'F' };
-        public static readonly byte[] WaveMagicNumber = new byte[] { (byte)'W', (byte)'A', (byte)'V', (byte)'E' };
-        public static readonly byte[] FormatChunkId = new byte[] { (byte)'f', (byte)'m', (byte)'t', (byte)' ' };
-        public static readonly byte[] DataChunkId = new byte[] { (byte)'d', (byte)'a', (byte)'t', (byte)'a' };
-        public static readonly byte[] CueChunkId = new byte[] { (byte)'c', (byte)'u', (byte)'e', (byte)' ' };
-        public static readonly byte[] InfoChunkId = new byte[] { (byte)'I', (byte)'N', (byte)'F', (byte)'O' };
-        public static readonly byte[] ListChunkId = new byte[] { (byte)'L', (byte)'I', (byte)'S', (byte)'T' };
-        public static readonly byte[] LabelChunkId = new byte[] { (byte)'l', (byte)'a', (byte)'b', (byte)'l' };
-        public static readonly byte[] NoteChunkId = new byte[] { (byte)'n', (byte)'o', (byte)'t', (byte)'e' };
-        public static readonly byte[] LabelledTextChunkId = new byte[] { (byte)'l', (byte)'t', (byte)'x', (byte)'t' };
-        public static readonly byte[] AssociatedDataListChunkId = new byte[] { (byte)'a', (byte)'d', (byte)'t', (byte)'l' };
+        public static readonly byte[] RiffMagicNumber = "RIFF"u8.ToArray();
+        public static readonly byte[] WaveMagicNumber = "WAVE"u8.ToArray();
+        public static readonly byte[] FormatChunkId = "fmt "u8.ToArray();
+        public static readonly byte[] DataChunkId = "data"u8.ToArray();
+        public static readonly byte[] CueChunkId = "cue "u8.ToArray();
+        public static readonly byte[] InfoChunkId = "INFO"u8.ToArray();
+        public static readonly byte[] ListChunkId = "LIST"u8.ToArray();
+        public static readonly byte[] LabelChunkId = "labl"u8.ToArray();
+        public static readonly byte[] NoteChunkId = "note"u8.ToArray();
+        public static readonly byte[] LabelledTextChunkId = "ltxt"u8.ToArray();
+        public static readonly byte[] AssociatedDataListChunkId = "adtl"u8.ToArray();
 
         public static readonly Error FileTooShortRiff = Error.New("Error reading file: file is not long enough to have RIFF/WAVE header");
         public static readonly Error FileNotWave = Error.New("Error reading file: file is not a RIFF/WAVE file");
@@ -329,7 +329,7 @@ namespace Emu.Audio.WAVE
 
             return result;
 
-            string ParseString(ReadOnlySpan<byte> bytes)
+            static string ParseString(ReadOnlySpan<byte> bytes)
             {
                 return Encoding.ASCII.GetString(bytes).TrimEnd('\0');
             }

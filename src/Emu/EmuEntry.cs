@@ -112,7 +112,7 @@ namespace Emu
                 services.AddSingleton<MetadataRegister>();
                 foreach (var extractor in MetadataRegister.KnownOperations)
                 {
-                    services.AddTransient(extractor);
+                    services.AddTransient(extractor.Type);
                 }
             };
         }

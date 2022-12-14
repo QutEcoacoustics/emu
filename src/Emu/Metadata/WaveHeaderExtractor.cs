@@ -62,10 +62,10 @@ namespace Emu.Metadata
                 dataChunk = dataChunk.Map(r => this.fl008.ModifyDataRange(r));
             }
 
-            return this.NonAsyncPart(stream, formatChunk.ThrowIfFail(), dataChunk, recording);
+            return NonAsyncPart(stream, formatChunk.ThrowIfFail(), dataChunk, recording);
         }
 
-        private Recording NonAsyncPart(
+        private static Recording NonAsyncPart(
             Stream stream,
             RangeHelper.Range formatChunk,
             Fin<RangeHelper.Range> dataChunk,
