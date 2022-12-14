@@ -23,7 +23,9 @@ jobs:
         uses: nschloe/action-cached-lfs-checkout@v1
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v1
+        uses: actions/setup-dotnet@v3
+        with:
+          global-json-file: global.json
       - name: Restore dependencies
         run: dotnet restore
       - name: Build
