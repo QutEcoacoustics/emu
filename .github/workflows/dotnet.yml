@@ -20,7 +20,7 @@ jobs:
     steps:
       # https://github.com/nschloe/action-cached-lfs-checkout
       - name: Checkout code
-        uses: nschloe/action-cached-lfs-checkout@v1
+        uses: nschloe/action-cached-lfs-checkout@v1.1.2
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
@@ -36,7 +36,7 @@ jobs:
     # https://github.com/marketplace/actions/github-action-merge-dependabot
     needs: build
     runs-on: ubuntu-latest
-    
+
     permissions:
       pull-requests: write
       contents: write
