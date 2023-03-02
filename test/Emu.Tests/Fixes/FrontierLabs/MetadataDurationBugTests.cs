@@ -22,7 +22,7 @@ namespace Emu.Tests.Fixes.FrontierLabs
     using static Emu.Fixes.FrontierLabs.MetadataDurationBug;
     using static Emu.Utilities.DryRun;
 
-    public class MetadataDurationBugTests : TestBase, IClassFixture<FixtureHelper.FixtureData>
+    public class MetadataDurationBugTests : TestBase, IClassFixture<FixtureData>
     {
         private const decimal FirmwareVersion = 3.2m;
         private const ulong BeforeFixSamples = 317292544ul;
@@ -44,10 +44,10 @@ namespace Emu.Tests.Fixes.FrontierLabs
 
         private readonly FileUtilities fileUtilities;
         private readonly MetadataDurationBug fixer;
-        private readonly FixtureHelper.FixtureData data;
+        private readonly FixtureData data;
         private readonly FileSystem fileSystem;
 
-        public MetadataDurationBugTests(ITestOutputHelper output, FixtureHelper.FixtureData data)
+        public MetadataDurationBugTests(ITestOutputHelper output, FixtureData data)
             : base(output, true)
         {
             this.fileUtilities = this.ServiceProvider.GetRequiredService<FileUtilities>();

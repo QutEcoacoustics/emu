@@ -28,7 +28,7 @@ namespace Emu.Tests.FilenameParsing
         }
 
         [Scenario]
-        [ClassData(typeof(FixtureHelper.FilenameParsingFixtureData))]
+        [ClassData(typeof(FilenameParsingFixtureData))]
         public void CanParse(FilenameParsingFixtureModel test)
         {
             $"Given {test}".x(Nop);
@@ -84,7 +84,7 @@ namespace Emu.Tests.FilenameParsing
         }
 
         [Theory]
-        [ClassData(typeof(FixtureHelper.FilenameParsingFixtureData))]
+        [ClassData(typeof(FilenameParsingFixtureData))]
         public void ParsesTokenizedNameCorrectly(FilenameParsingFixtureModel test)
         {
             var actual = this.FilenameParser.Parse(test.Filename);
@@ -93,7 +93,7 @@ namespace Emu.Tests.FilenameParsing
         }
 
         [Theory]
-        [ClassData(typeof(FixtureHelper.FilenameParsingFixtureData))]
+        [ClassData(typeof(FilenameParsingFixtureData))]
         public void CanReconstructTheFileName(FilenameParsingFixtureModel test)
         {
             var parsed = this.FilenameParser.Parse(test.Filename);

@@ -15,12 +15,12 @@ namespace Emu.Tests.Fixes.WildlifeAcoustics
     using Xunit.Abstractions;
     using static LanguageExt.Prelude;
 
-    public class NoDataTests : TestBase, IClassFixture<FixtureHelper.FixtureData>
+    public class NoDataTests : TestBase, IClassFixture<FixtureData>
     {
         private readonly NoData fixer;
-        private readonly FixtureHelper.FixtureData data;
+        private readonly FixtureData data;
 
-        public NoDataTests(ITestOutputHelper output, FixtureHelper.FixtureData data)
+        public NoDataTests(ITestOutputHelper output, FixtureData data)
             : base(output, realFileSystem: true)
         {
             this.fixer = this.ServiceProvider.GetRequiredService<NoData>();
@@ -86,7 +86,7 @@ namespace Emu.Tests.Fixes.WildlifeAcoustics
         }
 
         [SkippableTheory]
-        [ClassData(typeof(FixtureHelper.FixtureData))]
+        [ClassData(typeof(FixtureData))]
         public async Task NoOtherFixtureIsDetectedAsAPositive(FixtureModel fixture)
         {
             Skip.If(fixture.Name is FixtureModel.NoDataHeader or FixtureModel.NoDataHeader2);

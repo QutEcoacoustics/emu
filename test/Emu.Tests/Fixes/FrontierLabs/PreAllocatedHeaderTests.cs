@@ -15,12 +15,12 @@ namespace Emu.Tests.Fixes.FrontierLabs
     using Xunit.Abstractions;
     using static LanguageExt.Prelude;
 
-    public class PreAllocatedHeaderTests : TestBase, IClassFixture<FixtureHelper.FixtureData>
+    public class PreAllocatedHeaderTests : TestBase, IClassFixture<FixtureData>
     {
         private readonly PreAllocatedHeader fixer;
-        private readonly FixtureHelper.FixtureData data;
+        private readonly FixtureData data;
 
-        public PreAllocatedHeaderTests(ITestOutputHelper output, FixtureHelper.FixtureData data)
+        public PreAllocatedHeaderTests(ITestOutputHelper output, FixtureData data)
             : base(output, realFileSystem: true)
         {
             this.fixer = this.ServiceProvider.GetRequiredService<PreAllocatedHeader>();
@@ -101,7 +101,7 @@ namespace Emu.Tests.Fixes.FrontierLabs
         }
 
         [SkippableTheory]
-        [ClassData(typeof(FixtureHelper.FixtureData))]
+        [ClassData(typeof(FixtureData))]
         public async Task NoOtherFixtureIsDetectedAsAPositive(FixtureModel fixture)
         {
             Skip.If(fixture.Name is FixtureModel.PreAllocatedHeader or FixtureModel.PreAllocatedHeader2);

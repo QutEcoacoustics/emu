@@ -23,10 +23,11 @@ namespace Emu.Tests.Commands.Metadata
 
     using static Emu.EmuCommand;
 
-    public class MetadataCommandTests : TestBase
+    public class MetadataCommandTests
+        : TestBase
     {
         private readonly Metadata command;
-        private JsonLinesSerializer serializer;
+        private readonly JsonLinesSerializer serializer;
 
         public MetadataCommandTests(ITestOutputHelper output)
             : base(output, realFileSystem: false, outputFormat: OutputFormat.JSONL)
@@ -36,9 +37,10 @@ namespace Emu.Tests.Commands.Metadata
                 this.TestFiles,
                 new FileMatcher(this.BuildLogger<FileMatcher>(), this.TestFiles),
                 this.GetOutputRecordWriter(),
-                new MetadataRegister(this.ServiceProvider));
-
-            this.command.Targets = "/".AsArray();
+                new MetadataRegister(this.ServiceProvider))
+            {
+                Targets = "/".AsArray(),
+            };
 
             this.serializer = this.ServiceProvider.GetRequiredService<JsonLinesSerializer>();
         }
@@ -97,11 +99,12 @@ namespace Emu.Tests.Commands.Metadata
             }
         }
 
-        public class SmokeTest : TestBase
+        public class SmokeTest : TestBase, IClassFixture<FixtureData>
         {
             private readonly Metadata command;
+            private readonly FixtureData data;
 
-            public SmokeTest(ITestOutputHelper output)
+            public SmokeTest(ITestOutputHelper output, FixtureData data)
                 : base(output, true, OutputFormat.Default)
             {
                 this.command = new Metadata(
@@ -112,12 +115,14 @@ namespace Emu.Tests.Commands.Metadata
                    new MetadataRegister(this.ServiceProvider))
                 {
                 };
+                this.data = data;
             }
 
             [Fact]
             public async Task TheDefaultFormatterWorks()
             {
-                this.command.Targets = FixtureHelper.FixtureData.Get(FixtureModel.NormalFile).AbsoluteFixturePath.AsArray();
+                var fixture = this.data[FixtureModel.NormalFile];
+                this.command.Targets = fixture.AbsoluteFixturePath.AsArray();
 
                 var result = await this.command.InvokeAsync(null);
 

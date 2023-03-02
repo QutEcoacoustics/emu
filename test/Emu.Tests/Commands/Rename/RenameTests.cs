@@ -19,11 +19,12 @@ namespace Emu.Tests.Commands.Rename
     using Xunit;
     using Xunit.Abstractions;
 
-    public class RenameTests : TestBase
+    public class RenameTests : TestBase, IClassFixture<FixtureData>
     {
         private readonly Rename command;
+        private readonly FixtureData data;
 
-        public RenameTests(ITestOutputHelper output)
+        public RenameTests(ITestOutputHelper output, FixtureData data)
             : base(output)
         {
             this.command = new Rename(
@@ -38,6 +39,7 @@ namespace Emu.Tests.Commands.Rename
             {
                 Targets = "/".AsArray(),
             };
+            this.data = data;
         }
 
         [Fact]
@@ -248,7 +250,7 @@ namespace Emu.Tests.Commands.Rename
         [Fact]
         public async Task CanDrawMetadataFromFileHeaderFrontierLabs()
         {
-            var fixture = FixtureHelper.FixtureData.Get(FixtureModel.ShortFile);
+            var fixture = this.data[FixtureModel.ShortFile];
 
             // simulate loss of filename
             this.TestFiles.AddFile("/F1234567890", fixture.ToMockFileData());
@@ -273,7 +275,7 @@ namespace Emu.Tests.Commands.Rename
         [Fact]
         public async Task CanDrawMetadataFromFileHeaderWildlifeAcoustics()
         {
-            var fixture = FixtureHelper.FixtureData.Get(FixtureModel.SM4BatNormal1);
+            var fixture = this.data[FixtureModel.SM4BatNormal1];
 
             // simulate loss of filename
             this.TestFiles.AddFile("/F1234567890", fixture.ToMockFileData());
@@ -337,7 +339,7 @@ namespace Emu.Tests.Commands.Rename
         [Fact]
         public async Task TemplateCanUseDuration()
         {
-            var fixture = FixtureHelper.FixtureData.Get(FixtureModel.SM4BatNormal1);
+            var fixture = this.data[FixtureModel.SM4BatNormal1];
 
             this.TestFiles.AddFile("/PILLIGA_20121204_234600.wav", fixture.ToMockFileData());
 
@@ -412,7 +414,7 @@ namespace Emu.Tests.Commands.Rename
         [Fact]
         public async Task WillParseAFormatStringOnwardsForIsEmpty()
         {
-            var fixture = FixtureHelper.FixtureData.Get(FixtureModel.SM4BatNormal1);
+            var fixture = this.data[FixtureModel.SM4BatNormal1];
 
             this.TestFiles.AddFile("/PILLIGA_20121204_234600.wav", fixture.ToMockFileData());
 

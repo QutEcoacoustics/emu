@@ -16,18 +16,18 @@ namespace Emu.Tests.Audio.Formats.FLAC
     using Xunit;
     using Xunit.Abstractions;
 
-    public class FlacTests : TestBase, IClassFixture<FixtureHelper.FixtureData>
+    public class FlacTests : TestBase, IClassFixture<FixtureData>
     {
-        private readonly FixtureHelper.FixtureData data;
+        private readonly FixtureData data;
 
-        public FlacTests(FixtureHelper.FixtureData data, ITestOutputHelper output)
+        public FlacTests(FixtureData data, ITestOutputHelper output)
             : base(output)
         {
             this.data = data;
         }
 
         [Theory]
-        [ClassData(typeof(FixtureHelper.FixtureData))]
+        [ClassData(typeof(FixtureData))]
         public void ReadTotalSamplesTest(FixtureModel model)
         {
             if (model.Process.ContainsKey(FixtureModel.FlacHeaderExtractor) && model.IsFlac)
@@ -39,7 +39,7 @@ namespace Emu.Tests.Audio.Formats.FLAC
         }
 
         [Theory]
-        [ClassData(typeof(FixtureHelper.FixtureData))]
+        [ClassData(typeof(FixtureData))]
         public void ReadSampleRateTest(FixtureModel model)
         {
             if (model.Process.ContainsKey(FixtureModel.FlacHeaderExtractor) && model.IsFlac)
@@ -51,7 +51,7 @@ namespace Emu.Tests.Audio.Formats.FLAC
         }
 
         [Theory]
-        [ClassData(typeof(FixtureHelper.FixtureData))]
+        [ClassData(typeof(FixtureData))]
         public void ReadNumChannelsTest(FixtureModel model)
         {
             if (model.Process.ContainsKey(FixtureModel.FlacHeaderExtractor) && model.IsFlac)
@@ -63,7 +63,7 @@ namespace Emu.Tests.Audio.Formats.FLAC
         }
 
         [Theory]
-        [ClassData(typeof(FixtureHelper.FixtureData))]
+        [ClassData(typeof(FixtureData))]
         public void ReadBitDepthTest(FixtureModel model)
         {
             if (model.Process.ContainsKey(FixtureModel.FlacHeaderExtractor) && model.IsFlac)
@@ -90,7 +90,7 @@ namespace Emu.Tests.Audio.Formats.FLAC
         }
 
         [Theory]
-        [ClassData(typeof(FixtureHelper.FixtureData))]
+        [ClassData(typeof(FixtureData))]
         public void IsFlacFileTest(FixtureModel model)
         {
             var isFlac = Flac.IsFlacFile(model.ToTargetInformation(this.RealFileSystem).FileStream).IfFail(false);

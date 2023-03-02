@@ -28,7 +28,7 @@ namespace Emu.Tests.Metadata
         public Recording Recording => new();
 
         [Theory]
-        [ClassData(typeof(FixtureHelper.FixtureData))]
+        [ClassData(typeof(FixtureData))]
         public async Task CanProcessFilesWorks(FixtureModel model)
         {
             // we can process all files that exist
@@ -38,7 +38,7 @@ namespace Emu.Tests.Metadata
         }
 
         [Theory]
-        [ClassData(typeof(FixtureHelper.FixtureData))]
+        [ClassData(typeof(FixtureData))]
         public async Task ProcessFilesWorks(FixtureModel model)
         {
             Recording expectedRecording = model.Record;

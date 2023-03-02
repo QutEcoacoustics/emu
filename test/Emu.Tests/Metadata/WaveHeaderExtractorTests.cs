@@ -26,7 +26,7 @@ namespace Emu.Tests.Metadata
         }
 
         [Theory]
-        [ClassData(typeof(FixtureHelper.FixtureData))]
+        [ClassData(typeof(FixtureData))]
         public async Task CanProcessFilesWorks(FixtureModel model)
         {
             var result = await this.subject.CanProcessAsync(model.ToTargetInformation(this.RealFileSystem));
@@ -37,7 +37,7 @@ namespace Emu.Tests.Metadata
         }
 
         [SkippableTheory]
-        [ClassData(typeof(FixtureHelper.FixtureData))]
+        [ClassData(typeof(FixtureData))]
         public async Task ProcessFilesWorks(FixtureModel model)
         {
             Skip.IfNot(model.IsWave && model.ValidMetadata == ValidMetadata.Yes);

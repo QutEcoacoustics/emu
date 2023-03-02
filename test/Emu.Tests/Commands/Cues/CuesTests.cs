@@ -21,13 +21,13 @@ namespace Emu.Tests.Commands.Cues
     using Xunit;
     using Xunit.Abstractions;
 
-    public class CuesTests : TestBase, IClassFixture<FixtureHelper.FixtureData>
+    public class CuesTests : TestBase, IClassFixture<FixtureData>
     {
         private readonly Cues command;
-        private readonly FixtureHelper.FixtureData data;
+        private readonly FixtureData data;
         private readonly JsonLinesSerializer serializer;
 
-        public CuesTests(ITestOutputHelper output, FixtureHelper.FixtureData data)
+        public CuesTests(ITestOutputHelper output, FixtureData data)
             : base(output, true)
         {
             this.command = new Cues(

@@ -2,7 +2,7 @@
 // All code in this file and all associated files are the copyright and property of the QUT Ecoacoustics Research Group.
 // </copyright>
 
-namespace Emu.Tests.Audio.Vendors
+namespace Emu.Tests.Audio.Vendors.FrontierLabs
 {
     using System;
     using Emu.Audio.Vendors;
@@ -46,10 +46,10 @@ namespace Emu.Tests.Audio.Vendors
         }
 
         [Theory]
-        [ClassData(typeof(FixtureHelper.FixtureData))]
+        [ClassData(typeof(FixtureData))]
         public void HasFrontierLabsVorbisComment(FixtureModel model)
         {
-            bool hasComment = FrontierLabs.HasFrontierLabsVorbisComment(model.ToTargetInformation(this.RealFileSystem).FileStream).IfFail(false);
+            var hasComment = FrontierLabs.HasFrontierLabsVorbisComment(model.ToTargetInformation(this.RealFileSystem).FileStream).IfFail(false);
 
             hasComment.Should().Be(model.Process.ContainsKey(FixtureModel.FlacCommentExtractor));
         }

@@ -13,11 +13,11 @@ namespace Emu.Tests.Audio.Formats.WAVE
     using Xunit;
     using Xunit.Abstractions;
 
-    public class WaveTests : TestBase, IClassFixture<FixtureHelper.FixtureData>
+    public class WaveTests : TestBase, IClassFixture<FixtureData>
     {
-        private readonly FixtureHelper.FixtureData data;
+        private readonly FixtureData data;
 
-        public WaveTests(ITestOutputHelper output, FixtureHelper.FixtureData data)
+        public WaveTests(ITestOutputHelper output, FixtureData data)
             : base(output)
         {
             this.data = data;

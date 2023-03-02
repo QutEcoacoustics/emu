@@ -4,15 +4,10 @@
 
 namespace Emu.Tests.TestHelpers
 {
-    using System.Collections;
-    using System.Collections.Generic;
     using System.IO;
     using System.IO.Abstractions;
     using System.Linq;
-    using Emu.Serialization;
     using Xunit;
-    using YamlDotNet.Core;
-    using YamlDotNet.Serialization;
 
     public static partial class FixtureHelper
     {
@@ -54,77 +49,6 @@ namespace Emu.Tests.TestHelpers
             }
 
             return path;
-        }
-
-        public class FilenameParsingFixtureData : IEnumerable<object[]>
-        {
-            private const string FixtureFile = "FileNameParsingFixtures.csv";
-            private readonly FilenameParsingFixtureModel[] filenameParsingFixtureModels;
-
-            public FilenameParsingFixtureData()
-            {
-                using var streamReader = RealFileSystem.File.OpenText(ResolvePath(FixtureFile));
-                var serializer = new CsvSerializer();
-
-                this.filenameParsingFixtureModels = serializer
-                    .Deserialize<FilenameParsingFixtureModel>(streamReader)
-                    .ToArray();
-            }
-
-            public IEnumerator<object[]> GetEnumerator()
-            {
-                IEnumerable<object[]> models = this.filenameParsingFixtureModels
-                    .Select(x => new object[] { x });
-
-                return models.GetEnumerator();
-            }
-
-            IEnumerator IEnumerable.GetEnumerator()
-            {
-                return this.GetEnumerator();
-            }
-        }
-
-        public class FixtureData : IEnumerable<object[]>
-        {
-            private const string FixtureFile = "Fixtures.yaml";
-            private static readonly Dictionary<string, FixtureModel> FixtureModels;
-
-            static FixtureData()
-            {
-                using var streamReader = RealFileSystem.File.OpenText(ResolvePath(FixtureFile));
-
-                var parser = new MergingParser(new Parser(streamReader));
-                var deserializer = new DeserializerBuilder().Build();
-
-                FixtureModels = deserializer
-                    .Deserialize<FixtureModel[]>(parser)
-                    .ToDictionary(f => f.Name);
-            }
-
-            public FixtureData()
-            {
-            }
-
-            public static IReadOnlyCollection<FixtureModel> All => FixtureModels.Values;
-
-            public FixtureModel this[string key] => FixtureModels[key];
-
-            public static FixtureModel Get(string key) => FixtureModels[key];
-
-            public IEnumerator<object[]> GetEnumerator()
-            {
-                IEnumerable<object[]> models = FixtureModels
-                    .Select(x => new object[] { x.Value })
-                    .ToArray();
-
-                return models.GetEnumerator();
-            }
-
-            IEnumerator IEnumerable.GetEnumerator()
-            {
-                return this.GetEnumerator();
-            }
         }
     }
 }

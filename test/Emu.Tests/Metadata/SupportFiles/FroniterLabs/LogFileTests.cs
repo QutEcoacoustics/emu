@@ -21,15 +21,18 @@ namespace Emu.Tests.Metadata.SupportFiles
     using Xunit;
     using Xunit.Abstractions;
 
-    public class LogFileTests : TestBase
+    public class LogFileTests : TestBase, IClassFixture<FixtureData>
     {
-        public LogFileTests(ITestOutputHelper output)
+        private readonly FixtureData data;
+
+        public LogFileTests(ITestOutputHelper output, FixtureData data)
             : base(output, realFileSystem: true)
         {
+            this.data = data;
         }
 
         [Theory]
-        [ClassData(typeof(FixtureHelper.FixtureData))]
+        [ClassData(typeof(FixtureData))]
         public void HasLogFileTest(FixtureModel model)
         {
             if (model.Process.ContainsKey(FixtureModel.FrontierLabsLogFileExtractor))
@@ -43,7 +46,7 @@ namespace Emu.Tests.Metadata.SupportFiles
         [Fact]
         public void CanDealWith300Oddities()
         {
-            var model = FixtureHelper.FixtureData.Get(FixtureModel.Normal300File);
+            var model = this.data[FixtureModel.Normal300File];
 
             // support files are added automatically with out helper
             var target = model.ToTargetInformation(this.CurrentFileSystem);

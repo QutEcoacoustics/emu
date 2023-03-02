@@ -15,12 +15,12 @@ namespace Emu.Tests.Fixes.OpenEcoacoustics
     using Xunit.Abstractions;
     using static LanguageExt.Prelude;
 
-    public class EmptyFileTests : TestBase, IClassFixture<FixtureHelper.FixtureData>
+    public class EmptyFileTests : TestBase, IClassFixture<FixtureData>
     {
         private readonly EmptyFile fixer;
-        private readonly FixtureHelper.FixtureData data;
+        private readonly FixtureData data;
 
-        public EmptyFileTests(ITestOutputHelper output, FixtureHelper.FixtureData data)
+        public EmptyFileTests(ITestOutputHelper output, FixtureData data)
             : base(output, realFileSystem: true)
         {
             this.fixer = this.ServiceProvider.GetRequiredService<EmptyFile>();
@@ -56,7 +56,7 @@ namespace Emu.Tests.Fixes.OpenEcoacoustics
         }
 
         [SkippableTheory]
-        [ClassData(typeof(FixtureHelper.FixtureData))]
+        [ClassData(typeof(FixtureData))]
         public async Task NoOtherFixtureIsDetectedAsAPositive(FixtureModel fixture)
         {
             Skip.If(fixture.Record.FileSizeBytes == 0);

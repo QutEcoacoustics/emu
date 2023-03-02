@@ -28,7 +28,7 @@ namespace Emu.Tests.Metadata
         /// </summary>
         /// <param name="model">The model test file.</param>
         [Theory]
-        [ClassData(typeof(FixtureHelper.FixtureData))]
+        [ClassData(typeof(FixtureData))]
         public async System.Threading.Tasks.Task FLCommentAndLogExtractor(FixtureModel model)
         {
             if (model.Process.ContainsKey(FixtureModel.FLCommentAndLogExtractor))

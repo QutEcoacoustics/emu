@@ -15,14 +15,14 @@ namespace Emu.Tests.Fixes.FrontierLabs
     using Xunit;
     using Xunit.Abstractions;
 
-    public class SpaceInDatestampTests : TestBase, IClassFixture<FixtureHelper.FixtureData>, IDisposable
+    public class SpaceInDatestampTests : TestBase, IClassFixture<FixtureData>, IDisposable
     {
         private readonly FixtureModel fixture;
         private readonly TempFile target;
         private readonly FileUtilities fileUtilities;
         private readonly SpaceInDatestamp fixer;
 
-        public SpaceInDatestampTests(ITestOutputHelper output, FixtureHelper.FixtureData data)
+        public SpaceInDatestampTests(ITestOutputHelper output, FixtureData data)
             : base(output, true)
         {
             this.fixture = data[FixtureModel.SpaceInDateStamp];
@@ -62,7 +62,7 @@ namespace Emu.Tests.Fixes.FrontierLabs
         }
 
         [SkippableTheory]
-        [ClassData(typeof(FixtureHelper.FixtureData))]
+        [ClassData(typeof(FixtureData))]
         public async Task NoOtherFixtureIsDetectedAsAPositive(FixtureModel fixture)
         {
             Skip.If(fixture.Name is FixtureModel.SpaceInDateStamp);

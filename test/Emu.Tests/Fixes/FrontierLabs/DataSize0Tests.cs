@@ -15,7 +15,7 @@ namespace Emu.Tests.Fixes.FrontierLabs
     using Xunit;
     using Xunit.Abstractions;
 
-    public class DataSize0Tests : TestBase, IClassFixture<FixtureHelper.FixtureData>, IDisposable
+    public class DataSize0Tests : TestBase, IClassFixture<FixtureData>, IDisposable
     {
         private const uint BeforeDataSize = 0u;
         private const uint AfterDataSize = 158_535_636u;
@@ -32,7 +32,7 @@ namespace Emu.Tests.Fixes.FrontierLabs
 
         private readonly long beforeSize;
 
-        public DataSize0Tests(ITestOutputHelper output, FixtureHelper.FixtureData data)
+        public DataSize0Tests(ITestOutputHelper output, FixtureData data)
             : base(output, true)
         {
             var fixture = data[FixtureModel.DataSize0];
@@ -71,7 +71,7 @@ namespace Emu.Tests.Fixes.FrontierLabs
         }
 
         [SkippableTheory]
-        [ClassData(typeof(FixtureHelper.FixtureData))]
+        [ClassData(typeof(FixtureData))]
         public async Task NoOtherFixtureIsDetectedAsAPositive(FixtureModel fixture)
         {
             Skip.If(fixture.Name is FixtureModel.DataSize0);

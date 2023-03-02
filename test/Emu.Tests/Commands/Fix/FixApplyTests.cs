@@ -22,15 +22,15 @@ namespace Emu.Tests.Commands.Fix
     using static Emu.EmuCommand;
     using static Emu.FixApply;
 
-    public class FixApplyTests : TestBase, IClassFixture<FixtureHelper.FixtureData>
+    public class FixApplyTests : TestBase, IClassFixture<FixtureData>
     {
-        private readonly FixtureHelper.FixtureData data;
+        private readonly FixtureData data;
         private readonly FixApply command;
         private readonly FileUtilities fileUtilities;
         private readonly JsonLinesSerializer serializer;
         private TempFile target;
 
-        public FixApplyTests(ITestOutputHelper output, FixtureHelper.FixtureData data)
+        public FixApplyTests(ITestOutputHelper output, FixtureData data)
             : base(output, true)
         {
             this.data = data;
@@ -50,6 +50,7 @@ namespace Emu.Tests.Commands.Fix
 
         public override void Dispose()
         {
+            GC.SuppressFinalize(this);
             this.target?.Dispose();
             base.Dispose();
         }
@@ -334,12 +335,13 @@ namespace Emu.Tests.Commands.Fix
             this.RealFileSystem.File.Delete(expected);
         }
 
-        public class DefaultFormatTests : TestBase
+        public class DefaultFormatTests : TestBase, IClassFixture<FixtureData>
         {
             private readonly FixApply command;
+            private readonly FixtureData data;
 
-            public DefaultFormatTests(ITestOutputHelper output)
-                : base(output, true, Emu.EmuCommand.OutputFormat.Default)
+            public DefaultFormatTests(ITestOutputHelper output, FixtureData data)
+                : base(output, true, OutputFormat.Default)
             {
                 var formatter = new AnsiConsoleFormatter(this.BuildLogger<AnsiConsoleFormatter>());
                 var writer = new OutputRecordWriter(
@@ -359,12 +361,13 @@ namespace Emu.Tests.Commands.Fix
                   this.ServiceProvider.GetRequiredService<FileUtilities>())
                 {
                 };
+                this.data = data;
             }
 
             [Fact]
             public async Task DefaultFormatEmitsASummaryTable()
             {
-                var fixture = FixtureHelper.FixtureData.Get(FixtureModel.SpaceInDateStamp);
+                var fixture = this.data[FixtureModel.SpaceInDateStamp];
 
                 this.command.DryRun = true;
                 this.command.NoRename = false;
@@ -391,7 +394,7 @@ namespace Emu.Tests.Commands.Fix
             {
                 this.command.DryRun = true;
                 this.command.NoRename = false;
-                this.command.Targets = new string[] { };
+                this.command.Targets = Array.Empty<string>();
                 this.command.Fix = new string[]
                 {
                     WellKnownProblems.FrontierLabsProblems.InvalidDateStampSpaceZero.Id,

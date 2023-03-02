@@ -34,13 +34,13 @@ namespace Emu.Tests.Fixes.FrontierLabs
     using static Emu.Tests.TestHelpers.FixtureModel;
     using static Emu.Utilities.DryRun;
 
-    public class PartialFileRepairTests : TestBase, IClassFixture<FixtureHelper.FixtureData>
+    public class PartialFileRepairTests : TestBase, IClassFixture<FixtureData>
     {
         private readonly FileUtilities fileUtilities;
         private readonly PartialFileRepair fixer;
-        private readonly FixtureHelper.FixtureData data;
+        private readonly FixtureData data;
 
-        public PartialFileRepairTests(ITestOutputHelper output, FixtureHelper.FixtureData data)
+        public PartialFileRepairTests(ITestOutputHelper output, FixtureData data)
             : base(output, true)
         {
             this.fileUtilities = this.ServiceProvider.GetRequiredService<FileUtilities>();
@@ -112,7 +112,7 @@ namespace Emu.Tests.Fixes.FrontierLabs
         }
 
         [SkippableTheory]
-        [ClassData(typeof(FixtureHelper.FixtureData))]
+        [ClassData(typeof(FixtureData))]
         public async Task NoOtherFixtureIsDetectedAsAPositive(FixtureModel fixture)
         {
             Skip.If(fixture.IsAffectedByProblem(WellKnownProblems.FrontierLabsProblems.PartialDataFiles));

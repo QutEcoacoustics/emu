@@ -25,11 +25,12 @@ namespace Emu.Tests.Commands.Fix
 
     public class FixCheckTests
     {
-        public class DefaultFormatTests : TestBase
+        public class DefaultFormatTests : TestBase, IClassFixture<FixtureData>
         {
             private readonly FixCheck command;
+            private readonly FixtureData data;
 
-            public DefaultFormatTests(ITestOutputHelper output)
+            public DefaultFormatTests(ITestOutputHelper output, FixtureData data)
                 : base(output, true, Emu.EmuCommand.OutputFormat.Default)
             {
                 var formatter = new AnsiConsoleFormatter(this.BuildLogger<AnsiConsoleFormatter>());
@@ -48,12 +49,13 @@ namespace Emu.Tests.Commands.Fix
                     this.CurrentFileSystem)
                 {
                 };
+                this.data = data;
             }
 
             [Fact]
             public async Task DefaultFormatEmitsASummaryTable()
             {
-                var fixture = FixtureHelper.FixtureData.Get(FixtureModel.SpaceInDateStamp);
+                var fixture = this.data[FixtureModel.SpaceInDateStamp];
 
                 this.command.Targets = new[] { fixture.AbsoluteFixturePath };
                 this.command.Fix = new string[]

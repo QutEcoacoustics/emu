@@ -4,6 +4,8 @@
 
 #pragma warning disable SA1200 // Using directives should be placed correctly
 global using Microsoft.Extensions.DependencyInjection;
+global using Xunit;
+global using Xunit.Abstractions;
 #pragma warning restore SA1200 // Using directives should be placed correctly
 
 namespace Emu.Tests.TestHelpers

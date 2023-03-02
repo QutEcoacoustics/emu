@@ -13,11 +13,11 @@ namespace Emu.Tests.Audio
     using Xunit;
     using Xunit.Abstractions;
 
-    public class WamdTests : TestBase, IClassFixture<FixtureHelper.FixtureData>
+    public class WamdTests : TestBase, IClassFixture<FixtureData>
     {
-        private readonly FixtureHelper.FixtureData data;
+        private readonly FixtureData data;
 
-        public WamdTests(ITestOutputHelper output, FixtureHelper.FixtureData data)
+        public WamdTests(ITestOutputHelper output, FixtureData data)
             : base(output)
         {
             this.data = data;
