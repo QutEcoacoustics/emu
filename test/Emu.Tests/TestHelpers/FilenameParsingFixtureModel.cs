@@ -4,9 +4,10 @@
 
 namespace Emu.Tests.TestHelpers
 {
+    using Newtonsoft.Json;
     using NodaTime;
 
-    public class FilenameParsingFixtureModel
+    public class FilenameParsingFixtureModel : IXunitSerializable
     {
         public string Filename { get; set; }
 
@@ -23,6 +24,18 @@ namespace Emu.Tests.TestHelpers
         public string TokenizedName { get; set; }
 
         public string NormalizedName { get; set; }
+
+        public void Deserialize(IXunitSerializationInfo info)
+        {
+            var text = info.GetValue<string>("Value");
+            JsonConvert.PopulateObject(text, this, Helpers.JsonSettings);
+        }
+
+        public void Serialize(IXunitSerializationInfo info)
+        {
+            var json = JsonConvert.SerializeObject(this, Helpers.JsonSettings);
+            info.AddValue("Value", json);
+        }
 
         public override string ToString()
         {
