@@ -58,7 +58,7 @@ namespace Emu.Tests.Fixes.FrontierLabs
         [Fact]
         public async Task CanDetectPreAllocatedFiles2()
         {
-            var fixture = this.data[FixtureModel.PreAllocatedHeader2];
+            var fixture = this.data[FixtureModel.PreAllocatedHeader153];
 
             var actual = await this.fixer.CheckAffectedAsync(fixture.AbsoluteFixturePath);
 
@@ -104,7 +104,7 @@ namespace Emu.Tests.Fixes.FrontierLabs
         [ClassData(typeof(FixtureData))]
         public async Task NoOtherFixtureIsDetectedAsAPositive(FixtureModel fixture)
         {
-            Skip.If(fixture.Name is FixtureModel.PreAllocatedHeader or FixtureModel.PreAllocatedHeader2);
+            Skip.If(fixture.Name is FixtureModel.PreAllocatedHeader or FixtureModel.PreAllocatedHeader153);
 
             var actual = await this.fixer.CheckAffectedAsync(fixture.AbsoluteFixturePath);
 

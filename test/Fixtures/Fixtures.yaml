@@ -1,4 +1,4 @@
-- Name: Short Error File
+- Name: Pre-Allocated Header
   Record: &ShortErrorFile
     Extension: .flac
     Stem: 20181101_060000_REC [-27.3866 152.8761]
@@ -71,7 +71,7 @@
     FilenameExtractor: ~
     FrontierLabsLogFileExtractor: ~
 
-- Name: Preallocated header 153
+- Name: Pre-Allocated header 153
   Record:
     Extension: .flac
     Stem: 20191125T000000+1000_REC
@@ -1220,7 +1220,7 @@
       StartDate: ~
     FrontierLabsLogFileExtractor: ~
 
-- Name: Incorrect data size
+- Name: Incorrect data size off by 44
   Record:
     Extension: .wav
     Stem: 20160809_063108_Dawn _1.4647 116.9136_

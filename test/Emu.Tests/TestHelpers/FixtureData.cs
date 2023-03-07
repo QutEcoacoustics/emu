@@ -12,7 +12,7 @@ namespace Emu.Tests.TestHelpers
 
     public class FixtureData : IEnumerable<object[]>
     {
-        private const string FixtureFile = "Fixtures.yaml";
+        public const string FixtureFile = "Fixtures.yaml";
         private readonly Dictionary<string, FixtureModel> fixtureModels;
 
         public FixtureData()

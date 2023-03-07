@@ -46,7 +46,7 @@ namespace Emu.Tests.Metadata.SupportFiles
         [Fact]
         public void CanDealWith300Oddities()
         {
-            var model = this.data[FixtureModel.Normal300File];
+            var model = this.data[FixtureModel.NormalFile300];
 
             // support files are added automatically with out helper
             var target = model.ToTargetInformation(this.CurrentFileSystem);

@@ -225,7 +225,7 @@ namespace Emu.Tests.Audio.Formats.FLAC
 
             Flac.IsFlacFile(stream).ThrowIfFail().Should().BeTrue();
 
-            var blockSize = Flac.ReadBlockSizes(stream).ThrowIfFail();
+            var (minimum, maximum) = Flac.ReadBlockSizes(stream).ThrowIfFail();
             var sampleRate = Flac.ReadSampleRate(stream).ThrowIfFail();
             var sampleSize = Flac.ReadBitDepth(stream).ThrowIfFail();
 
@@ -235,7 +235,7 @@ namespace Emu.Tests.Audio.Formats.FLAC
             // actually frame headers in the subframes.
             // The correct interpretation of this file has frames that all have the same
             // sample rate and channel layout. Thus we test for those factors.
-            await foreach (var result in Flac.EnumerateFrames(stream, sampleRate, sampleSize, blockSize.Minimum))
+            await foreach (var result in Flac.EnumerateFrames(stream, sampleRate, sampleSize, minimum))
             {
                 if (result.IsFail)
                 {
@@ -253,7 +253,7 @@ namespace Emu.Tests.Audio.Formats.FLAC
         public async Task FrameDetectionForFramesStartingInAnotherInvalidFrame()
         {
             // 137695 frames acording to flac decoder, actually 137706 frames
-            var fixture = this.data[FixtureModel.Normal308File];
+            var fixture = this.data[FixtureModel.NormalFile308];
             using var stream = this.RealFileSystem.File.OpenRead(fixture.AbsoluteFixturePath);
 
             Flac.IsFlacFile(stream).ThrowIfFail().Should().BeTrue();
@@ -295,7 +295,7 @@ namespace Emu.Tests.Audio.Formats.FLAC
         {
             // the last valid frame found by the FLAC decoder
             // frame=35661     offset=99822006 bits=23096      blocksize=2048  sample_rate=22050       channels=1      channel_assignment=INDEPENDENT
-            var fixture = this.data[FixtureModel.PartialRobsonDryAConflict];
+            var fixture = this.data[FixtureModel.RobsonDryAPartialWithConflict];
             using var stream = this.RealFileSystem.File.OpenRead(fixture.AbsoluteFixturePath);
 
             Flac.IsFlacFile(stream).ThrowIfFail().Should().BeTrue();
@@ -374,7 +374,7 @@ namespace Emu.Tests.Audio.Formats.FLAC
         [Fact]
         public async Task CanCountSamples5()
         {
-            var fixture = this.data[FixtureModel.Normal308File];
+            var fixture = this.data[FixtureModel.NormalFile308];
             using var stream = this.RealFileSystem.File.OpenRead(fixture.AbsoluteFixturePath);
 
             var expected = Flac.ReadTotalSamples(stream);

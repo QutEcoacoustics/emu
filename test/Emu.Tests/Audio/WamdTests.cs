@@ -26,7 +26,7 @@ namespace Emu.Tests.Audio
         [Fact]
         public void HasVersion1WamdChunkTest()
         {
-            var fixture = this.data[FixtureModel.SM4BatNormal1];
+            var fixture = this.data[FixtureModel.Sm4BatNormal1];
             var wamdFile = this.RealFileSystem.File.OpenRead(fixture.AbsoluteFixturePath);
             bool hasWamd = Wamd.HasVersion1WamdChunk(wamdFile).IfFail(false);
             Assert.True(hasWamd);
@@ -44,7 +44,7 @@ namespace Emu.Tests.Audio
         [Fact]
         public void ExtractMetadataTest()
         {
-            var fixture = this.data[FixtureModel.SM4BatNormal1];
+            var fixture = this.data[FixtureModel.Sm4BatNormal1];
             var stream = this.RealFileSystem.File.OpenRead(fixture.AbsoluteFixturePath);
 
             var tryWamdData = Wamd.ExtractMetadata(stream);

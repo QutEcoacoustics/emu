@@ -1,11 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <IsPackable>false</IsPackable>
     <CodeAnalysisRuleSet>../../stylecop.ruleset</CodeAnalysisRuleSet>
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
     <LangVersion>preview</LangVersion>
     <EnablePreviewFeatures>True</EnablePreviewFeatures>
+    <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DocumentationFile />
@@ -39,9 +40,9 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\Emu\Emu.csproj" />
+    <ProjectReference Include="..\Emu.FixtureGenerator\Emu.FixtureGenerator.csproj" OutputItemType="Analyzer" />
+
     <AdditionalFiles Include="../../stylecop.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Commands\Rename\" />
+    <AdditionalFiles Include="..\Fixtures\Fixtures.yaml" />
   </ItemGroup>
 </Project>

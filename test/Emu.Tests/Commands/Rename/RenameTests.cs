@@ -275,7 +275,7 @@ namespace Emu.Tests.Commands.Rename
         [Fact]
         public async Task CanDrawMetadataFromFileHeaderWildlifeAcoustics()
         {
-            var fixture = this.data[FixtureModel.SM4BatNormal1];
+            var fixture = this.data[FixtureModel.Sm4BatNormal1];
 
             // simulate loss of filename
             this.TestFiles.AddFile("/F1234567890", fixture.ToMockFileData());
@@ -339,7 +339,7 @@ namespace Emu.Tests.Commands.Rename
         [Fact]
         public async Task TemplateCanUseDuration()
         {
-            var fixture = this.data[FixtureModel.SM4BatNormal1];
+            var fixture = this.data[FixtureModel.Sm4BatNormal1];
 
             this.TestFiles.AddFile("/PILLIGA_20121204_234600.wav", fixture.ToMockFileData());
 
@@ -414,7 +414,7 @@ namespace Emu.Tests.Commands.Rename
         [Fact]
         public async Task WillParseAFormatStringOnwardsForIsEmpty()
         {
-            var fixture = this.data[FixtureModel.SM4BatNormal1];
+            var fixture = this.data[FixtureModel.Sm4BatNormal1];
 
             this.TestFiles.AddFile("/PILLIGA_20121204_234600.wav", fixture.ToMockFileData());
 

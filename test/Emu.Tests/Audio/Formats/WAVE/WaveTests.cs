@@ -27,7 +27,7 @@ namespace Emu.Tests.Audio.Formats.WAVE
 
         public void ReadTotalSamplesTest()
         {
-            var model = this.data[FixtureModel.SM4BatNormal1];
+            var model = this.data[FixtureModel.Sm4BatNormal1];
             var (format, dataRange) = this.ReadChunkRanges(model);
             var bitsPerSample = Wave.GetBitsPerSample(format);
             var channels = Wave.GetChannels(format);
@@ -40,8 +40,8 @@ namespace Emu.Tests.Audio.Formats.WAVE
 
         public void ReadSampleRateTest()
         {
-            var model = this.data[FixtureModel.SM4BatNormal1];
-            var (format, dataRange) = this.ReadChunkRanges(model);
+            var model = this.data[FixtureModel.Sm4BatNormal1];
+            var (format, _) = this.ReadChunkRanges(model);
 
             var sampleRate = Wave.GetSampleRate(format);
             sampleRate.Should().Be(model.Record.SampleRateHertz);
@@ -51,8 +51,8 @@ namespace Emu.Tests.Audio.Formats.WAVE
 
         public void GetAudioFormatTest()
         {
-            var model = this.data[FixtureModel.SM4BatNormal1];
-            var (format, dataRange) = this.ReadChunkRanges(model);
+            var model = this.data[FixtureModel.Sm4BatNormal1];
+            var (format, _) = this.ReadChunkRanges(model);
 
             var audioFormat = Wave.GetAudioFormat(format);
             audioFormat.Should().Be(Wave.Format.Pcm);
@@ -62,8 +62,8 @@ namespace Emu.Tests.Audio.Formats.WAVE
 
         public void BitsPerSampleTest()
         {
-            var model = this.data[FixtureModel.SM4BatNormal1];
-            var (format, dataRange) = this.ReadChunkRanges(model);
+            var model = this.data[FixtureModel.Sm4BatNormal1];
+            var (format, _) = this.ReadChunkRanges(model);
 
             var bitsPerSample = Wave.GetBitsPerSample(format);
             bitsPerSample.Should().Be(model.Record.BitDepth);
@@ -73,8 +73,8 @@ namespace Emu.Tests.Audio.Formats.WAVE
 
         public void ReadNumChannelsTest()
         {
-            var model = this.data[FixtureModel.SM4BatNormal1];
-            var (format, dataRange) = this.ReadChunkRanges(model);
+            var model = this.data[FixtureModel.Sm4BatNormal1];
+            var (format, _) = this.ReadChunkRanges(model);
 
             var channels = Wave.GetChannels(format);
             channels.Should().Be(model.Record.Channels);
@@ -84,8 +84,8 @@ namespace Emu.Tests.Audio.Formats.WAVE
 
         public void GetByteRateTest()
         {
-            var model = this.data[FixtureModel.SM4BatNormal1];
-            var (format, dataRange) = this.ReadChunkRanges(model);
+            var model = this.data[FixtureModel.Sm4BatNormal1];
+            var (format, _) = this.ReadChunkRanges(model);
 
             var byteRate = Wave.GetByteRate(format) * 8;
             byteRate.Should().Be(model.Record.BitsPerSecond);
@@ -95,8 +95,8 @@ namespace Emu.Tests.Audio.Formats.WAVE
 
         public void GetBlockAlignTest()
         {
-            var model = this.data[FixtureModel.SM4BatNormal1];
-            var (format, dataRange) = this.ReadChunkRanges(model);
+            var model = this.data[FixtureModel.Sm4BatNormal1];
+            var (format, _) = this.ReadChunkRanges(model);
 
             var blockAlign = Wave.GetBlockAlign(format);
             blockAlign.Should().Be(model.BlockAlign);
@@ -106,7 +106,7 @@ namespace Emu.Tests.Audio.Formats.WAVE
 
         public void IsWaveFileTest()
         {
-            var model = this.data[FixtureModel.SM4BatNormal1];
+            var model = this.data[FixtureModel.Sm4BatNormal1];
             using var stream = model.ToTargetInformation(this.RealFileSystem).FileStream;
 
             var isWave = Wave.IsWaveFile(stream);
@@ -120,7 +120,7 @@ namespace Emu.Tests.Audio.Formats.WAVE
 
         public void IsPcmWaveFileTest()
         {
-            var model = this.data[FixtureModel.SM4BatNormal1];
+            var model = this.data[FixtureModel.Sm4BatNormal1];
             using var stream = model.ToTargetInformation(this.RealFileSystem).FileStream;
 
             var isWave = Wave.IsPcmWaveFile(stream);
@@ -133,7 +133,7 @@ namespace Emu.Tests.Audio.Formats.WAVE
         [Fact]
         public void CanReadCuesTest()
         {
-            var model = this.data[FixtureModel.WaveWithCues];
+            var model = this.data[FixtureModel.GenericWaveWithCueChunk];
             using var stream = model.ToTargetInformation(this.RealFileSystem).FileStream;
 
             var waveChunk = Wave.FindRiffChunk(stream).Bind(r => Wave.FindWaveChunk(stream, r));
@@ -152,7 +152,7 @@ namespace Emu.Tests.Audio.Formats.WAVE
         [Fact]
         public void CanReadCuesWithLabelsTest()
         {
-            var model = this.data[FixtureModel.WaveWithCuesAndLabels];
+            var model = this.data[FixtureModel.GenericWaveWithCueAndLabelChunks];
             using var stream = model.ToTargetInformation(this.RealFileSystem).FileStream;
 
             var waveChunk = Wave.FindRiffChunk(stream).Bind(r => Wave.FindWaveChunk(stream, r));

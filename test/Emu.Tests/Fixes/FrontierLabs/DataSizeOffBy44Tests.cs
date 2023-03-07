@@ -35,7 +35,7 @@ namespace Emu.Tests.Fixes.FrontierLabs
         public DataSizeOffBy44Tests(ITestOutputHelper output, FixtureData data)
             : base(output, true)
         {
-            var fixture = data[FixtureModel.DataSizeOffBy44];
+            var fixture = data[FixtureModel.IncorrectDataSizeOffBy44];
             this.target = TempFile.DuplicateExisting(fixture.AbsoluteFixturePath);
             this.beforeSize = this.target.File.Length;
 
@@ -74,7 +74,7 @@ namespace Emu.Tests.Fixes.FrontierLabs
         [ClassData(typeof(FixtureData))]
         public async Task NoOtherFixtureIsDetectedAsAPositive(FixtureModel fixture)
         {
-            Skip.If(fixture.Name is FixtureModel.DataSizeOffBy44);
+            Skip.If(fixture.Name is FixtureModel.IncorrectDataSizeOffBy44);
 
             var actual = await this.fixer.CheckAffectedAsync(fixture.AbsoluteFixturePath);
 

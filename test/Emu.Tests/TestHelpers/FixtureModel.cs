@@ -10,10 +10,10 @@ namespace Emu.Tests.TestHelpers
     using System.IO.Abstractions;
     using System.IO.Abstractions.TestingHelpers;
     using System.Linq;
-    using System.Reflection;
     using CsvHelper.Configuration.Attributes;
     using Emu.Audio;
     using Emu.Audio.WAVE;
+    using Emu.FixtureGenerator;
     using Emu.Metadata;
     using Emu.Metadata.SupportFiles;
     using Emu.Models;
@@ -27,45 +27,17 @@ namespace Emu.Tests.TestHelpers
         Yes,
     }
 
-    public class FixtureModel : IXunitSerializable
+    [GenerateFixtureHelpers(FixtureData.FixtureFile)]
+    public partial class FixtureModel : IXunitSerializable
     {
-        public const string PreAllocatedHeader = "Short Error File";
-        public const string PreAllocatedHeader2 = "Preallocated header 153";
-        public const string ArtificialZeroes = "Artificial Zeroes";
-        public const string MetadataDurationBug = "Metadata Duration Bug";
-        public const string MetadataDurationBug2 = "Metadata Duration Bug 2";
-        public const string MetadataDurationBug3 = "Metadata Duration Bug 3";
-        public const string MetadataDurationBug4 = "Metadata Duration Bug 4";
-        public const string ZeroDbSamples = "Zero dB Samples";
-        public const string NormalFile = "Normal File";
-        public const string Normal308File = "Normal File 3.08";
-        public const string Normal300File = "Normal File 3.00";
-        public const string SM4BatNormal1 = "SM4 Bat Normal 1";
         public const string FilenameExtractor = "FilenameExtractor";
         public const string FlacHeaderExtractor = "FlacHeaderExtractor";
         public const string FlacCommentExtractor = "FlacCommentExtractor";
         public const string FrontierLabsLogFileExtractor = "FrontierLabsLogFileExtractor";
         public const string WamdExtractor = "WamdExtractor";
         public const string FLCommentAndLogExtractor = "FLCommentAndLogExtractor";
-        public const string SpaceInDateStamp = "Space in date stamp";
-        public const string DataSizeOffBy44 = "Incorrect data size";
-        public const string DataSize0 = "Data Size 0";
-        public const string TwoLogFiles1 = "Two Log Files 1";
-        public const string ShortFile = "Short File";
-        public const string WaveWithCues = "Generic WAVE with cue chunk";
-        public const string WaveWithCuesAndLabels = "Generic WAVE with cue and label chunks";
 
-        public const string NoDataHeader = "SM3 No Data";
-        public const string NoDataHeader2 = "SM3 No Data 2";
-
-        public const string PartialRobsonDryAConflict = "Robson Dry A partial with conflict";
-        public const string PartialRobsonDryAEmpty = "Robson Dry A empty partial";
-        public const string PartialRobsonDryBConflict = "Robson Dry B partial with conflict";
-        public const string PartialTestPartial0400 = "Test 3.30 partial 04:00";
-        public const string PartialTestPartial0600 = "Test 3.30 partial 06:00";
-        public const string PartialEmpty314 = "Partial file 3.14 - full preallocated";
-        public const string PartialEmpty312 = "Partial file 3.12 - full preallocated";
-        public const string PartialShort320 = "Partial file 3.20 - empty battery";
+        // constants for fixture names are generated automatically. See GenerateFixtureHelpersAttribute.cs
 
         private string fixturePath;
         private Dictionary<string, Recording> process;

@@ -26,7 +26,6 @@ namespace Emu.Tests.Fixes.FrontierLabs
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
     using Newtonsoft.Json;
-    using Xbehave.Execution;
     using Xunit;
     using Xunit.Abstractions;
     using static Emu.Audio.Vendors.FrontierLabs;
@@ -61,38 +60,38 @@ namespace Emu.Tests.Fixes.FrontierLabs
             //   This file has some kind of conflict after frame 35661 (3,312.187210884354 seconds).
             //   The FLAC decoder, audacity, and ffmpeg all stop decoding in the same spot, so we do as well.
             //   35662 frames * 2048 blocksize = 73,035,776
-            new TestCase(PartialRobsonDryAConflict, FixStatus.Fixed, "20200426T020000Z_recovered.flac", 317_292_544, 73_035_776, 217129512, 99824893, "EMU+FL010", "EMU+FL011").AsArray(),
+            new TestCase(RobsonDryAPartialWithConflict, FixStatus.Fixed, "20200426T020000Z_recovered.flac", 317_292_544, 73_035_776, 217129512, 99824893, "EMU+FL010", "EMU+FL011").AsArray(),
 
-            new TestCase(PartialRobsonDryAEmpty, FixStatus.Renamed, "data.error_empty", Flac.FileTooShort.Message, Flac.FileTooShort.Message, 0, 0).AsArray(),
+            new TestCase(RobsonDryAEmptyPartial, FixStatus.Renamed, "data.error_empty", Flac.FileTooShort.Message, Flac.FileTooShort.Message, 0, 0).AsArray(),
 
             // caused due to a duplicate file name after sensor sync
             //   This file has some kind of conflict after frame 10980 (1,019.820408163265 seconds).
             //   The FLAC decoder, audacity, and ffmpeg all stop decoding in the same spot, so we do as well.
             //   10980 frames * 2048 blocksize = 22,487,040
-            new TestCase(PartialRobsonDryBConflict, FixStatus.Fixed, "20200227T020000Z_recovered.flac", 317292544, 22_489_088, 230471988, 34044352, "EMU+FL010", "EMU+FL011").AsArray(),
+            new TestCase(RobsonDryBPartialWithConflict, FixStatus.Fixed, "20200227T020000Z_recovered.flac", 317292544, 22_489_088, 230471988, 34044352, "EMU+FL010", "EMU+FL011").AsArray(),
 
             // caused due to a crash on the device that failed to cleanup the end of the file
             // part of the file is encoded as flac - the rest is (?) WAVE data that is to be discarded
-            new TestCase(PartialTestPartial0400, FixStatus.Fixed, "20220426T040000+1000_recovered.flac", 0, 151_957_504, 317292588, 174538110, "EMU+FL011").AsArray(),
+            new TestCase(Test330Partial0400, FixStatus.Fixed, "20220426T040000+1000_recovered.flac", 0, 151_957_504, 317292588, 174538110, "EMU+FL011").AsArray(),
 
             // caused due to a crash on the device that failed to cleanup the end of the file
             // part of the file is encoded as flac - the rest is (?) WAVE data that is to be discarded
-            new TestCase(PartialTestPartial0600, FixStatus.Fixed, "20220426T060000+1000_recovered.flac", 0, 2_281_472, 317292588, 2833099, "EMU+FL011").AsArray(),
+            new TestCase(Test330Partial0600, FixStatus.Fixed, "20220426T060000+1000_recovered.flac", 0, 2_281_472, 317292588, 2833099, "EMU+FL011").AsArray(),
 
             // caused by a full-size preallocated file which has a WAVE header
             // sensor crashed some unknown error, an excerpt from the log file:
             //  Watchdog recovered from CPU lockup!! Please report this error to Frontier Labs.
-            new TestCase(PartialEmpty314, FixStatus.Renamed, "data.error_stub", 16786006, 16786006, 317292588, 317292588, expectNoFirmware: true).AsArray(),
+            new TestCase(PartialFile314FullPreallocated, FixStatus.Renamed, "data.error_stub", 16786006, 16786006, 317292588, 317292588, expectNoFirmware: true).AsArray(),
 
             // caused by a full-size preallocated file which has a WAVE header
             // sensor crashed some unknown error, an excerpt from the log file:
             //  Watchdog recovered from CPU lockup!! Please report this error to Frontier Labs.
-            new TestCase(PartialEmpty312, FixStatus.Renamed, "data.error_stub", 16786006, 16786006, 316858412, 316858412, expectNoFirmware: true).AsArray(),
+            new TestCase(PartialFile312FullPreallocated, FixStatus.Renamed, "data.error_stub", 16786006, 16786006, 316858412, 316858412, expectNoFirmware: true).AsArray(),
 
             // a very short file created when the battery ran out
             // An excerpt from the log file:
             //   28/03/2021 00:00:11 Battery empty! 0% ( 5.57 V )
-            new TestCase(PartialShort320, FixStatus.Renamed, "data.error_partial", 8192, 8192, 3776, 3776).AsArray(),
+            new TestCase(PartialFile320EmptyBattery, FixStatus.Renamed, "data.error_partial", 8192, 8192, 3776, 3776).AsArray(),
         };
 
         [Theory]

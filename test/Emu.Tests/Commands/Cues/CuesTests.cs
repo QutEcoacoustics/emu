@@ -45,8 +45,8 @@ namespace Emu.Tests.Commands.Cues
         {
             this.command.Targets = new string[]
             {
-                this.data[FixtureModel.WaveWithCues].AbsoluteFixturePath,
-                this.data[FixtureModel.WaveWithCuesAndLabels].AbsoluteFixturePath,
+                this.data[FixtureModel.GenericWaveWithCueChunk].AbsoluteFixturePath,
+                this.data[FixtureModel.GenericWaveWithCueAndLabelChunks].AbsoluteFixturePath,
             };
 
             var result = await this.command.InvokeAsync(null);
@@ -88,8 +88,8 @@ namespace Emu.Tests.Commands.Cues
         {
             var targets = new string[]
             {
-                this.data[FixtureModel.WaveWithCues].AbsoluteFixturePath,
-                this.data[FixtureModel.WaveWithCuesAndLabels].AbsoluteFixturePath,
+                this.data[FixtureModel.GenericWaveWithCueChunk].AbsoluteFixturePath,
+                this.data[FixtureModel.GenericWaveWithCueAndLabelChunks].AbsoluteFixturePath,
             }.Select(p => TempFile.DuplicateExisting(p)).ToArray();
 
             this.command.Targets = targets.Select(x => x.Path).ToArray();

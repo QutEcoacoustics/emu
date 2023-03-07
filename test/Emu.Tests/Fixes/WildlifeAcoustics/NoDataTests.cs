@@ -43,7 +43,7 @@ namespace Emu.Tests.Fixes.WildlifeAcoustics
         [Fact]
         public async Task CanDetectNoDataFiles()
         {
-            var fixture = this.data[FixtureModel.NoDataHeader];
+            var fixture = this.data[FixtureModel.Sm3NoData];
 
             var actual = await this.fixer.CheckAffectedAsync(fixture.AbsoluteFixturePath);
 
@@ -58,7 +58,7 @@ namespace Emu.Tests.Fixes.WildlifeAcoustics
         [Fact]
         public async Task CanDetectNoDataFiles2()
         {
-            var fixture = this.data[FixtureModel.NoDataHeader2];
+            var fixture = this.data[FixtureModel.Sm3NoData2];
 
             var actual = await this.fixer.CheckAffectedAsync(fixture.AbsoluteFixturePath);
 
@@ -89,7 +89,7 @@ namespace Emu.Tests.Fixes.WildlifeAcoustics
         [ClassData(typeof(FixtureData))]
         public async Task NoOtherFixtureIsDetectedAsAPositive(FixtureModel fixture)
         {
-            Skip.If(fixture.Name is FixtureModel.NoDataHeader or FixtureModel.NoDataHeader2);
+            Skip.If(fixture.Name is FixtureModel.Sm3NoData or FixtureModel.Sm3NoData2);
 
             var actual = await this.fixer.CheckAffectedAsync(fixture.AbsoluteFixturePath);
 

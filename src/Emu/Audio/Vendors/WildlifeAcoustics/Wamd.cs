@@ -169,8 +169,6 @@ namespace Emu.Audio
         /// <returns>Dictionary representing the parsed location data.</returns>
         public static Location LocationParser(string value)
         {
-            Dictionary<string, double> location = new Dictionary<string, double>();
-
             string[] locationInfo = value.Split(",");
 
             // First element (WGS84) is assumed to be empty, if not location format could be unpredictable
