@@ -415,8 +415,8 @@ namespace Emu.Audio.Vendors
                 int latLonDividingIndex = parsedValue.IndexOfAny(new char[] { '+', '-' }, 1);
 
                 // Parse lat and lon
-                double latitude = double.Parse(parsedValue.Substring(0, latLonDividingIndex));
-                double longitude = double.Parse(parsedValue.Substring(latLonDividingIndex));
+                double latitude = double.Parse(parsedValue[..latLonDividingIndex]);
+                double longitude = double.Parse(parsedValue[latLonDividingIndex..]);
 
                 location[LatitudeKey] = latitude;
                 location[LongitudeKey] = longitude;

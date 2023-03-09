@@ -426,7 +426,7 @@ namespace Emu.Metadata.SupportFiles.FrontierLabs
             if (microphoneData.Contains("Ch"))
             {
                 channelName = microphoneData.Split(':').First().ToArray().Last();
-                channel = (int)channelName - 64;
+                channel = (int)channelName - 64 - 1;
             }
 
             // Split string into individual microphone values
@@ -485,7 +485,7 @@ namespace Emu.Metadata.SupportFiles.FrontierLabs
 
                         // this case only happens with one mic
                         channelName = 'A';
-                        channel = 1;
+                        channel = 0;
                     }
                 }
             }
@@ -596,10 +596,7 @@ namespace Emu.Metadata.SupportFiles.FrontierLabs
 
                     if (microphone != null)
                     {
-                        if (microphones == null)
-                        {
-                            microphones = new List<Microphone>();
-                        }
+                        microphones ??= new List<Microphone>();
 
                         microphones.Add(microphone);
                     }

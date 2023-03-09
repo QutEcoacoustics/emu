@@ -16,8 +16,6 @@ namespace Emu.Cli
     {
         public static readonly string EmuName = "[orange4_1]EMU[/]";
 
-        private static Regex emuRegex = new(@"(emu)", RegexOptions.IgnoreCase);
-
         public static string MarkupBool(bool value)
         {
             return value ? "[lime]✓[/]" : "[red]✗[/]";
@@ -44,7 +42,7 @@ namespace Emu.Cli
 
         public static string MarkupEmu(string code)
         {
-            return emuRegex.Replace(code, "[orange4_1]$1[/]");
+            return code?.Replace("emu", "[orange4_1]$1[/]", StringComparison.InvariantCultureIgnoreCase);
         }
 
         public static string MarkupPath(string path)

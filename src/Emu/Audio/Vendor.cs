@@ -4,17 +4,18 @@
 
 namespace Emu.Audio
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
+    using System.Runtime.Serialization;
+    using YamlDotNet.Core.Tokens;
 
     public enum Vendor
     {
+        [EnumMember(Value = "Unknown")]
         Unknown = 0,
+        [EnumMember(Value = "Frontier Labs")]
         FrontierLabs = 1,
+        [EnumMember(Value = "Wildlife Acoustics")]
         WildlifeAcoustics = 2,
+        [EnumMember(Value = "Open Acoustics")]
         OpenAcoustics = 3,
     }
 }

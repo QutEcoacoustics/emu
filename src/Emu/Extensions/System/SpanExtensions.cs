@@ -36,7 +36,7 @@ public static class SpanExtensions
 
         return new string(buffer);
 
-        char ToHex(byte b)
+        static char ToHex(byte b)
         {
             return (char)(b < 10 ? '0' + b : 'a' + (b - 10));
         }

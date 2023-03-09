@@ -34,6 +34,13 @@ namespace Emu.Filenames
                 Prefix + Date + IsoSeparator + TimeFractional + End,
                 LocalDateTimePattern.CreateWithInvariantCulture("uuuuMMddTHHmmss.FFFFFF")),
 
+            // high precision variant WA SM4 - they use an underscore to separate the time
+            // and fractional second components
+            // valid: FNQ-RBS_20190102_044802_010.wav
+            new DateVariant<LocalDateTime>(
+                Prefix + Date + WildlifeAcousticsSeparator + @"(?<Time>\d{6}_\d{1,3})" + End,
+                LocalDateTimePattern.CreateWithInvariantCulture("uuuuMMddTHHmmss_FFF")),
+
             // valid: Prefix_YYYYMMDD_hhmmss.wav,
             // valid: prefix_20140101_235959.mp3, a_00000000_000000.a, a_99999999_999999.dnsb48364JSFDSD
             // valid: SERF_20130314_000021_000.wav, a_20130314_000021_a.a, a_99999999_999999_a.dnsb48364JSFDSD
@@ -114,6 +121,7 @@ namespace Emu.Filenames
         private const string Suffix = @"(?<Suffix>.*)";
         private const string Extension = @"(?<Extension>\.([a-zA-Z0-9]+))$";
         private const string Separator = @"(?<Separator>T|-|_|\$)";
+        private const string WildlifeAcousticsSeparator = @"(?<Separator>_|\$)";
         private const string IsoSeparator = "(?<Separator>T)";
         private const string InvariantDateTimeSeparator = "T";
         private const string End = NoOffset + Suffix + Extension;

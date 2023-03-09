@@ -138,7 +138,7 @@ namespace Emu.Models
         /// <returns><value>True</value> if parsing was successful.</returns>
         public static bool TryParseLongitude(string longitudeText, out double longitude, out int? precision)
         {
-            return InternalParse(longitudeText, 'E', 'W', -180.0, 180.0, out longitude, out precision);
+            return InternalParse(longitudeText, 'W', 'E', -180.0, 180.0, out longitude, out precision);
         }
 
         private static bool InternalParse(string text, char negative, char positive, double min, double max, out double value, out int? precision)

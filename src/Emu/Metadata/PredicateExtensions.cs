@@ -5,6 +5,7 @@
 namespace Emu.Metadata;
 
 using Emu.Audio;
+using Emu.Audio.Vendors.WildlifeAcoustics.WAMD;
 using Emu.Audio.WAVE;
 using Emu.Metadata.SupportFiles.FrontierLabs;
 
@@ -72,7 +73,7 @@ public static class PredicateExtensions
             target => Audio.Vendors.FrontierLabs.IsPreallocatedHeader(target.FileStream, target.Path);
 
         public static readonly Func<TargetInformation, bool> HasVersion1WamdChunk =
-            target => Wamd.HasVersion1WamdChunk(target.FileStream).IfFail(false);
+            target => WamdParser.HasVersion1WamdChunk(target.FileStream).IfFail(false);
 
         // An example of an async predicate
         // public static readonly Func<TargetInformation, ValueTask<bool>> IsFlacFile2 =

@@ -15,10 +15,15 @@ namespace Emu.Models
         /// <summary>
         /// Gets the common name used to refer to the Vendor.
         /// </summary>
-        public string Vendor { get; init; }
+        public string Make { get; init; }
 
         /// <summary>
-        /// Gets the common name used to refer to the sensor.
+        /// Gets the name of the model of the sensor.
+        /// </summary>
+        public string Model { get; init; }
+
+        /// <summary>
+        /// Gets the user assigned name used to refer to the sensor.
         /// </summary>
         public string Name { get; init; }
 
@@ -50,6 +55,7 @@ namespace Emu.Models
 
         /// <summary>
         /// Gets the gain used by the sensor.
+        /// If set this value should apply to all channels.
         /// </summary>
         public string Gain { get; init; }
 
@@ -70,9 +76,15 @@ namespace Emu.Models
         public string[] Configuration { get; init; }
 
         /// <summary>
-        /// Gets the temperature from the sensor.
+        /// Gets the internal temperature from the sensor.
         /// Units: Degrees celsius.
         /// </summary>
         public double? Temperature { get; init; }
+
+        /// <summary>
+        /// Gets the internal temperature from the sensor.
+        /// Unit: Degrees celsius.
+        /// </summary>
+        public double? TemperatureExternal { get; init; }
     }
 }
