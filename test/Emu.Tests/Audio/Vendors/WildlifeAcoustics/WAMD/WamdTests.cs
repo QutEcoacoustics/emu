@@ -2,7 +2,7 @@
 // All code in this file and all associated files are the copyright and property of the QUT Ecoacoustics Research Group.
 // </copyright>
 
-namespace Emu.Tests.Audio.Vendors.WildlifeAcoustics
+namespace Emu.Tests.Audio.Vendors.WildlifeAcoustics.WAMD
 {
     using System.IO;
     using Emu.Audio;

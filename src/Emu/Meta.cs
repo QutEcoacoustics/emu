@@ -1,4 +1,7 @@
-﻿namespace Emu
+// <copyright file="Meta.cs" company="QutEcoacoustics">
+// All code in this file and all associated files are the copyright and property of the QUT Ecoacoustics Research Group.
+// </copyright>
+namespace Emu
 {
     using System;
     using System.Collections.Generic;

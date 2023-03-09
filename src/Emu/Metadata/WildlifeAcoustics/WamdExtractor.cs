@@ -52,13 +52,13 @@ namespace Emu.Metadata.WildlifeAcoustics
 
                 if (wamdData.FileStartTime is not null)
                 {
-                    if (wamdData.FileStartTime.Value.Case is OffsetDateTime o)
+                    if (wamdData.FileStartTime.Value.Case is OffsetDateTime offsetDateTime)
                     {
                         recording = recording with
                         {
-                            StartDate = recording.StartDate ?? o,
-                            TrueStartDate = recording.TrueStartDate ?? o,
-                            LocalStartDate = recording.LocalStartDate ?? o.LocalDateTime,
+                            StartDate = recording.StartDate ?? offsetDateTime,
+                            TrueStartDate = recording.TrueStartDate ?? offsetDateTime,
+                            LocalStartDate = recording.LocalStartDate ?? offsetDateTime.LocalDateTime,
                         };
                     }
                     else
