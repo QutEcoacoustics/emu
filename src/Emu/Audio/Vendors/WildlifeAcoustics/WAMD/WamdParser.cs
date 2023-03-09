@@ -1,8 +1,8 @@
-// <copyright file="Wamd.cs" company="QutEcoacoustics">
+// <copyright file="WamdParser.cs" company="QutEcoacoustics">
 // All code in this file and all associated files are the copyright and property of the QUT Ecoacoustics Research Group.
 // </copyright>
 
-namespace Emu.Audio
+namespace Emu.Audio.Vendors.WildlifeAcoustics.WAMD
 {
     using System;
     using System.Buffers.Binary;
@@ -12,60 +12,25 @@ namespace Emu.Audio
     using Emu.Models;
     using LanguageExt;
     using LanguageExt.Common;
+    using Newtonsoft.Json.Converters;
     using NodaTime;
     using NodaTime.Text;
+    using UnitsNet;
+    using UnitsNet.NumberExtensions.NumberToLength;
+    using UnitsNet.NumberExtensions.NumberToLuminousFlux;
+    using UnitsNet.NumberExtensions.NumberToLuminousIntensity;
+    using static SubChunkId;
     using Error = LanguageExt.Common.Error;
 
-    public class Wamd
+    public static class WamdParser
     {
-        public const int ModelNameChunkId = 0x01;
-        public const int ModelSerialNumberChunkId = 0x02;
-        public const int FirmwareChunkId = 0x03;
-        public const int StartDateChunkId = 0x05;
-        public const int MicrophoneTypeChunkId = 0x12;
-        public const int MicrophoneSensitivityChunkId = 0x13;
-        public const int LocationChunkId = 0x14;
-        public const int TemperatureChunkId = 0x15;
         public const string LatitudeKey = "Latitude";
         public const string LongitudeKey = "Longitude";
         public const string AltitudeKey = "Altitude";
         public static readonly byte[] WamdChunkId = "wamd"u8.ToArray();
         public static readonly Error WamdVersionError = Error.New("Error reading wamd version");
-        public static readonly OffsetDateTimePattern OffsetDatePattern = OffsetDateTimePattern.CreateWithInvariantCulture("yyyy'-'MM'-'dd' 'HH':'mm':'sso<m>");
+        public static readonly OffsetDateTimePattern OffsetDatePattern = OffsetDateTimePattern.CreateWithInvariantCulture("yyyy'-'MM'-'dd' 'HH':'mm':'ss.FFFo<m>");
         public static readonly LocalDateTimePattern LocalDatePattern = LocalDateTimePattern.CreateWithInvariantCulture("yyyy'-'MM'-'dd' 'HH':'mm':'ss");
-        public static readonly Dictionary<int, Action<Wamd, string>> Setters = new()
-        {
-            { ModelNameChunkId, (wamdData, value) => wamdData.Name = value },
-            { ModelSerialNumberChunkId, (wamdData, value) => wamdData.SerialNumber = value },
-            { FirmwareChunkId, (wamdData, value) => wamdData.Firmware = value },
-            { StartDateChunkId, (wamdData, value) => wamdData.StartDate = DateParser(value) },
-            { MicrophoneTypeChunkId, (wamdData, value) => wamdData.MicrophoneType = value.Split(",") },
-            { MicrophoneSensitivityChunkId, (wamdData, value) => wamdData.MicrophoneSensitivity = Array.ConvertAll(value.Split(","), double.Parse) },
-            {
-                LocationChunkId, (wamdData, value) =>
-                {
-                    var location = LocationParser(value);
-                    wamdData.Location = location;
-                }
-            },
-            { TemperatureChunkId, (wamdData, value) => wamdData.Temperature = double.Parse(value.Where(c => char.IsDigit(c) || (new char[] { '.', '-' }).Contains(c)).ToArray()) },
-        };
-
-        public string Name { get; set; }
-
-        public string SerialNumber { get; set; }
-
-        public string Firmware { get; set; }
-
-        public double? Temperature { get; set; }
-
-        public Either<OffsetDateTime?, LocalDateTime?> StartDate { get; set; }
-
-        public string[] MicrophoneType { get; set; }
-
-        public double[] MicrophoneSensitivity { get; set; }
-
-        public Location Location { get; set; }
 
         /// <summary>
         /// Check if file has version 1 wamd chunk.
@@ -144,7 +109,7 @@ namespace Emu.Audio
         /// </summary>
         /// <param name="value">The date to parse.</param>
         /// <returns>The parsed date.</returns>
-        public static Either<OffsetDateTime?, LocalDateTime?> DateParser(string value)
+        public static Either<OffsetDateTime, LocalDateTime> DateParser(string value)
         {
             var offsetDate = OffsetDatePattern.Parse(value);
             var localDate = LocalDatePattern.Parse(value);
@@ -172,7 +137,10 @@ namespace Emu.Audio
             string[] locationInfo = value.Split(",");
 
             // First element (WGS84) is assumed to be empty, if not location format could be unpredictable
-            Debug.Assert(string.IsNullOrEmpty(locationInfo[0]), $"Expected empty WGS84, instead found {locationInfo[0]}");
+            if (!string.IsNullOrEmpty(locationInfo[0]))
+            {
+              throw new NotSupportedException($"Expected empty WGS84, instead found {locationInfo[0]}" + Meta.CallToAction);
+            }
 
             string latitude = locationInfo[1];
             string latitudeDirection = locationInfo[2];
@@ -189,13 +157,33 @@ namespace Emu.Audio
         }
 
         /// <summary>
+        /// Reads the light meter value as candela.
+        /// </summary>
+        /// <param name="value">The string to parse.</param>
+        /// <returns>The luminosity in candela.</returns>
+        public static double LightParser(string value)
+        {
+            return double.Parse(value).Lumens().Candela().Value;
+        }
+
+        public static double TemperatureParser(string value)
+        {
+            if (value.EndsWith("C"))
+            {
+                return double.Parse(value[0..^1]);
+            }
+
+            throw new NotSupportedException("Found temperature not in Celsius. " + Meta.CallToAction);
+        }
+
+        /// <summary>
         /// Extracts metadata from a wamd chunk.
         /// </summary>
         /// <param name="stream">The file stream.</param>
         /// <returns>Wamd metadata.</returns>
         public static Fin<Wamd> ExtractMetadata(Stream stream)
         {
-            var wamdChunk = Wamd.GetWamdChunk(stream);
+            var wamdChunk = GetWamdChunk(stream);
 
             if (wamdChunk.IsFail)
             {
@@ -209,7 +197,6 @@ namespace Emu.Audio
             int wamdOffset = 0;
             ushort subChunkId;
             uint length;
-            string value;
 
             // Parse each piece of metadata in the wamd chunk
             while (wamdOffset < wamdSpan.Length)
@@ -222,19 +209,73 @@ namespace Emu.Audio
 
                 int start = wamdOffset;
                 int end = wamdOffset + (int)length;
+                var value = wamdSpan[start..end];
 
-                // TODO: May need to selectively parse some values with utf-8
-                value = Encoding.ASCII.GetString(wamdSpan[start..end]);
-
-                if (Setters.ContainsKey(subChunkId))
-                {
-                    Setters[subChunkId](wamdData, value);
-                }
-
+                wamdData = ParseSubChunk(wamdData, subChunkId, value);
                 wamdOffset += (int)length;
             }
 
             return wamdData;
+        }
+
+        public static Wamd ParseSubChunk(Wamd wamd, ushort subChunkId, ReadOnlySpan<byte> value)
+        {
+            return (SubChunkId)subChunkId switch
+            {
+                SubChunkId.Version => wamd with { Version = BinaryPrimitives.ReadUInt16LittleEndian(value) },
+                DevModel => wamd with { DevModel = GetString(value) },
+                DevSerialNum => wamd with { DevSerialNum = GetString(value) },
+                SwVersion => wamd with { SwVersion = GetString(value) },
+                DevName => wamd with { DevName = GetString(value) },
+                FileStartTime => wamd with { FileStartTime = DateParser(GetString(value)) },
+                GpsFirst => wamd with { GpsFirst = LocationParser(GetString(value)) },
+                GpsTrack => throw new NotImplementedException("WA says GPS Track is not yet implemented. " + Meta.CallToAction),
+                Software => wamd with { Software = GetString(value) },
+                LicenseId => wamd with { LicenseId = GetString(value) },
+                UserNotes => wamd with { UserNotes = GetString(value) },
+                AutoId => wamd with { AutoId = GetString(value) },
+                ManualId => wamd with { ManualId = GetString(value) },
+                VoiceNote => wamd with { VoiceNote = "<<Voice Notes detected but EMU does not support parsing them>>" },
+                AutoIdStats => wamd with { AutoIdStats = GetString(value) },
+                TimeExpansion => wamd with { TimeExpansion = BinaryPrimitives.ReadUInt16LittleEndian(value) },
+
+                // we don't know how to parse these two, their description is opaque
+                //DevParams => wamd with { DevParams = Encoding.UTF8.GetBytes(value).ToHexString() },
+                //DevRunstate => wamd with { DevRunstate = Encoding.UTF8.GetBytes(value).ToHexString() },
+                DevParams => wamd with { DevParams = "<<Dev Params detected but EMU does not support parsing it>>" },
+                DevRunstate => wamd with { DevRunstate = "<<Dev Runstate detected but EMU does not support parsing it>>" },
+
+                MicType => wamd with { MicType = ParseList<string>(GetString(value)) },
+                MicSensitivity => wamd with { MicSensitivity = ParseList(GetString(value), double.Parse) },
+                PosLast => wamd with { PosLast = LocationParser(GetString(value)) },
+                TempInt => wamd with { TempInt = TemperatureParser(GetString(value)) },
+                TempExt => wamd with { TempExt = TemperatureParser(GetString(value)) },
+                Humidity => wamd with { Humidity = double.Parse(GetString(value)) },
+                Light => wamd with { Light = LightParser(GetString(value)) },
+
+                // ignore padding
+                Padding => wamd,
+
+                _ => throw new NotImplementedException(
+                    "Unexpected WAMD sub chunk. Don't know how to process: "
+                    + Encoding.ASCII.GetString(BitConverter.GetBytes(subChunkId))),
+            };
+
+            // TODO: May need to selectively parse some values with utf-8
+            static string GetString(ReadOnlySpan<byte> value) => Encoding.ASCII.GetString(value);
+        }
+
+        private static T[] ParseList<T>(string value, Func<string, T> parser = null)
+        {
+            var split = value.Split(",");
+            if (parser is not null)
+            {
+                return split.Select(parser).ToArray();
+            }
+            else
+            {
+                return split.Cast<T>().ToArray();
+            }
         }
     }
 }

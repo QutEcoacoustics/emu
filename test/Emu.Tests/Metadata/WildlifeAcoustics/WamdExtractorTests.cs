@@ -17,7 +17,7 @@ namespace Emu.Tests.Metadata
         private readonly WamdExtractor subject;
 
         public WamdExtractorTests(ITestOutputHelper output)
-            : base(output)
+            : base(output, realFileSystem: true)
         {
             this.subject = new WamdExtractor(
                 this.BuildLogger<WamdExtractor>());
@@ -47,13 +47,18 @@ namespace Emu.Tests.Metadata
                 this.Recording);
 
             recording.StartDate.Should().Be(expectedRecording.StartDate);
+            recording.Sensor.Make.Should().Be(expectedRecording.Sensor.Make);
+            recording.Sensor.Model.Should().Be(expectedRecording.Sensor.Model);
             recording.Sensor.Name.Should().Be(expectedRecording.Sensor.Name);
             recording.Sensor.SerialNumber.Should().Be(expectedRecording.Sensor.SerialNumber);
             recording.Sensor.Firmware.Should().Be(expectedRecording.Sensor.Firmware);
             recording.Sensor.Temperature.Should().Be(expectedRecording.Sensor.Temperature);
+            recording.Sensor.TemperatureExternal.Should().Be(expectedRecording.Sensor.TemperatureExternal);
             recording.Sensor.Microphones.Should().BeEquivalentTo(expectedRecording.Sensor.Microphones);
 
             recording.Location.Should().BeEquivalentTo(expectedRecording.Location);
+
+            recording.Sensor.Microphones.Should().BeEquivalentTo(expectedRecording.Sensor.Microphones);
 
             recording.TrueStartDate.Should().Be(expectedRecording.TrueStartDate);
             recording.TrueEndDate.Should().Be(expectedRecording.TrueEndDate);

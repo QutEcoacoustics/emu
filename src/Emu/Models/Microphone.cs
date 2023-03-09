@@ -34,12 +34,13 @@ namespace Emu.Models
         public double? Gain { get; init; }
 
         /// <summary>
-        /// Gets microphone number according to the sensor (1, 2, etc.).
+        /// Gets channel index assigned to the microphone according to the sensor (0, 1, 2, etc.).
+        /// As per: https://en.wikipedia.org/wiki/Surround_sound#Channel_identification.
         /// </summary>
         public int? Channel { get; init; }
 
         /// <summary>
-        /// Gets the name of the microphone (style depends on vendor).
+        /// Gets the name of the channel assigned to this microphone (style depends on vendor).
         /// </summary>
         public string ChannelName { get; init; }
 

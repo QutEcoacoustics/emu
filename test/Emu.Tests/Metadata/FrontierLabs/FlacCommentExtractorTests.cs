@@ -23,8 +23,6 @@ namespace Emu.Tests.Metadata
                 this.BuildLogger<FlacCommentExtractor>());
         }
 
-        public Recording Recording => new();
-
         [Theory]
         [ClassData(typeof(FixtureData))]
         public async Task CanProcessFilesWorks(FixtureModel model)
@@ -44,7 +42,7 @@ namespace Emu.Tests.Metadata
 
             var recording = await this.subject.ProcessFileAsync(
                 model.ToTargetInformation(this.RealFileSystem),
-                this.Recording);
+                new Recording());
 
             recording.Sensor.Firmware.Should().Be(expectedRecording.Sensor.Firmware);
             recording.Sensor.Microphones.Should().BeEquivalentTo(expectedRecording.Sensor.Microphones);

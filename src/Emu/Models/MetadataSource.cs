@@ -8,6 +8,11 @@ namespace Emu.Models
     using System.Collections.Generic;
     using System.Text;
 
+    // another idea
+    //public abstract record Value<T>();
+    //public record UnsupportedValue<T>(string Message) : Value<T>;
+    //public record ActualValue<T>(T Value, Provenance Provenance, string Unit) : Value<T>;
+
     /// <summary>
     /// Allows us to track the provenance of metadata.
     /// </summary>

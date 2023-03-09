@@ -46,7 +46,7 @@ namespace Emu.Tests.TestHelpers
 
         public string Name { get; set; }
 
-        public string Vendor { get; set; }
+        public string Make { get; set; }
 
         public ValidMetadata ValidMetadata { get; set; }
 
@@ -64,16 +64,15 @@ namespace Emu.Tests.TestHelpers
 
         public bool IsWave => this.MimeType == Wave.Mime;
 
-        public ushort? BlockAlign { get; set; }
-
         public string FixturePath
         {
             get => this.fixturePath;
 
             set
             {
-                this.fixturePath = value;
-                this.AbsoluteFixturePath = FixtureHelper.ResolvePath(value);
+                var sanitized = value?.Replace('\\', '/');
+                this.fixturePath = sanitized;
+                this.AbsoluteFixturePath = FixtureHelper.ResolvePath(sanitized);
             }
         }
 
@@ -87,10 +86,10 @@ namespace Emu.Tests.TestHelpers
 
         public string Notes { get; set; }
 
-        public bool IsVendor(Vendor vendor) => Enum
-                .GetName<Vendor>(vendor)
+        public bool IsMake(Vendor vendor) => Enum
+                .GetName(vendor)
                 .Equals(
-                    this.Vendor.Replace(" ", string.Empty),
+                    this.Make.Replace(" ", string.Empty),
                     StringComparison.InvariantCultureIgnoreCase);
 
         public TargetInformation ToTargetInformation(IFileSystem fileSystem)

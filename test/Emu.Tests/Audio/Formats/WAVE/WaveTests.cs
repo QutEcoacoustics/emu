@@ -99,7 +99,7 @@ namespace Emu.Tests.Audio.Formats.WAVE
             var (format, _) = this.ReadChunkRanges(model);
 
             var blockAlign = Wave.GetBlockAlign(format);
-            blockAlign.Should().Be(model.BlockAlign);
+            blockAlign.Should().Be(2);
         }
 
         [Fact]

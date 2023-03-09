@@ -59,12 +59,11 @@
       Course:
       SampleDateTime:
       CoordinateReferenceSystem:
-  BlockAlign:
   FixturePath: FL_BAR_LT/3.03_PreallocatedHeader/20181101_AAO [-27.3866 152.8761]/20181101_060000_REC [-27.3866 152.8761].flac
   Notes:
   ValidMetadata: No
   MimeType: audio/wave
-  Vendor: Frontier Labs
+  Make: Frontier Labs
   Problems:
     - FL001
   Process:
@@ -120,12 +119,11 @@
       Temperature:
       LastTimeSync:
     Location: ~
-  BlockAlign:
   FixturePath: FL_BAR_LT/3.14_ShortFiles/20191125_AAO/20191125T000000+1000_REC.flac
   Notes:
   ValidMetadata: No
   MimeType: audio/wave
-  Vendor: Frontier Labs
+  Make: Frontier Labs
   Problems:
     - FL001
   Process:
@@ -193,12 +191,11 @@
       Course:
       SampleDateTime:
       CoordinateReferenceSystem:
-  BlockAlign:
   FixturePath: FL_BAR_LT/3.03_OneHour/20181101_050000_REC [-27.3866 152.8761].flac
   Notes:
   ValidMetadata: Yes
   MimeType: audio/flac
-  Vendor: Frontier Labs
+  Make: Frontier Labs
   Problems: []
   Process:
     FilenameExtractor: ~
@@ -251,7 +248,7 @@
           UID: 000629
           BuildDate: 2019-02-22
           Gain: 50
-          Channel: 1
+          Channel: 0
           ChannelName: A
           Sensitivity:
       Gain:
@@ -273,12 +270,11 @@
       Course:
       SampleDateTime:
       CoordinateReferenceSystem:
-  BlockAlign:
   FixturePath: FL_BAR_LT/3.17_Duration/20200801T000000+1000_REC.flac
   Notes:
   ValidMetadata: Partial
   MimeType: audio/flac
-  Vendor: Frontier Labs
+  Make: Frontier Labs
   Problems:
     - FL010
   Process:
@@ -349,12 +345,11 @@
       Course:
       SampleDateTime:
       CoordinateReferenceSystem:
-  BlockAlign:
   FixturePath: FL_BAR_LT/3.03_OneHour/20181101_000006_REC [-27.3866 152.8761].flac
   Notes:
   ValidMetadata: Yes
   MimeType: audio/flac
-  Vendor: Frontier Labs
+  Make: Frontier Labs
   Problems: []
   Process:
     FilenameExtractor: ~
@@ -407,7 +402,7 @@
           UID: 001720
           BuildDate: 2019-06-18
           Gain: 50
-          Channel: 1
+          Channel: 0
           ChannelName: A
           Sensitivity:
       Gain:
@@ -429,12 +424,11 @@
       Course:
       SampleDateTime:
       CoordinateReferenceSystem:
-  BlockAlign:
   FixturePath: FL_BAR_LT/3.14_Normal/20191026T000000+1000_REC.flac
   Notes:
   ValidMetadata: Yes
   MimeType: audio/flac
-  Vendor: Frontier Labs
+  Make: Frontier Labs
   Problems: []
   Process:
     FilenameExtractor:
@@ -491,7 +485,7 @@
           UID: 000610
           BuildDate: 2019-02-22
           Gain: 50
-          Channel: 1
+          Channel: 0
           ChannelName: A
           Sensitivity:
       Gain:
@@ -513,12 +507,11 @@
       Course:
       SampleDateTime:
       CoordinateReferenceSystem:
-  BlockAlign:
   FixturePath: FL_BAR_LT/3.14_GlitchySignal/20191125_AAO/20191125T235900+1000_REC.flac
   Notes:
   ValidMetadata: Partial
   MimeType: audio/flac
-  Vendor: Frontier Labs
+  Make: Frontier Labs
   Problems: []
   Process:
     FilenameExtractor:
@@ -576,7 +569,7 @@
           UID: 000610
           BuildDate: 2019-02-22
           Gain: 50
-          Channel: 1
+          Channel: 0
           ChannelName: A
           Sensitivity:
       Gain:
@@ -598,12 +591,11 @@
       Course:
       SampleDateTime:
       CoordinateReferenceSystem:
-  BlockAlign:
   FixturePath: FL_BAR_LT/3.14_ShortFiles/20191104_AAO/20191104T020000+1000_REC.flac
   Notes:
   ValidMetadata: Partial
   MimeType: audio/flac
-  Vendor: Frontier Labs
+  Make: Frontier Labs
   Problems: []
   Process:
     FilenameExtractor:
@@ -676,12 +668,11 @@
       Course:
       SampleDateTime: 2021-07-09T07:00:00Z
       CoordinateReferenceSystem:
-  BlockAlign:
   FixturePath: FL_BAR_LT/3.28_MultiLogFile/8537_20210709T040000-0300_every1d6x4hrs [+44.72053-062.80072].wav
   Notes:
   ValidMetadata: No
   MimeType: ~
-  Vendor: Frontier Labs
+  Make: Frontier Labs
   Problems: []
   Process:
     FilenameExtractor: ~
@@ -748,12 +739,11 @@
       Course:
       SampleDateTime: 2021-06-22T19:00:00Z
       CoordinateReferenceSystem:
-  BlockAlign:
   FixturePath: FL_BAR_LT/3.28_MultiLogFile/8537_20210622T160000-0300_every1d6x4hrs [+44.72053-062.80072].wav
   Notes:
   ValidMetadata: No
   MimeType: ~
-  Vendor: Frontier Labs
+  Make: Frontier Labs
   Problems: []
   Process:
     FilenameExtractor: ~
@@ -796,7 +786,9 @@
       WriteBlSize:
       EraseBlSize:
     Sensor:
-      Name: SM4BAT-FS
+      Make: Wildlife Acoustics
+      Model: SM4BAT-FS
+      Name: S4U09523
       Firmware: 2.2.1
       SerialNumber: S4U09523
       PowerSource:
@@ -805,7 +797,7 @@
           UID:
           BuildDate:
           Gain:
-          Channel:
+          Channel: 0
           ChannelName:
           Sensitivity: 13
       Gain:
@@ -815,7 +807,7 @@
       Temperature: 24.25
       LastTimeSync:
     Location:
-      Longitude: 64.23352
+      Longitude: -64.23352
       LongitudePrecision: 5
       Latitude: 45.7835
       LatitudePrecision: 5
@@ -827,12 +819,11 @@
       Course:
       SampleDateTime:
       CoordinateReferenceSystem:
-  BlockAlign: 2
   FixturePath: WA_SM4BAT/2.2.1_Normal/S4U09523_20210621_205706.wav
   Notes:
   ValidMetadata: Yes
   MimeType: audio/wave
-  Vendor: Wildlife Acoustics
+  Make: Wildlife Acoustics
   Problems: []
   Process:
     FilenameExtractor:
@@ -879,7 +870,9 @@
       WriteBlSize:
       EraseBlSize:
     Sensor:
-      Name: SM4BAT-FS
+      Make: Wildlife Acoustics
+      Model: SM4BAT-FS
+      Name: S4U09523
       Firmware: 2.2.1
       SerialNumber: S4U09523
       PowerSource:
@@ -888,7 +881,7 @@
           UID:
           BuildDate:
           Gain:
-          Channel:
+          Channel: 0
           ChannelName:
           Sensitivity: 13
       Gain:
@@ -898,7 +891,7 @@
       Temperature: 23.25
       LastTimeSync:
     Location:
-      Longitude: 64.23352
+      Longitude: -64.23352
       LongitudePrecision: 5
       Latitude: 45.7835
       LatitudePrecision: 5
@@ -910,12 +903,11 @@
       Course:
       SampleDateTime:
       CoordinateReferenceSystem:
-  BlockAlign: 2
   FixturePath: WA_SM4BAT/2.2.1_Normal/S4U09523_20210621_212111.wav
   Notes:
   ValidMetadata: Yes
   MimeType: audio/wave
-  Vendor: Wildlife Acoustics
+  Make: Wildlife Acoustics
   Problems: []
   Process:
     FilenameExtractor:
@@ -971,7 +963,7 @@
           UID: 009966
           BuildDate: 2019-03-20
           Gain: 50
-          Channel: 2
+          Channel: 1
           ChannelName: B
           Sensitivity:
       Gain:
@@ -993,12 +985,11 @@
       Course:
       SampleDateTime:
       CoordinateReferenceSystem:
-  BlockAlign:
   FixturePath: FL_BAR_LT/3.30_NewFirmware/00008570_Dartmouth_20220331T094900-0300_Rec.flac
   Notes:
   ValidMetadata: Yes
   MimeType: audio/flac
-  Vendor: Frontier Labs
+  Make: Frontier Labs
   Problems: []
   Process:
     FilenameExtractor:
@@ -1078,12 +1069,11 @@
       Course:
       SampleDateTime: 2021-06-14T15:00:00Z
       CoordinateReferenceSystem:
-  BlockAlign:
   FixturePath: FL_BAR_LT/3.28_FileSizeLimit/8537_20210614T120000-0300_every1d6x4hrs [+44.72053-062.80072].wav
   Notes:
   ValidMetadata: Yes
   MimeType: audio/wave
-  Vendor: Frontier Labs
+  Make: Frontier Labs
   Problems: []
   Process:
     FilenameExtractor: ~
@@ -1125,12 +1115,11 @@
       Course:
       SampleDateTime: 2021-06-14T18:23:00Z
       CoordinateReferenceSystem:
-  BlockAlign:
   FixturePath: FL_BAR_LT/3.28_FileSizeLimit/8537_20210614T152300-0300_every1d6x4hrs [+44.72053-062.80072].wav
   Notes:
   ValidMetadata: Yes
   MimeType: audio/wave
-  Vendor: Frontier Labs
+  Make: Frontier Labs
   Problems: []
   Process:
     FilenameExtractor: ~
@@ -1182,7 +1171,7 @@
           UID: 000629
           BuildDate: 2019-02-22
           Gain: 50
-          Channel: 1
+          Channel: 0
           ChannelName: A
           Sensitivity:
       Gain:
@@ -1204,12 +1193,11 @@
       Course:
       SampleDateTime: 2019-06-06T23:59:35Z
       CoordinateReferenceSystem:
-  BlockAlign:
   FixturePath: FL_BAR_LT/3.08_SpaceInDateStamp/20190607_AAO [19.2144 152.8811]/201906 7T095935+1000_REC [19.2144 152.8811].flac
   Notes: "The header sample count is incorrect! This is not FL010 though. Reported: 396288, Actual: 404352"
   ValidMetadata: Yes
   MimeType: audio/flac
-  Vendor: Frontier Labs
+  Make: Frontier Labs
   Problems:
     - FL008
   Process:
@@ -1266,12 +1254,11 @@
       Course:
       SampleDateTime: ~
       CoordinateReferenceSystem:
-  BlockAlign:
   FixturePath: FL_BAR/2.02_IncorrectDataSize/20160809_063108_Dawn _1.4647 116.9136_.wav
   Notes:
   ValidMetadata: Yes
   MimeType: audio/wave
-  Vendor: Frontier Labs
+  Make: Frontier Labs
   Problems:
     - FL005
   Process:
@@ -1302,12 +1289,11 @@
     MemoryCard: ~
     Sensor: ~
     Location: ~
-  BlockAlign:
   FixturePath: FL_BAR/3.01_DataSize0/20220817_060000_REC.wav
   Notes:
   ValidMetadata: Yes
   MimeType: audio/wave
-  Vendor: Frontier Labs
+  Make: Frontier Labs
   Problems:
     - FL012
   Process:
@@ -1346,7 +1332,7 @@
   Notes:
   ValidMetadata: Yes
   MimeType: audio/wave
-  Vendor: Sony
+  Make: Sony
   Problems: []
   Process:
     WaveHeaderExtractor: ~
@@ -1382,7 +1368,7 @@
   Notes:
   ValidMetadata: Yes
   MimeType: audio/wave
-  Vendor: Tascam
+  Make: Tascam
   Problems: []
   Process:
     WaveHeaderExtractor: ~
@@ -1409,8 +1395,9 @@
     EmbeddedChecksum: ~
     MemoryCard: ~
     Sensor:
-      Vendor: Wildlife Acoustics
-      Name: SM3
+      Make: Wildlife Acoustics
+      Model: SM3
+      Name: SM304290
       Firmware: 1.35A
       SerialNumber: SM304290
       PowerSource:
@@ -1419,14 +1406,14 @@
           UID:
           BuildDate:
           Gain:
-          Channel:
+          Channel: 0
           ChannelName:
           Sensitivity: 23.9
         - Type: NA
           UID:
           BuildDate:
           Gain:
-          Channel:
+          Channel: 1
           ChannelName:
           Sensitivity: 23.9
       Gain:
@@ -1436,12 +1423,11 @@
       Temperature:
       LastTimeSync:
     Location: ~
-  BlockAlign: 2
   FixturePath: WA_SM3/1.35A/MedeasCove-Cemetary-SM304246_20211001_Data/SM304290_0+1_20211001_120004.wav
   Notes:
   ValidMetadata: Yes
   MimeType: audio/wave
-  Vendor: Wildlife Acoustics
+  Make: Wildlife Acoustics
   Problems: []
   Process:
     FilenameExtractor:
@@ -1473,12 +1459,11 @@
     MemoryCard: ~
     Sensor: ~
     Location: ~
-  BlockAlign: ~
   FixturePath: WA_SM3/1.35A/MedeasCove-Cemetary-SM304246_20211001_Data/SM304290_0+1_20211001_130001.wav
   Notes:
   ValidMetadata: No
   MimeType:
-  Vendor: Wildlife Acoustics
+  Make: Wildlife Acoustics
   Problems: []
   Process:
     FilenameExtractor: ~
@@ -1507,12 +1492,11 @@
     MemoryCard: ~
     Sensor: ~
     Location: ~
-  BlockAlign: ~
   FixturePath: WA_SM3/1.35A/MedeasCove-Cemetary-SM304246_20211013_Data/SM304246_0+1_20211023_230001.wav
   Notes:
   ValidMetadata: No
   MimeType:
-  Vendor: Wildlife Acoustics
+  Make: Wildlife Acoustics
   Problems: []
   Process:
     FilenameExtractor: ~
@@ -1540,8 +1524,9 @@
     EmbeddedChecksum: ~
     MemoryCard: ~
     Sensor:
-      Vendor: Wildlife Acoustics
-      Name: SM3
+      Make: Wildlife Acoustics
+      Model: SM3
+      Name: SM304246
       Firmware: 1.35A
       SerialNumber: SM304246
       PowerSource:
@@ -1550,14 +1535,14 @@
           UID:
           BuildDate:
           Gain:
-          Channel:
+          Channel: 0
           ChannelName:
           Sensitivity: 23.9
         - Type: NA
           UID:
           BuildDate:
           Gain:
-          Channel:
+          Channel: 1
           ChannelName:
           Sensitivity: 23.9
       Gain:
@@ -1567,12 +1552,11 @@
       Temperature:
       LastTimeSync:
     Location: ~
-  BlockAlign: 2
   FixturePath: WA_SM3/1.35A/MedeasCove-Cemetary-SM304246_20211013_Data/SM304246_0+1_20211024_002617.wav
   Notes:
   ValidMetadata: Yes
   MimeType: audio/wave
-  Vendor: Wildlife Acoustics
+  Make: Wildlife Acoustics
   Problems: []
   Process:
     FilenameExtractor:
@@ -1627,14 +1611,14 @@
           UID: 006259
           BuildDate: 2020-01-16
           Gain: 40
-          Channel: 1
+          Channel: 0
           ChannelName: A
           Sensitivity:
         - Type: STD AUDIO MIC
           UID: 006260
           BuildDate: 2020-01-16
           Gain: 40
-          Channel: 2
+          Channel: 1
           ChannelName: B
           Sensitivity:
       Gain:
@@ -1656,12 +1640,11 @@
       Course:
       SampleDateTime:
       CoordinateReferenceSystem:
-  BlockAlign:
   FixturePath: FL_BAR_LT/3.30_Duration/8488_20220529T050000-0300_continuousPeases [+43.63055-066.03199].flac
   Notes: Affected by FL010 & FL007
   ValidMetadata: Partial
   MimeType: audio/flac
-  Vendor: Frontier Labs
+  Make: Frontier Labs
   Problems:
     - FL010
     - Fl007
@@ -1731,7 +1714,7 @@
           UID: 004738
           BuildDate: 2019-08-30
           Gain: 50
-          Channel: 1
+          Channel: 0
           ChannelName: A
           Sensitivity:
       Gain:
@@ -1753,12 +1736,11 @@
       Course:
       SampleDateTime:
       CoordinateReferenceSystem:
-  BlockAlign:
   FixturePath: FL_BAR_LT/3.20_Duration/Wambina Wet A/20220619T020000+1000_REC.flac
   Notes: Affected by FL010. Also includes examples of our standard FLAC frame detection failing.
   ValidMetadata: Partial
   MimeType: audio/flac
-  Vendor: Frontier Labs
+  Make: Frontier Labs
   Problems:
     - FL010
   Process:
@@ -1811,7 +1793,7 @@
           UID: 001958
           BuildDate: 2019-07-05
           Gain: 50
-          Channel: 1
+          Channel: 0
           ChannelName: A
           Sensitivity:
       Gain:
@@ -1833,12 +1815,11 @@
       Course:
       SampleDateTime:
       CoordinateReferenceSystem:
-  BlockAlign:
   FixturePath: FL_BAR_LT/3.20_Duration/Wambina Wet B/20201230_AAO/20201230T180000+1000_REC.flac
   Notes: Affected by FL010. Also includes examples of our standard FLAC fast sample count failing due to a frame desync.
   ValidMetadata: Partial
   MimeType: audio/flac
-  Vendor: Frontier Labs
+  Make: Frontier Labs
   Problems:
     - FL010
   Process:
@@ -1892,7 +1873,7 @@
           UID: 000629
           BuildDate: 2019-02-22
           Gain: 50
-          Channel: 1
+          Channel: 0
           ChannelName: A
           Sensitivity:
       Gain:
@@ -1914,12 +1895,11 @@
       Course:
       SampleDateTime:
       CoordinateReferenceSystem:
-  BlockAlign:
   FixturePath: FL_BAR_LT/3.08_Normal/20190422T200000+1000_REC [19.2144 152.8811].flac
   Notes: No problems but it triggers an edge case in our FLAC detector. It's total samples is also incorrect! ffmpeg will decode almost 400ms extra of samples
   ValidMetadata: Yes
   MimeType: audio/flac
-  Vendor: Frontier Labs
+  Make: Frontier Labs
   Problems: []
   Process:
     FlacHeaderExtractor: ~
@@ -1965,7 +1945,7 @@
       WriteBlSize: 512
       EraseBlSize: 65536
     Sensor:
-      Vendor:
+      Make:
       Name:
       Firmware: 3.17
       SerialNumber: 268436480
@@ -1975,7 +1955,7 @@
           UID: 001721
           BuildDate: 2019-06-18
           Gain: 50
-          Channel: 1
+          Channel: 0
           ChannelName: A
           Sensitivity:
       Gain:
@@ -1997,7 +1977,6 @@
       Course:
       SampleDateTime:
       CoordinateReferenceSystem:
-  BlockAlign:
   FixturePath: FL_BAR_LT/3.17_PartialDataFiles/Robson-Creek-Dry-A_201/20200426_STUDY/data
   Notes: >
     Partial data file with conflict
@@ -2005,7 +1984,7 @@
     The FLAC decoder, audacity, and ffmpeg all stop decoding in the same spot, so we do as well.
   ValidMetadata: Yes
   MimeType: audio/flac
-  Vendor: Frontier Labs
+  Make: Frontier Labs
   Problems:
     - FL011
   Process:
@@ -2019,7 +1998,7 @@
       TrueEndDate: ~
       Location: ~
       Sensor:
-        Vendor:
+        Make:
         Name:
         Firmware:
         SerialNumber:
@@ -2076,7 +2055,7 @@
       WriteBlSize: 512
       EraseBlSize: 65536
     Sensor:
-      Vendor: ~
+      Make: ~
       Name: ~
       Firmware: ~
       SerialNumber: ~
@@ -2089,12 +2068,11 @@
       Temperature: ~
       LastTimeSync: ~
     Location: ~
-  BlockAlign:
   FixturePath: FL_BAR_LT/3.17_PartialDataFiles/Robson-Creek-Dry-A_201/20210416_STUDY/data
   Notes: Partial data file that's empty
   ValidMetadata: Yes
   MimeType: ~
-  Vendor: Frontier Labs
+  Make: Frontier Labs
   Problems:
     - FL011
   Process:
@@ -2149,7 +2127,7 @@
       WriteBlSize: 512
       EraseBlSize: 65536
     Sensor: &RobsonDryBPartialSensor
-      Vendor:
+      Make:
       Name:
       Firmware: 3.17
       SerialNumber: 268436480
@@ -2159,7 +2137,7 @@
           UID: 001721
           BuildDate: 2019-06-18
           Gain: 50
-          Channel: 1
+          Channel: 0
           ChannelName: A
           Sensitivity:
       Gain:
@@ -2181,7 +2159,6 @@
       Course:
       SampleDateTime:
       CoordinateReferenceSystem:
-  BlockAlign:
   FixturePath: FL_BAR_LT/3.17_PartialDataFiles/Robson-Creek-Dry-B_203/20200227_STUDY/data
   Notes: >
     Partial data file with conflict
@@ -2190,7 +2167,7 @@
     10980 frames * 2048 blocksize = 22,487,040
   ValidMetadata: Yes
   MimeType: audio/flac
-  Vendor: Frontier Labs
+  Make: Frontier Labs
   Problems:
     - FL011
   Process:
@@ -2255,7 +2232,7 @@
       WriteBlSize:
       EraseBlSize:
     Sensor:
-      Vendor:
+      Make:
       Name:
       Firmware: 3.30
       SerialNumber: 53373100-38324832-33303330-37353034
@@ -2265,7 +2242,7 @@
           UID: 000620
           BuildDate: 2019-02-22
           Gain: 50
-          Channel: 1
+          Channel: 0
           ChannelName: A
           Sensitivity:
       Gain:
@@ -2287,12 +2264,11 @@
       Course:
       SampleDateTime:
       CoordinateReferenceSystem:
-  BlockAlign:
   FixturePath: FL_BAR_LT/3.30_PartialDataFiles/20220426_-27.61813+152.78107/data
   Notes: Partial data file with partially encoded FLAC samples
   ValidMetadata: Yes
   MimeType: audio/flac
-  Vendor: Frontier Labs
+  Make: Frontier Labs
   Problems:
     - FL011
   Process:
@@ -2345,7 +2321,7 @@
       WriteBlSize:
       EraseBlSize:
     Sensor:
-      Vendor:
+      Make:
       Name:
       Firmware: 3.30
       SerialNumber: 53373100-38324832-33303330-37353034
@@ -2355,7 +2331,7 @@
           UID: 000620
           BuildDate: 2019-02-22
           Gain: 50
-          Channel: 1
+          Channel: 0
           ChannelName: A
           Sensitivity:
       Gain:
@@ -2377,12 +2353,11 @@
       Course:
       SampleDateTime:
       CoordinateReferenceSystem:
-  BlockAlign:
   FixturePath: FL_BAR_LT/3.30_PartialDataFiles/20220426_-27.61817+152.78113/data
   Notes: Partial data file with partially encoded FLAC samples
   ValidMetadata: Yes
   MimeType: audio/flac
-  Vendor: Frontier Labs
+  Make: Frontier Labs
   Problems:
     - FL011
   Process:
@@ -2445,12 +2420,11 @@
       Temperature:
       LastTimeSync: 2022-10-02T07:53:55+10:00
     Location: ~
-  BlockAlign:
   FixturePath: FL_BAR_LT/3.00_Normal/20221002_STUDY/20221002_080000_Rec.wav
   Notes:
   ValidMetadata: Yes
   MimeType: audio/wave
-  Vendor: Frontier Labs
+  Make: Frontier Labs
   Problems: []
   Process:
     FilenameExtractor:
@@ -2494,12 +2468,11 @@
       Temperature:
       LastTimeSync:
     Location: ~
-  BlockAlign:
   FixturePath: FL_BAR_LT/3.14_PartialDataFiles/Victorian-Dry-Eucalypt-Wombat-Wet-A_246/555/20211225_AAO/data
   Notes: Partial data file that is empty other than a WAVE header
   ValidMetadata: Yes
   MimeType: audio/wave
-  Vendor: Frontier Labs
+  Make: Frontier Labs
   Problems:
     - FL011
     - FL003
@@ -2554,12 +2527,11 @@
       Temperature:
       LastTimeSync:
     Location: ~
-  BlockAlign:
   FixturePath: FL_BAR_LT/3.12_PartialDataFiles/Toorale-National-Park-Dry-B_323/267/20210105_-30.2647+145.3586/data
   Notes: Partial data file that is empty other than a WAVE header
   ValidMetadata: Yes
   MimeType: audio/wave
-  Vendor: Frontier Labs
+  Make: Frontier Labs
   Problems:
     - FL011
     - FL003
@@ -2628,12 +2600,11 @@
       Course:
       SampleDateTime:
       CoordinateReferenceSystem:
-  BlockAlign:
   FixturePath: FL_BAR_LT/3.20_PartialDataFiles/20210328_AAO/data
   Notes: Partial data file that has content but is very short
   ValidMetadata: Yes
   MimeType: audio/flac
-  Vendor: Frontier Labs
+  Make: Frontier Labs
   Problems:
     - FL011
   Process:
@@ -2646,3 +2617,80 @@
         Microphones: ~
     FlacHeaderExtractor:
     FlacCommentExtractor:
+
+- Name: SM4 High Precision
+  Record: &SM4HighPrecision
+    Extension: .wav
+    Stem: FNQ-RBS_20190102_044802_010
+    StartDate: 2019-01-02T04:48:02.010000+10:00
+    LocalStartDate: 2019-01-02T04:48:02.010000
+    TrueStartDate: 2019-01-02T04:48:02.010000+10:00
+    TrueEndDate:
+    DurationSeconds: 86351872/24000
+    TotalSamples: 86351872
+    Channels: 2
+    SampleRateHertz: 24000
+    BitsPerSecond: 768000
+    BitDepth: 16
+    FileSizeBytes: 345410142
+    MediaType: audio/wave
+    CalculatedChecksum:
+      Type: SHA256
+      Value: d1c38fb1e0711b050070f4b59398912fc9245858e55a62cfae35804c303e3e97
+    EmbeddedChecksum: ~
+    MemoryCard: ~
+    Sensor:
+      Make: Wildlife Acoustics
+      Model: SM4
+      Name: FNQ-RBS
+      Firmware: 2.1.1
+      SerialNumber: S4A04894
+      PowerSource:
+      Microphones:
+        - Type: IN
+          UID:
+          BuildDate:
+          Gain:
+          Channel: 0
+          ChannelName:
+          Sensitivity: 45.2
+        - Type: IN
+          UID:
+          BuildDate:
+          Gain:
+          Channel: 1
+          ChannelName:
+          Sensitivity: 45.2
+      Gain:
+      Configuration:
+      Voltage:
+      BatteryLevel:
+      Temperature: 21.75
+      LastTimeSync:
+    Location:
+      Longitude: 145.37851
+      LongitudePrecision: 5
+      Latitude: -17.07007
+      LatitudePrecision: 5
+      Altitude:
+      AltitudePrecision:
+      HorizontalAccuracy:
+      VerticalAccuracy:
+      Speed:
+      Course:
+      SampleDateTime:
+      CoordinateReferenceSystem:
+  FixturePath: WA_SM4/2.1.1_HighPrecisionDateStamp/FNQ-RBS_20190102_044802_010.wav
+  Notes: High precision SM4 with GPS timer. Also has an embedded guano block.
+  ValidMetadata: Yes
+  MimeType: audio/wave
+  Make: Wildlife Acoustics
+  Problems: []
+  Process:
+    FilenameExtractor:
+      <<: *SM4HighPrecision
+      StartDate: ~
+      Location: ~
+    WaveHeaderExtractor: ~
+    WamdExtractor: ~
+    #GuanoExtractor: ~

@@ -39,7 +39,7 @@ namespace Emu.Tests.TestHelpers
 
         public static string ResolveFirstDirectory(string name)
         {
-            // be convention all of the paths in our fixtures CSV uses `/`
+            // be convention all of the paths in our fixtures file uses `/`
             var firstDirectory = name.Split('/').First();
             var path = RealFileSystem.Path.GetFullPath(RealFileSystem.Path.Combine(Helpers.FixturesRoot, firstDirectory));
 

@@ -45,7 +45,7 @@ namespace Emu.Metadata.FrontierLabs
                 // Extract all microphone information
                 while (comments.ContainsKey(FrontierLabs.MicrophoneTypeCommentKey + micNumber))
                 {
-                    // FL uses channel A, B to refer to microphones 1 and 2 respectively
+                    // FL uses channel A, B to refer to microphones 0 and 1 respectively
                     // Converts to channel name using ASCII value offset of 64
                     string channelName = ((char)(micNumber + 64)).ToString();
 
@@ -55,7 +55,9 @@ namespace Emu.Metadata.FrontierLabs
                         UID = (string)this.ParseComment(FrontierLabs.MicrophoneUIDCommentKey + micNumber, comments),
                         BuildDate = (LocalDate?)this.ParseComment(FrontierLabs.MicrophoneBuildDateCommentKey + micNumber, comments),
                         Gain = (double?)this.ParseComment(FrontierLabs.MicrophoneGainCommentKey + micNumber, comments),
-                        Channel = micNumber,
+
+                        // 0 based channels
+                        Channel = micNumber - 1,
                         ChannelName = channelName,
                     };
 
@@ -109,8 +111,8 @@ namespace Emu.Metadata.FrontierLabs
                     TrueEndDate = recording.TrueEndDate ?? this.ParseComment(FrontierLabs.RecordingEndCommentKey, comments) as OffsetDateTime?,
                     Location = (recording.Location ?? new Location()) with
                     {
-                        Longitude = recording.Location?.Longitude ?? (location != null ? location[FrontierLabs.LongitudeKey] : null),
-                        Latitude = recording.Location?.Latitude ?? (location != null ? location[FrontierLabs.LatitudeKey] : null),
+                        Longitude = recording.Location?.Longitude ?? location?[FrontierLabs.LongitudeKey],
+                        Latitude = recording.Location?.Latitude ?? location?[FrontierLabs.LatitudeKey],
                     },
                     MemoryCard = (recording.MemoryCard ?? new MemoryCard()) with
                     {

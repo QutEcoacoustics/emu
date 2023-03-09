@@ -6,6 +6,7 @@ namespace Emu.Metadata.WildlifeAcoustics
 {
     using System.Threading.Tasks;
     using Emu.Audio;
+    using Emu.Audio.Vendors.WildlifeAcoustics.WAMD;
     using Emu.Models;
     using Microsoft.Extensions.Logging;
     using NodaTime;
@@ -31,46 +32,72 @@ namespace Emu.Metadata.WildlifeAcoustics
         {
             var stream = information.FileStream;
 
-            var tryWamdData = Wamd.ExtractMetadata(stream);
+            var tryWamdData = WamdParser.ExtractMetadata(stream);
 
             if (tryWamdData.IsSucc)
             {
                 Wamd wamdData = (Wamd)tryWamdData;
 
-                int numMicrophones = wamdData.MicrophoneType.Length;
+                int numMicrophones = wamdData.MicType.Length;
 
                 var location = recording.Location;
-                if (wamdData.Location is not null)
+                if (wamdData.GpsFirst is not null)
                 {
-                    location = wamdData.Location;
+                    location = wamdData.GpsFirst;
+                }
+                else if (wamdData.PosLast is not null)
+                {
+                    location = wamdData.PosLast;
+                }
+
+                if (wamdData.FileStartTime is not null)
+                {
+                    if (wamdData.FileStartTime.Value.Case is OffsetDateTime o)
+                    {
+                        recording = recording with
+                        {
+                            StartDate = recording.StartDate ?? o,
+                            TrueStartDate = recording.TrueStartDate ?? o,
+                            LocalStartDate = recording.LocalStartDate ?? o.LocalDateTime,
+                        };
+                    }
+                    else
+                    {
+                        var localDateTime = (LocalDateTime)wamdData.FileStartTime.Value;
+                        recording = recording with
+                        {
+                            LocalStartDate = recording.LocalStartDate ?? localDateTime,
+                        };
+                    }
+                }
+
+                var microphones = new Microphone[numMicrophones];
+                for (int i = 0; i < numMicrophones; i++)
+                {
+                    microphones[i] = recording.Sensor?.Microphones?[i] ?? new Microphone() with
+                    {
+                        Type = wamdData.MicType[i],
+                        Sensitivity = wamdData.MicSensitivity[i],
+                        Channel = i,
+                    };
                 }
 
                 // Update recording information with wamd metadata
                 recording = recording with
                 {
-                    StartDate = recording.StartDate ?? (wamdData.StartDate.IsLeft ? (OffsetDateTime?)wamdData.StartDate : null),
-                    TrueStartDate = recording.TrueStartDate ?? (wamdData.StartDate.IsLeft ? (OffsetDateTime?)wamdData.StartDate : null),
-                    LocalStartDate = recording.LocalStartDate ?? (wamdData.StartDate.IsRight ? (LocalDateTime?)wamdData.StartDate : null),
                     Sensor = (recording.Sensor ?? new Sensor()) with
                     {
-                        Name = recording.Sensor?.Name ?? wamdData.Name,
-                        SerialNumber = recording.Sensor?.SerialNumber ?? wamdData.SerialNumber,
-                        Firmware = recording.Sensor?.Firmware ?? wamdData.Firmware,
-                        Temperature = recording.Sensor?.Temperature ?? wamdData.Temperature,
-                        Microphones = recording.Sensor?.Microphones ?? new Microphone[numMicrophones],
+                        Make = recording.Sensor?.Make ?? Vendor.WildlifeAcoustics.ToNiceName(),
+                        Model = recording.Sensor?.Model ?? wamdData.DevModel,
+                        Name = recording.Sensor?.Name ?? wamdData.DevName,
+                        SerialNumber = recording.Sensor?.SerialNumber ?? wamdData.DevSerialNum,
+                        Firmware = recording.Sensor?.Firmware ?? wamdData.SwVersion,
+                        Temperature = recording.Sensor?.Temperature ?? wamdData.TempInt,
+                        TemperatureExternal = recording.Sensor?.TemperatureExternal ?? wamdData.TempExt,
+                        Microphones = recording.Sensor?.Microphones ?? microphones,
                     },
                     Location = location,
                 };
-
-                // Update recording microphone information
-                for (int i = 0; i < recording.Sensor.Microphones.Length; i++)
-                {
-                    recording.Sensor.Microphones[i] = recording.Sensor.Microphones[i] ?? new Microphone() with
-                    {
-                        Type = wamdData.MicrophoneType[i],
-                        Sensitivity = wamdData.MicrophoneSensitivity[i],
-                    };
-                }
             }
             else
             {

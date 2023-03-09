@@ -128,46 +128,46 @@ Notes:
 
 ### Wildlife Acoustics
 
-#### Song Meter SM4BAT
+#### Song Meter SM4/SM4BAT/SM3
 
-| Name            | Supported | Location(s)  | Notes        | Field     | Units |
-| --------------- | --------- | ------------ | ------------ | --------- | ----- |
-| Date Time       | ✔️         | Name, Header |              | StartDate |       |
-| Start Date      | ✔️         | Name, Header |              | StartDate |       |
-| Sensor Name     | ✔️         | Header       |              |           |       |
-| Firmware        | ✔️         | Header       |              |           |       |
-| Serial Number   | ✔️         | Header       |              |           |       |
-| Longitude       | ✔️         | Header       |              |           |       |
-| Latitude        | ✔️         | Header       |              |           |       |
-| Temperature     | ✔️         | Header       |              |           | °C    |
-| Battery Voltage | ❌         | Support      | Summary file |           |       |
-
-
-#### Song Meter SM4
-
-| Name            | Supported | Location(s) | Notes        | Field | Units |
-| --------------- | --------- | ----------- | ------------ | ----- | ----- |
-| Date Time       | ✔️         | Header      |              |       |       |
-| Sensor Name     | ✔️         | Header      |              |       |       |
-| Firmware        | ✔️         | Header      |              |       |       |
-| Serial Number   | ✔️         | Header      |              |       |       |
-| Longitude       | ✔️         | Header      |              |       |       |
-| Latitude        | ✔️         | Header      |              |       |       |
-| Temperature     | ✔️         | Header      |              |       | °C    |
-| Battery Voltage | ❌         | Support     | Summary file |       |       |
+| Name                     | Supported | Location(s)  | Notes                             | Field          | Units             |
+| ------------------------ | --------- | ------------ | --------------------------------- | -------------- | ----------------- |
+| Date Time                | ✔️         | Name, Header |                                   | LocalStartDate |                   |
+| High Precision Date Time | ✔️         | Name, Header |                                   | StartDate      |                   |
+| Sensor Make              | ✔️         | Header       |                                   |                |                   |
+| Sensor Model             | ✔️         | Header       |                                   |                |                   |
+| Sensor Name              | ✔️         | Header       |                                   |                |                   |
+| Firmware                 | ✔️         | Header       |                                   |                |                   |
+| Serial Number            | ✔️         | Header       |                                   |                |                   |
+| Longitude                | ✔️         | Header       |                                   |                |                   |
+| Latitude                 | ✔️         | Header       |                                   |                |                   |
+| Temperature (internal)   | ✔️         | Header       |                                   |                | °C                |
+| Temperature (external)   | ❔         | Header       | No test files currently available |                | °C                |
+| Light                    | ❔         | Header       | No test files currently available |                | Candela           |
+| Humidity                 | ❔         | Header       | No test files currently available |                | relative humidity |
+| Battery Voltage          | ❌         | Support      | Summary file, need examples!      |                |                   |
 
 #### Song Meter Mini
+
+TODO: Need more example files!
 
 | Name          | Supported | Location(s) | Notes | Field | Units |
 | ------------- | --------- | ----------- | ----- | ----- | ----- |
 | Serial Number | ❌         | Header      |       |       |       |
 
-#### Song Meter SM3
 
 #### Song Meter SM2
 
+TODO: Need more example files!
+
 ### Cornell Lab
+
+TODO: Need more example files!
 
 #### Swift
 
+TODO: Need more example files!
+
 #### SwiftOne
+
+TODO: Need more example files!

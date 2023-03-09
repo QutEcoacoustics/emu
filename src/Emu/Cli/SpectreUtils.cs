@@ -16,7 +16,7 @@ namespace Emu.Cli
     {
         public static readonly string EmuName = "[orange4_1]EMU[/]";
 
-        private static Regex emuRegex = new(@"(emu)", RegexOptions.IgnoreCase);
+        private static readonly Regex emuRegex = new(@"(emu)", RegexOptions.IgnoreCase);
 
         public static string MarkupBool(bool value)
         {
