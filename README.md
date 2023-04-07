@@ -59,7 +59,7 @@ However, _EMU_ is being actively used in large-scale automated ecoacoustics pipe
 -   The metadata extraction is quite good now
 -   There are several fixes implemented, but several more are in the backlog
 
-<small>\*EMU needs to be compiled from source on Macs</small>
+<small>\*EMU needs special permissions to run on a Mac. See [this](https://openecoacoustics.org/resources/help-centre/software/unsigned/) article for guidance.</small>
 
 
 ## Acknowledgements
