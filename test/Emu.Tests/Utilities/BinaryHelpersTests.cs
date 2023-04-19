@@ -6,7 +6,9 @@ namespace Emu.Tests.Utilities
 {
     using System;
     using Emu.Utilities;
+    using FluentAssertions;
     using Xunit;
+    using static Emu.Utilities.BinaryHelpers;
 
     public class BinaryHelpersTests
     {
@@ -24,7 +26,7 @@ namespace Emu.Tests.Utilities
         [InlineData(new byte[] { 0b1111_1010, 0xAA, 0xAA, 0xAA, 0xAA }, 45_812_984_490u)]
         public void CanRead36BitIntegers(byte[] input, ulong expected)
         {
-            var actual = BinaryHelpers.Read36BitUnsignedBigEndianIgnoringFirstNibble(input);
+            var actual = Read36BitUnsignedBigEndianIgnoringFirstNibble(input);
 
             Assert.Equal(expected, actual);
         }
@@ -43,7 +45,7 @@ namespace Emu.Tests.Utilities
         [InlineData(new byte[] { 0xAA, 0xAA, 0b1010_1111 }, 699_050u)]
         public void CanRead20BitIntegers(byte[] input, ulong expected)
         {
-            var actual = BinaryHelpers.Read20BitUnsignedBigEndianIgnoringLastNibble(input);
+            var actual = Read20BitUnsignedBigEndianIgnoringLastNibble(input);
 
             Assert.Equal(expected, actual);
         }
@@ -61,7 +63,7 @@ namespace Emu.Tests.Utilities
         [InlineData(new byte[] { 0b1010_1011 }, 5u)]
         public void CanRead3BitIntegers(byte[] input, ulong expected)
         {
-            var actual = BinaryHelpers.Read3BitUnsignedBigEndianIgnoringFirstFourAndLastBit(input);
+            var actual = Read3BitUnsignedBigEndianIgnoringFirstFourAndLastBit(input);
 
             Assert.Equal(expected, actual);
         }
@@ -79,7 +81,7 @@ namespace Emu.Tests.Utilities
         [InlineData(new byte[] { 0b1010_1011, 0b0101_0101 }, 21u)]
         public void CanRead5BitIntegers(byte[] input, ulong expected)
         {
-            var actual = BinaryHelpers.Read5BitUnsignedBigEndianIgnoringFirstSevenAndLastFourBits(input);
+            var actual = Read5BitUnsignedBigEndianIgnoringFirstSevenAndLastFourBits(input);
 
             Assert.Equal(expected, actual);
         }
@@ -94,7 +96,7 @@ namespace Emu.Tests.Utilities
         [InlineData(new byte[] { 0b0101_0101 }, 85u)]
         public void CanRead7BitIntegers(byte[] input, ulong expected)
         {
-            var actual = BinaryHelpers.Read7BitUnsignedBigEndianIgnoringFirstBit(input);
+            var actual = Read7BitUnsignedBigEndianIgnoringFirstBit(input);
 
             Assert.Equal(expected, actual);
         }
@@ -115,7 +117,7 @@ namespace Emu.Tests.Utilities
             var actual = new byte[5];
             actual[0] = firstByte;
 
-            BinaryHelpers.Write36BitUnsignedBigEndianIgnoringFirstNibble(actual, input);
+            Write36BitUnsignedBigEndianIgnoringFirstNibble(actual, input);
 
             Assert.Equal(expected, actual);
         }
@@ -127,7 +129,7 @@ namespace Emu.Tests.Utilities
 
             var error = Assert.Throws<ArgumentException>(
                 "value",
-                () => BinaryHelpers.Write36BitUnsignedBigEndianIgnoringFirstNibble(actual, 68_719_476_736u));
+                () => Write36BitUnsignedBigEndianIgnoringFirstNibble(actual, 68_719_476_736u));
 
             Assert.Contains("is outside the representable range", error.Message);
         }
@@ -139,7 +141,7 @@ namespace Emu.Tests.Utilities
 
             var error = Assert.Throws<ArgumentException>(
                 "bytes",
-                () => BinaryHelpers.Write36BitUnsignedBigEndianIgnoringFirstNibble(actual, 68_719_476_735u));
+                () => Write36BitUnsignedBigEndianIgnoringFirstNibble(actual, 68_719_476_735u));
 
             Assert.Contains("span must at least be 5 long", error.Message);
         }
@@ -151,9 +153,125 @@ namespace Emu.Tests.Utilities
 
             var error = Assert.Throws<ArgumentException>(
                 "bytes",
-                () => BinaryHelpers.Read36BitUnsignedBigEndianIgnoringFirstNibble(actual));
+                () => Read36BitUnsignedBigEndianIgnoringFirstNibble(actual));
 
             Assert.Contains("span must at least be 5 long", error.Message);
+        }
+
+        [Theory]
+        [InlineData(new byte[] { 0x00, 0x00 }, false)]
+        [InlineData(new byte[] { 0x01, 0x00 }, true)]
+        [InlineData(new byte[] { 0x02, 0x00 }, null)]
+        [InlineData(new byte[] { 0xFF, 0xFF }, null)]
+        [InlineData(new byte[] { 0x00, 0x01 }, null)]
+        public void ReadBool16LittleEndianTest(ReadOnlyMemory<byte> testCase, bool? expected)
+        {
+            if (expected.HasValue)
+            {
+                var actual = ReadBool16LittleEndian(testCase.Span);
+                actual.Should().Be(expected.Value);
+            }
+            else
+            {
+                Assert.Throws<InvalidOperationException>(
+                    () => ReadBool16LittleEndian(testCase.Span));
+            }
+        }
+
+        [Theory]
+        [InlineData(1, 0, 1, 1)]
+        [InlineData(0, 1, 2, 0)]
+        [InlineData(1, 7, 12, 0x80)]
+        [InlineData(129, 0, 8, 129)]
+        [InlineData(4, 29, 32,  0x80_00_00_00)]
+        [InlineData(2, 30, 32,  0x80_00_00_00)]
+        [InlineData(1, 31, 32,  0x80_00_00_00)]
+        [InlineData(0x81, 24, 32,  0x81_00_00_00)]
+        [InlineData(0x2_00_01, 7, 25, 0x01_00_00_80)]
+        public void ReadingAndWritingBitRangesWorksForUInt(uint expected, byte start, byte end, uint solo)
+        {
+            const uint TestPattern = 0b1000_0001__0000_0000__0000_0000__1000_0001;
+
+            var actualRead = ReadBitRange(TestPattern, start, end);
+            actualRead.Should().Be(expected);
+
+            uint dest = 0;
+            WriteBitRange(ref dest, start, end, actualRead);
+            dest.Should().Be(solo);
+
+            // there are no misaligned bits
+            (dest | TestPattern).Should().Be(TestPattern);
+
+            // it should clear out existing bits when writing
+            dest = 0xFF_FF_FF_FF;
+            WriteBitRange(ref dest, start, end, actualRead);
+            ReadBitRange(dest, start, end).Should().Be(expected);
+        }
+
+        [Theory]
+        [InlineData(1, 0, 1, 1)]
+        [InlineData(0, 1, 2, 0)]
+        [InlineData(1, 7, 12, 0x80)]
+        [InlineData(129, 0, 8, 129)]
+        [InlineData(4, 29, 32, 0x80_00_00_00)]
+        [InlineData(2, 30, 32, 0x80_00_00_00)]
+        [InlineData(1, 31, 32, 0x80_00_00_00)]
+        [InlineData(0x81, 24, 32, 0x81_00_00_00)]
+        [InlineData(0x2_00_01, 7, 25, 0x01_00_00_80)]
+        [InlineData(15, 60, 64, 0xF0_00_00_00_00_00_00_00)]
+        [InlineData(15, 32, 36, 0x00_00_00_0F_00_00_00_00)]
+        [InlineData(0xF0_00_00_0F, 32, 64, 0xF0_00_00_0F_00_00_00_00)]
+        [InlineData(248, 28, 36, 0x0F_80_00_00_00)]
+        public void ReadingAndWritingBitRangesWorksULong(ulong expected, byte start, byte end, ulong solo)
+        {
+            const ulong TestPattern = 0b1111_0000__0000_0000__0000_0000__0000_1111__1000_0001__0000_0000__0000_0000__1000_0001;
+
+            var actualRead = ReadBitRange(TestPattern, start, end);
+            actualRead.Should().Be(expected);
+
+            ulong dest = 0;
+            WriteBitRange(ref dest, start, end, actualRead);
+            dest.Should().Be(solo);
+
+            // there are no misaligned bits
+            (dest | TestPattern).Should().Be(TestPattern);
+
+            // it should clear out existing bits when writing
+            dest = 0xFF_FF_FF_FF_FF_FF_FF_FF;
+            WriteBitRange(ref dest, start, end, actualRead);
+            ReadBitRange(dest, start, end).Should().Be(expected);
+        }
+
+        [Theory]
+        [InlineData(-1, 0, 1, 1)]
+        [InlineData(0, 1, 2, 0)]
+        [InlineData(1, 7, 12, 0x80)]
+        [InlineData(-127, 0, 8, 129)]
+        [InlineData(-4, 29, 32, 0x80_00_00_00)]
+        [InlineData(-2, 30, 32, 0x80_00_00_00)]
+        [InlineData(-1, 31, 32, 0x80_00_00_00)]
+        [InlineData(-1, 60, 64, 0xF0_00_00_00_00_00_00_00)]
+        [InlineData(-1, 32, 36, 0x00_00_00_0F_00_00_00_00)]
+        [InlineData(-268_435_441, 32, 64, 0xF0_00_00_0F_00_00_00_00)]
+        [InlineData(-8, 28, 36, 0x0F_80_00_00_00)]
+        public void ReadingAndWritingSignedBitRangesWorksULong(long expected, byte start, byte end, ulong solo)
+        {
+            const ulong TestPattern = 0b1111_0000__0000_0000__0000_0000__0000_1111__1000_0001__0000_0000__0000_0000__1000_0001;
+
+            var actualRead = ReadSignedBitRange(TestPattern, start, end);
+            actualRead.Should().Be(expected);
+
+            ulong dest = 0;
+            WriteSignedBitRange(ref dest, start, end, actualRead);
+            dest.Should().Be(solo);
+
+            // there are no misaligned bits
+            (dest | TestPattern).Should().Be(TestPattern);
+
+            // it should clear out existing bits when writing
+            dest = 0xFF_FF_FF_FF_FF_FF_FF_FF;
+            WriteSignedBitRange(ref dest, start, end, actualRead);
+            ReadSignedBitRange(dest, start, end).Should().Be(expected);
         }
     }
 }

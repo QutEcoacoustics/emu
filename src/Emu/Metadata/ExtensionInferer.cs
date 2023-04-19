@@ -22,6 +22,8 @@ namespace Emu.Metadata
         {
         }
 
+        public string Name => nameof(ExtensionInferer);
+
         public ValueTask<bool> CanProcessAsync(TargetInformation information)
         {
             return ValueTask.FromResult(true);

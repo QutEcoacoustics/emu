@@ -22,7 +22,6 @@ namespace Emu
             this.AddGlobalOption(FormatOption);
             this.AddGlobalOption(OutOption);
             this.AddGlobalOption(ClobberOption);
-            this.AddGlobalOption(NoChecksumOption);
 
             this.Add(new MetadataCommand());
             this.Add(new RenameCommand());
@@ -79,10 +78,6 @@ namespace Emu
         public static Option<bool> ClobberOption { get; } = new Option<bool>(
             new string[] { "--clobber", "-C" },
             "Overwrites output file, used in junction with --output. No effect for standard out");
-
-        public static Option<bool> NoChecksumOption { get; } = new Option<bool>(
-            new string[] { "--no-checksum" },
-            "Doesn't calculate checksum, important for archiving purposes but computationally expensive");
 
         public static LogLevel GetLogLevel(ParseResult parseResult)
         {

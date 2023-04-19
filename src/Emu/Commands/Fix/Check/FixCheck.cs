@@ -124,7 +124,7 @@ namespace Emu
             var f = record;
 
             StringBuilder builder = new();
-            builder.AppendFormat("File {0}:\n", MarkupPath(f.File));
+            builder.AppendFormat(MarkupFileSection(f.File));
             foreach (var report in f.Problems)
             {
                 builder.AppendFormat("\t- {0}: {1}. {2}\n", report.Key.Id, report.Value.Status, report.Value.Message.EscapeMarkup());

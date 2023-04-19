@@ -19,6 +19,8 @@ namespace Emu.Metadata.FrontierLabs
             this.logger = logger;
         }
 
+        public string Name => nameof(FlacHeaderExtractor);
+
         public ValueTask<bool> CanProcessAsync(TargetInformation information)
         {
             var result = information.IsFlacFile();

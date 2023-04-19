@@ -23,8 +23,6 @@ namespace Emu.Tests.Metadata
                 this.BuildLogger<WamdExtractor>());
         }
 
-        public Recording Recording => new();
-
         [Theory]
         [ClassData(typeof(FixtureData))]
         public async Task CanProcessFilesWorks(FixtureModel model)
@@ -44,7 +42,7 @@ namespace Emu.Tests.Metadata
 
             var recording = await this.subject.ProcessFileAsync(
                 model.ToTargetInformation(this.RealFileSystem),
-                this.Recording);
+                new());
 
             recording.StartDate.Should().Be(expectedRecording.StartDate);
             recording.Sensor.Make.Should().Be(expectedRecording.Sensor.Make);

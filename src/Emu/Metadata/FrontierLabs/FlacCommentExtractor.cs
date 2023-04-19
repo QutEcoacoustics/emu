@@ -10,9 +10,10 @@ namespace Emu.Metadata.FrontierLabs
     using Emu.Models;
     using LanguageExt;
     using Microsoft.Extensions.Logging;
+    using MoreLinq;
     using NodaTime;
 
-    public class FlacCommentExtractor : IMetadataOperation
+    public class FlacCommentExtractor : IRawMetadataOperation
     {
         private readonly ILogger<FlacCommentExtractor> logger;
 
@@ -20,6 +21,8 @@ namespace Emu.Metadata.FrontierLabs
         {
             this.logger = logger;
         }
+
+        public string Name => "FL_FLAC_COMMENTS";
 
         public ValueTask<bool> CanProcessAsync(TargetInformation information)
         {
@@ -36,8 +39,8 @@ namespace Emu.Metadata.FrontierLabs
             {
                 Dictionary<string, string> comments = (Dictionary<string, string>)tryComments;
 
-                Dictionary<string, double> location = (Dictionary<string, double>)this.ParseComment(FrontierLabs.LocationCommentKey, comments);
-                Dictionary<string, object> sdCid = (Dictionary<string, object>)this.ParseComment(FrontierLabs.SdCidCommentKey, comments);
+                Location location = (Location)this.ParseComment(FrontierLabs.LocationCommentKey, comments);
+                MemoryCard card = new SdCardCid((string)this.ParseComment(FrontierLabs.SdCidCommentKey, comments)).ExtractSdInfo().IfFail(null);
 
                 List<Microphone> microphones = new List<Microphone>();
                 int micNumber = 1;
@@ -109,19 +112,15 @@ namespace Emu.Metadata.FrontierLabs
                     // anyway(unless you’re running the acoustic localisation firmware).
                     TrueStartDate = recording.StartDate ?? this.ParseComment(FrontierLabs.RecordingStartCommentKey, comments) as OffsetDateTime?,
                     TrueEndDate = recording.TrueEndDate ?? this.ParseComment(FrontierLabs.RecordingEndCommentKey, comments) as OffsetDateTime?,
-                    Location = (recording.Location ?? new Location()) with
+                    Location = recording.Location ?? location,
+                    MemoryCard = recording.MemoryCard is null ? card : recording.MemoryCard with
                     {
-                        Longitude = recording.Location?.Longitude ?? location?[FrontierLabs.LongitudeKey],
-                        Latitude = recording.Location?.Latitude ?? location?[FrontierLabs.LatitudeKey],
-                    },
-                    MemoryCard = (recording.MemoryCard ?? new MemoryCard()) with
-                    {
-                        ManufacturerID = recording.MemoryCard?.ManufacturerID ?? (sdCid != null ? (byte)sdCid[SdCardCid.ManufacturerIDKey] : null),
-                        OEMID = recording.MemoryCard?.OEMID ?? (sdCid != null ? (string)sdCid[SdCardCid.OEMIDKey] : null),
-                        ProductName = recording.MemoryCard?.ProductName ?? (sdCid != null ? (string)sdCid[SdCardCid.ProductNameKey] : null),
-                        ProductRevision = recording.MemoryCard?.ProductRevision ?? (sdCid != null ? (float)sdCid[SdCardCid.ProductRevisionKey] : null),
-                        SerialNumber = recording.MemoryCard?.SerialNumber ?? (sdCid != null ? (uint)sdCid[SdCardCid.SerialNumberKey] : null),
-                        ManufactureDate = recording.MemoryCard?.ManufactureDate ?? (sdCid != null ? (string)sdCid[SdCardCid.ManufactureDateKey] : null),
+                        ManufacturerID = card?.ManufacturerID,
+                        OEMID = card?.OEMID,
+                        ProductName = card?.ProductName,
+                        ProductRevision = card?.ProductRevision,
+                        SerialNumber = card?.SerialNumber,
+                        ManufactureDate = card?.ManufactureDate,
                     },
                 };
 
@@ -137,6 +136,23 @@ namespace Emu.Metadata.FrontierLabs
             }
 
             return ValueTask.FromResult(recording);
+        }
+
+        public ValueTask<object> ProcessFileAsync(TargetInformation information)
+        {
+            var tryComments = Flac.ExtractComments(information.FileStream);
+
+            if (tryComments.IsSucc)
+            {
+                var raw = tryComments.ThrowIfFail();
+                var dictionary = raw
+                    .Keys
+                    .Select(key => KeyValuePair.Create(key, this.ParseComment(key, raw)))
+                    .ToDictionary();
+                return ValueTask.FromResult<object>(dictionary);
+            }
+
+            return ValueTask.FromResult<object>(null);
         }
 
         /// <summary>
@@ -163,7 +179,9 @@ namespace Emu.Metadata.FrontierLabs
                 else
                 {
                     // If a parsing error occured, log it
-                    this.logger.LogError("Error parsing comment: {error}", (LanguageExt.Common.Error)parsedValue);
+                    // AT 2023: most code consuming this should be handling nulls as errors...
+                    //   the log as an ERROR level was obtuse.
+                    this.logger.LogDebug("Error parsing comment: {error}", (LanguageExt.Common.Error)parsedValue);
                 }
             }
 

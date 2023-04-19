@@ -33,7 +33,7 @@ namespace Emu.Tests.Commands.Fix
             public DefaultFormatTests(ITestOutputHelper output, FixtureData data)
                 : base(output, true, Emu.EmuCommand.OutputFormat.Default)
             {
-                var formatter = new AnsiConsoleFormatter(this.BuildLogger<AnsiConsoleFormatter>());
+                var formatter = new AnsiConsoleFormatter();
                 var writer = new OutputRecordWriter(
                     this.ServiceProvider.GetRequiredService<TextWriter>(),
                     formatter,
@@ -78,7 +78,7 @@ namespace Emu.Tests.Commands.Fix
             [Fact]
             public async Task DefaultHandlesNoTargets()
             {
-                this.command.Targets = new string[] { };
+                this.command.Targets = Array.Empty<string>();
                 this.command.Fix = new string[]
                 {
                     WellKnownProblems.FrontierLabsProblems.InvalidDateStampSpaceZero.Id,

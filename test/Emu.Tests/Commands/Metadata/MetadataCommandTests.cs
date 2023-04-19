@@ -10,6 +10,7 @@ namespace Emu.Tests.Commands.Metadata
     using System.Linq;
     using System.Text.RegularExpressions;
     using System.Threading.Tasks;
+    using Emu.Cli.ObjectFormatters;
     using Emu.Commands.Metadata;
     using Emu.Metadata;
     using Emu.Models;
@@ -23,7 +24,7 @@ namespace Emu.Tests.Commands.Metadata
 
     using static Emu.EmuCommand;
 
-    public class MetadataCommandTests
+    public partial class MetadataCommandTests
         : TestBase
     {
         private readonly Metadata command;
@@ -37,7 +38,9 @@ namespace Emu.Tests.Commands.Metadata
                 this.TestFiles,
                 new FileMatcher(this.BuildLogger<FileMatcher>(), this.TestFiles),
                 this.GetOutputRecordWriter(),
-                new MetadataRegister(this.ServiceProvider))
+                new MetadataRegister(this.ServiceProvider),
+                new PrettyFormatter(),
+                new CompactFormatter())
             {
                 Targets = "/".AsArray(),
             };
@@ -99,39 +102,73 @@ namespace Emu.Tests.Commands.Metadata
             }
         }
 
-        public class SmokeTest : TestBase, IClassFixture<FixtureData>
+        public partial class SmokeTest : TestBase, IClassFixture<FixtureData>
         {
-            private readonly Metadata command;
             private readonly FixtureData data;
 
             public SmokeTest(ITestOutputHelper output, FixtureData data)
                 : base(output, true, OutputFormat.Default)
             {
-                this.command = new Metadata(
-                   this.BuildLogger<Metadata>(),
-                   this.CurrentFileSystem,
-                   new FileMatcher(this.BuildLogger<FileMatcher>(), this.CurrentFileSystem),
-                   this.GetOutputRecordWriter(),
-                   new MetadataRegister(this.ServiceProvider))
-                {
-                };
                 this.data = data;
             }
 
-            [Fact]
-            public async Task TheDefaultFormatterWorks()
+            [Theory]
+            [InlineData(OutputFormat.Default, FixtureModel.NormalFile)]
+            [InlineData(OutputFormat.CSV, FixtureModel.NormalFile)]
+            [InlineData(OutputFormat.Compact, FixtureModel.NormalFile)]
+            [InlineData(OutputFormat.JSON, FixtureModel.NormalFile)]
+            [InlineData(OutputFormat.JSONL, FixtureModel.NormalFile)]
+            [InlineData(OutputFormat.Default, FixtureModel.NormalSm3)]
+            [InlineData(OutputFormat.CSV, FixtureModel.NormalSm3)]
+            [InlineData(OutputFormat.Compact, FixtureModel.NormalSm3)]
+            [InlineData(OutputFormat.JSON, FixtureModel.NormalSm3)]
+            [InlineData(OutputFormat.JSONL, FixtureModel.NormalSm3)]
+            [InlineData(OutputFormat.Default, FixtureModel.Sm4HighPrecision)]
+            [InlineData(OutputFormat.CSV, FixtureModel.Sm4HighPrecision)]
+            [InlineData(OutputFormat.Compact, FixtureModel.Sm4HighPrecision)]
+            [InlineData(OutputFormat.JSON, FixtureModel.Sm4HighPrecision)]
+            [InlineData(OutputFormat.JSONL, FixtureModel.Sm4HighPrecision)]
+            public async Task EachFormatterWorks(OutputFormat format, string fixtureName)
             {
-                var fixture = this.data[FixtureModel.NormalFile];
-                this.command.Targets = fixture.AbsoluteFixturePath.AsArray();
+                var command = new Metadata(
+                    this.BuildLogger<Metadata>(),
+                    this.CurrentFileSystem,
+                    new FileMatcher(this.BuildLogger<FileMatcher>(), this.CurrentFileSystem),
+                    new OutputRecordWriter(
+                        this.Sink,
+                        OutputRecordWriter.ChooseFormatter(this.ServiceProvider, format),
+                        new Lazy<OutputFormat>(format)),
+                    new MetadataRegister(this.ServiceProvider),
+                    new PrettyFormatter(),
+                    new CompactFormatter())
+                    {
+                    };
 
-                var result = await this.command.InvokeAsync(null);
+                var fixture = this.data[fixtureName];
+                command.Targets = fixture.AbsoluteFixturePath.AsArray();
+                command.NoChecksum = true;
+
+                var result = await command.InvokeAsync(null);
 
                 result.Should().Be(0);
 
                 var output = this.AllOutput;
 
-                output.Split(Environment.NewLine).Length.Should().BeGreaterThan(20);
-                output.Should().MatchRegex(new Regex(".*DurationSeconds.*= 7194.749387755102.*"));
+                var path = format is OutputFormat.JSON or OutputFormat.JSONL ? fixture.EscapedAbsoluteFixturePath : fixture.AbsoluteFixtureDirectory;
+                output.Should().Contain(path);
+
+                var formatted = ((decimal)fixture.Record.DurationSeconds).ToString("G");
+                var expected = format switch
+                {
+                    OutputFormat.Default => $"DurationSeconds = {formatted}",
+                    OutputFormat.Compact => $"DurationSeconds={formatted};",
+                    OutputFormat.CSV => $"{formatted}",
+                    OutputFormat.JSON => $"\"DurationSeconds\": {formatted}",
+                    OutputFormat.JSONL => $"\"DurationSeconds\":{formatted}",
+                    _ => throw new NotImplementedException(),
+                };
+
+                output.Should().Contain(expected);
             }
         }
     }

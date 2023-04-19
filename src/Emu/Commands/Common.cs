@@ -11,7 +11,7 @@ namespace Emu.Commands
     {
         public static Argument<string[]> Targets { get; } = new(
             "targets",
-            "One more glob patterns for files to process. E.g. '**/*.mp3'.")
+            "One more glob patterns for files to process. E.g. '**/*.wav'.")
         { Arity = ArgumentArity.OneOrMore };
 
         public static Option<bool> DryRun { get; } = new(

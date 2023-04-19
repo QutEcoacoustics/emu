@@ -6,6 +6,8 @@ namespace Emu.Models
 {
     using System;
     using System.Globalization;
+    using System.Text.RegularExpressions;
+    using MoreLinq;
     using NodaTime;
 
     /// <summary>
@@ -13,6 +15,9 @@ namespace Emu.Models
     /// </summary>
     public record Location : IFormattable
     {
+        // this regex does not support the CRS when provided as a URI
+        private static readonly Regex Iso6709ParseRegex = new(@"^(?<lat>[+-]\d\d(\.\d+)?)(?<lon>[+-]\d\d\d(\.\d+)?)(?<alt>[+-]\d+(\.\d+)?)?(CRS(?<crs>[^\/]+))?\/?$");
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Location"/> class.
         /// </summary>
@@ -118,7 +123,8 @@ namespace Emu.Models
         public string CoordinateReferenceSystem { get; init; }
 
         /// <summary>
-        /// Attempts to parse a ISO6709:H Latitude value from a string.
+        /// Attempts to parse a ISO6709:H Latitude or a number with
+        /// a cardinal direction from a string.
         /// </summary>
         /// <param name="latitudeText">The altitude to parse.</param>
         /// <param name="latitude">The longitude if parsing was successful.</param>
@@ -130,7 +136,8 @@ namespace Emu.Models
         }
 
         /// <summary>
-        /// Attempts to parse a ISO6709:H Latitude value from a string.
+        /// Attempts to parse a ISO6709:H Longitude or a number with
+        /// a cardinal direction from a string.
         /// </summary>
         /// <param name="longitudeText">The altitude to parse.</param>
         /// <param name="longitude">The longitude if parsing was successful.</param>
@@ -139,6 +146,80 @@ namespace Emu.Models
         public static bool TryParseLongitude(string longitudeText, out double longitude, out int? precision)
         {
             return InternalParse(longitudeText, 'W', 'E', -180.0, 180.0, out longitude, out precision);
+        }
+
+        public static bool TryParseAltitude(string altitudeText, out double? altitude, out int? precision)
+        {
+            // this one is a little different. altitude is often missing so that component
+            // being null is not an error (unlike lat and long). So we only fail for
+            // malformed numbers...
+
+            altitude = null;
+            precision = null;
+
+            if (string.IsNullOrWhiteSpace(altitudeText))
+            {
+                return true;
+            }
+
+            if (!double.TryParse(altitudeText, out var alt))
+            {
+                return false;
+            }
+
+            altitude = alt;
+
+            // count number of decimal places
+            precision = NumberOfDecimals(altitudeText, CultureInfo.InvariantCulture.NumberFormat);
+
+            return true;
+        }
+
+        public static bool TryParse(string input, out Location location)
+        {
+            location = default;
+
+            if (string.IsNullOrWhiteSpace(input))
+            {
+                return false;
+            }
+
+            // up to four parts: lat, long, altitude, CRS
+            var match = Iso6709ParseRegex.Match(input);
+            if (!match.Success)
+            {
+                return false;
+            }
+
+            if (!TryParseLatitude(match.Groups["lat"].Value, out var lat, out var precisionLat))
+            {
+                return false;
+            }
+
+            if (!TryParseLongitude(match.Groups["lon"].Value, out var lon, out var precisionLon))
+            {
+                return false;
+            }
+
+            if (!TryParseAltitude(match.Groups["alt"].Value, out var alt, out var precisionAlt))
+            {
+                return false;
+            }
+
+            var crs = match.Groups["crs"]?.Value;
+
+            location = new Location()
+            {
+                Altitude = alt,
+                AltitudePrecision = precisionAlt,
+                CoordinateReferenceSystem = string.IsNullOrEmpty(crs) ? null : crs,
+                Latitude = lat,
+                LatitudePrecision = precisionLat,
+                Longitude = lon,
+                LongitudePrecision = precisionLon,
+            };
+
+            return true;
         }
 
         private static bool InternalParse(string text, char negative, char positive, double min, double max, out double value, out int? precision)
@@ -154,11 +235,23 @@ namespace Emu.Models
 
             if (text[0] == positive)
             {
+                // format: N123.45
                 text = text[1..];
             }
             else if (text[0] == negative)
             {
+                // format: S123.345
                 text = '-' + text[1..];
+            }
+            else if (text[^2..] == " " + positive)
+            {
+                // format: 123.45 N
+                text = text[0..^2];
+            }
+            else if (text[^2..] == " " + negative)
+            {
+                // format: 123.45 S
+                text = '-' + text[0..^2];
             }
 
             var parsed = double.TryParse(
@@ -210,7 +303,10 @@ namespace Emu.Models
                 };
             }
 
-            string CreateFormat(string numerator, int? precision) => numerator + "." + new string('#', precision ?? 6);
+            string CreateFormat(string numerator, int? precision) =>
+                numerator
+                + CultureInfo.InvariantCulture.NumberFormat.NumberDecimalSeparator
+                + (precision.HasValue ? new string('0', precision!.Value) : new string('#', 6));
 
             string FormatCrs() => this.CoordinateReferenceSystem switch
             {
@@ -220,6 +316,16 @@ namespace Emu.Models
             };
         }
 
-        private static int NumberOfDecimals(string text, NumberFormatInfo info) => text.Length - text.IndexOf(info.NumberDecimalSeparator) - 1;
+        private static int NumberOfDecimals(string text, NumberFormatInfo info)
+        {
+            var separatorIndex = text.IndexOf(info.NumberDecimalSeparator);
+
+            if (separatorIndex < 0)
+            {
+                return 0;
+            }
+
+            return text.Length - separatorIndex - 1;
+        }
     }
 }

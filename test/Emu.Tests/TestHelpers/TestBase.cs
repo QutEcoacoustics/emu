@@ -49,37 +49,46 @@ namespace Emu.Tests.TestHelpers
 
         public TestBase(ITestOutputHelper output, bool realFileSystem, OutputFormat outputFormat = OutputFormat.JSONL)
         {
-            this.xUnitOutput = output ?? throw new ArgumentNullException(nameof(output));
-            this.realFileSystem = realFileSystem;
-            this.outputFormat = outputFormat;
-
-            // allow writing out output to xunit log
-            this.xUnitOutputAdapter ??= new(this.xUnitOutput);
-            this.xUnitTraceAdapter ??= new(this.xUnitOutput);
-
-            // also store a clean copy of the output for use in tests
-            this.cleanOutput = new StringWriter();
-
-            var sink = new MultiStreamWriter(this.xUnitOutputAdapter, this.cleanOutput);
-
-            this.TestFiles = new MockFileSystem();
-
-            // mock up an entire service stack
-            var testServices = new ServiceCollection();
-            var standardServices = EmuEntry.ConfigureServices(this.CurrentFileSystem);
-            standardServices.Invoke(testServices);
-            testServices.AddLogging(builder =>
+            // parallel execution in xunit causes issues with services that assume they're running as singletons
+            lock (this)
             {
-                // send our logs to xunit log
-                builder.AddXunit(this.xUnitOutput);
-            });
+                this.xUnitOutput = output ?? throw new ArgumentNullException(nameof(output));
+                this.realFileSystem = realFileSystem;
+                this.outputFormat = outputFormat;
 
-            // force JSONL output by default
-            testServices.AddSingleton((_) => new Lazy<OutputFormat>(() => this.OutputFormat));
-            testServices.AddSingleton<TextWriter>((_) => sink);
+                // allow writing out output to xunit log
+                this.xUnitOutputAdapter ??= new(this.xUnitOutput);
+                this.xUnitTraceAdapter ??= new(this.xUnitOutput);
 
-            this.ServiceProvider = testServices.BuildServiceProvider();
+                // also store a clean copy of the output for use in tests
+                this.cleanOutput = new StringWriter();
+
+                this.Sink = new MultiStreamWriter(this.xUnitOutputAdapter, this.cleanOutput);
+
+                this.TestFiles = new MockFileSystem();
+
+                // mock up an entire service stack
+                var testServices = new ServiceCollection();
+                var standardServices = EmuEntry.ConfigureServices(this.CurrentFileSystem);
+                standardServices.Invoke(testServices);
+                testServices.AddLogging(builder =>
+                {
+                    // send our logs to xunit log
+                    builder.AddXunit(this.xUnitOutput);
+                });
+
+                // force JSONL output by default
+                testServices.AddSingleton((_) => new Lazy<OutputFormat>(() => this.OutputFormat));
+                testServices.AddSingleton<TextWriter>((_) => this.Sink);
+
+                // force console width for tests to be unlimited
+                testServices.AddSingleton(new AnsiConsoleFormatter(int.MaxValue));
+
+                this.ServiceProvider = testServices.BuildServiceProvider();
+            }
         }
+
+        public TextWriter Sink { get; }
 
         public TestOutputHelperTextWriterAdapter TestOutput => this.xUnitOutputAdapter;
 

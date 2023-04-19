@@ -231,7 +231,7 @@ namespace Emu
             var f = record;
             StringBuilder builder = new();
 
-            builder.AppendFormat("File {0}:\n", MarkupPath(f.File));
+            builder.Append(MarkupFileSection(f.File));
             if (f.BackupFile != null)
             {
                 builder.AppendFormat("\tBacked up to {0}", f.BackupFile.EscapeMarkup());

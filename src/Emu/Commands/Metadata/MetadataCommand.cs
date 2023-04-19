@@ -5,28 +5,33 @@
 namespace Emu
 {
     using System.CommandLine;
+    using System.CommandLine.Invocation;
     using Emu.Commands;
+    using Emu.Commands.Metadata.Dump;
+    using Emu.Commands.Metadata.Show;
 
     public class MetadataCommand : Command
     {
         public MetadataCommand()
-            : base("metadata", "extracts metadata from one or more files.")
+            : base("metadata", "extracts metadata from one or more files\nSee sub-commands for more features")
         {
             this.AddArgument(Common.Targets);
+            this.AddOption(NoChecksumOption);
 
-            // this.AddOption(new Option<bool>(
-            //     new string[] { "--save" },
-            //     "Saves normalized metadata back into the file"
-            // ));
-
-            //this.AddOption(CommonArguments.DryRun);
-
-            // this.AddOption(
-            //     new Option<Offset?>(
-            //         "--offset",
-            //         UtcOffsetOption.Parser,
-            //         description: "Adds a UTC offset to the datestamp. Only affects local datestamps without an offset. Use this convert a local date to a global date.")
-            //     .ValidUtcOffset());
+            this.AddCommand(new MetadataShowCommand());
+            this.AddCommand(new MetadataDumpCommand());
+            this.Handler = CommandHandler.Create(() =>
+            {
+                // noop
+                // unless this is set, we get the error
+                // "Required command was not provided"
+                // even though we've registered the handler in our bootstrap
+            });
         }
+
+        public static Option<bool> NoChecksumOption { get; } =
+            new(
+                "--no-checksum",
+                "Doesn't calculate checksum, important for archiving purposes but computationally expensive");
     }
 }

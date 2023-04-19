@@ -796,7 +796,7 @@
         - Type: U2
           UID:
           BuildDate:
-          Gain:
+          Gain: 12
           Channel: 0
           ChannelName:
           Sensitivity: 13
@@ -880,7 +880,7 @@
         - Type: U2
           UID:
           BuildDate:
-          Gain:
+          Gain: 12
           Channel: 0
           ChannelName:
           Sensitivity: 13
@@ -1302,7 +1302,7 @@
 
 - Name: Generic WAVE with cue chunk
   Record:
-    SourcePath: F:\Work\GitHub\emu\test\Fixtures\Generic\Sony\220728_01 Sony pcm-m10.WAV
+    Path: F:\Work\GitHub\emu\test\Fixtures\Generic\Sony\220728_01 Sony pcm-m10.WAV
     Extension: ".WAV"
     Stem: 220728_01 Sony pcm-m10
     RecommendedName:
@@ -1405,14 +1405,14 @@
         - Type: NA
           UID:
           BuildDate:
-          Gain:
+          Gain: 24
           Channel: 0
           ChannelName:
           Sensitivity: 23.9
         - Type: NA
           UID:
           BuildDate:
-          Gain:
+          Gain: 24
           Channel: 1
           ChannelName:
           Sensitivity: 23.9
@@ -1534,14 +1534,14 @@
         - Type: NA
           UID:
           BuildDate:
-          Gain:
+          Gain: 24
           Channel: 0
           ChannelName:
           Sensitivity: 23.9
         - Type: NA
           UID:
           BuildDate:
-          Gain:
+          Gain: 24
           Channel: 1
           ChannelName:
           Sensitivity: 23.9
@@ -2650,14 +2650,14 @@
         - Type: IN
           UID:
           BuildDate:
-          Gain:
+          Gain: 42
           Channel: 0
           ChannelName:
           Sensitivity: 45.2
         - Type: IN
           UID:
           BuildDate:
-          Gain:
+          Gain: 42
           Channel: 1
           ChannelName:
           Sensitivity: 45.2

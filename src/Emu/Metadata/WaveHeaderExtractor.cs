@@ -25,6 +25,8 @@ namespace Emu.Metadata
             this.fl008 = fl008;
         }
 
+        public string Name => nameof(WaveHeaderExtractor);
+
         public ValueTask<bool> CanProcessAsync(TargetInformation information)
         {
             var result = information.IsPcmWaveFile() && !information.IsPreallocatedHeader();

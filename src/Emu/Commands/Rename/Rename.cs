@@ -304,7 +304,7 @@ namespace Emu.Commands.Rename
             var recording = this.filenameExtractor.ApplyValues(
                 new Recording
                 {
-                    SourcePath = result.File,
+                    Path = result.File,
                 },
                 fragments,
                 stem,
@@ -323,7 +323,7 @@ namespace Emu.Commands.Rename
 
             this.logger.LogDebug("Doing extended metadata scan");
 
-            var target = new TargetInformation(this.fileSystem, transform.Base, transform.Data.SourcePath);
+            var target = new TargetInformation(this.fileSystem, transform.Base, transform.Data.Path);
 
             SupportFile.FindSupportFiles(transform.Base, target.AsEnumerable(), this.fileSystem);
 

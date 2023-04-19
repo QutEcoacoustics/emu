@@ -35,10 +35,7 @@ namespace Emu.Serialization
         {
             if (text == null)
             {
-                // ReSharper disable once ExpressionIsAlwaysNull - throws an error
-#pragma warning disable CS8604 // Possible null reference argument.
                 return base.ConvertFromString(text, row, memberMapData);
-#pragma warning restore CS8604 // Possible null reference argument.
             }
 
             return DurationPattern.Parse(text).Value;

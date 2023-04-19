@@ -343,7 +343,7 @@ namespace Emu.Tests.Commands.Fix
             public DefaultFormatTests(ITestOutputHelper output, FixtureData data)
                 : base(output, true, OutputFormat.Default)
             {
-                var formatter = new AnsiConsoleFormatter(this.BuildLogger<AnsiConsoleFormatter>());
+                var formatter = new AnsiConsoleFormatter();
                 var writer = new OutputRecordWriter(
                     this.ServiceProvider.GetRequiredService<TextWriter>(),
                     formatter,

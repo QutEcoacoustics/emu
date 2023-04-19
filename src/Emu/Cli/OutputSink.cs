@@ -4,6 +4,7 @@
 
 namespace Emu.Cli
 {
+    using System.CommandLine;
     using System.IO.Abstractions;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;

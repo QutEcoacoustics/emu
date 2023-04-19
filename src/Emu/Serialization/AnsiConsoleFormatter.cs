@@ -13,15 +13,14 @@ namespace Emu.Serialization
     /// <inheritdoc cref="IRecordFormatter"/>
     public class AnsiConsoleFormatter : IRecordFormatter
     {
-        private readonly ILogger<AnsiConsoleFormatter> logger;
-
+        private readonly int? width;
         private TextWriter writer;
         private IAnsiConsole ansiConsole;
         private ColorSystemSupport colorSystemSupport = ColorSystemSupport.Detect;
 
-        public AnsiConsoleFormatter(ILogger<AnsiConsoleFormatter> logger)
+        public AnsiConsoleFormatter(int? width = null)
         {
-            this.logger = logger;
+            this.width = width;
         }
 
         public TextWriter Writer
@@ -123,6 +122,11 @@ namespace Emu.Serialization
                 ColorSystem = this.ColorSystemSupport,
                 Out = new AnsiConsoleOutput(this.writer),
             });
+
+            if (this.width.HasValue)
+            {
+                this.ansiConsole.Profile.Width = this.width.Value;
+            }
         }
     }
 }

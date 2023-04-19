@@ -23,6 +23,8 @@ namespace Emu.Metadata
             this.parser = parser;
         }
 
+        public string Name => nameof(FilenameExtractor);
+
         public ValueTask<bool> CanProcessAsync(TargetInformation information)
         {
             var hasName = information.HasFileName();

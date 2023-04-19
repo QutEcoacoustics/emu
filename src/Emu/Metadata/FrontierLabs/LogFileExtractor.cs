@@ -20,6 +20,8 @@ namespace Emu.Metadata.FrontierLabs
             this.logger = logger;
         }
 
+        public string Name => nameof(LogFileExtractor);
+
         /// <summary>
         /// Correlates data to its corresponding recording.
         /// Uses timestamps taken from each recording and each data record.

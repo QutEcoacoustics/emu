@@ -45,7 +45,7 @@ namespace Emu.Commands.Cues
 
         public bool Export { get; set; }
 
-        public async override Task<int> InvokeAsync(InvocationContext context)
+        public override async Task<int> InvokeAsync(InvocationContext context)
         {
             var paths = this.fileMatcher.ExpandMatches(this.fileSystem.Directory.GetCurrentDirectory(), this.Targets);
 

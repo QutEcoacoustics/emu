@@ -63,7 +63,7 @@ namespace Emu
             /// <summary>
             /// Happens when no date can be found.
             /// </summary>
-            /// <returns>An pre-filled <see cref="Error"/> instance.</returns>
+            /// <returns>An pre-filled <see cref="WellKnownProblem"/> instance.</returns>
             public static WellKnownProblem NoDateFound => new(
                 "Missing Date",
                 "A date could not be determined for this file",

@@ -18,6 +18,8 @@ namespace Emu.Metadata
             this.fileUtilities = fileUtilities;
         }
 
+        public string Name => nameof(HashCalculator);
+
         public ValueTask<bool> CanProcessAsync(TargetInformation information)
         {
             // as long as the file exists, we can calculate a hash.

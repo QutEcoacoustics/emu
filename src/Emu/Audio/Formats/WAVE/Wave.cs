@@ -427,10 +427,10 @@ namespace Emu.Audio.WAVE
             return ChunkNotFound(targetChunkId);
         }
 
-        private static Error FileTooShort(ReadOnlySpan<byte> chunkName) =>
+        internal static Error FileTooShort(ReadOnlySpan<byte> chunkName) =>
             Error.New($"Error reading file: file is not long enough to have a {Encoding.ASCII.GetString(chunkName)} header");
 
-        private static Error ChunkNotFound(ReadOnlySpan<byte> chunkName) =>
+        internal static Error ChunkNotFound(ReadOnlySpan<byte> chunkName) =>
             Error.New($"Error reading file: a {Encoding.ASCII.GetString(chunkName)} chunk was not found");
     }
 }

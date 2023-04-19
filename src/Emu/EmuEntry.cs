@@ -22,8 +22,11 @@ namespace Emu
     using System.IO.Abstractions;
     using System.Runtime.CompilerServices;
     using Emu.Cli;
+    using Emu.Cli.ObjectFormatters;
     using Emu.Commands.Cues;
     using Emu.Commands.Metadata;
+    using Emu.Commands.Metadata.Dump;
+    using Emu.Commands.Metadata.Show;
     using Emu.Commands.Rename;
     using Emu.Commands.Version;
     using Emu.Extensions.System.CommandLine;
@@ -81,14 +84,18 @@ namespace Emu
                 services
                 .AddSingleton<OutputSink>()
                 .AddSingleton<TextWriter>(OutputSink.Create)
+                .AddSingleton<ErrorConsole>()
+                .AddSingleton<PrettyFormatter>()
+                .AddSingleton<CompactFormatter>()
                 .AddSingleton<CsvSerializer>()
                 .AddSingleton<JsonSerializer>()
                 .AddSingleton<JsonLinesSerializer>()
                 .AddSingleton<ToStringFormatter>()
                 .AddSingleton<AnsiConsoleFormatter>()
                 .AddTransient<IRecordFormatter>(OutputRecordWriter.FormatterResolver)
-                .AddSingleton<Lazy<OutputFormat>>(
-                    (provider) => new Lazy<OutputFormat>(() => provider.GetRequiredService<EmuGlobalOptions>().Format))
+
+                // why is this lazy? because global options not parsed yet?
+                .AddSingleton<Lazy<OutputFormat>>((provider) => new Lazy<OutputFormat>(() => provider.GetRequiredService<EmuGlobalOptions>().Format))
                 .AddTransient<OutputRecordWriter>()
                 .AddSingleton<DryRun.DryRunFactory>(DryRun.Factory)
 
@@ -158,6 +165,8 @@ namespace Emu
             host.UseEmuCommand<FixApplyCommand, FixApply, FixApply.FixApplyResult>();
             host.UseEmuCommand<RenameCommand, Rename, RenameResult>();
             host.UseEmuCommand<MetadataCommand, Commands.Metadata.Metadata, Models.Recording>();
+            host.UseEmuCommand<MetadataShowCommand, Commands.Metadata.Metadata, Models.Recording>();
+            host.UseEmuCommand<MetadataDumpCommand, MetadataDump, Dictionary<string, object>>();
             host.UseEmuCommand<CuesCommand, Cues, CueResult>();
             host.UseEmuCommand<VersionCommand, Version, Version.VersionRecord>();
 

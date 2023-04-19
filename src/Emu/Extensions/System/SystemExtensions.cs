@@ -6,8 +6,11 @@
 namespace System
 {
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.IO;
     using System.IO.Abstractions;
+    using System.Reflection;
+    using System.Runtime.Serialization;
 
     /// <summary>
     /// Extension methods for the <see cref="System"/> namespace.
@@ -48,6 +51,24 @@ namespace System
         public static IEnumerable<T> AsEnumerable<T>(this T item)
         {
             yield return item;
+        }
+
+        // https://stackoverflow.com/a/64307613/224512
+        // record structs are not detectable
+        public static bool IsRecordClass(
+            [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods)] this Type type)
+            => type.GetMethod("<Clone>$") != null;
+
+        public static string GetEnumMemberValueOrDefault
+            <[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] T>(this T value)
+            where T : Enum
+        {
+            var basic = value.ToString();
+            var members = typeof(T).GetTypeInfo().DeclaredMembers;
+            return members
+                .SingleOrDefault(x => x.Name == basic)
+                ?.GetCustomAttribute<EnumMemberAttribute>(false)
+                ?.Value ?? basic;
         }
     }
 }

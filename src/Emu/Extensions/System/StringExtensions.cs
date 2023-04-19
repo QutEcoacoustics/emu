@@ -27,7 +27,7 @@ public static class StringExtensions
 
         if (any)
         {
-            builder.Remove(builder.Length - 1, delimiter.Length);
+            builder.Remove(builder.Length - delimiter.Length, delimiter.Length);
         }
 
         builder.Append(suffix);

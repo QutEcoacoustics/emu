@@ -4,10 +4,12 @@
 
 namespace Emu.Models
 {
+    using System;
+
     /// <summary>
     /// Represents a checksum, a unique signature for some data.
     /// </summary>
-    public record Checksum
+    public record Checksum : IFormattable
     {
         /// <summary>
         /// Gets the algorithm name used to calculate this checksum.
@@ -22,6 +24,17 @@ namespace Emu.Models
         public override string ToString()
         {
             return $"{this.Type}::{this.Value}";
+        }
+
+        public string ToString(string format, IFormatProvider formatProvider)
+        {
+            return format switch
+            {
+                "" or null => this.ToString(),
+                "x" => this.ToString(),
+                "X" => $"{this.Type.ToUpperInvariant()}::{this.Value.ToUpperInvariant()}",
+                _ => throw new FormatException($"Unknown format {format}"),
+            };
         }
     }
 }
