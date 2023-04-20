@@ -13,10 +13,10 @@ namespace Emu.Serialization
     /// <inheritdoc cref="IRecordFormatter"/>
     public class AnsiConsoleFormatter : IRecordFormatter
     {
+        private readonly ColorSystemSupport colorSystemSupport;
         private readonly int? width;
         private TextWriter writer;
         private IAnsiConsole ansiConsole;
-        private readonly ColorSystemSupport colorSystemSupport;
 
         public AnsiConsoleFormatter(int? width = null, ColorSystemSupport colorSystemSupport = ColorSystemSupport.Detect)
         {

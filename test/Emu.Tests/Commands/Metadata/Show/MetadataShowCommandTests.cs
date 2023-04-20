@@ -81,7 +81,9 @@ namespace Emu.Tests.Commands.Metadata.Show
             output.Should().Contain(b);
 
             var formatted = ((decimal)fixture.Record.DurationSeconds).ToString("G");
-            output.Should().Contain($"DurationSeconds = {formatted}");
+
+            // ansi codes are included between key and value
+            output.Should().MatchRegex($"DurationSeconds.*=.*{formatted}");
         }
     }
 }

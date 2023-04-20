@@ -9,7 +9,7 @@ namespace Emu.Tests.TestHelpers
     using Xunit.Abstractions;
     using Xunit.Sdk;
 
-    // allow running code when xunit start
+    // allow running code when xunit starts
     // https://fluentassertions.com/tips/#xunitnet
     public class MyXunitFramework : XunitTestFramework
         {

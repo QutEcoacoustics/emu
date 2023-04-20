@@ -27,7 +27,7 @@ namespace Emu.Tests.TestHelpers
     public class TestBase : IDisposable
     {
         protected static readonly Func<string, string> NormalizePath = MockUnixSupport.Path;
-        private static readonly Parser CliParserValue;
+        private readonly Parser cliParserValue;
 
         private readonly ITestOutputHelper xUnitOutput;
         private readonly bool realFileSystem;
@@ -37,11 +37,6 @@ namespace Emu.Tests.TestHelpers
         private readonly TestOutputHelperTextWriterAdapter xUnitOutputAdapter;
         private readonly TestOutputHelperITraceWriterAdapter xUnitTraceAdapter;
         private DryRunFactory dryRunFactory;
-
-        static TestBase()
-        {
-            CliParserValue = EmuEntry.BuildCommandLine();
-        }
 
         public TestBase(ITestOutputHelper output)
             : this(output, false, OutputFormat.JSONL)
@@ -65,6 +60,8 @@ namespace Emu.Tests.TestHelpers
                 this.cleanOutput = new StringWriter();
 
                 this.Sink = new MultiStreamWriter(this.xUnitOutputAdapter, this.cleanOutput);
+
+                this.cliParserValue = new EmuEntry().BuildCommandLine();
 
                 this.TestFiles = new MockFileSystem();
 
@@ -121,7 +118,7 @@ namespace Emu.Tests.TestHelpers
             this.TestFiles,
             this.ServiceProvider.GetRequiredService<FilenameGenerator>());
 
-        public Parser CliParser => CliParserValue;
+        public Parser CliParser => this.cliParserValue;
 
         public TextReader GetAllOutputReader() => new StringReader(this.AllOutput);
 

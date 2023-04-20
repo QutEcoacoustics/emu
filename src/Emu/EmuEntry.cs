@@ -49,13 +49,13 @@ namespace Emu
     /// </summary>
     public partial class EmuEntry
     {
-        private static Parser builtCommandLine = null;
+        private Parser builtCommandLine = null;
 
         /// <summary>
         /// Gets the RootCommand for the application.
         /// </summary>
         /// <returns>A RootCommand instance.</returns>
-        public static RootCommand RootCommand { get; } = new EmuCommand();
+        public RootCommand RootCommand { get; } = new EmuCommand();
 
         /// <summary>
         /// Run EMU with commandline arguments.
@@ -65,16 +65,17 @@ namespace Emu
         {
             WaitForDebugger();
 
-            return await BuildCommandLine().InvokeAsync(args);
+            var emu = new EmuEntry();
+            return await emu.BuildCommandLine().InvokeAsync(args);
         }
 
         /// <summary>
         /// Builds a parser the command line arguments for EMU.
         /// </summary>
         /// <returns>The CommandLineApplication object and a binding model of arguments.</returns>
-        public static Parser BuildCommandLine()
+        public Parser BuildCommandLine()
         {
-            return builtCommandLine ??= CreateCommandLine().Build();
+            return this.builtCommandLine ??= this.CreateCommandLine().Build();
         }
 
         internal static Action<IServiceCollection> ConfigureServices(IFileSystem fileSystem = default)
@@ -123,18 +124,6 @@ namespace Emu
                 }
             };
         }
-
-        /// <summary>
-        /// Creates (but does not build/finalize) a CommandLineApplication object for EMU.
-        /// </summary>
-        /// <returns>A CommandLineBuilder.</returns>
-        private static CommandLineBuilder CreateCommandLine() =>
-            new CommandLineBuilder(RootCommand)
-            .UseHost(CreateHost, BuildDependencies)
-            .UseDefaults()
-            .UseHelpBuilder((context) => new EmuHelpBuilder(
-                context.Console,
-                Console.IsOutputRedirected ? 80 : Console.WindowWidth));
 
         private static void WaitForDebugger()
         {
@@ -212,5 +201,17 @@ namespace Emu
                 logEvent.Properties[Serilog.Core.Constants.SourceContextPropertyName] is ScalarValue s
                 && (string)s.Value == DryRun.LogCategoryName;
         }
+
+        /// <summary>
+        /// Creates (but does not build/finalize) a CommandLineApplication object for EMU.
+        /// </summary>
+        /// <returns>A CommandLineBuilder.</returns>
+        private CommandLineBuilder CreateCommandLine() =>
+            new CommandLineBuilder(this.RootCommand)
+            .UseHost(CreateHost, BuildDependencies)
+            .UseDefaults()
+            .UseHelpBuilder((context) => new EmuHelpBuilder(
+                context.Console,
+                Console.IsOutputRedirected ? 80 : Console.WindowWidth));
     }
 }
