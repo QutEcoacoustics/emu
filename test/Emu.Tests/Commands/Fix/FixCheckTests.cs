@@ -18,6 +18,7 @@ namespace Emu.Tests.Commands.Fix
     using Emu.Utilities;
     using FluentAssertions;
     using Microsoft.Extensions.DependencyInjection;
+    using Spectre.Console;
     using Xunit;
     using Xunit.Abstractions;
     using static Emu.EmuCommand;
@@ -33,14 +34,10 @@ namespace Emu.Tests.Commands.Fix
             public DefaultFormatTests(ITestOutputHelper output, FixtureData data)
                 : base(output, true, Emu.EmuCommand.OutputFormat.Default)
             {
-                var formatter = new AnsiConsoleFormatter();
                 var writer = new OutputRecordWriter(
                     this.ServiceProvider.GetRequiredService<TextWriter>(),
-                    formatter,
+                    OutputRecordWriter.ChooseFormatter(this.ServiceProvider, this.OutputFormat),
                     new Lazy<OutputFormat>(() => this.OutputFormat));
-
-                formatter.ColorSystemSupport = Spectre.Console.ColorSystemSupport.NoColors;
-
                 this.command = new FixCheck(
                     this.BuildLogger<FixCheck>(),
                     this.ServiceProvider.GetRequiredService<FileMatcher>(),

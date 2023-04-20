@@ -57,7 +57,7 @@ namespace Emu.Tests.Models
             { "+38-097/", Default with { Latitude = 38, Longitude = -97, } },
             { "+40.75-074.00/", Default with { Latitude = 40.75, LatitudePrecision = 2, Longitude = -74, LongitudePrecision = 2 } },
             { "+40.6894-074.0447/", Default with { Latitude = 40.6894, LatitudePrecision = 4, Longitude = -74.0447, LongitudePrecision = 4 } },
-            { "", null },
+            { string.Empty, null },
             { "+A+B/", null },
             { "-1+2/", null },
         };

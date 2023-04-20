@@ -19,6 +19,7 @@ namespace Emu.Tests.TestHelpers
     using FluentAssertions.Equivalency.Tracing;
     using LanguageExt;
     using Microsoft.Extensions.Logging;
+    using Spectre.Console;
     using Xunit.Abstractions;
     using static Emu.EmuCommand;
     using static Emu.Utilities.DryRun;
@@ -81,8 +82,13 @@ namespace Emu.Tests.TestHelpers
                 testServices.AddSingleton((_) => new Lazy<OutputFormat>(() => this.OutputFormat));
                 testServices.AddSingleton<TextWriter>((_) => this.Sink);
 
-                // force console width for tests to be unlimited
-                testServices.AddSingleton(new AnsiConsoleFormatter(int.MaxValue));
+                // force console width for tests to be wide enough that most lines don't wrap
+                //  don't use int.max though - that will cause various full-width renderings to use int.max characters
+                //  e.g. when drawing a table
+                // also force no colors - most tests don't want to deal with ANSI codes
+                // for any tests that do test fromatting we can override this provider
+                this.xUnitOutput.WriteLine("WARN: [TestBase] AnsiConsoleFormatter width set to 512, and color support is disabled");
+                testServices.AddSingleton(new AnsiConsoleFormatter(512, ColorSystemSupport.NoColors));
 
                 this.ServiceProvider = testServices.BuildServiceProvider();
             }
