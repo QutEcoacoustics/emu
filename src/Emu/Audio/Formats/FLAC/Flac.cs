@@ -44,6 +44,8 @@ namespace Emu.Audio
         public static readonly Error CountSamplesNotEnoughFrames = Error.New("Could not find enough frames to count samples for");
         public static readonly Error CountSamplesNotFixed = Error.New("Found a mix of fixed and variable size frames; this is not allowed");
         public static readonly Error CountSamplesNotConsecutive = Error.New("DESYNC: Found non-consecutive frame");
+        public static readonly Error CountSamplesVariableFrame = Error.New(
+            "The count samples from frames function is not supported for FLAC files with variable size blocks." + Meta.CallToAction);
 
         /// <summary>
         /// The total samples in the stream are read from the flac header here.
@@ -227,16 +229,15 @@ namespace Emu.Audio
                 return MixedFrameTypes;
             }
 
-            var result = ((ulong)(GetFrameNumber(penultimate) + 1) * penultimate.Header.BlockSize) + ultimate.Header.BlockSize;
+            var frameNumber = penultimate.Header.FrameNumber;
+            if (frameNumber is null)
+            {
+                return CountSamplesVariableFrame;
+            }
+
+            var result = ((ulong)(frameNumber.Value + 1) * penultimate.Header.BlockSize) + ultimate.Header.BlockSize;
 
             return result;
-
-            static uint GetFrameNumber(Frame f)
-            {
-                return f.Header.FrameNumber
-                    ?? throw new NotSupportedException(
-                        "This check is not supported for FLAC files with variable size blocks. File a bug report on the emu repository.");
-            }
         }
 
         /// <summary>
@@ -615,9 +616,10 @@ namespace Emu.Audio
                             }
                             else
                             {
-#if DEBUG
-                                Debug.WriteLine($"Frame discarded: offset:{offset},index:{frameCounter}, {header}");
-#endif
+                                // this debug logging is very slow, disabled for most cases.
+//#if DEBUG
+//                                Debug.WriteLine($"Frame discarded: offset:{offset},index:{frameCounter}, {header}");
+//#endif
 
                                 // only advance the two scanned bytes. There still exists the potential for
                                 // a frame to exist within this header.

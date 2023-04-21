@@ -2694,3 +2694,103 @@
     WaveHeaderExtractor: ~
     WamdExtractor: ~
     #GuanoExtractor: ~
+
+- Name: "FL011 Bug #346"
+  Record: &FL011Bug346
+    Extension:
+    Stem: data
+    StartDate: 2022-06-16T11:00:00-03:00
+    LocalStartDate: 2022-06-16T11:00:00
+    TrueStartDate: 2022-06-16T11:00:00-03:00
+    TrueEndDate:
+    DurationSeconds: 0
+    TotalSamples: 0
+    Channels: 2
+    SampleRateHertz: 44100
+    BitsPerSecond: 1411200
+    BitDepth: 16
+    FileSizeBytes: 634142764
+    MediaType: audio/flac
+    CalculatedChecksum:
+      Type: SHA256
+      Value: 56180427da913b3f33b969ccb788106b4693a0f80cafbbe4cd567337d69c567c
+    EmbeddedChecksum:
+      Type: MD5
+      Value: 00000000000000000000000000000000
+    MemoryCard:
+      FormatType:
+      ManufacturerID: 3
+      OEMID: SD
+      ProductName: SD256
+      ProductRevision: 8.5
+      SerialNumber: 3356670278
+      ManufactureDate: 2021-02
+      Speed:
+      Capacity:
+      WrCurrentVmin:
+      WrCurrentVmax:
+      WriteBlSize:
+      EraseBlSize:
+    Sensor:
+      Make: Frontier Labs
+      Model:
+      Name:
+      Firmware: 3.30
+      SerialNumber: 00008516
+      PowerSource:
+      Microphones:
+        - Type: STD AUDIO MIC
+          UID: 006277
+          BuildDate: 2020-01-16
+          Gain: 40
+          Channel: 0
+          ChannelName: A
+          Sensitivity:
+        - Type: STD AUDIO MIC
+          UID: 006278
+          BuildDate: 2020-01-16
+          Gain: 40
+          Channel: 1
+          ChannelName: B
+          Sensitivity:
+      Gain:
+      Configuration:
+      Voltage: 3.75
+      BatteryLevel: 0.62
+      Temperature:
+      LastTimeSync: 2022-06-15T12:04:42-03:00
+    Location:
+      Longitude: -65.95158
+      LongitudePrecision: 4
+      Latitude: 43.7058
+      LatitudePrecision: 4
+      Altitude:
+      AltitudePrecision:
+      HorizontalAccuracy:
+      VerticalAccuracy:
+      Speed:
+      Course:
+      SampleDateTime:
+      CoordinateReferenceSystem:
+  FixturePath: FL_BAR_LT/3.30_PartialDataFiles2/data
+  Notes: >
+    Partial data file that triggers a fault in our decoder.
+    Only 60,203,008 samples (115,080,383) bytes of this file are FLAC.
+    The FLAC decoder, audacity, and ffmpeg all stop decoding in the same spot, so we do as well.
+  ValidMetadata: Yes
+  MimeType: audio/flac
+  Make: Frontier Labs
+  Problems:
+    - FL011
+  Process:
+    FlacHeaderExtractor: ~
+    FlacCommentExtractor: ~
+    FilenameExtractor:
+      <<: *FL011Bug346
+      StartDate: ~
+      LocalStartDate: ~
+      TrueStartDate: ~
+      TrueEndDate: ~
+      Sensor: ~
+      Location: ~
+      MemoryCard: ~

@@ -232,7 +232,7 @@ namespace Emu
             builder.Append(MarkupFileSection(f.File));
             if (f.BackupFile != null)
             {
-                builder.AppendFormat("\tBacked up to {0}", f.BackupFile.EscapeMarkup());
+                builder.AppendFormat("\tBacked up to {0}\n", f.BackupFile.EscapeMarkup());
             }
 
             foreach (var report in f.Problems)

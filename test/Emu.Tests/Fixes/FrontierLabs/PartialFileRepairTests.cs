@@ -6,6 +6,7 @@ namespace Emu.Tests.Fixes.FrontierLabs
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using Emu.Audio;
     using Emu.Filenames;
@@ -82,6 +83,11 @@ namespace Emu.Tests.Fixes.FrontierLabs
             // An excerpt from the log file:
             //   28/03/2021 00:00:11 Battery empty! 0% ( 5.57 V )
             new TestCase(PartialFile320EmptyBattery, FixStatus.Renamed, "data.error_partial", 8192, 8192, 3776, 3776).AsArray(),
+
+            // This particular bug was caused because the full file scan method was used to verify FL011,
+            // but the Fl010 detection started with the end-only method, and threw when it found invalid frames (WAVE data).
+            // The fix here was not to throw when variable frames are found, and fallback to full file scan.
+            new TestCase(Fl011Bug346, FixStatus.Fixed, "20220616T110000-0300_recovered.flac", 0, 60203008, 634_142_764, 115_080_383, "EMU+FL011").AsArray(),
         };
 
         [Theory]
@@ -199,6 +205,10 @@ namespace Emu.Tests.Fixes.FrontierLabs
             var after = await this.fileUtilities.CalculateChecksumSha256(target.Path);
 
             Assert.Equal(before, after);
+
+            // check no new files are made
+            target.Directory.GetFiles().Select(x => x.FullName)
+                .Should().BeEquivalentTo(target.File.FullName.AsEnumerable());
         }
 
         [Theory]

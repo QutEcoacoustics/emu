@@ -138,6 +138,26 @@ namespace Emu.Utilities
             }
         }
 
+        /// <summary>
+        /// Opens a stream for writing or otherwise returns a fake stream
+        /// with no backing store.
+        /// </summary>
+        /// <param name="path">The path to create the stream at.</param>
+        /// <param name="dryRun">Whether or not to really open a file.</param>
+        /// <returns>A stream to write to.</returns>
+        public Stream FileOpenWrite(string path, DryRun dryRun)
+        {
+            ArgumentNullException.ThrowIfNull(path, nameof(path));
+
+            Stream stream = null;
+            dryRun.WouldDo(
+                "Creating file to write to at " + path,
+                () => stream = this.fileSystem.File.OpenWrite(path),
+                () => stream = FileSystemStream.Null);
+
+            return stream;
+        }
+
         public async ValueTask<Checksum> CalculateChecksumSha256(string path)
         {
             ArgumentNullException.ThrowIfNull(path, nameof(path));
