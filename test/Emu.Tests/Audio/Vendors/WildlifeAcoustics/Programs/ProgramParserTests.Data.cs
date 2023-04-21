@@ -4,7 +4,6 @@
 
 namespace Emu.Tests.Audio.Vendors.WildlifeAcoustics.Programs;
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Emu.Audio.Vendors.WildlifeAcoustics;
@@ -13,17 +12,14 @@ using Emu.Audio.Vendors.WildlifeAcoustics.Programs.EntryTypes;
 using Emu.Audio.Vendors.WildlifeAcoustics.Programs.Enums;
 using Emu.Models;
 using LanguageExt;
-using MoreLinq;
 using NodaTime;
 using UnitsNet.NumberExtensions.NumberToEnergy;
 using UnitsNet.NumberExtensions.NumberToInformation;
-using Xunit.Sdk;
 using static Emu.Audio.Vendors.WildlifeAcoustics.Programs.Enums.EventType;
 using static Emu.Extensions.NodaTime.Helpers;
 using static LanguageExt.Prelude;
 using static NodaTime.Duration;
 using static NodaTime.LocalTime;
-using Duration = NodaTime.Duration;
 
 public partial class ProgramParserTests
 {

@@ -6,18 +6,13 @@ namespace Emu.Audio.Vendors.WildlifeAcoustics.WAMD
 {
     using System;
     using System.Buffers.Binary;
-    using System.Diagnostics;
     using System.Text;
     using Emu.Audio.Vendors.WildlifeAcoustics.Programs;
     using Emu.Audio.WAVE;
     using Emu.Models;
     using LanguageExt;
-    using LanguageExt.Common;
-    using Newtonsoft.Json.Converters;
     using NodaTime;
     using NodaTime.Text;
-    using UnitsNet;
-    using UnitsNet.NumberExtensions.NumberToLength;
     using UnitsNet.NumberExtensions.NumberToLuminousFlux;
     using UnitsNet.NumberExtensions.NumberToLuminousIntensity;
     using static SubChunkId;

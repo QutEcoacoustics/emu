@@ -42,9 +42,10 @@ namespace Emu.Tests.Fixes.FrontierLabs
             this.fixer = new DataSize0(this.CurrentFileSystem);
         }
 
-        void IDisposable.Dispose()
+        public override void Dispose()
         {
             this.target.Dispose();
+            this.Dispose(true);
         }
 
         [Fact]

@@ -4,20 +4,12 @@
 
 namespace Emu.Tests.Metadata.SupportFiles
 {
-    using System;
     using System.Linq;
-    using System.Security.Cryptography;
-    using Emu.Metadata;
-    using Emu.Metadata.FrontierLabs;
-    using Emu.Metadata.SupportFiles;
     using Emu.Metadata.SupportFiles.FrontierLabs;
     using Emu.Models;
     using Emu.Tests.TestHelpers;
     using FluentAssertions;
-    using LanguageExt.TypeClasses;
-    using Microsoft.VisualBasic;
     using NodaTime;
-    using NodaTime.Text;
     using Xunit;
     using Xunit.Abstractions;
 

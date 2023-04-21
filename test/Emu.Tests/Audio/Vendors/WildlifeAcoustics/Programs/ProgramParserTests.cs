@@ -4,26 +4,12 @@
 
 namespace Emu.Tests.Audio.Vendors.WildlifeAcoustics.Programs
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
     using System.Threading.Tasks;
-    using Emu.Audio.Vendors.WildlifeAcoustics;
     using Emu.Audio.Vendors.WildlifeAcoustics.Programs;
-    using Emu.Audio.Vendors.WildlifeAcoustics.Programs.EntryTypes;
-    using Emu.Audio.Vendors.WildlifeAcoustics.Programs.Enums;
     using Emu.Audio.Vendors.WildlifeAcoustics.WAMD;
-    using Emu.Models;
     using Emu.Tests.TestHelpers;
     using FluentAssertions;
-    using FluentAssertions.Equivalency;
-    using FluentAssertions.Primitives;
-    using LanguageExt;
-    using NodaTime;
-    using Shouldly;
     using Xunit.Abstractions;
-    using Duration = NodaTime.Duration;
 
     public partial class ProgramParserTests : TestBase
     {
@@ -37,8 +23,8 @@ namespace Emu.Tests.Audio.Vendors.WildlifeAcoustics.Programs
         public async Task CanReadSM4Program(string path)
         {
             var expected = Programs[path];
-            var resovled = FixtureHelper.ResolvePath(path);
-            var stream = this.CurrentFileSystem.File.OpenRead(resovled);
+            var resolved = FixtureHelper.ResolvePath(path);
+            var stream = this.CurrentFileSystem.File.OpenRead(resolved);
 
             var actual = await ProgramParser.GetProgramFromScheduleFileAsync(stream);
 
@@ -52,8 +38,8 @@ namespace Emu.Tests.Audio.Vendors.WildlifeAcoustics.Programs
         public void CanReadSM4ProgramFromRecording(string path)
         {
             var expected = Programs[path];
-            var resovled = FixtureHelper.ResolvePath(path);
-            var stream = this.CurrentFileSystem.File.OpenRead(resovled);
+            var resolved = FixtureHelper.ResolvePath(path);
+            var stream = this.CurrentFileSystem.File.OpenRead(resolved);
 
             var tryWamdData = WamdParser.ExtractMetadata(stream);
 
@@ -71,8 +57,8 @@ namespace Emu.Tests.Audio.Vendors.WildlifeAcoustics.Programs
         public async Task CanReadSM3Program(string path)
         {
             var expected = Programs[path];
-            var resovled = FixtureHelper.ResolvePath(path);
-            var stream = this.CurrentFileSystem.File.OpenRead(resovled);
+            var resolved = FixtureHelper.ResolvePath(path);
+            var stream = this.CurrentFileSystem.File.OpenRead(resolved);
 
             var actual = await ProgramParser.GetProgramFromScheduleFileAsync(stream);
 
@@ -86,8 +72,8 @@ namespace Emu.Tests.Audio.Vendors.WildlifeAcoustics.Programs
         public void CanReadSM3ProgramFromRecording(string path)
         {
             var expected = Programs[path];
-            var resovled = FixtureHelper.ResolvePath(path);
-            var stream = this.CurrentFileSystem.File.OpenRead(resovled);
+            var resolved = FixtureHelper.ResolvePath(path);
+            var stream = this.CurrentFileSystem.File.OpenRead(resolved);
 
             var tryWamdData = WamdParser.ExtractMetadata(stream);
 

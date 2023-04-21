@@ -7,6 +7,7 @@ namespace Emu.Tests.Commands.Fix
     using System.CommandLine.Parsing;
     using Emu.Commands;
     using Emu.Tests.TestHelpers;
+    using FluentAssertions;
     using Xunit;
     using Xunit.Abstractions;
 
@@ -61,6 +62,31 @@ namespace Emu.Tests.Commands.Fix
             Assert.Equal(
                 new string[] { "FL010", "FL020" },
                 result.CommandResult.FindResultFor(Common.Fixes).GetValueOrDefault<string[]>());
+        }
+
+        [Fact]
+        public void EmuFixCheckWorks()
+        {
+            var command = @"fix check C:\Work\Github\metadata-utility\test\Fixtures\FL_BAR_LT\3.17_Duration\*.flac -f FL010";
+            var parser = this.CliParser;
+
+            var result = parser.Parse(command);
+
+            Assert.True(result.Errors.Count == 0);
+
+            var commandResult = result.CommandResult;
+
+            commandResult
+                .FindResultFor(Common.Fixes)
+                .GetValueOrDefault<string[]>()
+                .Should()
+                .BeEquivalentTo(new string[] { "FL010" });
+
+            commandResult
+                .FindResultFor(Common.Targets)
+                .GetValueOrDefault<string[]>()
+                .Should()
+                .BeEquivalentTo(new string[] { "C:\\Work\\Github\\metadata-utility\\test\\Fixtures\\FL_BAR_LT\\3.17_Duration\\*.flac" });
         }
     }
 }

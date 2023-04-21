@@ -4,12 +4,8 @@
 
 namespace Emu.Tests.Commands
 {
-    using System;
-    using System.Collections.Generic;
     using System.CommandLine.Parsing;
     using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
     using Emu.Tests.TestHelpers;
     using FluentAssertions;
     using Xunit;

@@ -6,9 +6,7 @@ namespace Emu.Tests.Commands.Metadata
 {
     using System;
     using System.CommandLine.Parsing;
-    using System.IO;
     using System.Linq;
-    using System.Text.RegularExpressions;
     using System.Threading.Tasks;
     using Emu.Cli.ObjectFormatters;
     using Emu.Commands.Metadata;
@@ -18,7 +16,6 @@ namespace Emu.Tests.Commands.Metadata
     using Emu.Tests.TestHelpers;
     using Emu.Utilities;
     using FluentAssertions;
-    using Newtonsoft.Json;
     using Xunit;
     using Xunit.Abstractions;
 
@@ -141,8 +138,8 @@ namespace Emu.Tests.Commands.Metadata
                     new MetadataRegister(this.ServiceProvider),
                     new PrettyFormatter(),
                     new CompactFormatter())
-                    {
-                    };
+                {
+                };
 
                 var fixture = this.data[fixtureName];
                 command.Targets = fixture.AbsoluteFixturePath.AsArray();

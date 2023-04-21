@@ -12,17 +12,13 @@ namespace Emu.Commands.Rename
     using System.Linq;
     using System.Text.RegularExpressions;
     using System.Threading.Tasks;
-    using Emu.Audio;
-    using Emu.Audio.WAVE;
     using Emu.Cli;
-    using Emu.Extensions.System;
     using Emu.Filenames;
     using Emu.Metadata;
     using Emu.Metadata.SupportFiles;
     using Emu.Models;
     using Emu.Utilities;
     using LanguageExt;
-    using LanguageExt.Common;
     using Microsoft.Extensions.Logging;
     using NodaTime;
     using static Emu.Cli.SpectreUtils;
@@ -299,7 +295,7 @@ namespace Emu.Commands.Rename
         {
             var fragments = this.parser.Parse(result.File);
             var stem = this.fileSystem.Path.GetFileNameWithoutExtension(result.File);
-            var size = this.fileSystem.FileInfo.FromFileName(result.File).Length;
+            var size = this.fileSystem.FileInfo.New(result.File).Length;
 
             var recording = this.filenameExtractor.ApplyValues(
                 new Recording

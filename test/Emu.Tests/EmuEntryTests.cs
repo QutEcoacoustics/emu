@@ -5,22 +5,11 @@
 namespace Emu.Tests
 {
     using System.CommandLine;
-    using System.Threading.Tasks;
-    using Emu.Tests.TestHelpers;
     using Xunit;
     using static Emu.EmuCommand;
 
     public class EmuEntryTests
     {
-        [Fact]
-        public async Task EmuFixCheckWorks()
-        {
-            var result = await EmuEntry.Main(
-              @"fix check C:\Work\Github\metadata-utility\test\Fixtures\FL_BAR_LT\3.17_Duration\*.flac -f FL010".Split(' '));
-
-            Assert.Equal(0, result);
-        }
-
         [Theory]
         [InlineData("", LogLevel.Info)]
         [InlineData("-v", LogLevel.Debug)]

@@ -4,12 +4,9 @@
 
 namespace Emu.Tests.Models
 {
-    using System;
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
     using Emu.Models;
     using FluentAssertions;
     using LanguageExt;
@@ -22,7 +19,8 @@ namespace Emu.Tests.Models
             LongitudePrecision = 0,
         };
 
-        public static TheoryData<string, Location> Data => new()
+        // split from theory data so xunit can serialize test names
+        public static readonly Dictionary<string, Location> TestCases = new()
         {
             { "+00-025/", Default with { Latitude = 0, Longitude = -25, } },
             { "+46+002/", Default with { Latitude = 46, Longitude = 2, } },
@@ -62,10 +60,13 @@ namespace Emu.Tests.Models
             { "-1+2/", null },
         };
 
+        public static IEnumerable<object[]> Data => TestCases.Select(x => new object[] { x.Key });
+
         [Theory]
         [MemberData(nameof(Data))]
-        public void LocationParsingWorks(string input, Location expected)
+        public void LocationParsingWorks(string input)
         {
+            var expected = TestCases[input];
             var success = Location.TryParse(input, out var actual);
 
             Assert.Equal(expected is not null, success);
@@ -75,8 +76,10 @@ namespace Emu.Tests.Models
 
         [SkippableTheory]
         [MemberData(nameof(Data))]
-        public void LocationFormattingWorksForH(string expected, Location actual)
+        public void LocationFormattingWorksForH(string expected)
         {
+            var actual = TestCases[expected];
+
             Skip.If(actual is null);
 
             actual.ToString("H", CultureInfo.InvariantCulture).Should().Be(expected);
@@ -84,8 +87,10 @@ namespace Emu.Tests.Models
 
         [SkippableTheory]
         [MemberData(nameof(Data))]
-        public void LocationFormattingWorksForFilenames(string expected, Location actual)
+        public void LocationFormattingWorksForFilenames(string expected)
         {
+            var actual = TestCases[expected];
+
             Skip.If(actual is null);
 
             actual.ToString("h", CultureInfo.InvariantCulture).Should().Be(expected.TrimEnd('/'));

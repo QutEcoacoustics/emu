@@ -4,11 +4,9 @@
 
 namespace Emu
 {
-    using System;
     using System.CommandLine.Invocation;
     using System.Threading.Tasks;
     using Emu.Utilities;
-    using LanguageExt;
     using static Emu.EmuCommand;
 
     public abstract class EmuCommandHandler<T> : EmuGlobalOptions, ICommandHandler

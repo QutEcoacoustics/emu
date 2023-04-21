@@ -6,7 +6,6 @@ namespace Emu.Tests.Metadata
 {
     using System.Threading.Tasks;
     using Emu.Metadata.WildlifeAcoustics;
-    using Emu.Models;
     using Emu.Tests.TestHelpers;
     using FluentAssertions;
     using Xunit;

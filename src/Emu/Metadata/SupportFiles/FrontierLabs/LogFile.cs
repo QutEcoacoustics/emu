@@ -8,8 +8,6 @@ namespace Emu.Metadata.SupportFiles.FrontierLabs
     using System.Text.RegularExpressions;
     using Emu.Models;
     using LanguageExt;
-    using LanguageExt.ClassInstances;
-    using LanguageExt.TypeClasses;
     using NodaTime;
     using NodaTime.Text;
     using static LanguageExt.Prelude;

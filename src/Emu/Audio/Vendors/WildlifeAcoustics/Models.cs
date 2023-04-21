@@ -4,12 +4,6 @@
 
 namespace Emu.Audio.Vendors.WildlifeAcoustics
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-
     public static class Models
     {
         public const string SM3 = "SM3";

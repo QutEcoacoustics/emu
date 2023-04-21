@@ -5,7 +5,6 @@
 namespace Emu.Models
 {
     using System.Collections.Generic;
-    using System.IO;
     using CsvHelper.Configuration.Attributes;
     using Newtonsoft.Json;
     using NodaTime;

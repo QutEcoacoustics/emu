@@ -5,12 +5,9 @@
 namespace Emu.Tests.TestHelpers.Fakes
 {
     using System;
-    using System.Collections.Generic;
-    using System.Text;
     using Bogus;
     using Emu.Models;
     using NodaTime;
-    using NodaTime.Extensions;
     using Xunit;
 
     public class Fakes : IDisposable

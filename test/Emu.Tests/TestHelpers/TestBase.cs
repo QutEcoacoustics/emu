@@ -10,7 +10,6 @@ namespace Emu.Tests.TestHelpers
     using System.IO;
     using System.IO.Abstractions;
     using System.IO.Abstractions.TestingHelpers;
-    using System.IO.Pipelines;
     using System.Linq;
     using Divergic.Logging.Xunit;
     using Emu.Filenames;

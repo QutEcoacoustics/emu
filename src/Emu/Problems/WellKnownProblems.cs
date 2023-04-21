@@ -8,7 +8,6 @@ namespace Emu
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Reflection;
-    using Emu.Models;
     using LanguageExt;
     using static LanguageExt.Prelude;
 

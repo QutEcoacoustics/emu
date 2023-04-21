@@ -4,12 +4,11 @@
 
 namespace Emu.Utilities
 {
+    using System;
     using System.Diagnostics;
-    using System.Diagnostics.CodeAnalysis;
     using System.IO;
     using System.IO.Abstractions;
     using System.Numerics;
-    using System.Runtime.Intrinsics.X86;
     using System.Security.Cryptography;
     using Emu.Extensions.Microsoft.Extensions;
     using Emu.Models;
@@ -57,7 +56,7 @@ namespace Emu.Utilities
 
         public string Rename(string path, string newBasename, DryRun dryRun)
         {
-            var newPath = this.fileSystem.Path.Combine(this.fileSystem.Path.GetDirectoryName(path), newBasename);
+            var newPath = this.fileSystem.Path.Combine(this.fileSystem.Path.GetDirectoryName(path)!, newBasename);
             using (this.logger.Measure($"Renamed file from {path} to {newPath}"))
             {
                 dryRun.WouldDo(
@@ -193,7 +192,7 @@ namespace Emu.Utilities
                 // the buffer could potentially be filled beyond the end of the range we're scanning
                 // if so only read up to the end of our limit
                 var limit = Math.Min(buffer.Length, (int)(end - position));
-                int read = await stream.ReadAsync(buffer, 0, limit);
+                int read = await stream.ReadAsync(buffer.AsMemory(0, limit));
                 position += read;
 
                 if (read > end)

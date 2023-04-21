@@ -5,7 +5,6 @@
 namespace System;
 
 using System.Buffers.Binary;
-using System.Runtime.InteropServices;
 
 public static class SpanExtensions
 {

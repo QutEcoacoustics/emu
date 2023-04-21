@@ -12,12 +12,10 @@ namespace Emu
     using System.Text.RegularExpressions;
     using System.Threading.Tasks;
     using Emu.Cli;
-    using Emu.Extensions.System;
     using Emu.Fixes;
     using Emu.Utilities;
     using LanguageExt;
     using Microsoft.Extensions.Logging;
-    using Newtonsoft.Json;
     using Spectre.Console;
     using static Emu.Cli.SpectreUtils;
     using static Emu.Fixes.FixStatus;

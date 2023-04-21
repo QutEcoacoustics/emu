@@ -108,7 +108,7 @@ namespace Emu.Tests.TestHelpers
 
         public IFileInfo ToFileInfo(IFileSystem fileSystem)
         {
-            return fileSystem.FileInfo.FromFileName(this.AbsoluteFixturePath);
+            return fileSystem.FileInfo.New(this.AbsoluteFixturePath);
         }
 
         public MockFileData ToMockFileData()

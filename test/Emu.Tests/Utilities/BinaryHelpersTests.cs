@@ -5,7 +5,7 @@
 namespace Emu.Tests.Utilities
 {
     using System;
-    using Emu.Utilities;
+    using System.Linq;
     using FluentAssertions;
     using Xunit;
     using static Emu.Utilities.BinaryHelpers;
@@ -164,17 +164,17 @@ namespace Emu.Tests.Utilities
         [InlineData(new byte[] { 0x02, 0x00 }, null)]
         [InlineData(new byte[] { 0xFF, 0xFF }, null)]
         [InlineData(new byte[] { 0x00, 0x01 }, null)]
-        public void ReadBool16LittleEndianTest(ReadOnlyMemory<byte> testCase, bool? expected)
+        public void ReadBool16LittleEndianTest(byte[] testCase, bool? expected)
         {
             if (expected.HasValue)
             {
-                var actual = ReadBool16LittleEndian(testCase.Span);
+                var actual = ReadBool16LittleEndian(testCase.AsSpan());
                 actual.Should().Be(expected.Value);
             }
             else
             {
                 Assert.Throws<InvalidOperationException>(
-                    () => ReadBool16LittleEndian(testCase.Span));
+                    () => ReadBool16LittleEndian(testCase.AsSpan()));
             }
         }
 
@@ -183,10 +183,10 @@ namespace Emu.Tests.Utilities
         [InlineData(0, 1, 2, 0)]
         [InlineData(1, 7, 12, 0x80)]
         [InlineData(129, 0, 8, 129)]
-        [InlineData(4, 29, 32,  0x80_00_00_00)]
-        [InlineData(2, 30, 32,  0x80_00_00_00)]
-        [InlineData(1, 31, 32,  0x80_00_00_00)]
-        [InlineData(0x81, 24, 32,  0x81_00_00_00)]
+        [InlineData(4, 29, 32, 0x80_00_00_00)]
+        [InlineData(2, 30, 32, 0x80_00_00_00)]
+        [InlineData(1, 31, 32, 0x80_00_00_00)]
+        [InlineData(0x81, 24, 32, 0x81_00_00_00)]
         [InlineData(0x2_00_01, 7, 25, 0x01_00_00_80)]
         public void ReadingAndWritingBitRangesWorksForUInt(uint expected, byte start, byte end, uint solo)
         {

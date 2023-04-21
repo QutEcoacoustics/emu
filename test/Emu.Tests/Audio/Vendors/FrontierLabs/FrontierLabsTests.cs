@@ -8,6 +8,7 @@ namespace Emu.Tests.Audio.Vendors.FrontierLabs
     using Emu.Audio.Vendors;
     using Emu.Tests.TestHelpers;
     using FluentAssertions;
+    using LanguageExt;
     using Xunit;
     using Xunit.Abstractions;
     using static Emu.Audio.Vendors.FrontierLabs;
@@ -23,17 +24,17 @@ namespace Emu.Tests.Audio.Vendors.FrontierLabs
         [InlineData("SensorFirmwareVersion=3.17", 3.17, null)]
         [InlineData("SensorFirmwareVersion=3.2", 3.2, null)]
         [InlineData("SensorFirmwareVersion= 3.20                                ", 3.2, null)]
-        [InlineData("SensorFirmwareVersion= 3.20 atag emu wookies+rule          ", 3.2, new string[] { "atag", "emu", "wookies+rule" })]
+        [InlineData("SensorFirmwareVersion= 3.20 atag emu wookies+rule          ", 3.2, "atag,emu,wookies+rule")]
         [InlineData("SensorFirmwareVersion=3.20", 3.2, null)]
         [InlineData("SensorFirmwareVersion= V3.12", 3.12, null)]
         [InlineData("SensorFirmwareVersion= V3.13", 3.13, null)]
         [InlineData("SensorFirmwareVersion= V3.14", 3.14, null)]
         [InlineData("SensorFirmwareVersion=Firmware: V3.08       ", 3.08, null)]
-        [InlineData("SensorFirmwareVersion=Firmware: V3.08   tag    ", 3.08, new string[] { "tag" })]
+        [InlineData("SensorFirmwareVersion=Firmware: V3.08   tag    ", 3.08, "tag")]
 
-        public void CanParseFirmware(string firmwareComment, decimal expected, string[] tags)
+        public void CanParseFirmware(string firmwareComment, decimal expected, string tagString)
         {
-            tags ??= Array.Empty<string>();
+            var tags = tagString?.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToSeq() ?? Seq<string>.Empty;
 
             var actual = ParseFirmwareComment(firmwareComment, 0..60);
 

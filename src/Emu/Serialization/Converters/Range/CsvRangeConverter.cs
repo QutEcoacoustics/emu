@@ -7,7 +7,6 @@ namespace Emu.Serialization.Converters
     using CsvHelper;
     using CsvHelper.Configuration;
     using CsvHelper.TypeConversion;
-    using Emu.Extensions.System;
 
     public class CsvRangeConverter : DefaultTypeConverter
     {

@@ -5,7 +5,6 @@
 namespace Emu.Tests.FilenameParsing
 {
     using System;
-    using Emu.Dates;
     using Emu.Filenames;
     using Emu.Tests.TestHelpers;
     using FluentAssertions;
@@ -71,7 +70,7 @@ namespace Emu.Tests.FilenameParsing
             else
             {
                 // And in this case we do not find a location
-                    Assert.Null(actual.Location);
+                Assert.Null(actual.Location);
             }
 
             // And the extension field should be set

@@ -4,12 +4,10 @@
 
 namespace Emu.Tests.Audio.Formats.WAVE
 {
-    using System.Collections.Generic;
     using Emu.Audio;
     using Emu.Audio.WAVE;
     using Emu.Tests.TestHelpers;
     using FluentAssertions;
-    using LanguageExt;
     using Xunit;
     using Xunit.Abstractions;
 

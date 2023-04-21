@@ -5,9 +5,6 @@
 namespace Emu.Audio.Vendors.WildlifeAcoustics.Programs
 {
     using Emu.Audio.Vendors.WildlifeAcoustics.Programs.Enums;
-    using LanguageExt;
-    using LanguageExt.ClassInstances;
-    using LanguageExt.Common;
     using NodaTime;
     using static Emu.Utilities.BinaryHelpers;
     using Duration = NodaTime.Duration;

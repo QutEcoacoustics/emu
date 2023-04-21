@@ -6,7 +6,6 @@ namespace Emu.Serialization
 {
     using System;
     using System.IO;
-    using Microsoft.Extensions.Logging;
     using Spectre.Console;
     using Spectre.Console.Rendering;
 

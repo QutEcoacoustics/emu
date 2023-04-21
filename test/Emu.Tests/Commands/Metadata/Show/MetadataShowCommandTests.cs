@@ -4,19 +4,11 @@
 
 namespace Emu.Tests.Commands.Metadata.Show
 {
-    using System;
-    using System.Collections.Generic;
     using System.CommandLine.Parsing;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
     using Emu.Cli;
-    using Emu.Cli.ObjectFormatters;
     using Emu.Commands;
     using Emu.Commands.Metadata.Show;
-    using Emu.Metadata;
     using Emu.Tests.TestHelpers;
-    using Emu.Utilities;
     using FluentAssertions;
     using Xunit.Abstractions;
     using static Emu.EmuCommand;

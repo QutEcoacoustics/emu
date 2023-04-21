@@ -5,8 +5,6 @@
 namespace Emu.Audio.Vendors.WildlifeAcoustics.Programs.EntryTypes
 {
     using System;
-    using System.Diagnostics;
-    using System.Runtime.InteropServices;
     using Emu.Audio.Vendors.WildlifeAcoustics.Programs.Enums;
     using LanguageExt;
     using static Emu.Utilities.BinaryHelpers;

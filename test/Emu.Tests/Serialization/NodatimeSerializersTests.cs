@@ -5,10 +5,8 @@
 namespace Emu.Tests.Serialization
 {
     using System;
-    using System.Collections.Generic;
     using System.Globalization;
     using System.IO;
-    using System.Text;
     using CsvHelper.TypeConversion;
     using Emu.Serialization;
     using NodaTime;

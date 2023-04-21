@@ -7,7 +7,6 @@ namespace Emu.Cli.ObjectFormatters
     using System;
     using System.Collections.Generic;
     using System.Text;
-    using YamlDotNet.Core.Tokens;
 
     public class CompactFormatter
         : ObjectFormatter

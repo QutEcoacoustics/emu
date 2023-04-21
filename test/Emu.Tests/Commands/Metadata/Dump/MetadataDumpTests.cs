@@ -5,23 +5,16 @@
 namespace Emu.Tests.Commands.Metadata.Dump
 {
     using System;
-    using System.Collections.Generic;
-    using System.CommandLine.Parsing;
-    using System.Linq;
-    using System.Text;
     using System.Threading.Tasks;
     using Emu.Audio;
     using Emu.Audio.Vendors.WildlifeAcoustics;
     using Emu.Cli.ObjectFormatters;
-    using Emu.Commands;
     using Emu.Commands.Metadata.Dump;
-    using Emu.Commands.Metadata.Show;
     using Emu.Metadata;
     using Emu.Tests.TestHelpers;
     using Emu.Utilities;
     using FluentAssertions;
     using LanguageExt;
-    using Shouldly;
     using Xunit.Abstractions;
     using static Emu.EmuCommand;
 
@@ -35,7 +28,7 @@ namespace Emu.Tests.Commands.Metadata.Dump
             this.data = data;
         }
 
-        // CSV not supported
+        // CSV not supported - CSV exclusion test in MetadataDumpCommandTests
         [Theory]
         [InlineData(OutputFormat.Default, FixtureModel.NormalFile)]
         [InlineData(OutputFormat.Compact, FixtureModel.NormalFile)]

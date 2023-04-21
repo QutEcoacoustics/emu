@@ -4,11 +4,9 @@
 
 namespace Emu.Cli
 {
-    using System.CommandLine;
     using System.IO.Abstractions;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
-    using Spectre.Console;
 
     public class OutputSink
     {
@@ -48,16 +46,16 @@ namespace Emu.Cli
             }
             else
             {
-                var file = this.fileSystem.FileInfo.FromFileName(
+                var file = this.fileSystem.FileInfo.New(
                     this.fileSystem.Path.Combine(
                         this.fileSystem.Directory.GetCurrentDirectory(),
                         this.fileSystem.Path.GetFullPath(this.options.Output)));
 
-                var directory = file.Directory;
-                if (!directory.Exists)
+                var directory = file.Directory!;
+                if (!(directory?.Exists ?? false))
                 {
                     // create nested directories
-                    directory.Create();
+                    directory!.Create();
                 }
 
                 if (file.Exists)

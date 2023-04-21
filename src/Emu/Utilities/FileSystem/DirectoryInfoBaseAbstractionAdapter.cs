@@ -69,7 +69,7 @@ namespace Emu.Utilities.FileSystem
             if (isParentPath)
             {
                 return new DirectoryInfoBaseAbstractionAdapter(
-                    this.directory.FileSystem.DirectoryInfo.FromDirectoryName(this.directory.FileSystem.Path.Combine(this.directory.FullName, path)),
+                    this.directory.FileSystem.DirectoryInfo.New(this.directory.FileSystem.Path.Combine(this.directory.FullName, path)),
                     isParentPath);
             }
             else
@@ -97,6 +97,6 @@ namespace Emu.Utilities.FileSystem
         }
 
         public override Microsoft.Extensions.FileSystemGlobbing.Abstractions.FileInfoBase GetFile(string path)
-            => new FileInfoBaseAbstractionAdapter(this.directory.FileSystem.FileInfo.FromFileName(path));
+            => new FileInfoBaseAbstractionAdapter(this.directory.FileSystem.FileInfo.New(path));
     }
 }

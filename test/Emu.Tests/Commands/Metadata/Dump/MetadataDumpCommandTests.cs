@@ -5,11 +5,8 @@
 namespace Emu.Tests.Commands.Metadata.Dump
 {
     using System;
-    using System.Collections.Generic;
     using System.CommandLine.Parsing;
     using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
     using Emu.Commands;
     using Emu.Commands.Metadata.Dump;
     using Emu.Tests.TestHelpers;

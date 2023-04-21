@@ -9,20 +9,13 @@ namespace Emu.Commands.Metadata.Dump
     using System.CommandLine.Invocation;
     using System.Diagnostics.CodeAnalysis;
     using System.IO.Abstractions;
-    using System.Linq;
-    using System.Runtime.Serialization;
     using System.Text;
     using System.Threading.Tasks;
     using Emu.Cli;
     using Emu.Cli.ObjectFormatters;
     using Emu.Metadata;
-    using Emu.Metadata.FrontierLabs;
-    using Emu.Metadata.SupportFiles;
-    using Emu.Metadata.WildlifeAcoustics;
-    using Emu.Models;
     using Emu.Utilities;
     using Microsoft.Extensions.Logging;
-    using Spectre.Console;
     using static Emu.Cli.SpectreUtils;
 
     public class MetadataDump : EmuCommandHandler<Dictionary<string, object>>

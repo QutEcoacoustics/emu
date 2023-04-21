@@ -4,13 +4,8 @@
 
 namespace Emu.Commands.Metadata.Dump
 {
-    using System;
-    using System.Collections.Generic;
     using System.CommandLine;
     using System.CommandLine.Parsing;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
     using static Emu.EmuCommand;
 
     public class MetadataDumpCommand : Command

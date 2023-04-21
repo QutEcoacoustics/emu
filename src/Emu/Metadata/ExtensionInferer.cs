@@ -4,13 +4,10 @@
 
 namespace Emu.Metadata
 {
-    using System.IO.Abstractions;
     using System.Threading.Tasks;
     using Emu.Audio;
     using Emu.Audio.WAVE;
-    using Emu.Filenames;
     using Emu.Models;
-    using Microsoft.Extensions.Logging;
 
     /// <summary>
     /// Backfills the extension field if we know the mime type.

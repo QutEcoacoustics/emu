@@ -13,7 +13,6 @@ namespace Emu.Fixes.FrontierLabs
     using Microsoft.Extensions.Logging;
     using static Emu.Audio.Vendors.FrontierLabs;
     using static Emu.Fixes.CheckStatus;
-    using static LanguageExt.Prelude;
 
     public class MetadataDurationBug : IFixOperation
     {

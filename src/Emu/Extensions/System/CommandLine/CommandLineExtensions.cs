@@ -10,10 +10,8 @@ namespace Emu.Extensions.System.CommandLine
     using global::Microsoft.Extensions.Logging;
     using global::System.CommandLine;
     using global::System.CommandLine.Binding;
-    using global::System.CommandLine.Builder;
     using global::System.CommandLine.Invocation;
     using global::System.CommandLine.Parsing;
-    using global::System.IO.Abstractions;
 
     /// <summary>
     /// Extensions to System.CommandLine.

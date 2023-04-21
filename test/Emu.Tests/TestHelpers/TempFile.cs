@@ -5,9 +5,6 @@
 namespace Emu.Tests.TestHelpers
 {
     using System;
-    using System.Diagnostics.CodeAnalysis;
-    using System.IO;
-    using System.Linq;
     using IO = System.IO;
 
     public class TempFile : IDisposable

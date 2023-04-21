@@ -6,7 +6,6 @@ namespace Emu.Audio.Vendors.WildlifeAcoustics.Programs.EntryTypes
 {
     using Emu.Audio.Vendors.WildlifeAcoustics.Programs;
     using NodaTime;
-    using Spectre.Console;
     using static Emu.Utilities.BinaryHelpers;
 
     public record AtSunrise : AdvancedScheduleEntry

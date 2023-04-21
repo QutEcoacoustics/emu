@@ -4,23 +4,7 @@
 
 namespace Emu.Cli
 {
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Globalization;
-    using System.Linq;
-    using System.Text;
-    using System.Text.RegularExpressions;
-    using System.Xml.Linq;
-    using Emu.Dates;
-    using LanguageExt;
-    using Newtonsoft.Json.Linq;
-    using NodaTime;
-    using NodaTime.Text;
     using Spectre.Console;
-    using YamlDotNet.Core.Tokens;
-    using Duration = NodaTime.Duration;
 
     public static class SpectreUtils
     {
@@ -83,7 +67,7 @@ namespace Emu.Cli
 
         public static Rule MarkupRule(string text)
         {
-            return new Rule($"[green]{text}[/]").Alignment(Justify.Left);
+            return new Rule($"[green]{text}[/]").LeftJustified();
         }
 
         public static string MarkupFileSection(string path)

@@ -12,8 +12,6 @@ namespace Emu.Cli.ObjectFormatters
     using System.Globalization;
     using System.Linq;
     using System.Text;
-    using System.Threading.Tasks;
-    using System.Xml.Linq;
     using Emu.Dates;
     using LanguageExt;
     using NodaTime;

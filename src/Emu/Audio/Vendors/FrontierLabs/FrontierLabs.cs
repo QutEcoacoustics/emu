@@ -11,13 +11,10 @@ namespace Emu.Audio.Vendors
     using System.Text;
     using Emu.Audio;
     using Emu.Audio.WAVE;
-    using Emu.Extensions.System;
-    using Emu.Fixes.FrontierLabs;
     using Emu.Models;
     using Emu.Utilities;
     using LanguageExt;
     using LanguageExt.Common;
-    using NodaTime;
     using NodaTime.Text;
     using static LanguageExt.Prelude;
 

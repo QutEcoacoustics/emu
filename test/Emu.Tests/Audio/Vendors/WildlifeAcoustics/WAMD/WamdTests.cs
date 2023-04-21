@@ -4,8 +4,6 @@
 
 namespace Emu.Tests.Audio.Vendors.WildlifeAcoustics.WAMD
 {
-    using System.IO;
-    using Emu.Audio;
     using Emu.Audio.Vendors.WildlifeAcoustics.WAMD;
     using Emu.Models;
     using Emu.Tests.TestHelpers;

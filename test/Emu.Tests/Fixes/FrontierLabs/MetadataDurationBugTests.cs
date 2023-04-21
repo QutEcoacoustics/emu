@@ -7,7 +7,6 @@ namespace Emu.Tests.Fixes.FrontierLabs
     using System;
     using System.IO;
     using System.IO.Abstractions;
-    using System.Security.Cryptography;
     using System.Threading.Tasks;
     using Emu.Audio;
     using Emu.Fixes;
@@ -15,12 +14,10 @@ namespace Emu.Tests.Fixes.FrontierLabs
     using Emu.Tests.TestHelpers;
     using Emu.Utilities;
     using FluentAssertions;
-    using Microsoft.Extensions.Logging;
     using Xunit;
     using Xunit.Abstractions;
     using static Emu.Audio.Vendors.FrontierLabs;
     using static Emu.Fixes.FrontierLabs.MetadataDurationBug;
-    using static Emu.Utilities.DryRun;
 
     public class MetadataDurationBugTests : TestBase, IClassFixture<FixtureData>
     {

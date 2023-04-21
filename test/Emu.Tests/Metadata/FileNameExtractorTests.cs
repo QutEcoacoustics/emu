@@ -4,7 +4,6 @@
 
 namespace Emu.Tests.Metadata
 {
-    using System.Linq;
     using System.Threading.Tasks;
     using Emu.Metadata;
     using Emu.Models;
@@ -12,7 +11,6 @@ namespace Emu.Tests.Metadata
     using FluentAssertions;
     using Xunit;
     using Xunit.Abstractions;
-    using static Emu.Tests.TestHelpers.FixtureHelper;
 
     public class FileNameExtractorTests : TestBase
     {

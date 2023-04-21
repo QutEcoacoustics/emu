@@ -5,8 +5,6 @@
 namespace Emu.Tests.TestHelpers
 {
     using System;
-    using System.Collections.Generic;
-    using System.Text;
     using Bogus;
 
     using FluentAssertions;

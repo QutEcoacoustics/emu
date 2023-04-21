@@ -15,16 +15,13 @@ namespace Emu
 {
     using System.CommandLine;
     using System.CommandLine.Builder;
-    using System.CommandLine.Help;
     using System.CommandLine.Hosting;
     using System.CommandLine.Parsing;
     using System.Diagnostics;
     using System.IO.Abstractions;
-    using System.Runtime.CompilerServices;
     using Emu.Cli;
     using Emu.Cli.ObjectFormatters;
     using Emu.Commands.Cues;
-    using Emu.Commands.Metadata;
     using Emu.Commands.Metadata.Dump;
     using Emu.Commands.Metadata.Show;
     using Emu.Commands.Rename;

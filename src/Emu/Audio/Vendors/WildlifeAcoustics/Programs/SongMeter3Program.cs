@@ -4,10 +4,7 @@
 
 namespace Emu.Audio.Vendors.WildlifeAcoustics.Programs
 {
-    using Emu.Audio.Vendors.WildlifeAcoustics.Programs.Enums;
     using Emu.Models;
-    using NodaTime;
-    using UnitsNet.NumberExtensions.NumberToEnergy;
 
     /// <summary>
     /// See WildlifeAcoustics\schedule_structure.md for more information.

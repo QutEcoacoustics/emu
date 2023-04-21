@@ -139,7 +139,7 @@ namespace Emu.Fixes.FrontierLabs
             string message = null;
             FirmwareRecord firmwareRecord = default;
 
-            string directory = this.fileSystem.Path.GetDirectoryName(file);
+            string directory = this.fileSystem.Path.GetDirectoryName(file)!;
 
             // use a readonly file stream for information gathering phase
             bool fail = false;

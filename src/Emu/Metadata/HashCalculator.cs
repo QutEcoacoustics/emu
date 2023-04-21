@@ -4,7 +4,6 @@
 
 namespace Emu.Metadata
 {
-    using System.Security.Cryptography;
     using System.Threading.Tasks;
     using Emu.Models;
     using Emu.Utilities;

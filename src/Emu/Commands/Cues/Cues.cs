@@ -8,14 +8,12 @@ namespace Emu.Commands.Cues
     using System.Collections.Generic;
     using System.CommandLine.Invocation;
     using System.IO.Abstractions;
-    using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
     using Emu.Audio;
     using Emu.Audio.WAVE;
     using Emu.Cli;
     using Emu.Metadata;
-    using Emu.Models;
     using Emu.Utilities;
     using LanguageExt;
     using Microsoft.Extensions.Logging;
@@ -161,7 +159,7 @@ namespace Emu.Commands.Cues
 
         private async Task WriteCueFileAsync(TargetInformation target, IEnumerable<CueResult> results)
         {
-            var cueFile = target.FileSystem.FileInfo.FromFileName(target.Path + ".cue.txt");
+            var cueFile = target.FileSystem.FileInfo.New(target.Path + ".cue.txt");
             this.logger.LogDebug("Writing Cue file to {path}", cueFile.FullName);
 
             StringBuilder builder = new();

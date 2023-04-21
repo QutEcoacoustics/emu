@@ -5,7 +5,6 @@
 namespace Emu.Tests.Fixes.FrontierLabs
 {
     using System;
-    using System.IO.Abstractions;
     using System.Threading.Tasks;
     using Emu.Fixes;
     using Emu.Fixes.FrontierLabs;

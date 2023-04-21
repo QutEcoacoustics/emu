@@ -12,7 +12,6 @@ namespace Emu.Tests.TestHelpers
 {
     using System;
     using System.Collections.Generic;
-    using System.IO;
     using System.IO.Abstractions;
     using System.Reflection;
     using Emu.Serialization.Converters;

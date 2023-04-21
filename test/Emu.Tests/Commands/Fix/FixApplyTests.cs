@@ -6,18 +6,15 @@ namespace Emu.Tests.Commands.Fix
 {
     using System;
     using System.IO;
-    using System.IO.Abstractions;
     using System.Linq;
     using System.Threading.Tasks;
     using Emu.Cli;
     using Emu.Fixes;
-    using Emu.Metadata;
     using Emu.Serialization;
     using Emu.Tests.TestHelpers;
     using Emu.Utilities;
     using FluentAssertions;
     using Microsoft.Extensions.DependencyInjection;
-    using Spectre.Console;
     using Xunit;
     using Xunit.Abstractions;
     using static Emu.EmuCommand;

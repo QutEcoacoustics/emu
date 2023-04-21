@@ -4,9 +4,7 @@
 
 namespace Emu.Models
 {
-    using System.Security.Cryptography;
     using LanguageExt;
-    using YamlDotNet.Core.Tokens;
     using Error = LanguageExt.Common.Error;
 
     /// <summary>
