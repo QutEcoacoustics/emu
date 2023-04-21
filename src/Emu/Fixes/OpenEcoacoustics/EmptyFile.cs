@@ -26,7 +26,7 @@ namespace Emu.Fixes.OpenEcoacoustics
 
         public Task<CheckResult> CheckAffectedAsync(string file)
         {
-            var info = this.fileSystem.FileInfo.FromFileName(file);
+            var info = this.fileSystem.FileInfo.New(file);
 
             var result = info.Length switch
             {

@@ -6,28 +6,32 @@ namespace Emu.Serialization
 {
     using System;
     using System.IO;
-    using Microsoft.Extensions.Logging;
     using Spectre.Console;
     using Spectre.Console.Rendering;
 
     /// <inheritdoc cref="IRecordFormatter"/>
     public class AnsiConsoleFormatter : IRecordFormatter
     {
-        private readonly ILogger<AnsiConsoleFormatter> logger;
-
+        private readonly ColorSystemSupport colorSystemSupport;
+        private readonly int? width;
         private TextWriter writer;
         private IAnsiConsole ansiConsole;
-        private ColorSystemSupport colorSystemSupport = ColorSystemSupport.Detect;
 
-        public AnsiConsoleFormatter(ILogger<AnsiConsoleFormatter> logger)
+        public AnsiConsoleFormatter(int? width = null, ColorSystemSupport colorSystemSupport = ColorSystemSupport.Detect)
         {
-            this.logger = logger;
+            this.width = width;
+            this.colorSystemSupport = colorSystemSupport;
         }
 
         public TextWriter Writer
         {
             get
             {
+                if (this.writer == null)
+                {
+                    throw new InvalidOperationException("The writer has to be set before the console is ready for use");
+                }
+
                 return this.writer;
             }
 
@@ -38,19 +42,19 @@ namespace Emu.Serialization
             }
         }
 
-        public ColorSystemSupport ColorSystemSupport
-        {
-            get
-            {
-                return this.colorSystemSupport;
-            }
+        //public ColorSystemSupport ColorSystemSupport
+        //{
+        //    get
+        //    {
+        //        return this.colorSystemSupport;
+        //    }
 
-            set
-            {
-                this.colorSystemSupport = value;
-                this.UpdateAnsiConsole();
-            }
-        }
+        //    set
+        //    {
+        //        this.colorSystemSupport = value;
+        //        this.UpdateAnsiConsole();
+        //    }
+        //}
 
         /// <inheritdoc />
         public IDisposable WriteHeader<T>(IDisposable context, T record)
@@ -120,9 +124,14 @@ namespace Emu.Serialization
         {
             this.ansiConsole = AnsiConsole.Create(new AnsiConsoleSettings()
             {
-                ColorSystem = this.ColorSystemSupport,
+                ColorSystem = this.colorSystemSupport,
                 Out = new AnsiConsoleOutput(this.writer),
             });
+
+            if (this.width.HasValue)
+            {
+                this.ansiConsole.Profile.Width = this.width.Value;
+            }
         }
     }
 }

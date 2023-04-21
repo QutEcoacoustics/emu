@@ -4,7 +4,6 @@
 
 namespace Emu.Serialization.Converters
 {
-    using Emu.Extensions.System;
     using Newtonsoft.Json;
 
     public class JsonRangeConverter : JsonConverter<Range>

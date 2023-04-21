@@ -4,6 +4,9 @@
 
 namespace Emu.Models
 {
+    using LanguageExt;
+    using Error = LanguageExt.Common.Error;
+
     /// <summary>
     /// Describes a passive acoustic monitor/sensor that
     /// was used to generate a recording.
@@ -24,6 +27,8 @@ namespace Emu.Models
         public const string SerialNumberKey = "SerialNumber";
         public const string ManufactureDateKey = "ManufactureDate";
 
+        public static readonly Func<string, Error> CIDInvalid = x => Error.New($"CID `{x}` can't be parsed");
+
         public SdCardCid(string cid)
         {
             this.CID = cid;
@@ -34,21 +39,29 @@ namespace Emu.Models
         /// </summary>
         public string CID { get; init; }
 
-        public Dictionary<string, object> ExtractSdInfo()
+        public Fin<MemoryCard> ExtractSdInfo()
         {
-            Dictionary<string, object> sdInfo = new Dictionary<string, object>();
+            try
+            {
+                var card = new MemoryCard() with
+                {
+                    ManufacturerID = this.ParseManufacturerID(),
+                    OEMID = this.ParseOEMID(),
+                    ProductName = this.ParseProductName(),
+                    ProductRevision = this.ParseProductRevision(),
+                    SerialNumber = this.ParseSerialNumber(),
+                    ManufactureDate = this.ParseManufactureDate(),
+                };
 
-            sdInfo[ManufacturerIDKey] = this.ParseManufacturerID();
-            sdInfo[OEMIDKey] = this.ParseOEMID();
-            sdInfo[ProductNameKey] = this.ParseProductName();
-            sdInfo[ProductRevisionKey] = this.ParseProductRevision();
-            sdInfo[SerialNumberKey] = this.ParseSerialNumber();
-            sdInfo[ManufactureDateKey] = this.ParseManufactureDate();
-
-            return sdInfo;
+                return card;
+            }
+            catch (IndexOutOfRangeException)
+            {
+                return CIDInvalid(this.CID);
+            }
         }
 
-        private byte ParseManufacturerID() => byte.Parse(this.CID.Substring(0, 2), System.Globalization.NumberStyles.HexNumber);
+        private byte ParseManufacturerID() => byte.Parse(this.CID[..2], System.Globalization.NumberStyles.HexNumber);
 
         private string ParseOEMID()
         {
@@ -58,7 +71,7 @@ namespace Emu.Models
             // Parse OEM ID one ASCII character at a time
             for (int j = 0; j < OEMIDLength; j++)
             {
-                oemId += System.Convert.ToChar(uint.Parse(this.CID.Substring(offset, 2), System.Globalization.NumberStyles.HexNumber));
+                oemId += Convert.ToChar(uint.Parse(this.CID.Substring(offset, 2), System.Globalization.NumberStyles.HexNumber));
                 offset += 2;
             }
 
@@ -73,7 +86,7 @@ namespace Emu.Models
             // Parse product name one ASCII character at a time
             for (int j = 0; j < ProductNameLength; j++)
             {
-                productName += System.Convert.ToChar(uint.Parse(this.CID.Substring(offset, 2), System.Globalization.NumberStyles.HexNumber));
+                productName += Convert.ToChar(uint.Parse(this.CID.Substring(offset, 2), System.Globalization.NumberStyles.HexNumber));
                 offset += 2;
             }
 
@@ -99,9 +112,9 @@ namespace Emu.Models
         {
             int offset = ManufactureDateOffset;
 
-            string year = System.Convert.ToString(2000 + byte.Parse(this.CID.Substring(offset, 2), System.Globalization.NumberStyles.HexNumber));
+            string year = Convert.ToString(2000 + byte.Parse(this.CID.Substring(offset, 2), System.Globalization.NumberStyles.HexNumber));
             offset += 2;
-            string month = System.Convert.ToString(byte.Parse(this.CID.Substring(offset, 1), System.Globalization.NumberStyles.HexNumber));
+            string month = Convert.ToString(byte.Parse(this.CID.Substring(offset, 1), System.Globalization.NumberStyles.HexNumber));
 
             // Ensure month is in MM format
             month = month.Length == 1 ? "0" + month : month;

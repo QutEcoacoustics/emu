@@ -27,7 +27,7 @@ public static class StringExtensions
 
         if (any)
         {
-            builder.Remove(builder.Length - 1, delimiter.Length);
+            builder.Remove(builder.Length - delimiter.Length, delimiter.Length);
         }
 
         builder.Append(suffix);
@@ -49,7 +49,7 @@ public static class StringExtensions
 
     public static IDirectoryInfo ToDirectory(this string directory, IFileSystem fileSystem)
     {
-        return fileSystem.DirectoryInfo.FromDirectoryName(directory);
+        return fileSystem.DirectoryInfo.New(directory);
     }
 
     /// <summary>
@@ -61,7 +61,7 @@ public static class StringExtensions
     {
         ArgumentNullException.ThrowIfNull(path, nameof(path));
 
-        var directory = fileSystem.Path.GetDirectoryName(path);
+        var directory = fileSystem.Path.GetDirectoryName(path)!;
         fileSystem.Directory.CreateDirectory(directory);
         fileSystem.File.Create(path).Close();
 

@@ -7,7 +7,6 @@ namespace Emu.Tests.TestHelpers
     using System.IO;
     using System.IO.Abstractions;
     using System.Linq;
-    using Xunit;
 
     public static partial class FixtureHelper
     {

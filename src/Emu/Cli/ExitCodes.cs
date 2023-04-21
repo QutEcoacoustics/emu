@@ -8,6 +8,9 @@ namespace Emu.Cli
     {
         public const int Success = 0;
         public const int Failure = 1;
+        public const int ArgumentInvalid = 2;
+        public const int NotFound = 4;
+        public const int NotSupported = 10;
 
         public static int Get(bool success)
         {

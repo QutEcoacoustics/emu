@@ -4,12 +4,7 @@
 
 namespace System
 {
-    using System;
-    using System.Collections.Generic;
     using System.IO.Abstractions;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
 
     public static class IFileInfoExtensions
     {
@@ -17,7 +12,7 @@ namespace System
         {
             ArgumentNullException.ThrowIfNull(info, nameof(info));
 
-            info.Directory.Create();
+            info.Directory!.Create();
 
             info.OpenWrite().Close();
 

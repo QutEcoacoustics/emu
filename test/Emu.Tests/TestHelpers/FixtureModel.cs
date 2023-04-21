@@ -86,6 +86,8 @@ namespace Emu.Tests.TestHelpers
 
         public string Notes { get; set; }
 
+        public string EscapedAbsoluteFixturePath => this.AbsoluteFixturePath.Replace("\\", "\\\\");
+
         public bool IsMake(Vendor vendor) => Enum
                 .GetName(vendor)
                 .Equals(
@@ -106,7 +108,7 @@ namespace Emu.Tests.TestHelpers
 
         public IFileInfo ToFileInfo(IFileSystem fileSystem)
         {
-            return fileSystem.FileInfo.FromFileName(this.AbsoluteFixturePath);
+            return fileSystem.FileInfo.New(this.AbsoluteFixturePath);
         }
 
         public MockFileData ToMockFileData()

@@ -9,11 +9,8 @@ namespace Emu
     using Emu.Cli;
     using Emu.Fixes;
     using Emu.Utilities;
-    using LanguageExt;
     using Spectre.Console;
     using static Emu.Cli.SpectreUtils;
-    using static Emu.EmuCommand;
-    using static LanguageExt.Prelude;
 
     public class FixList : EmuCommandHandler<OperationInfo>
     {

@@ -4,11 +4,7 @@
 
 namespace Emu.Fixes.FrontierLabs
 {
-    using System;
-    using System.Collections.Generic;
     using System.IO.Abstractions;
-    using System.Linq;
-    using System.Text;
     using System.Text.RegularExpressions;
     using System.Threading.Tasks;
     using Emu.Utilities;
@@ -36,7 +32,7 @@ namespace Emu.Fixes.FrontierLabs
 
         public Task<CheckResult> CheckAffectedAsync(string file)
         {
-            var fileInfo = this.fileSystem.FileInfo.FromFileName(file);
+            var fileInfo = this.fileSystem.FileInfo.New(file);
             var result = Matcher.IsMatch(fileInfo.Name) switch {
                 true => new CheckResult(CheckStatus.Affected, Severity.Mild, "Space in datestamp detected"),
                 false => new CheckResult(CheckStatus.Unaffected, Severity.None, string.Empty),
@@ -53,7 +49,7 @@ namespace Emu.Fixes.FrontierLabs
 
             if (affected is { Status: CheckStatus.Affected })
             {
-                var fileInfo = this.fileSystem.FileInfo.FromFileName(file);
+                var fileInfo = this.fileSystem.FileInfo.New(file);
                 var newBasename = Matcher.Replace(fileInfo.Name, ReplaceString);
                 var newName = this.fileUtilities.Rename(file, newBasename, dryRun);
 

@@ -6,12 +6,8 @@ namespace Emu.Filenames
 {
     using System;
     using System.Collections;
-    using System.Collections.Generic;
     using System.IO.Abstractions;
-    using System.Linq;
-    using System.Text;
     using System.Text.RegularExpressions;
-    using System.Threading.Tasks;
     using Emu.Dates;
     using Emu.Models;
     using LanguageExt;
@@ -21,9 +17,7 @@ namespace Emu.Filenames
     using SmartFormat;
     using SmartFormat.Core.Extensions;
     using SmartFormat.Core.Formatting;
-    using SmartFormat.Core.Parsing;
     using SmartFormat.Extensions;
-    using static LanguageExt.Prelude;
     using Error = LanguageExt.Common.Error;
 
     public class FilenameGenerator

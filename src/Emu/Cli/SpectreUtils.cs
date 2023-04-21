@@ -4,12 +4,6 @@
 
 namespace Emu.Cli
 {
-    using System.ComponentModel;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Globalization;
-    using System.Text;
-    using System.Text.RegularExpressions;
-    using NodaTime;
     using Spectre.Console;
 
     public static class SpectreUtils
@@ -24,6 +18,21 @@ namespace Emu.Cli
         public static string MarkupNumber(string value)
         {
             return $"[aqua]{value}[/]";
+        }
+
+        public static string MarkupDate(string value)
+        {
+            return $"[dodgerblue1]{value}[/]";
+        }
+
+        public static string MarkupType(string value)
+        {
+            return $"[mediumpurple2]{value}[/]";
+        }
+
+        public static string MarkupEnum(string value)
+        {
+            return $"[seagreen1]{value}[/]";
         }
 
         public static string MarkupCode(string code)
@@ -58,30 +67,22 @@ namespace Emu.Cli
 
         public static Rule MarkupRule(string text)
         {
-            return new Rule($"[green]{text}[/]").Alignment(Justify.Left);
+            return new Rule($"[green]{text}[/]").LeftJustified();
         }
 
-        [RequiresUnreferencedCode("Prints objects via their properties. If only domain objects are printed, then this is safe.")]
-        public static string FormatList<T>(T record)
+        public static string MarkupFileSection(string path)
         {
-            var builder = new StringBuilder();
-            foreach (PropertyDescriptor descriptor in TypeDescriptor.GetProperties(record))
-            {
-                string name = descriptor.Name;
-                object value = descriptor.GetValue(record);
-                string formatted = value switch
-                {
-                    Rationals.Rational r => ((decimal)r).ToString("G"),
-                    LocalDateTime l => Dates.DateFormatting.DatePatternISO8601.Format(l),
-                    IFormattable f => f.ToString(null, CultureInfo.InvariantCulture),
-                    object x => x.ToString(),
-                    null => string.Empty,
-                };
+            return $"File {MarkupPath(path)}:\n";
+        }
 
-                builder.AppendLine($"[yellow]{name}[/] = {formatted?.EscapeMarkup()}");
-            }
+        public static string MarkupWarning(string message)
+        {
+            return $"[yellow]{message}[/]";
+        }
 
-            return builder.ToString();
+        public static string MarkupError(string message)
+        {
+            return $"[red]{message}[/]";
         }
     }
 }

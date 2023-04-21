@@ -104,9 +104,7 @@ namespace Emu.Serialization
         /// <inheritdoc/>
         public void Dispose(IDisposable context)
         {
-            var json = context as JsonTextWriter;
-
-            if (json == null)
+            if (context is not JsonTextWriter json)
             {
                 throw new InvalidOperationException("JSON logger disposed before footer written");
             }

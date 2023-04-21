@@ -5,7 +5,6 @@
 namespace Emu.Audio
 {
     using System.Runtime.Serialization;
-    using YamlDotNet.Core.Tokens;
 
     public enum Vendor
     {

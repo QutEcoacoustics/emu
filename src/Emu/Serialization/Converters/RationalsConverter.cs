@@ -19,7 +19,7 @@ namespace Emu.Serialization.Converters
                 return string.Empty;
             }
 
-            return ((double)((Rational)value)).ToString();
+            return ((decimal)((Rational)value)).ToString("G");
         }
 
         public override object ConvertFromString(string text, IReaderRow row, MemberMapData memberMapData)

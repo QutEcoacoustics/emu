@@ -21,11 +21,15 @@ namespace Emu.Metadata
             new(typeof(LogFileExtractor)),
             new(typeof(HashCalculator)),
             new(typeof(ExtensionInferer)),
+
+            // todo: audiomoth
         };
 
         private readonly IServiceProvider provider;
 
         private IEnumerable<IMetadataOperation> resolved;
+
+        private IEnumerable<IRawMetadataOperation> resolvedRaw;
 
         public MetadataRegister(IServiceProvider provider)
         {
@@ -42,7 +46,26 @@ namespace Emu.Metadata
             }
         }
 
+        public IEnumerable<IRawMetadataOperation> AllRaw
+        {
+            get
+            {
+                this.resolvedRaw ??= KnownOperations
+                    .Where(t => typeof(IRawMetadataOperation).IsAssignableFrom(t.Type))
+                    .Select(x => (IRawMetadataOperation)this.provider.GetService(x.Type));
+                return this.resolvedRaw;
+            }
+        }
+
         public T Get<T>()
+            where T : IMetadataOperation
+        {
+            var operation = KnownOperations.First(x => typeof(T) == x.Type);
+            return (T)this.provider.GetService(operation.Type);
+        }
+
+        public T GetRaw<T>()
+            where T : IRawMetadataOperation
         {
             var operation = KnownOperations.First(x => typeof(T) == x.Type);
             return (T)this.provider.GetService(operation.Type);

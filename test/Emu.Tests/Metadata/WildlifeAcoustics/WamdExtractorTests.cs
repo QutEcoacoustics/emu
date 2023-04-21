@@ -6,7 +6,6 @@ namespace Emu.Tests.Metadata
 {
     using System.Threading.Tasks;
     using Emu.Metadata.WildlifeAcoustics;
-    using Emu.Models;
     using Emu.Tests.TestHelpers;
     using FluentAssertions;
     using Xunit;
@@ -22,8 +21,6 @@ namespace Emu.Tests.Metadata
             this.subject = new WamdExtractor(
                 this.BuildLogger<WamdExtractor>());
         }
-
-        public Recording Recording => new();
 
         [Theory]
         [ClassData(typeof(FixtureData))]
@@ -44,7 +41,7 @@ namespace Emu.Tests.Metadata
 
             var recording = await this.subject.ProcessFileAsync(
                 model.ToTargetInformation(this.RealFileSystem),
-                this.Recording);
+                new());
 
             recording.StartDate.Should().Be(expectedRecording.StartDate);
             recording.Sensor.Make.Should().Be(expectedRecording.Sensor.Make);

@@ -4,13 +4,9 @@
 
 namespace Emu.Tests.Commands.Cues
 {
-    using System;
-    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using System.Text;
     using System.Threading.Tasks;
-    using Emu;
     using Emu.Cli;
     using Emu.Commands.Cues;
     using Emu.Serialization;

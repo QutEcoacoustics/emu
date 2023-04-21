@@ -4,12 +4,7 @@
 
 namespace Emu.Commands.Cues
 {
-    using System;
-    using System.Collections.Generic;
     using System.CommandLine;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
 
     public class CuesCommand : Command
     {

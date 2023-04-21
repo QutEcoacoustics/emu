@@ -51,7 +51,7 @@ namespace Emu.Tests.Commands.Fix
         [InlineData("fix apply  -f=FL010,FL020 B:\\Marina\\**\\*.flac")]
         [InlineData("fix apply  --fix FL010,FL020 B:\\Marina\\**\\*.flac")]
         [InlineData("fix apply  --fix=FL010,FL020 B:\\Marina\\**\\*.flac")]
-        public void FixOptionSupportsCommaDelimitter(string command)
+        public void FixOptionSupportsCommaDelimiter(string command)
         {
             var parser = this.CliParser;
             var result = parser.Parse(command);

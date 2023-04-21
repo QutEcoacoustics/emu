@@ -5,6 +5,8 @@
 namespace Emu.Utilities
 {
     using System;
+    using System.Buffers.Binary;
+    using System.Runtime.CompilerServices;
 
     /// <summary>
     /// Helpers for manipulating binary values.
@@ -175,6 +177,239 @@ namespace Emu.Utilities
             bytes[2] = (byte)((value >> 16) & 0xFF);
             bytes[3] = (byte)((value >> 8) & 0xFF);
             bytes[4] = (byte)((value >> 0) & 0xFF);
+        }
+
+        /// <summary>
+        /// Read the highest 6 bits of a 32-bit integer as it's own integer.
+        /// </summary>
+        /// <param name="value">The value to extract the number from.</param>
+        /// <returns>A 6-bit number in a uint32 slot.</returns>
+        public static byte ReadHighest6Bits(uint value)
+        {
+            return (byte)((value >> 26) & 0b111111);
+        }
+
+        /// <summary>
+        /// Read an integer out of a subset of 4 bytes.
+        /// </summary>
+        /// <param name="value">The 4 byte uint to read from.</param>
+        /// <param name="lowBit">The index of the lowest bit to read from (inclusive).</param>
+        /// <param name="highBit">The index of the highest bit to read from (exclusive).</param>
+        /// <returns>The read value shifted right by <paramref name="lowBit"/>s.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint ReadBitRange(uint value, byte lowBit, byte highBit)
+        {
+            // push 1 up to the bit width (which will produce a number that is one followed by zeroes)
+            //   1 << 8 = 0b1_0000_0000
+            // then subtract one to cycle all lower bits to one. Now we have a string of ones the right width.
+            //   0b1_0000_0000 - 1 =  0b1111_1111
+            uint highMask = (1u << (highBit - lowBit)) - 1u;
+            return (value >> lowBit) & highMask;
+        }
+
+        /// <summary>
+        /// Write a integer into a subset of 4 bytes.
+        /// </summary>
+        /// <param name="destination">The destination to merge the value into.</param>
+        /// <param name="lowBit">The index of the lowest bit to write to(inclusive).</param>
+        /// <param name="highBit">The index of the highest bit to write to(exclusive).</param>
+        /// <param name="value">The value to write.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void WriteBitRange(ref uint destination, byte lowBit, byte highBit, uint value)
+        {
+            uint mask = ((1u << (highBit - lowBit)) - 1u) << lowBit;
+
+            // shift value into right spot
+            // only keep bits in range of int width
+            uint shifted = (value << lowBit) & mask;
+
+            // zero out destiantion bits and merge with existing value
+            destination = (destination & ~mask) | shifted;
+        }
+
+        /// <summary>
+        /// Read an integer out of a subset of 8 bytes.
+        /// </summary>
+        /// <param name="value">The 8 byte ulong to read from.</param>
+        /// <param name="lowBit">The index of the lowest bit to read from (inclusive).</param>
+        /// <param name="highBit">The index of the highest bit to read from (exclusive).</param>
+        /// <returns>The read value shifted right by <paramref name="lowBit"/>s.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong ReadBitRange(ulong value, byte lowBit, byte highBit)
+        {
+            ulong highMask = (1ul << (highBit - lowBit)) - 1ul;
+            return (value >> lowBit) & highMask;
+        }
+
+        /// <summary>
+        /// Write a integer into a subset of 8 bytes.
+        /// </summary>
+        /// <param name="destination">The destination to merge the value into.</param>
+        /// <param name="lowBit">The index of the lowest bit to write to(inclusive).</param>
+        /// <param name="highBit">The index of the highest bit to write to(exclusive).</param>
+        /// <param name="value">The value to write.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void WriteBitRange(ref ulong destination, byte lowBit, byte highBit, ulong value)
+        {
+            ulong mask = ((1ul << (highBit - lowBit)) - 1ul) << lowBit;
+
+            // shift value into right spot
+            // only keep bits in range of int width
+            ulong shifted = (value << lowBit) & mask;
+
+            // zero out destiantion bits and merge with existing value
+            destination = (destination & ~mask) | shifted;
+        }
+
+        /// <summary>
+        /// Read a signed integer out of a subset of 8 bytes.
+        /// Assumes integers are encoded as two's complement.
+        /// </summary>
+        /// <param name="value">The 8 byte ulong to read from.</param>
+        /// <param name="lowBit">The index of the lowest bit to read from (inclusive).</param>
+        /// <param name="highBit">The index of the highest bit to read from (exclusive).</param>
+        /// <returns>The read value shifted right by <paramref name="lowBit"/>s.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long ReadSignedBitRange(ulong value, byte lowBit, byte highBit)
+        {
+            const byte maxShift = 64;
+
+            // shift value far to the left to the highest bits
+            var shifted = value << (maxShift - highBit);
+
+            // do an unchecked cast to convert the number to a signed variant
+            // this allows us to then do an arithmetic shift (which fills copies
+            // of the highest bit when down shifted);
+            long shiftBack = unchecked((long)shifted) >> (maxShift - (highBit - lowBit));
+
+            return shiftBack;
+        }
+
+        /// <summary>
+        /// Write a signed integer into a subset of 8 bytes.
+        /// Encodes integers as two's complement.
+        /// </summary>
+        /// <param name="destination">The destination to merge the value into.</param>
+        /// <param name="lowBit">The index of the lowest bit to write to(inclusive).</param>
+        /// <param name="highBit">The index of the highest bit to write to(exclusive).</param>
+        /// <param name="value">The value to write.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void WriteSignedBitRange(ref ulong destination, byte lowBit, byte highBit, long value)
+        {
+            ulong mask = ((1ul << (highBit - lowBit)) - 1ul) << lowBit;
+
+            // shift value into right spot
+            // only keep bits in range of int width
+            // the mask wipes out higher order bits - which are set for negative values
+            ulong shifted = (unchecked((ulong)value) << lowBit) & mask;
+
+            // zero out destiantion bits and merge with existing value
+            destination = (destination & ~mask) | shifted;
+        }
+
+        // intrinsically flawed since we can't represent -0 (negative 0) in C#
+        ///// <summary>
+        ///// Read a signed integer out of a subset of 8 bytes.
+        ///// Assumes integers are encoded in the sign-magnitude format.
+        ///// </summary>
+        ///// <param name="value">The 8 byte ulong to read from.</param>
+        ///// <param name="lowBit">The index of the lowest bit to read from (inclusive).</param>
+        ///// <param name="highBit">The index of the highest bit to read from (exclusive).</param>
+        ///// <returns>The read value shifted right by <paramref name="lowBit"/>s.</returns>
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static long ReadSignedMagnitudeBitRange(ulong value, byte lowBit, byte highBit)
+        //{
+        //    // bit flip a mask one less than the width of the target number
+        //    ulong highMask = (1ul << (highBit - lowBit - 1)) - 1ul;
+
+        //    var shifted = (long)((value >> lowBit) & highMask);
+
+        //    // if the sign bit is set make it negative
+        //    return (value & (1ul << (highBit - 1))) != 0 ? -shifted : shifted;
+        //}
+
+        ///// <summary>
+        ///// Write a signed integer into a subset of 8 bytes.
+        ///// Encodes integers in the sign-magnitude format.
+        ///// </summary>
+        ///// <param name="destination">The destination to merge the value into.</param>
+        ///// <param name="lowBit">The index of the lowest bit to write to(inclusive).</param>
+        ///// <param name="highBit">The index of the highest bit to write to(exclusive).</param>
+        ///// <param name="value">The value to write.</param>
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static void WriteSignedMagnitudeBitRange(ref ulong destination, byte lowBit, byte highBit, long value)
+        //{
+        //    var width = highBit - lowBit;
+
+        //    ulong abs = unchecked((ulong)(value < 0 ? (~value) + 1 : value));
+
+        //    // make a sign bit
+        //    var negative = value < 0 ? 1ul << width : 0ul;
+
+        //    // make a mask full of ones the width of the target number
+        //    ulong mask = (1ul << width) - 1ul;
+
+        //    // merge our value in with the sign bit
+        //    // use the mask to wipe out higher order bits - which are only set for negative values
+        //    ulong masked = (abs | negative) & mask;
+
+        //    // shift value into right spot
+        //    ulong shifted = masked << lowBit;
+
+        //    // merge value with existing value
+        //    destination = (destination & ~mask) | shifted;
+        //}
+
+        public static bool ReadBool16LittleEndian(ReadOnlySpan<byte> bytes)
+        {
+            return BinaryPrimitives.ReadUInt16LittleEndian(bytes) switch
+            {
+                0 => false,
+                1 => true,
+                ushort u => throw new InvalidOperationException("Invalid value for a 'boolean': " + u),
+            };
+        }
+
+        /// <summary>
+        /// Deals with a weird encoding where large values are encoded as consecutive
+        /// two-byte little endian values.
+        /// </summary>
+        /// <param name="bytes">The span to read the first four bytes from.</param>
+        /// <returns>The value as an <seealso cref="uint"/>.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+
+        public static uint ReadTwoUInt16LittleEndianAsOneUInt32(ReadOnlySpan<byte> bytes)
+        {
+            // bytes in file: b0 b1 b2 b3
+            // decoding order (highest to lowest): b1 b0 b3 b2
+            return (uint)(
+              bytes[1] << 24 |
+              bytes[0] << 16 |
+              bytes[3] << 08 |
+              bytes[2]);
+        }
+
+        /// <summary>
+        /// Deals with a weird encoding where large values are encoded as consecutive
+        /// two-byte little endian values.
+        /// </summary>
+        /// <param name="bytes">The span to read the first 8 bytes from.</param>
+        /// <returns>The value as an <seealso cref="ulong"/>.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+
+        public static ulong ReadFourUInt16LittleEndianAsOneUInt64(ReadOnlySpan<byte> bytes)
+        {
+            // bytes in file: b0 b1 b2 b3 b4 b5 b6 b7
+            // decoding order (highest to lowest): b1 b0 b3 b2 b5 b4 b7 b6
+            return
+                (ulong)bytes[1] << 56 |
+                (ulong)bytes[0] << 48 |
+                (ulong)bytes[3] << 40 |
+                (ulong)bytes[2] << 32 |
+                (ulong)bytes[5] << 24 |
+                (ulong)bytes[4] << 16 |
+                (ulong)bytes[7] << 08 |
+                (ulong)bytes[6];
         }
     }
 }

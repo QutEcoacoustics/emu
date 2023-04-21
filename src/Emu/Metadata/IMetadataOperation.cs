@@ -6,8 +6,17 @@ namespace Emu.Metadata
 {
     using Emu.Models;
 
+    /// <summary>
+    /// Used to extract metadata from a target in order to populate a recording object.
+    /// </summary>
     public interface IMetadataOperation
     {
+        /// <summary>
+        /// Gets the name of this extractor - mainly used for logging at this point.
+        /// Also used to print out names of sections in the metadata dump command.
+        /// </summary>
+        string Name { get; }
+
         /// <summary>
         /// Checks if this metadata extractor is applicable to the given target.
         /// </summary>

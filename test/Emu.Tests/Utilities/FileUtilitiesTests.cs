@@ -5,16 +5,12 @@
 namespace Emu.Tests.Utilities
 {
     using System;
-    using System.Collections.Generic;
     using System.IO;
-    using System.Linq;
     using System.Numerics;
-    using System.Text;
     using System.Threading.Tasks;
     using Emu.Tests.TestHelpers;
     using Emu.Utilities;
     using FluentAssertions;
-    using Shouldly;
     using Xunit;
     using Xunit.Abstractions;
     using static Emu.Utilities.DryRun;

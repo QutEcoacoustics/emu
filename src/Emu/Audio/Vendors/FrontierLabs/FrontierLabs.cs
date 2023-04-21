@@ -11,12 +11,10 @@ namespace Emu.Audio.Vendors
     using System.Text;
     using Emu.Audio;
     using Emu.Audio.WAVE;
-    using Emu.Extensions.System;
-    using Emu.Fixes.FrontierLabs;
+    using Emu.Models;
     using Emu.Utilities;
     using LanguageExt;
     using LanguageExt.Common;
-    using NodaTime;
     using NodaTime.Text;
     using static LanguageExt.Prelude;
 
@@ -35,8 +33,6 @@ namespace Emu.Audio.Vendors
         public const string MicrophoneBuildDateCommentKey = "MicrophoneBuildDate";
         public const string MicrophoneGainCommentKey = "ChannelGain";
         public const string UnknownValueString = "unknown";
-        public const string LongitudeKey = "Longitude";
-        public const string LatitudeKey = "Latitude";
 
         public const int DefaultFileStubLength = 44;
 
@@ -67,7 +63,7 @@ namespace Emu.Audio.Vendors
             { LocationCommentKey, LocationParser },
             { LastSyncCommentKey, OffsetDateTimeParser },
             { SensorIdCommentKey, GenericParser },
-            { SdCidCommentKey, SdCidParser },
+            { SdCidCommentKey, GenericParser },
             { MicrophoneTypeCommentKey, GenericParser },
             { MicrophoneUIDCommentKey, GenericParser },
             { MicrophoneBuildDateCommentKey, DateParser },
@@ -78,7 +74,6 @@ namespace Emu.Audio.Vendors
         public static readonly Func<string, Error> FirmwareVersionInvalid = x => Error.New($"Frontier Labs firmware version `{x}` can't be parsed");
         public static readonly Func<string, Error> DateInvalid = x => Error.New($"Date `{x}` can't be parsed");
         public static readonly Func<string, Error> LocationInvalid = x => Error.New($"Location `{x}` can't be parsed");
-        public static readonly Func<string, Error> CIDInvalid = x => Error.New($"CID `{x}` can't be parsed");
         public static readonly Func<string, Error> BatteryValuesInvalid = x => Error.New($"Battery values '{x}' can't be parsed");
         public static readonly Func<string, Error> ParsingError = x => Error.New($"Value '{x}' cant' be parsed");
         public static readonly Error EmptyError = Error.New($"File is empty");
@@ -404,51 +399,31 @@ namespace Emu.Audio.Vendors
         /// <returns>A dictionary containing the coordinates.</returns>
         public static Fin<object> LocationParser(string value)
         {
-            Dictionary<string, double> location = new Dictionary<string, double>();
-
-            try
+            if (Location.TryParse(value, out var location))
             {
-                // Only keep characters relevant to coordinates
-                var parsedValue = new string(value.Where(c => char.IsDigit(c) || (new char[] { '+', '-', '.' }).Contains(c)).ToArray());
-
-                // Find index dividing lat and lon
-                int latLonDividingIndex = parsedValue.IndexOfAny(new char[] { '+', '-' }, 1);
-
-                // Parse lat and lon
-                double latitude = double.Parse(parsedValue[..latLonDividingIndex]);
-                double longitude = double.Parse(parsedValue[latLonDividingIndex..]);
-
-                location[LatitudeKey] = latitude;
-                location[LongitudeKey] = longitude;
-            }
-            catch (ArgumentOutOfRangeException)
-            {
-                return LocationInvalid(value);
+                return location;
             }
 
-            return location;
-        }
-
-        /// <summary>
-        /// Frontier Labs vorbis comment SD CID parser.
-        /// </summary>
-        /// <param name="value">The value to parse.</param>
-        /// <returns>A dictionary containing all CID values.</returns>
-        public static Fin<object> SdCidParser(string value)
-        {
-            Models.SdCardCid cid = new Models.SdCardCid(value);
-            Dictionary<string, object> cidInfo;
-
-            try
+            // firmware 3.08 or less formatted as space separated coordinates
+            if (value.Contains(' '))
             {
-                cidInfo = cid.ExtractSdInfo();
-            }
-            catch (IndexOutOfRangeException)
-            {
-                return CIDInvalid(value);
+                var split = value.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+                if (split.Length == 2
+                    && Location.TryParseLatitude(split[0], out var latitude, out var latitudePrecision)
+                    && Location.TryParseLongitude(split[1], out var longitude, out var longitudePrecision))
+                {
+                    return new Location()
+                    {
+                        Latitude = latitude,
+                        Longitude = longitude,
+                        LatitudePrecision = latitudePrecision,
+                        LongitudePrecision = longitudePrecision,
+                    };
+                }
             }
 
-            return cidInfo;
+            return LocationInvalid(value);
         }
 
         [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1008:OpeningParenthesisMustBeSpacedCorrectly", Justification = "Parentheses are valid when calculating absolute range.")]

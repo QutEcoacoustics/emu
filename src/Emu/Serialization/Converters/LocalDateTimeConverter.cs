@@ -38,11 +38,7 @@ namespace Emu.Serialization
         /// <inheritdoc />
         public override object ConvertFromString(string text, IReaderRow row, MemberMapData memberMapData)
         {
-            return text == null
-#pragma warning disable CS8604 // Possible null reference argument.
-                ? base.ConvertFromString(text, row, memberMapData)
-#pragma warning restore CS8604 // Possible null reference argument.
-                : LocalDateTimePattern.ExtendedIso.Parse(text).Value;
+            return text == null ? base.ConvertFromString(text, row, memberMapData) : LocalDateTimePattern.ExtendedIso.Parse(text).Value;
         }
     }
 }

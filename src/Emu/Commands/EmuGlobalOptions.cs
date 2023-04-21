@@ -14,8 +14,6 @@ namespace Emu
 
         public bool Clobber { get; set; }
 
-        public bool NoChecksum { get; set; }
-
         public LogLevel LogLevel { get; set; }
 
         public OutputFormat Format { get; set; }

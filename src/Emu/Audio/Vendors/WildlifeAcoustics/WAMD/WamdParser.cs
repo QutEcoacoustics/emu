@@ -6,17 +6,13 @@ namespace Emu.Audio.Vendors.WildlifeAcoustics.WAMD
 {
     using System;
     using System.Buffers.Binary;
-    using System.Diagnostics;
     using System.Text;
+    using Emu.Audio.Vendors.WildlifeAcoustics.Programs;
     using Emu.Audio.WAVE;
     using Emu.Models;
     using LanguageExt;
-    using LanguageExt.Common;
-    using Newtonsoft.Json.Converters;
     using NodaTime;
     using NodaTime.Text;
-    using UnitsNet;
-    using UnitsNet.NumberExtensions.NumberToLength;
     using UnitsNet.NumberExtensions.NumberToLuminousFlux;
     using UnitsNet.NumberExtensions.NumberToLuminousIntensity;
     using static SubChunkId;
@@ -240,9 +236,9 @@ namespace Emu.Audio.Vendors.WildlifeAcoustics.WAMD
                 TimeExpansion => wamd with { TimeExpansion = BinaryPrimitives.ReadUInt16LittleEndian(value) },
 
                 // we don't know how to parse these two, their description is opaque
-                //DevParams => wamd with { DevParams = Encoding.UTF8.GetBytes(value).ToHexString() },
+
                 //DevRunstate => wamd with { DevRunstate = Encoding.UTF8.GetBytes(value).ToHexString() },
-                DevParams => wamd with { DevParams = "<<Dev Params detected but EMU does not support parsing it>>" },
+                DevParams => wamd with { DevParams = ProgramParser.Parse(value).ThrowIfFail() },
                 DevRunstate => wamd with { DevRunstate = "<<Dev Runstate detected but EMU does not support parsing it>>" },
 
                 MicType => wamd with { MicType = ParseList<string>(GetString(value)) },

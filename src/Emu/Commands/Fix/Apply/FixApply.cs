@@ -12,12 +12,10 @@ namespace Emu
     using System.Text.RegularExpressions;
     using System.Threading.Tasks;
     using Emu.Cli;
-    using Emu.Extensions.System;
     using Emu.Fixes;
     using Emu.Utilities;
     using LanguageExt;
     using Microsoft.Extensions.Logging;
-    using Newtonsoft.Json;
     using Spectre.Console;
     using static Emu.Cli.SpectreUtils;
     using static Emu.Fixes.FixStatus;
@@ -231,7 +229,7 @@ namespace Emu
             var f = record;
             StringBuilder builder = new();
 
-            builder.AppendFormat("File {0}:\n", MarkupPath(f.File));
+            builder.Append(MarkupFileSection(f.File));
             if (f.BackupFile != null)
             {
                 builder.AppendFormat("\tBacked up to {0}", f.BackupFile.EscapeMarkup());

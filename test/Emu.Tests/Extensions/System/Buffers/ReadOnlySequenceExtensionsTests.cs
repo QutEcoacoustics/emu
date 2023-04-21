@@ -4,11 +4,8 @@
 
 namespace Emu.Tests.Extensions.System
 {
-    using FluentAssertions;
     using global::System;
     using global::System.Buffers;
-    using global::System.IO.Pipelines;
-    using global::System.Threading.Tasks;
     using Xunit;
 
     public class ReadOnlySequenceExtensionsTests

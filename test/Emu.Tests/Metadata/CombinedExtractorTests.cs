@@ -4,7 +4,6 @@
 
 namespace Emu.Tests.Metadata
 {
-    using System.Linq;
     using Emu.Metadata.FrontierLabs;
     using Emu.Models;
     using Emu.Tests.TestHelpers;

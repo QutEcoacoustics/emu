@@ -8,7 +8,6 @@ namespace Emu.Fixes
     using System.IO.Abstractions;
     using LanguageExt;
     using Newtonsoft.Json;
-    using static LanguageExt.Prelude;
 
     public partial record OperationInfo(
         WellKnownProblem Problem,

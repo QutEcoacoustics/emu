@@ -5,8 +5,6 @@
 namespace Emu.Tests.TestHelpers
 {
     using System;
-    using System.IO;
-    using System.Text;
     using FluentAssertions.Equivalency.Tracing;
     using Xunit.Abstractions;
 

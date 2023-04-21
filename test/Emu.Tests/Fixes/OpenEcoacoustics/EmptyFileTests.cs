@@ -4,7 +4,6 @@
 
 namespace Emu.Tests.Fixes.OpenEcoacoustics
 {
-    using System;
     using System.Threading.Tasks;
     using Emu.Fixes;
     using Emu.Fixes.OpenEcoacoustics;

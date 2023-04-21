@@ -5,15 +5,10 @@
 namespace Emu.Tests.Commands.Fix
 {
     using System;
-    using System.CommandLine;
     using System.IO;
-    using System.IO.Abstractions;
-    using System.Linq;
     using System.Threading.Tasks;
     using Emu.Cli;
     using Emu.Fixes;
-    using Emu.Metadata;
-    using Emu.Serialization;
     using Emu.Tests.TestHelpers;
     using Emu.Utilities;
     using FluentAssertions;
@@ -21,7 +16,6 @@ namespace Emu.Tests.Commands.Fix
     using Xunit;
     using Xunit.Abstractions;
     using static Emu.EmuCommand;
-    using static Emu.FixCheck;
 
     public class FixCheckTests
     {
@@ -33,14 +27,10 @@ namespace Emu.Tests.Commands.Fix
             public DefaultFormatTests(ITestOutputHelper output, FixtureData data)
                 : base(output, true, Emu.EmuCommand.OutputFormat.Default)
             {
-                var formatter = new AnsiConsoleFormatter(this.BuildLogger<AnsiConsoleFormatter>());
                 var writer = new OutputRecordWriter(
                     this.ServiceProvider.GetRequiredService<TextWriter>(),
-                    formatter,
+                    OutputRecordWriter.ChooseFormatter(this.ServiceProvider, this.OutputFormat),
                     new Lazy<OutputFormat>(() => this.OutputFormat));
-
-                formatter.ColorSystemSupport = Spectre.Console.ColorSystemSupport.NoColors;
-
                 this.command = new FixCheck(
                     this.BuildLogger<FixCheck>(),
                     this.ServiceProvider.GetRequiredService<FileMatcher>(),
@@ -78,7 +68,7 @@ namespace Emu.Tests.Commands.Fix
             [Fact]
             public async Task DefaultHandlesNoTargets()
             {
-                this.command.Targets = new string[] { };
+                this.command.Targets = Array.Empty<string>();
                 this.command.Fix = new string[]
                 {
                     WellKnownProblems.FrontierLabsProblems.InvalidDateStampSpaceZero.Id,

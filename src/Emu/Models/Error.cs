@@ -4,6 +4,5 @@
 
 namespace Emu.Models
 {
-    /// <inheritdoc />
-    public record Error(WellKnownProblem Problem) : Notice(Problem);
+    //public record Error(WellKnownProblem Problem) : Notice(Problem);
 }

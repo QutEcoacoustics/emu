@@ -4,13 +4,8 @@
 
 namespace Emu.Fixes.WildlifeAcoustics
 {
-    using System;
-    using System.Collections.Generic;
     using System.IO.Abstractions;
-    using System.Linq;
-    using System.Text;
     using System.Threading.Tasks;
-    using Emu.Fixes.OpenEcoacoustics;
     using Emu.Utilities;
 
     public class NoData : ICheckOperation

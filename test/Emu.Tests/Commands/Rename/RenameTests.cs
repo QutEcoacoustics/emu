@@ -462,7 +462,7 @@ namespace Emu.Tests.Commands.Rename
                 new FileMatcher(this.BuildLogger<FileMatcher>(), this.TestFiles),
                 new OutputRecordWriter(
                     this.ServiceProvider.GetRequiredService<TextWriter>(),
-                    new AnsiConsoleFormatter(this.BuildLogger<AnsiConsoleFormatter>()),
+                    new AnsiConsoleFormatter(colorSystemSupport: Spectre.Console.ColorSystemSupport.TrueColor),
                     new Lazy<EmuCommand.OutputFormat>(EmuCommand.OutputFormat.Default)),
                 this.FilenameParser,
                 this.ServiceProvider.GetRequiredService<MetadataRegister>(),

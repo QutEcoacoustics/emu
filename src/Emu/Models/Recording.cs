@@ -5,7 +5,6 @@
 namespace Emu.Models
 {
     using System.Collections.Generic;
-    using System.IO;
     using CsvHelper.Configuration.Attributes;
     using Newtonsoft.Json;
     using NodaTime;
@@ -16,20 +15,20 @@ namespace Emu.Models
     /// </summary>
     public record Recording
     {
-        private readonly string sourcePath;
+        private readonly string path;
         private readonly string directory;
 
         /// <summary>
         /// Gets the path to the filename as read by the program.
         /// </summary>
-        public string SourcePath
+        public string Path
         {
-            get => this.sourcePath;
+            get => this.path;
             init
             {
-                this.sourcePath = value;
+                this.path = value;
 #pragma warning disable IO0006 // Replace Path class with IFileSystem.Path for improved testability
-                this.directory = Path.GetDirectoryName(this.sourcePath);
+                this.directory = System.IO.Path.GetDirectoryName(this.path);
 #pragma warning restore IO0006 // Replace Path class with IFileSystem.Path for improved testability
             }
         }
@@ -46,9 +45,9 @@ namespace Emu.Models
             {
                 this.directory = value;
 #pragma warning disable IO0006 // Replace Path class with IFileSystem.Path for improved testability
-                this.sourcePath = Path.Combine(
+                this.path = System.IO.Path.Combine(
                     this.directory,
-                    Path.GetFileName(this.sourcePath));
+                    System.IO.Path.GetFileName(this.path));
 #pragma warning restore IO0006 // Replace Path class with IFileSystem.Path for improved testability
             }
         }

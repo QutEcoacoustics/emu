@@ -6,16 +6,9 @@ namespace Emu.Fixes.FrontierLabs
 {
     using System;
     using System.Buffers.Binary;
-    using System.Collections.Generic;
-    using System.Diagnostics;
     using System.IO;
     using System.IO.Abstractions;
-    using System.Linq;
-    using System.Runtime.InteropServices;
-    using System.Text;
-    using System.Text.RegularExpressions;
     using System.Threading.Tasks;
-    using Emu.Audio;
     using Emu.Audio.WAVE;
     using Emu.Utilities;
     using Range = Emu.Audio.RangeHelper.Range;

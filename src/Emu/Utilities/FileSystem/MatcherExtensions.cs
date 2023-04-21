@@ -24,7 +24,7 @@ namespace Emu.Utilities.FileSystem
         /// </remarks>
         public static IEnumerable<string> GetResultsInFullPath(this Matcher matcher, IFileSystem fileSystem, string directoryPath)
         {
-            var directory = fileSystem.DirectoryInfo.FromDirectoryName(directoryPath);
+            var directory = fileSystem.DirectoryInfo.New(directoryPath);
             var wrapper = new DirectoryInfoBaseAbstractionAdapter(directory);
             IEnumerable<FilePatternMatch> matches = matcher.Execute(wrapper).Files;
             string[] result = matches.Select(match => fileSystem.Path.GetFullPath(fileSystem.Path.Combine(directoryPath, match.Path))).ToArray();

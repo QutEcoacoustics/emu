@@ -4,13 +4,8 @@
 
 namespace Emu.Filenames
 {
-    using System.IO.Abstractions;
-    using System.Text;
-    using Emu.Dates;
     using Emu.Models;
-    using LanguageExt;
     using NodaTime;
-    using static LanguageExt.Prelude;
 
     /// <summary>
     /// Represents the information extracted from a filename.

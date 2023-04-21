@@ -1,9 +1,41 @@
-# Metadata Files
+# Metadata
 
-This document outlines all of the files from which we hope to extract metadata.
+The metadata commands in EMU are focused on manipulating and converting the various
+metadata formats that exist.
 
+The `metadata` command shows metadata gathered from audio files
+**and** support files, in one consistent format.
+
+The `metadata` command also has these subcommands:
+
+- `show`: an alias for `metadata`
+- `dump`: shows metadata from audio files only (no support files) in a low-level format
+  - `dump` can show you more data but with less consistency - the names and values shown
+    are (mostly) chosen by the vendor.
+  - Dump currently supports;
+    - Frontier Labs FLAC comments
+    - Wildlife Acoustics WAMD blocks (and the embedded schedules!)
+<!-- - `split`: splits metadata blocks into sidecar files
+- `embed`: embeds metadata blocks into audio files
+- `strip`: removes metadata blocks from audio files
+- `edit`: edits metadata blocks in audio files -->
+
+The metadata commands (mostly) support all the same formats as out other commands.
+See [output](./output.md) for more information.
 
 ## Examples
+
+### Show the metadata in a pretty format for the EMU test dataset
+
+```sh
+> emu metadata ./test/Fixtures
+```
+
+Sample results:
+
+| WA SongMeter                                    | FL BAR                                             |
+| ----------------------------------------------- | -------------------------------------------------- |
+| ![SM4BAT metadata](media/metadata_show_sm4.png) | ![BAR LT metadata](media/metadata_show_bar_lt.png) |
 
 ### Extract all metadata from all wave files in an external HHD. Save the result into a CSV file
 
@@ -12,6 +44,34 @@ This document outlines all of the files from which we hope to extract metadata.
 ...
 ```
 
+### Show low-level metadata in pretty format for all audio in the EMU test dataset
+
+```sh
+> emu metadata dump ./test/Fixtures
+...
+```
+
+Sample results:
+
+| WA SongMeter 3                              | WA SongMeter 4                               | FL BAR                                            |
+| ------------------------------------------- | -------------------------------------------- | ------------------------------------------------- |
+| [SM3 metadata](media/metadata_dump_sm3.png) | ![SM4 metadata](media/metadata_dump_sm4.png) | ![BAR LT metadata](media/metadata_dump_barlt.png) |
+
+## Definitions
+
+- All values are normalized to SI units where possible
+  - any duration not explicitly formatted in the sexagesimal format (`HH:mm:ss`) will be in `seconds`
+  - data sizes will always be in `bytes`
+  - frequency will always be in `hertz`
+  - energy will always be in `joules`
+- Gain is the amount of amplification applied to the signal. It is measured in dB
+  - The sensor can have a global gain setting
+  - Each microphone/channel can have a gain setting
+- Sensitivity is a calibration value applied to a microphone.
+  It allows sample intensity to be converted back to a real physical quantity.
+  Sensitivity settings do not affect how a recording is made.
+  Sensitivity should be measured in relation to the microphone and sensor.
+  Values reported are in dB.
 
 ## Supported metadata
 
@@ -130,22 +190,37 @@ Notes:
 
 #### Song Meter SM4/SM4BAT/SM3
 
-| Name                     | Supported | Location(s)  | Notes                             | Field          | Units             |
-| ------------------------ | --------- | ------------ | --------------------------------- | -------------- | ----------------- |
-| Date Time                | ✔️         | Name, Header |                                   | LocalStartDate |                   |
-| High Precision Date Time | ✔️         | Name, Header |                                   | StartDate      |                   |
-| Sensor Make              | ✔️         | Header       |                                   |                |                   |
-| Sensor Model             | ✔️         | Header       |                                   |                |                   |
-| Sensor Name              | ✔️         | Header       |                                   |                |                   |
-| Firmware                 | ✔️         | Header       |                                   |                |                   |
-| Serial Number            | ✔️         | Header       |                                   |                |                   |
-| Longitude                | ✔️         | Header       |                                   |                |                   |
-| Latitude                 | ✔️         | Header       |                                   |                |                   |
-| Temperature (internal)   | ✔️         | Header       |                                   |                | °C                |
-| Temperature (external)   | ❔         | Header       | No test files currently available |                | °C                |
-| Light                    | ❔         | Header       | No test files currently available |                | Candela           |
-| Humidity                 | ❔         | Header       | No test files currently available |                | relative humidity |
-| Battery Voltage          | ❌         | Support      | Summary file, need examples!      |                |                   |
+| Name                     | Supported | Location(s)  | Notes                                   | Field                  | Units             |
+| ------------------------ | --------- | ------------ | --------------------------------------- | ---------------------- | ----------------- |
+| Date Time                | ✔️         | Name, Header |                                         | LocalStartDate         |                   |
+| High Precision Date Time | ✔️         | Name, Header |                                         | StartDate              |                   |
+| Sensor Make              | ✔️         | Header       |                                         |                        |                   |
+| Sensor Model             | ✔️         | Header       |                                         |                        |                   |
+| Sensor Name              | ✔️         | Header       |                                         |                        |                   |
+| Firmware                 | ✔️         | Header       |                                         |                        |                   |
+| Serial Number            | ✔️         | Header       |                                         |                        |                   |
+| Longitude                | ✔️         | Header       |                                         |                        |                   |
+| Latitude                 | ✔️         | Header       |                                         |                        |                   |
+| Temperature (internal)   | ✔️         | Header       |                                         |                        | °C                |
+| Temperature (external)   | ❔         | Header       | No test files currently available       |                        | °C                |
+| Light                    | ❔         | Header       | No test files currently available       |                        | Candela           |
+| Humidity                 | ❔         | Header       | No test files currently available       |                        | relative humidity |
+| Battery Voltage          | ❌         | Support      | Summary file, need examples!            |                        |                   |
+| WAMD metadata block      | ✔️ish      | Header       | Most fields supported                   |                        |                   |
+| Embedded schedule        | ✔️         | Header       | The schedule used to program the sensor |                        |                   |
+| Microphone Gain          | ✔️         | Header       | See notes                               | Microphone.Gain        | dB                |
+| Microphone Sensitivity   | ✔️         | Header       | See notes                               | Microphone.Sensitivity | dB                |
+
+Notes: 
+
+- Microphone gain is determined from the embedded schedule file that was used to create a recording
+  - ON SM4s the value is `(Preamp On? ? 26 dB : 0 ) + Gain` per channel
+    -  Unless an external microphone is used as the preamp only applies to the internal microphone
+  - ON SM3s the value is 
+    - the first and only GAIN entry in the schedule (otherwise fail)
+    - the value of GAIN entry if specified in dB, or
+    - if the GAIN value is set to automatic then the value is 24 dB IFF the microphone is not a hydrophone,
+      as per page 36 of the [SM3 manual](https://www.wildlifeacoustics.com/uploads/user-guides/SM3-USER-GUIDE-20200805.pdf).
 
 #### Song Meter Mini
 

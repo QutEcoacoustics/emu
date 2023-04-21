@@ -4,6 +4,7 @@
 
 namespace Emu.Audio.Vendors.WildlifeAcoustics.WAMD
 {
+    using Emu.Audio.Vendors.WildlifeAcoustics.Programs;
     using Emu.Models;
     using LanguageExt;
     using NodaTime;
@@ -42,7 +43,13 @@ namespace Emu.Audio.Vendors.WildlifeAcoustics.WAMD
 
         public ushort? TimeExpansion { get; init; }
 
-        public string DevParams { get; init; }
+        /// <summary>
+        /// Gets the schedule for sensor that was used to create this file.
+        /// </summary>
+        /// <remarks>
+        /// This is an embedded PGM or SM4S file.
+        /// </remarks>
+        public SongMeterProgram DevParams { get; init; }
 
         public string DevRunstate { get; init; }
 

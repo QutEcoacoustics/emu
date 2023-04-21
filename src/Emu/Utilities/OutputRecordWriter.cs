@@ -33,18 +33,23 @@ namespace Emu.Utilities
             (provider) =>
             {
                 var options = provider.GetRequiredService<Lazy<OutputFormat>>();
-                return options.Value switch
-                {
-                    OutputFormat.Default => provider.GetRequiredService<AnsiConsoleFormatter>(),
-                    OutputFormat.Compact => provider.GetRequiredService<ToStringFormatter>(),
-                    OutputFormat.JSON => provider.GetRequiredService<JsonSerializer>(),
-                    OutputFormat.JSONL => provider.GetRequiredService<JsonLinesSerializer>(),
-                    OutputFormat.CSV => provider.GetRequiredService<CsvSerializer>(),
-                    _ => throw new InvalidOperationException(),
-                };
+                return ChooseFormatter(provider, options.Value);
             };
 
         public OutputFormat OutputFormat => this.outputFormat;
+
+        public static IRecordFormatter ChooseFormatter(IServiceProvider provider, OutputFormat format)
+        {
+            return format switch
+            {
+                OutputFormat.Default => provider.GetRequiredService<AnsiConsoleFormatter>(),
+                OutputFormat.Compact => provider.GetRequiredService<ToStringFormatter>(),
+                OutputFormat.JSON => provider.GetRequiredService<JsonSerializer>(),
+                OutputFormat.JSONL => provider.GetRequiredService<JsonLinesSerializer>(),
+                OutputFormat.CSV => provider.GetRequiredService<CsvSerializer>(),
+                _ => throw new InvalidOperationException(),
+            };
+        }
 
         public void WriteHeader<T>(T header)
         {
@@ -88,6 +93,8 @@ namespace Emu.Utilities
             {
                 return;
             }
+
+            GC.SuppressFinalize(this);
 
             // don't write a footer if a header was never written
             if (this.formatterContext != null)

@@ -55,8 +55,8 @@ namespace Emu.Tests.Utilities
 
             var records = jsonSerializer.Deserialize<Recording>(new StringReader(actual)).ToArray();
 
-            Assert.Equal(records[0].SourcePath, a.SourcePath);
-            Assert.Equal(records[1].SourcePath, b.SourcePath);
+            Assert.Equal(records[0].Path, a.Path);
+            Assert.Equal(records[1].Path, b.Path);
         }
 
         [Fact]
@@ -74,7 +74,7 @@ namespace Emu.Tests.Utilities
 
             // check the header was written
             var actual = stringBuilder.ToString();
-            Assert.StartsWith($"{nameof(Recording.SourcePath)},", actual);
+            Assert.StartsWith($"{nameof(Recording.Path)},", actual);
             Assert.Contains(a.ExpectedDurationSeconds?.TotalSeconds.ToString(), actual);
 
             // generate and write another fake
@@ -85,14 +85,14 @@ namespace Emu.Tests.Utilities
             output.Dispose();
 
             actual = stringBuilder.ToString();
-            Assert.StartsWith($"{nameof(Recording.SourcePath)},", actual);
-            Assert.Single(Regex.Matches(actual, $"{nameof(Recording.SourcePath)},"));
+            Assert.StartsWith($"{nameof(Recording.Path)},", actual);
+            Assert.Single(Regex.Matches(actual, $"{nameof(Recording.Path)},"));
             Assert.Contains(a.ExpectedDurationSeconds?.TotalSeconds.ToString(), actual);
 
             var records = csvSerializer.Deserialize<Recording>(new StringReader(actual)).ToArray();
 
-            Assert.Equal(records[0].SourcePath, a.SourcePath);
-            Assert.Equal(records[1].SourcePath, b.SourcePath);
+            Assert.Equal(records[0].Path, a.Path);
+            Assert.Equal(records[1].Path, b.Path);
         }
     }
 }

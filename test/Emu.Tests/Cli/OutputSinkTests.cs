@@ -5,7 +5,6 @@
 namespace Emu.Tests.Cli
 {
     using System;
-    using System.IO.Abstractions.TestingHelpers;
     using System.Linq;
     using Emu.Cli;
     using Emu.Tests.TestHelpers;

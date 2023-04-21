@@ -6,12 +6,7 @@ namespace Emu.Tests.Fixes.FrontierLabs
 {
     using System;
     using System.Collections.Generic;
-    using System.IO;
-    using System.IO.Abstractions;
-    using System.Security.Cryptography;
-    using System.Text;
     using System.Threading.Tasks;
-    using Bogus.DataSets;
     using Emu.Audio;
     using Emu.Filenames;
     using Emu.Fixes;
@@ -21,17 +16,12 @@ namespace Emu.Tests.Fixes.FrontierLabs
     using Emu.Utilities;
     using FluentAssertions;
     using LanguageExt;
-    using LanguageExt.ClassInstances;
-    using LanguageExt.Common;
     using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Logging;
     using Newtonsoft.Json;
     using Xunit;
     using Xunit.Abstractions;
     using static Emu.Audio.Vendors.FrontierLabs;
-    using static Emu.Fixes.FrontierLabs.MetadataDurationBug;
     using static Emu.Tests.TestHelpers.FixtureModel;
-    using static Emu.Utilities.DryRun;
 
     public class PartialFileRepairTests : TestBase, IClassFixture<FixtureData>
     {
@@ -312,7 +302,7 @@ namespace Emu.Tests.Fixes.FrontierLabs
             {
                 var fragment = path + ".truncated_part";
                 this.CurrentFileSystem.File.Exists(fragment).Should().BeTrue($"{fragment} should exist");
-                this.CurrentFileSystem.FileInfo.FromFileName(fragment).Length.Should().Be(fileSizeDelta);
+                this.CurrentFileSystem.FileInfo.New(fragment).Length.Should().Be(fileSizeDelta);
             }
 
             var actualSamples = await Flac.ReadTotalSamples(stream).ToEitherAsync().MapLeft(e => e.Message);

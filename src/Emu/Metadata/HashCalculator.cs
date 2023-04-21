@@ -4,7 +4,6 @@
 
 namespace Emu.Metadata
 {
-    using System.Security.Cryptography;
     using System.Threading.Tasks;
     using Emu.Models;
     using Emu.Utilities;
@@ -17,6 +16,8 @@ namespace Emu.Metadata
         {
             this.fileUtilities = fileUtilities;
         }
+
+        public string Name => nameof(HashCalculator);
 
         public ValueTask<bool> CanProcessAsync(TargetInformation information)
         {

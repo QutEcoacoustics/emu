@@ -4,13 +4,8 @@
 
 namespace Emu.Audio
 {
-    using System.Buffers;
-    using System.Buffers.Binary;
-    using System.Collections.Specialized;
-    using System.Runtime.InteropServices;
-    using System.Text;
     using Emu.Audio.Formats.FLAC;
-    using InvertedTomato.IO;
+    using InvertedTomato.Crc;
     using LanguageExt;
     using LanguageExt.Common;
     using static System.Collections.Specialized.BitVector32;
