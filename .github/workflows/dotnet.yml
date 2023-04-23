@@ -13,7 +13,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        # we have to use a larger runner because the default windows runner 
+        # only comes with 14GB working disk which we well and truly fill now.
+        # part of the problem is that git keeps a copy of all lfs files in the
+        # index as well as rehydrated in the repo which effectively double the size.
+        os: [ubuntu-latest, windows-latest-larger, macos-latest]
 
     runs-on: ${{ matrix.os }}
 
