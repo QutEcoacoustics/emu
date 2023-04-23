@@ -286,7 +286,7 @@ namespace Emu.Fixes.FrontierLabs
                 () => Flac.WriteTotalSamples(stream, newSamples),
                 () => Fin<Unit>.Succ(default));
 
-            using var fragementStream = this.fileSystem.File.OpenWrite(fragmentPath);
+            using var fragementStream = this.fileUtilities.FileOpenWrite(fragmentPath, dryRun);
             this.logger.LogDebug(
                 "Truncating file from {old} to {new}, fragment written to {fragment}",
                 stream.Length,

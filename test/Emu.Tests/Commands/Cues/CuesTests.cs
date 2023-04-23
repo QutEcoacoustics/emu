@@ -13,6 +13,7 @@ namespace Emu.Tests.Commands.Cues
     using Emu.Tests.TestHelpers;
     using Emu.Utilities;
     using FluentAssertions;
+    using MoreLinq;
     using Rationals;
     using Xunit;
     using Xunit.Abstractions;
@@ -114,6 +115,8 @@ namespace Emu.Tests.Commands.Cues
                 var cueFile = info.GetFiles("*.cue.txt").Single();
                 return this.CurrentFileSystem.File.ReadAllText(cueFile.FullName);
             }
+
+            targets.ForEach(x => x.Dispose());
         }
     }
 }
