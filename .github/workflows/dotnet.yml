@@ -21,7 +21,9 @@ jobs:
       # https://github.com/nschloe/action-cached-lfs-checkout
       - name: Checkout code
         uses: nschloe/action-cached-lfs-checkout@v1.1.2
-
+      - name: Get drive info
+        shell: pwsh
+        run: Get-PSDrive
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
