@@ -491,8 +491,8 @@ namespace Emu.Audio
                 }
 
                 lastBlock = (buffer[0] >> 7) == 1;
-                blockType = BinaryHelpers.Read7BitUnsignedBigEndianIgnoringFirstBit(buffer[..BlockTypeLength]);
-                var length = BinaryHelpers.Read24bitUnsignedBigEndian(buffer[BlockTypeLength..]);
+                blockType = BinaryHelpers.Read7BitUnsignedBigEndianIgnoringFirstBit(buffer.AsSpan()[..BlockTypeLength]);
+                var length = BinaryHelpers.Read24bitUnsignedBigEndian(buffer.AsSpan()[BlockTypeLength..]);
 
                 yield return new MetadataBlock(
                     (MetadataBlockType)blockType,

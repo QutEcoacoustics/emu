@@ -39,7 +39,7 @@ namespace Emu.Utilities
         {
             if (this.IsDryRun)
             {
-                this.logger.LogInformation("would " + message);
+                this.logger.LogInformation("would {message}", message);
                 return dryCallback is null ? default : dryCallback();
             }
             else
@@ -52,7 +52,7 @@ namespace Emu.Utilities
         {
             if (this.IsDryRun)
             {
-                this.logger.LogInformation("would " + message);
+                this.logger.LogInformation("would {message}", message);
                 if (dryCallback is null)
                 {
                     return default;
@@ -72,7 +72,7 @@ namespace Emu.Utilities
         {
             if (this.IsDryRun)
             {
-                this.logger.LogInformation("would " + message);
+                this.logger.LogInformation("would {message}", message);
                 if (dryCallback is not null)
                 {
                     dryCallback();
@@ -88,7 +88,7 @@ namespace Emu.Utilities
         {
             if (this.IsDryRun)
             {
-                this.logger.LogInformation("would " + message);
+                this.logger.LogInformation("would {message}", message);
                 if (dryCallback is not null)
                 {
                     await dryCallback();
