@@ -216,8 +216,9 @@ namespace Emu.Tests.Fixes.FrontierLabs
         public async Task IsIdempotant(TestCase test)
         {
             var fixture = this.data[test.FixtureName];
-            using var target = TempFile.DuplicateExistingDirectory(fixture.AbsoluteFixturePath);
-            var path = target.Path;
+            using var tempDir = TempDir.DuplicateExistingDirectory(fixture.AbsoluteFixtureDirectory);
+            var path = this.RealFileSystem.Path.Join(tempDir.Path, fixture.Record.Name);
+
             var dryRun = this.DryRunFactory(false);
 
             await this.AssertMetadataBefore(test, path);

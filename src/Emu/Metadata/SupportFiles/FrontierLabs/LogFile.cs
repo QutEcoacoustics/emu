@@ -135,9 +135,9 @@ namespace Emu.Metadata.SupportFiles.FrontierLabs
             {
                 var file = TargetInformation.KnownSupportFiles[knownSupportFilePaths.ToList().IndexOf(log)];
 
-                if (file is LogFile)
+                if (file is LogFile f)
                 {
-                    return (LogFile)file;
+                    return f;
                 }
             }
             else

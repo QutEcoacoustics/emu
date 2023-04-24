@@ -9,12 +9,14 @@ namespace Emu.Tests.Commands.Rename
     using System.Linq;
     using System.Threading.Tasks;
     using Emu.Commands.Rename;
+    using Emu.Dates;
     using Emu.Filenames;
     using Emu.Metadata;
     using Emu.Serialization;
     using Emu.Tests.TestHelpers;
     using Emu.Utilities;
     using FluentAssertions;
+    using MoreLinq;
     using NodaTime;
     using Xunit;
     using Xunit.Abstractions;
@@ -480,6 +482,65 @@ namespace Emu.Tests.Commands.Rename
                 .Should()
                 .BeEquivalentTo(
                     this.ResolvePaths("/20221010T010000Z_REC_-38.36231+145.31787.wav"));
+        }
+
+        public class RealFileSystemRenameTests : TestBase
+        {
+            public RealFileSystemRenameTests(ITestOutputHelper output)
+                : base(output, realFileSystem: true)
+            {
+            }
+
+            /// <summary>
+            /// https://github.com/QutEcoacoustics/emu/issues/348.
+            /// </summary>
+            [Fact]
+            public async Task MultipleRenamesDoNotTriggerFileInUseException()
+            {
+                // arrange
+                var fixture = new FixtureData()[FixtureModel.Sm4BatNormal1];
+
+                const int size = 10;
+                using var tempDir = new TempDir();
+                var expected = new string[size];
+                foreach (var i in (0..size).Step())
+                {
+                    var date = DateFormatting.CompactOffsetDatePattern.Format(fixture.Record.StartDate.Value);
+                    expected[i] = $"{i}_{date}{fixture.Record.Extension}";
+                    tempDir.CopyInExisiting(fixture.AbsoluteFixturePath, $"{i}.wav");
+                }
+
+                var command = new Rename(
+                    this.BuildLogger<Rename>(),
+                    this.DryRunFactory,
+                    this.CurrentFileSystem,
+                    this.ServiceProvider.GetRequiredService<FileMatcher>(),
+                    this.GetOutputRecordWriter(),
+                    this.FilenameParser,
+                    this.ServiceProvider.GetRequiredService<MetadataRegister>(),
+                    this.ServiceProvider.GetRequiredService<FilenameGenerator>())
+                {
+                    Targets = (tempDir.Path + "/*.wav").AsArray(),
+                    ScanMetadata = true,
+                    Template = "{Stem}_{StartDate}{Extension}",
+                };
+
+                // act
+
+                // before patch made for this test
+                // Unhandled exception: System.IO.IOException: The process cannot access the file because it is being used by another process.
+                // would be thrown
+                var result = await command.InvokeAsync(null);
+
+                // assert
+                result.Should().Be(0);
+
+                this.RealFileSystem.Directory
+                    .GetFiles(tempDir.Path)
+                    .Select(f => this.RealFileSystem.Path.GetFileName(f))
+                    .Should()
+                    .BeEquivalentTo(expected);
+            }
         }
     }
 }

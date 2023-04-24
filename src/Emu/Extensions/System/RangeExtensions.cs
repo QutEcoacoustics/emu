@@ -43,5 +43,13 @@ namespace System
             var max = ranges.Select(r => r.End.Value).Max();
             return new Range(min, max);
         }
+
+        public static IEnumerable<int> Step(this Range range, int by = 1)
+        {
+            for (var i = range.Start.Value; i < range.End.Value; i += by)
+            {
+                yield return i;
+            }
+        }
     }
 }

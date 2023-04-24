@@ -319,7 +319,7 @@ namespace Emu.Commands.Rename
 
             this.logger.LogDebug("Doing extended metadata scan");
 
-            var target = new TargetInformation(this.fileSystem, transform.Base, transform.Data.Path);
+            using var target = new TargetInformation(this.fileSystem, transform.Base, transform.Data.Path);
 
             SupportFile.FindSupportFiles(transform.Base, target.AsEnumerable(), this.fileSystem);
 
