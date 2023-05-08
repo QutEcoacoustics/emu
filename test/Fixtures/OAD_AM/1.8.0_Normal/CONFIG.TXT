@@ -1,0 +1,37 @@
+Device ID                       : 24F3190361DA3578
+Firmware                        : AudioMoth-Firmware-Basic (1.8.0)
+
+Time zone                       : UTC+10
+
+Sample rate (Hz)                : 48000
+Gain                            : Medium
+
+Sleep duration (s)              : 270
+Recording duration (s)          : 30
+
+Active recording periods        : 1
+
+Recording period 1              : 00:00 - 24:00 (UTC)
+
+Earliest recording time         : ---------- --:--:--
+Latest recording time           : ---------- --:--:--
+
+Filter                          : -
+
+Trigger type                    : -
+Threshold setting               : -
+Minimum trigger duration (s)    : -
+
+Enable LED                      : Yes
+Enable low-voltage cut-off      : Yes
+Enable battery level indication : Yes
+
+Always require acoustic chime   : No
+Use daily folder for WAV files  : Yes
+
+Disable 48Hz DC blocking filter : No
+Enable energy saver mode        : No
+Enable low gain range           : No
+
+Enable magnetic switch          : No
+Enable GPS time setting         : No

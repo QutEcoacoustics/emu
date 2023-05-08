@@ -74,12 +74,6 @@ namespace Emu.Metadata
         /// </summary>
         public Dictionary<string, SupportFile> TargetSupportFiles { get; } = new Dictionary<string, SupportFile>();
 
-        /// <summary>
-        /// Gets list of each identified support file
-        /// Support files are log files, configuration files, etc.
-        /// </summary>
-        public static List<SupportFile> KnownSupportFiles { get; } = new List<SupportFile>();
-
         public IFileSystem FileSystem => this.fileSystem;
 
         /// <summary>
@@ -89,9 +83,9 @@ namespace Emu.Metadata
         public bool CheckPredicate(Func<TargetInformation, bool> predicate)
         {
             ArgumentNullException.ThrowIfNull(predicate);
-            if (this.Predicates.ContainsKey(predicate))
+            if (this.Predicates.TryGetValue(predicate, out var value))
             {
-                return this.Predicates[predicate];
+                return value;
             }
 
             var result = predicate.Invoke(this);
@@ -107,9 +101,9 @@ namespace Emu.Metadata
         public async ValueTask<bool> CheckPredicateAsync(Func<TargetInformation, ValueTask<bool>> predicate)
         {
             ArgumentNullException.ThrowIfNull(predicate);
-            if (this.Predicates.ContainsKey(predicate))
+            if (this.Predicates.TryGetValue(predicate, out var value))
             {
-                return this.Predicates[predicate];
+                return value;
             }
 
             var result = await predicate.Invoke(this);

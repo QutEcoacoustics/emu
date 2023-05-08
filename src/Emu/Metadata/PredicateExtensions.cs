@@ -5,9 +5,11 @@
 namespace Emu.Metadata;
 
 using Emu.Audio;
+using Emu.Audio.Vendors.OpenAcousticDevices;
 using Emu.Audio.Vendors.WildlifeAcoustics.WAMD;
 using Emu.Audio.WAVE;
 using Emu.Metadata.SupportFiles.FrontierLabs;
+using Emu.Metadata.SupportFiles.OpenAcousticDevices;
 
 public static class PredicateExtensions
 {
@@ -36,6 +38,11 @@ public static class PredicateExtensions
         return target.CheckPredicate(Predicates.HasBarltLogFile);
     }
 
+    public static bool HasOadConfigFile(this TargetInformation target)
+    {
+        return target.CheckPredicate(Predicates.HasOadConfigFile);
+    }
+
     public static bool IsPreallocatedHeader(this TargetInformation target)
     {
         return target.CheckPredicate(Predicates.IsPreallocatedHeader);
@@ -44,6 +51,11 @@ public static class PredicateExtensions
     public static bool HasVersion1WamdChunk(this TargetInformation target)
     {
         return target.CheckPredicate(Predicates.HasVersion1WamdChunk);
+    }
+
+    public static bool HasAudioMothListChunk(this TargetInformation target)
+    {
+        return target.CheckPredicate(Predicates.HasAudioMothListChunk);
     }
 
     // an example of an async predicate extension method.
@@ -66,6 +78,9 @@ public static class PredicateExtensions
         public static readonly Func<TargetInformation, bool> HasBarltLogFile =
             target => target.TargetSupportFiles.ContainsKey(LogFile.LogFileKey);
 
+        public static readonly Func<TargetInformation, bool> HasOadConfigFile =
+            target => target.TargetSupportFiles.ContainsKey(ConfigFile.Key);
+
         public static readonly Func<TargetInformation, bool> HasFrontierLabsVorbisComment =
             target => Audio.Vendors.FrontierLabs.HasFrontierLabsVorbisComment(target.FileStream).IfFail(false);
 
@@ -74,6 +89,9 @@ public static class PredicateExtensions
 
         public static readonly Func<TargetInformation, bool> HasVersion1WamdChunk =
             target => WamdParser.HasVersion1WamdChunk(target.FileStream).IfFail(false);
+
+        public static readonly Func<TargetInformation, bool> HasAudioMothListChunk =
+            target => AudioMothMetadataParser.HasAudioMothListChunk(target.FileStream).IfFail(false);
 
         // An example of an async predicate
         // public static readonly Func<TargetInformation, ValueTask<bool>> IsFlacFile2 =

@@ -13,6 +13,7 @@ namespace Emu.Cli.ObjectFormatters
     using System.Linq;
     using System.Text;
     using Emu.Dates;
+    using Emu.Models.Notices;
     using LanguageExt;
     using NodaTime;
     using Spectre.Console;
@@ -28,6 +29,12 @@ namespace Emu.Cli.ObjectFormatters
         public void Print(StringBuilder builder, object record, Options options = default)
         {
             ArgumentNullException.ThrowIfNull(nameof(builder));
+
+            if (record == null)
+            {
+                return;
+            }
+
             var values = SimplifyObject(record);
 
             var (indent, except, keyPrefix) = options;
@@ -107,6 +114,7 @@ namespace Emu.Cli.ObjectFormatters
                 Offset o => DateFormatting.OffsetPattern.Format(o),
                 Enum e => e.GetEnumMemberValueOrDefault(),
                 Range r => r.Start.ToString() + ".." + r.End.ToString(),
+                Notice notice => notice.ToString("G", CultureInfo.InvariantCulture),
 
                 // recursive!
                 IEither e => e.MatchUntyped(right => this.FormatValue(right, name), left => this.FormatValue(left, name)),
@@ -163,7 +171,12 @@ namespace Emu.Cli.ObjectFormatters
             null => (false, false),
             IEither => (false, false),
             IEnumerable<KeyValuePair<string, object>> => (true, true),
-            IEnumerable => (true, IsRecord((value as IReadOnlyCollection<object>)?.FirstOrDefault())),
+
+            // I think this was casting to IReadOnlyCollection so we wouldn't treat things like strings as collections?
+            // But we filter for string above, and
+            // it omits too many other collection types. Trialing IEnumerable
+            //IEnumerable => (true, IsRecord((value as IReadOnlyCollection<object>)?.FirstOrDefault())),
+            IEnumerable => (true, IsRecord((value as IEnumerable<object>)?.FirstOrDefault())),
 
             _ => (false, false),
         };

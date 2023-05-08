@@ -41,6 +41,9 @@ namespace Emu.Cli
         {
             if (this.options.Output is null)
             {
+                // force UTF-8 output to show higher order characters correctly
+                Console.OutputEncoding = System.Text.Encoding.UTF8;
+
                 // IConsole does not expose access to the text writer!
                 return Console.Out;
             }
@@ -72,7 +75,7 @@ namespace Emu.Cli
                     }
                 }
 
-                return new StreamWriter(file.OpenWrite());
+                return new StreamWriter(file.OpenWrite(), System.Text.Encoding.UTF8);
             }
         }
     }

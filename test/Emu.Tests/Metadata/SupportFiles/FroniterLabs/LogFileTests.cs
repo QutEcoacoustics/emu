@@ -29,7 +29,7 @@ namespace Emu.Tests.Metadata.SupportFiles
         {
             if (model.Process.ContainsKey(FixtureModel.FrontierLabsLogFileExtractor))
             {
-                var target = model.ToTargetInformation(this.CurrentFileSystem);
+                var target = this.CreateTargetInformation(model);
 
                 Assert.True(target.TargetSupportFiles.ContainsKey(LogFile.LogFileKey));
             }
@@ -41,7 +41,7 @@ namespace Emu.Tests.Metadata.SupportFiles
             var model = this.data[FixtureModel.NormalFile300];
 
             // support files are added automatically with out helper
-            var target = model.ToTargetInformation(this.CurrentFileSystem);
+            var target = this.CreateTargetInformation(model);
 
             LogFile logFile = (LogFile)target.TargetSupportFiles[LogFile.LogFileKey];
 

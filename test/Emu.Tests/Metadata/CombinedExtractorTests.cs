@@ -14,7 +14,7 @@ namespace Emu.Tests.Metadata
     public class CombinedExtractorTests : TestBase
     {
         public CombinedExtractorTests(ITestOutputHelper output)
-            : base(output)
+            : base(output, realFileSystem: true)
         {
         }
 
@@ -39,11 +39,11 @@ namespace Emu.Tests.Metadata
                     this.BuildLogger<LogFileExtractor>());
 
                 var recording = await commentExtractor.ProcessFileAsync(
-                    model.ToTargetInformation(this.RealFileSystem),
+                    this.CreateTargetInformation(model),
                     this.Recording);
 
                 recording = await logExtractor.ProcessFileAsync(
-                    model.ToTargetInformation(this.RealFileSystem),
+                    this.CreateTargetInformation(model),
                     recording);
 
                 recording.MemoryCard.SerialNumber.Should().Be(model.Record.MemoryCard.SerialNumber);

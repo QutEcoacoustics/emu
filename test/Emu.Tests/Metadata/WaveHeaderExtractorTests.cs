@@ -29,7 +29,7 @@ namespace Emu.Tests.Metadata
         [ClassData(typeof(FixtureData))]
         public async Task CanProcessFilesWorks(FixtureModel model)
         {
-            var result = await this.subject.CanProcessAsync(model.ToTargetInformation(this.RealFileSystem));
+            var result = await this.subject.CanProcessAsync(this.CreateTargetInformation(model));
 
             // we can process any WAVE file
             var expected = model.IsWave && model.ValidMetadata == ValidMetadata.Yes;
@@ -47,7 +47,7 @@ namespace Emu.Tests.Metadata
             Recording recording = new();
 
             recording = await this.subject.ProcessFileAsync(
-                model.ToTargetInformation(this.RealFileSystem),
+                this.CreateTargetInformation(model),
                 recording);
 
             recording.DurationSeconds?.Should().Be(expectedRecording.DurationSeconds);

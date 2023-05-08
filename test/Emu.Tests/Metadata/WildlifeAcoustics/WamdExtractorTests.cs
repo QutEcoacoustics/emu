@@ -26,7 +26,7 @@ namespace Emu.Tests.Metadata
         [ClassData(typeof(FixtureData))]
         public async Task CanProcessFilesWorks(FixtureModel model)
         {
-            var result = await this.subject.CanProcessAsync(model.ToTargetInformation(this.RealFileSystem));
+            var result = await this.subject.CanProcessAsync(this.CreateTargetInformation(model));
 
             // we can process any file that is Wildlife Acoustics
             var expected = model.Process.ContainsKey(FixtureModel.WamdExtractor);
@@ -40,7 +40,7 @@ namespace Emu.Tests.Metadata
             Skip.IfNot(model.ShouldProcess(FixtureModel.WamdExtractor, out var expectedRecording));
 
             var recording = await this.subject.ProcessFileAsync(
-                model.ToTargetInformation(this.RealFileSystem),
+                this.CreateTargetInformation(model),
                 new());
 
             recording.StartDate.Should().Be(expectedRecording.StartDate);

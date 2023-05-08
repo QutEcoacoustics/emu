@@ -2,7 +2,7 @@
 // All code in this file and all associated files are the copyright and property of the QUT Ecoacoustics Research Group.
 // </copyright>
 
-namespace Emu.Serialization
+namespace Emu.Serialization.Converters
 {
     using CsvHelper;
     using CsvHelper.Configuration;

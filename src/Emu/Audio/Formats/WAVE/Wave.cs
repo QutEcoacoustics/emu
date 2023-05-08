@@ -10,6 +10,7 @@ namespace Emu.Audio.WAVE
     using System.Text;
     using LanguageExt;
     using LanguageExt.Common;
+    using static LanguageExt.Prelude;
 
     // http://soundfile.sapp.org/doc/WaveFormat/
     // http://www-mmsp.ece.mcgill.ca/Documents/AudioFormats/WAVE/WAVE.html
@@ -21,6 +22,8 @@ namespace Emu.Audio.WAVE
     // https://web.archive.org/web/20081201144551/http://music.calarts.edu/~tre/PeakChunk.html
     // https://icculus.org/SDL_sound/downloads/external_documentation/wavecomp.htm
     // https://www.aelius.com/njh/wavemetatools/doc/riffmci.pdf
+    // https://www.recordingblogs.com/wiki/associated-data-list-chunk-of-a-wave-file
+    // http://www.piclist.com/techref/io/serial/midi/wave.html
     public static class Wave
     {
         public const string Mime = "audio/wave";
@@ -37,6 +40,8 @@ namespace Emu.Audio.WAVE
         public static readonly byte[] DataChunkId = "data"u8.ToArray();
         public static readonly byte[] CueChunkId = "cue "u8.ToArray();
         public static readonly byte[] InfoChunkId = "INFO"u8.ToArray();
+        public static readonly byte[] InfoArtistChunkId = "IART"u8.ToArray();
+        public static readonly byte[] InfoCommentChunkId = "ICMT"u8.ToArray();
         public static readonly byte[] ListChunkId = "LIST"u8.ToArray();
         public static readonly byte[] LabelChunkId = "labl"u8.ToArray();
         public static readonly byte[] NoteChunkId = "note"u8.ToArray();
@@ -134,22 +139,28 @@ namespace Emu.Audio.WAVE
 
         public static Fin<RangeHelper.Range> FindFormatChunk(Stream stream, RangeHelper.Range waveChunk, bool allowOutOfBounds = false)
         {
-            return ScanForChunk(stream, waveChunk, FormatChunkId, allowOutOfBounds);
+            return ScanForChunks(stream, waveChunk, FormatChunkId, allowOutOfBounds).Map(x => x.First());
         }
 
         public static Fin<RangeHelper.Range> FindDataChunk(Stream stream, RangeHelper.Range waveChunk, bool allowOutOfBounds = false)
         {
-            return ScanForChunk(stream, waveChunk, DataChunkId, allowOutOfBounds);
+            return ScanForChunks(stream, waveChunk, DataChunkId, allowOutOfBounds).Map(x => x.First());
         }
 
         public static Fin<RangeHelper.Range> FindCueChunk(Stream stream, RangeHelper.Range waveChunk)
         {
-            return ScanForChunk(stream, waveChunk, CueChunkId, false);
+            return ScanForChunks(stream, waveChunk, CueChunkId, false).Map(x => x.First());
         }
 
-        public static Fin<RangeHelper.Range> FindListChunk(Stream stream, RangeHelper.Range waveChunk)
+        public static Fin<Seq<RangeHelper.Range>> FindListChunks(Stream stream, RangeHelper.Range waveChunk)
         {
-            return ScanForChunk(stream, waveChunk, ListChunkId, false);
+            return ScanForChunks(stream, waveChunk, ListChunkId, false, limit: int.MaxValue);
+        }
+
+        public static Fin<Option<byte[]>> ReadListChunk(Stream stream, RangeHelper.Range waveChunk, byte[] chunkType)
+        {
+            return ScanForChunks(stream, waveChunk, ListChunkId, false, limit: int.MaxValue)
+                .Map(chunks => FilterListChunks(stream, chunks, chunkType));
         }
 
         public static Fin<bool> IsWaveFile(Stream stream)
@@ -240,24 +251,24 @@ namespace Emu.Audio.WAVE
         {
             var cueChunk = FindCueChunk(stream, waveChunk);
 
-            var listChunk = FindListChunk(stream, waveChunk);
+            var listChunk = ReadListChunk(stream, waveChunk, AssociatedDataListChunkId);
 
             return cueChunk.Map(c => ParseCueChunk(stream, c, listChunk));
         }
 
-        public static IReadOnlyCollection<Cue> ParseCueChunk(Stream stream, RangeHelper.Range cueRange, Fin<RangeHelper.Range> listRange)
+        public static IReadOnlyCollection<Cue> ParseCueChunk(Stream stream, RangeHelper.Range cueRange, Fin<Option<byte[]>> list)
         {
-            var data = RangeHelper.ReadRange(stream, cueRange);
+            ReadOnlySpan<byte> data = RangeHelper.ReadRange(stream, cueRange);
             uint cueCount = BinaryPrimitives.ReadUInt32LittleEndian(data);
             Debug.Assert((cueCount * Marshal.SizeOf<CuePoint>()) + sizeof(uint) == data.Length, "The cue count should be correct");
 
             var cues = MemoryMarshal.Cast<byte, CuePoint>(data[sizeof(uint)..]);
 
-            var notes = listRange.Case switch
-            {
-                RangeHelper.Range l => ParseAssociatedDataList(RangeHelper.ReadRange(stream, l)),
-                _ => Array.Empty<ICueWithText>(),
-            };
+            var notes = list
+                .Map(fin =>
+                    fin.Map(option => ParseAssociatedDataList(option)))
+                .IfFail(None)
+                .IfNone(new AssociatedDataList(new List<ICueWithText>()));
 
             // now associate everthing
             var result = new Cue[cues.Length];
@@ -265,7 +276,7 @@ namespace Emu.Audio.WAVE
             {
                 var cue = cues[i];
 
-                var matching = notes.Where(note => note.CuePointId == cue.ID);
+                var matching = notes.Entries.Where(note => note.CuePointId == cue.ID);
                 var label = matching.FirstOrDefault(x => x is LabelChunk)?.Text;
                 var note = matching.FirstOrDefault(x => x is NoteChunk)?.Text;
                 var text = matching.FirstOrDefault(x => x is LabelledTextChunk)?.Text;
@@ -276,63 +287,29 @@ namespace Emu.Audio.WAVE
             return result.ToArray();
         }
 
-        public static IReadOnlyCollection<ICueWithText> ParseAssociatedDataList(ReadOnlySpan<byte> bytes)
+        public static Fin<List> ParseListChunk(ReadOnlySpan<byte> bytes)
         {
-            // List type should always be `adtl`
-            if (!bytes[0..ChunkIdLength].SequenceEqual(AssociatedDataListChunkId))
+            var listType = bytes[0..ChunkIdLength];
+            return listType switch
             {
-                return Array.Empty<ICueWithText>();
+                _ when listType.SequenceEqual(AssociatedDataListChunkId) => (List)ParseAssociatedDataList(bytes),
+                _ when listType.SequenceEqual(InfoChunkId) => (List)ParseInfoList(bytes),
+                _ => UnsupportedListType(listType),
+            };
+        }
+
+        public static Option<byte[]> FilterListChunks(Stream stream, Seq<RangeHelper.Range> ranges, byte[] targetType)
+        {
+            foreach (var range in ranges)
+            {
+                var data = RangeHelper.ReadRange(stream, range);
+                if (data[0..ChunkIdLength].SequenceEqual(targetType))
+                {
+                    return data;
+                }
             }
 
-            int index = ChunkIdLength;
-            var result = new List<ICueWithText>();
-            do
-            {
-                var chunkId = bytes[index..(index + ChunkIdLength)];
-                index += ChunkIdLength;
-                var length = BinaryPrimitives.ReadUInt32LittleEndian(bytes[index..]);
-                index += sizeof(uint);
-
-                if (chunkId.SequenceEqual(LabelChunkId))
-                {
-                    var cuePointId = BinaryPrimitives.ReadUInt32LittleEndian(bytes[index..]);
-                    index += sizeof(uint);
-                    var textRun = length - sizeof(uint);
-                    var text = ParseString(bytes[index..(index + (int)textRun)]);
-                    result.Add(new LabelChunk(cuePointId, text));
-
-                    index += (int)textRun;
-                }
-                else if (chunkId.SequenceEqual(NoteChunkId))
-                {
-                    var cuePointId = BinaryPrimitives.ReadUInt32LittleEndian(bytes[index..]);
-                    index += sizeof(uint);
-                    var textRun = length - sizeof(uint);
-                    var text = ParseString(bytes[index..(index + (int)textRun)]);
-                    result.Add(new NoteChunk(cuePointId, text));
-
-                    index += (int)textRun;
-                }
-                else if (chunkId.SequenceEqual(LabelledTextChunkId))
-                {
-                    var chunk = MemoryMarshal.Read<LabelledTextChunk>(bytes[index..(int)length]);
-
-                    result.Add(chunk);
-                    index += (int)length;
-                }
-                else
-                {
-                    // unsupported chunk
-                }
-            }
-            while (index < bytes.Length);
-
-            return result;
-
-            static string ParseString(ReadOnlySpan<byte> bytes)
-            {
-                return Encoding.ASCII.GetString(bytes).TrimEnd('\0');
-            }
+            return Option<byte[]>.None;
         }
 
         /// <summary>
@@ -345,12 +322,14 @@ namespace Emu.Audio.WAVE
         /// <param name="container">The subset of the stream to read from.</param>
         /// <param name="targetChunkId">The target chunk to look for.</param>
         /// <param name="allowOutOfBounds">Set to <c>true</c> if you want out of bounds ranges to be returned. Normally the method will return Errors in out of bounds cases.</param>
+        /// <param name="limit">The number of chunks to return.</param>
         /// <returns>An error if the chunk was not found, or a Range of the target chunk if it was found.</returns>
-        public static Fin<RangeHelper.Range> ScanForChunk(
+        public static Fin<Seq<RangeHelper.Range>> ScanForChunks(
             Stream stream,
             RangeHelper.Range container,
             ReadOnlySpan<byte> targetChunkId,
-            bool allowOutOfBounds)
+            bool allowOutOfBounds,
+            int limit = 1)
         {
             const int ChunkLengthLength = 4;
 
@@ -373,6 +352,8 @@ namespace Emu.Audio.WAVE
 
             var offset = container.Start;
             Span<byte> buffer = stackalloc byte[ChunkIdLength + ChunkLengthLength];
+
+            Seq<RangeHelper.Range> ranges = default;
 
             while (offset < container.End)
             {
@@ -416,12 +397,23 @@ namespace Emu.Audio.WAVE
                 // check whether we found our target chunk or not
                 if (targetChunkId.SequenceEqual(chunkId))
                 {
-                    // success, stop here and return the range of the chunk
-                    return new RangeHelper.Range(offset, offset + length, outOfBounds);
+                    // success, add the range of the chunk
+                    var range = new RangeHelper.Range(offset, offset + length, outOfBounds);
+                    ranges = ranges.Add(range);
+                    if (ranges.Count >= limit)
+                    {
+                        // and stop if we've hit our limit
+                        break;
+                    }
                 }
 
                 // advance our offset counter by the length of the chunk to look for the next sibling
                 offset += length;
+            }
+
+            if (ranges.Count > 0)
+            {
+                return ranges;
             }
 
             return ChunkNotFound(targetChunkId);
@@ -432,5 +424,89 @@ namespace Emu.Audio.WAVE
 
         internal static Error ChunkNotFound(ReadOnlySpan<byte> chunkName) =>
             Error.New($"Error reading file: a {Encoding.ASCII.GetString(chunkName)} chunk was not found");
+
+        internal static Error UnsupportedListType(ReadOnlySpan<byte> chunkName) =>
+            Error.New($"Cannot parse type of list {Encoding.ASCII.GetString(chunkName)}");
+
+        private static string ParseNullTerminatedString(ReadOnlySpan<byte> bytes)
+        {
+            return Encoding.ASCII.GetString(bytes).TrimEnd('\0');
+        }
+
+        private static AssociatedDataList ParseAssociatedDataList(ReadOnlySpan<byte> bytes)
+        {
+            Debug.Assert(bytes[0..ChunkIdLength].SequenceEqual(AssociatedDataListChunkId), "List type should always be `adtl`");
+
+            int index = ChunkIdLength;
+            var result = new List<ICueWithText>();
+            do
+            {
+                var chunkId = bytes[index..(index + ChunkIdLength)];
+                index += ChunkIdLength;
+                var length = BinaryPrimitives.ReadUInt32LittleEndian(bytes[index..]);
+                index += sizeof(uint);
+
+                if (chunkId.SequenceEqual(LabelChunkId))
+                {
+                    var cuePointId = BinaryPrimitives.ReadUInt32LittleEndian(bytes[index..]);
+                    index += sizeof(uint);
+                    var textRun = length - sizeof(uint);
+                    var text = ParseNullTerminatedString(bytes[index..(index + (int)textRun)]);
+                    result.Add(new LabelChunk(cuePointId, text));
+
+                    index += (int)textRun;
+                }
+                else if (chunkId.SequenceEqual(NoteChunkId))
+                {
+                    var cuePointId = BinaryPrimitives.ReadUInt32LittleEndian(bytes[index..]);
+                    index += sizeof(uint);
+                    var textRun = length - sizeof(uint);
+                    var text = ParseNullTerminatedString(bytes[index..(index + (int)textRun)]);
+                    result.Add(new NoteChunk(cuePointId, text));
+
+                    index += (int)textRun;
+                }
+                else if (chunkId.SequenceEqual(LabelledTextChunkId))
+                {
+                    var chunk = MemoryMarshal.Read<LabelledTextChunk>(bytes[index..(int)length]);
+
+                    result.Add(chunk);
+                    index += (int)length;
+                }
+                else
+                {
+                    // unsupported chunk
+                }
+            }
+            while (index < bytes.Length);
+
+            return new(result);
+        }
+
+        private static Fin<InfoList> ParseInfoList(ReadOnlySpan<byte> bytes)
+        {
+            Debug.Assert(bytes[0..ChunkIdLength].SequenceEqual(InfoChunkId), "List type should always be `INFO`");
+
+            var result = new List<ListItem>();
+
+            // offset the by `INFO` 4 bytes
+            int index = ChunkIdLength;
+            do
+            {
+                var infoType = bytes[index..(index + ChunkIdLength)];
+                index += ChunkIdLength;
+
+                var size = BinaryPrimitives.ReadUInt16LittleEndian(bytes[index..]);
+                index += sizeof(uint);
+
+                var text = ParseNullTerminatedString(bytes[index..(index + size)]);
+                result.Add(new ListItem(infoType.ToArray(), text));
+
+                index += size;
+            }
+            while (index < bytes.Length);
+
+            return new InfoList(result);
+        }
     }
 }

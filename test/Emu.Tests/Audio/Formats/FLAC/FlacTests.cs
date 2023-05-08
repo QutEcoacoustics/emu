@@ -11,6 +11,7 @@ namespace Emu.Tests.Audio.Formats.FLAC
     using Emu.Audio;
     using Emu.Tests.TestHelpers;
     using FluentAssertions;
+    using FluentAssertions.LanguageExt;
     using LanguageExt;
     using MoreLinq;
     using Xunit;
@@ -21,7 +22,7 @@ namespace Emu.Tests.Audio.Formats.FLAC
         private readonly FixtureData data;
 
         public FlacTests(FixtureData data, ITestOutputHelper output)
-            : base(output)
+            : base(output, realFileSystem: true)
         {
             this.data = data;
         }
@@ -32,7 +33,7 @@ namespace Emu.Tests.Audio.Formats.FLAC
         {
             if (model.Process.ContainsKey(FixtureModel.FlacHeaderExtractor) && model.IsFlac)
             {
-                var totalSamples = Flac.ReadTotalSamples(model.ToTargetInformation(this.RealFileSystem).FileStream);
+                var totalSamples = Flac.ReadTotalSamples(this.CreateTargetInformation(model).FileStream);
                 Assert.True(totalSamples.IsSucc);
                 ((ulong)totalSamples).Should().Be(model.Record.TotalSamples);
             }
@@ -44,7 +45,7 @@ namespace Emu.Tests.Audio.Formats.FLAC
         {
             if (model.Process.ContainsKey(FixtureModel.FlacHeaderExtractor) && model.IsFlac)
             {
-                var sampleRate = Flac.ReadSampleRate(model.ToTargetInformation(this.RealFileSystem).FileStream);
+                var sampleRate = Flac.ReadSampleRate(this.CreateTargetInformation(model).FileStream);
                 Assert.True(sampleRate.IsSucc);
                 ((uint)sampleRate).Should().Be(model.Record.SampleRateHertz);
             }
@@ -56,7 +57,7 @@ namespace Emu.Tests.Audio.Formats.FLAC
         {
             if (model.Process.ContainsKey(FixtureModel.FlacHeaderExtractor) && model.IsFlac)
             {
-                var channels = Flac.ReadNumberChannels(model.ToTargetInformation(this.RealFileSystem).FileStream);
+                var channels = Flac.ReadNumberChannels(this.CreateTargetInformation(model).FileStream);
                 Assert.True(channels.IsSucc);
                 ((byte)channels).Should().Be((byte)model.Record.Channels);
             }
@@ -68,7 +69,7 @@ namespace Emu.Tests.Audio.Formats.FLAC
         {
             if (model.Process.ContainsKey(FixtureModel.FlacHeaderExtractor) && model.IsFlac)
             {
-                var bitDepth = Flac.ReadBitDepth(model.ToTargetInformation(this.RealFileSystem).FileStream);
+                var bitDepth = Flac.ReadBitDepth(this.CreateTargetInformation(model).FileStream);
                 Assert.True(bitDepth.IsSucc);
                 ((byte)bitDepth).Should().Be(model.Record.BitDepth);
             }
@@ -93,7 +94,7 @@ namespace Emu.Tests.Audio.Formats.FLAC
         [ClassData(typeof(FixtureData))]
         public void IsFlacFileTest(FixtureModel model)
         {
-            var isFlac = Flac.IsFlacFile(model.ToTargetInformation(this.RealFileSystem).FileStream).IfFail(false);
+            var isFlac = Flac.IsFlacFile(this.CreateTargetInformation(model).FileStream).IfFail(false);
 
             isFlac.Should().Be(model.IsFlac);
         }
@@ -106,7 +107,7 @@ namespace Emu.Tests.Audio.Formats.FLAC
 
             var result = Flac.FindFrameStart(stream);
 
-            result.IsSucc.Should().BeTrue();
+            result.Should().BeSuccess();
             result.ThrowIfFail().Should().Be(679);
         }
 

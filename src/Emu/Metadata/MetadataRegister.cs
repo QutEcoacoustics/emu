@@ -6,6 +6,7 @@ namespace Emu.Metadata
 {
     using System.Diagnostics.CodeAnalysis;
     using Emu.Metadata.FrontierLabs;
+    using Emu.Metadata.OpenAcousticDevices;
     using Emu.Metadata.WildlifeAcoustics;
 
     public class MetadataRegister
@@ -18,6 +19,8 @@ namespace Emu.Metadata
             new(typeof(FlacHeaderExtractor)),
             new(typeof(FlacCommentExtractor)),
             new(typeof(WamdExtractor)),
+            new(typeof(AudioMothCommentExtractor)),
+            new(typeof(ConfigExtractor)),
             new(typeof(LogFileExtractor)),
             new(typeof(HashCalculator)),
             new(typeof(ExtensionInferer)),

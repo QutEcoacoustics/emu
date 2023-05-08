@@ -16,7 +16,7 @@ namespace Emu.Tests.Audio.Vendors.FrontierLabs
     public class FrontierLabsTests : TestBase
     {
         public FrontierLabsTests(ITestOutputHelper output)
-            : base(output)
+            : base(output, realFileSystem: true)
         {
         }
 
@@ -50,7 +50,7 @@ namespace Emu.Tests.Audio.Vendors.FrontierLabs
         [ClassData(typeof(FixtureData))]
         public void HasFrontierLabsVorbisComment(FixtureModel model)
         {
-            var hasComment = FrontierLabs.HasFrontierLabsVorbisComment(model.ToTargetInformation(this.RealFileSystem).FileStream).IfFail(false);
+            var hasComment = FrontierLabs.HasFrontierLabsVorbisComment(this.CreateTargetInformation(model).FileStream).IfFail(false);
 
             hasComment.Should().Be(model.Process.ContainsKey(FixtureModel.FlacCommentExtractor));
         }

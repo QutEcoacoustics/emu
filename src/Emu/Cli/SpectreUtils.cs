@@ -75,6 +75,11 @@ namespace Emu.Cli
             return $"File {MarkupPath(path)}:\n";
         }
 
+        public static string MarkupInfo(string text)
+        {
+            return $"[teal]{text}[/]";
+        }
+
         public static string MarkupWarning(string message)
         {
             return $"[yellow]{message}[/]";

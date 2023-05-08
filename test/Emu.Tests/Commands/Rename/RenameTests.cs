@@ -12,6 +12,7 @@ namespace Emu.Tests.Commands.Rename
     using Emu.Dates;
     using Emu.Filenames;
     using Emu.Metadata;
+    using Emu.Metadata.SupportFiles;
     using Emu.Serialization;
     using Emu.Tests.TestHelpers;
     using Emu.Utilities;
@@ -34,6 +35,7 @@ namespace Emu.Tests.Commands.Rename
                 this.DryRunFactory,
                 this.TestFiles,
                 new FileMatcher(this.BuildLogger<FileMatcher>(), this.TestFiles),
+                new SupportFileFinder(this.BuildLogger<SupportFileFinder>(), this.TestFiles),
                 this.GetOutputRecordWriter(),
                 this.FilenameParser,
                 this.ServiceProvider.GetRequiredService<MetadataRegister>(),
@@ -462,6 +464,7 @@ namespace Emu.Tests.Commands.Rename
                 this.DryRunFactory,
                 this.TestFiles,
                 new FileMatcher(this.BuildLogger<FileMatcher>(), this.TestFiles),
+                new SupportFileFinder(this.BuildLogger<SupportFileFinder>(), this.TestFiles),
                 new OutputRecordWriter(
                     this.ServiceProvider.GetRequiredService<TextWriter>(),
                     new AnsiConsoleFormatter(colorSystemSupport: Spectre.Console.ColorSystemSupport.TrueColor),
@@ -515,6 +518,7 @@ namespace Emu.Tests.Commands.Rename
                     this.DryRunFactory,
                     this.CurrentFileSystem,
                     this.ServiceProvider.GetRequiredService<FileMatcher>(),
+                    this.ServiceProvider.GetRequiredService<SupportFileFinder>(),
                     this.GetOutputRecordWriter(),
                     this.FilenameParser,
                     this.ServiceProvider.GetRequiredService<MetadataRegister>(),

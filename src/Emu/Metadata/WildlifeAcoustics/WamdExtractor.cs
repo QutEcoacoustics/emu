@@ -151,7 +151,7 @@ namespace Emu.Metadata.WildlifeAcoustics
                 {
                     Sensor = (recording.Sensor ?? new Sensor()) with
                     {
-                        Make = recording.Sensor?.Make ?? Vendor.WildlifeAcoustics.ToNiceName(),
+                        Make = recording.Sensor?.Make ?? Vendor.WildlifeAcoustics.GetEnumMemberValueOrDefault(),
                         Model = recording.Sensor?.Model ?? wamdData.DevModel,
                         Name = recording.Sensor?.Name ?? wamdData.DevName,
                         SerialNumber = recording.Sensor?.SerialNumber ?? wamdData.DevSerialNum,

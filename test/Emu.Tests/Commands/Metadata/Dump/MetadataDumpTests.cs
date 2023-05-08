@@ -42,7 +42,11 @@ namespace Emu.Tests.Commands.Metadata.Dump
         [InlineData(OutputFormat.Compact, FixtureModel.Sm4HighPrecision)]
         [InlineData(OutputFormat.JSON, FixtureModel.Sm4HighPrecision)]
         [InlineData(OutputFormat.JSONL, FixtureModel.Sm4HighPrecision)]
-        public async Task Works(OutputFormat format, string fixtureName)
+        [InlineData(OutputFormat.Default, FixtureModel.Audiomoth180)]
+        [InlineData(OutputFormat.Compact, FixtureModel.Audiomoth180)]
+        [InlineData(OutputFormat.JSON, FixtureModel.Audiomoth180)]
+        [InlineData(OutputFormat.JSONL, FixtureModel.Audiomoth180)]
+        public async Task EachFormatterWorks(OutputFormat format, string fixtureName)
         {
             var command = new MetadataDump(
                 this.BuildLogger<MetadataDump>(),
@@ -80,6 +84,8 @@ namespace Emu.Tests.Commands.Metadata.Dump
                     Seq.create("WAMD", "DevSerialNum", "ScenarioMemoryCardC"),
                 _ when fixture.IsMake(Vendor.WildlifeAcoustics) && Models.IsSM4Variant(fixture.Record.Sensor.Model) =>
                     Seq.create("WAMD", "ScheduleMode", "LedSettings", "Bitmap2"),
+                _ when fixture.IsMake(Vendor.OpenAcousticDevices) =>
+                    Seq.create("AudioMothArtistAndComment"),
                 _ => throw new NotImplementedException(),
             };
 

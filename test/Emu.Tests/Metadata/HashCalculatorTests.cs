@@ -32,7 +32,7 @@ namespace Emu.Tests.Metadata
         public async Task CanProcessFilesWorks(FixtureModel model)
         {
             // we can process all files that exist
-            var result = await this.subject.CanProcessAsync(model.ToTargetInformation(this.RealFileSystem));
+            var result = await this.subject.CanProcessAsync(this.CreateTargetInformation(model));
 
             Assert.True(result);
         }
@@ -44,7 +44,7 @@ namespace Emu.Tests.Metadata
             Recording expectedRecording = model.Record;
 
             var recording = await this.subject.ProcessFileAsync(
-                model.ToTargetInformation(this.RealFileSystem),
+                this.CreateTargetInformation(model),
                 this.Recording);
 
             recording.CalculatedChecksum.Should().Be(expectedRecording.CalculatedChecksum);

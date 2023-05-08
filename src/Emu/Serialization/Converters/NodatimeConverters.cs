@@ -4,6 +4,8 @@
 
 namespace Emu.Serialization
 {
+    using Emu.Serialization.Converters;
+
     /// <summary>
     /// A collection of convertes for Nodatime types for CsvHelper.
     /// </summary>

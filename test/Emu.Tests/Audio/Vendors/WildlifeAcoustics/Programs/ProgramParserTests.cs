@@ -9,6 +9,9 @@ namespace Emu.Tests.Audio.Vendors.WildlifeAcoustics.Programs
     using Emu.Audio.Vendors.WildlifeAcoustics.WAMD;
     using Emu.Tests.TestHelpers;
     using FluentAssertions;
+    using FluentAssertions.LanguageExt;
+    using FluentAssertions.Primitives;
+    using LanguageExt;
     using Xunit.Abstractions;
 
     public partial class ProgramParserTests : TestBase
@@ -62,7 +65,7 @@ namespace Emu.Tests.Audio.Vendors.WildlifeAcoustics.Programs
 
             var actual = await ProgramParser.GetProgramFromScheduleFileAsync(stream);
 
-            actual.IsSucc.Should().BeTrue();
+            actual.Should().BeSuccess();
 
             ((SongMeter3Program)actual).Should().BeEquivalentTo(expected);
         }

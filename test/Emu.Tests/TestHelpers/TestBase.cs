@@ -13,6 +13,8 @@ namespace Emu.Tests.TestHelpers
     using System.Linq;
     using Divergic.Logging.Xunit;
     using Emu.Filenames;
+    using Emu.Metadata;
+    using Emu.Metadata.SupportFiles;
     using Emu.Serialization;
     using Emu.Utilities;
     using FluentAssertions.Equivalency.Tracing;
@@ -36,6 +38,7 @@ namespace Emu.Tests.TestHelpers
         private readonly TestOutputHelperTextWriterAdapter xUnitOutputAdapter;
         private readonly TestOutputHelperITraceWriterAdapter xUnitTraceAdapter;
         private DryRunFactory dryRunFactory;
+        private SupportFileFinder supportFileFinder;
 
         public TestBase(ITestOutputHelper output)
             : this(output, false, OutputFormat.JSONL)
@@ -109,6 +112,9 @@ namespace Emu.Tests.TestHelpers
         public DryRunFactory DryRunFactory =>
             this.dryRunFactory ??= this.ServiceProvider.GetRequiredService<DryRunFactory>();
 
+        public SupportFileFinder SupportFileFinder =>
+            this.supportFileFinder ??= this.ServiceProvider.GetRequiredService<SupportFileFinder>();
+
         public virtual OutputFormat OutputFormat => this.outputFormat;
 
         public string AllOutput => this.cleanOutput.ToString();
@@ -120,6 +126,20 @@ namespace Emu.Tests.TestHelpers
         public Parser CliParser => this.cliParserValue;
 
         public TextReader GetAllOutputReader() => new StringReader(this.AllOutput);
+
+        public TargetInformation CreateTargetInformation(FixtureModel model)
+        {
+            var target = new TargetInformation(
+                this.CurrentFileSystem,
+                FixtureHelper.ResolveFirstDirectory(model.FixturePath),
+                model.AbsoluteFixturePath);
+
+            this.SupportFileFinder.FindSupportFiles(
+                 this.CurrentFileSystem.Path.GetDirectoryName(target.Path),
+                 target.AsArray());
+
+            return target;
+        }
 
         public virtual void Dispose()
         {

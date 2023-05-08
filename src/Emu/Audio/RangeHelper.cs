@@ -12,14 +12,14 @@ namespace Emu.Audio
         /// <param name="stream">The file stream.</param>
         /// <param name="range">The range to read.</param>
         /// <returns>A span containing the contents of the stream in the range.</returns>
-        public static ReadOnlySpan<byte> ReadRange(Stream stream, Range range)
+        public static byte[] ReadRange(Stream stream, Range range)
         {
             if (range.OutOfBounds)
             {
                 throw new ArgumentException("supplied range cannot have OutOfBounds=true", nameof(range));
             }
 
-            Span<byte> buffer = new byte[range.Length];
+            byte[] buffer = new byte[range.Length];
 
             if (stream.Seek(range.Start, SeekOrigin.Begin) != range.Start)
             {

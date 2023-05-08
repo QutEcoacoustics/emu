@@ -33,6 +33,13 @@ namespace Emu.Models
         public string Firmware { get; init; }
 
         /// <summary>
+        /// Gets the name of the firmware for this sensor.
+        /// This is only useful for sensors that can load custom firmwares,
+        /// like the AudioMoth.
+        /// </summary>
+        public string FirmwareName { get; init; }
+
+        /// <summary>
         /// Gets the serial number of the sensor.
         /// </summary>
         public string SerialNumber { get; init; }
