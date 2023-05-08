@@ -14,7 +14,7 @@ namespace Emu.Tests.Commands.Fix
     public class FixCheckCommandTests : TestBase
     {
         public FixCheckCommandTests(ITestOutputHelper output)
-            : base(output)
+            : base(output, realFileSystem: true)
         {
         }
 

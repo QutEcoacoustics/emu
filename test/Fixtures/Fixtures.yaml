@@ -2794,3 +2794,283 @@
       Sensor: ~
       Location: ~
       MemoryCard: ~
+
+- Name: AudioMoth120To130
+  Record:
+    Extension: .WAV
+    Stem: 20190919_070035
+    StartDate: 2019-09-19T07:00:35Z
+    LocalStartDate: 2019-09-19T07:00:35
+    TrueStartDate: 2019-09-19T07:00:35Z
+    TrueEndDate:
+    DurationSeconds: 3600
+    TotalSamples: 115200000
+    Channels: 1
+    SampleRateHertz: 32000
+    BitsPerSecond: 512000
+    BitDepth: 16
+    FileSizeBytes: 230400360
+    MediaType: audio/wave
+    CalculatedChecksum:
+      Type: SHA256
+      Value: 8a150dc963b7452a372f3d4142212f6e3825ba8b5945756997ac5c4494bd19a7
+    EmbeddedChecksum: ~
+    MemoryCard: ~
+    Sensor:
+      Make: Open Acoustic Devices
+      Model: AudioMoth
+      Name: 24E4C3015728DFDC
+      Firmware: "1.2.0..1.3.0"
+      SerialNumber: 24E4C3015728DFDC
+      PowerSource:
+      Microphones:
+        - Type: Internal
+          UID:
+          BuildDate:
+          Gain: 30
+          Channel: 0
+          ChannelName: A
+          Sensitivity:
+      Gain:
+      Configuration:
+      Voltage: 3.7
+      BatteryLevel:
+      Temperature:
+      LastTimeSync:
+    Location: ~
+    RecordingStatus: OK
+  FixturePath: OAD_AM/1.0.1..1.3.0_Normal/Tests_201909_SERF_REC02/20190919_070035.WAV
+  Notes:
+  ValidMetadata: Yes
+  MimeType: audio/wave
+  Make: Open Acoustic Devices
+  Problems:
+  Process:
+    AudioMothCommentExtractor:
+    #AudioMothConfigFileExtractor:
+
+- Name: AudioMoth180
+  Record: &AudioMoth180
+    Extension: .WAV
+    Stem: HB-YRK016_HMTC_20221125_102500+1000
+    StartDate: 2022-11-25T10:25:00+10:00
+    LocalStartDate: 2022-10-25T10:25:00
+    TrueStartDate: 2022-11-25T10:25:00+10:00
+    TrueEndDate:
+    DurationSeconds: 30
+    TotalSamples: 1440000
+    Channels: 1
+    SampleRateHertz: 48000
+    BitsPerSecond: 768000
+    BitDepth: 16
+    FileSizeBytes: 2880488
+    MediaType: audio/wave
+    CalculatedChecksum:
+      Type: SHA256
+      Value: 9c1cc44487ecfa1f07386a623041b77058124e91d15522df0422de8f4034a756
+    EmbeddedChecksum: ~
+    MemoryCard: ~
+    Sensor: &AudioMoth180Sensor
+      Make: Open Acoustic Devices
+      Model: AudioMoth
+      Name: 24F3190361DA3578
+      Firmware: "1.8.0"
+      FirmwareName: AudioMoth-Firmware-Basic
+      SerialNumber: 24F3190361DA3578
+      PowerSource:
+      Microphones:
+        - Type: Internal
+          UID:
+          BuildDate:
+          Gain: 15
+          Channel: 0
+          ChannelName: A
+          Sensitivity:
+      Gain:
+      Configuration:
+      Voltage: 4.9
+      BatteryLevel:
+      Temperature: 29.9
+      LastTimeSync:
+    Location: ~
+    RecordingStatus: OK
+  FixturePath: OAD_AM/1.8.0_Normal/HB-YRK016_HMTC_20221125_102500+1000.WAV
+  Notes: Doesn't seem to have a standard AudioMoth filename
+  ValidMetadata: Yes
+  MimeType: audio/wave
+  Make: Open Acoustic Devices
+  Problems:
+  Process:
+    AudioMothCommentExtractor:
+      <<: *AudioMoth180
+      Sensor:
+        <<: *AudioMoth180Sensor
+        Firmware: "1.6.0..1.8.1"
+        FirmwareName: ~
+    AudioMothConfigFileExtractor:
+      <<: *AudioMoth180
+      Sensor:
+        Firmware: "1.8.0"
+        FirmwareName: "AudioMoth-Firmware-Basic"
+
+- Name: Metamoth160to181
+  Record:
+    Extension: .WAV
+    Stem: 20211112_193000
+    StartDate: 2021-11-12T19:30:00Z
+    LocalStartDate: 2021-11-12T19:30:00
+    TrueStartDate: 2021-11-12T19:30:00Z
+    TrueEndDate:
+    DurationSeconds: 60
+    TotalSamples: 23040000
+    Channels: 1
+    SampleRateHertz: 384000
+    BitsPerSecond: 6144000
+    BitDepth: 16
+    FileSizeBytes: 46080488
+    MediaType: audio/wave
+    CalculatedChecksum:
+      Type: SHA256
+      Value: 43e07b22c236366919797aeb85b21ec7126a28afc7478fbd659753802138004f
+    EmbeddedChecksum: ~
+    MemoryCard: ~
+    Sensor:
+      Make: Open Acoustic Devices
+      Model: AudioMoth
+      Name: 248D9B045EC9EE79
+      Firmware: "1.6.0..1.8.1"
+      SerialNumber: 248D9B045EC9EE79
+      PowerSource:
+      Microphones:
+        - Type: Internal
+          UID:
+          BuildDate:
+          Gain: 15
+          Channel: 0
+          ChannelName: A
+          Sensitivity:
+      Gain:
+      Configuration:
+      Voltage: 4.1
+      BatteryLevel:
+      Temperature: 14
+      LastTimeSync:
+    Location: ~
+    RecordingStatus: OK
+  FixturePath: OAD_AM/varying_Metamoth/20211112_193000.WAV
+  Notes:
+  ValidMetadata: Yes
+  MimeType: audio/wave
+  Make: Open Acoustic Devices
+  Problems:
+  Process:
+    AudioMothCommentExtractor:
+    #AudioMothConfigFileExtractor:
+
+- Name: Metamoth No Artist
+  Record:
+    Extension: .wav
+    Stem: test
+    StartDate: 2018-04-06T19:17:30Z
+    LocalStartDate: 2018-04-06T19:17:30
+    TrueStartDate: 2018-04-06T19:17:30Z
+    TrueEndDate:
+    DurationSeconds: 20
+    TotalSamples: 3840000
+    Channels: 1
+    SampleRateHertz: 192000
+    BitsPerSecond: 3072000
+    BitDepth: 16
+    FileSizeBytes: 7680192
+    MediaType: audio/wave
+    CalculatedChecksum:
+      Type: SHA256
+      Value: 3b126568d5c72653e3c1cf527b838f8e7c7e4e18bf0061e439bd00ff5c217f82
+    EmbeddedChecksum: ~
+    MemoryCard: ~
+    Sensor:
+      Make: Open Acoustic Devices
+      Model: AudioMoth
+      Name: 0FE081F80FE081F0
+      Firmware: "1.0.1..1.1.0"
+      SerialNumber: 0FE081F80FE081F0
+      PowerSource:
+      Microphones:
+        - Type: Internal
+          UID:
+          BuildDate:
+          Gain: 15
+          Channel: 0
+          ChannelName: A
+          Sensitivity:
+      Gain:
+      Configuration:
+      Voltage: 4.5
+      BatteryLevel:
+      Temperature:
+      LastTimeSync:
+    Location: ~
+    RecordingStatus: OK
+  FixturePath: OAD_AM/varying_Metamoth/test.wav
+  Notes:
+  ValidMetadata: Yes
+  MimeType: audio/wave
+  Make: Open Acoustic Devices
+  Problems:
+  Process:
+    AudioMothCommentExtractor:
+    #AudioMothConfigFileExtractor:
+
+- Name: Metamoth With Artist
+  Record:
+    Extension: .wav
+    Stem: test_artist
+    StartDate: 2019-10-30T02:00:00Z
+    LocalStartDate: 2019-10-30T02:00:00
+    TrueStartDate: 2019-10-30T02:00:00Z
+    TrueEndDate:
+    DurationSeconds: 60
+    TotalSamples: 23040000
+    Channels: 1
+    SampleRateHertz: 384000
+    BitsPerSecond: 6144000
+    BitDepth: 16
+    FileSizeBytes: 46080360
+    MediaType: audio/wave
+    CalculatedChecksum:
+      Type: SHA256
+      Value: 9755e0bf4ec50ae6b5cee458c0faf249a118f4403580acd71c997654473cdd43
+    EmbeddedChecksum: ~
+    MemoryCard: ~
+    Sensor:
+      Make: Open Acoustic Devices
+      Model: AudioMoth
+      Name: 243B1F055B2BF663
+      Firmware: "1.2.0..1.3.0"
+      SerialNumber: 243B1F055B2BF663
+      PowerSource:
+      Microphones:
+        - Type: Internal
+          UID:
+          BuildDate:
+          Gain: 7
+          Channel: 0
+          ChannelName: A
+          Sensitivity:
+      Gain:
+      Configuration:
+      Voltage: 3.8
+      BatteryLevel:
+      Temperature:
+      LastTimeSync:
+    Location: ~
+    RecordingStatus: OK
+  FixturePath: OAD_AM/varying_Metamoth/test_artist.wav
+  Notes:
+  ValidMetadata: Yes
+  MimeType: audio/wave
+  Make: Open Acoustic Devices
+  Problems:
+  Process:
+    AudioMothCommentExtractor:
+    #AudioMothConfigFileExtractor:

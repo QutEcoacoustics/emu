@@ -7,6 +7,7 @@ namespace Emu.Cli.ObjectFormatters
     using System;
     using System.Collections.Generic;
     using System.Text;
+    using Emu.Models.Notices;
     using LanguageExt;
     using NodaTime;
     using Spectre.Console;
@@ -44,6 +45,9 @@ namespace Emu.Cli.ObjectFormatters
                 bool b => MarkupBool(b),
                 Enum e => MarkupEnum(escaped),
                 Range r => escaped.Split("..") is[var a, var b] ? $"{MarkupNumber(a)}..{MarkupNumber(b)}" : escaped,
+                Info i => MarkupInfo(escaped),
+                Warning w => MarkupWarning(escaped),
+                Error e => MarkupError(escaped),
 
                 // recursive!
                 IEither e => e.MatchUntyped(right => this.StyleValue(right, key, escaped), left => this.StyleValue(left, key, escaped)),

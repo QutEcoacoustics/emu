@@ -49,6 +49,7 @@ namespace Emu
                 OpenEcoacousticsProblems.Group => "open_ecoacoustics",
                 FrontierLabsProblems.Group => "frontier_labs",
                 WildlifeAcoustics.Group => "wildlife_acoustics",
+                OpenAcousticDevices.Group => "open_acoustic_devices",
                 _ => throw new ArgumentException($"Unknown group {group}"),
             };
 
@@ -133,6 +134,18 @@ namespace Emu
                 "002",
                 Group,
                 MakeUrl(Group, "002"));
+        }
+
+        public class OpenAcousticDevices
+        {
+            public const string Group = "OAD";
+
+            public static WellKnownProblem IncorrectHeaderDate => new(
+                "Incorrect header date",
+                "The date in the header does not match the date in the filename",
+                "004",
+                Group,
+                MakeUrl(Group, "004"));
         }
     }
 }

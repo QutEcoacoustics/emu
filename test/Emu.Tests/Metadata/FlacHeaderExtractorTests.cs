@@ -17,7 +17,7 @@ namespace Emu.Tests.Metadata
         private readonly FlacHeaderExtractor subject;
 
         public FlacHeaderExtractorTests(ITestOutputHelper output)
-            : base(output)
+            : base(output, realFileSystem: true)
         {
             this.subject = new FlacHeaderExtractor(
                 this.BuildLogger<FlacHeaderExtractor>());
@@ -27,7 +27,7 @@ namespace Emu.Tests.Metadata
         [ClassData(typeof(FixtureData))]
         public async Task CanProcessFilesWorks(FixtureModel model)
         {
-            var result = await this.subject.CanProcessAsync(model.ToTargetInformation(this.RealFileSystem));
+            var result = await this.subject.CanProcessAsync(this.CreateTargetInformation(model));
 
             // we can process any file that is Frontier Labs and FLAC
             var expected = model.IsMake(Vendor.FrontierLabs)
@@ -43,7 +43,7 @@ namespace Emu.Tests.Metadata
             Skip.IfNot(model.ShouldProcess(FixtureModel.FlacHeaderExtractor, out var expectedRecording));
 
             var recording = await this.subject.ProcessFileAsync(
-                model.ToTargetInformation(this.RealFileSystem),
+                this.CreateTargetInformation(model),
                 new());
 
             recording.DurationSeconds.Should().Be(expectedRecording.DurationSeconds);

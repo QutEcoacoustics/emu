@@ -36,6 +36,8 @@ namespace Emu.Tests.TestHelpers
         public const string FrontierLabsLogFileExtractor = "FrontierLabsLogFileExtractor";
         public const string WamdExtractor = "WamdExtractor";
         public const string FLCommentAndLogExtractor = "FLCommentAndLogExtractor";
+        public const string AudioMothCommentExtractor = "AudioMothCommentExtractor";
+        public const string AudioMothConfigFileExtractor = "AudioMothConfigFileExtractor";
 
         // constants for fixture names are generated automatically. See GenerateFixtureHelpersAttribute.cs
 
@@ -94,18 +96,6 @@ namespace Emu.Tests.TestHelpers
                     this.Make.Replace(" ", string.Empty),
                     StringComparison.InvariantCultureIgnoreCase);
 
-        public TargetInformation ToTargetInformation(IFileSystem fileSystem)
-        {
-            TargetInformation ti = new TargetInformation(
-                fileSystem,
-                FixtureHelper.ResolveFirstDirectory(this.FixturePath),
-                this.AbsoluteFixturePath);
-
-            SupportFile.FindSupportFiles(fileSystem.Path.GetDirectoryName(ti.Path), new List<TargetInformation> { ti }, fileSystem);
-
-            return ti;
-        }
-
         public IFileInfo ToFileInfo(IFileSystem fileSystem)
         {
             return fileSystem.FileInfo.New(this.AbsoluteFixturePath);
@@ -133,7 +123,7 @@ namespace Emu.Tests.TestHelpers
 
         public bool IsAffectedByProblem(WellKnownProblem problem)
         {
-            return this.Problems.Contains(problem.Id);
+            return this.Problems?.Contains(problem.Id) ?? false;
         }
 
         public override string ToString()

@@ -694,7 +694,7 @@ namespace Emu.Audio
                 return (Error)vorbisChunk;
             }
 
-            var vorbisSpan = RangeHelper.ReadRange(stream, (RangeHelper.Range)vorbisChunk);
+            ReadOnlySpan<byte> vorbisSpan = RangeHelper.ReadRange(stream, (RangeHelper.Range)vorbisChunk);
 
             int offset = 0;
             int vendorLength = BinaryPrimitives.ReadInt32LittleEndian(vorbisSpan);

@@ -6,9 +6,12 @@ namespace Emu.Models
 {
     using System.Collections.Generic;
     using CsvHelper.Configuration.Attributes;
+    using Emu.Models.Notices;
+    using LanguageExt;
     using Newtonsoft.Json;
     using NodaTime;
     using Rationals;
+    using Duration = NodaTime.Duration;
 
     /// <summary>
     /// A audio recording captured by a sensor or monitor.
@@ -27,9 +30,7 @@ namespace Emu.Models
             init
             {
                 this.path = value;
-#pragma warning disable IO0006 // Replace Path class with IFileSystem.Path for improved testability
                 this.directory = System.IO.Path.GetDirectoryName(this.path);
-#pragma warning restore IO0006 // Replace Path class with IFileSystem.Path for improved testability
             }
         }
 
@@ -44,11 +45,9 @@ namespace Emu.Models
             init
             {
                 this.directory = value;
-#pragma warning disable IO0006 // Replace Path class with IFileSystem.Path for improved testability
                 this.path = System.IO.Path.Combine(
                     this.directory,
                     System.IO.Path.GetFileName(this.path));
-#pragma warning restore IO0006 // Replace Path class with IFileSystem.Path for improved testability
             }
         }
 
@@ -173,6 +172,8 @@ namespace Emu.Models
         // /// </summary>
         // public IList<Warning> Warnings { get; init; } = new List<Warning>();
 
+        public Seq<Notice> Notices { get; init; }
+
         /// <summary>
         /// Gets a Checksum calculated for the file.
         /// </summary>
@@ -184,22 +185,24 @@ namespace Emu.Models
         /// <summary>
         /// Gets the date on the sensor for which this
         /// recording ended.
-        /// Some high precisions sensors record the time the buffer first started recording.
         /// </summary>
         /// <remarks>
+        /// This field is always set from header metadata withing an audio recording.
         /// This field is useful for calculating drift in the sensor
         /// clock during recording.
+        ///  Some high precisions sensors record the time the buffer first started recording.
         /// </remarks>
         public OffsetDateTime? TrueEndDate { get; init; }
 
         /// <summary>
         /// Gets the date on the sensor for which this
-        /// recording ended.
-        /// Some high precisions sensors record the time the buffer stopped recording.
+        /// recording started.
         /// </summary>
         /// <remarks>
+        /// This field is always set from header metadata withing an audio recording.
         /// This field is useful for calculating drift in the sensor
         /// clock during recording.
+        ///  Some high precisions sensors record the time the buffer first started recording.
         /// </remarks>
         public OffsetDateTime? TrueStartDate { get; init; }
 
@@ -207,6 +210,12 @@ namespace Emu.Models
         /// Gets the Expected duration of the recording.
         /// </summary>
         public Duration? ExpectedDurationSeconds { get; init; }
+
+        /// <summary>
+        /// Gets the state of the recording; was it cancelled? Is it OK?
+        /// Various reasons can exist.
+        /// </summary>
+        public string RecordingStatus { get; init; }
 
         /// <summary>
         /// Gets a key-value store of other information not yet codified by the standard.

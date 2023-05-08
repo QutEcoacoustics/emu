@@ -4,6 +4,7 @@
 
 namespace Emu.Tests.Audio.Formats.WAVE
 {
+    using System.Linq;
     using Emu.Audio;
     using Emu.Audio.WAVE;
     using Emu.Tests.TestHelpers;
@@ -16,7 +17,7 @@ namespace Emu.Tests.Audio.Formats.WAVE
         private readonly FixtureData data;
 
         public WaveTests(ITestOutputHelper output, FixtureData data)
-            : base(output)
+            : base(output, realFileSystem: true)
         {
             this.data = data;
         }
@@ -105,7 +106,7 @@ namespace Emu.Tests.Audio.Formats.WAVE
         public void IsWaveFileTest()
         {
             var model = this.data[FixtureModel.Sm4BatNormal1];
-            using var stream = model.ToTargetInformation(this.RealFileSystem).FileStream;
+            using var stream = this.CreateTargetInformation(model).FileStream;
 
             var isWave = Wave.IsWaveFile(stream);
 
@@ -119,7 +120,7 @@ namespace Emu.Tests.Audio.Formats.WAVE
         public void IsPcmWaveFileTest()
         {
             var model = this.data[FixtureModel.Sm4BatNormal1];
-            using var stream = model.ToTargetInformation(this.RealFileSystem).FileStream;
+            using var stream = this.CreateTargetInformation(model).FileStream;
 
             var isWave = Wave.IsPcmWaveFile(stream);
 
@@ -132,7 +133,7 @@ namespace Emu.Tests.Audio.Formats.WAVE
         public void CanReadCuesTest()
         {
             var model = this.data[FixtureModel.GenericWaveWithCueChunk];
-            using var stream = model.ToTargetInformation(this.RealFileSystem).FileStream;
+            using var stream = this.CreateTargetInformation(model).FileStream;
 
             var waveChunk = Wave.FindRiffChunk(stream).Bind(r => Wave.FindWaveChunk(stream, r));
             var result = Wave.FindAndParseCuePoints(stream, (RangeHelper.Range)waveChunk);
@@ -151,7 +152,7 @@ namespace Emu.Tests.Audio.Formats.WAVE
         public void CanReadCuesWithLabelsTest()
         {
             var model = this.data[FixtureModel.GenericWaveWithCueAndLabelChunks];
-            using var stream = model.ToTargetInformation(this.RealFileSystem).FileStream;
+            using var stream = this.CreateTargetInformation(model).FileStream;
 
             var waveChunk = Wave.FindRiffChunk(stream).Bind(r => Wave.FindWaveChunk(stream, r));
             var result = Wave.FindAndParseCuePoints(stream, (RangeHelper.Range)waveChunk);
@@ -169,7 +170,7 @@ namespace Emu.Tests.Audio.Formats.WAVE
 
         private (byte[] FormatChunk, RangeHelper.Range DataChunk) ReadChunkRanges(FixtureModel model)
         {
-            using var stream = model.ToTargetInformation(this.RealFileSystem).FileStream;
+            using var stream = this.CreateTargetInformation(model).FileStream;
 
             var riffChunk = Wave.FindRiffChunk(stream);
             var waveChunk = riffChunk.Bind(r => Wave.FindWaveChunk(stream, r));

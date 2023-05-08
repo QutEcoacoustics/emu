@@ -13,7 +13,7 @@ namespace Emu.Tests.Commands.Fix
     public class FixApplyCommandTests : TestBase
     {
         public FixApplyCommandTests(ITestOutputHelper output)
-            : base(output)
+            : base(output, realFileSystem: true)
         {
         }
 

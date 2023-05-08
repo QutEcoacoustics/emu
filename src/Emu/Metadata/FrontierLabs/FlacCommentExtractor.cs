@@ -91,7 +91,7 @@ namespace Emu.Metadata.FrontierLabs
                 {
                     Sensor = (recording.Sensor ?? new Sensor()) with
                     {
-                        Make = Vendor.FrontierLabs.ToNiceName(),
+                        Make = Vendor.FrontierLabs.GetEnumMemberValueOrDefault(),
                         Firmware = recording.Sensor?.Firmware ?? (string)this.ParseComment(FrontierLabs.FirmwareCommentKey, comments),
                         BatteryLevel = recording.Sensor?.BatteryLevel ?? batteryLevel,
                         Voltage = recording.Sensor?.Voltage ?? voltage,

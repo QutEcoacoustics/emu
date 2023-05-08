@@ -10,6 +10,7 @@ namespace Emu.Serialization
     using CsvHelper;
     using CsvHelper.Configuration;
     using Emu.Models;
+    using Emu.Models.Notices;
     using Emu.Serialization.Converters;
     using NodaTime;
     using Rationals;
@@ -127,6 +128,8 @@ namespace Emu.Serialization
             context.TypeConverterCache.AddConverter<Range>(new CsvRangeConverter());
             context.TypeConverterCache.AddConverter<Rational>(new RationalsConverter());
             context.TypeConverterCache.AddConverter<string[]>(new StringListConverter());
+
+            //context.TypeConverterCache.AddConverter<IEnumerable<Notice>>(new NoticeListConverter());
             context.TypeConverterCache.AddConverter<Microphone[]>(new MicrophoneListConverter());
         }
     }

@@ -14,7 +14,7 @@ namespace Emu.Tests.Commands
     public class EmuCommandTests : TestBase
     {
         public EmuCommandTests(ITestOutputHelper output)
-            : base(output)
+            : base(output, realFileSystem: true)
         {
         }
 

@@ -16,9 +16,9 @@ using NodaTime;
 using UnitsNet.NumberExtensions.NumberToEnergy;
 using UnitsNet.NumberExtensions.NumberToInformation;
 using static Emu.Audio.Vendors.WildlifeAcoustics.Programs.Enums.EventType;
-using static Emu.Extensions.NodaTime.Helpers;
 using static LanguageExt.Prelude;
 using static NodaTime.Duration;
+using static NodaTime.EmuExtensions;
 using static NodaTime.LocalTime;
 
 public partial class ProgramParserTests

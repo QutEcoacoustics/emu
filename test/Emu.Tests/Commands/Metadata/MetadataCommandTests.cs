@@ -11,6 +11,7 @@ namespace Emu.Tests.Commands.Metadata
     using Emu.Cli.ObjectFormatters;
     using Emu.Commands.Metadata;
     using Emu.Metadata;
+    using Emu.Metadata.SupportFiles;
     using Emu.Models;
     using Emu.Serialization;
     using Emu.Tests.TestHelpers;
@@ -34,6 +35,7 @@ namespace Emu.Tests.Commands.Metadata
                 this.BuildLogger<Metadata>(),
                 this.TestFiles,
                 new FileMatcher(this.BuildLogger<FileMatcher>(), this.TestFiles),
+                new SupportFileFinder(this.BuildLogger<SupportFileFinder>(), this.TestFiles),
                 this.GetOutputRecordWriter(),
                 new MetadataRegister(this.ServiceProvider),
                 new PrettyFormatter(),
@@ -125,12 +127,18 @@ namespace Emu.Tests.Commands.Metadata
             [InlineData(OutputFormat.Compact, FixtureModel.Sm4HighPrecision)]
             [InlineData(OutputFormat.JSON, FixtureModel.Sm4HighPrecision)]
             [InlineData(OutputFormat.JSONL, FixtureModel.Sm4HighPrecision)]
+            [InlineData(OutputFormat.Default, FixtureModel.Audiomoth180)]
+            [InlineData(OutputFormat.CSV, FixtureModel.Audiomoth180)]
+            [InlineData(OutputFormat.Compact, FixtureModel.Audiomoth180)]
+            [InlineData(OutputFormat.JSON, FixtureModel.Audiomoth180)]
+            [InlineData(OutputFormat.JSONL, FixtureModel.Audiomoth180)]
             public async Task EachFormatterWorks(OutputFormat format, string fixtureName)
             {
                 var command = new Metadata(
                     this.BuildLogger<Metadata>(),
                     this.CurrentFileSystem,
                     new FileMatcher(this.BuildLogger<FileMatcher>(), this.CurrentFileSystem),
+                    new SupportFileFinder(this.BuildLogger<SupportFileFinder>(), this.CurrentFileSystem),
                     new OutputRecordWriter(
                         this.Sink,
                         OutputRecordWriter.ChooseFormatter(this.ServiceProvider, format),

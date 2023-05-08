@@ -41,17 +41,28 @@ namespace Emu.Commands.Rename
         private readonly IFileSystem fileSystem;
         private readonly FilenameExtractor filenameExtractor;
         private readonly FileMatcher fileMatcher;
+        private readonly SupportFileFinder fileFinder;
         private readonly FilenameParser parser;
         private readonly MetadataRegister extractorRegister;
         private readonly FilenameGenerator generator;
         private IEnumerable<IMetadataOperation> allExtractors;
 
-        public Rename(ILogger<Rename> logger, DryRunFactory dryRunFactory, IFileSystem fileSystem, FileMatcher fileMatcher, OutputRecordWriter writer, FilenameParser parser, MetadataRegister extractorRegister, FilenameGenerator generator)
+        public Rename(
+            ILogger<Rename> logger,
+            DryRunFactory dryRunFactory,
+            IFileSystem fileSystem,
+            FileMatcher fileMatcher,
+            SupportFileFinder fileFinder,
+            OutputRecordWriter writer,
+            FilenameParser parser,
+            MetadataRegister extractorRegister,
+            FilenameGenerator generator)
         {
             this.logger = logger;
             this.dryRunFactory = dryRunFactory;
             this.fileSystem = fileSystem;
             this.fileMatcher = fileMatcher;
+            this.fileFinder = fileFinder;
             this.parser = parser;
             this.extractorRegister = extractorRegister;
             this.generator = generator;
@@ -321,7 +332,7 @@ namespace Emu.Commands.Rename
 
             using var target = new TargetInformation(this.fileSystem, transform.Base, transform.Data.Path);
 
-            SupportFile.FindSupportFiles(transform.Base, target.AsEnumerable(), this.fileSystem);
+            this.fileFinder.FindSupportFiles(transform.Data.Directory, target.AsArray());
 
             Recording recording = transform.Data;
             foreach (var extractor in this.AllExtractors)

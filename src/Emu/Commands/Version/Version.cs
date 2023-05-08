@@ -7,8 +7,6 @@ namespace Emu.Commands.Version
     using System.CommandLine.Invocation;
     using Emu.Utilities;
     using static Emu.Cli.SpectreUtils;
-    using static ThisAssembly;
-    using static ThisAssembly.Git;
 
     public class Version : EmuCommandHandler<Version.VersionRecord>
     {
@@ -19,16 +17,17 @@ namespace Emu.Commands.Version
 
         public override Task<int> InvokeAsync(InvocationContext context)
         {
+            // https://github.com/devlooped/GitInfo/issues/273
             var record = new VersionRecord(
-                InformationalVersion,
-                RepositoryUrl,
-                BaseVersion.Major,
-                BaseVersion.Minor,
-                Commits,
-                Branch,
-                Commit,
-                Sha,
-                CommitDate);
+                ThisAssembly.InformationalVersion,
+                System.Reflection.ThisAssembly.Git.RepositoryUrl,
+                System.Reflection.ThisAssembly.Git.BaseVersion.Major,
+                System.Reflection.ThisAssembly.Git.BaseVersion.Minor,
+                System.Reflection.ThisAssembly.Git.Commits,
+                System.Reflection.ThisAssembly.Git.Branch,
+                System.Reflection.ThisAssembly.Git.Commit,
+                System.Reflection.ThisAssembly.Git.Sha,
+                System.Reflection.ThisAssembly.Git.CommitDate);
 
             this.WriteHeader();
             this.Write(record);

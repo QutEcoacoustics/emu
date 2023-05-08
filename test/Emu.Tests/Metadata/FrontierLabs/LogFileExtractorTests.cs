@@ -17,7 +17,7 @@ namespace Emu.Tests.Metadata
         private readonly LogFileExtractor subject;
 
         public LogFileExtractorTests(ITestOutputHelper output)
-            : base(output)
+            : base(output, realFileSystem: true)
         {
             this.subject = new LogFileExtractor(
                 this.BuildLogger<LogFileExtractor>());
@@ -27,7 +27,7 @@ namespace Emu.Tests.Metadata
         [ClassData(typeof(FixtureData))]
         public async Task CanProcessFilesWorks(FixtureModel model)
         {
-            var result = await this.subject.CanProcessAsync(model.ToTargetInformation(this.RealFileSystem));
+            var result = await this.subject.CanProcessAsync(this.CreateTargetInformation(model));
 
             // we can process any file that has Frontier Lab log files
             var expected = model.Process.ContainsKey(FixtureModel.FrontierLabsLogFileExtractor);
@@ -50,7 +50,7 @@ namespace Emu.Tests.Metadata
                 Recording recording = new();
 
                 recording = await this.subject.ProcessFileAsync(
-                    model.ToTargetInformation(this.RealFileSystem),
+                    this.CreateTargetInformation(model),
                     recording);
 
                 recording.MemoryCard.Should().BeEquivalentTo(expectedRecording.MemoryCard);

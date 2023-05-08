@@ -17,7 +17,7 @@ namespace Emu.Tests.Metadata
         private readonly FilenameExtractor subject;
 
         public FileNameExtractorTests(ITestOutputHelper output)
-            : base(output)
+            : base(output, realFileSystem: true)
         {
             this.subject = new FilenameExtractor(
                 this.BuildLogger<FilenameExtractor>(),
@@ -32,7 +32,7 @@ namespace Emu.Tests.Metadata
         public async Task CanProcessFilesWorks(FixtureModel model)
         {
             // we can process all files that have a filename
-            var result = await this.subject.CanProcessAsync(model.ToTargetInformation(this.RealFileSystem));
+            var result = await this.subject.CanProcessAsync(this.CreateTargetInformation(model));
 
             Assert.True(result);
         }
@@ -51,7 +51,7 @@ namespace Emu.Tests.Metadata
                 }
 
                 var recording = await this.subject.ProcessFileAsync(
-                    model.ToTargetInformation(this.RealFileSystem),
+                    this.CreateTargetInformation(model),
                     this.Recording);
 
                 recording.Extension.Should().Be(expectedRecording.Extension);

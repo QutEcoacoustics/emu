@@ -30,6 +30,7 @@ namespace Emu
     using Emu.Filenames;
     using Emu.Fixes;
     using Emu.Metadata;
+    using Emu.Metadata.SupportFiles;
     using Emu.Serialization;
     using Emu.Utilities;
     using Microsoft.Extensions.DependencyInjection;
@@ -100,6 +101,7 @@ namespace Emu
                 //.AddTransient<DefaultFormatters>()
                 .AddSingleton<IFileSystem>(_ => fileSystem ?? new FileSystem())
                 .AddSingleton<FileMatcher>()
+                .AddSingleton<SupportFileFinder>()
                 .AddSingleton<FilenameGenerator>()
                 .AddSingleton<FileUtilities>()
                 .AddSingleton(provider => new FilenameParser(

@@ -4,18 +4,23 @@
 
 namespace Emu.Metadata.SupportFiles.FrontierLabs
 {
+    using System.Diagnostics;
+    using System.IO.Abstractions;
     using System.Linq;
     using System.Text.RegularExpressions;
     using Emu.Models;
     using LanguageExt;
+    using LanguageExt.Common;
     using NodaTime;
     using NodaTime.Text;
     using static LanguageExt.Prelude;
 
-    public class LogFile : SupportFile
+    public partial class LogFile : SupportFile
     {
         public const string FrontierLabsLogString = "FRONTIER LABS Bioacoustic Audio Recorder";
         public const string LogFileKey = "Frontier Labs Log file";
+        public const string LogFilePattern = "*logfile*.txt";
+
         public const string FirmwareString = "Firmware:";
         public const string SerialNumberString = "Serial Number:";
         public const string ConfigString = "Config:";
@@ -38,26 +43,18 @@ namespace Emu.Metadata.SupportFiles.FrontierLabs
 
         public static readonly Regex[] DateMatchers =
         {
-            new("\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}"),
+            DateRegex(),
 
             // some log files emit single digit days, e.g.
             // 1/01/2010 00:00:22
-            new("\\d{1,2}/\\d{2}/\\d{4} \\d{2}:\\d{2}:\\d{2}"),
+            SingleDigitDayRegex(),
         };
 
         public static readonly string[] PowerTokens = new[] { "Ext-power", "Solar-power" };
-        public static readonly Regex LogFileRegex = new(@".*logfile.*txt");
-        public static readonly Regex FirmwareRegex = new(@"V?\d+");
-        public static readonly Regex BatteryParsingRegex = new(@"[%V()]");
-        private static readonly Regex GainRegex = new("(\\d+)dB on channel ([A-Z])");
-        private static readonly Regex GainRegexOlder = new("with a gain of (\\d+)dB with");
 
-        // matches: Microphone: 001958 "STD AUDIO MIC" ( 05/07/2019 )
-        private static readonly Regex MicrophoneLineRegex = new(@": (\d+) ""(.*)"" \( ([\d/]+) \)");
-
-        public LogFile(string filePath)
+        public LogFile(string path)
+            : base(path)
         {
-            this.FilePath = filePath;
         }
 
         public List<RecordingRecord> RecordingLogs { get; set; } = new List<RecordingRecord>();
@@ -71,50 +68,38 @@ namespace Emu.Metadata.SupportFiles.FrontierLabs
         /// <summary>
         /// Searches each potential support file for a log file that correlates with the given recording.
         /// </summary>
-        /// <param name="information">The target recording information.</param>
+        /// <param name="target">The target recording information.</param>
         /// <param name="supportFiles">List of all potential support files for this target.</param>
-        public static void FindLogFile(TargetInformation information, IEnumerable<string> supportFiles)
+        public static Option<SupportFile> ChooseLogFile(TargetInformation target, IReadOnlyCollection<SupportFile> supportFiles)
         {
-            IEnumerable<string> logFiles = supportFiles.Where(x => LogFileRegex.IsMatch(x));
-
-            int length = logFiles.Length();
-
-            string first = logFiles.FirstOrDefault();
-
-            LogFile logFile = null;
-
-            if (length == 1)
+            if (supportFiles.Count == 1)
             {
-                logFile = GetLogFile(first);
+                return supportFiles.Single();
             }
-            else if (length > 1)
+            else if (supportFiles.Count > 1)
             {
-                foreach (string log in logFiles)
+                foreach (var file in supportFiles)
                 {
-                    var file = GetLogFile(log);
+                    Debug.Assert(file != null, "provided support files should never be null");
 
-                    if (file == null)
-                    {
-                        continue;
-                    }
+                    var logFile = (LogFile)file;
 
                     // If more than one log file is found, we must check for the file name in the log file
                     // Won't apply to later firmware versions
-                    foreach (RecordingRecord record in file.RecordingLogs)
+                    foreach (var record in logFile.RecordingLogs)
                     {
-                        if (record.Name.Contains(information.FileSystem.Path.GetFileName(information.Path)))
+                        if (record.Name.Contains(target.FileSystem.Path.GetFileName(target.Path)))
                         {
-                            logFile = file;
-                            break;
+                            return file;
                         }
                     }
                 }
-            }
 
-            // If log file is found, correlate it to the target
-            if (logFile != null)
+                return None;
+            }
+            else
             {
-                information.TargetSupportFiles.Add(LogFileKey, logFile);
+                throw new InvalidOperationException("ChooseLogFile called with 0 support files");
             }
         }
 
@@ -123,35 +108,16 @@ namespace Emu.Metadata.SupportFiles.FrontierLabs
         /// If the given log file has already been cached, find and return it.
         /// If this is an unseen log file, parse all of it's data and return it.
         /// </summary>
-        /// <param name="log">The log file name.</param>
         /// <returns>
         /// A parsed log file object.
         /// </returns>
-        public static LogFile GetLogFile(string log)
+        public static Fin<SupportFile> Create(IFileSystem fileSystem, string path)
         {
-            IEnumerable<string> knownSupportFilePaths = TargetInformation.KnownSupportFiles.Select(x => x.FilePath);
+            var file = new LogFile(path);
 
-            if (knownSupportFilePaths.Contains(log))
-            {
-                var file = TargetInformation.KnownSupportFiles[knownSupportFilePaths.ToList().IndexOf(log)];
+            file.ExtractInformation(fileSystem);
 
-                if (file is LogFile f)
-                {
-                    return f;
-                }
-            }
-            else
-            {
-                var file = new LogFile(log);
-
-                if (file.ExtractInformation())
-                {
-                    TargetInformation.KnownSupportFiles.Add(file);
-                    return file;
-                }
-            }
-
-            return null;
+            return file;
         }
 
         /// <summary>
@@ -167,7 +133,7 @@ namespace Emu.Metadata.SupportFiles.FrontierLabs
 
             while ((line = reader.ReadLine()) != null)
             {
-                foreach (Regex matcher in DateMatchers)
+                foreach (var matcher in DateMatchers)
                 {
                     date = string.Join(" ", line.Split(" ").Take(2));
 
@@ -183,7 +149,7 @@ namespace Emu.Metadata.SupportFiles.FrontierLabs
 
         public static LocalDateTime ParseDate(string dateTime)
         {
-            foreach (LocalDateTimePattern datePattern in DatePatterns)
+            foreach (var datePattern in DatePatterns)
             {
                 if (datePattern.Parse(dateTime) is { Success: true } d)
                 {
@@ -204,8 +170,8 @@ namespace Emu.Metadata.SupportFiles.FrontierLabs
         /// </returns>
         public static DataRecord<MemoryCard> MemoryCardParser(StreamReader reader, string line)
         {
-            string dateTime = line.Split(SDCardString).First().Trim();
-            LocalDateTime timeStamp = ParseDate(dateTime);
+            var dateTime = line.Split(SDCardString).First().Trim();
+            var timeStamp = ParseDate(dateTime);
 
             // determine which date format is used in this log
             var dateFormat = DateMatchers.Single(regex => regex.Match(dateTime).Success);
@@ -277,7 +243,7 @@ namespace Emu.Metadata.SupportFiles.FrontierLabs
                 format = line?.Split(' ').Last();
             }
 
-            MemoryCard memoryCard = new MemoryCard() with
+            var memoryCard = new MemoryCard() with
             {
                 FormatType = format,
                 ManufacturerID = manufacturer.ToNullable(),
@@ -357,22 +323,22 @@ namespace Emu.Metadata.SupportFiles.FrontierLabs
 
             var locationValues = line.Split(LocationString);
 
-            string locationData = locationValues.Last();
-            string dateTime = locationValues.First().Trim();
+            var locationData = locationValues.Last();
+            var dateTime = locationValues.First().Trim();
 
-            LocalDateTime timeStamp = ParseDate(dateTime);
+            var timeStamp = ParseDate(dateTime);
 
             // remove []
             locationData = locationData.Replace("[", string.Empty).Replace("]", string.Empty).Split(" ", StringSplitOptions.RemoveEmptyEntries).First();
 
             // Find index dividing lat and lon
-            int latLonDividingIndex = locationData.IndexOfAny(new char[] { '+', '-' }, 1);
+            var latLonDividingIndex = locationData.IndexOfAny(new char[] { '+', '-' }, 1);
 
             // Parse lat and lon
             latitude = double.Parse(locationData.Substring(0, latLonDividingIndex));
             longitude = double.Parse(locationData.Substring(latLonDividingIndex));
 
-            Location location = new Location() with
+            var location = new Location() with
             {
                 Latitude = latitude,
                 Longitude = longitude,
@@ -391,8 +357,8 @@ namespace Emu.Metadata.SupportFiles.FrontierLabs
         /// </returns>
         public static (double? BatteryLevel, double? Voltage) BatteryParser(string batteryData)
         {
-            batteryData = BatteryParsingRegex.Replace(batteryData, string.Empty);
-            string[] batteryValues = batteryData.Split(" ", StringSplitOptions.RemoveEmptyEntries);
+            batteryData = VoltageRegex().Replace(batteryData, string.Empty);
+            var batteryValues = batteryData.Split(" ", StringSplitOptions.RemoveEmptyEntries);
 
             double? batteryLevel = double.Parse(batteryValues[0]) / 100;
             double? batteryVoltage = double.Parse(batteryValues[1]);
@@ -428,14 +394,14 @@ namespace Emu.Metadata.SupportFiles.FrontierLabs
             }
 
             // Split string into individual microphone values
-            string[] micValues = microphoneData.Split("\"").Select(x => x.Trim()).ToArray();
+            var micValues = microphoneData.Split("\"").Select(x => x.Trim()).ToArray();
 
             // Parse each value
             string uid;
             string type;
             string stringBuildDate;
 
-            var microphoneLineMatch = MicrophoneLineRegex.Match(microphoneData);
+            var microphoneLineMatch = MicrophoneLineRegex().Match(microphoneData);
             if (microphoneLineMatch.Success)
             {
                 uid = microphoneLineMatch.Groups[1].Value;
@@ -457,7 +423,7 @@ namespace Emu.Metadata.SupportFiles.FrontierLabs
             if (arrowLine is not null)
             {
                 // gain is contained in the arrow line for some versions
-                var matches = GainRegex.Matches(arrowLine);
+                var matches = GainAndChannelRegex().Matches(arrowLine);
                 if (matches.Any())
                 {
                     foreach (Match match in matches)
@@ -476,7 +442,7 @@ namespace Emu.Metadata.SupportFiles.FrontierLabs
                 }
                 else
                 {
-                    var oldGainMatch = GainRegexOlder.Match(arrowLine);
+                    var oldGainMatch = OldGainRegex().Match(arrowLine);
                     if (oldGainMatch.Success)
                     {
                         gain = double.Parse(oldGainMatch.Groups[1].Value);
@@ -514,7 +480,7 @@ namespace Emu.Metadata.SupportFiles.FrontierLabs
             {
                 if (line.Contains(FirmwareString))
                 {
-                    string firmwareString = line.Split().Where(x => FirmwareRegex.IsMatch(x)).FirstOrDefault();
+                    var firmwareString = line.Split().Where(x => FirmwareRegex2().IsMatch(x)).FirstOrDefault();
 
                     firmwareString = firmwareString?.StartsWith("V") ?? false ? firmwareString[1..] : firmwareString;
 
@@ -541,10 +507,10 @@ namespace Emu.Metadata.SupportFiles.FrontierLabs
                 }
             }
 
-            string dateTime = FindNextDate(reader);
-            LocalDateTime timeStamp = ParseDate(dateTime);
+            var dateTime = FindNextDate(reader);
+            var timeStamp = ParseDate(dateTime);
 
-            Sensor sensor = new Sensor() with
+            var sensor = new Sensor() with
             {
                 Firmware = firmware,
                 SerialNumber = serialNumber,
@@ -566,10 +532,10 @@ namespace Emu.Metadata.SupportFiles.FrontierLabs
         {
             var recordingValues = line.Split("|");
 
-            string dateTime = recordingValues[0].Trim();
-            LocalDateTime timeStamp = ParseDate(dateTime);
+            var dateTime = recordingValues[0].Trim();
+            var timeStamp = ParseDate(dateTime);
 
-            string name = string.Join("|", recordingValues[1..]);
+            var name = string.Join("|", recordingValues[1..]);
 
             (double?, double?)? batteryData = null;
             List<Microphone> microphones = null;
@@ -604,36 +570,50 @@ namespace Emu.Metadata.SupportFiles.FrontierLabs
             return new RecordingRecord(name, batteryData?.Item1, batteryData?.Item2, microphones?.ToArray(), timeStamp);
         }
 
-        /// <summary>
-        /// Extracts all information from a log file.
-        /// </summary>
-        /// <returns>
-        /// A boolean representing whether the data extraction was succesful.
-        /// </returns>
-        public override bool ExtractInformation()
-        {
-            using (StreamReader reader = new StreamReader(this.FilePath))
-            {
-                string line;
+        [GeneratedRegex("\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}")]
+        private static partial Regex DateRegex();
 
-                while ((line = reader.ReadLine()) != null)
+        [GeneratedRegex("\\d{1,2}/\\d{2}/\\d{4} \\d{2}:\\d{2}:\\d{2}")]
+        private static partial Regex SingleDigitDayRegex();
+
+        [GeneratedRegex("V?\\d+")]
+        private static partial Regex FirmwareRegex2();
+
+        [GeneratedRegex("[%V()]")]
+        private static partial Regex VoltageRegex();
+
+        [GeneratedRegex("(\\d+)dB on channel ([A-Z])")]
+        private static partial Regex GainAndChannelRegex();
+
+        [GeneratedRegex("with a gain of (\\d+)dB with")]
+        private static partial Regex OldGainRegex();
+
+        // matches: Microphone: 001958 "STD AUDIO MIC" ( 05/07/2019 )
+        [GeneratedRegex(": (\\d+) \"(.*)\" \\( ([\\d/]+) \\)")]
+        private static partial Regex MicrophoneLineRegex();
+
+        private void ExtractInformation(IFileSystem fileSystem)
+        {
+            using var reader = fileSystem.File.OpenText(this.Path);
+
+            string line;
+            while ((line = reader.ReadLine()) != null)
+            {
+                if (line.Contains(FrontierLabsLogString))
                 {
-                    if (line.Contains(FrontierLabsLogString))
-                    {
-                        this.SensorLogs.Add(SensorParser(reader));
-                    }
-                    else if (line.Contains(SDCardString))
-                    {
-                        this.MemoryCardLogs.Add(MemoryCardParser(reader, line));
-                    }
-                    else if (line.Contains(RecordingString))
-                    {
-                        this.RecordingLogs.Add(RecordingParser(reader, line));
-                    }
-                    else if (line.Contains(LocationString))
-                    {
-                        this.LocationLogs.Add(LocationParser(line));
-                    }
+                    this.SensorLogs.Add(SensorParser(reader));
+                }
+                else if (line.Contains(SDCardString))
+                {
+                    this.MemoryCardLogs.Add(MemoryCardParser(reader, line));
+                }
+                else if (line.Contains(RecordingString))
+                {
+                    this.RecordingLogs.Add(RecordingParser(reader, line));
+                }
+                else if (line.Contains(LocationString))
+                {
+                    this.LocationLogs.Add(LocationParser(line));
                 }
             }
 
@@ -641,8 +621,6 @@ namespace Emu.Metadata.SupportFiles.FrontierLabs
             this.MemoryCardLogs = this.MemoryCardLogs.OrderBy(log => log.TimeStamp).ToList();
             this.RecordingLogs = this.RecordingLogs.OrderBy(log => log.TimeStamp).ToList();
             this.LocationLogs = this.LocationLogs.OrderBy(log => log.TimeStamp).ToList();
-
-            return true;
         }
 
         public record RecordingRecord(string Name, double? BatteryLevel, double? Voltage, Microphone[] Microphones, LocalDateTime TimeStamp);

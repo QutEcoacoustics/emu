@@ -64,7 +64,9 @@ namespace Emu.Audio.Vendors.WildlifeAcoustics.WAMD
         {
             var riffChunk = Wave.FindRiffChunk(stream);
             var waveChunk = riffChunk.Bind(r => Wave.FindWaveChunk(stream, r));
-            var wamdChunk = waveChunk.Bind(w => Wave.ScanForChunk(stream, w, WamdChunkId, false));
+            var wamdChunk = waveChunk
+                .Bind(w => Wave.ScanForChunks(stream, w, WamdChunkId, false))
+                .Map(x => x.First());
 
             if (wamdChunk.IsFail)
             {

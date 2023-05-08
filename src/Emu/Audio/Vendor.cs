@@ -14,7 +14,7 @@ namespace Emu.Audio
         FrontierLabs = 1,
         [EnumMember(Value = "Wildlife Acoustics")]
         WildlifeAcoustics = 2,
-        [EnumMember(Value = "Open Acoustics")]
-        OpenAcoustics = 3,
+        [EnumMember(Value = "Open Acoustic Devices")]
+        OpenAcousticDevices = 3,
     }
 }

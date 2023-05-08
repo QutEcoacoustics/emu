@@ -26,6 +26,7 @@ namespace Emu.Commands.Metadata
         private readonly ILogger<Metadata> logger;
         private readonly IFileSystem fileSystem;
         private readonly FileMatcher fileMatcher;
+        private readonly SupportFileFinder fileFinder;
         private readonly PrettyFormatter pretty;
         private readonly CompactFormatter compact;
         private readonly IEnumerable<IMetadataOperation> allExtractors;
@@ -34,6 +35,7 @@ namespace Emu.Commands.Metadata
             ILogger<Metadata> logger,
             IFileSystem fileSystem,
             FileMatcher fileMatcher,
+            SupportFileFinder fileFinder,
             OutputRecordWriter writer,
             MetadataRegister register,
             PrettyFormatter pretty,
@@ -42,6 +44,7 @@ namespace Emu.Commands.Metadata
             this.logger = logger;
             this.fileSystem = fileSystem;
             this.fileMatcher = fileMatcher;
+            this.fileFinder = fileFinder;
             this.pretty = pretty;
             this.compact = compact;
             this.Writer = writer;
@@ -73,9 +76,9 @@ namespace Emu.Commands.Metadata
 
                 string directory = context.FileSystem.Path.GetDirectoryName(context.Path);
 
-                if (targetDirectories.ContainsKey(directory))
+                if (targetDirectories.TryGetValue(directory, out var value))
                 {
-                    targetDirectories[directory].Add(context);
+                    value.Add(context);
                 }
                 else
                 {
@@ -90,7 +93,7 @@ namespace Emu.Commands.Metadata
             {
                 using (this.logger.Measure("Searching for support files", level: Level.Trace))
                 {
-                    SupportFile.FindSupportFiles(directory, targets, this.fileSystem);
+                    this.fileFinder.FindSupportFiles(directory, targets);
                 }
 
                 foreach (TargetInformation target in targets)
