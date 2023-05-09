@@ -458,7 +458,7 @@ namespace Emu.Tests.Commands.Rename
             this.TestFiles.AddEmptyFile("/20221010T010000+0000_REC [-38.36231+145.31787].wav");
 
             // we had a bug with the rename command failing to format file names with square brackets
-            // so force use ansi output
+            // so force use ANSI output
             var command = new Rename(
                 this.BuildLogger<Rename>(),
                 this.DryRunFactory,

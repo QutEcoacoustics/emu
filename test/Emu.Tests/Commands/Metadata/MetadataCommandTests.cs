@@ -9,7 +9,9 @@ namespace Emu.Tests.Commands.Metadata
     using System.Linq;
     using System.Threading.Tasks;
     using Emu.Cli.ObjectFormatters;
+    using Emu.Commands;
     using Emu.Commands.Metadata;
+    using Emu.Commands.Metadata.Dump;
     using Emu.Metadata;
     using Emu.Metadata.SupportFiles;
     using Emu.Models;
@@ -45,6 +47,40 @@ namespace Emu.Tests.Commands.Metadata
             };
 
             this.serializer = this.ServiceProvider.GetRequiredService<JsonLinesSerializer>();
+        }
+
+        [Fact]
+        public void SupportsTargets()
+        {
+            var command = "metadata **/*.wav";
+
+            var result = this.CliParser.Parse(command);
+
+            Assert.True(result.Errors.Count == 0);
+
+            var commandResult = result.CommandResult.Command;
+
+            Assert.IsType<MetadataCommand>(commandResult);
+
+            Assert.Equal(
+                result.FindResultFor(Common.Targets).GetValueOrDefault<string[]>(),
+                "**/*.wav".AsArray());
+
+            result.UnmatchedTokens.Should().BeEmpty();
+            result.UnparsedTokens.Should().BeEmpty();
+        }
+
+        [Fact]
+        public async Task CanBeInvoked()
+        {
+            var command = "metadata **/*.wav";
+
+            var parseResult = this.CliParser.Parse(command);
+
+            Assert.True(parseResult.Errors.Count == 0);
+
+            var result = await parseResult.InvokeAsync();
+            result.Should().Be(0);
         }
 
         [Fact]

@@ -14,8 +14,8 @@ Contributions are welcome!
 
 If you want to run a copy of `emu`, you'll need to build it yourself (we'll have an installer soon but it is not yet ready).
 
-1. You'll need a .NET 6 SDK installed
-    - From <https://dotnet.microsoft.com/download/dotnet/6.0> choose a download from the SDK section, for your OS, and CPU architecture
+1. You'll need a .NET 8 SDK installed
+    - From <https://dotnet.microsoft.com/download/dotnet/8.0> choose a download from the SDK section, for your OS, and CPU architecture
 2. Next clone this repo to your computer
 3. Open a Terminal prompt (in `pwsh` (Windows/MacOs/Linux) or `bash` (Linux/MacOS)) and navigate to the repo folder
 4. Then choose **one** of publish commands from below that matches your OS and CPU architecture:
@@ -44,7 +44,7 @@ Other notes:
 
     ```powershell
     $rids = ("win-x64", "linux-x64", "osx-x64", "osx-arm64", "linux-arm", "linux-arm64")
-    $rids | ForEach-Object { dotnet publish .\src\Emu\ -c Release -o ./publish/$_ --self-contained -r $_  }
+    $rids | ForEach-Object { dotnet publish .\src\Emu\ -o ./publish/$_ --self-contained -r $_  }
     ```
 
 -   Release a new version with:
@@ -53,9 +53,11 @@ Other notes:
     dotnet test
     $version = "x.x.x"
     git tag -a -m "Version $version" $version
-    Remove-Item .\publish\*
+    Remove-Item ./publish/*
     $rids = ("win-x64", "linux-x64", "osx-x64", "osx-arm64", "linux-arm", "linux-arm64")
-    $rids | ForEach-Object { dotnet publish .\src\Emu\ -c Release -o ./publish/$_ --self-contained -r $_ }
+    $rids | ForEach-Object { dotnet publish ./src/Emu/ -o ./publish/$_ --self-contained -r $_ }
+    # do a quick check that the binaries work
+    ./publish/win-x64/emu.exe metadata ./test/Fixtures/
     Get-ChildItem ./publish/ -Directory | % { Compress-Archive -Path $_/* -DestinationPath ("./publish/emu_${version}_$($_.Name).zip") }
     git push --tags
     ./docker_build_and_push.ps1

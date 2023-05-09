@@ -26,6 +26,36 @@ The `metadata` command also has these subcommands:
 The metadata commands (mostly) support all the same formats as out other commands.
 See [output](./output.md) for more information.
 
+## Usage
+
+```
+emu metadata [options] [<targets>...]
+
+Arguments:
+  <targets>  One more glob patterns for files to process. E.g. '**/*.wav'.
+
+Options:
+  --no-checksum Doesn't calculate checksum, important for archiving purposes but computationally expensive
+```
+
+```
+emu metadata show [options] [<targets>...]
+
+Arguments:
+  <targets>  One more glob patterns for files to process. E.g. '**/*.wav'.
+
+Options:
+  --no-checksum Doesn't calculate checksum, important for archiving purposes but computationally expensive
+```
+
+```
+emu  metadata dump [<targets>...] 
+
+Arguments:
+  <targets>  One more glob patterns for files to process. E.g. '**/*.wav'.
+```
+
+
 ## Examples
 
 ### Show the metadata in a pretty format for the EMU test dataset
