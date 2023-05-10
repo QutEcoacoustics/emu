@@ -2,6 +2,11 @@
 
 Ok here's my best reverse engineered guess at the layout of the `SM4P` and `SM3P` chunks.
 
+Note: this document took significant time and effort to produce. If you use it or find
+it useful please acknowledge [@atruskie](https://github.com/atruskie)/EMU in your work.
+Also let us know! We'd love to know it helped someone.
+
+
 ## Prelude
 
 Notes: The ones I have seem all be of size 1124 bytes (for SM4 variants)
