@@ -47,8 +47,8 @@ EMU has progressed to be a _beta-level_ product.
 EMU supports:
 
 - Frontier Labs sensors (for FLAC and WAVE files)
-- Wildlife Acoustics sensors (only test for SM4BAT files)
-- Open Acoustics devices (only basic WAVE metadata gathering)
+- Wildlife Acoustics sensors (tested with SM3, SM4, & SM4BAT files)
+- Open Acoustics devices
 
 We want to support more files and formats. If you need one not covered here, then get in touch!
 
