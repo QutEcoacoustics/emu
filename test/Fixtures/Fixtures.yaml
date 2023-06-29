@@ -2854,7 +2854,7 @@
     Extension: .WAV
     Stem: HB-YRK016_HMTC_20221125_102500+1000
     StartDate: 2022-11-25T10:25:00+10:00
-    LocalStartDate: 2022-10-25T10:25:00
+    LocalStartDate: 2022-11-25T10:25:00
     TrueStartDate: 2022-11-25T10:25:00+10:00
     TrueEndDate:
     DurationSeconds: 30
@@ -3074,3 +3074,67 @@
   Process:
     AudioMothCommentExtractor:
     #AudioMothConfigFileExtractor:
+
+- Name: AudioMoth144
+  Record: &AudioMoth144
+    Extension: .WAV
+    Stem: HB-YRK016_HMTC_20221125_102500+1000
+    StartDate: 2022-01-03T18:30:00+10:30
+    LocalStartDate: 2022-01-03T18:30:00
+    TrueStartDate: 2022-01-03T18:30:00+10:30
+    TrueEndDate:
+    DurationSeconds: 10800
+    TotalSamples: 345600000
+    Channels: 1
+    SampleRateHertz: 32000
+    BitsPerSecond: 512000
+    BitDepth: 16
+    FileSizeBytes: 691200488
+    MediaType: audio/wave
+    CalculatedChecksum:
+      Type: SHA256
+      Value: f8ce4e58d276293bdffd8e5136e15f718b1b18a16b608e07c362c50ae944f768
+    EmbeddedChecksum: ~
+    MemoryCard: ~
+    Sensor: &AudioMoth144Sensor
+      Make: Open Acoustic Devices
+      Model: AudioMoth
+      Name: 243B1F075C7A37BE
+      Firmware: "1.4.4"
+      FirmwareName: AudioMoth-Firmware-Basic
+      SerialNumber: 243B1F075C7A37BE
+      PowerSource:
+      Microphones:
+        - Type: Internal
+          UID:
+          BuildDate:
+          Gain: 25.1
+          Channel: 0
+          ChannelName: A
+          Sensitivity:
+      Gain:
+      Configuration:
+      Voltage: 3.9
+      BatteryLevel:
+      Temperature: 25.3
+      LastTimeSync:
+    Location: ~
+    RecordingStatus: OK
+  FixturePath: OAD_AM/1.4.4_Normal/20220103_183000.WAV
+  Notes:
+  ValidMetadata: Yes
+  MimeType: audio/wave
+  Make: Open Acoustic Devices
+  Problems:
+  Process:
+    AudioMothCommentExtractor:
+      <<: *AudioMoth144
+      Sensor:
+        <<: *AudioMoth144Sensor
+        Firmware: "1.4.0..1.5.0"
+        FirmwareName: ~
+    AudioMothConfigFileExtractor:
+      <<: *AudioMoth144
+      Sensor:
+        Firmware: "1.4.4"
+        FirmwareName: "AudioMoth-Firmware-Basic"

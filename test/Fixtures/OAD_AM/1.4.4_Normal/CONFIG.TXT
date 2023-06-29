@@ -1,0 +1,25 @@
+
+Device ID                       : 243B1F075C7A37BE
+Firmware                        : AudioMoth-Firmware-Basic (1.4.4)
+
+Time zone                       : UTC+10:30
+
+Sample rate (Hz)                : 32000
+Gain                            : Medium-High
+
+Sleep duration (s)              : -
+Recording duration (s)          : -
+
+Active recording periods        : 1
+
+Recording period 1              : 08:00 - 11:00 (UTC)
+
+Earliest recording time         : ---------- --:--:--
+Latest recording time           : ---------- --:--:--
+
+Filter                          : -
+Amplitude threshold             : -
+
+Enable LED                      : true
+Enable low-voltage cutoff       : true
+Enable battery level indication : true

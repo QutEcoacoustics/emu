@@ -8,15 +8,15 @@ namespace Emu.Audio.Vendors.OpenAcousticDevices
 
     public enum GainSetting
     {
-        [EnumMember(Value = "low")]
+        [EnumMember(Value = "Low")]
         Low = 0,
-        [EnumMember(Value = "low-medium")]
+        [EnumMember(Value = "Low-Medium")]
         LowMedium = 1,
-        [EnumMember(Value = "medium")]
+        [EnumMember(Value = "Medium")]
         Medium = 2,
-        [EnumMember(Value = "medium-high")]
+        [EnumMember(Value = "Medium-High")]
         MediumHigh = 3,
-        [EnumMember(Value = "high")]
+        [EnumMember(Value = "High")]
         High = 4,
     }
 }

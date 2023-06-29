@@ -29,7 +29,7 @@ namespace Emu.Audio.Vendors.OpenAcousticDevices
         private const string CancelLowBat = "low battery voltage";
         private const string CancelLowBat140 = "low voltage";
         private const string CancelSwitch = "change of switch position";
-        private const string CancellSwitch160 = "switch position change";
+        private const string CancelSwitch160 = "switch position change";
         private const string CancelFileSizeLimit = "file size limit";
         private const string CancelMicChanged = "microphone change";
         private const string CancelMagneticSwitch = "magnetic switch";
@@ -40,8 +40,8 @@ namespace Emu.Audio.Vendors.OpenAcousticDevices
         private const string Cancel140 = $@"( {CancelledDueTo} (?<Cancel>{CancelLowBat140}|{CancelSwitch}).)?";
         private const string Cancel142 = $@"( {CancelledDueTo} (?<Cancel>{CancelLowBat140}|{CancelSwitch}|{CancelFileSizeLimit}).)?";
         private const string Cancel150 = $@"( {CancelledDueTo} (?<Cancel>{CancelLowBat140}|{CancelSwitch}|{CancelFileSizeLimit}|{CancelMicChanged}).)?";
-        private const string Cancel160 = $@"( {CancelledDueTo160} (?<Cancel>{CancelLowBat140}|{CancellSwitch160}|{CancelFileSizeLimit}|{CancelMicChanged}).)?";
-        private const string Cancel170 = $@"( {CancelledDueTo170} (?<Cancel>{CancelLowBat140}|{CancellSwitch160}|{CancelFileSizeLimit}|{CancelMicChanged}|{CancelMagneticSwitch})\.)?";
+        private const string Cancel160 = $@"( {CancelledDueTo160} (?<Cancel>{CancelLowBat140}|{CancelSwitch160}|{CancelFileSizeLimit}|{CancelMicChanged}).)?";
+        private const string Cancel170 = $@"( {CancelledDueTo170} (?<Cancel>{CancelLowBat140}|{CancelSwitch160}|{CancelFileSizeLimit}|{CancelMicChanged}|{CancelMagneticSwitch})\.)?";
         private const string Temperature = @"temperature was (?<Temperature>-?\d{1,2}\.\d)C";
 
         private const string AmplitudeThreshold = @"( Amplitude threshold was (?<AmplitudeThreshold>\d+)\.)?";
@@ -84,7 +84,7 @@ namespace Emu.Audio.Vendors.OpenAcousticDevices
             new(Comment121(), default, "1.2.1"),
             new(Comment122(), Fix122, "1.2.2", "1.3.0"),
             new(Comment140(), default, "1.4.0", "1.4.1"),
-            new(Comment142(), default, "1.4.2", "1.4.3"),
+            new(Comment142(), default, "1.4.2", "1.4.3", "1.4.4"),
             new(Comment150(), default, "1.5.0"),
             new(Comment160(), default, "1.6.0"),
             new(Comment170(), default, "1.7.0", "1.7.1"),
@@ -130,6 +130,7 @@ namespace Emu.Audio.Vendors.OpenAcousticDevices
 
         // 1.4.2 and 1.4.3 and 1.4.4
         // https://github.com/OpenAcousticDevices/AudioMoth-Firmware-Basic/compare/1.4.1...1.4.2#diff-a0cb465674c1b01a07d361f25a0ef2b0214b7dfe9412b7777f89add956da10ecL189-L285
+        // no changes in: https://github.com/OpenAcousticDevices/AudioMoth-Firmware-Basic/compare/1.4.2...1.4.4
         [GeneratedRegex(
             @$"^Recorded at {Date} {OffsetFull} by AudioMoth {SerialNumber} at {GainSettingWord} setting while {BatteryState140} and {Temperature}\.{AmplitudeThreshold}{Filter}{Cancel142}$")]
         private static partial Regex Comment142();

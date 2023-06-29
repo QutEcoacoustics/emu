@@ -61,9 +61,10 @@ namespace Emu.Tests.Commands.Metadata.Show
 
             var result = parseResult.Invoke();
 
-            result.Should().Be(ExitCodes.Success);
-
             var output = console.NewOut.ToString();
+            var error = console.NewError.ToString();
+
+            result.Should().Be(ExitCodes.Success, $"Exit code was {result}, \noutput was: {output}\nerror was: {error}");
 
             var consoleWidth = 80;
             var a = fixture.AbsoluteFixturePath[0..consoleWidth];

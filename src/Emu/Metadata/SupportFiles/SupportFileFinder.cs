@@ -140,9 +140,10 @@ namespace Emu.Metadata.SupportFiles
         {
             return KnownSupportFiles.GetOrAdd(path, (path) =>
             {
-                // realise files into  support files
+                // realize files into  support files
                 // add these results to the cache - even if null/invalid
                 // we don't want to parse good or bad files twice
+                this.logger.LogDebug("Reading support file: {path}", path);
                 return createSupportFile(this.fileSystem, path);
             });
         }

@@ -68,5 +68,39 @@ namespace System
                 ?.GetCustomAttribute<EnumMemberAttribute>(false)
                 ?.Value ?? basic;
         }
+
+        public static bool TryParseEnumMember
+            <[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicFields)] T>(
+            this string str,
+            bool ignoreCase,
+            out T result)
+            where T : unmanaged, Enum
+        {
+            var comparison = ignoreCase ? StringComparison.InvariantCultureIgnoreCase : StringComparison.InvariantCulture;
+            var enumType = typeof(T);
+            foreach (var name in Enum.GetNames<T>())
+            {
+                if (string.Equals(str, name, comparison))
+                {
+                    result = Enum.Parse<T>(str);
+                    return true;
+                }
+
+                var enumMemberAttribute =
+                    enumType
+                    .GetField(name)!
+                    .GetCustomAttributes(typeof(EnumMemberAttribute), true)
+                    .Cast<EnumMemberAttribute>().Single();
+
+                if (enumMemberAttribute.Value == str)
+                {
+                    result = (T)Enum.Parse(enumType, name);
+                    return true;
+                }
+            }
+
+            result = default;
+            return false;
+        }
     }
 }

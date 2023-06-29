@@ -49,6 +49,7 @@ namespace Emu.Tests.Metadata
             recording.Location.Should().BeEquivalentTo(expectedRecording.Location);
 
             recording.StartDate.Should().Be(expectedRecording.StartDate);
+            recording.LocalStartDate.Should().Be(expectedRecording.LocalStartDate);
             recording.TrueStartDate.Should().Be(expectedRecording.TrueStartDate);
             recording.TrueEndDate.Should().Be(expectedRecording.TrueEndDate);
 

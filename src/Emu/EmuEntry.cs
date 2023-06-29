@@ -18,6 +18,7 @@ namespace Emu
     using System.CommandLine.Hosting;
     using System.CommandLine.Parsing;
     using System.Diagnostics;
+    using System.Diagnostics.CodeAnalysis;
     using System.IO.Abstractions;
     using Emu.Cli;
     using Emu.Cli.ObjectFormatters;
@@ -59,6 +60,9 @@ namespace Emu
         /// Run EMU with commandline arguments.
         /// </summary>
         /// <param name="args">The args array received by the executable.</param>
+        // https://github.com/dotnet/command-line-api/issues/1465
+        // TODO: remove when we upgrade CLI library to v1.0
+        [DynamicDependency("Microsoft.CSharp")]
         public static async Task<int> Main(string[] args)
         {
             WaitForDebugger();

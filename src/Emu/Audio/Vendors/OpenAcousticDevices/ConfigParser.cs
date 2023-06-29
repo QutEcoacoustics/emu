@@ -73,7 +73,13 @@ namespace Emu.Audio.Vendors.OpenAcousticDevices
                 return null;
             }
 
+            // 1.4.x uses true/false and 1.8.x uses Yes/No - it changed somewhere in between
             if (value.Equals("Yes", StringComparison.InvariantCultureIgnoreCase))
+            {
+                return true;
+            }
+
+            if (value.Equals("true", StringComparison.InvariantCultureIgnoreCase))
             {
                 return true;
             }
@@ -83,9 +89,21 @@ namespace Emu.Audio.Vendors.OpenAcousticDevices
                 return false;
             }
 
+            if (value.Equals("false", StringComparison.InvariantCultureIgnoreCase))
+            {
+                return false;
+            }
+
             if (key == "Gain")
             {
-                return Enum.Parse<GainSetting>(value);
+                var success = value.TryParseEnumMember<GainSetting>(ignoreCase: true, out var gain);
+
+                if (success)
+                {
+                    return gain;
+                }
+
+                throw new FormatException($"Unknown gain setting found: `{value}`");
             }
 
             if (key == "Time zone")
@@ -96,6 +114,11 @@ namespace Emu.Audio.Vendors.OpenAcousticDevices
                 {
                     return offset.Value;
                 }
+            }
+
+            if (int.TryParse(value, out var integer))
+            {
+                return integer;
             }
 
             if (double.TryParse(value, out var number))

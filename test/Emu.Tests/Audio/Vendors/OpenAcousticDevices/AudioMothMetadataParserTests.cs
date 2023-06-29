@@ -128,19 +128,23 @@ namespace Emu.Tests.Audio.Vendors.OpenAcousticDevices
             },
             {
                 "Recorded at 18:53:23 24/08/1396 (UTC+0:01) by AudioMoth 0000000000000A37 at high gain setting while battery state was 4.6V and temperature was -4.0C. Low-pass filter applied with cut-off frequency of 2.9kHz.",
-                new(V("1.4.2", "1.4.3"), D(1396, 8, 24, 18, 53, 23, 0, 1), "0000000000000A37", High, Voltage, 4.6, RecordingState.OK, -4, TriggerType.None, null, null, null, null, null, 2900, null, null)
+                new(V("1.4.2", "1.4.3", "1.4.4"), D(1396, 8, 24, 18, 53, 23, 0, 1), "0000000000000A37", High, Voltage, 4.6, RecordingState.OK, -4, TriggerType.None, null, null, null, null, null, 2900, null, null)
             },
             {
                 "Recorded at 02:36:12 19/05/0675 (UTC-2:26) by AudioMoth 0000000000000000 at low gain setting while battery state was 3.9V and temperature was -10.0C. Amplitude threshold was 22. Band-pass filter applied with cut-off frequencies of 6.3kHz and 11.7kHz. Recording cancelled before completion due to file size limit.",
-                new(V("1.4.2", "1.4.3"), D(675, 5, 19, 2, 36, 12, -2, -26), "0000000000000000", Low, Voltage, 3.9, RecordingState.FileSizeLimit, -10, TriggerType.Amplitude, 22 / 32768.0, null, null, null, null, null, null, (6300, 11700))
+                new(V("1.4.2", "1.4.3", "1.4.4"), D(675, 5, 19, 2, 36, 12, -2, -26), "0000000000000000", Low, Voltage, 3.9, RecordingState.FileSizeLimit, -10, TriggerType.Amplitude, 22 / 32768.0, null, null, null, null, null, null, (6300, 11700))
             },
             {
                 "Recorded at 07:42:47 27/10/2261 (UTC+0:09) by AudioMoth 0000000000000000 at medium-high gain setting while battery state was 4.5V and temperature was 7.0C. Amplitude threshold was 6. High-pass filter applied with cut-off frequency of 1.9kHz.",
-                new(V("1.4.2", "1.4.3"), D(2261, 10, 27, 7, 42, 47, 0, 9), "0000000000000000", MediumHigh, Voltage, 4.5, RecordingState.OK, 7, TriggerType.Amplitude, 6 / 32768.0, null, null, null, null, null, 1900, null)
+                new(V("1.4.2", "1.4.3", "1.4.4"), D(2261, 10, 27, 7, 42, 47, 0, 9), "0000000000000000", MediumHigh, Voltage, 4.5, RecordingState.OK, 7, TriggerType.Amplitude, 6 / 32768.0, null, null, null, null, null, 1900, null)
             },
             {
                 "Recorded at 18:14:39 18/02/0865 (UTC+3:01) by AudioMoth 0000000000000302 at low gain setting while battery state was less than 2.5V and temperature was -10.0C. Amplitude threshold was 6. Band-pass filter applied with cut-off frequencies of 10.9kHz and 15.7kHz. Recording cancelled before completion due to low voltage.",
-                new(V("1.4.2", "1.4.3"), D(865, 2, 18, 18, 14, 39, 3, 1), "0000000000000302", Low, BatteryLimit.LessThan, 2.5, RecordingState.LowBattery, -10, TriggerType.Amplitude, 6 / 32768.0, null, null, null, null, null, null, (10900, 15700))
+                new(V("1.4.2", "1.4.3", "1.4.4"), D(865, 2, 18, 18, 14, 39, 3, 1), "0000000000000302", Low, BatteryLimit.LessThan, 2.5, RecordingState.LowBattery, -10, TriggerType.Amplitude, 6 / 32768.0, null, null, null, null, null, null, (10900, 15700))
+            },
+            {
+                "Recorded at 18:30:00 03/01/2022 (UTC+10:30) by AudioMoth 243B1F075C7A37BE at medium-high gain setting while battery state was 3.9V and temperature was 25.3C.",
+                new(V("1.4.2", "1.4.3", "1.4.4"), D(2022, 1, 3, 18, 30, 0, 10, 30), "243B1F075C7A37BE", MediumHigh, Voltage, 3.9, RecordingState.OK, 25.3, TriggerType.None, null, null, null, null, null, null, null, null)
             },
             {
                 "Recorded at 03:00:50 08/03/1815 (UTC+5:26) during deployment 00000000A4168C14 at medium-high gain while battery was 4.1V and temperature was 7.0C. Amplitude threshold was -62 dB with 51s minimum trigger duration. Band-pass filter with frequencies of 15.1kHz and 6.0kHz applied. Recording stopped due to low voltage.",
@@ -172,7 +176,7 @@ namespace Emu.Tests.Audio.Vendors.OpenAcousticDevices
 
             actual.Should().BeSuccess();
 
-            // in our test cases we know which firmware we're targetting but the parser can still return more possible
+            // in our test cases we know which firmware we're targeting but the parser can still return more possible
             // matches, so we only test expected firmware versions are somewhere in actual
             actual.ThrowIfFail().PossibleFirmwares.Should().Contain(expected.PossibleFirmwares);
             actual.ThrowIfFail().Should().BeEquivalentTo(expected, options => options.Excluding(x => x.PossibleFirmwares));

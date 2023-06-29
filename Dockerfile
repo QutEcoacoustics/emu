@@ -19,7 +19,8 @@ WORKDIR /emu
 COPY --from=build-env /app/publish .
 
 # Enable detection of running in a container
-ENV DOTNET_RUNNING_IN_CONTAINER=true 
+ENV DOTNET_RUNNING_IN_CONTAINER=true
+ENV DOTNET_gcServer=1
 # Set the invariant mode since icu-libs isn't included (see https://github.com/dotnet/announcements/issues/20)
 ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=true
 

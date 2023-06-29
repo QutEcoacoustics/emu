@@ -77,6 +77,14 @@ $env:EMU_DEBUG=$true
 dotnet run --no-self-contained -- fix apply -f FL001 -f FL010 -n "F:\tmp\fixes\*.flac"
 ```
 
+## Linux cgroups and containers
+
+You may need to enable server gc when running in a memory constrained environment:
+
+```
+export DOTNET_gcServer=1
+```
+
 ## Docker
 
 [![Docker Image Version (latest semver)](https://img.shields.io/docker/v/qutecoacoustics/emu)](https://hub.docker.com/repository/docker/qutecoacoustics/emu)
@@ -88,6 +96,7 @@ EMU uses a multistage build dockerfile. In your dockerfile you should be able to
 ```dockerfile
 
 ENV DOTNET_RUNNING_IN_CONTAINER=true
+ENV DOTNET_gcServer=1
 ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=true
 
 COPY --from=qutecoacoustics/emu:latest /emu /emu

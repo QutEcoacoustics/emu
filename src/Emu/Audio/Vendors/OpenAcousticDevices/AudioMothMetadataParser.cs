@@ -234,7 +234,7 @@ namespace Emu.Audio.Vendors.OpenAcousticDevices
                 CancelLowBat => RecordingState.LowBattery,
                 CancelLowBat140 => RecordingState.LowBattery,
                 CancelSwitch => RecordingState.SwitchChanged,
-                CancellSwitch160 => RecordingState.SwitchChanged,
+                CancelSwitch160 => RecordingState.SwitchChanged,
                 CancelFileSizeLimit => RecordingState.FileSizeLimit,
                 CancelMicChanged => RecordingState.MicrophoneChanged,
                 CancelMagneticSwitch => RecordingState.MagneticSwitch,
