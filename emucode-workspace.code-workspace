@@ -43,9 +43,6 @@
         "omnisharp.enableEditorConfigSupport": true,
         "omnisharp.enableRoslynAnalyzers": true,
         "omnisharp.organizeImportsOnFormat": true,
-        "omnisharp.enableImportCompletion": true,
-
-        
         "nugetpackagemanagergui.nuget.searchPackage.preRelease": true,
         "workbench.colorCustomizations": {
             "activityBar.activeBackground": "#836d62",
@@ -64,9 +61,11 @@
             "titleBar.activeBackground": "#66554c",
             "titleBar.activeForeground": "#e7e7e7",
             "titleBar.inactiveBackground": "#66554c99",
-            "titleBar.inactiveForeground": "#e7e7e799"
+            "titleBar.inactiveForeground": "#e7e7e799",
+            "commandCenter.border": "#e7e7e799"
         },
         "peacock.color": "#66554C",
+        "dotnet.completion.showCompletionItemsFromUnimportedNamespaces": true,
     },
     "launch": {
         "version": "0.2.0",
