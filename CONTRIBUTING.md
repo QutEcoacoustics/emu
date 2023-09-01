@@ -56,8 +56,13 @@ Other notes:
     Remove-Item ./publish/*
     $rids = ("win-x64", "linux-x64", "osx-x64", "osx-arm64", "linux-arm", "linux-arm64")
     $rids | ForEach-Object { dotnet publish ./src/Emu/ -o ./publish/$_ --self-contained -r $_ }
-    # do a quick check that the binaries work
+
+    # do a quick check that the binaries work (just checking for no crashes)
     ./publish/win-x64/emu.exe metadata ./test/Fixtures/
+    ./publish/win-x64/emu.exe metadata -F JSON ./test/Fixtures/
+    ./publish/win-x64/emu.exe metadata -F CSV ./test/Fixtures/
+    ./publish/win-x64/emu.exe fix check --all -F JSON ./test/Fixtures/
+
     Get-ChildItem ./publish/ -Directory | % { Compress-Archive -Path $_/* -DestinationPath ("./publish/emu_${version}_$($_.Name).zip") }
     git push --tags
     ./docker_build_and_push.ps1

@@ -24,18 +24,10 @@ namespace Emu.Serialization
         /// </summary>
         public JsonLinesSerializer()
         {
-            this.settings = new JsonSerializerSettings()
-            {
-                Formatting = Formatting.None,
-                Converters = new List<JsonConverter>
-                {
-                    new StringEnumConverter(),
-                    new WellKnownProblemJsonConverter(),
-                    new JsonRangeConverter(),
-                    new RationalNullJsonConverter(),
-                    new RationalJsonConverter(),
-                },
-            }.ConfigureForNodaTime(DateTimeZoneProviders.Tzdb);
+            // for the love of god make sure the same value converters are registered
+            // for both this and the standard JsonSerializer
+            this.settings = JsonSerializer.Settings;
+            this.settings.Formatting = Formatting.None;
 
             this.serializer = Newtonsoft.Json.JsonSerializer.Create(this.settings);
         }
