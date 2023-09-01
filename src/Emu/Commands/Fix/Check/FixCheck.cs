@@ -9,6 +9,9 @@ namespace Emu
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+    using CsvHelper;
+    using CsvHelper.Configuration;
+    using CsvHelper.TypeConversion;
     using Emu.Cli;
     using Emu.Fixes;
     using Emu.Utilities;

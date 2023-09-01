@@ -80,7 +80,7 @@ namespace Emu.Fixes.FrontierLabs
             {
                 var (firmware, firmwareStatus) = ((FirmwareRecord, CheckStatus))result;
 
-                // alrighty: this mess is because we used to do a fairly crude frimware version check.
+                // alrighty: this mess is because we used to do a fairly crude firmware version check.
                 // we then had to upgrade to actually counting samples but to maintain backwards compat
                 // we still do both.
                 var (status, severity, message) = (firmwareStatus, samplesDifferent) switch

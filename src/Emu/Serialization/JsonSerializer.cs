@@ -8,6 +8,7 @@ namespace Emu.Serialization
     using System.Collections.Generic;
     using System.IO;
     using Emu.Serialization.Converters;
+    using Emu.Serialization.Json;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
     using NodaTime;
@@ -44,6 +45,7 @@ namespace Emu.Serialization
                         new RationalNullJsonConverter(),
                         new RationalJsonConverter(),
                     },
+                    ContractResolver = new FinContractResolver(),
                 }.ConfigureForNodaTime(DateTimeZoneProviders.Tzdb);
             }
         }

@@ -4,6 +4,7 @@
 
 namespace System;
 
+using System.Runtime.CompilerServices;
 using global::System.IO.Abstractions;
 using global::System.Text;
 
@@ -31,6 +32,47 @@ public static class StringExtensions
         }
 
         builder.Append(suffix);
+
+        return builder.ToString();
+    }
+
+    public static string Join<T>(this IEnumerable<T> items, string delimiter)
+    {
+        var builder = new StringBuilder();
+
+        var enumerator = items.GetEnumerator();
+        bool any = false;
+        while (enumerator.MoveNext())
+        {
+            any = true;
+
+            builder.Append(enumerator.Current);
+
+            builder.Append(delimiter);
+        }
+
+        if (any)
+        {
+            builder.Remove(builder.Length - delimiter.Length, delimiter.Length);
+        }
+
+        return builder.ToString();
+    }
+
+    public static string Join(this ITuple tuple, string delimiter)
+    {
+        var builder = new StringBuilder();
+
+        for (var i = 0; i < tuple.Length; i++)
+        {
+            var item = tuple[i];
+            builder.Append(item);
+
+            if (i < tuple.Length - 1)
+            {
+                builder.Append(delimiter);
+            }
+        }
 
         return builder.ToString();
     }

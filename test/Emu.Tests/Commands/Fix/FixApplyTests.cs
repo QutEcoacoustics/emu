@@ -333,6 +333,48 @@ namespace Emu.Tests.Commands.Fix
             this.RealFileSystem.File.Delete(expected);
         }
 
+        public class JsonFormatTests : TestBase, IClassFixture<FixtureData>
+        {
+            private readonly FixApply command;
+            private readonly FixtureData data;
+
+            public JsonFormatTests(ITestOutputHelper output, FixtureData data)
+                : base(output, true, OutputFormat.JSON)
+            {
+                var writer = new OutputRecordWriter(
+                    this.ServiceProvider.GetRequiredService<TextWriter>(),
+                    OutputRecordWriter.ChooseFormatter(this.ServiceProvider, this.OutputFormat),
+                    new Lazy<OutputFormat>(() => this.OutputFormat));
+                this.command = new FixApply(
+                  this.BuildLogger<FixApply>(),
+                  this.DryRunFactory,
+                  this.ServiceProvider.GetRequiredService<FileMatcher>(),
+                  this.ServiceProvider.GetRequiredService<FixRegister>(),
+                  writer,
+                  this.CurrentFileSystem,
+                  this.ServiceProvider.GetRequiredService<FileUtilities>())
+                {
+                };
+                this.data = data;
+            }
+
+            [Fact]
+            public async Task JsonWorks()
+            {
+                var fixture = this.data[FixtureModel.RobsonDryAPartialWithConflict];
+
+                this.command.DryRun = true;
+                this.command.NoRename = false;
+                this.command.Targets = new[] { fixture.AbsoluteFixturePath };
+                this.command.Fix = FixRegister.All.Select(x => x.Problem.Id).ToArray();
+
+                // really just testing the json serializer didn't throw
+                var result = await this.command.InvokeAsync(null);
+
+                result.Should().Be(ExitCodes.Success);
+            }
+        }
+
         public class DefaultFormatTests : TestBase, IClassFixture<FixtureData>
         {
             private readonly FixApply command;
