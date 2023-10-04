@@ -221,5 +221,18 @@ namespace Emu.Models
         /// Gets a key-value store of other information not yet codified by the standard.
         /// </summary>
         public Dictionary<string, string> OtherFields { get; init; }
+
+        /// <summary>
+        /// Shortcut method to add notices to this record.
+        /// </summary>
+        /// <param name="notices">The notices to add.</param>
+        /// <returns>A new copy of the <c>Recording</c> record.</returns>
+        public Recording AddNotices(params Notice[] notices)
+        {
+            return this with
+            {
+                Notices = this.Notices.Concat(notices),
+            };
+        }
     }
 }

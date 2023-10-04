@@ -9,6 +9,7 @@ namespace Emu.Tests.Audio.Formats.WAVE
     using Emu.Audio.WAVE;
     using Emu.Tests.TestHelpers;
     using FluentAssertions;
+    using LanguageExt.Common;
     using Xunit;
     using Xunit.Abstractions;
 
@@ -32,7 +33,21 @@ namespace Emu.Tests.Audio.Formats.WAVE
             var channels = Wave.GetChannels(format);
 
             var totalSamples = Wave.GetTotalSamples(dataRange, channels, bitsPerSample);
-            totalSamples.Should().Be(model.Record.TotalSamples);
+            totalSamples.IsSucc.Should().BeTrue();
+            ((ulong)totalSamples).Should().Be(model.Record.TotalSamples);
+        }
+
+        [Fact]
+        public void ReadTotalSamplesFailCaseTest()
+        {
+            var model = this.data[FixtureModel.CorruptWaveHeader];
+            var (format, dataRange) = this.ReadChunkRanges(model);
+            var bitsPerSample = Wave.GetBitsPerSample(format);
+            var channels = Wave.GetChannels(format);
+
+            var totalSamples = Wave.GetTotalSamples(dataRange, channels, bitsPerSample);
+            totalSamples.IsSucc.Should().BeFalse();
+            ((Error)totalSamples).Should().Be(Wave.InvalidSampleInformation);
         }
 
         [Fact]

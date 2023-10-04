@@ -44,6 +44,25 @@ namespace Emu.Tests.Metadata
 
             Recording expectedRecording = model.Record;
 
+            var recording = await this.subject.ProcessFileAsync(
+                this.CreateTargetInformation(model),
+                new());
+
+            recording.DurationSeconds?.Should().Be(expectedRecording.DurationSeconds);
+            recording.TotalSamples.Should().Be(expectedRecording.TotalSamples);
+            recording.SampleRateHertz.Should().Be(expectedRecording.SampleRateHertz);
+            recording.Channels.Should().Be(expectedRecording.Channels);
+            recording.BitsPerSecond.Should().Be(expectedRecording.BitsPerSecond);
+            recording.BitDepth.Should().Be(expectedRecording.BitDepth);
+            recording.MediaType.Should().Be(expectedRecording.MediaType);
+        }
+
+        [Fact]
+        public async Task ItCanHandleFaultyFiles()
+        {
+            var model = new FixtureData()[FixtureModel.CorruptWaveHeader];
+            Recording expectedRecording = model.Record;
+
             Recording recording = new();
 
             recording = await this.subject.ProcessFileAsync(

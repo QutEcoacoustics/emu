@@ -37,7 +37,7 @@ namespace Emu
             }
             else
             {
-                writer.WriteValue((decimal)value);
+                writer.WriteValue(value.Value.IsNaN ? null : (decimal)value);
             }
         }
 

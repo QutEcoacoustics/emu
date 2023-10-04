@@ -19,7 +19,9 @@ namespace Emu.Serialization.Converters
                 return string.Empty;
             }
 
-            return ((decimal)((Rational)value)).ToString("G");
+            var r = (Rational)value;
+
+            return r.IsNaN ? null : ((decimal)r).ToString("G");
         }
 
         public override object ConvertFromString(string text, IReaderRow row, MemberMapData memberMapData)

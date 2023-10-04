@@ -6,6 +6,7 @@ namespace Emu.Fixes.FrontierLabs
 {
     using System.IO.Abstractions;
     using Emu.Audio.WAVE;
+    using Emu.Models.Notices;
     using Range = Emu.Audio.RangeHelper.Range;
 
     public class DataSizeOffBy44 : IncorrectDataSize
@@ -25,6 +26,10 @@ namespace Emu.Fixes.FrontierLabs
             Safe: false,
             Automatic: true,
             typeof(DataSizeOffBy44));
+
+        public Notice Notice { get; } = new Warning(
+            null,
+            Metadata.Problem);
 
         public override OperationInfo GetOperationInfo() => Metadata;
 

@@ -54,6 +54,7 @@ namespace Emu.Audio.WAVE
         public static readonly Error InvalidOffset = Error.New("Error reading file: an invalid offset was found");
         public static readonly Error InvalidChunk = Error.New("Error reading chunk: chunk size exceeds file size");
         public static readonly Error NoCueChunk = Error.New(" No `cue ` chunk found");
+        public static readonly Error InvalidSampleInformation = Error.New("Cannot determine total number of samples because either channel count or bits per sample were 0");
 
         public enum Format : ushort
         {
@@ -239,8 +240,13 @@ namespace Emu.Audio.WAVE
             return bitsPerSample;
         }
 
-        public static ulong GetTotalSamples(RangeHelper.Range dataChunk, ushort channels, ushort bitsPerSample)
+        public static Fin<ulong> GetTotalSamples(RangeHelper.Range dataChunk, ushort channels, ushort bitsPerSample)
         {
+            if (channels == 0 || bitsPerSample == 0)
+            {
+                return InvalidSampleInformation;
+            }
+
             // size of the data chunk
             var length = (ulong)dataChunk.Length;
 

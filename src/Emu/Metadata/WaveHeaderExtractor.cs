@@ -9,6 +9,7 @@ namespace Emu.Metadata
     using Emu.Audio.WAVE;
     using Emu.Fixes.FrontierLabs;
     using Emu.Models;
+    using Emu.Models.Notices;
     using Emu.Utilities;
     using LanguageExt;
     using Microsoft.Extensions.Logging;
@@ -62,6 +63,7 @@ namespace Emu.Metadata
             if (affectedByFl008)
             {
                 dataChunk = dataChunk.Map(r => this.fl008.ModifyDataRange(r));
+                recording = recording.AddNotices(this.fl008.Notice);
             }
 
             return NonAsyncPart(stream, formatChunk.ThrowIfFail(), dataChunk, recording);
@@ -80,18 +82,21 @@ namespace Emu.Metadata
             var byteRate = Wave.GetByteRate(formatSpan);
             var channels = Wave.GetChannels(formatSpan);
 
-            var samples = dataChunk.Map(d => (ulong?)Wave.GetTotalSamples(d, channels, bitsPerSample));
-            var duration = samples.Map(s => (Rational?)new Rational((uint)samples!, (uint)sampleRate));
+            var samples = dataChunk.Bind(d => Wave.GetTotalSamples(d, channels, bitsPerSample));
+            var duration = samples.Map(s => new Rational((uint)samples!, (uint)sampleRate));
+
+            var errors = samples.Fails().Concat(duration.Fails()).Distinct();
 
             return recording with
             {
-                DurationSeconds = duration.IfFail((Rational?)null),
-                TotalSamples = samples.IfFail((ulong?)null),
+                DurationSeconds = duration.IfFailNullable(),
+                TotalSamples = samples.IfFailNullable(),
                 SampleRateHertz = sampleRate,
-                Channels = (ushort)channels,
+                Channels = channels,
                 BitsPerSecond = byteRate * BinaryHelpers.BitsPerByte,
                 BitDepth = (byte)bitsPerSample,
                 MediaType = Wave.Mime,
+                Notices = recording.Notices.Concat(Error.FromExpectedErrors(errors)),
             };
         }
     }

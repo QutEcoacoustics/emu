@@ -3138,3 +3138,35 @@
       Sensor:
         Firmware: "1.4.4"
         FirmwareName: "AudioMoth-Firmware-Basic"
+
+- Name: Corrupt Wave Header
+  Record: &CorruptWaveHeader
+    Extension: .wav
+    Stem: file000000.wav
+    StartDate: ~
+    LocalStartDate: ~
+    TrueStartDate: ~
+    TrueEndDate:
+    DurationSeconds: ~
+    TotalSamples: ~
+    Channels: 0
+    SampleRateHertz: 11264
+    BitsPerSecond: 352800
+    BitDepth: 16
+    FileSizeBytes: 88
+    MediaType: audio/wave
+    CalculatedChecksum:
+      Type: SHA256
+      Value: 93bfbf30ff9b0a41756a78048bbb8028366efa4c2d95f59d3530199557a613e0
+    EmbeddedChecksum: ~
+    MemoryCard: ~
+    Sensor: ~
+  FixturePath: FL_BAR_LT/3.20_PartialWaveHeader/file000000.wav
+  Notes: Recovered file from corrupt SD card. Triggered an exception in our WAVE header parsing code.
+  # This value is mainly used by the CanProcess tests... and despite how messed up this file is... yeah
+  # we can process the header... so Yes
+  ValidMetadata: Yes
+  MimeType: audio/wave
+  Make: Frontier Labs
+  Problems:
+  Process:

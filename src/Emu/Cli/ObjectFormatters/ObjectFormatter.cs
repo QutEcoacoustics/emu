@@ -105,7 +105,7 @@ namespace Emu.Cli.ObjectFormatters
                 null => string.Empty,
                 string s => s,
 
-                Rationals.Rational r => ((decimal)r).ToString("G"),
+                Rationals.Rational r => r.IsNaN ? r.ToString() : ((decimal)r).ToString("G"),
                 LocalDate d => DateFormatting.LocalDatePattern.Format(d),
                 LocalTime t => DateFormatting.LocalTimePattern.Format(t),
                 LocalDateTime l => DateFormatting.DatePatternISO8601.Format(l),

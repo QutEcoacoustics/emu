@@ -120,7 +120,7 @@ namespace Emu.Filenames
                     LocalDateTime l => (true, DateFormatting.FormatFileName(l)),
                     TimeSpan t => (true, t.TotalSeconds.ToString(formatText, provider)),
                     Location l => (true, l.ToString("h", provider)),
-                    Rational r => (true, ((decimal)r).ToString(formatText ?? "F3", provider)),
+                    Rational r => (true, r.IsNaN ? r.ToString() : ((decimal)r).ToString(formatText ?? "F3", provider)),
                     _ => (false, null),
                 };
 
