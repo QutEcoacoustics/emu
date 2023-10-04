@@ -44,7 +44,7 @@ namespace Emu.Cli.ObjectFormatters
                 Offset o => MarkupDate(escaped),
                 bool b => MarkupBool(b),
                 Enum e => MarkupEnum(escaped),
-                Range r => escaped.Split("..") is[var a, var b] ? $"{MarkupNumber(a)}..{MarkupNumber(b)}" : escaped,
+                Range r => escaped.Split("..") is [var a, var b] ? $"{MarkupNumber(a)}..{MarkupNumber(b)}" : escaped,
                 Info i => MarkupInfo(escaped),
                 Warning w => MarkupWarning(escaped),
                 Error e => MarkupError(escaped),

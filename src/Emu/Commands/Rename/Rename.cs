@@ -214,6 +214,8 @@ namespace Emu.Commands.Rename
         {
             foreach (var file in files)
             {
+                this.logger.LogDebug("Processing file {path}", file.File);
+
                 var parse = this.Parse(file);
 
                 var moreMetadata = await this.ExtractMetadata(parse);

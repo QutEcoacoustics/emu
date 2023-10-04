@@ -61,7 +61,7 @@ Other notes:
     ./publish/win-x64/emu.exe metadata ./test/Fixtures/
     ./publish/win-x64/emu.exe metadata -F JSON ./test/Fixtures/
     ./publish/win-x64/emu.exe metadata -F CSV ./test/Fixtures/
-    ./publish/win-x64/emu.exe fix check --all -F JSON ./test/Fixtures/
+    ./publish/win-x64/emu.exe fix check --all -F JSONL ./test/Fixtures/
 
     Get-ChildItem ./publish/ -Directory | % { Compress-Archive -Path $_/* -DestinationPath ("./publish/emu_${version}_$($_.Name).zip") }
     git push --tags

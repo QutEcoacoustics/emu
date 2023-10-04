@@ -137,8 +137,8 @@ namespace Emu.Commands.Cues
             var sampleRate = Wave.GetSampleRate(formatSpan);
             var channels = Wave.GetChannels(formatSpan);
 
-            var samples = dataChunk.Map(d => Wave.GetTotalSamples(d, channels, bitsPerSample));
-            var duration = samples.Map(s => new Rational((uint)samples, (uint)sampleRate));
+            var samples = dataChunk.Bind(d => Wave.GetTotalSamples(d, channels, bitsPerSample));
+            var duration = samples.Map(s => new Rational((uint)s, (uint)sampleRate));
 
             var cuePoints = waveChunk.Bind(w => Wave.FindAndParseCuePoints(stream, w));
 
@@ -179,6 +179,4 @@ namespace Emu.Commands.Cues
             this.WriteMessage("Cues saved to file " + MarkupPath(cueFile.FullName));
         }
     }
-
-    public record CueResult(string File, Rational Position, Cue Cue);
 }
