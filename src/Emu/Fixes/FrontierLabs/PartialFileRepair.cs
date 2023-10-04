@@ -194,7 +194,7 @@ namespace Emu.Fixes.FrontierLabs
             if (!fail)
             {
                 // now apply duration changes and firmware tag
-                using var writer = this.fileSystem.File.Open(file, FileMode.Open, dryRun.FileAccess);
+                using var writer = this.fileSystem.File.Open(file, FileMode.Open, dryRun.FileAccess, FileShare.ReadWrite);
                 var fragmentPath = this.fileSystem.Path.Combine(directory, newBasename + ".truncated_part");
                 var durationResults = await this.FixDuration(fragmentPath, dryRun, writer);
                 if (durationResults.Case is (Seq<string> patch, ulong oldSamples, ulong newSamples, long truncated))

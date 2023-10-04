@@ -50,7 +50,7 @@ namespace Emu.Fixes.FrontierLabs
 
             if (affected is { Status: Affected })
             {
-                using var stream = (FileStream)this.fileSystem.File.Open(file, FileMode.Open, dryRun.FileAccess);
+                using var stream = (FileStream)this.fileSystem.File.Open(file, FileMode.Open, dryRun.FileAccess, FileShare.ReadWrite);
                 return await this.FixDuration(stream, affected, dryRun);
             }
             else
