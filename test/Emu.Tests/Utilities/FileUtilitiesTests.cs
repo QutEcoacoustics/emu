@@ -88,6 +88,35 @@ namespace Emu.Tests.Utilities
         }
 
         [Fact]
+        public async Task CheckForContinuousValue_RemainderBytesLessThanVectorSize()
+        {
+            var stream = new MemoryStream();
+
+            // a not nicely divideable chunk size
+            var buffer = new byte[32 + 11];
+
+            Array.Fill(buffer, (byte)99);
+
+            stream.Write(buffer);
+
+            var actual = await this.fileUtilities.CheckForContinuousValue(
+                stream,
+                target: new Vector<byte>(99));
+
+            actual.Should().BeTrue();
+
+            stream.Position = 34;
+            // any other random value
+            stream.Write("!"u8);
+
+            actual = await this.fileUtilities.CheckForContinuousValue(
+                stream,
+                target: new Vector<byte>(99));
+
+            actual.Should().BeFalse();
+        }
+
+        [Fact]
         public void CanTruncate()
         {
             var dryRun = this.ServiceProvider.GetRequiredService<DryRunFactory>();

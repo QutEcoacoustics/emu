@@ -222,10 +222,17 @@ namespace Emu.Utilities
 
                 for (int i = 0; i < read; i += Vector<byte>.Count)
                 {
-                    int upper = Math.Min(read - i, Vector<byte>.Count);
-                    var v = new Vector<byte>(buffer.AsSpan(i, upper));
+                    int length = Math.Min(read - i, Vector<byte>.Count);
+                    bool equal;
+                    if (length < Vector<byte>.Count)
+                    {
+                        equal = ComparisonSlow(i, length);
+                    }
+                    else
+                    {
+                        equal = new Vector<byte>(buffer.AsSpan(i, length)) == target;
+                    }
 
-                    var equal = v == target;
                     if (!equal)
                     {
                         return false;
@@ -234,6 +241,19 @@ namespace Emu.Utilities
             }
 
             return true;
+
+            bool ComparisonSlow(int index, int length)
+            {
+                for (var i = 0; i < length; i++, index++)
+                {
+                    if (buffer[index] != target[i])
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
         }
     }
 }
