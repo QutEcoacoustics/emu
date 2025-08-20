@@ -86,17 +86,6 @@ namespace Emu.Tests.FilenameParsing
             actual.TokenizedName.Should().Be(test.TokenizedName);
         }
 
-        [Theory]
-        [ClassData(typeof(FilenameParsingFixtureData))]
-        public void CanReconstructTheFileName(FilenameParsingFixtureModel test)
-        {
-            var parsed = this.FilenameParser.Parse(test.Filename);
-
-            var actual = this.generator.Reconstruct(parsed);
-
-            actual.Should().Be(test.NormalizedName);
-        }
-
         [Fact]
         public void WillThrowIfConstructedWithNulls()
         {
@@ -117,6 +106,39 @@ namespace Emu.Tests.FilenameParsing
                     Array.Empty<DateVariant<OffsetDateTime>>()));
 
             Assert.Equal("No date variants were given to filename parser", exception.Message);
+        }
+
+        [Fact]
+        public void SpecialCaseForStartAndEndFormat()
+        {
+            // Given a filename with start and end date
+            var filename = "S20240815T091156.982648+1000_E20240815T091251.967555+1000_-12.34567+78.98102.wav";
+
+            // When we parse it
+            var actual = this.FilenameParser.Parse(filename);
+
+            // Then the start date should be parsed correctly
+            actual.LocalStartDate.ShouldBe(new LocalDateTime(2024, 8, 15, 9, 11, 56).PlusNanoseconds(982648000));
+            actual.StartDate.ShouldBe(new OffsetDateTime(new LocalDateTime(2024, 8, 15, 9, 11, 56).PlusNanoseconds(982648000), Offset.FromHours(10)));
+
+            // And the end date should be parsed correctly
+            actual.EndDate.ShouldBe(new OffsetDateTime(new LocalDateTime(2024, 8, 15, 9, 12, 51).PlusNanoseconds(967555000), Offset.FromHours(10)));
+
+            // all other fields tested in the normal tests
+        }
+
+        [Fact]
+        public void CanParseFilenameWithSquareBrackets()
+        {
+            var filename = "/20221010T010000+0000_REC [-38.36231+145.31787].wav";
+
+            var actual = this.FilenameParser.Parse(filename);
+
+            actual.Location.Latitude.Should().BeApproximately(-38.36231, Wgs84Epsilon);
+            actual.Location.Longitude.Should().BeApproximately(145.31787, Wgs84Epsilon);
+
+            // we should have matched the square brackets as part of the location expression.
+            actual.TokenizedName.Should().NotContain("[");
         }
     }
 }

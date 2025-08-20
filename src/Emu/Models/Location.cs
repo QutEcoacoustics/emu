@@ -15,7 +15,7 @@ namespace Emu.Models
     public record Location : IFormattable
     {
         // this regex does not support the CRS when provided as a URI
-        private static readonly Regex Iso6709ParseRegex = new(@"^(?<lat>[+-]\d\d(\.\d+)?)(?<lon>[+-]\d\d\d(\.\d+)?)(?<alt>[+-]\d+(\.\d+)?)?(CRS(?<crs>[^\/]+))?\/?$");
+        private static readonly Regex Iso6709ParseRegex = new(@"^(?<lat>[+-]\d{1,2}(\.\d+)?)(?<lon>[+-]\d{1,3}(\.\d+)?)(?<alt>[+-]\d+(\.\d+)?)?(CRS(?<crs>[^\/]+))?\/?$");
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Location"/> class.
@@ -269,6 +269,11 @@ namespace Emu.Models
             precision = NumberOfDecimals(text, CultureInfo.InvariantCulture.NumberFormat);
 
             return parsed;
+        }
+
+        public override string ToString()
+        {
+            return this.ToString("H", CultureInfo.InvariantCulture);
         }
 
         public string ToString(string format, IFormatProvider provider)

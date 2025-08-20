@@ -8,21 +8,24 @@ namespace Emu.Filenames
     using System.Collections;
     using System.IO.Abstractions;
     using System.Text.RegularExpressions;
+    using Emu.Audio.Vendors.WildlifeAcoustics.Programs.Enums;
     using Emu.Dates;
     using Emu.Models;
     using LanguageExt;
     using Microsoft.Extensions.Logging;
+    using MoreLinq;
     using NodaTime;
     using Rationals;
     using SmartFormat;
     using SmartFormat.Core.Extensions;
     using SmartFormat.Core.Formatting;
+    using SmartFormat.Core.Parsing;
     using SmartFormat.Extensions;
     using Error = LanguageExt.Common.Error;
 
     public class FilenameGenerator
     {
-        public const char Delimitter = '_';
+        public const char Delimiter = '_';
 
 #pragma warning disable IO0006 // Replace Path class with IFileSystem.Path for improved testability
         private static readonly System.Collections.Generic.HashSet<char> InvalidChars = new(Path.GetInvalidFileNameChars())
@@ -68,9 +71,10 @@ namespace Emu.Filenames
                 .InsertExtension(1, new FileNameFormatter());
         }
 
-        public string Reconstruct(ParsedFilename filename)
+        public string ReconstructAndNormalize(ParsedFilename filename)
         {
-            return this.smart.Format(filename.TokenizedName, filename);
+            var cleanedTokenizedName = this.NormalizeParsedTokens(filename.NameTokens);
+            return this.smart.Format(cleanedTokenizedName, filename);
         }
 
         public Fin<string> Reconstruct(string tokenizedName, Recording recording)
@@ -83,6 +87,53 @@ namespace Emu.Filenames
             {
                 this.logger.LogTrace("Error occurred while formatting", fex);
                 return Error.New($"Unknown field `{fex?.ErrorItem?.RawText}` in the template `{fex?.ErrorItem?.BaseString}`.");
+            }
+        }
+
+        public string NormalizeParsedTokens(Lst<FilenameToken> tokens)
+        {
+            // Need to join segments together with delimiters
+            // need to clean segments on literals
+            return tokens.Map(Normalize).Join(string.Empty);
+
+            string Normalize(int index, FilenameToken current)
+            {
+                var previous = index > 0 ? tokens[index - 1] : null;
+                var next = index < tokens.Count - 1 ? tokens[index + 1] : null;
+
+                string segment;
+                if (current is FilenameToken.Literal literal)
+                {
+                    var cleaned = this.CleanSegment(literal.Text);
+
+                    segment = cleaned;
+                }
+                else
+                {
+                    segment = current.ToString();
+                }
+
+                if (string.IsNullOrEmpty(segment))
+                {
+                    return string.Empty;
+                }
+
+                // we don't add a delimiter if
+                // - it's the first token
+                var firstToken = previous is null;
+
+                // - the token has told us it should be abutted compactly
+                var compactToken = current is FilenameToken.Value { Compact: true };
+
+                // - or it is suitable to delimit a segment anyway
+                var suitableDelimiter = segment.StartsWith('.');
+
+                if (!(firstToken || compactToken || suitableDelimiter))
+                {
+                    segment = Delimiter + segment;
+                }
+
+                return segment;
             }
         }
 

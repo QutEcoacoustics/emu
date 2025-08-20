@@ -57,7 +57,9 @@ namespace Emu.Tests.Models
             { "+40.6894-074.0447/", Default with { Latitude = 40.6894, LatitudePrecision = 4, Longitude = -74.0447, LongitudePrecision = 4 } },
             { string.Empty, null },
             { "+A+B/", null },
-            { "-1+2/", null },
+
+            // this is kinda a violation of the spec but it's more useful that we can parse malformed values
+            { "-1+2/", Default with { Latitude = -1, Longitude = 2 } },
         };
 
         public static IEnumerable<object[]> Data => TestCases.Select(x => new object[] { x.Key });
@@ -94,6 +96,20 @@ namespace Emu.Tests.Models
             Skip.If(actual is null);
 
             actual.ToString("h", CultureInfo.InvariantCulture).Should().Be(expected.TrimEnd('/'));
+        }
+
+        [Fact]
+        public void ItCanParseTruncatedValuesButFormatsThemWide()
+        {
+            var input = "+4.52-2.20/";
+            var expected = "+04.52-002.20/";
+
+            var success = Location.TryParse(input, out var actual);
+
+            Assert.True(success);
+            Assert.Equal(4.52, actual.Latitude);
+            Assert.Equal(-2.2, actual.Longitude);
+            Assert.Equal(expected, actual.ToString());
         }
     }
 }

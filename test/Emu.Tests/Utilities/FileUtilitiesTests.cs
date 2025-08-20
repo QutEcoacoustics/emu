@@ -31,7 +31,7 @@ namespace Emu.Tests.Utilities
 
             stream.Write(buffer);
 
-            buffer.Fill(0);
+            buffer.Clear();
             stream.Write(buffer);
 
             buffer.Fill(2);
@@ -106,6 +106,7 @@ namespace Emu.Tests.Utilities
             actual.Should().BeTrue();
 
             stream.Position = 34;
+
             // any other random value
             stream.Write("!"u8);
 
@@ -153,7 +154,7 @@ namespace Emu.Tests.Utilities
             var dryRun = this.ServiceProvider.GetRequiredService<DryRunFactory>();
             using var dest = new MemoryStream();
 
-            await this.fileUtilities.TruncateSplitAsync(this.testStream,  dest, 1024, dryRun(false));
+            await this.fileUtilities.TruncateSplitAsync(this.testStream, dest, 1024, dryRun(false));
 
             var buffer = new byte[1024];
 

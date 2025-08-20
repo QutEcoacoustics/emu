@@ -42,7 +42,6 @@
         "omnisharp.autoStart": true,
         "omnisharp.enableEditorConfigSupport": true,
         "omnisharp.enableRoslynAnalyzers": true,
-        "omnisharp.organizeImportsOnFormat": true,
         "nugetpackagemanagergui.nuget.searchPackage.preRelease": true,
         "workbench.colorCustomizations": {
             "activityBar.activeBackground": "#836d62",
@@ -53,8 +52,6 @@
             "activityBarBadge.background": "#40bf6a",
             "activityBarBadge.foreground": "#15202b",
             "sash.hoverBorder": "#836d62",
-            "statusBar.background": "#66554c",
-            "statusBar.foreground": "#e7e7e7",
             "statusBarItem.hoverBackground": "#836d62",
             "statusBarItem.remoteBackground": "#66554c",
             "statusBarItem.remoteForeground": "#e7e7e7",
@@ -66,6 +63,7 @@
         },
         "peacock.color": "#66554C",
         "dotnet.completion.showCompletionItemsFromUnimportedNamespaces": true,
+        "dotnet.formatting.organizeImportsOnFormat": true,
     },
     "launch": {
         "version": "0.2.0",

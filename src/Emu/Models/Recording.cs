@@ -84,6 +84,14 @@ namespace Emu.Models
         public OffsetDateTime? StartDate { get; init; }
 
         /// <summary>
+        /// Gets the unambiguous end date of the recording.
+        /// This is extracted either from the filename or from the metadata
+        /// included in the recording.
+        /// </summary>
+        /// <value></value>
+        public OffsetDateTime? EndDate { get; init; }
+
+        /// <summary>
         /// Gets an ambiguous start date of the recording (no offset).
         /// This is extracted either from the filename or from the metadata
         /// included in the recording.

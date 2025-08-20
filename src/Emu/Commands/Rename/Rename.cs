@@ -318,8 +318,9 @@ namespace Emu.Commands.Rename
                 fragments,
                 stem,
                 (ulong)size);
+            var normalizedTokenizedName = this.generator.NormalizeParsedTokens(fragments.NameTokens);
 
-            return new FilenameTransform(result.Base, result.File, fragments, recording, fragments.TokenizedName);
+            return new FilenameTransform(result.Base, result.File, fragments, recording, normalizedTokenizedName);
         }
 
         private async ValueTask<Fin<FilenameTransform>> ExtractMetadata(FilenameTransform transform)

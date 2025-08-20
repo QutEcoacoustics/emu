@@ -5,6 +5,7 @@
 namespace Emu.Filenames
 {
     using Emu.Models;
+    using LanguageExt;
     using NodaTime;
 
     /// <summary>
@@ -24,6 +25,14 @@ namespace Emu.Filenames
         public LocalDateTime? LocalStartDate { get; init; }
 
         /// <summary>
+        /// Gets the unambiguous *end* datetime parsed from the given filename.
+        /// </summary>
+        /// <remarks>
+        /// Currently only one sensor (FL BAR-LT) encodes the end date in the filename.
+        /// </remarks>
+        public OffsetDateTime? EndDate { get; init; }
+
+        /// <summary>
         /// Gets the location parsed from the given filename.
         /// </summary>
         public Location Location { get; init; }
@@ -36,7 +45,13 @@ namespace Emu.Filenames
         /// <summary>
         /// Gets a tokenized representation of the name.
         /// </summary>
-        public string TokenizedName { get; init; }
+        public string TokenizedName => string.Join(string.Empty, this.NameTokens.Select(x => x.ToString()));
+
+        /// <summary>
+        /// Gets the list of tokens that represent the extracted information from the filename.
+        /// </summary>
+        /// <value></value>
+        public Lst<FilenameToken> NameTokens { get; init; }
 
         /// <summary>
         /// Gets the directory the file was found in.

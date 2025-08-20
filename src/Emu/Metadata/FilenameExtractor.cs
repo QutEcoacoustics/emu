@@ -59,6 +59,7 @@ namespace Emu.Metadata
                 Stem = recording.Stem ?? stem,
                 StartDate = recording.StartDate ?? parsedFilename.StartDate,
                 LocalStartDate = recording.LocalStartDate ?? parsedFilename.LocalStartDate,
+                EndDate = recording.EndDate ?? parsedFilename.EndDate,
                 Location = recording.Location ?? parsedFilename.Location,
                 FileSizeBytes = size,
             };
