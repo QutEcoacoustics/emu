@@ -24,7 +24,7 @@ jobs:
     steps:
       # https://github.com/nschloe/action-cached-lfs-checkout
       - name: Checkout code
-        uses: nschloe/action-cached-lfs-checkout@v1.1.2
+        uses: nschloe/action-cached-lfs-checkout@v1.2.3
       - name: Get drive info
         shell: pwsh
         run: Get-PSDrive
