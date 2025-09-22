@@ -22,14 +22,17 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-      # https://github.com/nschloe/action-cached-lfs-checkout
       - name: Checkout code
-        uses: nschloe/action-cached-lfs-checkout@v1.1.2
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+      - name: Ensure LFS files are checked out
+        run: git lfs checkout
       - name: Get drive info
         shell: pwsh
         run: Get-PSDrive
       - name: Setup .NET
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v5
         with:
           global-json-file: global.json
       - name: Restore dependencies
@@ -48,6 +51,6 @@ jobs:
       contents: write
 
     steps:
-      - uses: fastify/github-action-merge-dependabot@v3.0.0
+      - uses: fastify/github-action-merge-dependabot@v3.11.1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
