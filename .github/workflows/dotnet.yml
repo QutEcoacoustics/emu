@@ -22,9 +22,12 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-      # https://github.com/nschloe/action-cached-lfs-checkout
       - name: Checkout code
-        uses: nschloe/action-cached-lfs-checkout@v1.2.3
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+      - name: Ensure LFS files are checked out
+        run: git lfs checkout
       - name: Get drive info
         shell: pwsh
         run: Get-PSDrive
