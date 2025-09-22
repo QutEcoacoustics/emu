@@ -98,6 +98,12 @@ namespace Emu.Filenames
 
             // an audio moth style date 5AFCD4F4.WAV
             new("^(?<Date>[0-9A-F]{8})" + Extension, new AudioMothDateParser()),
+
+            // an obsolete high precision variant used by Frontier Labs
+            // valid: S20210205T035946676+1000_E20210205T040446501+1000_-08.0000+000.0000.wav
+            new(
+                "^(?<DatePrefix>S)" + Date + IsoSeparator + @"(?<Time>\d{9})" + Offset + "_(?<DateEndPrefix>E)" + DateEnd + IsoSeparator + @"(?<TimeEnd>\d{9})" + OffsetEnd + End,
+                OffsetDateTimePattern.CreateWithInvariantCulture("uuuuMMddTHHmmssFFFo<I>")),
         };
 
         /// <summary>
