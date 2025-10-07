@@ -41,6 +41,13 @@ namespace Emu.Filenames
                 Prefix + Date + WildlifeAcousticsSeparator + @"(?<Time>\d{6}_\d{1,3})" + End,
                 LocalDateTimePattern.CreateWithInvariantCulture("uuuuMMddTHHmmss_FFF")),
 
+            // Full fat ISO8601, not usually seen in the filenames from sensors, but it makes sense to support it
+            // NoiseNet sensors use this format.
+            // valid: 2009-12-19T07:00:06.123456.wav
+            new(
+                Prefix + @"(?<Date>\d{4}-\d{2}-\d{2})" + IsoSeparator + @"(?<Time>\d{2}:\d{2}:\d{2}(\.\d{1,6})?)" + End,
+                LocalDateTimePattern.CreateWithInvariantCulture("uuuu-MM-ddTHH:mm:ss.FFFFFF")),
+
             // valid: Prefix_YYYYMMDD_hhmmss.wav,
             // valid: prefix_20140101_235959.mp3, a_00000000_000000.a, a_99999999_999999.dnsb48364JSFDSD
             // valid: SERF_20130314_000021_000.wav, a_20130314_000021_a.a, a_99999999_999999_a.dnsb48364JSFDSD
@@ -86,6 +93,14 @@ namespace Emu.Filenames
                 Prefix + Date + IsoSeparator + TimeFractional + Offset + End,
                 OffsetDateTimePattern.CreateWithInvariantCulture("uuuuMMddTHHmmss.FFFFFFo<I>")),
 
+            // Full fat ISO8601, not usually seen in the filenames from sensors, but it makes sense to support it
+            // NoiseNet sensors use this format.
+            // valid: 2009-12-19T07:00:06+11:30_00600.wav
+            // valid: 2009-12-19T07:00:06.123456Z.wav
+            new(
+                Prefix + @"(?<Date>\d{4}-\d{2}-\d{2})" + IsoSeparator + @"(?<Time>\d{2}:\d{2}:\d{2}(\.\d{1,6})?)" + Offset + End,
+                OffsetDateTimePattern.CreateWithInvariantCulture("uuuu-MM-ddTHH:mm:ss.FFFFFFo<I>")),
+
             // valid:Prefix_YYYYMMDD_hhmmssZ.wav
             // valid:prefix_20140101_235959Z.mp3
             // valid: prefix_20140101-235959+10.mp3, a_00000000-000000+00.a, a_99999999-999999+9999.dnsb48364JSFDSD
@@ -126,11 +141,14 @@ namespace Emu.Filenames
             // A ISO6709:H format (decimal degrees only)
             // We indicate the trailing slash (the solidus in the spec) is optional because it
             // cannot legally exist in windows filenames
+            //
+            // We also include a negative lookahead for T so we don't match `-MM-dd` in a full ISO8601 date
+            //
             // valid: +40.20361-075.00417CRSWGS_84, -40.20361-075.00417, N40.20361E075.00417
             // valid: S40.20361W075.00417, +40.1213-075.0015+2.79CRSWGS_84, +40.20361-075.00417CRSWGS_84
             // valid: 20190626T160000+1000_REC_-27.3888+152.8808.flac
             // valid: S20240815T091156.982648+1000_E20240815T091251.967555+1000_-12.34567+78.98102.wav
-            $@".*(?<Location>{Latitude}{Longitude}(?<Altitude>[-+][\.\d]+)?(?:CRS(?<Crs>[\w_]+))?\/?).*",
+            $@".*(?<Location>{Latitude}{Longitude}(?!\d*T)(?<Altitude>[-+][\.\d]+)?(?:CRS(?<Crs>[\w_]+))?\/?).*",
         }.Select(x => new Regex(x, RegexOptions.Compiled)).ToArray();
 
         private const string Prefix = @"^(?<Prefix>.*)";
