@@ -12,11 +12,15 @@ namespace Emu
 
     public class MetadataCommand : Command
     {
+        private const string NoWamdDescription = "Doesn't use any UTC offset information found in Wildlife Acoustics metadata chunks. " +
+            "Most offsets are not set correctly in the configurator and results in incorrectly parsed datestamps.";
+
         public MetadataCommand()
             : base("metadata", "extracts metadata from one or more files\nSee sub-commands for more features")
         {
             this.AddArgument(Common.Targets);
             this.AddOption(NoChecksumOption);
+            this.AddOption(NoWamdOffsetsOption);
 
             this.AddCommand(new MetadataShowCommand());
             this.AddCommand(new MetadataDumpCommand());
@@ -33,5 +37,10 @@ namespace Emu
             new(
                 "--no-checksum",
                 "Doesn't calculate checksum, important for archiving purposes but computationally expensive");
+
+        public static Option<bool> NoWamdOffsetsOption { get; } =
+            new(
+                "--no-wamd-offsets",
+                NoWamdDescription);
     }
 }

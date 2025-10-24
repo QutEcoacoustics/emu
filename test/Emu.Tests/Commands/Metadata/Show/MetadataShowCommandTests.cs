@@ -26,8 +26,8 @@ namespace Emu.Tests.Commands.Metadata.Show
         [Fact]
         public void MetadataShowIsAnAliasForMetadata()
         {
-            var command = "metadata **/*.wav --no-checksum";
-            var showCommand = "metadata show **/*.wav --no-checksum";
+            var command = "metadata **/*.wav --no-checksum --no-wamd-offsets";
+            var showCommand = "metadata show **/*.wav --no-checksum --no-wamd-offsets";
 
             var result1 = this.CliParser.Parse(command);
             var result2 = this.CliParser.Parse(showCommand);
@@ -47,6 +47,8 @@ namespace Emu.Tests.Commands.Metadata.Show
 
             result1.CommandResult.FindResultFor(MetadataCommand.NoChecksumOption).GetValueOrDefault<bool>().Should().BeTrue();
             result2.CommandResult.FindResultFor(MetadataCommand.NoChecksumOption).GetValueOrDefault<bool>().Should().BeTrue();
+            result1.CommandResult.FindResultFor(MetadataCommand.NoWamdOffsetsOption).GetValueOrDefault<bool>().Should().BeTrue();
+            result2.CommandResult.FindResultFor(MetadataCommand.NoWamdOffsetsOption).GetValueOrDefault<bool>().Should().BeTrue();
         }
 
         [Fact]

@@ -25,6 +25,8 @@ namespace Emu.Metadata.WildlifeAcoustics
 
         public string Name => "WAMD";
 
+        public bool UseWamdOffsets { get; internal set; } = true;
+
         public ValueTask<bool> CanProcessAsync(TargetInformation information)
         {
             // TODO: Add support for .wac (or other Wildlife Acoustic) files
@@ -59,9 +61,10 @@ namespace Emu.Metadata.WildlifeAcoustics
                 {
                     if (wamdData.FileStartTime.Value.Case is OffsetDateTime offsetDateTime)
                     {
+                        var useOffsets = this.UseWamdOffsets;
                         recording = recording with
                         {
-                            StartDate = recording.StartDate ?? offsetDateTime,
+                            StartDate = recording.StartDate == null && useOffsets ? offsetDateTime : recording.StartDate,
                             TrueStartDate = recording.TrueStartDate ?? offsetDateTime,
                             LocalStartDate = recording.LocalStartDate ?? offsetDateTime.LocalDateTime,
                         };
@@ -84,7 +87,8 @@ namespace Emu.Metadata.WildlifeAcoustics
                     {
                         // preamp only applies to internal microhpones
                         var externalMicrophone = wamdData.MicType[i] is "U2" or "U1";
-                        gain = i switch {
+                        gain = i switch
+                        {
                             0 when externalMicrophone => program.GainLeft,
                             1 when externalMicrophone => program.GainRight,
                             0 => program.GainLeft + (int)program.PreampLeft,

@@ -13,6 +13,7 @@ namespace Emu.Commands.Metadata.Show
         {
             this.AddArgument(Common.Targets);
             this.AddOption(MetadataCommand.NoChecksumOption);
+            this.AddOption(MetadataCommand.NoWamdOffsetsOption);
         }
     }
 }

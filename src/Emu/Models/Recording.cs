@@ -207,7 +207,7 @@ namespace Emu.Models
         /// recording started.
         /// </summary>
         /// <remarks>
-        /// This field is always set from header metadata withing an audio recording.
+        /// This field is always set from header metadata within an audio recording.
         /// This field is useful for calculating drift in the sensor
         /// clock during recording.
         ///  Some high precisions sensors record the time the buffer first started recording.

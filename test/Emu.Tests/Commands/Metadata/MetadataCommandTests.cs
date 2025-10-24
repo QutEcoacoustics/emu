@@ -8,6 +8,7 @@ namespace Emu.Tests.Commands.Metadata
     using System.CommandLine.Parsing;
     using System.Linq;
     using System.Threading.Tasks;
+    using Emu.Cli;
     using Emu.Cli.ObjectFormatters;
     using Emu.Commands;
     using Emu.Commands.Metadata;
@@ -25,14 +26,16 @@ namespace Emu.Tests.Commands.Metadata
     using static Emu.EmuCommand;
 
     public partial class MetadataCommandTests
-        : TestBase
+        : TestBase, IClassFixture<FixtureData>
     {
+        private readonly FixtureData data;
         private readonly Metadata command;
         private readonly JsonLinesSerializer serializer;
 
-        public MetadataCommandTests(ITestOutputHelper output)
+        public MetadataCommandTests(ITestOutputHelper output, FixtureData data)
             : base(output, realFileSystem: false, outputFormat: OutputFormat.JSONL)
         {
+            this.data = data;
             this.command = new Metadata(
                 this.BuildLogger<Metadata>(),
                 this.TestFiles,
@@ -135,6 +138,24 @@ namespace Emu.Tests.Commands.Metadata
             {
                 Assert.Null(recording.CalculatedChecksum);
             }
+        }
+
+        [Fact]
+        public async Task ItCanDisableUsingWamdOffsets()
+        {
+            var fixture = this.data[FixtureModel.Sm4HighPrecision];
+            this.TestFiles.AddFile(fixture.AbsoluteFixturePath, fixture.ToMockFileData());
+
+            this.command.Targets = fixture.AbsoluteFixturePath.AsArray();
+            this.command.NoWamdOffsets = true;
+
+            var result = await this.command.InvokeAsync(null);
+
+            result.Should().Be(0);
+
+            var output = this.AllOutput;
+
+            output.Should().Contain("\"StartDate\":null,\"");
         }
 
         public partial class SmokeTest : TestBase, IClassFixture<FixtureData>

@@ -15,6 +15,7 @@ namespace Emu.Commands.Metadata
     using Emu.Extensions.Microsoft.Extensions;
     using Emu.Metadata;
     using Emu.Metadata.SupportFiles;
+    using Emu.Metadata.WildlifeAcoustics;
     using Emu.Models;
     using Emu.Utilities;
     using Microsoft.Extensions.Logging;
@@ -51,17 +52,29 @@ namespace Emu.Commands.Metadata
 
             // the extension inferer is useful in the rename and repair scenarios
             // but not as useful in the metadata command where we want accurate output of data
-            this.allExtractors = register.All.Where(r => r.GetType() != typeof(ExtensionInferer));
+            this.allExtractors = register.All.Where(r => r.GetType() != typeof(ExtensionInferer)).ToArray();
         }
 
         public string[] Targets { get; set; }
 
         public bool NoChecksum { get; set; }
 
+        public bool NoWamdOffsets { get; set; }
+
         public override async Task<int> InvokeAsync(InvocationContext invocationContext)
         {
             // Filter out HashCalculator if no checksum option is
             var filteredExtractors = this.NoChecksum ? this.allExtractors.Where(x => x is not HashCalculator) : this.allExtractors;
+
+            // disable WAMD offsets if specified
+            if (this.NoWamdOffsets)
+            {
+                this.logger.LogDebug("Disabling WAMD UTC offset information");
+                if (filteredExtractors.FirstOrDefault(x => x is WamdExtractor) is WamdExtractor wamdExtractor)
+                {
+                    wamdExtractor.UseWamdOffsets = false;
+                }
+            }
 
             var paths = this.fileMatcher.ExpandMatches(this.fileSystem.Directory.GetCurrentDirectory(), this.Targets);
 
