@@ -11,7 +11,7 @@ namespace Emu.Commands.Metadata.Dump
     public class MetadataDumpCommand : Command
     {
         public MetadataDumpCommand()
-            : base("dump", "show low-level metdata blocks from inside audio files")
+            : base("dump", "show low-level metadata blocks from inside audio files")
         {
             this.AddArgument(Common.Targets);
 

@@ -4,6 +4,7 @@
 
 namespace Emu.Tests.Audio.Vendors.WildlifeAcoustics.WAMD
 {
+    using System;
     using Emu.Audio.Vendors.WildlifeAcoustics.WAMD;
     using Emu.Models;
     using Emu.Tests.TestHelpers;
@@ -51,7 +52,7 @@ namespace Emu.Tests.Audio.Vendors.WildlifeAcoustics.WAMD
 
             Assert.True(tryWamdData.IsSucc);
 
-            var wamdData = (Wamd)tryWamdData;
+            (var wamdData, var notices) = tryWamdData.ThrowIfFail();
 
             ((OffsetDateTime)wamdData.FileStartTime).Should().Be(OffsetDateTimePattern.CreateWithInvariantCulture("G").Parse("2021-06-21T20:57:06-03:00").Value);
             wamdData.DevModel.Should().Be("SM4BAT-FS");
@@ -63,6 +64,8 @@ namespace Emu.Tests.Audio.Vendors.WildlifeAcoustics.WAMD
             wamdData.MicSensitivity.Should().AllBeEquivalentTo(13.0);
             wamdData.PosLast.Latitude.Should().Be(45.7835);
             wamdData.PosLast.Longitude.Should().Be(-64.23352);
+
+            notices.Should().BeEmpty();
         }
 
         [Fact]
@@ -75,7 +78,7 @@ namespace Emu.Tests.Audio.Vendors.WildlifeAcoustics.WAMD
 
             Assert.True(tryWamdData.IsSucc);
 
-            var wamdData = (Wamd)tryWamdData;
+            (var wamdData, var notices) = tryWamdData.ThrowIfFail();
 
             // in order by which the values were inspected in the file (via hex editor)
             wamdData.Version.Should().Be(1);
@@ -102,6 +105,36 @@ namespace Emu.Tests.Audio.Vendors.WildlifeAcoustics.WAMD
 
             wamdData.DevParams.Should().NotBeNull("<<Dev Params detected but EMU does not support parsing it>>");
             wamdData.DevRunstate.Should().NotBeNull("<<Dev Runstate detected but EMU does not support parsing it>>");
+
+            notices.Should().BeEmpty();
+        }
+
+        [Fact]
+        public void ExtractMetadataTestSMM()
+        {
+            var fixture = this.data[FixtureModel.SongMeterMiniNormalFile1];
+            using var stream = fixture.ToFileInfo(this.CurrentFileSystem).OpenRead();
+
+            var tryWamdData = WamdParser.ExtractMetadata(stream);
+            Assert.True(tryWamdData.IsSucc);
+
+            (var wamdData, var notices) = tryWamdData.ThrowIfFail();
+
+            // this file is from a newer generation of song meter
+            // there are fewer metadata fields (they're in the guano chunk instead)
+            // and the DevParams is null and replaced by two new chunks
+            // that have for the new program format.
+            // We won't test the entirety of the new format here,
+            // we'll just test we can parse it from the WAMD chunk.
+            wamdData.Version.Should().Be(1);
+            wamdData.DevModel.Should().Be("Song Meter Micro");
+            wamdData.DevName.Should().Be("SMM215");
+            wamdData.DevSerialNum.Should().Be("SMM07335");
+            wamdData.SwVersion.Should().Be("3.4");
+            wamdData.Software.Should().Be("Kaleidoscope 5.4.9");
+            wamdData.DevParams.Should().BeNull();
+            wamdData.SmmConfig.Should().NotBeNull();
+            wamdData.SmmSchedule.Should().NotBeNull();
         }
     }
 }

@@ -10,7 +10,7 @@ namespace Emu.Fixes.WildlifeAcoustics
 
     public class NoData : ICheckOperation
     {
-        private const int FaultFileSize = 131_072;
+        public const int FaultFileSize = 131_072;
         private readonly IFileSystem fileSystem;
         private readonly FileUtilities fileUtilities;
 

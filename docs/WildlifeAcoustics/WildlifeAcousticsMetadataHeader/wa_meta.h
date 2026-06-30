@@ -142,7 +142,15 @@
 #define METATAG_TEMP_EXT        0x0016 // external temperature, ASCII w/ units
                                        // e.g. 12.3C
 #define METATAG_HUMIDITY        0x0017 // humidity ASCII with units e.g. 80.2%RH
-#define METATAG_LIGHT		0x0018 // light ASCII with units e.g. 200lm
+#define METATAG_LIGHT           0x0018 // light ASCII with units e.g. 200lm
+
+// The following are unofficial and inferred from reverse engineering
+// START: reverse engineered section.
+#define METATAG_SMM_CONFIG      0x0022 //  Song meter micro/mini config
+                                       //  always 128 bytes
+#define METATAG_SMM_SCHEDULE    0x0023 //  Song meter micro/mini schedule
+                                       //  always 128 bytes
+// END: reverse engineered section.
 
 #define METATAG_PADDING         0xFFFF // Optional padding for alignment, ignore
 

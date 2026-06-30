@@ -10,25 +10,24 @@ A generic tool for metadata manipulation of ecoacoustics audio recordings
 
  <img align="right"  height="163" alt="A surprised Emu." src="docs/media/but-why.gif"/>
 
-Currently every environmental sensor captures audio recordings and recording metadata in a differant way.
+Currently every environmental sensor captures audio recordings and recording metadata in a different way.
 
 There are efforts underway to standardize this process, but even in a perfect world, there are still plenty of problems to deal with:
 
--   standards adoption takes time
--   there a millions of recording made using older sensors
--   there a many problems and quirks with existing sensors
+- standards adoption takes time
+- there are millions of recordings made using older sensors
+- there are many problems and quirks with existing sensors
 
 ## Features
 
 _EMU_ aims to be a babelfish—an adapter—between these formats. _EMU_ can:
 
--   extract metadata from audio recordings
--   recognize and parse different date stamp formats
--   rename files so that they have a consistent format
--   fix problems in recordings so you can recover and use the data (idempotently)
--   do this in various formats (human friendly, compact, json, json-lines, and csv)
--   and is _fast_ 🔥
-
+- extract metadata from audio recordings
+- recognize and parse different date stamp formats
+- rename files so that they have a consistent format
+- fix problems in recordings so you can recover and use the data (idempotently)
+- do this in various formats (human friendly, compact, json, json-lines, and csv)
+- and is _fast_ 🔥
 
 ## Documentation & Examples
 
@@ -54,13 +53,12 @@ We want to support more files and formats. If you need one not covered here, the
 
 However, _EMU_ is being actively used in large-scale automated ecoacoustics pipelines to validate and repair faulty audio recordings.
 
--   EMU runs on Windows, Linux, and Mac\*
--   A docker container is provided (see Docker Hub [![Docker Image Version (latest semver)](https://img.shields.io/docker/v/qutecoacoustics/emu)](https://hub.docker.com/repository/docker/qutecoacoustics/emu))
--   The metadata extraction is quite good now
--   There are several fixes implemented, but several more are in the backlog
+- EMU runs on Windows, Linux, and Mac\*
+- A docker container is provided (see Docker Hub [![Docker Image Version (latest semver)](https://img.shields.io/docker/v/qutecoacoustics/emu)](https://hub.docker.com/repository/docker/qutecoacoustics/emu))
+- The metadata extraction is quite good now
+- There are several fixes implemented, but several more are in the backlog
 
 <small>\*EMU needs special permissions to run on a Mac. See [this](https://openecoacoustics.org/resources/help-centre/software/unsigned/) article for guidance.</small>
-
 
 ## Acknowledgements
 

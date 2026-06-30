@@ -139,7 +139,7 @@ namespace Emu.Metadata.FrontierLabs
             return ValueTask.FromResult(recording);
         }
 
-        public ValueTask<object> ProcessFileAsync(TargetInformation information)
+        public ValueTask<MetadataExtractionResult> ProcessFileAsync(TargetInformation information)
         {
             var tryComments = Flac.ExtractComments(information.FileStream);
 
@@ -150,10 +150,10 @@ namespace Emu.Metadata.FrontierLabs
                     .Keys
                     .Select(key => KeyValuePair.Create(key, this.ParseComment(key, raw)))
                     .ToDictionary();
-                return ValueTask.FromResult<object>(dictionary);
+                return ValueTask.FromResult<MetadataExtractionResult>(new(dictionary));
             }
 
-            return ValueTask.FromResult<object>(null);
+            return ValueTask.FromResult<MetadataExtractionResult>(new(null));
         }
 
         /// <summary>

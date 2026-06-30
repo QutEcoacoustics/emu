@@ -7,6 +7,7 @@ namespace Emu.Utilities
     using System;
     using System.Buffers.Binary;
     using System.Runtime.CompilerServices;
+    using Newtonsoft.Json.Bson;
 
     /// <summary>
     /// Helpers for manipulating binary values.
@@ -208,6 +209,70 @@ namespace Emu.Utilities
         }
 
         /// <summary>
+        /// Read an integer out of a subset of 2 bytes.
+        /// </summary>
+        /// <param name="value">The 2 byte uint to read from.</param>
+        /// <param name="lowBit">The index of the lowest bit to read from (inclusive).</param>
+        /// <param name="highBit">The index of the highest bit to read from (exclusive).</param>
+        /// <returns>The read value shifted right by <paramref name="lowBit"/>s.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ushort ReadBitRange(ushort value, byte lowBit, byte highBit)
+        {
+            // push 1 up to the bit width (which will produce a number that is one followed by zeroes)
+            //   1 << 8 = 0b1_0000_0000
+            // then subtract one to cycle all lower bits to one. Now we have a string of ones the right width.
+            //   0b1_0000_0000 - 1 =  0b1111_1111
+            uint highMask = (1u << (highBit - lowBit)) - 1u;
+            return (ushort)((value >> lowBit) & highMask);
+        }
+
+        /// <summary>
+        /// Read the highest bit of a 64-bit integer as it's own integer.
+        /// </summary>
+        /// <param name="value">The value to extract the number from.</param>
+        /// <returns>A 1-bit number in a uint8 slot.</returns>
+        public static byte ReadHighBit(ulong value)
+        {
+            return (byte)((value >> 63) & 0b1);
+        }
+
+        public static void WriteHighBit(ref ulong destination, byte value)
+        {
+            if (value > 1)
+            {
+                throw new ArgumentException("Value must be 0 or 1", nameof(value));
+            }
+
+            ulong shifted = (ulong)value << 63;
+            const ulong mask = 1ul << 63;
+
+            destination = (destination & ~mask) | shifted;
+        }
+
+        /// <summary>
+        /// Read the highest bit of a 32-bit integer as it's own integer.
+        /// </summary>
+        /// <param name="value">The value to extract the number from.</param>
+        /// <returns>A 1-bit number in a uint8 slot.</returns>
+        public static byte ReadHighBit(uint value)
+        {
+            return (byte)((value >> 31) & 0b1);
+        }
+
+        public static void WriteHighBit(ref uint destination, byte value)
+        {
+            if (value > 1)
+            {
+                throw new ArgumentException("Value must be 0 or 1", nameof(value));
+            }
+
+            uint shifted = (uint)value << 31;
+            const uint mask = 1u << 31;
+
+            destination = (destination & ~mask) | shifted;
+        }
+
+        /// <summary>
         /// Write a integer into a subset of 4 bytes.
         /// </summary>
         /// <param name="destination">The destination to merge the value into.</param>
@@ -223,8 +288,28 @@ namespace Emu.Utilities
             // only keep bits in range of int width
             uint shifted = (value << lowBit) & mask;
 
-            // zero out destiantion bits and merge with existing value
+            // zero out destination bits and merge with existing value
             destination = (destination & ~mask) | shifted;
+        }
+
+        /// <summary>
+        /// Write a integer into a subset of 2 bytes.
+        /// </summary>
+        /// <param name="destination">The destination to merge the value into.</param>
+        /// <param name="lowBit">The index of the lowest bit to write to(inclusive).</param>
+        /// <param name="highBit">The index of the highest bit to write to(exclusive).</param>
+        /// <param name="value">The value to write.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void WriteBitRange(ref ushort destination, byte lowBit, byte highBit, ushort value)
+        {
+            uint mask = ((1u << (highBit - lowBit)) - 1u) << lowBit;
+
+            // shift value into right spot
+            // only keep bits in range of int width
+            uint shifted = (uint)(value << lowBit) & mask;
+
+            // zero out destination bits and merge with existing value
+            destination = (ushort)((destination & ~mask) | shifted);
         }
 
         /// <summary>
@@ -257,7 +342,7 @@ namespace Emu.Utilities
             // only keep bits in range of int width
             ulong shifted = (value << lowBit) & mask;
 
-            // zero out destiantion bits and merge with existing value
+            // zero out destination bits and merge with existing value
             destination = (destination & ~mask) | shifted;
         }
 
@@ -373,12 +458,13 @@ namespace Emu.Utilities
         /// <summary>
         /// Deals with a weird encoding where large values are encoded as consecutive
         /// two-byte little endian values.
+        /// AKA "middle-endian" or "PDP-11 endian" encoding.
         /// </summary>
         /// <param name="bytes">The span to read the first four bytes from.</param>
         /// <returns>The value as an <seealso cref="uint"/>.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 
-        public static uint ReadTwoUInt16LittleEndianAsOneUInt32(ReadOnlySpan<byte> bytes)
+        public static uint ReadUInt32MiddleEndian(ReadOnlySpan<byte> bytes)
         {
             // bytes in file: b0 b1 b2 b3
             // decoding order (highest to lowest): b1 b0 b3 b2
@@ -397,7 +483,7 @@ namespace Emu.Utilities
         /// <returns>The value as an <seealso cref="ulong"/>.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 
-        public static ulong ReadFourUInt16LittleEndianAsOneUInt64(ReadOnlySpan<byte> bytes)
+        public static ulong ReadUInt64MiddleEndian(ReadOnlySpan<byte> bytes)
         {
             // bytes in file: b0 b1 b2 b3 b4 b5 b6 b7
             // decoding order (highest to lowest): b1 b0 b3 b2 b5 b4 b7 b6

@@ -6,6 +6,7 @@ namespace Emu.Tests.Audio.Formats.WAVE
 {
     using System.Linq;
     using Emu.Audio;
+    using Emu.Audio.Vendors.WildlifeAcoustics.WAMD;
     using Emu.Audio.WAVE;
     using Emu.Tests.TestHelpers;
     using FluentAssertions;
@@ -156,10 +157,10 @@ namespace Emu.Tests.Audio.Formats.WAVE
             Assert.True(result.IsSucc);
             result.IfFail(null).Should().BeEquivalentTo(new Cue[]
             {
-                new Cue(925632, null, null, null),
-                new Cue(1241088, null, null, null),
-                new Cue(1609728, null, null, null),
-                new Cue(1941504, null, null, null),
+                new(925632, null, null, null),
+                new(1241088, null, null, null),
+                new(1609728, null, null, null),
+                new(1941504, null, null, null),
             });
         }
 
@@ -175,12 +176,45 @@ namespace Emu.Tests.Audio.Formats.WAVE
             Assert.True(result.IsSucc);
             result.IfFail(null).Should().BeEquivalentTo(new Cue[]
             {
-                new Cue(2178432, "MARK_01", null, null),
-                new Cue(3095424, "MARK_02", null, null),
-                new Cue(3146112, "MARK_03", null, null),
-                new Cue(3795840, "MARK_04", null, null),
-                new Cue(4569984, "MARK_05", null, null),
+                new(2178432, "MARK_01", null, null),
+                new(3095424, "MARK_02", null, null),
+                new(3146112, "MARK_03", null, null),
+                new(3795840, "MARK_04", null, null),
+                new(4569984, "MARK_05", null, null),
             });
+        }
+
+        [Fact]
+        public void CanReadChunksAfterOddLengthChunks()
+        {
+            var model = this.data[FixtureModel.SongMeterMiniNormalFile1];
+            using var stream = this.CreateTargetInformation(model).FileStream;
+
+            var riffChunk = Wave.FindRiffChunk(stream);
+            var waveChunk = riffChunk.Bind(r => Wave.FindWaveChunk(stream, r));
+            var wamdChunk = waveChunk
+                .Bind(w => Wave.ScanForChunks(stream, w, WamdParser.WamdChunkId, false))
+                .Map(x => x.First());
+
+            Assert.True(wamdChunk.IsSucc);
+            var chunk = wamdChunk.IfFail(null);
+
+            // this is the span _inside_ of the subchunk,
+            // so it doesn't include the 4 byte header or the 4 byte length
+            Assert.Equal(2_880_918, chunk.Start);
+            Assert.Equal(426, chunk.Length);
+            Assert.Equal(2_881_344, chunk.End);
+
+            // and the odd-length chunk before it should be findable too
+            var guanChunk = waveChunk
+                .Bind(w => Wave.ScanForChunks(stream, w, "guan"u8.ToArray(), false))
+                .Map(x => x.First());
+
+            Assert.True(guanChunk.IsSucc);
+            var gChunk = guanChunk.IfFail(null);
+            Assert.Equal(2_880_520, gChunk.Start);
+            Assert.Equal(389, gChunk.Length);
+            Assert.Equal(2_880_909, gChunk.End);
         }
 
         private (byte[] FormatChunk, RangeHelper.Range DataChunk) ReadChunkRanges(FixtureModel model)

@@ -60,4 +60,17 @@ public static class SpanExtensions
         value = bytes[0];
         return bytes[1..];
     }
+
+    public static bool IsNull(this ReadOnlySpan<byte> bytes)
+    {
+        foreach (var b in bytes)
+        {
+            if (b != 0)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }

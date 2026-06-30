@@ -4,6 +4,9 @@
 
 namespace Emu.Metadata
 {
+    using Emu.Models.Notices;
+    using LanguageExt;
+
     /// <summary>
     /// Used to extract low-level metadata from a target - the results are not meant to be composed.
     /// </summary>
@@ -14,6 +17,14 @@ namespace Emu.Metadata
         /// </summary>
         /// <param name="information">Information about the current target.</param>
         /// <returns>An object with data.</returns>
-        ValueTask<object> ProcessFileAsync(TargetInformation information);
+        ValueTask<MetadataExtractionResult> ProcessFileAsync(TargetInformation information);
+    }
+
+    public record MetadataExtractionResult(object Data, Seq<Notice> Notices)
+    {
+        public MetadataExtractionResult(object data)
+            : this(data, Seq<Notice>.Empty)
+        {
+        }
     }
 }

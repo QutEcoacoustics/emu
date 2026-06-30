@@ -25,10 +25,12 @@ namespace Emu.Tests.Metadata
                 this.ServiceProvider.GetRequiredService<DataSizeOffBy44>());
         }
 
-        [Theory]
+        [SkippableTheory]
         [ClassData(typeof(FixtureData))]
         public async Task CanProcessFilesWorks(FixtureModel model)
         {
+            Skip.If(model.IsZippedFixture);
+
             var result = await this.subject.CanProcessAsync(this.CreateTargetInformation(model));
 
             // we can process any WAVE file
@@ -40,7 +42,7 @@ namespace Emu.Tests.Metadata
         [ClassData(typeof(FixtureData))]
         public async Task ProcessFilesWorks(FixtureModel model)
         {
-            Skip.IfNot(model.IsWave && model.ValidMetadata == ValidMetadata.Yes);
+            Skip.IfNot(model.IsWave && model.ValidMetadata == ValidMetadata.Yes && !model.IsZippedFixture);
 
             Recording expectedRecording = model.Record;
 

@@ -28,6 +28,7 @@ namespace Emu.Fixes
             PartialFileRepair.Metadata,
             DataSize0.Metadata,
             NoData.Metadata,
+            NullFile.Metadata,
         };
 
         public IFixOperation Resolve(WellKnownProblem problem)

@@ -209,7 +209,7 @@ public partial class ProgramParserTests
         {
             Prefix = "XYZABCDEFGHI",
             PrefixEnabled = false,
-            Timezone = Offset.FromHoursAndMinutes(-11, 15),
+            Timezone = Offset.FromHoursAndMinutes(-11, -15),
             TimezoneEnabled = true,
             Position = new Location("88.99990 S", "179.12345 W", default, default),
             PositionEnabled = true,
@@ -293,7 +293,7 @@ public partial class ProgramParserTests
 
         var sm4Bat2 = sm4Bat with
         {
-            Timezone = Offset.FromHoursAndMinutes(-2, 30),
+            Timezone = Offset.FromHoursAndMinutes(-2, -30),
             SolarMode = SolarMode.Astronomical,
             DelayStart = new LocalDate(2000, 1, 1),
             DelayStartEnabled = true,
@@ -482,6 +482,7 @@ public partial class ProgramParserTests
             Prefix = "SONGMETER345",
             PrefixEnabled = true,
             Timezone = Offset.FromHoursAndMinutes(-6, -45),
+
             TimezoneEnabled = true,
             Position = new Location("1.01 N", "2.23 W", default, default),
             PositionEnabled = true,

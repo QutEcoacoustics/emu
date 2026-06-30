@@ -16,6 +16,7 @@ namespace Emu.Audio.WAVE
     // http://www-mmsp.ece.mcgill.ca/Documents/AudioFormats/WAVE/WAVE.html
     // https://docs.microsoft.com/en-us/windows-hardware/drivers/audio/extensible-wave-format-descriptors
     // https://docs.microsoft.com/en-us/windows/desktop/api/mmreg/ns-mmreg-twaveformatex
+    // https://web.archive.org/web/20051128020903/http:/www.oreilly.com/www/centers/gff/formats/micriff/index.htm
     // https://tools.ietf.org/html/rfc2361
     // https://tools.ietf.org/html/draft-ema-vpim-wav-00
     // https://sites.google.com/site/musicgapi/technical-documents/wav-file-format#fact
@@ -411,6 +412,14 @@ namespace Emu.Audio.WAVE
                         // and stop if we've hit our limit
                         break;
                     }
+                }
+
+                if (length % 2 == 1)
+                {
+                    // odd length chunks are padded with a null byte
+                    // "If the data is an odd length in size, an extra byte of NULL padding is added to the end of the data.
+                    // The ChunkSize value does not include the length of the padding."
+                    length += 1;
                 }
 
                 // advance our offset counter by the length of the chunk to look for the next sibling

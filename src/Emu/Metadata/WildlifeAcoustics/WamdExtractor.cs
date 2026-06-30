@@ -10,7 +10,9 @@ namespace Emu.Metadata.WildlifeAcoustics
     using Emu.Audio.Vendors.WildlifeAcoustics.Programs.EntryTypes;
     using Emu.Audio.Vendors.WildlifeAcoustics.WAMD;
     using Emu.Models;
+    using Emu.Models.Notices;
     using LanguageExt;
+    using LanguageExt.Pipes;
     using Microsoft.Extensions.Logging;
     using NodaTime;
 
@@ -41,10 +43,18 @@ namespace Emu.Metadata.WildlifeAcoustics
 
             var tryWamdData = WamdParser.ExtractMetadata(stream);
 
+            if (tryWamdData.IsFail)
+            {
+                this.logger.LogError("Error extracting WAMD metadata: {error}", (LanguageExt.Common.Error)tryWamdData);
+                return ValueTask.FromResult(recording);
+            }
+
             if (tryWamdData.IsSucc)
             {
-                Wamd wamdData = (Wamd)tryWamdData;
+                (Wamd wamdData, List<Notice> notices) = tryWamdData.ThrowIfFail();
 
+                this.logger.LogDebug("Extracted WAMD metadata: {wamdData}", wamdData);
+                this.logger.LogDebug("Extracted WAMD notices: {notices}", notices);
                 int numMicrophones = wamdData.MicType.Length;
 
                 var location = recording.Location;
@@ -85,7 +95,7 @@ namespace Emu.Metadata.WildlifeAcoustics
                     double? gain = null;
                     if (wamdData.DevParams is SongMeter4Program program)
                     {
-                        // preamp only applies to internal microhpones
+                        // preamp only applies to internal microphones
                         var externalMicrophone = wamdData.MicType[i] is "U2" or "U1";
                         gain = i switch
                         {
@@ -165,6 +175,7 @@ namespace Emu.Metadata.WildlifeAcoustics
                         Microphones = recording.Sensor?.Microphones ?? microphones,
                     },
                     Location = location,
+                    Notices = recording.Notices.Concat(notices),
                 };
             }
             else
@@ -175,7 +186,7 @@ namespace Emu.Metadata.WildlifeAcoustics
             return ValueTask.FromResult(recording);
         }
 
-        public ValueTask<object> ProcessFileAsync(TargetInformation information)
+        public ValueTask<MetadataExtractionResult> ProcessFileAsync(TargetInformation information)
         {
             var stream = information.FileStream;
 
@@ -183,11 +194,11 @@ namespace Emu.Metadata.WildlifeAcoustics
 
             if (tryWamdData.IsSucc)
             {
-                Wamd wamdData = (Wamd)tryWamdData;
-                return ValueTask.FromResult<object>(wamdData);
+                (Wamd wamdData, List<Notice> notices) = tryWamdData.ThrowIfFail();
+                return ValueTask.FromResult<MetadataExtractionResult>(new(wamdData, notices.ToSeq()));
             }
 
-            return ValueTask.FromResult<object>(null);
+            return ValueTask.FromResult<MetadataExtractionResult>(null);
         }
     }
 }

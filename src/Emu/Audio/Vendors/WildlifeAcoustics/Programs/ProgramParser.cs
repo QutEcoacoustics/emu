@@ -102,6 +102,23 @@ namespace Emu.Audio.Vendors.WildlifeAcoustics.Programs
             };
         }
 
+        internal static Offset ReadOffsetUnsignedMinutes(ReadOnlySpan<byte> bytes)
+        {
+            var hours = ReadInt16LittleEndian(bytes);
+
+            // WA SM4s never stores negative minutes, but NodaTime expects
+            // both components to be negative
+            // if the offset is negative.
+            var minutes = ReadInt16LittleEndian(bytes[2..]) * (hours < 0 ? -1 : 1);
+
+            return Offset.FromHoursAndMinutes(hours, minutes);
+        }
+
+        private static Offset ReadOffset(ReadOnlySpan<byte> bytes) =>
+            Offset.FromHoursAndMinutes(
+                ReadInt16LittleEndian(bytes),
+                ReadInt16LittleEndian(bytes[2..]));
+
         private static Fin<SongMeterProgram> ParseSM3Program(ReadOnlySpan<byte> bytes)
         {
             if (!bytes[0..4].SequenceEqual(Sm3pChunkId))
@@ -188,7 +205,7 @@ namespace Emu.Audio.Vendors.WildlifeAcoustics.Programs
                 Bitmap2 = ParseBitmap(bytes[280..460]),
                 Prefix = Encoding.Unicode.GetString(bytes.Slice(460, 24)).TrimEnd('\0'),
                 PrefixEnabled = ReadBool16LittleEndian(bytes[492..]),
-                Timezone = ReadOffset(bytes[494..]),
+                Timezone = ReadOffsetUnsignedMinutes(bytes[494..]),
                 TimezoneEnabled = ReadBool16LittleEndian(bytes[498..]),
                 Position = ReadLocation(bytes[500..], bytes[644..]),
                 PositionEnabled = ReadBool16LittleEndian(bytes[504..]),
@@ -211,7 +228,7 @@ namespace Emu.Audio.Vendors.WildlifeAcoustics.Programs
                 GainRight = ReadUInt16LittleEndian(bytes[546..]) / 2.0f,
                 HighPassFilterLeft = ReadHighPassFilter(bytes[548..], model),
                 HighPassFilterRight = ReadHighPassFilter(bytes[550..], model),
-                SampleRate = ReadTwoUInt16LittleEndianAsOneUInt32(bytes[552..]),
+                SampleRate = ReadUInt32MiddleEndian(bytes[552..]),
                 DivisionRatio = ReadUInt16LittleEndian(bytes[556..]) switch
                 {
                     0 => 8,
@@ -243,11 +260,6 @@ namespace Emu.Audio.Vendors.WildlifeAcoustics.Programs
             };
         }
 
-        private static Offset ReadOffset(ReadOnlySpan<byte> bytes) =>
-            Offset.FromHoursAndMinutes(
-                ReadInt16LittleEndian(bytes),
-                ReadInt16LittleEndian(bytes[2..]));
-
         private static LocalDateTime ReadDelayStart(ReadOnlySpan<byte> bytes) =>
             WildlifeAcousticsEpoch
                 .AtMidnight()
@@ -259,9 +271,9 @@ namespace Emu.Audio.Vendors.WildlifeAcoustics.Programs
             {
                 true => new()
                 {
-                    Latitude = unchecked((int)ReadTwoUInt16LittleEndianAsOneUInt32(highPrecisionBytes)) / 100_000.0,
+                    Latitude = unchecked((int)ReadUInt32MiddleEndian(highPrecisionBytes)) / 100_000.0,
                     LatitudePrecision = 5,
-                    Longitude = (unchecked((int)ReadTwoUInt16LittleEndianAsOneUInt32(highPrecisionBytes[4..])) / 100_000.0) * -1,
+                    Longitude = (unchecked((int)ReadUInt32MiddleEndian(highPrecisionBytes[4..])) / 100_000.0) * -1,
                     LongitudePrecision = 5,
                 },
                 false => new()
@@ -324,7 +336,7 @@ namespace Emu.Audio.Vendors.WildlifeAcoustics.Programs
                 // so the byte order is really weird:
                 // bytes in file: b0 b1 b2 b3
                 // decoding order (highest to lowest): b1 b0 b3 b2
-                uint entry = ReadTwoUInt16LittleEndianAsOneUInt32(bytes[i..]);
+                uint entry = ReadUInt32MiddleEndian(bytes[i..]);
 
                 // when a program is 0 it's just 4 empty bytes, so can stop parsing it
                 if (entry == 0)
@@ -356,7 +368,7 @@ namespace Emu.Audio.Vendors.WildlifeAcoustics.Programs
                 // so the byte order is really weird:
                 // bytes in file: b0 b1 b2 b3 b4 b5 b6 b7 b8
                 // decoding order (highest to lowest): b1 b0 b3 b2 b5 b4 b7 b6
-                ulong entry = ReadFourUInt16LittleEndianAsOneUInt64(bytes[i..]);
+                ulong entry = ReadUInt64MiddleEndian(bytes[i..]);
 
                 result.Add(new SimpleScheduleEntry(entry));
             }

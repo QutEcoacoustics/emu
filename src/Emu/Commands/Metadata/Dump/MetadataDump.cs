@@ -14,11 +14,13 @@ namespace Emu.Commands.Metadata.Dump
     using Emu.Cli;
     using Emu.Cli.ObjectFormatters;
     using Emu.Metadata;
+    using Emu.Models.Notices;
     using Emu.Utilities;
+    using LanguageExt;
     using Microsoft.Extensions.Logging;
     using static Emu.Cli.SpectreUtils;
 
-    public class MetadataDump : EmuCommandHandler<Dictionary<string, object>>
+    public class MetadataDump : EmuCommandHandler<Dictionary<string, MetadataExtractionResult>>
     {
         private const string PathKey = "Path";
 
@@ -67,9 +69,9 @@ namespace Emu.Commands.Metadata.Dump
             foreach (var path in paths)
             {
                 using var target = new TargetInformation(this.fileSystem, path.Base, path.File);
-                var result = new Dictionary<string, object>()
+                var result = new Dictionary<string, MetadataExtractionResult>()
                 {
-                    { PathKey, target.Path },
+                    { PathKey, new MetadataExtractionResult(target.Path, Seq.empty<Notice>()) },
                 };
 
                 foreach (var extractor in this.extractors)
@@ -93,28 +95,55 @@ namespace Emu.Commands.Metadata.Dump
         }
 
         [UnconditionalSuppressMessage("Trimming", "IL2026:Members annotated with 'RequiresUnreferencedCodeAttribute' require dynamic access otherwise can break functionality when trimming application code", Justification = "All types printed are known to us")]
-        public override string FormatCompact(Dictionary<string, object> record)
+        public override string FormatCompact(Dictionary<string, MetadataExtractionResult> record)
         {
             StringBuilder builder = new();
 
-            this.compact.Print(builder, record);
+            foreach (var kvp in record)
+            {
+                if (kvp.Key == PathKey)
+                {
+                    builder.Append($"Path={kvp.Value.Data};");
+                    continue;
+                }
+
+                this.compact.Print(builder, kvp.Value.Data, new()
+                {
+                    KeyPrefix = kvp.Key + ".",
+                });
+
+                if (kvp.Value.Notices.Any())
+                {
+                    builder.Append(';');
+                    this.compact.Print(builder, kvp.Value.Notices, new()
+                    {
+                        KeyPrefix = kvp.Key + ".Notices.",
+                    });
+                }
+            }
 
             return builder.ToString();
         }
 
         [UnconditionalSuppressMessage("Trimming", "IL2026:Members annotated with 'RequiresUnreferencedCodeAttribute' require dynamic access otherwise can break functionality when trimming application code", Justification = "All types printed are known to us")]
-        public override object FormatRecord(Dictionary<string, object> record)
+        public override object FormatRecord(Dictionary<string, MetadataExtractionResult> record)
         {
             StringBuilder builder = new();
 
-            builder.Append(MarkupFileSection((string)record[PathKey]));
+            builder.Append(MarkupFileSection((string)record[PathKey].Data));
 
             bool any = false;
             foreach (var kvp in record.Filter(kvp => kvp.Key != PathKey))
             {
                 builder.AppendFormat("Block [darkgoldenrod]{0}[/]:\n", kvp.Key);
 
-                this.pretty.Print(builder, kvp.Value, new() { Depth = 1 });
+                this.pretty.Print(builder, kvp.Value.Data, new() { Depth = 1 });
+
+                if (kvp.Value.Notices.Any())
+                {
+                    builder.AppendLine("Notices:");
+                    this.pretty.Print(builder, kvp.Value.Notices, new() { Depth = 1 });
+                }
 
                 any = true;
             }

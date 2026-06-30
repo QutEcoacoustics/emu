@@ -37,10 +37,12 @@ namespace Emu.Tests.Metadata
             Assert.True(result);
         }
 
-        [Theory]
+        [SkippableTheory]
         [ClassData(typeof(FixtureData))]
         public async Task ProcessFilesWorks(FixtureModel model)
         {
+            Skip.If(model.IsZippedFixture);
+
             Recording expectedRecording = model.Record;
 
             var recording = await this.subject.ProcessFileAsync(
