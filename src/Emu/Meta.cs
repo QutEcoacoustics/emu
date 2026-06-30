@@ -5,7 +5,7 @@ namespace Emu
 {
     internal static class Meta
     {
-        public const string CallToAction = "Please submit this file to the EMU repoisitory issue tracker as an example so we can improve EMU.";
+        public const string CallToAction = "Please submit this file to the EMU repository issue tracker as an example so we can improve EMU.";
 
         public const string Name = "EMU";
     }

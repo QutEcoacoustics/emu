@@ -1,4 +1,4 @@
-# Contributing 
+# Contributing
 
 ## Contributions
 
@@ -36,18 +36,18 @@ If you want to run a copy of `emu`, you'll need to build it yourself (we'll have
 
 Other notes:
 
--   You can build for development with `dotnet build`
--   You can test in development with `dotnet test`
--   You can run EMU dev builds from the `src/Emu` folder with `dotnet run -- `
-    -   Arguments after the `--` are passed to EMU as if you had run EMU directly
--   You can build all releases for all platforms with the command:
+- You can build for development with `dotnet build`
+- You can test in development with `dotnet test`
+- You can run EMU dev builds from the `src/Emu` folder with `dotnet run -- `
+  - Arguments after the `--` are passed to EMU as if you had run EMU directly
+- You can build all releases for all platforms with the command:
 
     ```powershell
     $rids = ("win-x64", "linux-x64", "osx-x64", "osx-arm64", "linux-arm", "linux-arm64")
     $rids | ForEach-Object { dotnet publish .\src\Emu\ -o ./publish/$_ --self-contained -r $_  }
     ```
 
--   Release a new version with:
+- Release a new version with:
 
     ```powershell
     dotnet test

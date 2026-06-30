@@ -66,6 +66,8 @@ namespace Emu.Tests.TestHelpers
 
         public bool IsWave => this.MimeType == Wave.Mime;
 
+        public bool IsZippedFixture => this.FixturePath?.EndsWith(".zip", StringComparison.OrdinalIgnoreCase) == true;
+
         public string FixturePath
         {
             get => this.fixturePath;

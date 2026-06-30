@@ -48,7 +48,7 @@ namespace Emu.Tests.Audio.Vendors.WildlifeAcoustics.Programs
 
             Assert.True(tryWamdData.IsSucc);
 
-            var wamdData = (Wamd)tryWamdData;
+            (var wamdData, _) = tryWamdData.ThrowIfFail();
 
             var actual = wamdData.DevParams;
 
@@ -82,7 +82,7 @@ namespace Emu.Tests.Audio.Vendors.WildlifeAcoustics.Programs
 
             Assert.True(tryWamdData.IsSucc);
 
-            var wamdData = (Wamd)tryWamdData;
+            (var wamdData, _) = tryWamdData.ThrowIfFail();
 
             var actual = wamdData.DevParams;
 

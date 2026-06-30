@@ -10,8 +10,8 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/src/Emu/bin/Debug/net6.0/win-x64/emu.dll",
-            "args": ["metadata", "..\\..\\test\\Fixtures\\FL_BAR_LT\\3.14_Normal\\"],
+            "program": "${workspaceFolder}/src/Emu/bin/Debug/net8.0/win-x64/emu.dll",
+            "args": ["metadata", "-vv", "F:\\Work\\Github\\emu\\test\\Fixtures\\WAA_SMM\\3.4_NormalAndCorrupt\\SMM215_20231117_094400.wav"],
             "cwd": "${workspaceFolder}/src/Emu",
             // For more information about the 'console' field, see https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md#console-terminal-window
             "console": "internalConsole",

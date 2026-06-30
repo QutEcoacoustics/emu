@@ -3170,3 +3170,328 @@
   Make: Frontier Labs
   Problems:
   Process:
+
+- Name: FL003 example
+  Record: &CorruptWaveHeader
+    Extension: .wav
+    Stem: 20201224_110000_S2.wav
+    StartDate: ~
+    LocalStartDate: "2020-12-24T11:00:00"
+    TrueStartDate: ~
+    TrueEndDate: ~
+    DurationSeconds: 22/44100
+    TotalSamples: 22
+    Channels: 1
+    SampleRateHertz: 44100
+    BitsPerSecond: 352800
+    BitDepth: 16
+    FileSizeBytes: 635039788
+    MediaType: audio/wave
+    CalculatedChecksum:
+      Type: SHA256
+      Value: a46bfc28b530d8403de40311d5857141977aed18bdee2045d0b77af505fd9fb9
+    EmbeddedChecksum: ~
+    MemoryCard: ~
+    Sensor: ~
+  FixturePath: FL_BAR_LT/2.99_NullBytes/20201224_110000_S2.zip
+  Notes:
+  # This value is mainly used by the CanProcess tests... and despite how messed up this file is... yeah
+  # we can process the header... so Yes
+  ValidMetadata: Yes
+  MimeType: audio/wave
+  Make: Frontier Labs
+  Problems:
+    - FL003
+  Process:
+
+- Name: WA004 Sample 1
+  Record: &WA004_NormalAndCorrupt
+    Extension: .wav
+    Stem: SMM215_20231117_090800
+    StartDate: ~
+    LocalStartDate: 2023-11-17T09:52:00
+    TrueStartDate: ~
+    TrueEndDate: ~
+    DurationSeconds: ~
+    TotalSamples: ~
+    Channels: ~
+    SampleRateHertz: ~
+    BitsPerSecond: ~
+    BitDepth: ~
+    FileSizeBytes: ~
+    MediaType: ~
+    CalculatedChecksum:
+      Type: SHA256
+      Value: 11baac9fba4c268f8c7d80ad27195473a16cd92800786d55ca12b91fbbd31580
+    EmbeddedChecksum: ~
+    MemoryCard: ~
+    Sensor: ~
+    Location: ~
+  FixturePath: WA_SMM/3.4_NormalAndCorrupt/SMM215_20231117_090800.wav
+  Notes: Fully corrupt file that we can't even get a WAVE header from.
+  ValidMetadata: No
+  MimeType: audio/wave
+  Make: Wildlife Acoustics
+  Problems:
+    - WA004
+  Process: ~
+
+- Name: WA004 Sample 2
+  Record:
+    <<: *WA004_NormalAndCorrupt
+    Stem: SMM215_20231117_091200
+    LocalStartDate: 2023-11-17T09:12:00
+    CalculatedChecksum:
+      Type: SHA256
+      Value: af95e939d96ce535c4f317370a8b8014b149e2bbb38184e505f181af8ca58131
+  FixturePath: WA_SMM/3.4_NormalAndCorrupt/SMM215_20231117_091200.wav
+  Notes: Fully corrupt file that we can't even get a WAVE header from.
+  ValidMetadata: No
+  MimeType: audio/wave
+  Make: Wildlife Acoustics
+  Problems:
+    - WA004
+  Process: ~
+
+- Name: WA004 Sample 3
+  Record:
+    <<: *WA004_NormalAndCorrupt
+    Stem: SMM215_20231117_094200
+    LocalStartDate: 2023-11-17T09:42:00
+    CalculatedChecksum:
+      Type: SHA256
+      Value: fb69ed02173e16c8113833d7d488ab7e796f5481fad773619fac8a2b58a5c4d2
+  FixturePath: WA_SMM/3.4_NormalAndCorrupt/SMM215_20231117_094200.wav
+  Notes: Fully corrupt file that we can't even get a WAVE header from.
+  ValidMetadata: No
+  MimeType: audio/wave
+  Make: Wildlife Acoustics
+  Problems:
+    - WA004
+  Process: ~
+
+- Name: Song Meter Mini Normal File 1
+  Record:
+    Extension: .wav
+    Stem: SMM215_20231117_094400
+    StartDate: 2023-11-17T09:44:00+11:00
+    LocalStartDate: 2023-11-17T09:44:00
+    TrueStartDate: 2023-11-17T09:44:00+11:00
+    TrueEndDate:
+    DurationSeconds: 1440000/24000
+    TotalSamples: 1440000
+    Channels: 1
+    SampleRateHertz: 24000
+    BitsPerSecond: 384000
+    BitDepth: 16
+    FileSizeBytes: 28881344
+    MediaType: audio/wave
+    CalculatedChecksum:
+      Type: SHA256
+      Value: fed998a698b24d9b94695ff6f7910a7c0d245e89fc3bbe341319a0dfbc7adec7
+    EmbeddedChecksum: ~
+    MemoryCard: ~
+    Sensor:
+      Make: Wildlife Acoustics
+      Model: Song Meter Micro
+      Name: SMM215
+      Firmware: 3.4
+      SerialNumber: SMM07335
+      PowerSource:
+      Microphones:
+      Gain:
+      Configuration:
+      Voltage:
+      BatteryLevel:
+      Temperature:
+      LastTimeSync:
+    Location:
+      Latitude: -37.49779
+      Longitude: 145.98950
+      LatitudePrecision: 5
+      LongitudePrecision: 5
+  FixturePath: WA_SMM/3.4_NormalAndCorrupt/SMM215_20231117_094400.wav
+  Notes: |
+    There is some unknown WAMD subchunk in these examples.
+    Also the `guan` chunk is an odd-length (not a multiple of 2) which triggered
+    a bug in our WAVE parser that has now been fixed.
+  ValidMetadata: Yes
+  MimeType: audio/wave
+  Make: Wildlife Acoustics
+  Problems:
+  Process:
+    WamdExtractor: ~
+
+- Name: Song Meter Mini Normal File 2
+  Record:
+    Extension: .wav
+    Stem: SMM215_20231117_095200
+    StartDate: 2023-11-17T09:52:00+11:00
+    LocalStartDate: 2023-11-17T09:52:00
+    TrueStartDate: 2023-11-17T09:52:00+11:00
+    TrueEndDate:
+    DurationSeconds: 1440000/24000
+    TotalSamples: 1440000
+    Channels: 1
+    SampleRateHertz: 24000
+    BitsPerSecond: 384000
+    BitDepth: 16
+    FileSizeBytes: 2881142
+    MediaType: audio/wave
+    CalculatedChecksum:
+      Type: SHA256
+      Value: 1d8b378d90bca8f830b0786457f3874b27854c91047ad253b5536ce812bcc968
+    EmbeddedChecksum: ~
+    MemoryCard: ~
+    Sensor:
+      Make: Wildlife Acoustics
+      Model: ~
+      Name: ~
+      Firmware: ~
+      SerialNumber: ~
+      PowerSource:
+      Microphones:
+      Gain:
+      Configuration:
+  FixturePath: WA_SMM/3.4_NormalAndCorrupt/SMM215_20231117_095200.wav
+  Notes: There is some unknown WAMD subchunk in these examples
+  ValidMetadata: Yes
+  MimeType: audio/wave
+  Make: Wildlife Acoustics
+  Problems:
+  Process:
+    WamdExtractor: ~
+
+- Name: Song Meter Mini Normal File 3
+  Record: &SMMNormal
+    Extension: .wav
+    Stem: MF01-01_SMM119_20251103_160600
+    StartDate:
+    LocalStartDate: 2025-11-03T16:06:00
+    TrueStartDate:
+    TrueEndDate:
+    DurationSeconds: 1440000/24000
+    TotalSamples: 1440000
+    Channels: 1
+    SampleRateHertz: 24000
+    BitsPerSecond: 384000
+    BitDepth: 16
+    FileSizeBytes: 2881142
+    MediaType: audio/wave
+    CalculatedChecksum:
+      Type: SHA256
+      Value: 3cfc40e4b43a56eda0eac26a6e16ebcb1d08410f22bb15da7215054da8a62239
+    EmbeddedChecksum: ~
+    MemoryCard: ~
+    Sensor:
+      Make: Wildlife Acoustics
+      Model: ~
+      Name: ~
+      Firmware: ~
+      SerialNumber: ~
+      PowerSource:
+      Microphones:
+      Gain:
+      Configuration:
+  FixturePath: WA_SMM/3.4_Normal/MF01-01_SMM119_20251103_160600.wav
+  Notes: Normal Song Meter Mini file from issue #433
+  ValidMetadata: Yes
+  MimeType: audio/wave
+  Make: Wildlife Acoustics
+  Problems:
+  Process:
+    WamdExtractor: ~
+
+- Name: Song Meter Mini Normal File 4
+  Record:
+    <<: *SMMNormal
+    Stem: MF01-01_SMM119_20251103_161400
+    LocalStartDate: 2025-11-03T16:14:00
+    CalculatedChecksum:
+      Type: SHA256
+      Value: 9944cde6692e86c6f49c056b85c2002141a7584bc257f6aa4dc1bcda06950958
+  FixturePath: WA_SMM/3.4_Normal/MF01-01_SMM119_20251103_161400.wav
+  Notes: Normal Song Meter Mini file from issue #433
+  ValidMetadata: Yes
+  MimeType: audio/wave
+  Make: Wildlife Acoustics
+  Problems:
+  Process:
+    WamdExtractor: ~
+
+- Name: Song Meter Mini Normal File 5
+  Record:
+    <<: *SMMNormal
+    Stem: MF01-01_SMM119_20251103_163600
+    LocalStartDate: 2025-11-03T16:36:00
+    CalculatedChecksum:
+      Type: SHA256
+      Value: f63e239cc4885459241f88db8f9abbda2a2f04990b2c88a89892b80fb9f4fbf4
+  FixturePath: WA_SMM/3.4_Normal/MF01-01_SMM119_20251103_163600.wav
+  Notes: Normal Song Meter Mini file from issue #433
+  ValidMetadata: Yes
+  MimeType: audio/wave
+  Make: Wildlife Acoustics
+  Problems:
+  Process:
+    WamdExtractor: ~
+
+- Name: Allocated but empty 1
+  Record: &AllocatedButEmpty
+    Extension: .wav
+    Stem: STEPH11A_20231230_213000
+    StartDate:
+    LocalStartDate: 2023-12-30T21:30:00
+    TrueStartDate:
+    TrueEndDate:
+    DurationSeconds: ~
+    TotalSamples: ~
+    Channels: ~
+    SampleRateHertz: ~
+    BitsPerSecond: ~
+    BitDepth: ~
+    FileSizeBytes: 262144
+    MediaType: ~
+    CalculatedChecksum:
+      Type: SHA256
+      Value: 8a39d2abd3999ab73c34db2476849cddf303ce389b35826850f9a700589b4a90
+    EmbeddedChecksum: ~
+    MemoryCard: ~
+    Sensor: ~
+    Location: ~
+  FixturePath: WA_Unknown/AllocatedButEmpty/STEPH11A_20231230_213000.wav
+  Notes: Allocated but empty file without even a WAVE header
+  ValidMetadata: No
+  MimeType: audio/wave
+  Make: Unknown
+  Problems:
+    - OE005
+  Process: ~
+
+- Name: Allocated but empty 2
+  Record:
+    <<: *AllocatedButEmpty
+    Stem: STEPH12-S32_20240116_105000
+    LocalStartDate: 2024-01-16T10:50:00
+  FixturePath: WA_Unknown/AllocatedButEmpty/STEPH12-S32_20240116_105000.wav
+  Notes: Allocated but empty file without even a WAVE header
+  ValidMetadata: No
+  MimeType: audio/wave
+  Make: Unknown
+  Problems:
+    - OE005
+  Process: ~
+
+- Name: Allocated but empty 3
+  Record:
+    <<: *AllocatedButEmpty
+    Stem: STEPH16B_20231231_132000
+    LocalStartDate: 2023-12-31T13:20:00
+  FixturePath: WA_Unknown/AllocatedButEmpty/STEPH16B_20231231_132000.wav
+  Notes: Allocated but empty file without even a WAVE header
+  ValidMetadata: No
+  MimeType: audio/wave
+  Make: Unknown
+  Problems:
+    - OE005
+  Process: ~

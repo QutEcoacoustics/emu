@@ -1,4 +1,4 @@
-# Wildlife Acoustics SM3 and SM4 schedule structure
+# Wildlife Acoustics SM3, SM4, SMM schedule structure
 
 Ok here's my best reverse engineered guess at the layout of the `SM4P` and `SM3P` chunks.
 
@@ -6,21 +6,30 @@ Note: this document took significant time and effort to produce. If you use it o
 it useful please acknowledge [@atruskie](https://github.com/atruskie)/EMU in your work.
 Also let us know! We'd love to know it helped someone.
 
-
 ## Prelude
 
 Notes: The ones I have seem all be of size 1124 bytes (for SM4 variants)
-or 500 bytes (for SM3 variants). 
+or 500 bytes (for SM3 variants).
 The sizes are consistent when embedded in a `wamd` block or in a standalone file.
 
+Song Meter Mini/Micro (SMM) have a different schedule structure again.
+It appears to be 256 bytes long , or 260 if in a standalone file (in
+which case it includes the `SMMS` magic number at the start).
+
 Notation note:
-  -   `b<digit>`: the byte at the zero based index `<digit>`
-  -   `b0 + b3 + b2`: is the concatenation of bytes with the most significant byte first
-      -   e.g. `b0 + b3 + b2` is equivalent too `bytes[0] << 16 & bytes[3] << 8 & bytes[2]`
-  -   `b<digit>[<bit>]`: the bit the zero based index `<bit>`. 0 is the lowest bit.
-  -   `b<digit>[<bit1>..<bit2>]`: a range of bits,
-                               starting from and including `<bit1>`
-                               and ending at but excluding `<bit2>`.
+
+- `b<digit>`: the byte at the zero based index `<digit>`
+- `b0 + b3 + b2`: is the concatenation of bytes with the most significant byte first
+  -   e.g. `b0 + b3 + b2` is equivalent too `bytes[0] << 16 & bytes[3] << 8 & bytes[2]`
+- `b<digit>[<bit>]`: the bit the zero based index `<bit>`. 0 is the lowest bit.
+- `b<digit>[<bit1>..<bit2>]`: a range of bits,
+                            starting from and including `<bit1>`
+                            and ending at but excluding `<bit2>`.
+
+> [!NOTE]
+> I made most of this document before I learnt about middle-endian byte order
+> (also known as PDP-11 endianness). See the
+> [Wikipedia article](https://en.wikipedia.org/wiki/Endianness#Middle-endian).
 
 ## SM3P
 
@@ -109,7 +118,7 @@ Offset Size  Description
                      - high bits 14..15 are unused
                      - bit 13 is a flag for a `set` relative time
                      - bit 12 is a flag for a `rise` relative time
-                     - low bits 0..12 are minutes from midnight 
+                     - low bits 0..12 are minutes from midnight
                         (11-bit le, **signed magnitude** int)
                         This is not a two's complement!
                  - 2..4: `end time` in minutes from midnight (16-bit le)
@@ -137,14 +146,14 @@ Offset Size  Description
                 - Bit order: the lowest bit is the first minute of byte/block,
                       and the highest bit is the last minute of byte/block.
                 - (it seems obvious when written out but the order is actually a little confusing
-                    because the bytes are read in order left-to-right but the bits are read 
+                    because the bytes are read in order left-to-right but the bits are read
                     in right-left order).
                 While the pattern for these bits is fairly easy to guess at, I have
                 no idea what the semantics are. The start and end ranges inside the bitmaps
                 are *close* to the start and end times of some schedules, part way through
                 deployments, but not always - especially for schedules that are rise/set based.
                 For example, for one bitmap I found, the records most closely matched the 34th
-                and 35th days of a 56 day predicted deployment. I also have no idea how 
+                and 35th days of a 56 day predicted deployment. I also have no idea how
                 advanced schedules are encoded in these bitmaps.
 460    24   The prefix given to files recorded by this program. UTF-16.
 484    8    Unknown 8 bytes, observed to be null
@@ -200,14 +209,14 @@ Offset Size  Description
 570    2    Min Trig Frequency. Might only be one byte?
             Integer in kHz (16-bit le).
 572    2    Unknown, observed to be null
-574    2    Unknown, mostly observed to be `16` but was found to be `15` on 
+574    2    Unknown, mostly observed to be `16` but was found to be `15` on
             a SM4BAT-ZC schedule (16-bit le).
 576    2    Unknown, observed to be null.
 578    2    Unknown, sometimes observed to be 130/0x8200 for SM4BAT-ZC configurations.
 580    2    Unknown, observed to be null.
 582    2    Unknown, sometimes observed to be 130/0x8200 for SM4BAT-ZC configurations.
 584    2    Trigger level (SM4BAT-FS) (signed 16-bit le)
-586    2    Trigger level? Unknown, sometimes observed to be `12`/0x000c 
+586    2    Trigger level? Unknown, sometimes observed to be `12`/0x000c
             for SM4BAT-FS otherwise null.
 592    2    SM4BAT-FS: Max Length in seconds
             SM4BAT-ZC: Max Trig Time in seconds
@@ -257,23 +266,212 @@ Offset Size  Description
             Use the constant lookup table below to decode step types.
 ```
 
+## SMMS (Song Meter Mini/Micro)
+
+Found either in two places:
+
+- embedded in a `wamd` chunk inside a WAV file, in two
+  parts, with subchunk IDS `0x0022` and `0x0023`. Each
+  part is 128 bytes long, for a total of 256 bytes.
+- Or in a standalone config file, in which case
+  the file starts with the `SMMS` magic number
+  and is `260` bytes long. The inner structure is the same
+  as the embedded version, just with an extra 4 bytes.
+- It can have up to 10 simple schedules, but no advanced schedules.
+
+The structure below is described without the `SMMS` magic number.
+
+```struct
+Offset Size  Description
+-------------------------------------------------------------------------------------------------------------
+0      4    Unknown, observed to be `00 00 01 01`
+            Possibly a chunk identifier for the configuration section?
+4      2    Device for which the schedule is intended.
+            0x01 0x01 = SM Mini Bat or SM Mini Bat 2
+            0x02 0x02 = SM Mini or SM Mini 2
+            0x04 0x02 = SM Micro or Micro 2
+6     12    Recorder name. ASCII, null padded.
+18     2    The configured Time Zone offset hours component (16-bit le signed short)
+20     2    The configured Time Zone offset minutes component (16-bit le signed short)
+            Note: only 4 values ever observed here: 0, 15, 30, 45
+22     4    The configured latitude as a signed 32-bit le integer.
+            Divide by 1E5 to get actual value in degrees.
+            South is negative, North is positive.
+            e.g. 123450 is 1.2345 degrees
+            e.g -3749779 is -37.49779 degrees
+26     4    The configured longitude as a signed 32-bit le integer.
+            Divide by 1E5 to get actual value in degrees.
+            East is negative, West is positive. NOTE THE OPPOSITE convention of signs.
+            e.g. 12345600 is -123.456 degrees
+            e.g. -14598950 is 145.9895 degrees
+30     4    Main/Left channel sample rate in hertz (32-bit le unsigned int)
+            Always used in all devices.
+34     4    Right channel sample rate in hertz again (32-bit le unsigned int)
+            Second channel. Only used in stereo mode, however
+            only different if the SM Mini Bat is recording ultrasonic and
+            normal audio at the same time.
+38     4    Full spectrum sample rate (256,000, 384,000, 512,000)
+            Speculation: max sample rate for the device?
+42     4    The max recording length in seconds (32-bit le unsigned int).
+            The configurator UI only allows minute size increments between 1 and 60 minutes
+            effectively limiting this value to between 60 and 3600 seconds.
+            For acoustic data only.
+            I'm just guessing this is a 4-byte int because all the previous values were,
+            however the maximum value observed is 3600 which fits in 2 bytes.
+            So maybe it's a 2-byte int?
+            But I also only ever observed the higher two bytes to be null.
+            Going with 4 bytes for now because it's simpler.
+46     2    Microphone setup
+            Flag enum.
+            0 = Not observed
+            1 = First microphone only, left channel
+            2 = Second microphone only, right channel
+            3 (2 & 1) = Second and first microphones, left and right channels, stereo
+47     1    Unknown, always observed to be 0x02 or 0x000 (for bat devices?)
+48     1    Left channel gain (8-bit int)
+            Enum:
+            0 = 0 dB
+            1 = 6 dB
+            2 = 12 dB
+            3 = 18 dB
+            4 = 24 dB
+49     1    Right channel gain (8-bit int). As per left channel.
+50     1    Recording format. Flag enum:
+            1 = Full Spectrum
+            2 = Zero Crossing
+51     1    Minimum Trigger frequency, in kHz. e.g. 16 is 16 kHz
+52     1    Unknown, always observed to be 0x80 (128)
+53     1    Unknown, always observed to be 0x0F (15)
+54     1    Unknown, always observed to be null
+55     1    Unknown, always observed to be null
+56     1    Unknown, always observed to be null
+57     1    Save noise files?
+            0x00 = save noise files
+            0x02 = do not save noise files
+58     1    Trigger window in tenths of seconds, for ultrasonic recordings.
+            Only applicable when not in triggered mode
+59     2    Maximum recording length for triggered recordings in tenths of seconds.
+            In non-triggered mode this value can be quite large, e.g. 18000 = 30 minutes.
+            But in triggered mode it is usually small like 150 = 15 seconds.
+
+61     1    Unknown, always observed to be 0x01
+62    13    Unknown, always observed to be null
+75     1    Non-triggered recording? 0 = triggered, 1 = non-triggered
+76     1    Recording mode.
+            0 = High Quality
+            1 = Low Power
+77    53    Unknown, always observed to be null
+// config section ends, schedule section starts
+128    4    Unknown, observed to be either:
+            - `00 00 00 02`
+            - `00 00 01 02`
+            Speculation: chunk identifier for the schedule section?
+            The third byte seems to be 1 when
+            the schedule is pulled from a recording.
+            The configurator always seems to write null for a new schedule.
+            but anything that came from a deployed device seems to have this set to 1.
+            So:
+            - `00 00 00 02` = new schedule
+            - `00 00 01 02` = schedule from deployed device
+132    4    Delay start. Seconds from 2000-01-01.
+            Encoded as uint32 le.
+136    1    The number of schedules configured. 0-10.
+            (The UI only allows up to 10 schedules).
+137    9    Unknown, always observed to be null
+146   80    The schedule. 10 possible schedules,
+            8 bytes each, total of 80 bytes.
+            The schedule structure is described below.
+226    5    Unknown, always observed to be null (padding bytes?)
+231    1    "Always On"?
+            Unknown, usually observed to be `00`, sometimes `04 00`.
+            Thus far only seen to be `04` when there is one always on schedule. Maybe default schedule?
+            Also found the value to be 0x01 for mini bat with a default schedule.
+            Has no associated configurator UI setting.
+232    1    Unknown, always observed to be null
+233   20    Schedule overflow. This section is used to expand the 8-byte schedule into 10 bytes.
+            An array of 10 2-byte little endian values, one per schedule.
+253    3    Unknown, always observed to be null (padding bytes?)
+
+```
+
+### SMMS schedule structure
+
+The schedule structure is 8+2 bytes long. The additional two bytes are
+are in the overflow section at the end of the file.
+
+The main 8 byte structure can be interpreted as as 64-bit le unsigned integer.
+It is a densely packed struct. It's layout is as follows:
+
+All indexes are zero-based bit indexes and are inclusive.
+All integers are unsigned unless otherwise specified.
+
+```struct
+high bit    low bit    length description
+---------  ---------  ------ --------------------------------------------------------
+63         63         1      acoustic/ultrasonic flag. 1 = acoustic, 0 = ultrasonic
+62         59         4      date range end, month, 4-bit integer [1, 12]
+58         54         5      date range end, day, 5-bit integer [1, 31]
+53         43        11      duty cycle on, minutes, 11-bit, integer [0, 1439]
+42         32        11      duty cycle off, minutes, 11-bit, integer [0, 1439]
+31         30         2      PART 1: date range start month, 4-bit integer [1, 12]
+                             **higher 2 bits ONLY**
+29         29         1      (sun)rise flag for start, 1-bit, 1 = active
+28         28         1      (sun)set flag for start, 1-bit, 1 = active
+27         27         1      negative flag for start time, 1-bit, 1 = negative
+26         16        11      start time, 11-bit, minutes from midnight [0, 1439]
+15         14         2      PART 2: date range start month
+                             **lower 2 bits ONLY**
+13         13         1      (sun)rise flag for end, 1-bit, 1 = active
+12         12         1      (sun)set flag for end, 1-bit, 1 = active
+11         11         1      negative flag for end time, 1-bit, 1 = negative
+10          0        11      end time, 11-bit, minutes from midnight [0, 1439]
+```
+
+The rest of the schedule is in the overflow.
+The overflow section for each schedule can be interpreted as a 16-bit le unsigned integer.
+It is a densely packed struct. It's layout is as follows:
+
+```struct
+high bit    low bit    length description
+---------  ---------  ------ --------------------------------------------------------
+15         11         5      date range start date, day, 5-bit integer [1, 31]
+10          6         5      day duty cycle on, days, 5-bit integer [0, 31]
+ 5          1         5      day duty cycle off, days, 5-bit integer [0, 31]
+ 0          0         1      unused, always observed to be null
+```
+
 ## Step types
+
+(Only for SM3P and SM4P)
+
+Advanced schedules are made up of steps.
 
 Each step consists of a 4 byte payload:
 
-```
-b0        b1              b2       b3
-overflow  type+overflow   payload  payload
+```struct
+b0        b1              b2         b3
+overflow  type+overflow   payload2   payload1
 ```
 
 Payload bytes are filled first. If they are not enough content flows up to higher order bytes,
 like b0, and from what I've rarely observed, the b1[0..2] bits.
 
 This isn't as weird as it seems: these are two 16-bit little endian numbers encoded sequentially
-(rather than an four byte int32). This explains why the byte ordering is so often 
+(rather than an four byte int32). This explains why the byte ordering is so often
 `b1 b0 b3 b2` (first number high byte, then low byte, second number high byte, then low byte).
 
-The type seems to be a 6-bit integer (`b0 >> 2`) that can encode up to 64 unique commands.
+> [!NOTE]
+> I later worked out the above scheme is actually middle-endian (PDP-11 endianness).
+> It makes much more sense if you decode they payload first into working order:
+> So `b0 b1 b2 b3` becomes `b1 b0 b3 b2` when decoded.
+> After that they payload diagram above becomes:
+>
+> ```struct
+> MSB               MSB+1      MSB+2      MSB+3
+> type+payload4    payload3   payload2   payload1
+> ```
+
+The type seems to be a 6-bit integer (`type_byte >> 2`) that can encode up to 64 unique commands.
 I've only counted 26 commands exposed in the GUI.
 
 `ID` in the table below refers to the value as a whole byte (not bit-shifted) because it is
@@ -308,11 +506,11 @@ ID    ID>>2 Name      SM3 SM4 Payload     Description
 0x14  0x05  ZC        T   F   compound    Zero crossing mode.
                                           Channel layout is the same as FS.
                                           b2: is enum of mode. 0 = DIV 4, 1 = DIV 8, 2 = DIV 16
-0x18  0x06  FREQMIN   T   F   compound    Minimum frequency. Two values, integers in kilohertz, 
+0x18  0x06  FREQMIN   T   F   compound    Minimum frequency. Two values, integers in kilohertz,
                                           one for each channel. 0 = off.
-                                          b2: CH 1 (right) 
+                                          b2: CH 1 (right)
                                           b3: CH 0 (left)
-0x1C  0x07  FREQMAX   T   F   compound    Maximum frequency. Two values, integers in kilohertz, 
+0x1C  0x07  FREQMAX   T   F   compound    Maximum frequency. Two values, integers in kilohertz,
                                           As per FREQMIN.
 0x20  0x08  DMIN      T   F   compound    Duration minimum. Two values, each 13-bit integers, 1 per channel, 0 = off.
                                           Divide by 10 to get the value in milliseconds
@@ -320,14 +518,14 @@ ID    ID>>2 Name      SM3 SM4 Payload     Description
                                           b1[0..2] + b0 + b3[5..8]: CH 0 (left)
 0x24  0x09  DMAX      T   F   compound    Duration maximum.
                                           As per DMIN.
-0x28  0x0A  TRGLVL    T   F   compound    Trigger level. Two values, 1 per channel in decibels, 
+0x28  0x0A  TRGLVL    T   F   compound    Trigger level. Two values, 1 per channel in decibels,
                                           0x7F = off, 0xFF = Automatic.
-                                          Each value is one byte. Positive values have high bit 7 set to 1 (weird). 
+                                          Each value is one byte. Positive values have high bit 7 set to 1 (weird).
                                           When bit 7 is 1, the value is bits 0..7 + 1
                                           When bit 7 is 0, the value is (127 - bits 0..7) * -1
                                           b2: CH 1 (right)
                                           b3: CH 0 (left)
-0x2C  0x0B  TRGWIN    T   F   compound    Trigger window. Two values, each 10-bit unsigned integers, 
+0x2C  0x0B  TRGWIN    T   F   compound    Trigger window. Two values, each 10-bit unsigned integers,
                                           1 per channel. Divide value by 10 to get seconds.
                                           0x00 = off
                                           b3[0..2] + b2 : CH 1 (right)
@@ -335,7 +533,7 @@ ID    ID>>2 Name      SM3 SM4 Payload     Description
 0x30  0x0c  TRGMAX    T   F   compound    Trigger maximum.
                                           as per TRGWIN.
 0x34  0x0D  NAP       T   F   minutes     NAP duration. 0 = off.
-                                          b2: minutes to nap 
+                                          b2: minutes to nap
 0x38  0x0E  AT DATE   -   T   date        partitioned in 3 parts:
                                           b2[0..5]: day of month as 5-bit unsigned int
                                           b3[0] + b2[5..8]: month as 4-bit unsigned int
@@ -343,7 +541,7 @@ ID    ID>>2 Name      SM3 SM4 Payload     Description
 0x3C  0x0F  AT TIME   -   T   time        17-bit le, seconds from midnight
                                           b0[0] + b3 + b2: is the number
 0x40  0x10  AT SRIS   -   T   flag+time   unsigned 18-bit le, seconds from event (-1)
-                                          b0[2]: is a flag: 0 = before event/negative, 
+                                          b0[2]: is a flag: 0 = before event/negative,
                                                             1 = after event/positive
                                           b0[0..1] + b3 + b2: value + 1 is the number
 0x44  0x11  AT SSET   -   T   time        as per AT SRIS

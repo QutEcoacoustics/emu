@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RunSettings>
+  <RunConfiguration>
+    <!-- 0 auto-allocates all available CPU threads to handle the massive discovery payload -->
+    <MaxCpuCount>0</MaxCpuCount>
+    <!-- Prevents the discovery communication bridge from timing out and truncating at 100 -->
+    <TestSessionTimeout>600000</TestSessionTimeout>
+  </RunConfiguration>
+</RunSettings>

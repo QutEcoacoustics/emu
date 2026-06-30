@@ -158,7 +158,7 @@ namespace Emu
             host.UseEmuCommand<RenameCommand, Rename, RenameResult>();
             host.UseEmuCommand<MetadataCommand, Commands.Metadata.Metadata, Models.Recording>();
             host.UseEmuCommand<MetadataShowCommand, Commands.Metadata.Metadata, Models.Recording>();
-            host.UseEmuCommand<MetadataDumpCommand, MetadataDump, Dictionary<string, object>>();
+            host.UseEmuCommand<MetadataDumpCommand, MetadataDump, Dictionary<string, MetadataExtractionResult>>();
             host.UseEmuCommand<CuesCommand, Cues, CueResult>();
             host.UseEmuCommand<VersionCommand, Version, Version.VersionRecord>();
 

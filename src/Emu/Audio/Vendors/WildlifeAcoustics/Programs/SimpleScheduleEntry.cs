@@ -72,9 +72,9 @@ namespace Emu.Audio.Vendors.WildlifeAcoustics.Programs
             get
             {
                 var sign = ReadBitRange(this.Raw, 59, 60) == 1 ? -1 : 1;
-                long mangitude = (long)ReadBitRange(this.Raw, 48, 59);
+                long magnitude = (long)ReadBitRange(this.Raw, 48, 59);
 
-                return Duration.FromMinutes(sign * mangitude);
+                return Duration.FromMinutes(sign * magnitude);
             }
 
             init
@@ -106,8 +106,8 @@ namespace Emu.Audio.Vendors.WildlifeAcoustics.Programs
             get
             {
                 var sign = ReadBitRange(this.Raw, 43, 44) == 1 ? -1 : 1;
-                long mangitude = (long)ReadBitRange(this.Raw, 32, 43);
-                return Duration.FromMinutes(sign * mangitude);
+                long magnitude = (long)ReadBitRange(this.Raw, 32, 43);
+                return Duration.FromMinutes(sign * magnitude);
             }
 
             init

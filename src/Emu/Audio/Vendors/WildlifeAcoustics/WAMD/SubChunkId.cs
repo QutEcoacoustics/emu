@@ -59,6 +59,10 @@ namespace Emu.Audio.Vendors.WildlifeAcoustics.WAMD
         Humidity = 0x0017,
         [EnumMember(Value = "METATAG_LIGHT")]
         Light = 0x0018,
+        [EnumMember(Value = "METATAG_SMM_CONFIG")]
+        SMMConfig = 0x0022,
+        [EnumMember(Value = "METATAG_SMM_SCHEDULE")]
+        SMMSchedule = 0x0023,
         [EnumMember(Value = "METATAG_PRESSURE")]
         Padding = 0xFFFF,
     }

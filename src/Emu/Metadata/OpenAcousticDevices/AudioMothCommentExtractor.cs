@@ -37,7 +37,7 @@ namespace Emu.Metadata.OpenAcousticDevices
             return ValueTask.FromResult(result);
         }
 
-        public ValueTask<object> ProcessFileAsync(TargetInformation information)
+        public ValueTask<MetadataExtractionResult> ProcessFileAsync(TargetInformation information)
         {
             var result = this.parser.Parse(information.Path);
 
@@ -47,10 +47,10 @@ namespace Emu.Metadata.OpenAcousticDevices
 
             if (this.LogFailure(information, comment))
             {
-                return ValueTask.FromResult<object>(null);
+                return ValueTask.FromResult<MetadataExtractionResult>(new(null));
             }
 
-            return ValueTask.FromResult<object>(comment.ThrowIfFail());
+            return ValueTask.FromResult<MetadataExtractionResult>(new(comment.ThrowIfFail()));
         }
 
         public ValueTask<Recording> ProcessFileAsync(TargetInformation information, Recording recording)

@@ -10,6 +10,7 @@ namespace Emu.Audio.Vendors.WildlifeAcoustics.WAMD
     using Emu.Audio.Vendors.WildlifeAcoustics.Programs;
     using Emu.Audio.WAVE;
     using Emu.Models;
+    using Emu.Models.Notices;
     using LanguageExt;
     using NodaTime;
     using NodaTime.Text;
@@ -134,10 +135,14 @@ namespace Emu.Audio.Vendors.WildlifeAcoustics.WAMD
         {
             string[] locationInfo = value.Split(",");
 
-            // First element (WGS84) is assumed to be empty, if not location format could be unpredictable
-            if (!string.IsNullOrEmpty(locationInfo[0]))
+            // First element (WGS84) is empty in older files and assumed to be WGS84.
+            // In newer files we've seen "WGS84" explicitly written out.
+            var datum = locationInfo[0];
+            if (!string.IsNullOrEmpty(datum) && datum != "WGS84")
             {
-              throw new NotSupportedException($"Expected empty WGS84, instead found {locationInfo[0]}" + Meta.CallToAction);
+                throw new NotSupportedException(
+                    $"Expected location datum to be \"WGS84\", instead found \"{datum}\". "
+                    + Meta.CallToAction);
             }
 
             string latitude = locationInfo[1];
@@ -179,7 +184,7 @@ namespace Emu.Audio.Vendors.WildlifeAcoustics.WAMD
         /// </summary>
         /// <param name="stream">The file stream.</param>
         /// <returns>Wamd metadata.</returns>
-        public static Fin<Wamd> ExtractMetadata(Stream stream)
+        public static Fin<(Wamd Wamd, List<Notice> Warnings)> ExtractMetadata(Stream stream)
         {
             var wamdChunk = GetWamdChunk(stream);
 
@@ -196,9 +201,12 @@ namespace Emu.Audio.Vendors.WildlifeAcoustics.WAMD
             ushort subChunkId;
             uint length;
 
+            var warnings = new List<Notice>();
+
             // Parse each piece of metadata in the wamd chunk
             while (wamdOffset < wamdSpan.Length)
             {
+                long chunkStart = ((RangeHelper.Range)wamdChunk).Start + wamdOffset;
                 subChunkId = BinaryPrimitives.ReadUInt16LittleEndian(wamdSpan[wamdOffset..]);
                 wamdOffset += 2;
 
@@ -209,14 +217,16 @@ namespace Emu.Audio.Vendors.WildlifeAcoustics.WAMD
                 int end = wamdOffset + (int)length;
                 var value = wamdSpan[start..end];
 
-                wamdData = ParseSubChunk(wamdData, subChunkId, value);
+                wamdData = ParseSubChunk(wamdData, subChunkId, value, chunkStart, warnings);
+
+                // Note: unlike WAVE chunks, WAMD chunks are not padded to an even number of bytes.
                 wamdOffset += (int)length;
             }
 
-            return wamdData;
+            return (wamdData, warnings);
         }
 
-        public static Wamd ParseSubChunk(Wamd wamd, ushort subChunkId, ReadOnlySpan<byte> value)
+        public static Wamd ParseSubChunk(Wamd wamd, ushort subChunkId, ReadOnlySpan<byte> value, long chunkStart, List<Notice> warnings)
         {
             return (SubChunkId)subChunkId switch
             {
@@ -250,17 +260,31 @@ namespace Emu.Audio.Vendors.WildlifeAcoustics.WAMD
                 TempExt => wamd with { TempExt = TemperatureParser(GetString(value)) },
                 Humidity => wamd with { Humidity = double.Parse(GetString(value)) },
                 Light => wamd with { Light = LightParser(GetString(value)) },
+                SMMConfig => wamd with
+                {
+                    SmmConfig = Programs.SongMeterMiniOrMicro.Parser.ParseConfiguration(value).ThrowIfFail(),
+                },
+                SMMSchedule => wamd with
+                {
+                    SmmSchedule = Programs.SongMeterMiniOrMicro.Parser.ParseSchedule(value).ThrowIfFail(),
+                },
 
                 // ignore padding
                 Padding => wamd,
 
-                _ => throw new NotImplementedException(
-                    "Unexpected WAMD sub chunk. Don't know how to process: "
-                    + Encoding.ASCII.GetString(BitConverter.GetBytes(subChunkId))),
+                _ => Unknown(wamd),
             };
 
             // TODO: May need to selectively parse some values with utf-8
             static string GetString(ReadOnlySpan<byte> value) => Encoding.ASCII.GetString(value);
+
+            Wamd Unknown(Wamd wamd)
+            {
+                var message = $"Found unknown WAMD sub chunk ID: 0x{subChunkId:X4} at offset {chunkStart}. " +
+                        Meta.CallToAction;
+                warnings.Add(new Warning(message));
+                return wamd; // noop - ignore unknown
+            }
         }
 
         private static T[] ParseList<T>(string value, Func<string, T> parser = null)

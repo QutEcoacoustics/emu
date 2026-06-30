@@ -273,5 +273,49 @@ namespace Emu.Tests.Utilities
             WriteSignedBitRange(ref dest, start, end, actualRead);
             ReadSignedBitRange(dest, start, end).Should().Be(expected);
         }
+
+        [Fact]
+        public void TestReadAndWriteHighBitULong()
+        {
+            var big = ulong.MaxValue;
+            var small = 0ul;
+
+            ReadHighBit(big).Should().Be(1);
+            ReadHighBit(small).Should().Be(0);
+
+            WriteHighBit(ref big, 0);
+            WriteHighBit(ref small, 1);
+
+            ReadHighBit(big).Should().Be(0);
+            ReadHighBit(small).Should().Be(1);
+
+            // all bits except the high bit are set, so this is max  / 2
+            big.Should().Be(ulong.MaxValue / 2);
+
+            // only the high bit is set, so this is max / 2 + 1
+            small.Should().Be((ulong.MaxValue / 2) + 1);
+        }
+
+        [Fact]
+        public void TestReadAndWriteHighBitUInt()
+        {
+            var big = uint.MaxValue;
+            var small = 0u;
+
+            ReadHighBit(big).Should().Be(1);
+            ReadHighBit(small).Should().Be(0);
+
+            WriteHighBit(ref big, 0);
+            WriteHighBit(ref small, 1);
+
+            ReadHighBit(big).Should().Be(0);
+            ReadHighBit(small).Should().Be(1);
+
+            // all bits except the high bit are set, so this is max  / 2
+            big.Should().Be(uint.MaxValue / 2);
+
+            // only the high bit is set, so this is max / 2 + 1
+            small.Should().Be((uint.MaxValue / 2) + 1);
+        }
     }
 }

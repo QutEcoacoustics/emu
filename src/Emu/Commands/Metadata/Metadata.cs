@@ -120,11 +120,17 @@ namespace Emu.Commands.Metadata
 
                     foreach (var extractor in filteredExtractors)
                     {
-                        using (this.logger.Measure($"Running extractor {extractor.GetType().Name}", Level.Trace))
+                        string name = extractor.Name;
+
+                        using (this.logger.Measure($"Running extractor {name}", Level.Trace))
                         {
                             if (await extractor.CanProcessAsync(target))
                             {
                                 recording = await extractor.ProcessFileAsync(target, recording);
+                            }
+                            else
+                            {
+                                this.logger.LogTrace("Extractor {extractor} cannot process {target}", name, target.Path);
                             }
                         }
                     }

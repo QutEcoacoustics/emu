@@ -1,29 +1,35 @@
 {
     "folders": [
         {
-            "path": "."
-        }
+            "path": ".",
+        },
     ],
     "settings": {
         "editor.formatOnSave": true,
         "cSpell.words": [
             "Arity",
+            "configurator",
             "cref",
             "datestamp",
             "Divergic",
             "ecoacoustic",
             "Ecoacoustics",
             "flac",
+            "FLAC",
             "hasher",
             "inheritdoc",
+            "METATAG",
             "Newtonsoft",
             "Noda",
             "Nodatime",
             "NodaTime",
             "PILLIGA",
             "Renderable",
+            "Runstate",
             "Serilog",
             "Shouldly",
+            "Skippable",
+            "Smms",
             "Succ",
             "Templating",
             "typeparam",
@@ -32,17 +38,23 @@
             "Vorbis",
             "Wamd",
             "Xbehave",
-            "Xunit"
+            "Xunit",
         ],
         "[yaml]": {
             "editor.insertSpaces": true,
             "editor.tabSize": 2,
-            "editor.defaultFormatter": "redhat.vscode-yaml"
+            "editor.defaultFormatter": "redhat.vscode-yaml",
         },
         "omnisharp.autoStart": true,
         "omnisharp.enableEditorConfigSupport": true,
         "omnisharp.enableRoslynAnalyzers": true,
         "nugetpackagemanagergui.nuget.searchPackage.preRelease": true,
+        "testing.maxVisibleTests": 5000,
+        "dotnet.server.useOmnisharp": false,
+        "testing.followRunningTest": false,
+        "dotnet.test.logLevel": "trace",
+        "dotnet.test.runSettingsPath": "./.runsettings",
+        "dotnet.testWindow.discoveryTimeoutInSec": 900,
         "workbench.colorCustomizations": {
             "activityBar.activeBackground": "#836d62",
             "activityBar.activeBorder": "#40bf6a",
@@ -64,16 +76,22 @@
         "peacock.color": "#66554C",
         "dotnet.completion.showCompletionItemsFromUnimportedNamespaces": true,
         "dotnet.formatting.organizeImportsOnFormat": true,
+        "chat.tools.terminal.autoApprove": {
+            "dotnet test": true,
+        },
+        "dotnet.testWindow.enableTestExplorerDiff": true,
+        "dotnet.preferCSharpExtension": false
     },
     "launch": {
         "version": "0.2.0",
-        "configurations": []
+        "configurations": [],
     },
     "extensions": {
         "recommendations": [
             "ms-dotnettools.csharp",
             "janisdd.vscode-edit-csv",
-            "mechatroner.rainbow-csv"
-        ]
-    }
+            "mechatroner.rainbow-csv",
+            "ms-dotnettools.csdevkit",
+        ],
+    },
 }

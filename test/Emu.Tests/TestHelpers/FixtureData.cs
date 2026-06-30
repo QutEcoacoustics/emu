@@ -4,10 +4,12 @@
 
 namespace Emu.Tests.TestHelpers
 {
+    using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
     using YamlDotNet.Core;
+    using YamlDotNet.Core.Events;
     using YamlDotNet.Serialization;
 
     public class FixtureData : IEnumerable<object[]>

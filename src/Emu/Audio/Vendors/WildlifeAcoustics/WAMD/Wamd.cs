@@ -53,9 +53,9 @@ namespace Emu.Audio.Vendors.WildlifeAcoustics.WAMD
 
         public string DevRunstate { get; init; }
 
-        public string[] MicType { get; init; }
+        public string[] MicType { get; init; } = Array.Empty<string>();
 
-        public double[] MicSensitivity { get; init; }
+        public double[] MicSensitivity { get; init; } = Array.Empty<double>();
 
         public Location PosLast { get; init; }
 
@@ -66,5 +66,17 @@ namespace Emu.Audio.Vendors.WildlifeAcoustics.WAMD
         public double? Humidity { get; init; }
 
         public double? Light { get; init; }
+
+        /// <remarks>
+        /// This is one half of a Song Meter Mini or Micro program.
+        /// Specifically, it is the configuration half.
+        /// </remarks>
+        public Programs.SongMeterMiniOrMicro.Configuration SmmConfig { get; init; }
+
+        /// <remarks>
+        /// This is one half of a Song Meter Mini or Micro program.
+        /// Specifically, it is the schedule half.
+        /// </remarks>
+        public Programs.SongMeterMiniOrMicro.Schedule SmmSchedule { get; init; }
     }
 }

@@ -1,17 +1,16 @@
 # Fixtures
 
-
 ## Folders
 
 Place fixtures in sub-directories that match the following pattern:
 
-```
+```shell
 <VENDOR>_<MODEL>/<FIRMWARE_VERSION>_<NAME>/
 ```
 
 For example:
 
-```
+```shell
 ./FL_BAR_LT/3.14_PreallocatedHeader"
 ```
 
@@ -43,7 +42,7 @@ Site: 64
 Point: 253
 Memory Card: 337
 
-# Fault information:
+## Fault information:
 
 Well Known Problem FL010.
 ```

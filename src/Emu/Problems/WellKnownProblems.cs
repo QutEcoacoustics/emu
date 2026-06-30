@@ -95,6 +95,13 @@ namespace Emu
                 "004",
                 Group,
                 MakeUrl(Group, "004"));
+
+            public static WellKnownProblem NullFile => new(
+                "Null file",
+                "The file has a size but it contains no data - it is all zero bytes",
+                "005",
+                Group,
+                MakeUrl(Group, "005"));
         }
 
         public class FrontierLabsProblems
