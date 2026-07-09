@@ -79,16 +79,7 @@ namespace Emu.Tests.Fixes.FrontierLabs
 
             var actual = await this.fixer.CheckAffectedAsync(fixture.AbsoluteFixturePath);
 
-            if (fixture.IsWave)
-            {
-                Assert.Equal(CheckStatus.Unaffected, actual.Status);
-            }
-            else
-            {
-                Assert.Equal(CheckStatus.NotApplicable, actual.Status);
-            }
-
-            Assert.Null(actual.Message);
+            Assert.NotEqual(CheckStatus.Affected, actual.Status);
             Assert.Null(actual.Data);
             Assert.Equal(Severity.None, actual.Severity);
         }

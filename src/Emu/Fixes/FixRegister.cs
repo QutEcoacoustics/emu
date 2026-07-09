@@ -29,6 +29,7 @@ namespace Emu.Fixes
             DataSize0.Metadata,
             NoData.Metadata,
             NullFile.Metadata,
+            CorruptData.Metadata,
         };
 
         public IFixOperation Resolve(WellKnownProblem problem)
