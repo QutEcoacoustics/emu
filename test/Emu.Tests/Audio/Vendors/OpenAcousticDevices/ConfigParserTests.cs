@@ -15,7 +15,6 @@ namespace Emu.Tests.Audio.Vendors.OpenAcousticDevices
     using Emu.Tests.TestHelpers;
     using FluentAssertions;
     using NodaTime;
-    using Xunit.Abstractions;
 
     public class ConfigParserTests : TestBase
     {

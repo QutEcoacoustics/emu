@@ -15,7 +15,6 @@ namespace Emu.Tests.Audio.Formats.FLAC
     using LanguageExt;
     using MoreLinq;
     using Xunit;
-    using Xunit.Abstractions;
 
     public class FlacTests : TestBase, IClassFixture<FixtureData>
     {

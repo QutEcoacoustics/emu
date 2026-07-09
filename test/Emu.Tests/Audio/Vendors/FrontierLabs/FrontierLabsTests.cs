@@ -10,7 +10,6 @@ namespace Emu.Tests.Audio.Vendors.FrontierLabs
     using FluentAssertions;
     using LanguageExt;
     using Xunit;
-    using Xunit.Abstractions;
     using static Emu.Audio.Vendors.FrontierLabs;
 
     public class FrontierLabsTests : TestBase

@@ -20,7 +20,7 @@ namespace Emu.Tests.Fixes.FrontierLabs
     using Microsoft.Extensions.DependencyInjection;
     using Newtonsoft.Json;
     using Xunit;
-    using Xunit.Abstractions;
+    using Xunit.Sdk;
     using static Emu.Audio.Vendors.FrontierLabs;
     using static Emu.Tests.TestHelpers.FixtureModel;
 
@@ -106,11 +106,11 @@ namespace Emu.Tests.Fixes.FrontierLabs
             await this.AssertMetadataBefore(test, fixture.AbsoluteFixturePath);
         }
 
-        [SkippableTheory]
+        [Theory]
         [ClassData(typeof(FixtureData))]
         public async Task NoOtherFixtureIsDetectedAsAPositive(FixtureModel fixture)
         {
-            Skip.If(fixture.IsAffectedByProblem(WellKnownProblems.FrontierLabsProblems.PartialDataFiles));
+            Assert.SkipWhen(fixture.IsAffectedByProblem(WellKnownProblems.FrontierLabsProblems.PartialDataFiles), "Not applicable to this fixture");
 
             var actual = await this.fixer.CheckAffectedAsync(fixture.AbsoluteFixturePath);
 

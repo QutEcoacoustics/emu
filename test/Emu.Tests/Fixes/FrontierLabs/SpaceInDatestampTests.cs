@@ -12,7 +12,6 @@ namespace Emu.Tests.Fixes.FrontierLabs
     using Emu.Utilities;
     using FluentAssertions;
     using Xunit;
-    using Xunit.Abstractions;
 
     public class SpaceInDatestampTests : TestBase, IClassFixture<FixtureData>, IDisposable
     {
@@ -60,11 +59,11 @@ namespace Emu.Tests.Fixes.FrontierLabs
             Assert.Null(actual.Data);
         }
 
-        [SkippableTheory]
+        [Theory]
         [ClassData(typeof(FixtureData))]
         public async Task NoOtherFixtureIsDetectedAsAPositive(FixtureModel fixture)
         {
-            Skip.If(fixture.Name is FixtureModel.SpaceInDateStamp);
+            Assert.SkipWhen(fixture.Name is FixtureModel.SpaceInDateStamp, "Not applicable to this fixture");
 
             var actual = await this.fixer.CheckAffectedAsync(fixture.AbsoluteFixturePath);
 

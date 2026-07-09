@@ -15,7 +15,6 @@ namespace Emu.Tests.Fixes.FrontierLabs
     using Emu.Utilities;
     using FluentAssertions;
     using Xunit;
-    using Xunit.Abstractions;
     using static Emu.Audio.Vendors.FrontierLabs;
     using static Emu.Fixes.FrontierLabs.MetadataDurationBug;
 

@@ -12,7 +12,6 @@ namespace Emu.Tests.Metadata
     using FluentAssertions;
     using Microsoft.Extensions.DependencyInjection;
     using Xunit;
-    using Xunit.Abstractions;
 
     public class HashCalculatorTests : TestBase
     {
@@ -37,11 +36,11 @@ namespace Emu.Tests.Metadata
             Assert.True(result);
         }
 
-        [SkippableTheory]
+        [Theory]
         [ClassData(typeof(FixtureData))]
         public async Task ProcessFilesWorks(FixtureModel model)
         {
-            Skip.If(model.IsZippedFixture);
+            Assert.SkipWhen(model.IsZippedFixture, "Not applicable to this fixture");
 
             Recording expectedRecording = model.Record;
 

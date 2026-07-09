@@ -4,6 +4,7 @@
 
 namespace Emu.Tests.TestHelpers
 {
+    using Xunit.Sdk;
     using System;
     using System.Collections.Generic;
     using System.IO;
@@ -18,7 +19,6 @@ namespace Emu.Tests.TestHelpers
     using Emu.Metadata.SupportFiles;
     using Emu.Models;
     using Newtonsoft.Json;
-    using Xunit.Abstractions;
 
     public enum ValidMetadata
     {

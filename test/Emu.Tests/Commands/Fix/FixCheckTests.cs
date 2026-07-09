@@ -16,7 +16,6 @@ namespace Emu.Tests.Commands.Fix
     using Microsoft.Extensions.DependencyInjection;
     using MoreLinq;
     using Xunit;
-    using Xunit.Abstractions;
     using static Emu.EmuCommand;
 
     public class FixCheckTests

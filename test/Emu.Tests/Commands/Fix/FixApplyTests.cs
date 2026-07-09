@@ -16,7 +16,6 @@ namespace Emu.Tests.Commands.Fix
     using FluentAssertions;
     using Microsoft.Extensions.DependencyInjection;
     using Xunit;
-    using Xunit.Abstractions;
     using static Emu.EmuCommand;
     using static Emu.FixApply;
 

@@ -6,7 +6,6 @@ namespace Emu.Tests.TestHelpers
 {
     using System;
     using FluentAssertions.Equivalency.Tracing;
-    using Xunit.Abstractions;
 
     public class TestOutputHelperITraceWriterAdapter : ITraceWriter
     {

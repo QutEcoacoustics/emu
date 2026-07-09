@@ -12,7 +12,6 @@ namespace Emu.Tests.Audio.Formats.WAVE
     using FluentAssertions;
     using LanguageExt.Common;
     using Xunit;
-    using Xunit.Abstractions;
 
     public class WaveTests : TestBase, IClassFixture<FixtureData>
     {

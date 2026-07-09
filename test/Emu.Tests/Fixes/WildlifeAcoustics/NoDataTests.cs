@@ -12,7 +12,6 @@ namespace Emu.Tests.Fixes.WildlifeAcoustics
     using FluentAssertions;
     using LanguageExt;
     using Xunit;
-    using Xunit.Abstractions;
     using static LanguageExt.Prelude;
 
     public class NoDataTests : TestBase, IClassFixture<FixtureData>
@@ -85,11 +84,11 @@ namespace Emu.Tests.Fixes.WildlifeAcoustics
             Assert.Equal(Severity.None, actual.Severity);
         }
 
-        [SkippableTheory]
+        [Theory]
         [ClassData(typeof(FixtureData))]
         public async Task NoOtherFixtureIsDetectedAsAPositive(FixtureModel fixture)
         {
-            Skip.If(fixture.Name is FixtureModel.Sm3NoData or FixtureModel.Sm3NoData2);
+            Assert.SkipWhen(fixture.Name is FixtureModel.Sm3NoData or FixtureModel.Sm3NoData2, "Not applicable to this fixture");
 
             var actual = await this.fixer.CheckAffectedAsync(fixture.AbsoluteFixturePath);
 

@@ -21,7 +21,6 @@ namespace Emu.Tests.Commands.Metadata
     using Emu.Utilities;
     using FluentAssertions;
     using Xunit;
-    using Xunit.Abstractions;
 
     using static Emu.EmuCommand;
 

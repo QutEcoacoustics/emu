@@ -78,6 +78,7 @@
         "dotnet.formatting.organizeImportsOnFormat": true,
         "chat.tools.terminal.autoApprove": {
             "dotnet test": true,
+            "dotnet build": true
         },
         "dotnet.testWindow.enableTestExplorerDiff": true,
         "dotnet.preferCSharpExtension": false

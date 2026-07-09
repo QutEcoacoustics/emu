@@ -8,6 +8,7 @@ namespace Emu.Tests.Models
     using System.Globalization;
     using System.Linq;
     using Emu.Models;
+    using Emu.Tests.TestHelpers;
     using FluentAssertions;
     using LanguageExt;
 
@@ -73,24 +74,24 @@ namespace Emu.Tests.Models
             actual.Should().BeEquivalentTo(expected);
         }
 
-        [SkippableTheory]
+        [Theory]
         [MemberData(nameof(Data))]
         public void LocationFormattingWorksForH(string expected)
         {
             var actual = TestCases[expected];
 
-            Skip.If(actual is null);
+            Assert.SkipWhen(actual is null, "Not applicable to this fixture");
 
             actual.ToString("H", CultureInfo.InvariantCulture).Should().Be(expected);
         }
 
-        [SkippableTheory]
+        [Theory]
         [MemberData(nameof(Data))]
         public void LocationFormattingWorksForFilenames(string expected)
         {
             var actual = TestCases[expected];
 
-            Skip.If(actual is null);
+            Assert.SkipWhen(actual is null, "Not applicable to this fixture");
 
             actual.ToString("h", CultureInfo.InvariantCulture).Should().Be(expected.TrimEnd('/'));
         }

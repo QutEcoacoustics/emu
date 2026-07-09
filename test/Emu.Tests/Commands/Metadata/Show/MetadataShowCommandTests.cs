@@ -10,7 +10,6 @@ namespace Emu.Tests.Commands.Metadata.Show
     using Emu.Commands.Metadata.Show;
     using Emu.Tests.TestHelpers;
     using FluentAssertions;
-    using Xunit.Abstractions;
     using static Emu.EmuCommand;
 
     public class MetadataShowCommandTests : TestBase, IClassFixture<FixtureData>

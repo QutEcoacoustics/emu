@@ -11,7 +11,6 @@ namespace Emu.Tests.Fixes.OpenEcoacoustics
     using FluentAssertions;
     using LanguageExt;
     using Xunit;
-    using Xunit.Abstractions;
     using static LanguageExt.Prelude;
 
     public class EmptyFileTests : TestBase, IClassFixture<FixtureData>
@@ -54,11 +53,11 @@ namespace Emu.Tests.Fixes.OpenEcoacoustics
             Assert.Equal(Severity.Severe, actual.Severity);
         }
 
-        [SkippableTheory]
+        [Theory]
         [ClassData(typeof(FixtureData))]
         public async Task NoOtherFixtureIsDetectedAsAPositive(FixtureModel fixture)
         {
-            Skip.If(fixture.Record.FileSizeBytes == 0);
+            Assert.SkipWhen(fixture.Record.FileSizeBytes == 0, "Not applicable to this fixture");
 
             var actual = await this.fixer.CheckAffectedAsync(fixture.AbsoluteFixturePath);
 

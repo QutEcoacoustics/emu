@@ -6,7 +6,6 @@ namespace Emu.Tests.TestHelpers
 {
     using System.IO;
     using System.Text;
-    using Xunit.Abstractions;
 
     public class TestOutputHelperTextWriterAdapter : TextWriter
     {

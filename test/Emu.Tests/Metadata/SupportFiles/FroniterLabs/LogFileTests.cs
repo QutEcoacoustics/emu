@@ -11,7 +11,6 @@ namespace Emu.Tests.Metadata.SupportFiles
     using FluentAssertions;
     using NodaTime;
     using Xunit;
-    using Xunit.Abstractions;
 
     public class LogFileTests : TestBase, IClassFixture<FixtureData>
     {
