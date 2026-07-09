@@ -141,6 +141,13 @@ namespace Emu
                 "002",
                 Group,
                 MakeUrl(Group, "002"));
+
+            public static WellKnownProblem CorruptData => new(
+                "Corrupt file",
+                "This file has no valid RIFF/WAVE header and contains only unstructured data",
+                "004",
+                Group,
+                MakeUrl(Group, "004"));
         }
 
         public class OpenAcousticDevices

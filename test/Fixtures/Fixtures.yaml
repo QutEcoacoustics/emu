@@ -3274,9 +3274,9 @@
   Record:
     Extension: .wav
     Stem: SMM215_20231117_094400
-    StartDate: 2023-11-17T09:44:00+11:00
+    StartDate:
     LocalStartDate: 2023-11-17T09:44:00
-    TrueStartDate: 2023-11-17T09:44:00+11:00
+    TrueStartDate:
     TrueEndDate:
     DurationSeconds: 1440000/24000
     TotalSamples: 1440000
@@ -3298,7 +3298,7 @@
       Firmware: 3.4
       SerialNumber: SMM07335
       PowerSource:
-      Microphones:
+      Microphones: []
       Gain:
       Configuration:
       Voltage:
@@ -3310,6 +3310,7 @@
       Longitude: 145.98950
       LatitudePrecision: 5
       LongitudePrecision: 5
+      CoordinateReferenceSystem: WGS84
   FixturePath: WA_SMM/3.4_NormalAndCorrupt/SMM215_20231117_094400.wav
   Notes: |
     There is some unknown WAMD subchunk in these examples.
@@ -3326,9 +3327,9 @@
   Record:
     Extension: .wav
     Stem: SMM215_20231117_095200
-    StartDate: 2023-11-17T09:52:00+11:00
+    StartDate:
     LocalStartDate: 2023-11-17T09:52:00
-    TrueStartDate: 2023-11-17T09:52:00+11:00
+    TrueStartDate:
     TrueEndDate:
     DurationSeconds: 1440000/24000
     TotalSamples: 1440000
@@ -3350,7 +3351,7 @@
       Firmware: ~
       SerialNumber: ~
       PowerSource:
-      Microphones:
+      Microphones: []
       Gain:
       Configuration:
   FixturePath: WA_SMM/3.4_NormalAndCorrupt/SMM215_20231117_095200.wav
@@ -3390,7 +3391,7 @@
       Firmware: ~
       SerialNumber: ~
       PowerSource:
-      Microphones:
+      Microphones: []
       Gain:
       Configuration:
   FixturePath: WA_SMM/3.4_Normal/MF01-01_SMM119_20251103_160600.wav

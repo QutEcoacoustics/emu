@@ -255,5 +255,42 @@ namespace Emu.Utilities
                 return true;
             }
         }
+
+        public record UniformDistributionResult(bool IsUniform, double Entropy);
+
+        /// <summary>
+        /// Samples a stream and checks for a uniform distribution of values.
+        /// Valid files are not uniform, they have structure. We use this as a heuristic to detect corrupt
+        /// files that are not all null bytes, but also don't have a valid header.
+        /// </summary>
+        /// <param name="stream">The stream to sample.</param>
+        /// <param name="sampleSize">The number of bytes to sample from the stream. If the stream is not long enough, it will sample as much as possible.</param>
+        /// <returns>A task representing the asynchronous operation. The result indicates whether the stream has a uniform distribution of values.</returns>
+        internal async Task<UniformDistributionResult> CheckForUniformDistribution(FileSystemStream stream, int sampleSize)
+        {
+            if (stream.Length == 0)
+            {
+                throw new ArgumentException("Stream cannot be empty", nameof(stream));
+            }
+
+            stream.Position = 0;
+            var buffer = new byte[Math.Min(sampleSize, stream.Length)];
+            var bytesRead = await stream.ReadAsync(buffer.AsMemory(0, buffer.Length));
+
+            if (bytesRead == 0)
+            {
+                throw new InvalidOperationException("Could not read from stream");
+            }
+
+            var entropy = MathHelpers.CalculateEntropy(buffer.AsSpan(0, bytesRead));
+
+            // Maximum entropy for 256 byte values is 8.0 bits.
+            // Corrupt files with near-uniform byte distribution have entropy very close to 8.0.
+            // Normal structured files (audio, headers, etc.) have significantly lower entropy.
+            // A threshold of 7.5 is conservative: random data yields ~7.9+, while
+            // even noisy audio rarely exceeds 7.0.
+            var isUniform = entropy > 7.5;
+            return new UniformDistributionResult(isUniform, entropy);
+        }
     }
 }

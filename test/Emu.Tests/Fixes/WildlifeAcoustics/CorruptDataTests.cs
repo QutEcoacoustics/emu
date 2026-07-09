@@ -1,13 +1,13 @@
-// <copyright file="NullFileTests.cs" company="QutEcoacoustics">
+// <copyright file="CorruptDataTests.cs" company="QutEcoacoustics">
 // All code in this file and all associated files are the copyright and property of the QUT Ecoacoustics Research Group.
 // </copyright>
 
-namespace Emu.Tests.Fixes.OpenEcoacoustics
+namespace Emu.Tests.Fixes.WildlifeAcoustics
 {
     using System;
     using System.Threading.Tasks;
     using Emu.Fixes;
-    using Emu.Fixes.OpenEcoacoustics;
+    using Emu.Fixes.WildlifeAcoustics;
     using Emu.Tests.TestHelpers;
     using FluentAssertions;
     using LanguageExt;
@@ -15,15 +15,15 @@ namespace Emu.Tests.Fixes.OpenEcoacoustics
     using Xunit.Abstractions;
     using static LanguageExt.Prelude;
 
-    public class NullFileTests : TestBase, IClassFixture<FixtureData>
+    public class CorruptDataTests : TestBase, IClassFixture<FixtureData>
     {
-        private readonly NullFile fixer;
+        private readonly CorruptData fixer;
         private readonly FixtureData data;
 
-        public NullFileTests(ITestOutputHelper output, FixtureData data)
+        public CorruptDataTests(ITestOutputHelper output, FixtureData data)
             : base(output, realFileSystem: true)
         {
-            this.fixer = this.ServiceProvider.GetRequiredService<NullFile>();
+            this.fixer = this.ServiceProvider.GetRequiredService<CorruptData>();
             this.data = data;
         }
 
@@ -35,39 +35,40 @@ namespace Emu.Tests.Fixes.OpenEcoacoustics
             info.Fixable.Should().BeFalse();
             info.Automatic.Should().BeFalse();
             info.Safe.Should().BeTrue();
-            info.Suffix.Should<Option<string>>().Be(Some("empty"));
+            info.Suffix.Should<Option<string>>().Be(Some("corrupt"));
 
             Assert.False(this.fixer is IFixOperation);
         }
 
-        [Fact]
-        public async Task CanDetectNoDataFiles()
+        [Theory]
+        [InlineData(FixtureModel.Wa004Sample1)]
+        [InlineData(FixtureModel.Wa004Sample2)]
+        [InlineData(FixtureModel.Wa004Sample3)]
+        public async Task CanDetectCorruptFiles(string fixtureName)
         {
-            var fixture = this.data[FixtureModel.AllocatedButEmpty1];
+            var fixture = this.data[fixtureName];
 
             var actual = await this.fixer.CheckAffectedAsync(fixture.AbsoluteFixturePath);
 
             Assert.Equal(CheckStatus.Affected, actual.Status);
-            Assert.Contains("The file has a size but it contains no data - it is all zero bytes", actual.Message);
-
+            Assert.Contains("no valid RIFF/WAVE header", actual.Message);
             Assert.Null(actual.Data);
-
             Assert.Equal(Severity.Severe, actual.Severity);
         }
 
-        [Fact]
-        public async Task CanDetectNoDataFiles2()
+        [Theory]
+        [InlineData(FixtureModel.SongMeterMiniNormalFile1)]
+        [InlineData(FixtureModel.SongMeterMiniNormalFile2)]
+        public async Task DoesNotDetectNormalFiles(string fixtureName)
         {
-            var fixture = this.data[FixtureModel.AllocatedButEmpty2];
+            var fixture = this.data[fixtureName];
 
             var actual = await this.fixer.CheckAffectedAsync(fixture.AbsoluteFixturePath);
 
-            Assert.Equal(CheckStatus.Affected, actual.Status);
-            Assert.Contains("The file has a size but it contains no data - it is all zero bytes", actual.Message);
-
+            Assert.Equal(CheckStatus.Unaffected, actual.Status);
+            Assert.Equal(string.Empty, actual.Message);
             Assert.Null(actual.Data);
-
-            Assert.Equal(Severity.Severe, actual.Severity);
+            Assert.Equal(Severity.None, actual.Severity);
         }
 
         [Fact]
@@ -85,26 +86,11 @@ namespace Emu.Tests.Fixes.OpenEcoacoustics
             Assert.Equal(Severity.None, actual.Severity);
         }
 
-        [Fact]
-        public async Task ItDoesNotMatchWA0002()
-        {
-            var fixture = this.data[FixtureModel.Sm3NoData];
-
-            var actual = await this.fixer.CheckAffectedAsync(fixture.AbsoluteFixturePath);
-
-            Assert.Equal(CheckStatus.Unaffected, actual.Status);
-            Assert.Equal(string.Empty, actual.Message);
-            Assert.Null(actual.Data);
-            Assert.Equal(Severity.None, actual.Severity);
-        }
-
         [SkippableTheory]
         [ClassData(typeof(FixtureData))]
         public async Task NoOtherFixtureIsDetectedAsAPositive(FixtureModel fixture)
         {
-            Assert.SkipWhen(
-                fixture.IsAffectedByProblem(WellKnownProblems.OpenEcoacousticsProblems.NullFile),
-                "Fixture is a known positive for OE005");
+            Skip.If(fixture.Name is FixtureModel.Wa004Sample1 or FixtureModel.Wa004Sample2 or FixtureModel.Wa004Sample3);
 
             var actual = await this.fixer.CheckAffectedAsync(fixture.AbsoluteFixturePath);
 
