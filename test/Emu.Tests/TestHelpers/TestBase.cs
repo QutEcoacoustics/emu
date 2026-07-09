@@ -11,7 +11,6 @@ namespace Emu.Tests.TestHelpers
     using System.IO.Abstractions;
     using System.IO.Abstractions.TestingHelpers;
     using System.Linq;
-    using Divergic.Logging.Xunit;
     using Emu.Filenames;
     using Emu.Metadata;
     using Emu.Metadata.SupportFiles;
@@ -21,7 +20,6 @@ namespace Emu.Tests.TestHelpers
     using LanguageExt;
     using Microsoft.Extensions.Logging;
     using Spectre.Console;
-    using Xunit.Abstractions;
     using static Emu.EmuCommand;
     using static Emu.Utilities.DryRun;
 

@@ -12,7 +12,6 @@ namespace Emu.Tests.Audio.Vendors.WildlifeAcoustics.WAMD
     using NodaTime;
     using NodaTime.Text;
     using Xunit;
-    using Xunit.Abstractions;
 
     public class WamdTests : TestBase, IClassFixture<FixtureData>
     {

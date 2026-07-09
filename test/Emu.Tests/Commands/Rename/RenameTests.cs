@@ -20,7 +20,6 @@ namespace Emu.Tests.Commands.Rename
     using MoreLinq;
     using NodaTime;
     using Xunit;
-    using Xunit.Abstractions;
 
     public class RenameTests : TestBase, IClassFixture<FixtureData>
     {

@@ -12,7 +12,6 @@ namespace Emu.Tests.Fixes.FrontierLabs
     using FluentAssertions;
     using LanguageExt;
     using Xunit;
-    using Xunit.Abstractions;
     using static LanguageExt.Prelude;
 
     public class PreAllocatedHeaderTests : TestBase, IClassFixture<FixtureData>
@@ -100,11 +99,11 @@ namespace Emu.Tests.Fixes.FrontierLabs
             Assert.Equal(Severity.None, actual.Severity);
         }
 
-        [SkippableTheory]
+        [Theory]
         [ClassData(typeof(FixtureData))]
         public async Task NoOtherFixtureIsDetectedAsAPositive(FixtureModel fixture)
         {
-            Skip.If(fixture.Name is FixtureModel.PreAllocatedHeader or FixtureModel.PreAllocatedHeader153);
+            Assert.SkipWhen(fixture.Name is FixtureModel.PreAllocatedHeader or FixtureModel.PreAllocatedHeader153, "Not applicable to this fixture");
 
             var actual = await this.fixer.CheckAffectedAsync(fixture.AbsoluteFixturePath);
 

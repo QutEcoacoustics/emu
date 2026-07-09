@@ -9,8 +9,7 @@ namespace Emu.Commands
 
     public static class Common
     {
-        public static Argument<string[]> Targets =>
-            new(
+        public static Argument<string[]> Targets { get; } = new(
                 "targets",
                 "One more glob patterns for files to process. E.g. '**/*.wav'.")
             { Arity = ArgumentArity.OneOrMore };

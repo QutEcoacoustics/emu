@@ -4,6 +4,7 @@
 
 namespace Emu.Tests.TestHelpers
 {
+    using Xunit.Sdk;
     using Newtonsoft.Json;
     using NodaTime;
 

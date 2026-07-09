@@ -11,7 +11,6 @@ namespace Emu.Tests.FilenameParsing
     using NodaTime;
     using Shouldly;
     using Xunit;
-    using Xunit.Abstractions;
     using static Emu.Filenames.FilenameParser;
     using static Emu.Tests.TestHelpers.Helpers;
 

@@ -9,7 +9,6 @@ namespace Emu.Tests.Commands
     using Emu.Tests.TestHelpers;
     using FluentAssertions;
     using Xunit;
-    using Xunit.Abstractions;
 
     public class EmuCommandTests : TestBase
     {

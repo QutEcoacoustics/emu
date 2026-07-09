@@ -9,7 +9,6 @@ namespace Emu.Tests.Commands.Fix
     using Emu.Tests.TestHelpers;
     using FluentAssertions;
     using Xunit;
-    using Xunit.Abstractions;
 
     public class FixCheckCommandTests : TestBase
     {

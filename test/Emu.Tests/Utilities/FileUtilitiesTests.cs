@@ -12,7 +12,6 @@ namespace Emu.Tests.Utilities
     using Emu.Utilities;
     using FluentAssertions;
     using Xunit;
-    using Xunit.Abstractions;
     using static Emu.Utilities.DryRun;
 
     public class FileUtilitiesTests : TestBase

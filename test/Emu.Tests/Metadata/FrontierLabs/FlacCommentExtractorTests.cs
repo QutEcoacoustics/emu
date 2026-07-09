@@ -10,7 +10,6 @@ namespace Emu.Tests.Metadata
     using Emu.Tests.TestHelpers;
     using FluentAssertions;
     using Xunit;
-    using Xunit.Abstractions;
 
     public class FlacCommentExtractorTests : TestBase
     {
@@ -34,11 +33,11 @@ namespace Emu.Tests.Metadata
             Assert.Equal(expected, result);
         }
 
-        [SkippableTheory]
+        [Theory]
         [ClassData(typeof(FixtureData))]
         public async Task ProcessFilesWorks(FixtureModel model)
         {
-            Skip.IfNot(model.ShouldProcess(FixtureModel.FlacCommentExtractor, out var expectedRecording));
+            Assert.SkipUnless(model.ShouldProcess(FixtureModel.FlacCommentExtractor, out var expectedRecording), "Not applicable to this fixture");
 
             var recording = await this.subject.ProcessFileAsync(
                 this.CreateTargetInformation(model),

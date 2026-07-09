@@ -11,7 +11,6 @@ namespace Emu.Tests.Metadata
     using Emu.Tests.TestHelpers;
     using FluentAssertions;
     using Xunit;
-    using Xunit.Abstractions;
 
     public class WaveHeaderExtractorTests : TestBase
     {
@@ -25,11 +24,11 @@ namespace Emu.Tests.Metadata
                 this.ServiceProvider.GetRequiredService<DataSizeOffBy44>());
         }
 
-        [SkippableTheory]
+        [Theory]
         [ClassData(typeof(FixtureData))]
         public async Task CanProcessFilesWorks(FixtureModel model)
         {
-            Skip.If(model.IsZippedFixture);
+            Assert.SkipWhen(model.IsZippedFixture, "Not applicable to this fixture");
 
             var result = await this.subject.CanProcessAsync(this.CreateTargetInformation(model));
 
@@ -38,11 +37,11 @@ namespace Emu.Tests.Metadata
             Assert.Equal(expected, result);
         }
 
-        [SkippableTheory]
+        [Theory]
         [ClassData(typeof(FixtureData))]
         public async Task ProcessFilesWorks(FixtureModel model)
         {
-            Skip.IfNot(model.IsWave && model.ValidMetadata == ValidMetadata.Yes && !model.IsZippedFixture);
+            Assert.SkipUnless(model.IsWave && model.ValidMetadata == ValidMetadata.Yes && !model.IsZippedFixture, "Not applicable to this fixture");
 
             Recording expectedRecording = model.Record;
 

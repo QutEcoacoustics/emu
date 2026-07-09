@@ -8,7 +8,6 @@ namespace Emu.Tests.Commands.Fix
     using Emu.Commands;
     using Emu.Tests.TestHelpers;
     using Xunit;
-    using Xunit.Abstractions;
 
     public class FixApplyCommandTests : TestBase
     {

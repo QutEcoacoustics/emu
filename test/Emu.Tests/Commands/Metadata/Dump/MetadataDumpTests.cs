@@ -15,7 +15,6 @@ namespace Emu.Tests.Commands.Metadata.Dump
     using Emu.Utilities;
     using FluentAssertions;
     using LanguageExt;
-    using Xunit.Abstractions;
     using static Emu.EmuCommand;
 
     public class MetadataDumpTests : TestBase, IClassFixture<FixtureData>

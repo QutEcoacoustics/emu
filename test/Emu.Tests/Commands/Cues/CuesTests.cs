@@ -16,7 +16,6 @@ namespace Emu.Tests.Commands.Cues
     using MoreLinq;
     using Rationals;
     using Xunit;
-    using Xunit.Abstractions;
 
     public class CuesTests : TestBase, IClassFixture<FixtureData>
     {

@@ -13,7 +13,6 @@ namespace Emu.Tests.Fixes.FrontierLabs
     using Emu.Tests.TestHelpers;
     using FluentAssertions;
     using Xunit;
-    using Xunit.Abstractions;
 
     public class DataSize0Tests : TestBase, IClassFixture<FixtureData>, IDisposable
     {
@@ -71,11 +70,11 @@ namespace Emu.Tests.Fixes.FrontierLabs
             Assert.NotNull(actual.Data);
         }
 
-        [SkippableTheory]
+        [Theory]
         [ClassData(typeof(FixtureData))]
         public async Task NoOtherFixtureIsDetectedAsAPositive(FixtureModel fixture)
         {
-            Skip.If(fixture.Name is FixtureModel.DataSize0);
+            Assert.SkipWhen(fixture.Name is FixtureModel.DataSize0, "Not applicable to this fixture");
 
             var actual = await this.fixer.CheckAffectedAsync(fixture.AbsoluteFixturePath);
 
