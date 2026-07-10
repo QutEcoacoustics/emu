@@ -2,5 +2,6 @@
     "$schema": "https://xunit.net/schema/current/xunit.runner.schema.json",
     "diagnosticMessages": false,
     "internalDiagnosticMessages": false,
-    "appDomain": "denied"
+    "appDomain": "denied",
+    "parallelizeTestCollections": false
 }
