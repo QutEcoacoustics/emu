@@ -24,19 +24,27 @@ jobs:
     steps:
       # https://github.com/nschloe/action-cached-lfs-checkout
       - name: Checkout code
-        uses: nschloe/action-cached-lfs-checkout@v1.1.2
+        uses: nschloe/action-cached-lfs-checkout@v1.2.5
       - name: Get drive info
         shell: pwsh
         run: Get-PSDrive
       - name: Setup .NET
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v4
         with:
           global-json-file: global.json
       - name: Restore dependencies
         run: dotnet restore
       - name: Build
         run: dotnet build --no-restore
+      - name: Test (macOS)
+        if: startsWith(matrix.os, 'macos-')
+        timeout-minutes: 30
+        run: |
+          ulimit -n 65536
+          mkdir -p ./artifacts
+          dotnet test ./test/Emu.Tests/Emu.Tests.csproj --no-build --blame-hang --blame-hang-timeout 10m --diag ./artifacts/test-macos-diag.log
       - name: Test
+        if: startsWith(matrix.os, 'ubuntu-') || startsWith(matrix.os, 'windows-')
         run: dotnet test --no-build
   automerge:
     # https://github.com/marketplace/actions/github-action-merge-dependabot

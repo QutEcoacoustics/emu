@@ -12,7 +12,7 @@
       <PublishTrimmed Condition="'$(Configuration)' == 'Release'">true</PublishTrimmed>
       <!-- https://learn.microsoft.com/en-us/dotnet/core/compatibility/deployment/7.0/trim-all-assemblies -->
       <TrimMode>partial</TrimMode>
-    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <RuntimeIdentifier Condition="'$(Configuration)' == 'Release'">win-x64</RuntimeIdentifier>
     <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
     <AssemblyName>emu</AssemblyName>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
