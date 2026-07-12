@@ -130,7 +130,7 @@ namespace Emu.Audio.Vendors.WildlifeAcoustics.Programs
             var lastSchedule = ReadUInt16LittleEndian(bytes[8..]);
 
             var programsSection = bytes.Slice(16, 396);
-            var programs = ParseAdvancecdSchedule(programsSection);
+            var programs = ParseAdvancedSchedule(programsSection);
             Debug.Assert(programs.Length == lastSchedule, "last program index should match number of programs");
 
             var unknown488 = bytes[488];
@@ -186,7 +186,7 @@ namespace Emu.Audio.Vendors.WildlifeAcoustics.Programs
             var scheules = ParseSimpleSchedule(scheulesSection, firstSchedule, lastSchedule);
 
             var advancedSchedulesSection = bytes.Slice(728, 396);
-            var advancedSchedules = ParseAdvancecdSchedule(advancedSchedulesSection);
+            var advancedSchedules = ParseAdvancedSchedule(advancedSchedulesSection);
 
             var preAmpFlags = ReadUInt16LittleEndian(bytes[558..]);
             var model = ReadUInt16LittleEndian(bytes[604..]) switch
@@ -327,10 +327,10 @@ namespace Emu.Audio.Vendors.WildlifeAcoustics.Programs
             };
         }
 
-        private static Arr<AdvancedScheduleEntry> ParseAdvancecdSchedule(ReadOnlySpan<byte> bytes)
+        private static Arr<AdvancedScheduleEntry> ParseAdvancedSchedule(ReadOnlySpan<byte> bytes)
         {
             var result = new List<AdvancedScheduleEntry>(100);
-            for (var i = 0; i <= bytes.Length; i += 4)
+            for (var i = 0; i < bytes.Length; i += 4)
             {
                 // the programs are encoded as two consecutive 2-byte little endian numbers
                 // so the byte order is really weird:
