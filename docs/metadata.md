@@ -330,8 +330,8 @@ GUANO blocks are parsed from WAVE `guan` chunks and are available in both comman
   and preserves vendor-defined keys in `OtherFields`.
 
 When the same field is available from multiple metadata sources, GUANO is treated as the
-most authoritative source for overlapping values.
-
+most authoritative source for overlapping values, except where values derived from the WAVE
+header are more reliable (e.g., `DurationSeconds` and `SampleRateHertz`).
 References:
 - [GUANO Specification](https://github.com/riggsd/guano-spec/blob/master/guano_specification.md)
 - [WA GUANO Specification](https://www.wildlifeacoustics.com/SCHEMA/GUANO.html)
