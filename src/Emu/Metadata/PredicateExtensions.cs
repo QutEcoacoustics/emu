@@ -5,6 +5,7 @@
 namespace Emu.Metadata;
 
 using Emu.Audio;
+using Emu.Audio.Standards.GUANO;
 using Emu.Audio.Vendors.OpenAcousticDevices;
 using Emu.Audio.Vendors.WildlifeAcoustics.WAMD;
 using Emu.Audio.WAVE;
@@ -58,6 +59,11 @@ public static class PredicateExtensions
         return target.CheckPredicate(Predicates.HasAudioMothListChunk);
     }
 
+    public static bool HasGuanoChunk(this TargetInformation target)
+    {
+        return target.CheckPredicate(Predicates.HasGuanoChunk);
+    }
+
     // an example of an async predicate extension method.
     // public static ValueTask<bool> IsFlacFileAsync(this TargetInformation target)
     // {
@@ -92,6 +98,9 @@ public static class PredicateExtensions
 
         public static readonly Func<TargetInformation, bool> HasAudioMothListChunk =
             target => AudioMothMetadataParser.HasAudioMothListChunk(target.FileStream).IfFail(false);
+
+        public static readonly Func<TargetInformation, bool> HasGuanoChunk =
+            target => GuanoParser.HasGuanoChunk(target.FileStream).IfFail(false);
 
         // An example of an async predicate
         // public static readonly Func<TargetInformation, ValueTask<bool>> IsFlacFile2 =

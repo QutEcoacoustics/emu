@@ -48,6 +48,12 @@ namespace Emu.Filenames
                 Prefix + @"(?<Date>\d{4}-\d{2}-\d{2})" + IsoSeparator + @"(?<Time>\d{2}:\d{2}:\d{2}(\.\d{1,6})?)" + End,
                 LocalDateTimePattern.CreateWithInvariantCulture("uuuu-MM-ddTHH:mm:ss.FFFFFF")),
 
+            // Titley Scientific Chorus 2.0
+            // valid: 2022-08-30_12-08-00 (1).wav
+            new(
+                Prefix + @"(?<Date>\d{4}-\d{2}-\d{2})_(?<Time>\d{2}-\d{2}-\d{2})" + End,
+                LocalDateTimePattern.CreateWithInvariantCulture("uuuu-MM-ddTHH-mm-ss")),
+
             // valid: Prefix_YYYYMMDD_hhmmss.wav,
             // valid: prefix_20140101_235959.mp3, a_00000000_000000.a, a_99999999_999999.dnsb48364JSFDSD
             // valid: SERF_20130314_000021_000.wav, a_20130314_000021_a.a, a_99999999_999999_a.dnsb48364JSFDSD
@@ -148,7 +154,7 @@ namespace Emu.Filenames
             // valid: S40.20361W075.00417, +40.1213-075.0015+2.79CRSWGS_84, +40.20361-075.00417CRSWGS_84
             // valid: 20190626T160000+1000_REC_-27.3888+152.8808.flac
             // valid: S20240815T091156.982648+1000_E20240815T091251.967555+1000_-12.34567+78.98102.wav
-            $@".*(?<Location>{Latitude}{Longitude}(?!\d*T)(?<Altitude>[-+][\.\d]+)?(?:CRS(?<Crs>[\w_]+))?\/?).*",
+            $@".*(?<Location>(?<!\d){Latitude}{Longitude}(?!\d*T)(?<Altitude>[-+][\.\d]+)?(?:CRS(?<Crs>[\w_]+))?\/?).*",
         }.Select(x => new Regex(x, RegexOptions.Compiled)).ToArray();
 
         private const string Prefix = @"^(?<Prefix>.*)";

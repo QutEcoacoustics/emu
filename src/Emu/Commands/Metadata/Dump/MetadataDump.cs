@@ -9,6 +9,7 @@ namespace Emu.Commands.Metadata.Dump
     using System.CommandLine.Invocation;
     using System.Diagnostics.CodeAnalysis;
     using System.IO.Abstractions;
+    using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
     using Emu.Cli;
@@ -54,6 +55,8 @@ namespace Emu.Commands.Metadata.Dump
 
         public string[] Targets { get; set; }
 
+        public string[] Blocks { get; set; }
+
         public override async Task<int> InvokeAsync(InvocationContext context)
         {
             if (this.Format == EmuCommand.OutputFormat.CSV)
@@ -62,6 +65,7 @@ namespace Emu.Commands.Metadata.Dump
             }
 
             var paths = this.fileMatcher.ExpandMatches(this.fileSystem.Directory.GetCurrentDirectory(), this.Targets);
+            var selectedBlocks = this.GetSelectedBlocks();
 
             this.WriteHeader();
 
@@ -77,6 +81,12 @@ namespace Emu.Commands.Metadata.Dump
                 foreach (var extractor in this.extractors)
                 {
                     this.logger.LogDebug("Running {Extractor} on {Target}", extractor.Name, target.Path);
+
+                    if (selectedBlocks.Count > 0 && !selectedBlocks.Contains(extractor.Name))
+                    {
+                        this.logger.LogTrace("Skipping extractor {Extractor} because it is not in selected block filter", extractor.Name);
+                        continue;
+                    }
 
                     if (await extractor.CanProcessAsync(target))
                     {
@@ -154,6 +164,51 @@ namespace Emu.Commands.Metadata.Dump
             }
 
             return builder;
+        }
+
+        private System.Collections.Generic.HashSet<string> GetSelectedBlocks()
+        {
+            if (this.Blocks is null || this.Blocks.Length == 0)
+            {
+                return new System.Collections.Generic.HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            }
+
+            var aliases = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+            {
+                ["guan"] = "GUANO",
+                ["guano"] = "GUANO",
+                ["wamd"] = "WAMD",
+            };
+
+            var available = this.extractors
+                .Select(x => x.Name)
+                .ToDictionary(x => x, x => x, StringComparer.OrdinalIgnoreCase);
+
+            var selected = new System.Collections.Generic.HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            foreach (var block in this.Blocks)
+            {
+                if (string.IsNullOrWhiteSpace(block))
+                {
+                    continue;
+                }
+
+                var key = block.Trim();
+                if (aliases.TryGetValue(key, out var canonicalAlias))
+                {
+                    key = canonicalAlias;
+                }
+
+                if (available.TryGetValue(key, out var extractorName))
+                {
+                    selected.Add(extractorName);
+                }
+                else
+                {
+                    this.logger.LogWarning("Requested metadata block filter '{block}' does not match any known metadata dump blocks", block);
+                }
+            }
+
+            return selected;
         }
     }
 }

@@ -19,6 +19,7 @@ namespace Emu.Metadata
             new(typeof(FlacHeaderExtractor)),
             new(typeof(FlacCommentExtractor)),
             new(typeof(WamdExtractor)),
+            new(typeof(GuanoExtractor)),
             new(typeof(AudioMothCommentExtractor)),
             new(typeof(ConfigExtractor)),
             new(typeof(LogFileExtractor)),

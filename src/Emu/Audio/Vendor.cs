@@ -16,5 +16,7 @@ namespace Emu.Audio
         WildlifeAcoustics = 2,
         [EnumMember(Value = "Open Acoustic Devices")]
         OpenAcousticDevices = 3,
+        [EnumMember(Value = "Titley Scientific")]
+        TitleyScientific = 4,
     }
 }

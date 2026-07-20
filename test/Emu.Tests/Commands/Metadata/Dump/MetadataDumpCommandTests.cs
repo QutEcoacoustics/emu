@@ -41,6 +41,21 @@ namespace Emu.Tests.Commands.Metadata.Dump
         }
 
         [Fact]
+        public void SupportsBlockFilterOption()
+        {
+            var command = "metadata dump **/*.wav --blocks GUANO,WAMD";
+
+            var result = this.CliParser.Parse(command);
+
+            Assert.True(result.Errors.Count == 0);
+            Assert.Equal(
+                result.FindResultFor(MetadataDumpCommand.BlockFilterOption).GetValueOrDefault<string[]>(),
+                new[] { "GUANO", "WAMD" });
+            result.UnmatchedTokens.Should().BeEmpty();
+            result.UnparsedTokens.Should().BeEmpty();
+        }
+
+        [Fact]
         public void FailsGracefullyForCsv()
         {
             var command = "metadata dump **/*.wav -F CSV";

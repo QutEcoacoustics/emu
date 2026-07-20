@@ -4,7 +4,6 @@
 
 namespace Emu.Tests.TestHelpers
 {
-    using Xunit.Sdk;
     using System;
     using System.Collections.Generic;
     using System.IO;
@@ -19,6 +18,7 @@ namespace Emu.Tests.TestHelpers
     using Emu.Metadata.SupportFiles;
     using Emu.Models;
     using Newtonsoft.Json;
+    using Xunit.Sdk;
 
     public enum ValidMetadata
     {
@@ -35,6 +35,7 @@ namespace Emu.Tests.TestHelpers
         public const string FlacCommentExtractor = "FlacCommentExtractor";
         public const string FrontierLabsLogFileExtractor = "FrontierLabsLogFileExtractor";
         public const string WamdExtractor = "WamdExtractor";
+        public const string GuanoExtractor = "GuanoExtractor";
         public const string FLCommentAndLogExtractor = "FLCommentAndLogExtractor";
         public const string AudioMothCommentExtractor = "AudioMothCommentExtractor";
         public const string AudioMothConfigFileExtractor = "AudioMothConfigFileExtractor";
@@ -87,6 +88,8 @@ namespace Emu.Tests.TestHelpers
 #pragma warning disable IO0006 // Replace Path class with IFileSystem.Path for improved testability
         public string AbsoluteFixtureDirectory => Path.GetDirectoryName(this.AbsoluteFixturePath);
 #pragma warning restore IO0006 // Replace Path class with IFileSystem.Path for improved testability
+
+        public bool HasGuano { get; set; }
 
         public string Notes { get; set; }
 

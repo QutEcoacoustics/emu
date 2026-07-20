@@ -139,10 +139,12 @@ namespace Emu.Tests.Commands.Metadata
             }
         }
 
-        [Fact]
-        public async Task ItCanDisableUsingWamdOffsets()
+        [Theory]
+        [InlineData(FixtureModel.Sm4HighPrecision, true)]
+        [InlineData(FixtureModel.Sm4BatNormal1, false)]
+        public async Task NoWamdOffsetsOnlyIgnoresWamdOffset(string fixtureName, bool hasGuanoOffset)
         {
-            var fixture = this.data[FixtureModel.Sm4HighPrecision];
+            var fixture = this.data[fixtureName];
             this.TestFiles.AddFile(fixture.AbsoluteFixturePath, fixture.ToMockFileData());
 
             this.command.Targets = fixture.AbsoluteFixturePath.AsArray();
@@ -152,9 +154,10 @@ namespace Emu.Tests.Commands.Metadata
 
             result.Should().Be(0);
 
-            var output = this.AllOutput;
+            var recording = this.serializer.Deserialize<Recording>(this.GetAllOutputReader()).Single();
 
-            output.Should().Contain("\"StartDate\":null,\"");
+            recording.StartDate.HasValue.Should().Be(hasGuanoOffset);
+            recording.LocalStartDate.Should().Be(fixture.Record.LocalStartDate);
         }
 
         public partial class SmokeTest : TestBase, IClassFixture<FixtureData>
