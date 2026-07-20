@@ -343,7 +343,7 @@ References:
 | `Timestamp`        | `StartDate`, `TrueStartDate`, `LocalStartDate` | RFC3339 timestamps populate UTC and local fields where possible                                  |
 | `Make`             | `Sensor.Make`                                  | Preferred over conflicting values from other sources                                             |
 | `Model`            | `Sensor.Model`                                 | Preferred over conflicting values from other sources                                             |
-| `Firmware Version` | `Sensor.Firmware`                              | Preferred over conflicting values from other sources; falls back to `GUANO\|Version` when needed |
+| `Firmware Version` | `Sensor.Firmware`                              | Preferred over conflicting values from other sources                                             |
 | `Serial`           | `Sensor.SerialNumber`                          | Preferred over conflicting values from other sources                                             |
 | `Temperature Int`  | `Sensor.Temperature`                           | Parsed as Celsius float                                                                          |
 | `Temperature Ext`  | `Sensor.TemperatureExternal`                   | Parsed as Celsius float                                                                          |
