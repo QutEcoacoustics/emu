@@ -92,6 +92,66 @@ namespace Emu.Tests.Commands.Metadata.Dump
             {
                 output.Should().Contain(text);
             }
+
+            if (fixture.HasGuano)
+            {
+                output.Should().Contain("GUANO");
+                output.Should().Contain("Version");
+            }
+        }
+
+        [Fact]
+        public async Task CanFilterToSingleBlockByName()
+        {
+            var fixture = this.data[FixtureModel.Sm4HighPrecision];
+
+            var command = new MetadataDump(
+                this.BuildLogger<MetadataDump>(),
+                this.CurrentFileSystem,
+                new FileMatcher(this.BuildLogger<FileMatcher>(), this.CurrentFileSystem),
+                this.GetOutputRecordWriter(),
+                new MetadataRegister(this.ServiceProvider),
+                new PrettyFormatter(),
+                new CompactFormatter())
+            {
+                Targets = fixture.AbsoluteFixturePath.AsArray(),
+                Blocks = new[] { "GUANO" },
+            };
+
+            var result = await command.InvokeAsync(null);
+            result.Should().Be(0);
+
+            var output = this.AllOutput;
+            output.Should().Contain("GUANO");
+            output.Should().Contain("Version");
+            output.Should().NotContain("Block WAMD");
+        }
+
+        [Fact]
+        public async Task CanFilterToSingleBlockByAlias()
+        {
+            var fixture = this.data[FixtureModel.Sm4HighPrecision];
+
+            var command = new MetadataDump(
+                this.BuildLogger<MetadataDump>(),
+                this.CurrentFileSystem,
+                new FileMatcher(this.BuildLogger<FileMatcher>(), this.CurrentFileSystem),
+                this.GetOutputRecordWriter(),
+                new MetadataRegister(this.ServiceProvider),
+                new PrettyFormatter(),
+                new CompactFormatter())
+            {
+                Targets = fixture.AbsoluteFixturePath.AsArray(),
+                Blocks = new[] { "guan" },
+            };
+
+            var result = await command.InvokeAsync(null);
+            result.Should().Be(0);
+
+            var output = this.AllOutput;
+            output.Should().Contain("GUANO");
+            output.Should().Contain("Version");
+            output.Should().NotContain("Block WAMD");
         }
     }
 }

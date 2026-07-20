@@ -321,6 +321,60 @@ TODO: Need more example files!
 
 TODO: Need more example files!
 
+### GUANO
+
+GUANO blocks are parsed from WAVE `guan` chunks and are available in both commands:
+
+- `metadata dump`: emits a `GUANO` block with all parsed fields and vendor fields.
+- `metadata`/`metadata show`: maps selected well-known GUANO keys into the normalized `Recording` model,
+  and preserves vendor-defined keys in `OtherFields`.
+
+When the same field is available from multiple metadata sources, GUANO is treated as the
+most authoritative source for overlapping values, except where values derived from the WAVE
+header are more reliable (e.g., `DurationSeconds` and `SampleRateHertz`).
+References:
+- [GUANO Specification](https://github.com/riggsd/guano-spec/blob/master/guano_specification.md)
+- [WA GUANO Specification](https://www.wildlifeacoustics.com/SCHEMA/GUANO.html)
+
+#### GUANO to `metadata` mapping
+
+| GUANO key          | `metadata` field                               | Notes                                                                                            |
+| ------------------ | ---------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| `Timestamp`        | `StartDate`, `TrueStartDate`, `LocalStartDate` | RFC3339 timestamps populate UTC and local fields where possible                                  |
+| `Make`             | `Sensor.Make`                                  | Preferred over conflicting values from other sources                                             |
+| `Model`            | `Sensor.Model`                                 | Preferred over conflicting values from other sources                                             |
+| `Firmware Version` | `Sensor.Firmware`                              | Preferred over conflicting values from other sources                                             |
+| `Serial`           | `Sensor.SerialNumber`                          | Preferred over conflicting values from other sources                                             |
+| `Temperature Int`  | `Sensor.Temperature`                           | Parsed as Celsius float                                                                          |
+| `Temperature Ext`  | `Sensor.TemperatureExternal`                   | Parsed as Celsius float                                                                          |
+| `Loc Position`     | `Location.Latitude`/`Longitude`                | Expects `latitude longitude`                                                                     |
+| `Loc Elevation`    | `Location.Altitude`                            | Parsed as meters                                                                                 |
+| `Length`           | `DurationSeconds`                              | Parsed as seconds                                                                                |
+| `Samplerate`       | `SampleRateHertz`                              | Parsed as unsigned integer                                                                       |
+
+### Vendor normalization
+
+- `Make=Wildlife Acoustics, Inc` is normalized to `Wildlife Acoustics`.
+
+#### Vendor-defined GUANO fields
+
+Vendor-defined namespaced GUANO keys are copied to `Recording.OtherFields`
+using the stable key format:
+
+- `(GUANO) <namespace|key>`
+
+Examples from current fixtures:
+
+- `(GUANO) WA|Kaleidoscope|Version`
+- `(GUANO) WA|Song Meter|Audio settings`
+- `(GUANO) WA|Song Meter|Compression`
+- `(GUANO) WA|Song Meter|Prefix`
+- `(GUANO) Anabat|Battery voltage`
+- `(GUANO) Anabat|Microphone`
+- `(GUANO) Anabat|Activation`
+- `(GUANO) Anabat|Gain (A)`
+- `(GUANO) Anabat|Maximum File Duration`
+
 ### Cornell Lab
 
 TODO: Need more example files!

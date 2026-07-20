@@ -2619,6 +2619,7 @@
     FlacCommentExtractor:
 
 - Name: SM4 High Precision
+  HasGuano: true
   Record: &SM4HighPrecision
     Extension: .wav
     Stem: FNQ-RBS_20190102_044802_010
@@ -3271,6 +3272,7 @@
   Process: ~
 
 - Name: Song Meter Mini Normal File 1
+  HasGuano: true
   Record:
     Extension: .wav
     Stem: SMM215_20231117_094400
@@ -3324,6 +3326,7 @@
     WamdExtractor: ~
 
 - Name: Song Meter Mini Normal File 2
+  HasGuano: true
   Record:
     Extension: .wav
     Stem: SMM215_20231117_095200
@@ -3364,6 +3367,7 @@
     WamdExtractor: ~
 
 - Name: Song Meter Mini Normal File 3
+  HasGuano: true
   Record: &SMMNormal
     Extension: .wav
     Stem: MF01-01_SMM119_20251103_160600
@@ -3404,6 +3408,7 @@
     WamdExtractor: ~
 
 - Name: Song Meter Mini Normal File 4
+  HasGuano: true
   Record:
     <<: *SMMNormal
     Stem: MF01-01_SMM119_20251103_161400
@@ -3421,6 +3426,7 @@
     WamdExtractor: ~
 
 - Name: Song Meter Mini Normal File 5
+  HasGuano: true
   Record:
     <<: *SMMNormal
     Stem: MF01-01_SMM119_20251103_163600
@@ -3496,3 +3502,80 @@
   Problems:
     - OE005
   Process: ~
+
+- Name: TS Chorus GUANO File 1
+  HasGuano: true
+  Record:
+    Extension: .wav
+    Stem: 2022-08-30_12-08-00 (1)
+    StartDate:
+    LocalStartDate: 2022-08-30T12:08:00
+    TrueStartDate:
+    TrueEndDate:
+    DurationSeconds: 622592/44100
+    TotalSamples: 622592
+    Channels: 1
+    SampleRateHertz: 44100
+    BitsPerSecond: 705600
+    BitDepth: 16
+    FileSizeBytes: 1245576
+    MediaType: audio/wave
+    CalculatedChecksum:
+      Type: SHA256
+      Value: 322f4aa6cfdb3c8dd479ca87ee12031feb3f429a21e44fe06644438855d8576c
+    EmbeddedChecksum: ~
+    MemoryCard: ~
+    Sensor:
+      Make: Titley Scientific
+      Model: Chorus
+      Name:
+      Firmware: Sonic v2.0
+      SerialNumber: "636512"
+      PowerSource:
+      Microphones:
+        - Type: Acoustic
+          UID:
+          BuildDate:
+          Gain: 3
+          Channel: 0
+          ChannelName:
+          Sensitivity:
+      Gain:
+      Configuration:
+      Voltage: 4.99
+      BatteryLevel:
+      Temperature: 12.0
+      LastTimeSync:
+    Location:
+      Longitude: 147.832367
+      LongitudePrecision: 6
+      Latitude: -41.159294
+      LatitudePrecision: 6
+      Altitude: 410.9
+      AltitudePrecision: 1
+      HorizontalAccuracy:
+      VerticalAccuracy:
+      Speed:
+      Course:
+      SampleDateTime:
+      CoordinateReferenceSystem: WGS84
+    OtherFields:
+      (GUANO) Anabat|Battery voltage: "4.99"
+      (GUANO) Anabat|Microphone: Acoustic
+      (GUANO) Anabat|Activation: Constant
+      (GUANO) Anabat|Gain (A): "3"
+      (GUANO) Anabat|Maximum File Duration: "1200000"
+  FixturePath: TS_CHORUS/2.0_Normal/2022-08-30_12-08-00 (1).wav
+  Notes: Titley Scientific Chorus WAV with embedded GUANO metadata.
+  ValidMetadata: Yes
+  MimeType: audio/wave
+  Make: Titley Scientific
+  Problems: []
+  Process:
+    FilenameExtractor:
+      Extension: .wav
+      Stem: 2022-08-30_12-08-00 (1)
+      LocalStartDate: 2022-08-30T12:08:00
+      FileSizeBytes: 1245576
+    WaveHeaderExtractor: ~
+    GuanoExtractor: ~

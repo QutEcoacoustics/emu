@@ -139,5 +139,15 @@ namespace Emu.Tests.FilenameParsing
             // we should have matched the square brackets as part of the location expression.
             actual.TokenizedName.Should().NotContain("[");
         }
+
+        [Fact]
+        public void CanParseTitleyScientificFilename()
+        {
+            var actual = this.FilenameParser.Parse("2022-08-30_12-08-00 (1).wav");
+
+            actual.LocalStartDate.Should().Be(new LocalDateTime(2022, 8, 30, 12, 8));
+            actual.StartDate.Should().BeNull();
+            actual.Location.Should().BeNull();
+        }
     }
 }
