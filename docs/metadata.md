@@ -361,19 +361,19 @@ References:
 Vendor-defined namespaced GUANO keys are copied to `Recording.OtherFields`
 using the stable key format:
 
-- `GUANO:<namespace|key>`
+- `(GUANO) <namespace|key>`
 
 Examples from current fixtures:
 
-- `GUANO:WA|Kaleidoscope|Version`
-- `GUANO:WA|Song Meter|Audio settings`
-- `GUANO:WA|Song Meter|Compression`
-- `GUANO:WA|Song Meter|Prefix`
-- `GUANO:Anabat|Battery voltage`
-- `GUANO:Anabat|Microphone`
-- `GUANO:Anabat|Activation`
-- `GUANO:Anabat|Gain (A)`
-- `GUANO:Anabat|Maximum File Duration`
+- `(GUANO) WA|Kaleidoscope|Version`
+- `(GUANO) WA|Song Meter|Audio settings`
+- `(GUANO) WA|Song Meter|Compression`
+- `(GUANO) WA|Song Meter|Prefix`
+- `(GUANO) Anabat|Battery voltage`
+- `(GUANO) Anabat|Microphone`
+- `(GUANO) Anabat|Activation`
+- `(GUANO) Anabat|Gain (A)`
+- `(GUANO) Anabat|Maximum File Duration`
 
 ### Cornell Lab
 
