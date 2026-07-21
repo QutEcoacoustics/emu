@@ -31,7 +31,7 @@ namespace Emu.Metadata
 
         public ValueTask<MetadataExtractionResult> ProcessFileAsync(TargetInformation information)
         {
-            var tryGuano = GuanoParser.ExtractMetadata(information.FileStream);
+            var tryGuano = GuanoParser.ReadGuanoBlock(information.FileStream);
 
             if (tryGuano.IsSucc)
             {
@@ -44,7 +44,7 @@ namespace Emu.Metadata
 
         public ValueTask<Recording> ProcessFileAsync(TargetInformation information, Recording recording)
         {
-            var tryGuano = GuanoParser.ExtractMetadata(information.FileStream);
+            var tryGuano = GuanoParser.ReadGuanoBlock(information.FileStream);
             if (tryGuano.IsFail)
             {
                 this.logger.LogWarning("Failed to extract GUANO metadata from {path}: {error}", information.Path, (LanguageExt.Common.Error)tryGuano);
@@ -74,7 +74,7 @@ namespace Emu.Metadata
             var otherFields = new Dictionary<string, string>(recording.OtherFields ?? new Dictionary<string, string>(StringComparer.Ordinal));
             foreach (var entry in guano.VendorEntries)
             {
-                otherFields[$"(GUANO) {GuanoBlock.ToKey(entry.Namespaces, entry.Field)}"] = entry.Value;
+                otherFields[$"(GUANO) {entry.Key}"] = entry.Value;
             }
 
             // we prioritize the opposite for duration and sample rate: our existing methods which gets the data from the wave header are more

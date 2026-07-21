@@ -10,10 +10,14 @@ namespace Emu.Audio.Standards.GUANO
     using LanguageExt;
     using Error = LanguageExt.Common.Error;
 
-    public static class GuanoParser
+    public static partial class GuanoParser
     {
         public static readonly byte[] GuanoChunkId = "guan"u8.ToArray();
         private const string GuanoVersionKey = "GUANO|Version";
+        private const string GuanoNewLineEscape = @"\n";
+        private const string GuanoNewLine = "\n";
+        private const char NamespaceSeparator = '|';
+        private const char EntrySeparator = '\n';
 
         public static Fin<bool> HasGuanoChunk(Stream stream)
         {
@@ -37,7 +41,7 @@ namespace Emu.Audio.Standards.GUANO
             return guanoChunk;
         }
 
-        public static Fin<(GuanoBlock Guano, List<Notice> Notices)> ExtractMetadata(Stream stream)
+        public static Fin<(GuanoBlock Guano, List<Notice> Notices)> ReadGuanoBlock(Stream stream)
         {
             var chunk = GetGuanoChunk(stream);
             if (chunk.IsFail)
@@ -46,6 +50,11 @@ namespace Emu.Audio.Standards.GUANO
             }
 
             var bytes = RangeHelper.ReadRange(stream, (RangeHelper.Range)chunk);
+            return ParseGuano(bytes);
+        }
+
+        public static Fin<(GuanoBlock Guano, List<Notice> Notices)> ParseGuano(ReadOnlySpan<byte> bytes)
+        {
             var notices = new List<Notice>();
             var allFields = new System.Collections.Generic.HashSet<string>(StringComparer.Ordinal);
             var entries = new List<GuanoEntry>();
@@ -54,7 +63,7 @@ namespace Emu.Audio.Standards.GUANO
             var text = Encoding.UTF8.GetString(bytes).Trim('\0', ' ', '\t', '\r', '\n');
             var firstKey = default(string);
 
-            foreach (var rawLine in text.Split('\n'))
+            foreach (var rawLine in text.Split(EntrySeparator))
             {
                 var line = rawLine.Trim();
                 if (string.IsNullOrWhiteSpace(line))
@@ -76,7 +85,9 @@ namespace Emu.Audio.Standards.GUANO
                     continue;
                 }
 
-                var value = line[(separatorIndex + 1)..].Trim();
+                // The GUANO spec encodes newlines inside values as the literal two-character sequence
+                // `\n`, so we decode that here before handing the value to downstream parsers.
+                var value = line[(separatorIndex + 1)..].Trim().Replace(GuanoNewLineEscape, GuanoNewLine);
                 firstKey ??= key;
 
                 if (allFields.Contains(key))
@@ -88,6 +99,9 @@ namespace Emu.Audio.Standards.GUANO
                 allFields.Add(key);
 
                 var entry = ParseEntry(key, value);
+
+                entry = NormalizeWildlifeAcousticsEntry(entry, notices);
+
                 entries.Add(entry);
 
                 if (string.Equals(key, GuanoVersionKey, StringComparison.Ordinal))
@@ -117,13 +131,13 @@ namespace Emu.Audio.Standards.GUANO
 
         private static GuanoEntry ParseEntry(string key, string value)
         {
-            var split = key.Split('|');
+            var split = key.Split(NamespaceSeparator);
 
             if (split.Length > 1)
             {
                 return new GuanoEntry
                 {
-                    Namespaces = split[..^1],
+                    Namespaces = split[..^1].ToSeq(),
                     Field = split[^1],
                     Value = value,
                 };
@@ -131,7 +145,7 @@ namespace Emu.Audio.Standards.GUANO
 
             return new GuanoEntry
             {
-                Namespaces = Array.Empty<string>(),
+                Namespaces = Seq.empty<string>(),
                 Field = key,
                 Value = value,
             };

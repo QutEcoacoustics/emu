@@ -39,7 +39,7 @@
             "Vorbis",
             "Wamd",
             "Xbehave",
-            "Xunit"
+            "Xunit",
         ],
         "[yaml]": {
             "editor.insertSpaces": true,
@@ -86,10 +86,10 @@
         "dotnet.formatting.organizeImportsOnFormat": true,
         "chat.tools.terminal.autoApprove": {
             "dotnet test": true,
-            "dotnet build": true
+            "dotnet build": true,
         },
         "dotnet.testWindow.enableTestExplorerDiff": true,
-        "dotnet.preferCSharpExtension": false
+        "dotnet.preferCSharpExtension": false,
     },
     "launch": {
         "version": "0.2.0",

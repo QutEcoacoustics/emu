@@ -5,10 +5,13 @@
 namespace Emu.Tests.Audio.Standards.GUANO
 {
     using System.Linq;
+    using System.Text;
     using Emu.Audio.Standards.GUANO;
     using Emu.Models.Notices;
     using Emu.Tests.TestHelpers;
     using FluentAssertions;
+    using Newtonsoft.Json.Linq;
+    using Shouldly;
     using Xunit;
 
     public class GuanoParserTests : TestBase, IClassFixture<FixtureData>
@@ -38,7 +41,7 @@ namespace Emu.Tests.Audio.Standards.GUANO
             var fixture = this.data[FixtureModel.Sm4HighPrecision];
             using var stream = fixture.ToFileInfo(this.CurrentFileSystem).OpenRead();
 
-            var result = GuanoParser.ExtractMetadata(stream);
+            var result = GuanoParser.ReadGuanoBlock(stream);
 
             result.IsSucc.Should().BeTrue();
             (var guano, var notices) = result.ThrowIfFail();
@@ -53,6 +56,45 @@ namespace Emu.Tests.Audio.Standards.GUANO
             guano.Entries.Should().Contain(x => x.Namespaces.SequenceEqual(new[] { "WA", "Song Meter" }) && x.Field == "Audio settings");
             guano.PrimaryVendorNamespace.Should().Be("WA");
             notices.Count(n => n is Warning).Should().Be(0);
+        }
+
+        [Fact]
+        public void CanParseSmartQuoteAudioSettingsAndReportNotice()
+        {
+            var fixture = this.data[FixtureModel.SongMeterMiniNormalFile1];
+            using var stream = fixture.ToFileInfo(this.CurrentFileSystem).OpenRead();
+
+            var result = GuanoParser.ReadGuanoBlock(stream);
+
+            result.IsSucc.Should().BeTrue();
+            (var guano, var notices) = result.ThrowIfFail();
+
+            var entry = guano.GetValue(["WA", "Song Meter"], "Audio settings");
+
+            // should not contain smart quotes, and should be parseable json
+            entry.Should().NotContain("\u201C");
+            entry.Should().NotContain("\u201D");
+
+            Should.NotThrow(() => JArray.Parse(entry));
+
+            notices.Should().ContainSingle();
+            notices.Single().Message.Should().Be("Normalized smart quotes in `WA|Song Meter|Audio settings` JSON.");
+        }
+
+        [Fact]
+        public void ParseGuanoUnescapesLiteralNewlinesInValues()
+        {
+            var bytes = Encoding.UTF8.GetBytes(
+                "GUANO|Version:1.0\n" +
+                "Note:line one\\nline two\n");
+
+            var result = GuanoParser.ParseGuano(bytes);
+
+            result.IsSucc.Should().BeTrue();
+            (var guano, var notices) = result.ThrowIfFail();
+
+            guano.GetValue("Note").Should().Be("line one\nline two");
+            notices.Should().BeEmpty();
         }
 
         [Fact]

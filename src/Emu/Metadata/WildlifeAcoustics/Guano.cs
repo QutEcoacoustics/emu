@@ -25,6 +25,7 @@ namespace Emu.Metadata.WildlifeAcoustics
             }
 
             var settings = JArray.Parse(value);
+
             var existingMicrophones = recording.Sensor?.Microphones ?? Array.Empty<Microphone>();
             var microphones = settings
                 .Select((setting, index) =>
@@ -45,7 +46,5 @@ namespace Emu.Metadata.WildlifeAcoustics
                 Sensor = (recording.Sensor ?? new Sensor()) with { Microphones = microphones },
             };
         }
-
-
     }
 }

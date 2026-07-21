@@ -68,9 +68,9 @@ namespace Emu.Audio.Standards.GUANO
             }
         }
 
-        public IEnumerable<GuanoEntry> VendorEntries => this.Entries.Where(x => x.Namespaces.Count > 0 && x.Namespaces[0] != "GUANO");
+        public IEnumerable<GuanoEntry> VendorEntries => this.Entries.Where(x => !x.Namespaces.IsEmpty && x.Namespaces.First() != "GUANO");
 
-        public string PrimaryVendorNamespace => this.VendorEntries.FirstOrDefault()?.Namespaces[0];
+        public string PrimaryVendorNamespace => this.VendorEntries.FirstOrDefault()?.Namespaces.FirstOrDefault();
 
         public string GetValue(string field)
         {
@@ -107,19 +107,20 @@ namespace Emu.Audio.Standards.GUANO
             return string.Join("|", namespaces) + "|" + field;
         }
 
-        private static bool SequenceEqual(IReadOnlyList<string> left, IReadOnlyList<string> right)
+        private static bool SequenceEqual(IEnumerable<string> left, IReadOnlyList<string> right)
         {
-            left ??= Array.Empty<string>();
             right ??= Array.Empty<string>();
 
-            if (left.Count != right.Count)
+            var leftList = left?.ToArray() ?? Array.Empty<string>();
+
+            if (leftList.Length != right.Count)
             {
                 return false;
             }
 
-            for (int i = 0; i < left.Count; i++)
+            for (int i = 0; i < leftList.Length; i++)
             {
-                if (!string.Equals(left[i], right[i], StringComparison.Ordinal))
+                if (!string.Equals(leftList[i], right[i], StringComparison.Ordinal))
                 {
                     return false;
                 }
