@@ -16,9 +16,11 @@ namespace Emu.Metadata.WildlifeAcoustics
         public const string Namespace = "WA";
         public const string SongMeterNamespace = "Song Meter";
 
+        public static readonly GuanoKey AudioSettingsKey = new GuanoKey(Namespace, SongMeterNamespace, AudioSettingsField);
+
         public static Recording ApplyVendorEntries(GuanoBlock guano, Recording recording)
         {
-            var value = guano.GetValue([Namespace, SongMeterNamespace], AudioSettingsField);
+            var value = guano.GetValue(AudioSettingsKey);
             if (string.IsNullOrWhiteSpace(value))
             {
                 return recording;

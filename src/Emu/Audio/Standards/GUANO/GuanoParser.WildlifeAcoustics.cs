@@ -10,8 +10,13 @@ namespace Emu.Audio.Standards.GUANO
     {
         private const string SmartQuoteFixNotice = "Normalized smart quotes in `{0}` JSON.";
 
-        private static GuanoEntry NormalizeWildlifeAcousticsEntry(GuanoEntry entry, List<Notice> notices)
+        private static string NormalizeWildlifeAcousticsEntry(GuanoKey key, string value, List<Notice> notices)
         {
+            if (key.Vendor != Emu.Metadata.WildlifeAcoustics.Guano.Namespace)
+            {
+                return value;
+            }
+
             // Some Wildlife Acoustics files appear to have GUANO values re-encoded with Unicode smart quotes
             // (U+201C “ / U+201D ”) instead of ASCII double quotes which is invalid JSON.
             // Observed in fixture WA_SMM/3.4_NormalAndCorrupt/SMM215_20231117_094400.wav, which
@@ -20,17 +25,14 @@ namespace Emu.Audio.Standards.GUANO
             // This _could_ show up in JSON-looking values, not just
             // one field, so we normalize any such entry and record a notice for the affected key.
             // xref: https://github.com/QutEcoacoustics/emu/issues/439
-            if (string.IsNullOrWhiteSpace(entry.Value) || !LooksLikeJson(entry.Value) || !ContainsSmartQuotes(entry.Value))
+            if (string.IsNullOrWhiteSpace(value) || !LooksLikeJson(value) || !ContainsSmartQuotes(value))
             {
-                return entry;
+                return value;
             }
 
-            notices.Add(new Warning(string.Format(SmartQuoteFixNotice, (string)entry.Key)));
+            notices.Add(new Warning(string.Format(SmartQuoteFixNotice, key.FullKey)));
 
-            return entry with
-            {
-                Value = NormalizeSmartQuotes(entry.Value),
-            };
+            return NormalizeSmartQuotes(value);
         }
 
         private static bool LooksLikeJson(string value)
@@ -41,7 +43,7 @@ namespace Emu.Audio.Standards.GUANO
 
         private static bool ContainsSmartQuotes(string value)
         {
-            return value.IndexOf('\u201C') >= 0 || value.IndexOf('\u201D') >= 0;
+            return value.Contains('\u201C') || value.Contains('\u201D');
         }
 
         private static string NormalizeSmartQuotes(string value)

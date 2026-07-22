@@ -57,5 +57,19 @@ namespace Emu.Cli.ObjectFormatters
         protected override void EndObject(StringBuilder builder, string key, object obj, Type type, in Options options)
         {
         }
+
+        protected override Options StartDictionary(StringBuilder builder, string key, IReadOnlyList<KeyValuePair<object, object>> dictionary, in Options options)
+        {
+            return options with { KeyPrefix = key + "." };
+        }
+
+        protected override void EndDictionary(StringBuilder builder, string key, IReadOnlyList<KeyValuePair<object, object>> dictionary, in Options options)
+        {
+        }
+
+        protected override string StyleDictionaryKey(string key, object dictionaryKey, string dictionaryName)
+        {
+            return key;
+        }
     }
 }

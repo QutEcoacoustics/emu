@@ -5,8 +5,11 @@
 namespace Emu.Audio.Standards.GUANO
 {
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Globalization;
     using Emu.Models;
+    using LanguageExt;
+    using Newtonsoft.Json;
     using NodaTime;
     using NodaTime.Text;
 
@@ -20,14 +23,15 @@ namespace Emu.Audio.Standards.GUANO
         private static readonly LocalDateTimePattern LocalDatePattern = LocalDateTimePattern.ExtendedIso;
 
         /// <summary>
-        /// Gets the parsed value of GUANO|Version.
-        /// </summary>
-        public string Version { get; init; }
-
-        /// <summary>
         /// Gets all parsed GUANO metadata entries.
         /// </summary>
-        public IReadOnlyList<GuanoEntry> Entries { get; init; } = new List<GuanoEntry>();
+        [Browsable(false)]
+        public IReadOnlyDictionary<GuanoKey, string> Entries { get; init; } = new Dictionary<GuanoKey, string>();
+
+        /// <summary>
+        /// Gets the parsed value of GUANO|Version.
+        /// </summary>
+        public string GuanoVersion { get; init; }
 
         public string Make => this.GetValue("Make");
 
@@ -68,65 +72,20 @@ namespace Emu.Audio.Standards.GUANO
             }
         }
 
-        public IEnumerable<GuanoEntry> VendorEntries => this.Entries.Where(x => !x.Namespaces.IsEmpty && x.Namespaces.First() != "GUANO");
+        [JsonIgnore]
+        public IEnumerable<KeyValuePair<GuanoKey, string>> VendorEntries =>
+            this.Entries.Where(x => x.Key.IsVendorNamespace);
 
-        public string PrimaryVendorNamespace => this.VendorEntries.FirstOrDefault()?.Namespaces.FirstOrDefault();
+        public string PrimaryVendorNamespace => this.VendorEntries.FirstOrDefault().Key.Namespaces.FirstOrDefault();
 
         public string GetValue(string field)
         {
-            return this.GetValue(Array.Empty<string>(), field);
+            return this.GetValue(GuanoKey.Parse(field));
         }
 
-        public string GetValue(IReadOnlyList<string> namespaces, string field)
+        public string GetValue(GuanoKey key)
         {
-            foreach (var entry in this.Entries)
-            {
-                if (!string.Equals(entry.Field, field, StringComparison.Ordinal))
-                {
-                    continue;
-                }
-
-                if (!SequenceEqual(entry.Namespaces, namespaces))
-                {
-                    continue;
-                }
-
-                return entry.Value;
-            }
-
-            return null;
-        }
-
-        public static string ToKey(IReadOnlyList<string> namespaces, string field)
-        {
-            if (namespaces is null || namespaces.Count == 0)
-            {
-                return field;
-            }
-
-            return string.Join("|", namespaces) + "|" + field;
-        }
-
-        private static bool SequenceEqual(IEnumerable<string> left, IReadOnlyList<string> right)
-        {
-            right ??= Array.Empty<string>();
-
-            var leftList = left?.ToArray() ?? Array.Empty<string>();
-
-            if (leftList.Length != right.Count)
-            {
-                return false;
-            }
-
-            for (int i = 0; i < leftList.Length; i++)
-            {
-                if (!string.Equals(leftList[i], right[i], StringComparison.Ordinal))
-                {
-                    return false;
-                }
-            }
-
-            return true;
+            return this.Entries.TryGetValue(key, out var value) ? value : null;
         }
 
         private static OffsetDateTime? ParseOffsetDateTime(string value)

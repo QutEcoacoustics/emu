@@ -12,12 +12,15 @@ namespace Emu.Audio.Standards.GUANO
 
     public static partial class GuanoParser
     {
+        public const char NamespaceSeparator = '|';
+        public const string GuanoNamespace = "GUANO";
+
         public static readonly byte[] GuanoChunkId = "guan"u8.ToArray();
-        private const string GuanoVersionKey = "GUANO|Version";
         private const string GuanoNewLineEscape = @"\n";
         private const string GuanoNewLine = "\n";
-        private const char NamespaceSeparator = '|';
         private const char EntrySeparator = '\n';
+
+        private static readonly GuanoKey GuanoVersionKey = GuanoKey.Parse(GuanoNamespace + "|" + "Version");
 
         public static Fin<bool> HasGuanoChunk(Stream stream)
         {
@@ -56,12 +59,12 @@ namespace Emu.Audio.Standards.GUANO
         public static Fin<(GuanoBlock Guano, List<Notice> Notices)> ParseGuano(ReadOnlySpan<byte> bytes)
         {
             var notices = new List<Notice>();
-            var allFields = new System.Collections.Generic.HashSet<string>(StringComparer.Ordinal);
-            var entries = new List<GuanoEntry>();
+            var allFields = new System.Collections.Generic.HashSet<GuanoKey>();
+            var entries = new Dictionary<GuanoKey, string>();
             string version = null;
 
             var text = Encoding.UTF8.GetString(bytes).Trim('\0', ' ', '\t', '\r', '\n');
-            var firstKey = default(string);
+            GuanoKey? firstKey = null;
 
             foreach (var rawLine in text.Split(EntrySeparator))
             {
@@ -85,70 +88,47 @@ namespace Emu.Audio.Standards.GUANO
                     continue;
                 }
 
+                var parsedKey = GuanoKey.Parse(key);
+
                 // The GUANO spec encodes newlines inside values as the literal two-character sequence
                 // `\n`, so we decode that here before handing the value to downstream parsers.
                 var value = line[(separatorIndex + 1)..].Trim().Replace(GuanoNewLineEscape, GuanoNewLine);
-                firstKey ??= key;
+                firstKey ??= parsedKey;
 
-                if (allFields.Contains(key))
+                if (allFields.Contains(parsedKey))
                 {
-                    notices.Add(new Warning($"Ignoring duplicated GUANO key `{key}`."));
+                    notices.Add(new Warning($"Ignoring duplicated GUANO key `{parsedKey.FullKey}`."));
                     continue;
                 }
 
-                allFields.Add(key);
+                allFields.Add(parsedKey);
+                var normalizedValue = NormalizeWildlifeAcousticsEntry(parsedKey, value, notices);
 
-                var entry = ParseEntry(key, value);
+                entries[parsedKey] = normalizedValue;
 
-                entry = NormalizeWildlifeAcousticsEntry(entry, notices);
-
-                entries.Add(entry);
-
-                if (string.Equals(key, GuanoVersionKey, StringComparison.Ordinal))
+                if (parsedKey == GuanoVersionKey)
                 {
-                    version = entry.Value;
+                    version = normalizedValue;
                 }
             }
 
-            if (firstKey is not null && !string.Equals(firstKey, GuanoVersionKey, StringComparison.Ordinal))
+            if (firstKey is not null && firstKey.Value != GuanoVersionKey)
             {
-                notices.Add(new Warning($"Expected first GUANO key to be `{GuanoVersionKey}`, found `{firstKey}`."));
+                notices.Add(new Warning($"Expected first GUANO key to be `{GuanoVersionKey.FullKey}`, found `{firstKey.Value.FullKey}`."));
             }
 
-            if (!allFields.Contains(GuanoVersionKey))
+            if (version is null)
             {
-                notices.Add(new Warning($"Missing required GUANO key `{GuanoVersionKey}`."));
+                notices.Add(new Warning($"Missing required GUANO key `{GuanoVersionKey.FullKey}`."));
             }
 
             return (
                 new GuanoBlock
                 {
-                    Version = version,
+                    GuanoVersion = version,
                     Entries = entries,
                 },
                 notices);
-        }
-
-        private static GuanoEntry ParseEntry(string key, string value)
-        {
-            var split = key.Split(NamespaceSeparator);
-
-            if (split.Length > 1)
-            {
-                return new GuanoEntry
-                {
-                    Namespaces = split[..^1].ToSeq(),
-                    Field = split[^1],
-                    Value = value,
-                };
-            }
-
-            return new GuanoEntry
-            {
-                Namespaces = Seq.empty<string>(),
-                Field = key,
-                Value = value,
-            };
         }
     }
 }

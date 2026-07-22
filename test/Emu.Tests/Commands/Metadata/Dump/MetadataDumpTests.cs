@@ -153,5 +153,37 @@ namespace Emu.Tests.Commands.Metadata.Dump
             output.Should().Contain("Version");
             output.Should().NotContain("Block WAMD");
         }
+
+        [Fact]
+        public async Task GuanoDumpHidesRawEntriesButKeepsVendorEntries()
+        {
+            var fixture = this.data[FixtureModel.Sm4HighPrecision];
+
+            var command = new MetadataDump(
+                this.BuildLogger<MetadataDump>(),
+                this.CurrentFileSystem,
+                new FileMatcher(this.BuildLogger<FileMatcher>(), this.CurrentFileSystem),
+                new OutputRecordWriter(
+                    this.Sink,
+                    OutputRecordWriter.ChooseFormatter(this.ServiceProvider, OutputFormat.Default),
+                    new Lazy<OutputFormat>(OutputFormat.Default)),
+                new MetadataRegister(this.ServiceProvider),
+                new PrettyFormatter(),
+                new CompactFormatter())
+            {
+                Targets = fixture.AbsoluteFixturePath.AsArray(),
+                Blocks = new[] { "GUANO" },
+            };
+
+            var result = await command.InvokeAsync(null);
+            result.Should().Be(0);
+
+            var output = this.AllOutput;
+            output.Should().Contain("VendorEntries");
+            output.Should().Contain("VendorEntries = Dictionary");
+            output.Should().Contain("WA|");
+            output.Should().NotContain("GuanoKey {");
+            output.Should().NotContain("  Entries =");
+        }
     }
 }

@@ -101,6 +101,19 @@ namespace Emu.Cli.ObjectFormatters
         {
         }
 
+        protected override Options StartDictionary(StringBuilder builder, string key, IReadOnlyList<KeyValuePair<object, object>> dictionary, in Options options)
+        {
+            var styledKey = this.StyleKey(key, dictionary);
+            this.Append(builder, styledKey, MarkupType("Dictionary"), options);
+            return options with { Depth = options.Depth + 1 };
+        }
+
+        protected override void EndDictionary(StringBuilder builder, string key, IReadOnlyList<KeyValuePair<object, object>> dictionary, in Options options)
+        {
+        }
+
+        protected override string StyleDictionaryKey(string key, object dictionaryKey, string dictionaryName) => $"[#6cb6ff]{key}[/]";
+
         private static string Indent(int indent) => new(' ', indent * 2);
     }
 }

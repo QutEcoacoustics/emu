@@ -48,6 +48,24 @@ namespace Emu.Cli.ObjectFormatters
                     continue;
                 }
 
+                if (TryGetDictionaryEntries(value, out var dictionaryEntries))
+                {
+                    var dictionaryOptions = this.StartDictionary(builder, key, dictionaryEntries, in options);
+
+                    foreach (var entry in dictionaryEntries)
+                    {
+                        var formattedKey = this.FormatValue(entry.Key, key);
+                        var outputKey = dictionaryOptions.KeyPrefix + formattedKey;
+                        var styledKey = this.StyleDictionaryKey(outputKey, entry.Key, key);
+                        var formattedValue = this.FormatValue(entry.Value, outputKey);
+                        var styledValue = this.StyleValue(entry.Value, outputKey, formattedValue);
+                        this.Append(builder, styledKey, styledValue, dictionaryOptions);
+                    }
+
+                    this.EndDictionary(builder, key, dictionaryEntries, in options);
+                    continue;
+                }
+
                 // expand type?
                 var type = value?.GetType();
 
@@ -129,6 +147,10 @@ namespace Emu.Cli.ObjectFormatters
 
         protected abstract void EndObject(StringBuilder builder, string key, object obj, Type type, in Options options);
 
+        protected abstract Options StartDictionary(StringBuilder builder, string key, IReadOnlyList<KeyValuePair<object, object>> dictionary, in Options options);
+
+        protected abstract void EndDictionary(StringBuilder builder, string key, IReadOnlyList<KeyValuePair<object, object>> dictionary, in Options options);
+
         protected abstract Options StartList(StringBuilder builder, string key, IReadOnlyList<object> list, bool complex, in Options options);
 
         protected abstract void EndList(StringBuilder builder, string key, IReadOnlyList<object> list, bool complex, in Options options);
@@ -136,6 +158,8 @@ namespace Emu.Cli.ObjectFormatters
         protected abstract string StyleValue(object value, string key, string converted);
 
         protected abstract string StyleKey(string key, object value);
+
+        protected virtual string StyleDictionaryKey(string key, object dictionaryKey, string dictionaryName) => this.StyleKey(key, dictionaryKey);
 
         protected abstract void Append(StringBuilder builder, string key, string value, in Options options);
 
@@ -151,6 +175,7 @@ namespace Emu.Cli.ObjectFormatters
                 object o => TypeDescriptor
                     .GetProperties(o)
                     .Cast<PropertyDescriptor>()
+                    .Where(x => x.IsBrowsable)
                     .Select(x => KeyValuePair.Create(x.Name, x.GetValue(record))),
             };
 #pragma warning restore CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
@@ -180,6 +205,80 @@ namespace Emu.Cli.ObjectFormatters
 
             _ => (false, false),
         };
+
+        private static bool TryGetDictionaryEntries(object value, out IReadOnlyList<KeyValuePair<object, object>> entries)
+        {
+            switch (value)
+            {
+                case null:
+                    entries = Array.Empty<KeyValuePair<object, object>>();
+                    return false;
+                case IDictionary dictionary:
+                    entries = dictionary
+                        .Cast<object>()
+                        .Where(x => TryReadDictionaryItem(x, out _, out _))
+                        .Select(x =>
+                        {
+                            _ = TryReadDictionaryItem(x, out var key, out var dictionaryValue);
+                            return new KeyValuePair<object, object>(key, dictionaryValue);
+                        })
+                        .ToList();
+                    return true;
+                case IEnumerable enumerable:
+                    return TryReadDictionaryEnumerable(enumerable, out entries);
+                default:
+                    entries = Array.Empty<KeyValuePair<object, object>>();
+                    return false;
+            }
+        }
+
+        private static bool TryReadDictionaryEnumerable(IEnumerable enumerable, out IReadOnlyList<KeyValuePair<object, object>> entries)
+        {
+            var list = new List<KeyValuePair<object, object>>();
+            var hasAny = false;
+
+            foreach (var item in enumerable)
+            {
+                hasAny = true;
+                if (!TryReadDictionaryItem(item, out var key, out var dictionaryValue))
+                {
+                    entries = Array.Empty<KeyValuePair<object, object>>();
+                    return false;
+                }
+
+                list.Add(new KeyValuePair<object, object>(key, dictionaryValue));
+            }
+
+            entries = list;
+            return hasAny;
+        }
+
+        private static bool TryReadDictionaryItem(object value, out object key, out object dictionaryValue)
+        {
+            if (value is DictionaryEntry entry)
+            {
+                key = entry.Key;
+                dictionaryValue = entry.Value;
+                return true;
+            }
+
+            return TryReadKeyValuePair(value, out key, out dictionaryValue);
+        }
+
+        private static bool TryReadKeyValuePair(object value, out object key, out object dictionaryValue)
+        {
+            var type = value?.GetType();
+            if (type?.IsGenericType != true || type.GetGenericTypeDefinition() != typeof(KeyValuePair<,>))
+            {
+                key = null;
+                dictionaryValue = null;
+                return false;
+            }
+
+            key = type.GetProperty("Key")?.GetValue(value);
+            dictionaryValue = type.GetProperty("Value")?.GetValue(value);
+            return true;
+        }
 
         public readonly record struct Options(int Depth = 0, Func<string, bool> Except = null, string KeyPrefix = "");
     }

@@ -17,10 +17,9 @@ namespace Emu.Metadata.TitleyScientific
 
         public static Recording ApplyVendorEntries(GuanoBlock guano, Recording recording)
         {
-            var vendorNamespace = new[] { Namespace };
-            var voltage = ParseDouble(guano.GetValue(vendorNamespace, BatteryVoltageField));
-            var microphoneType = guano.GetValue(vendorNamespace, MicrophoneField);
-            var microphoneGain = ParseDouble(guano.GetValue(vendorNamespace, GainField));
+            var voltage = ParseDouble(guano.GetValue(new GuanoKey(Namespace, BatteryVoltageField)));
+            var microphoneType = guano.GetValue(new GuanoKey(Namespace, MicrophoneField));
+            var microphoneGain = ParseDouble(guano.GetValue(new GuanoKey(Namespace, GainField)));
             var sensor = recording.Sensor ?? new Sensor();
 
             if (microphoneType is not null || microphoneGain is not null)

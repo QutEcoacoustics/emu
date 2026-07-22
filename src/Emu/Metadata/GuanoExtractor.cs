@@ -74,7 +74,7 @@ namespace Emu.Metadata
             var otherFields = new Dictionary<string, string>(recording.OtherFields ?? new Dictionary<string, string>(StringComparer.Ordinal));
             foreach (var entry in guano.VendorEntries)
             {
-                otherFields[$"(GUANO) {entry.Key}"] = entry.Value;
+                otherFields[$"(GUANO) {entry.Key.FullKey}"] = entry.Value;
             }
 
             // we prioritize the opposite for duration and sample rate: our existing methods which gets the data from the wave header are more

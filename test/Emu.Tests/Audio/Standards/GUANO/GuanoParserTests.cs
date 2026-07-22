@@ -4,6 +4,7 @@
 
 namespace Emu.Tests.Audio.Standards.GUANO
 {
+    using System.Collections.Generic;
     using System.Linq;
     using System.Text;
     using Emu.Audio.Standards.GUANO;
@@ -46,14 +47,14 @@ namespace Emu.Tests.Audio.Standards.GUANO
             result.IsSucc.Should().BeTrue();
             (var guano, var notices) = result.ThrowIfFail();
 
-            guano.Version.Should().Be("1.0");
-            guano.Entries.Should().Contain(x => x.Namespaces.SequenceEqual(new[] { "GUANO" }) && x.Field == "Version");
-            guano.Entries.Should().Contain(x => x.Namespaces.Count == 0 && x.Field == "Timestamp");
-            guano.Entries.Should().Contain(x => x.Namespaces.Count == 0 && x.Field == "Make");
-            guano.Entries.Should().Contain(x => x.Namespaces.Count == 0 && x.Field == "Model");
-            guano.Entries.Should().Contain(x => x.Namespaces.Count == 0 && x.Field == "Serial");
-            guano.Entries.Should().Contain(x => x.Namespaces.SequenceEqual(new[] { "WA", "Kaleidoscope" }) && x.Field == "Version");
-            guano.Entries.Should().Contain(x => x.Namespaces.SequenceEqual(new[] { "WA", "Song Meter" }) && x.Field == "Audio settings");
+            guano.GuanoVersion.Should().Be("1.0");
+            guano.Entries.Should().ContainKey(new GuanoKey("GUANO", "Version"));
+            guano.Entries.Should().ContainKey(new GuanoKey("Timestamp"));
+            guano.Entries.Should().ContainKey(new GuanoKey("Make"));
+            guano.Entries.Should().ContainKey(new GuanoKey("Model"));
+            guano.Entries.Should().ContainKey(new GuanoKey("Serial"));
+            guano.Entries.Should().ContainKey(new GuanoKey("WA", "Kaleidoscope", "Version"));
+            guano.Entries.Should().ContainKey(new GuanoKey("WA", "Song Meter", "Audio settings"));
             guano.PrimaryVendorNamespace.Should().Be("WA");
             notices.Count(n => n is Warning).Should().Be(0);
         }
@@ -69,7 +70,7 @@ namespace Emu.Tests.Audio.Standards.GUANO
             result.IsSucc.Should().BeTrue();
             (var guano, var notices) = result.ThrowIfFail();
 
-            var entry = guano.GetValue(["WA", "Song Meter"], "Audio settings");
+            var entry = guano.GetValue(Emu.Metadata.WildlifeAcoustics.Guano.AudioSettingsKey);
 
             // should not contain smart quotes, and should be parseable json
             entry.Should().NotContain("\u201C");
@@ -102,11 +103,11 @@ namespace Emu.Tests.Audio.Standards.GUANO
         {
             var guano = new GuanoBlock
             {
-                Entries =
-                [
-                    new GuanoEntry { Namespaces = ["GUANO"], Field = "Version", Value = "1.0" },
-                    new GuanoEntry { Field = "Make", Value = "Unknown" },
-                ],
+                Entries = new Dictionary<GuanoKey, string>
+                {
+                    [new GuanoKey("GUANO", "Version")] = "1.0",
+                    [new GuanoKey("Make")] = "Unknown",
+                },
             };
 
             guano.PrimaryVendorNamespace.Should().BeNull();
