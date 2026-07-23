@@ -4,15 +4,17 @@
 
 namespace Emu.Audio.Standards.GUANO
 {
+    using System;
     using Emu.Models.Notices;
 
     public static partial class GuanoParser
     {
-        private const string SmartQuoteFixNotice = "Normalized smart quotes in `{0}` JSON.";
+        private const string SmartQuoteFixNotice = "Guano: Normalized smart quotes in `{0}` JSON.";
+        private const string TimestampFixNotice = "Guano: Normalized non-spec timestamp in `{0}` from `{1}` to `{2}`.";
 
         private static string NormalizeWildlifeAcousticsEntry(GuanoKey key, string value, List<Notice> notices)
         {
-            if (key.Vendor != Emu.Metadata.WildlifeAcoustics.Guano.Namespace)
+            if (key.Vendor != Metadata.WildlifeAcoustics.Guano.Namespace)
             {
                 return value;
             }
@@ -30,9 +32,31 @@ namespace Emu.Audio.Standards.GUANO
                 return value;
             }
 
-            notices.Add(new Warning(string.Format(SmartQuoteFixNotice, key.FullKey)));
+            notices.Add(new Info(string.Format(SmartQuoteFixNotice, key.FullKey)));
 
             return NormalizeSmartQuotes(value);
+        }
+
+        private static string NormalizeWildlifeAcousticsTimestampEntry(GuanoKey key, string value, List<Notice> notices)
+        {
+            if (key != GuanoTimestampKey || string.IsNullOrWhiteSpace(value))
+            {
+                return value;
+            }
+
+            // Adapter for known non-spec Wildlife Acoustics timestamps using a space instead of 'T'
+            // e.g. 2023-11-17 09:52:00+11:00
+            if (value.Length > 10
+                && value[10] == ' '
+                && value[4] == '-'
+                && value[7] == '-')
+            {
+                var normalized = value[..10] + "T" + value[11..];
+                notices.Add(new Info(string.Format(TimestampFixNotice, key.FullKey, value, normalized)));
+                return normalized;
+            }
+
+            return value;
         }
 
         private static bool LooksLikeJson(string value)

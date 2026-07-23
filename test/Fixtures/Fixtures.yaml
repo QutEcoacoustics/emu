@@ -3273,10 +3273,10 @@
 
 - Name: Song Meter Mini Normal File 1
   HasGuano: true
-  Record:
+  Record: &SMMNormal1
     Extension: .wav
     Stem: SMM215_20231117_094400
-    StartDate:
+    StartDate: 2023-11-17T09:44:00+11:00
     LocalStartDate: 2023-11-17T09:44:00
     TrueStartDate:
     TrueEndDate:
@@ -3323,14 +3323,16 @@
   Make: Wildlife Acoustics
   Problems:
   Process:
-    WamdExtractor: ~
+    WamdExtractor:
+      <<: *SMMNormal1
+      StartDate:
 
 - Name: Song Meter Mini Normal File 2
   HasGuano: true
-  Record:
+  Record: &SMMNormal2
     Extension: .wav
     Stem: SMM215_20231117_095200
-    StartDate:
+    StartDate: 2023-11-17T09:52:00+11:00
     LocalStartDate: 2023-11-17T09:52:00
     TrueStartDate:
     TrueEndDate:
@@ -3364,14 +3366,16 @@
   Make: Wildlife Acoustics
   Problems:
   Process:
-    WamdExtractor: ~
+    WamdExtractor:
+      <<: *SMMNormal2
+      StartDate:
 
 - Name: Song Meter Mini Normal File 3
   HasGuano: true
   Record: &SMMNormal
     Extension: .wav
     Stem: MF01-01_SMM119_20251103_160600
-    StartDate:
+    StartDate: 2025-11-03T16:06:00+11:00
     LocalStartDate: 2025-11-03T16:06:00
     TrueStartDate:
     TrueEndDate:
@@ -3405,13 +3409,16 @@
   Make: Wildlife Acoustics
   Problems:
   Process:
-    WamdExtractor: ~
+    WamdExtractor:
+      <<: *SMMNormal
+      StartDate:
 
 - Name: Song Meter Mini Normal File 4
   HasGuano: true
   Record:
     <<: *SMMNormal
     Stem: MF01-01_SMM119_20251103_161400
+    StartDate: 2025-11-03T16:14:00+11:00
     LocalStartDate: 2025-11-03T16:14:00
     CalculatedChecksum:
       Type: SHA256
@@ -3423,13 +3430,16 @@
   Make: Wildlife Acoustics
   Problems:
   Process:
-    WamdExtractor: ~
+    WamdExtractor:
+      <<: *SMMNormal
+      StartDate:
 
 - Name: Song Meter Mini Normal File 5
   HasGuano: true
   Record:
     <<: *SMMNormal
     Stem: MF01-01_SMM119_20251103_163600
+    StartDate: 2025-11-03T16:36:00+11:00
     LocalStartDate: 2025-11-03T16:36:00
     CalculatedChecksum:
       Type: SHA256
@@ -3441,7 +3451,9 @@
   Make: Wildlife Acoustics
   Problems:
   Process:
-    WamdExtractor: ~
+    WamdExtractor:
+      <<: *SMMNormal
+      StartDate:
 
 - Name: Allocated but empty 1
   Record: &AllocatedButEmpty

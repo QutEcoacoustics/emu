@@ -20,7 +20,8 @@ namespace Emu.Audio.Standards.GUANO
         private const string GuanoNewLine = "\n";
         private const char EntrySeparator = '\n';
 
-        private static readonly GuanoKey GuanoVersionKey = GuanoKey.Parse(GuanoNamespace + "|" + "Version");
+        private static readonly GuanoKey GuanoVersionKey = new(GuanoNamespace, "Version");
+        private static readonly GuanoKey GuanoTimestampKey = new("Timestamp");
 
         public static Fin<bool> HasGuanoChunk(Stream stream)
         {
@@ -103,6 +104,7 @@ namespace Emu.Audio.Standards.GUANO
 
                 allFields.Add(parsedKey);
                 var normalizedValue = NormalizeWildlifeAcousticsEntry(parsedKey, value, notices);
+                normalizedValue = NormalizeWildlifeAcousticsTimestampEntry(parsedKey, normalizedValue, notices);
 
                 entries[parsedKey] = normalizedValue;
 

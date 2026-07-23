@@ -80,8 +80,7 @@ namespace Emu.Tests.Audio.Standards.GUANO
 
             Should.NotThrow(() => JArray.Parse(entry));
 
-            notices.Should().ContainSingle();
-            notices.Single().Message.Should().Be("Normalized smart quotes in `WA|Song Meter|Audio settings` JSON.");
+            notices.Should().Contain(n => n.Message == "Guano: Normalized smart quotes in `WA|Song Meter|Audio settings` JSON.");
         }
 
         [Fact]
@@ -203,6 +202,24 @@ Timestamp: 2015-12-31T23:59:59.123
 
             var expectedLocal = (Either<LocalDateTime, OffsetDateTime>)new LocalDateTime(2015, 12, 31, 23, 59, 59, 123);
             guano.Timestamp.ThrowIfFail().ShouldBe(expectedLocal);
+        }
+
+        [Fact]
+        public void GuanoTimestampParsesSpaceSeparatedOffsetDateTime()
+        {
+            var bytes = Encoding.UTF8.GetBytes(@"GUANO|Version:1.0
+Timestamp: 2023-11-17 09:52:00+11:00
+");
+
+            var result = GuanoParser.ParseGuano(bytes);
+
+            result.IsSucc.Should().BeTrue();
+            (var guano, var notices) = result.ThrowIfFail();
+
+            var expectedOffset = (Either<LocalDateTime, OffsetDateTime>)new OffsetDateTime(new LocalDateTime(2023, 11, 17, 9, 52, 0), Offset.FromHours(11));
+            guano.Timestamp.ThrowIfFail().ShouldBe(expectedOffset);
+            notices.Should().ContainSingle();
+            notices.Single().Message.Should().Be("Guano: Normalized non-spec timestamp in `Timestamp` from `2023-11-17 09:52:00+11:00` to `2023-11-17T09:52:00+11:00`.");
         }
 
         [Fact]
