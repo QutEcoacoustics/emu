@@ -116,6 +116,11 @@ namespace Emu.Cli.ObjectFormatters
             }
         }
 
+        protected static bool IsFinType(Type type) =>
+            type.IsGenericType
+            && type.GetGenericTypeDefinition() == typeof(Fin<>)
+            && type.Namespace?.StartsWith("LanguageExt", StringComparison.Ordinal) == true;
+
         protected virtual string FormatValue(object value, string name)
         {
             return value switch
@@ -133,6 +138,10 @@ namespace Emu.Cli.ObjectFormatters
                 Enum e => e.GetEnumMemberValueOrDefault(),
                 Range r => r.Start.ToString() + ".." + r.End.ToString(),
                 Notice notice => notice.ToString("G", CultureInfo.InvariantCulture),
+
+                // unwrap any Fin<T>: Case returns the success value or the Error. recursive!
+                object f when IsFinType(f.GetType()) =>
+                    this.FormatValue(f.GetType().GetProperty("Case")?.GetValue(f), name),
 
                 // recursive!
                 IEither e => e.MatchUntyped(right => this.FormatValue(right, name), left => this.FormatValue(left, name)),
@@ -195,6 +204,7 @@ namespace Emu.Cli.ObjectFormatters
             string => (false, false),
             null => (false, false),
             IEither => (false, false),
+            object o when IsFinType(o.GetType()) => (false, false),
             IEnumerable<KeyValuePair<string, object>> => (true, true),
 
             // I think this was casting to IReadOnlyCollection so we wouldn't treat things like strings as collections?

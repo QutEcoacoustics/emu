@@ -184,6 +184,9 @@ namespace Emu.Tests.Commands.Metadata.Dump
             output.Should().Contain("WA|");
             output.Should().NotContain("GuanoKey {");
             output.Should().NotContain("  Entries =");
+            output.Should().NotContain("Succ(");
+            output.Should().NotContain("Left(");
+            output.Should().NotContain("Right(");
         }
     }
 }

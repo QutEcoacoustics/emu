@@ -49,6 +49,10 @@ namespace Emu.Cli.ObjectFormatters
                 Warning w => MarkupWarning(escaped),
                 Error e => MarkupError(escaped),
 
+                // unwrap any Fin<T>: Case returns the success value or the Error. recursive!
+                object f when IsFinType(f.GetType()) =>
+                    this.StyleValue(f.GetType().GetProperty("Case")?.GetValue(f), key, escaped),
+
                 // recursive!
                 IEither e => e.MatchUntyped(right => this.StyleValue(right, key, escaped), left => this.StyleValue(left, key, escaped)),
 

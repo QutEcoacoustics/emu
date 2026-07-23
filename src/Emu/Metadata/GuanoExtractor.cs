@@ -8,8 +8,10 @@ namespace Emu.Metadata
     using Emu.Metadata.TitleyScientific;
     using Emu.Metadata.WildlifeAcoustics;
     using Emu.Models;
+    using Emu.Models.Notices;
     using LanguageExt;
     using Microsoft.Extensions.Logging;
+    using NodaTime;
     using Rationals;
 
     public class GuanoExtractor : IRawMetadataOperation
@@ -55,8 +57,31 @@ namespace Emu.Metadata
 
             // we prioritize the GUANO metadata over the existing recording metadata
             // on the assumption it is more accurate (since it is the newest metadata standard)
-            var startDate = guano.TimestampOffsetDateTime ?? recording.StartDate;
-            var localStart = guano.TimestampLocalDateTime ?? recording.LocalStartDate;
+            OffsetDateTime? guanoTimestampOffset = null;
+            LocalDateTime? guanoTimestampLocal = null;
+            var parsedTimestamp = guano.Timestamp;
+            if (parsedTimestamp.IsSucc)
+            {
+                parsedTimestamp.ThrowIfFail().Match(
+                    Left: local =>
+                    {
+                        guanoTimestampLocal = local;
+                        return 0;
+                    },
+                    Right: offset =>
+                    {
+                        guanoTimestampOffset = offset;
+                        guanoTimestampLocal = offset.LocalDateTime;
+                        return 0;
+                    });
+            }
+            else if (!string.IsNullOrWhiteSpace(guano.GetValue("Timestamp")))
+            {
+                notices.Add(new Warning(((LanguageExt.Common.Error)parsedTimestamp).Message));
+            }
+
+            var startDate = guanoTimestampOffset ?? recording.StartDate;
+            var localStart = guanoTimestampLocal ?? recording.LocalStartDate;
             var make = NormalizeVendorMake(guano.Make) ?? recording.Sensor?.Make;
 
             var sensor = (recording.Sensor ?? new Sensor()) with
@@ -65,8 +90,8 @@ namespace Emu.Metadata
                 Model = guano.Model ?? recording.Sensor?.Model,
                 Firmware = guano.FirmwareVersion ?? recording.Sensor?.Firmware,
                 SerialNumber = guano.Serial ?? recording.Sensor?.SerialNumber,
-                Temperature = guano.TemperatureIntCelsius ?? recording.Sensor?.Temperature,
-                TemperatureExternal = guano.TemperatureExtCelsius ?? recording.Sensor?.TemperatureExternal,
+                Temperature = guano.TemperatureInt ?? recording.Sensor?.Temperature,
+                TemperatureExternal = guano.TemperatureExt ?? recording.Sensor?.TemperatureExternal,
             };
 
             var location = guano.Location ?? recording.Location;
@@ -79,13 +104,13 @@ namespace Emu.Metadata
 
             // we prioritize the opposite for duration and sample rate: our existing methods which gets the data from the wave header are more
             // accurate than the GUANO metadata, which is often rounded to a lower precision.
-            var duration = recording.DurationSeconds ?? (guano.LengthSeconds is not null ? Rational.Approximate((decimal)guano.LengthSeconds.Value, 6) : null);
-            var sampleRate = recording.SampleRateHertz ?? guano.SampleRateHertz;
+            var duration = recording.DurationSeconds ?? (guano.Length is not null ? Rational.Approximate((decimal)guano.Length.Value, 6) : null);
+            var sampleRate = recording.SampleRateHertz ?? guano.Samplerate;
 
             var modified = recording with
             {
                 StartDate = startDate,
-                TrueStartDate = guano.TimestampOffsetDateTime ?? recording.TrueStartDate ?? startDate,
+                TrueStartDate = guanoTimestampOffset ?? recording.TrueStartDate ?? startDate,
                 LocalStartDate = localStart,
                 DurationSeconds = duration,
                 SampleRateHertz = sampleRate,
