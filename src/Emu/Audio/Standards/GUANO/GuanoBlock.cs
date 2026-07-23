@@ -75,6 +75,7 @@ namespace Emu.Audio.Standards.GUANO
         /// Gets the parsed value of <c>Timestamp</c>.
         /// Successful values are either local datetime or offset datetime.
         /// </summary>
+        [JsonConverter(typeof(global::Emu.FinTimestampConverter))]
         public Fin<Either<LocalDateTime, OffsetDateTime>> Timestamp => ParseTimestamp(this.GetValue("Timestamp"));
 
         /// <summary>

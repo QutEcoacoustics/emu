@@ -9,6 +9,7 @@ namespace Emu.Tests.Audio.Standards.GUANO
     using System.Text;
     using Emu.Audio.Standards.GUANO;
     using Emu.Models.Notices;
+    using Emu.Serialization;
     using Emu.Tests.TestHelpers;
     using FluentAssertions;
     using LanguageExt;
@@ -235,6 +236,26 @@ Timestamp: definitely-not-a-timestamp
             (var guano, _) = result.ThrowIfFail();
 
             guano.Timestamp.IsFail.Should().BeTrue();
+        }
+
+        [Fact]
+        public void GuanoTimestampSerializesAsDirectJsonValue()
+        {
+            var bytes = Encoding.UTF8.GetBytes(@"GUANO|Version:1.0
+Timestamp: 2023-11-17T09:52:00+11:00
+");
+
+            var result = GuanoParser.ParseGuano(bytes);
+
+            result.IsSucc.Should().BeTrue();
+            (var guano, _) = result.ThrowIfFail();
+
+            var serializer = new JsonSerializer();
+            var json = serializer.Serialize(new[] { guano });
+
+            json.Should().Contain("\"Timestamp\": \"2023-11-17T09:52:00+11:00\"");
+            json.Should().NotContain("\"Timestamp\": {\r\n      \"State\"");
+            json.Should().NotContain("\"Timestamp\": {\n      \"State\"");
         }
 
         [Fact]
