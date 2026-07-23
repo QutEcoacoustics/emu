@@ -33,7 +33,7 @@ namespace Emu.Tests.Commands.Metadata.Dump
             Assert.IsType<MetadataDumpCommand>(commandResult);
 
             Assert.Equal(
-                result.FindResultFor(Common.Targets).GetValueOrDefault<string[]>(),
+                result.FindResultFor(MetadataDumpCommand.DumpTargets).GetValueOrDefault<string[]>(),
                 "**/*.wav".AsArray());
 
             result.UnmatchedTokens.Should().BeEmpty();
@@ -64,6 +64,17 @@ namespace Emu.Tests.Commands.Metadata.Dump
 
             Assert.True(result.Errors.Count == 1);
             result.Errors.First().Message.Contains("CSV output is not supported for this command");
+        }
+
+        [Fact]
+        public void ParentMetadataTargetsAreInvalidForDump()
+        {
+            var command = "metadata x dump y";
+
+            var result = this.CliParser.Parse(command);
+
+            Assert.True(result.Errors.Count == 1);
+            result.Errors.First().Message.Should().Contain("must be provided after `dump` only");
         }
     }
 }

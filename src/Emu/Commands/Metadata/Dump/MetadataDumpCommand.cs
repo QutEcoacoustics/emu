@@ -7,6 +7,7 @@ namespace Emu.Commands.Metadata.Dump
     using System;
     using System.CommandLine;
     using System.CommandLine.Parsing;
+    using System.Linq;
     using Emu.Extensions.System.CommandLine;
     using static Emu.EmuCommand;
 
@@ -15,11 +16,29 @@ namespace Emu.Commands.Metadata.Dump
         public MetadataDumpCommand()
             : base("dump", "show low-level metadata blocks from inside audio files")
         {
-            this.AddArgument(Common.Targets);
+            // HACK (metadata command backwards compatibility): dump uses a distinct argument symbol from metadata/show, even though
+            // the token name is still "targets". Reusing Common.Targets in both parent
+            // and subcommand causes collisions in System.CommandLine's symbol maps.
+            this.AddArgument(DumpTargets);
             this.AddOption(BlockFilterOption);
 
             this.AddValidator(commandResult =>
             {
+                // HACK (metadata command backwards compatibility): inspect parent argument tokens directly instead of FindResultFor.
+                // FindResultFor can trigger duplicate-key failures when parent and child
+                // argument names are the same.
+                var parentTargets = commandResult.Parent?
+                    .Children
+                    .OfType<ArgumentResult>()
+                    .FirstOrDefault(x => x.Argument == Common.Targets);
+
+                if (parentTargets is { Tokens.Count: > 0 })
+                {
+                    // Behavior contract: metadata x dump y is invalid; dump targets must
+                    // be supplied only after the dump subcommand.
+                    return "Targets for `metadata dump` must be provided after `dump` only.";
+                }
+
                 var result = commandResult.FindResultFor(FormatOption);
                 if (result?.GetValueOrDefault<OutputFormat>() == OutputFormat.CSV)
                 {
@@ -29,6 +48,13 @@ namespace Emu.Commands.Metadata.Dump
                 return null;
             });
         }
+
+        // HACK (metadata command backwards compatibility): separate symbol with same public token name to keep CLI UX while avoiding
+        // parent/subcommand symbol collision issues in parser internals.
+        public static Argument<string[]> DumpTargets { get; } = new(
+                "targets",
+                "One more glob patterns for files to process. E.g. '**/*.wav'.")
+        { Arity = ArgumentArity.OneOrMore };
 
         public static Option<string[]> BlockFilterOption { get; } =
             new Option<string[]>(

@@ -9,6 +9,7 @@ namespace Emu.Cli
     using System.CommandLine.IO;
     using System.CommandLine.Rendering;
     using System.Diagnostics;
+    using Emu.Commands.Metadata.Dump;
 
     public class EmuHelpBuilder : HelpBuilder
     {
@@ -74,12 +75,36 @@ namespace Emu.Cli
                 this.Console.Out.Write(title);
 
                 this.Console.Out.Write($"{Ansi.Cursor.Move.Up(6)}");
+
+                if (command is MetadataDumpCommand)
+                {
+                    // HACK (metadata command backwards compatibility): render dump usage manually so we do not show inherited parent
+                    // metadata targets in this one subcommand's synopsis.
+                    this.Console.Out.WriteLine("dump");
+                    this.Console.Out.WriteLine("  show low-level metadata blocks from inside audio files");
+                    this.Console.Out.WriteLine("Usage:");
+                    this.Console.Out.WriteLine("  emu [options] metadata dump [<targets>...]");
+                    return;
+                }
+
                 base.AddSynopsis(command);
             }
             catch (ObjectDisposedException)
             {
                 Debug.WriteLine("Could not write synopsis because the writer was disposed");
             }
+        }
+
+        protected override void AddUsage(ICommand command)
+        {
+            if (command is MetadataDumpCommand)
+            {
+                // HACK (metadata command backwards compatibility): suppress the framework's default usage line for dump; otherwise
+                // it re-adds the inherited metadata parent targets form we are hiding.
+                return;
+            }
+
+            base.AddUsage(command);
         }
     }
 }
