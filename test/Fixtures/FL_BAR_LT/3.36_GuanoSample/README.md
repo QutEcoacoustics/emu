@@ -1,8 +1,37 @@
 # Provenance
 
-These files was sourced by Doug Hynes from ECCC and are licensed to us under a
-Creative Commons By Attribution v4.0 license.
+https://drive.google.com/drive/folders/1iifEJZoj-I3Ejwf5hwBuLJWMKyEammzd?usp=sharing
 
+**Description**
+
+- File name: 33901_BigHarbourIslandA1_20250710T130000-0300.wav
+- Location: Big Harbour Island, Nova Scotia
+- Recording date: 2025-07-10
+- Start time: 13:00:00 AST (-0300)
+- Format: WAV
+- Size: approximately 604 MB
+
+## License
+
+Copyright © 2025 Doug Hynes
+
+This recording is licensed under the Creative Commons Attribution 4.0
+International (CC BY 4.0) License.
+
+You are free to:
+
+- Share — copy and redistribute the material in any medium or format.
+- Adapt — remix, transform, and build upon the material for any purpose,
+  even commercially.
+
+Under the following terms:
+
+- Attribution — You must give appropriate credit, provide a link to the
+  license, and indicate if changes were made.
+
+Full license:
+
+https://creativecommons.org/licenses/by/4.0/
 https://github.com/QutEcoacoustics/emu/issues/440
 
 Contact https://github.com/DougPHynes
