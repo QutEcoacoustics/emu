@@ -42,7 +42,7 @@ No known faults.
 
 ## Modifications
 
-We nulled out the bulk of the content in this files to make it easier to compress and distribute.
+We nulled out the bulk of the content in this file to make it easier to compress and distribute.
 
 We keep the samples from approximately the first and last 30 seconds of the file, as well as all the metadata,
 so that it can be used for testing and validation.
