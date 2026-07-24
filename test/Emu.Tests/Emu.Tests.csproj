@@ -44,4 +44,9 @@
         <AdditionalFiles Include="..\Fixtures\Fixtures.yaml" />
         <Content Include="xunit.runner.json" CopyToOutputDirectory="PreserveNewest" />
     </ItemGroup>
+
+    <Target Name="PrepareCompressedFixtures" BeforeTargets="Build">
+        <Message Importance="high" Text="Preparing compressed fixtures from test/Fixtures" />
+        <Exec Command="pwsh -NoProfile -ExecutionPolicy Bypass -File &quot;$(MSBuildThisFileDirectory)Prepare-Fixtures.ps1&quot; -FixturesRoot &quot;$(MSBuildThisFileDirectory)..\Fixtures&quot;" />
+    </Target>
 </Project>
