@@ -3184,7 +3184,7 @@
     TotalSamples: 22
     Channels: 1
     SampleRateHertz: 44100
-    BitsPerSecond: 352800
+    BitsPerSecond: 705600
     BitDepth: 16
     FileSizeBytes: 635039788
     MediaType: audio/wave
