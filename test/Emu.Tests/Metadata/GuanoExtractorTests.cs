@@ -4,6 +4,7 @@
 
 namespace Emu.Tests.Metadata
 {
+    using System.Linq;
     using System.Threading.Tasks;
     using Emu.Metadata;
     using Emu.Models;
@@ -86,6 +87,21 @@ namespace Emu.Tests.Metadata
             recording.Sensor.Microphones[0].Type.Should().Be("Acoustic");
             recording.Sensor.Microphones[0].Gain.Should().Be(3);
             recording.OtherFields.Should().ContainKey("(GUANO) Anabat|Battery voltage");
+        }
+
+        [Fact]
+        public async Task ProcessFilesMapsFrontierLabsVendorFields()
+        {
+            var model = this.data.All.Single(fixture => fixture.Name == "Frontier Labs GUANO File 1");
+
+            var recording = await this.subject.ProcessFileAsync(this.CreateTargetInformation(model), new Recording());
+
+            recording.TrueStartDate.Should().Be(model.Record.TrueStartDate);
+            recording.TrueEndDate.Should().Be(model.Record.TrueEndDate);
+            recording.MemoryCard.Should().BeEquivalentTo(model.Record.MemoryCard);
+            recording.Sensor.Should().BeEquivalentTo(model.Record.Sensor);
+            recording.Location.Should().BeEquivalentTo(model.Record.Location);
+            recording.OtherFields.Should().ContainKey("(GUANO) FLABS|ScheduleEntry");
         }
     }
 }

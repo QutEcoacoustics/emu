@@ -140,6 +140,8 @@ namespace Emu.Metadata
                     return WildlifeAcoustics.Guano.ApplyVendorEntries(guano, recording);
                 case TitleyScientific.Guano.Namespace:
                     return TitleyScientific.Guano.ApplyVendorEntries(guano, recording);
+                case FrontierLabs.Guano.Namespace:
+                    return FrontierLabs.Guano.ApplyVendorEntries(guano, recording);
                 default:
                     this.logger.LogWarning(
                         "Found unknown GUANO vendor namespace {namespace} in {path}. {callToAction}",
