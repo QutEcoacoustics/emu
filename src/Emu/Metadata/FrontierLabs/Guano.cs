@@ -101,11 +101,15 @@ namespace Emu.Metadata.FrontierLabs
                 var gain = ParseDouble(guano.GetValue(keys.Gain));
                 var current = existing?.ElementAtOrDefault(index);
 
-                if (type is null && serial is null && buildDate is null && gain is null && current is null && index >= channelCount)
+                if (channelCount is not null && index >= channelCount.Value && current is null)
                 {
                     continue;
                 }
 
+                if (type is null && serial is null && buildDate is null && gain is null && current is null)
+                {
+                    continue;
+                }
                 current ??= new Microphone();
                 microphones.Add(current with
                 {
