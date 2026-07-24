@@ -3659,7 +3659,7 @@
       (GUANO) FLABS|MicrophoneType2: STD AUDIO MIC
       (GUANO) FLABS|MicrophoneSerial2: "009102"
       (GUANO) FLABS|MicrophoneBuildDate2: 2022-01-18
-  FixturePath: FL_BAR_LT/_GuanoSample/33901_BigHarbourIslandA1_20250710T130000-0300.wav
+  FixturePath: FL_BAR_LT/3.36_GuanoSample/33901_BigHarbourIslandA1_20250710T130000-0300.wav
   Notes: Frontier Labs BAR-LT WAV with embedded GUANO metadata.
   ValidMetadata: Yes
   MimeType: audio/wave
