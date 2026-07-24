@@ -3194,7 +3194,7 @@
     EmbeddedChecksum: ~
     MemoryCard: ~
     Sensor: ~
-  FixturePath: FL_BAR_LT/2.99_NullBytes/20201224_110000_S2.zip
+  FixturePath: FL_BAR_LT/2.99_NullBytes/20201224_110000_S2.wav
   Notes:
   # This value is mainly used by the CanProcess tests... and despite how messed up this file is... yeah
   # we can process the header... so Yes
@@ -3590,4 +3590,80 @@
       LocalStartDate: 2022-08-30T12:08:00
       FileSizeBytes: 1245576
     WaveHeaderExtractor: ~
+    GuanoExtractor: ~
+
+- Name: Frontier Labs GUANO File 1
+  HasGuano: true
+  Record:
+    Extension: .wav
+    Stem: 33901_BigHarbourIslandA1_20250710T130000-0300
+    StartDate: 2025-07-10T13:00:00-03:00
+    LocalStartDate: 2025-07-10T13:00:00
+    TrueStartDate: 2025-07-10T13:00:00-03:00
+    TrueEndDate: 2025-07-10T13:59:55-03:00
+    DurationSeconds: 52845223/14700
+    TotalSamples: 158535669
+    Channels: 2
+    SampleRateHertz: 44100
+    BitsPerSecond: 1411200
+    BitDepth: 16
+    FileSizeBytes: 634143790
+    MediaType: audio/wave
+    CalculatedChecksum:
+      Type: SHA256
+      Value: 666538b5f5cf7c52e8544641764da811515b2bf28d90a87c37c57c82e9fd13d3
+    EmbeddedChecksum: ~
+    MemoryCard:
+      Capacity: 121942000000
+      Remaining: 121369000000
+      Slot: 1
+    Sensor:
+      Make: Frontier Labs
+      Model: BAR-LT
+      SerialNumber: "00033901"
+      Microphones:
+        - Type: STD AUDIO MIC
+          UID: "009270"
+          BuildDate: 2022-01-19
+          Gain: 40
+          Channel: 0
+          ChannelName: A
+        - Type: STD AUDIO MIC
+          UID: "009102"
+          BuildDate: 2022-01-18
+          Gain: 40
+          Channel: 1
+          ChannelName: B
+    Location:
+      Longitude: -62.33904
+      LongitudePrecision: 5
+      Latitude: 44.86940
+      LatitudePrecision: 5
+      CoordinateReferenceSystem: WGS84
+    OtherFields:
+      (GUANO) FLABS|Start: 2025-07-10T13:00:00-03:00
+      (GUANO) FLABS|End: 2025-07-10T13:59:55-03:00
+      (GUANO) FLABS|LastTimeSync: ""
+      (GUANO) FLABS|AdjustedPosition: ""
+      (GUANO) FLABS|ScheduleEntry: 1) "Rec" Start at 00:00 on 10/7/2025 and record for 60 mins at 44100 Hz with no compression every 60 mins until 23:00 every day until 11/7/2026
+      (GUANO) FLABS|SdCardCID: "0x00000000000000000000000000000067"
+      (GUANO) FLABS|SdCardSize: 121942d
+      (GUANO) FLABS|SdCardFree: 121369d
+      (GUANO) FLABS|SdCardSlot: "1"
+      (GUANO) FLABS|BatteryLevel: ""
+      (GUANO) FLABS|GainCh1: "40"
+      (GUANO) FLABS|MicrophoneType1: STD AUDIO MIC
+      (GUANO) FLABS|MicrophoneSerial1: "009270"
+      (GUANO) FLABS|MicrophoneBuildDate1: 2022-01-19
+      (GUANO) FLABS|GainCh2: "40"
+      (GUANO) FLABS|MicrophoneType2: STD AUDIO MIC
+      (GUANO) FLABS|MicrophoneSerial2: "009102"
+      (GUANO) FLABS|MicrophoneBuildDate2: 2022-01-18
+  FixturePath: FL_BAR_LT/_GuanoSample/33901_BigHarbourIslandA1_20250710T130000-0300.wav
+  Notes: Frontier Labs BAR-LT WAV with embedded GUANO metadata.
+  ValidMetadata: Yes
+  MimeType: audio/wave
+  Make: Frontier Labs
+  Problems: []
+  Process:
     GuanoExtractor: ~

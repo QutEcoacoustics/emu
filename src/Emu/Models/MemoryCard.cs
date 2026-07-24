@@ -41,6 +41,16 @@ namespace Emu.Models
         /// </summary>
         public ulong? Capacity { get; init; }
 
+        /// <summary>
+        /// Gets the remaining free space in bytes.
+        /// </summary>
+        public ulong? Remaining { get; init; }
+
+        /// <summary>
+        /// Gets the slot number occupied by this memory card.
+        /// </summary>
+        public byte? Slot { get; init; }
+
         public uint? WrCurrentVmin { get; init; }
 
         public uint? WrCurrentVmax { get; init; }
